@@ -1,0 +1,6 @@
+import '@element-pro/components/base/style/css'
+import '@element-pro/theme-chalk/el-transfer.css'
+import '@element-pro/components/input/style/css'
+import '@element-pro/components/button/style/css'
+import '@element-pro/components/checkbox/style/css'
+import '@element-pro/components/checkbox-group/style/css'

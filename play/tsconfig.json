@@ -1,0 +1,10 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["ESNext", "DOM"],
+    "types": ["node", "vite/client", "../typings/components"],
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["**/*"]
+}

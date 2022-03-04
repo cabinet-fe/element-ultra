@@ -1,0 +1,89 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(textarea) {
+  @include set-component-css-var('input', $input);
+}
+
+@include b(textarea) {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: bottom;
+  font-size: var(--el-font-size-base);
+
+  @include e(inner) {
+    position: relative;
+    display: block;
+    resize: vertical;
+    padding: 5px 15px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    color: var(--el-input-text-color, map.get($input, 'text-color'));
+    background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
+    background-image: none;
+    @include inset-input-border(
+      var(--el-input-border-color, map.get($input, 'border-color'))
+    );
+    border-radius: var(
+      --el-input-border-radius,
+      map.get($input, 'border-radius')
+    );
+    transition: var(--el-transition-box-shadow);
+
+    &::placeholder {
+      color: var(
+        --el-input-placeholder-color,
+        map.get($input, 'placeholder-color')
+      );
+    }
+
+    &:hover {
+      @include inset-input-border(var(--el-input-hover-border-color));
+    }
+
+    &:focus {
+      outline: none;
+      @include inset-input-border(var(--el-input-focus-border-color));
+    }
+  }
+
+  @include e(count) {
+    color: var(--el-color-info);
+    background: var(--el-color-white);
+    position: absolute;
+    font-size: 12px;
+    line-height: 14px;
+    bottom: 5px;
+    right: 10px;
+  }
+
+  @include when(disabled) {
+    .#{$namespace}-textarea__inner {
+      background-color: map.get($input-disabled, 'fill');
+      border-color: map.get($input-disabled, 'border');
+      color: map.get($input-disabled, 'text-color');
+      cursor: not-allowed;
+
+      &::placeholder {
+        color: map.get($input-disabled, 'placeholder-color');
+      }
+    }
+  }
+
+  @include when(exceed) {
+    .#{$namespace}-textarea__inner {
+      border-color: var(--el-color-danger);
+    }
+
+    .#{$namespace}-input__count {
+      color: var(--el-color-danger);
+    }
+  }
+}

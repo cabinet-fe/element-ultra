@@ -1,0 +1,6 @@
+import '@element-pro/components/base/style/css'
+import '@element-pro/theme-chalk/el-container.css'
+import '@element-pro/theme-chalk/el-aside.css'
+import '@element-pro/theme-chalk/el-footer.css'
+import '@element-pro/theme-chalk/el-header.css'
+import '@element-pro/theme-chalk/el-main.css'

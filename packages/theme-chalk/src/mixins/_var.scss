@@ -1,0 +1,28 @@
+@use 'sass:map';
+
+@use '../common/var' as *;
+
+// 设置css颜色的浅色系列变量
+@mixin set-css-color-type-light($type, $i) {
+  --el-color-#{$type}-light-#{$i}: #{map.get($colors, $type, 'light-#{$i}')};
+}
+// 设置css颜色的深色系列变量
+@mixin set-css-color-type-dark($type, $i) {
+  --el-color-#{$type}-dark-#{$i}: #{map.get($colors, $type, 'dark-#{$i}')};
+}
+// 设置css辅助色系列变量 primary info warning success danger
+@mixin set-css-color-type($type) {
+  --el-color-#{$type}: #{map.get($colors, $type, 'base')};
+}
+
+@mixin set-css-var-type($name, $type, $variables) {
+  --el-#{$name}-#{$type}: #{map.get($variables, $type)};
+}
+
+// 设置所有组件的css变量
+@mixin set-component-css-var($name, $variables) {
+  @each $attribute, $value in $variables {
+    --el-#{$name}-#{$attribute}: #{$value};
+  }
+}
+

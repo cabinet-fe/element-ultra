@@ -1,0 +1,29 @@
+@use 'mixins/mixins' as *;
+
+@include b(data-table) {
+  @include e(header) {
+    height: 40px;
+    width: 100%;
+    border-spacing: 0;
+
+    th {
+      border-bottom: 1px solid  #eee;
+      border-right: 1px solid #eee;
+    }
+  }
+
+  @include e(header-cell) {
+    display: inline-block;
+  }
+
+  @include e(row) {
+  }
+
+  @include e(cell) {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  @include e(footer) {
+  }
+}

@@ -1,0 +1,146 @@
+<template>
+  <ClientOnly>
+    <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
+    <p text="sm" v-html="decodedDescription" />
+    <div class="example">
+      <div class="op-btns">
+        <ElTooltip content="在 PlayGround 中编辑" :show-arrow="false">
+          <ElIcon :size="20" class="op-btn">
+            <i-ri-play-circle-line @click="onPlaygroundClicked" />
+          </ElIcon>
+        </ElTooltip>
+        <ElTooltip content="在 GitHub 上编辑" :show-arrow="false">
+          <ElIcon
+            :size="20"
+            class="op-btn github"
+            style="color: var(--text-color-light)"
+          >
+            <a :href="demoSourceUrl" rel="noreferrer noopener" target="_blank">
+              <i-ri-github-line />
+            </a>
+          </ElIcon>
+        </ElTooltip>
+        <ElTooltip content="复制代码" :show-arrow="false">
+          <ElIcon :size="20" class="op-btn" @click="copyCode">
+            <!-- <CopyIcon /> -->
+            <i-ri-file-copy-2-line />
+          </ElIcon>
+        </ElTooltip>
+        <ElTooltip content="查看源代码" :show-arrow="false">
+          <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
+            <!-- <SourceCodeIcon /> -->
+            <i-ri-code-line />
+          </ElIcon>
+        </ElTooltip>
+      </div>
+      <ElDivider class="m-0" />
+      <Example :file="path" :demo="formatPathDemos[path]" />
+      <el-collapse-transition>
+        <SourceCode v-show="sourceVisible" :source="source" />
+      </el-collapse-transition>
+    </div>
+  </ClientOnly>
+</template>
+
+<script setup lang="ts">
+import { computed, toRef, getCurrentInstance } from 'vue'
+import { useClipboard, useToggle } from '@vueuse/core'
+import { useSourceCode } from '../composables/source-code'
+import { usePlayGround } from '../composables/use-playground'
+
+import Example from './demo/vp-example.vue'
+import SourceCode from './demo/vp-source-code.vue'
+
+const props = defineProps<{
+  source: string
+  path: string
+  css?: string
+  cssPreProcessor?: string
+  js?: string
+  html?: string
+  demos: object
+  rawSource: string
+  description?: string
+}>()
+
+const vm = getCurrentInstance()!
+
+const { copy, isSupported } = useClipboard({
+  source: decodeURIComponent(props.rawSource),
+  read: false,
+})
+
+const [sourceVisible, setSourceVisible] = useToggle()
+const demoSourceUrl = useSourceCode(toRef(props, 'path'))
+
+const formatPathDemos = computed(() => {
+  const demos = {}
+  Object.keys(props.demos).forEach((key) => {
+    demos[key.replace('../examples/', '').replace('.vue', '')] =
+      props.demos[key].default
+  })
+
+  return demos
+})
+
+const decodedDescription = computed(() =>
+  decodeURIComponent(props.description!)
+)
+
+const onPlaygroundClicked = () => {
+  const { link } = usePlayGround(props.rawSource)
+  window.open(link)
+}
+
+const copyCode = async () => {
+  const { $message } = vm.appContext.config.globalProperties
+  if (!isSupported) {
+    $message.error('此浏览器不支持自动复制！')
+  }
+  try {
+    await copy()
+    $message.success('已复制')
+  } catch (e: any) {
+    $message.error(e.message)
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.example {
+  border: 1px solid var(--border-color);
+  border-radius: var(--el-border-radius-base);
+  overflow: hidden;
+
+  .op-btns {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 3rem;
+    line-height: 3rem;
+
+    .el-icon {
+      &:hover {
+        color: var(--text-color);
+      }
+    }
+
+    .op-btn {
+      margin: 0 0.5rem;
+      cursor: pointer;
+      color: var(--text-color-lighter);
+      transition: 0.2s;
+
+      &.github a {
+        transition: 0.2s;
+        color: var(--text-color-lighter);
+
+        &:hover {
+          color: var(--text-color);
+        }
+      }
+    }
+  }
+}
+</style>
