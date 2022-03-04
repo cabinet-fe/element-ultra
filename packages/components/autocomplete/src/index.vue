@@ -89,10 +89,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, nextTick, useAttrs } from 'vue'
+import {
+  defineComponent,
+  ref,
+  computed,
+  onMounted,
+  nextTick,
+  useAttrs,
+} from 'vue'
 import { NOOP } from '@vue/shared'
 import { debounce } from 'lodash-unified'
-import {  useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-pro/hooks'
 import { ClickOutside } from '@element-pro/directives'
 import { generateId, isArray, throwError } from '@element-pro/utils'
 import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
@@ -191,7 +198,6 @@ export default defineComponent({
     'select',
   ],
   setup(props, ctx) {
-
     const ns = useNamespace('autocomplete')
     const { compatTeleported } = useDeprecateAppendToBody(
       COMPONENT_NAME,
@@ -234,7 +240,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const { inputRef: inputDom } =  inputRef.value!
+      const { inputRef: inputDom } = inputRef.value!
       inputDom.setAttribute('role', 'textbox')
       inputDom.setAttribute('aria-autocomplete', 'list')
       inputDom.setAttribute('aria-controls', 'id')

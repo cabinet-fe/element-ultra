@@ -36,15 +36,15 @@
       <ElDivider class="m-0" />
       <Example :file="path" :demo="formatPathDemos[path]" />
       <el-collapse-transition>
-        <SourceCode v-show="sourceVisible" :source="source" />
+        <SourceCode ref="sourceCode" v-if="sourceVisible" :source="source" />
       </el-collapse-transition>
     </div>
   </ClientOnly>
 </template>
 
 <script setup lang="ts">
-import { computed, toRef, getCurrentInstance } from 'vue'
-import { useClipboard, useToggle } from '@vueuse/core'
+import { computed, toRef, getCurrentInstance, ref, nextTick } from 'vue'
+import { useClipboard } from '@vueuse/core'
 import { useSourceCode } from '../composables/source-code'
 import { usePlayGround } from '../composables/use-playground'
 
@@ -70,7 +70,18 @@ const { copy, isSupported } = useClipboard({
   read: false,
 })
 
-const [sourceVisible, setSourceVisible] = useToggle()
+const sourceVisible = ref(false)
+const sourceCode = ref<any>(null)
+const setSourceVisible = () => {
+  sourceVisible.value = !sourceVisible.value
+
+  if (sourceVisible.value) {
+    nextTick(() => {
+      sourceCode.value?.intoView()
+    })
+  }
+}
+
 const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 
 const formatPathDemos = computed(() => {
