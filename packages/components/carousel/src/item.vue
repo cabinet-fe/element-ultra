@@ -31,8 +31,8 @@ import {
   getCurrentInstance,
   onUnmounted,
 } from 'vue'
-import { debugWarn } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { debugWarn } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
 

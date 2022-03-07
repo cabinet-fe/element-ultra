@@ -1,5 +1,5 @@
 import { inject } from 'vue'
-import { elFormKey, elFormItemKey } from '@element-pro/tokens'
+import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
 
 export const useFormItem = () => {
   const form = inject(elFormKey, undefined)

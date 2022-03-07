@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-pro/utils'
+import { withInstall, withNoopInstall } from '@element-ultra/utils'
 
 import Dropdown from './src/dropdown.vue'
 import DropdownItem from './src/dropdown-item.vue'

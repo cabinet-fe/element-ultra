@@ -1,15 +1,15 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { debugWarn } from '@element-pro/utils'
-import { rAF } from '@element-pro/test-utils/tick'
-import { ElPopperTrigger } from '@element-pro/components/popper'
+import { debugWarn } from '@element-ultra/utils'
+import { rAF } from '@element-ultra/test-utils/tick'
+import { ElPopperTrigger } from '@element-ultra/components/popper'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
 
 jest.useFakeTimers()
 
-jest.mock('@element-pro/utils/error', () => ({
+jest.mock('@element-ultra/utils/error', () => ({
   debugWarn: jest.fn(),
 }))
 

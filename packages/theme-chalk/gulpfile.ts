@@ -42,7 +42,7 @@ function buildThemeChalk() {
 }
 
 /**
- * copy from packages/theme-chalk/dist to dist/element-pro/theme-chalk
+ * copy from packages/theme-chalk/dist to dist/element-ultra/theme-chalk
  */
 export function copyThemeChalkBundle() {
   return src(`${distFolder}/**`).pipe(dest(distBundle))

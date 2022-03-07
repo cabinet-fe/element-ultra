@@ -34,12 +34,12 @@ import {
   unique,
   castArray,
   scrollIntoView,
-} from '@element-pro/utils'
+} from '@element-ultra/utils'
 import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
-} from '@element-pro/constants'
+} from '@element-ultra/constants'
 
 import ElCascadeMenu from './menu.vue'
 import Store from './store'
@@ -49,7 +49,7 @@ import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { Cascade_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-pro/utils'
+import type { Nullable } from '@element-ultra/utils'
 import type {
   CascadeValue,
   CascadeNodeValue,

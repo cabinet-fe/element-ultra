@@ -1,11 +1,11 @@
 import { EP_PKG, EP_PREFIX } from '../utils/constants'
 import type { Plugin } from 'rollup'
 
-export function ElementProAlias(): Plugin {
+export function ElementUltraAlias(): Plugin {
   const THEME_CHALK = `${EP_PREFIX}/theme-chalk`
 
   return {
-    name: 'element-pro-alias-plugin',
+    name: 'element-ultra-alias-plugin',
     resolveId(id, importer, options) {
       if (!id.startsWith(EP_PREFIX)) return
 

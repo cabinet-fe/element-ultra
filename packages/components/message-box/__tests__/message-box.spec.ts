@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { rAF } from '@element-pro/test-utils/tick'
-import { triggerNativeCompositeClick } from '@element-pro/test-utils/composite-click'
+import { rAF } from '@element-ultra/test-utils/tick'
+import { triggerNativeCompositeClick } from '@element-ultra/test-utils/composite-click'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import MessageBox from '../src/messageBox'
 

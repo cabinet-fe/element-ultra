@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import DataTableHeader from './data-table-header.vue'
 import DataTableBody from './data-table-body.vue'
 import DataTableFooter from './data-table-footer.vue'

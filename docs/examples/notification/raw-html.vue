@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElNotification } from 'element-pro'
+import { ElNotification } from 'element-ultra'
 
 const open = () => {
   ElNotification({

@@ -15,11 +15,11 @@ import {
   off,
   isNumber,
   isString,
-} from '@element-pro/utils'
-import { useSize } from '@element-pro/hooks'
+} from '@element-ultra/utils'
+import { useSize } from '@element-ultra/hooks'
 import { parseHeight } from '../util'
 
-import type { ResizableElement } from '@element-pro/utils'
+import type { ResizableElement } from '@element-ultra/utils'
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'

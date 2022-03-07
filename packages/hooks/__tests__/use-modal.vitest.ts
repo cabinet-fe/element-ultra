@@ -1,6 +1,6 @@
 import { ref, nextTick } from 'vue'
 import { describe, it, expect, fn } from 'vitest'
-import { EVENT_CODE } from '@element-pro/constants'
+import { EVENT_CODE } from '@element-ultra/constants'
 import { useModal } from '../use-modal'
 
 describe('useModal', () => {

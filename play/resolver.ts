@@ -33,8 +33,8 @@ function getSideEffectsLegacy(
   options: ElementPlusResolverOptionsResolved
 ): any {
   return [
-    'element-pro/packages/theme-chalk/src/base.scss',
-    `element-pro/packages/theme-chalk/src/${partialName}.scss`,
+    'element-ultra/packages/theme-chalk/src/base.scss',
+    `element-ultra/packages/theme-chalk/src/${partialName}.scss`,
   ]
 }
 
@@ -43,8 +43,8 @@ function getSideEffects(
   options: ElementPlusResolverOptionsResolved
 ): any {
   const { ssr } = options
-  const themeFolder = 'element-pro/theme-chalk'
-  const esComponentsFolder = 'element-pro/es/components'
+  const themeFolder = 'element-ultra/theme-chalk'
+  const esComponentsFolder = 'element-ultra/es/components'
 
   return ssr
     ? `${themeFolder}/src/${dirName}.scss`
@@ -70,7 +70,7 @@ function resolveComponent(
   // >=1.1.0-beta.1
   return {
     importName: name,
-    path: `element-pro/${ssr ? 'lib' : 'es'}`,
+    path: `element-ultra/${ssr ? 'lib' : 'es'}`,
     sideEffects: getSideEffects(partialName, options),
   }
 }
@@ -98,7 +98,7 @@ function resolveDirective(
 
   return {
     importName: directive.importName,
-    path: `element-pro/${ssr ? 'lib' : 'es'}`,
+    path: `element-ultra/${ssr ? 'lib' : 'es'}`,
     sideEffects: getSideEffects(directive.styleName, options),
   }
 }

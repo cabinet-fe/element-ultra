@@ -12,9 +12,9 @@ import {
   buildProps,
   definePropType,
   mutable,
-} from '@element-pro/utils'
-import { useLocale, useNamespace } from '@element-pro/hooks'
-import { elPaginationKey } from '@element-pro/tokens'
+} from '@element-ultra/utils'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { elPaginationKey } from '@element-ultra/tokens'
 
 import Prev from './components/prev.vue'
 import Next from './components/next.vue'

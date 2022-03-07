@@ -1,11 +1,11 @@
 import { ref, computed, inject, getCurrentInstance, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { elFormKey, elFormItemKey } from '@element-pro/tokens'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
 
-import { useSize } from '@element-pro/hooks'
+import { useSize } from '@element-ultra/hooks'
 import type { ExtractPropTypes } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-pro/tokens'
+import type { ElFormContext, ElFormItemContext } from '@element-ultra/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 
 export const useCheckboxProps = {

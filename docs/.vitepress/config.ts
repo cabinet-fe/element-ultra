@@ -35,11 +35,11 @@ const buildTransformers = () => {
 console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
 
 export const config: UserConfig = {
-  title: 'Element Pro',
+  title: 'Element Ultra',
   description: 'a Vue 3 based component library for designers and developers',
   head,
   themeConfig: {
-    repo: 'wenhongjie/element-pro',
+    repo: 'cabinet-fe/element-pro',
     docsDir: 'docs',
 
     editLinks: true,

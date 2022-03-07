@@ -54,9 +54,9 @@
 
 <script lang="ts" setup>
 import { computed, ref, provide } from 'vue'
-import { ElOverlay } from '@element-pro/components/overlay'
-import { ElFocusTrap } from '@element-pro/components/focus-trap'
-import { useNamespace, useDraggable, useSameTarget } from '@element-pro/hooks'
+import { ElOverlay } from '@element-ultra/components/overlay'
+import { ElFocusTrap } from '@element-ultra/components/focus-trap'
+import { useNamespace, useDraggable, useSameTarget } from '@element-ultra/hooks'
 import ElDialogContent from './dialog-content.vue'
 import { dialogProps, dialogEmits } from './dialog'
 import { elDialogInjectionKey } from './token'

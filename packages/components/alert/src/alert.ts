@@ -1,4 +1,4 @@
-import { TypeComponentsMap, buildProps, keysOf } from '@element-pro/utils'
+import { TypeComponentsMap, buildProps, keysOf } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Alert from './alert.vue'
 

@@ -1,5 +1,5 @@
-import { buildProps } from '@element-pro/utils'
-import { useSizeProp } from '@element-pro/hooks'
+import { buildProps } from '@element-ultra/utils'
+import { useSizeProp } from '@element-ultra/hooks'
 import { radioEmits } from './radio'
 import type { ExtractPropTypes } from '@vue/runtime-core'
 

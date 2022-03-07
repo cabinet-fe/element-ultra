@@ -1,6 +1,6 @@
 import { h, ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Row from '@element-pro/components/row'
+import Row from '@element-ultra/components/row'
 import Col from '../src/col'
 
 describe('Col', () => {

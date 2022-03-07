@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { usePopperContainer } from '@element-pro/hooks'
+import { usePopperContainer } from '@element-ultra/hooks'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
 import { TOOLTIP_INJECTION_KEY } from '../src/tokens'

@@ -1,9 +1,9 @@
-import { buildProps } from '@element-pro/utils'
+import { buildProps } from '@element-ultra/utils'
 import {
   useTooltipContentProps,
   useTooltipTriggerProps,
-} from '@element-pro/components/tooltip'
-import { dropdownProps } from '@element-pro/components/dropdown'
+} from '@element-ultra/components/tooltip'
+import { dropdownProps } from '@element-ultra/components/dropdown'
 
 export const usePopoverProps = buildProps({
   trigger: useTooltipTriggerProps.trigger,

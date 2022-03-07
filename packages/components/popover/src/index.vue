@@ -44,10 +44,10 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref, unref } from 'vue'
-import ElTooltip from '@element-pro/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-pro/components/popper'
-import { isString } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import ElTooltip from '@element-ultra/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
+import { isString } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import { usePopoverProps } from './popover'
 
 import type { StyleValue } from 'vue'

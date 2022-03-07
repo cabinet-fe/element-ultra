@@ -1,4 +1,4 @@
-import { buildProps } from '@element-pro/utils'
+import { buildProps } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType, VNode } from 'vue'
 
 /** 数据表格列 */

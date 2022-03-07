@@ -1,3 +1,3 @@
-import '@element-pro/components/base/style/css'
-import '@element-pro/theme-chalk/el-skeleton.css'
-import '@element-pro/components/skeleton-item/style/css'
+import '@element-ultra/components/base/style/css'
+import '@element-ultra/theme-chalk/el-skeleton.css'
+import '@element-ultra/components/skeleton-item/style/css'

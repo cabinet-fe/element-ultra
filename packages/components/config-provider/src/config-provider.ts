@@ -1,9 +1,9 @@
 import { defineComponent, renderSlot, watch } from 'vue'
-import { buildProps, definePropType } from '@element-pro/utils'
-import { provideGlobalConfig } from '@element-pro/hooks'
-import type { Language } from '@element-pro/locale'
-import type { ButtonConfigContext } from '@element-pro/components/button'
-import type { MessageConfigContext } from '@element-pro/components/message'
+import { buildProps, definePropType } from '@element-ultra/utils'
+import { provideGlobalConfig } from '@element-ultra/hooks'
+import type { Language } from '@element-ultra/locale'
+import type { ButtonConfigContext } from '@element-ultra/components/button'
+import type { MessageConfigContext } from '@element-ultra/components/message'
 
 export const messageConfig: MessageConfigContext = {}
 

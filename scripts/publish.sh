@@ -7,7 +7,7 @@ pnpm update:version
 
 pnpm build
 
-cd dist/element-pro
+cd dist/element-ultra
 npm publish --access public
 cd -
 

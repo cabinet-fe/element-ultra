@@ -1,4 +1,4 @@
-import makeMount from '@element-pro/test-utils/make-mount'
+import makeMount from '@element-ultra/test-utils/make-mount'
 import SkeletonItem from '../src/skeleton-item.vue'
 
 describe('<skeleton-item />', () => {

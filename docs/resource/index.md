@@ -150,7 +150,7 @@ p {
         <div class="card">
           <img src="/images/Axure-Components.svg" alt="axure" />
           <h3>Axure 组件</h3>
-          <p>通过在 Axure 中导入 Element Pro 组件库，你可以在交互设计阶段方便地调用我们提供的所有组件。</p>
+          <p>通过在 Axure 中导入 Element Ultra 组件库，你可以在交互设计阶段方便地调用我们提供的所有组件。</p>
           <a
             onclick="ga('send', 'event', 'ResourceDownload', 'Download', 'Axure');"
             href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
@@ -162,7 +162,7 @@ p {
         <div class="card">
           <img src="/images/Sketch-Template.svg" alt="Sketch" />
           <h3>Sketch 模版</h3>
-          <p>从 Element Pro Template 快速调用常用组件，在提升设计效率的同时，保证了视觉风格的统一。</p>
+          <p>从 Element Ultra Template 快速调用常用组件，在提升设计效率的同时，保证了视觉风格的统一。</p>
           <a
             onclick="ga('send', 'event', 'ResourceDownload', 'Download', 'Sketch');"
             href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"

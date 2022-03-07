@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import { h } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-pro'
+import { ElMessage, ElMessageBox } from 'element-ultra'
 const open = () => {
   ElMessageBox({
     title: 'Message',

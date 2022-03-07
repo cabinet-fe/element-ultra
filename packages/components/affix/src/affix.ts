@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-pro/utils'
+import { buildProps, definePropType } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 import type Affix from './affix.vue'

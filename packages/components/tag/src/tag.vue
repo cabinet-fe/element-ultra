@@ -30,10 +30,10 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import ElIcon from '@element-pro/components/icon'
+import ElIcon from '@element-ultra/components/icon'
 import { Close } from '@element-plus/icons-vue'
 
-import { useSize, useNamespace } from '@element-pro/hooks'
+import { useSize, useNamespace } from '@element-ultra/hooks'
 import { tagProps, tagEmits } from './tag'
 
 export default defineComponent({

@@ -99,8 +99,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch, inject, toRef } from 'vue'
 import dayjs from 'dayjs'
-import ElIcon from '@element-pro/components/icon'
-import { useLocale } from '@element-pro/hooks'
+import ElIcon from '@element-ultra/components/icon'
+import { useLocale } from '@element-ultra/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import MonthTable from './basic-month-table.vue'
 

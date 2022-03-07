@@ -1,6 +1,6 @@
 {
-  "name": "@element-pro/locale",
-  "description": "Element Pro locale",
+  "name": "@element-ultra/locale",
+  "description": "Element Ultra locale",
   "version": "0.0.5",
   "main": "index.ts",
   "module": "index.ts",

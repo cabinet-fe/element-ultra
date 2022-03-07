@@ -1,11 +1,11 @@
-import { isValidComponentSize } from '@element-pro/utils'
-import { useTooltipContentProps } from '@element-pro/components/tooltip'
+import { isValidComponentSize } from '@element-ultra/utils'
+import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-pro/constants'
+import type { ComponentSize } from '@element-ultra/constants'
 import type { OptionType } from './select.types'
-import type { Options } from '@element-pro/components/popper'
+import type { Options } from '@element-ultra/components/popper'
 
 export const SelectProps = {
   allowCreate: Boolean,

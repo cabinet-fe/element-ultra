@@ -21,7 +21,7 @@ const onVersionChange = (val) => {
 onMounted(async () => {
   try {
     const { data } = await axios.get<Release[]>(
-      'https://api.github.com/repos/wenhongjie/element-pro/releases'
+      'https://api.github.com/repos/cabinet-fe/element-pro/releases'
     )
     releases.value = data
     currentRelease.value = data[0]

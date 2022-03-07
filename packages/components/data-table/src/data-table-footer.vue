@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 
 const ns = useNamespace('data-table')
 </script>

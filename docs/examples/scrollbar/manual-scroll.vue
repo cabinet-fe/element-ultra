@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import type { ElScrollbar } from 'element-pro'
+import type { ElScrollbar } from 'element-ultra'
 
 const max = ref(0)
 const value = ref(0)

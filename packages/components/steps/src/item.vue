@@ -57,10 +57,10 @@ import {
   reactive,
   watch,
 } from 'vue'
-import { ElIcon } from '@element-pro/components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 import { Close, Check } from '@element-plus/icons-vue'
 
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import type { Ref, PropType, Component } from 'vue'
 
 export interface IStepsProps {

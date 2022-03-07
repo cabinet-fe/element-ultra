@@ -1,5 +1,5 @@
 import type { ComputedRef } from 'vue'
-import type { ComponentSize } from '@element-pro/constants'
+import type { ComponentSize } from '@element-ultra/constants'
 export interface ICheckboxGroupInstance {
   name?: string
   modelValue?: ComputedRef

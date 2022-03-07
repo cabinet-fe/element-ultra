@@ -66,16 +66,16 @@ import {
   onUpdated,
 } from 'vue'
 
-import { ElIcon } from '@element-pro/components/icon'
-import { RepeatClick } from '@element-pro/directives'
+import { ElIcon } from '@element-ultra/components/icon'
+import { RepeatClick } from '@element-ultra/directives'
 import {
   useDisabled,
   useFormItem,
   useSize,
   useNamespace,
-} from '@element-pro/hooks'
-import ElInput from '@element-pro/components/input'
-import { isNumber, debugWarn } from '@element-pro/utils'
+} from '@element-ultra/hooks'
+import ElInput from '@element-ultra/components/input'
+import { isNumber, debugWarn } from '@element-ultra/utils'
 import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 

@@ -1,4 +1,4 @@
-import { buildProps, definePropType, mutable } from '@element-pro/utils'
+import { buildProps, definePropType, mutable } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 
 export const imageViewerProps = buildProps({

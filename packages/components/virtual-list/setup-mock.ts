@@ -1,4 +1,4 @@
-import defineGetter from '@element-pro/test-utils/define-getter'
+import defineGetter from '@element-ultra/test-utils/define-getter'
 
 export default () => {
   const clientWidth = defineGetter(

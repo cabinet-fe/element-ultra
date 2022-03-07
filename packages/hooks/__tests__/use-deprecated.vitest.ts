@@ -1,14 +1,14 @@
 import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, it, fn, vi, expect, afterEach } from 'vitest'
-import { debugWarn } from '@element-pro/utils'
+import { debugWarn } from '@element-ultra/utils'
 import { useDeprecated } from '../use-deprecated'
 
 const AXIOM = 'Rem is the best girl'
 
-vi.mock('@element-pro/utils/error', async () => {
+vi.mock('@element-ultra/utils/error', async () => {
   return {
-    ...(await vi.importActual<any>('@element-pro/utils/error')),
+    ...(await vi.importActual<any>('@element-ultra/utils/error')),
     debugWarn: fn(),
   }
 })

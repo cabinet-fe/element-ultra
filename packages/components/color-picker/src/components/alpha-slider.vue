@@ -28,11 +28,11 @@ import {
   getCurrentInstance,
   shallowRef,
 } from 'vue'
-import { getClientXY } from '@element-pro/utils'
+import { getClientXY } from '@element-ultra/utils'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-pro/utils'
+import type { Nullable } from '@element-ultra/utils'
 import type Color from '../color'
 
 export default defineComponent({

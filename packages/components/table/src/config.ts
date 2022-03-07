@@ -1,8 +1,8 @@
 import { h } from 'vue'
-import ElCheckbox from '@element-pro/components/checkbox'
-import { ElIcon } from '@element-pro/components/icon'
+import ElCheckbox from '@element-ultra/components/checkbox'
+import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
-import { getPropByPath } from '@element-pro/utils'
+import { getPropByPath } from '@element-ultra/utils'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'

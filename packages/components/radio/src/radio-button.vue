@@ -38,7 +38,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { useRadio } from './radio'
 import { radioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'

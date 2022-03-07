@@ -1,5 +1,5 @@
-import { buildProps, definePropType, mutable } from '@element-pro/utils'
-import type { TabsPaneContext } from '@element-pro/tokens'
+import { buildProps, definePropType, mutable } from '@element-ultra/utils'
+import type { TabsPaneContext } from '@element-ultra/tokens'
 import type { ExtractPropTypes } from 'vue'
 
 export const tabBar = buildProps({

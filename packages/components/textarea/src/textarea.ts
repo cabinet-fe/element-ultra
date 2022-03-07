@@ -4,8 +4,8 @@ import {
   definePropType,
   iconPropType,
   mutable,
-} from '@element-pro/utils'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
+} from '@element-ultra/utils'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import type { StyleValue, ExtractPropTypes } from 'vue'
 
 type AutoSize = { minRows?: number; maxRows?: number } | boolean

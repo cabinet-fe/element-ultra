@@ -65,12 +65,6 @@ export default {
       noData: 'No data',
       placeholder: 'Select',
     },
-    cascader: {
-      noMatch: 'No matching data',
-      loading: 'Loading',
-      placeholder: 'Select',
-      noData: 'No data',
-    },
     pagination: {
       goto: 'Go to',
       pagesize: '/page',

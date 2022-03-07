@@ -8,7 +8,7 @@ import {
   afterAll,
   fn,
 } from 'vitest'
-import triggerEvent from '@element-pro/test-utils/trigger-event'
+import triggerEvent from '@element-ultra/test-utils/trigger-event'
 import { usePreventGlobal } from '../use-prevent-global'
 
 describe('usePreventGlobal', () => {

@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
-import makeMount from '@element-pro/test-utils/make-mount'
-import makeScroll from '@element-pro/test-utils/make-scroll'
+import makeMount from '@element-ultra/test-utils/make-mount'
+import makeScroll from '@element-ultra/test-utils/make-scroll'
 import setupMock from '../setup-mock'
 import {
   RTL,

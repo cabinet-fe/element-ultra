@@ -1,11 +1,11 @@
 import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
-import { hasClass } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { makeMountFunc } from '@element-pro/test-utils/make-mount'
-import { rAF } from '@element-pro/test-utils/tick'
+import { hasClass } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { makeMountFunc } from '@element-ultra/test-utils/make-mount'
+import { rAF } from '@element-ultra/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-pro/hooks'
+import { POPPER_CONTAINER_SELECTOR } from '@element-ultra/hooks'
 import Select from '../src/select.vue'
 
 jest.mock('lodash-unified', () => {

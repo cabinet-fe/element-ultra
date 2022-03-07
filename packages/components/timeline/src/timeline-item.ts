@@ -1,4 +1,4 @@
-import { buildProps, iconPropType } from '@element-pro/utils'
+import { buildProps, iconPropType } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 import type TimelineItem from './timeline-item.vue'
 

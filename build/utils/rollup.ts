@@ -11,7 +11,7 @@ export const generateExternal = async (options: { full: boolean }) => {
   return (id: string) => {
     const packages: string[] = peerDependencies
     if (!options.full) {
-      packages.push('element-pro/theme-chalk')
+      packages.push('element-ultra/theme-chalk')
       // dependencies
       packages.push('@vue', ...dependencies)
     }

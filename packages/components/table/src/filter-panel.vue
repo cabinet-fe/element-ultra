@@ -88,14 +88,14 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, getCurrentInstance, watch } from 'vue'
-import ElCheckbox from '@element-pro/components/checkbox'
-import { ElIcon } from '@element-pro/components/icon'
+import ElCheckbox from '@element-ultra/components/checkbox'
+import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import { ClickOutside } from '@element-pro/directives'
-import { useLocale, useNamespace } from '@element-pro/hooks'
-import ElTooltip from '@element-pro/components/tooltip'
-import ElScrollbar from '@element-pro/components/scrollbar'
-import type { Placement } from '@element-pro/components/popper'
+import { ClickOutside } from '@element-ultra/directives'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
+import ElTooltip from '@element-ultra/components/tooltip'
+import ElScrollbar from '@element-ultra/components/scrollbar'
+import type { Placement } from '@element-ultra/components/popper'
 
 import type { WritableComputedRef, PropType } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'

@@ -1,5 +1,5 @@
 {
-  "name": "@element-pro/theme-chalk",
+  "name": "@element-ultra/theme-chalk",
   "version": "0.1.0",
   "description": "Element component chalk theme.",
   "main": "index.css",
@@ -12,20 +12,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
+    "url": "git+https://github.com/cabinet-fe/element-pro.git"
   },
   "keywords": [
     "vue-components",
-    "element-pro",
+    "element-ultra",
     "theme-chalk",
     "theme-light"
   ],
   "author": "yi.shyang@ele.me",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/element-plus/element-plus#issues"
+    "url": "https://github.com/cabinet-fe/element-pro#issues"
   },
-  "homepage": "https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/README.md",
+  "homepage": "https://github.com/cabinet-fe/element-pro/blob/dev/packages/theme-chalk/README.md",
   "devDependencies": {
     "@types/gulp-autoprefixer": "^0.0.33",
     "@types/gulp-clean-css": "^4.3.0",

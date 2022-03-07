@@ -1,5 +1,5 @@
-import { buildProps, definePropType } from '@element-pro/utils'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
+import { buildProps, definePropType } from '@element-ultra/utils'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes } from 'vue'

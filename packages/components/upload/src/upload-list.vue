@@ -95,7 +95,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
-import { ElIcon } from '@element-pro/components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 import {
   Document,
   Delete,
@@ -104,8 +104,8 @@ import {
   Check,
   CircleCheck,
 } from '@element-plus/icons-vue'
-import { useLocale, useNamespace } from '@element-pro/hooks'
-import ElProgress from '@element-pro/components/progress'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
+import ElProgress from '@element-ultra/components/progress'
 
 import type { PropType } from 'vue'
 import type { UploadFile } from './upload.type'

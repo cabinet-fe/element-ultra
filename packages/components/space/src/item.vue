@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { buildProps } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { buildProps } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 
 const spaceItem = buildProps({
   prefixCls: {

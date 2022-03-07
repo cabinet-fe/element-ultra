@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox, ElMessage } from 'element-pro'
-import type { Action } from 'element-pro'
+import { ElMessageBox, ElMessage } from 'element-ultra'
+import type { Action } from 'element-ultra'
 
 const open = () => {
   ElMessageBox.alert('This is a message', 'Title', {

@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-pro'
+import { ElMessage } from 'element-ultra'
 import { Plus } from '@element-plus/icons-vue'
 import type {
   UploadFile,

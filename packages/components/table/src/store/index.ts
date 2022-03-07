@@ -1,5 +1,5 @@
 import { nextTick, getCurrentInstance, unref } from 'vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import useWatcher from './watcher'
 
 import type { Ref } from 'vue'

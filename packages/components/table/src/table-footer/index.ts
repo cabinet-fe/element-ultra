@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 import type { Store } from '../store'

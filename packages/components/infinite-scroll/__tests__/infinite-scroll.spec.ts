@@ -1,6 +1,6 @@
 import { ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { tick, defineGetter, makeScroll } from '@element-pro/test-utils'
+import { tick, defineGetter, makeScroll } from '@element-ultra/test-utils'
 import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
 
 jest.mock('lodash-unified', () => {

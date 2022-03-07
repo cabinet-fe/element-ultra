@@ -7,8 +7,8 @@
 <script lang="ts">
 import { defineComponent, watch, ref, provide } from 'vue'
 
-import { CHANGE_EVENT } from '@element-pro/constants'
-import { useNamespace } from '@element-pro/hooks'
+import { CHANGE_EVENT } from '@element-ultra/constants'
+import { useNamespace } from '@element-ultra/hooks'
 
 export default defineComponent({
   name: 'ElSteps',

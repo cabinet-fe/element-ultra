@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox } from 'element-pro'
+import { ElMessageBox } from 'element-ultra'
 
 const open = () => {
   ElMessageBox.alert(

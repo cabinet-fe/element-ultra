@@ -1,5 +1,5 @@
-import { buildProps, definePropType } from '@element-pro/utils'
-import { createCollectionWithScope } from '@element-pro/components/collection'
+import { buildProps, definePropType } from '@element-ultra/utils'
+import { createCollectionWithScope } from '@element-ultra/components/collection'
 import type { ExtractPropTypes, HTMLAttributes, StyleValue } from 'vue'
 
 export const rovingFocusGroupProps = buildProps({

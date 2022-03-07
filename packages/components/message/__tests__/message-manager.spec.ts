@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
-import { getStyle } from '@element-pro/utils'
-import { rAF } from '@element-pro/test-utils/tick'
+import { getStyle } from '@element-ultra/utils'
+import { rAF } from '@element-ultra/test-utils/tick'
 import Message from '../src/message-method'
 
 jest.useFakeTimers()

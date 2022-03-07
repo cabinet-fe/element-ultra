@@ -12,7 +12,7 @@ import {
   watch,
   nextTick,
 } from 'vue'
-import { EVENT_CODE } from '@element-pro/constants'
+import { EVENT_CODE } from '@element-ultra/constants'
 import {
   focusableStack,
   focusFirstDescendant,

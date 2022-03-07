@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { ref, unref } from 'vue'
-import { ClickOutside as vClickOutside } from 'element-pro'
+import { ClickOutside as vClickOutside } from 'element-ultra'
 const buttonRef = ref()
 const popoverRef = ref()
 const onClickOutside = () => {

@@ -41,7 +41,7 @@ radio/radio-button-group
 
 你可以让单选框看起来像一个按钮一样。
 
-:::demo 只需要把 `el-radio` 元素换成 `el-radio-button` 元素即可， 此外，Element Pro 还提供了 `size` 属性用来控制单选框的大小。
+:::demo 只需要把 `el-radio` 元素换成 `el-radio-button` 元素即可， 此外，Element Ultra 还提供了 `size` 属性用来控制单选框的大小。
 
 radio/button-style
 

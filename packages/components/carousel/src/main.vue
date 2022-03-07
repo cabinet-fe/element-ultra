@@ -79,10 +79,10 @@ import {
   addResizeListener,
   removeResizeListener,
   debugWarn,
-} from '@element-pro/utils'
-import { ElIcon } from '@element-pro/components/icon'
+} from '@element-ultra/utils'
+import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 
 import type {
   ICarouselProps,

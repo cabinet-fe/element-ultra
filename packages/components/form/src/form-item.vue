@@ -36,8 +36,8 @@ import {
   nextTick,
   provide,
 } from 'vue'
-import { elFormItemKey, elFormKey } from '@element-pro/tokens'
-import { addUnit } from '@element-pro/utils'
+import { elFormItemKey, elFormKey } from '@element-ultra/tokens'
+import { addUnit } from '@element-ultra/utils'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import type { CSSProperties } from 'vue'
 

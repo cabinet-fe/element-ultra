@@ -46,9 +46,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-pro/hooks'
-import { rangeArr } from '@element-pro/components/time-picker'
-import { hasClass, castArray } from '@element-pro/utils'
+import { useLocale } from '@element-ultra/hooks'
+import { rangeArr } from '@element-ultra/components/time-picker'
+import { hasClass, castArray } from '@element-ultra/utils'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'

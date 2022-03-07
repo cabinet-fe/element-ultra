@@ -1,5 +1,5 @@
 import { unref } from 'vue'
-import { buildProps } from '@element-pro/utils'
+import { buildProps } from '@element-ultra/utils'
 import { useTimeout } from '../use-timeout'
 
 import type { ToRefs, ExtractPropTypes } from 'vue'

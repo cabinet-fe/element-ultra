@@ -33,14 +33,14 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
-import { ElIcon } from '@element-pro/components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 import {
   useDisabled,
   useFormItem,
   useNamespace,
   useSize,
-} from '@element-pro/hooks'
-import { buttonGroupContextKey } from '@element-pro/tokens'
+} from '@element-ultra/hooks'
+import { buttonGroupContextKey } from '@element-ultra/tokens'
 import { buttonEmits, buttonProps } from './button'
 
 defineOptions({

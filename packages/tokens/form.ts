@@ -1,10 +1,10 @@
 import type { InjectionKey, Ref } from 'vue'
 import type { ValidateFieldsError } from 'async-validator'
-import type { ComponentSize } from '@element-pro/constants'
+import type { ComponentSize } from '@element-ultra/constants'
 import type {
   ElFormProps,
   ElFormRules,
-} from '@element-pro/components/form/src/form'
+} from '@element-ultra/components/form/src/form'
 
 export interface ElFormContext {
   props: ElFormProps

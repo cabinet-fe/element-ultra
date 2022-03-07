@@ -1,6 +1,6 @@
 import { defineComponent, computed, h, provide } from 'vue'
-import { buildProps } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { buildProps } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
 export const rowProps = buildProps({

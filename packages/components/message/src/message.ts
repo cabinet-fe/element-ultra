@@ -1,4 +1,4 @@
-import { buildProps, definePropType, iconPropType } from '@element-pro/utils'
+import { buildProps, definePropType, iconPropType } from '@element-ultra/utils'
 import type { VNode, ExtractPropTypes } from 'vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const

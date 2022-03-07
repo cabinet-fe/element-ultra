@@ -44,7 +44,7 @@ button/text
 
 使用图标为按钮添加更多的含义。 你也可以单独使用图标不添加文字来节省显示区域占用。
 
-:::demo 使用 `icon` 属性来为按钮添加图标。 你可以在 Element Pro icon 组件里找到 Element Pro 提供的内置图标。 通过向右方添加`<i>`标签来添加图标， 你也可以使用自定义图标。
+:::demo 使用 `icon` 属性来为按钮添加图标。 你可以在 Element Ultra icon 组件里找到 Element Ultra 提供的内置图标。 通过向右方添加`<i>`标签来添加图标， 你也可以使用自定义图标。
 
 button/icon
 

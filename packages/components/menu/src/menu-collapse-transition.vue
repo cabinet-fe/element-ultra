@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { addClass, removeClass, hasClass } from '@element-pro/utils'
+import { addClass, removeClass, hasClass } from '@element-ultra/utils'
 
 import type { TransitionProps, BaseTransitionProps } from 'vue'
 

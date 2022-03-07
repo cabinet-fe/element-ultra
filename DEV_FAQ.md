@@ -13,15 +13,15 @@ pnpm i
 ```bash
 # get dist
 pnpm build
-cd dist/element-pro
-# set cur element-pro to global `node_modules`
+cd dist/element-ultra
+# set cur element-ultra to global `node_modules`
 pnpm link --global
-# for esm we also need link element-pro for dist
-pnpm link --global element-pro
+# for esm we also need link element-ultra for dist
+pnpm link --global element-ultra
 
-# go to your project, link to `element-pro`
+# go to your project, link to `element-ultra`
 cd your-project
-pnpm link --global element-pro
+pnpm link --global element-ultra
 ```
 
 > More info see [pnpm link](https://pnpm.io/cli/link).
@@ -32,4 +32,4 @@ We should not write Chinese comments in scss files.
 
 It will generate warning `@charset "UTF-8";` in the header of css file when built with vite.
 
-> More info see [#3219](https://github.com/element-pro/element-pro/issues/3219).
+> More info see [#3219](https://github.com/element-ultra/element-ultra/issues/3219).

@@ -12,12 +12,12 @@ export interface BuildInfo {
   output: {
     /** e.g: `es` */
     name: string
-    /** e.g: `dist/element-pro/es` */
+    /** e.g: `dist/element-ultra/es` */
     path: string
   }
 
   bundle: {
-    /** e.g: `element-pro/es` */
+    /** e.g: `element-ultra/es` */
     path: string
   }
 }

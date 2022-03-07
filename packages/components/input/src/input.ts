@@ -4,9 +4,9 @@ import {
   definePropType,
   iconPropType,
   mutable,
-} from '@element-pro/utils'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { useSizeProp } from '@element-pro/hooks'
+} from '@element-ultra/utils'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { useSizeProp } from '@element-ultra/hooks'
 import type { StyleValue, ExtractPropTypes } from 'vue'
 
 

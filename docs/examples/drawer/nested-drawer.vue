@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElMessageBox } from 'element-pro'
+import { ElMessageBox } from 'element-ultra'
 
 const drawer = ref(false)
 const innerDrawer = ref(false)

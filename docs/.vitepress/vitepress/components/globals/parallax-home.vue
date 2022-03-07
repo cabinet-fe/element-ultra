@@ -67,7 +67,7 @@ useEventListener(window, 'scroll', handleScroll)
   <div ref="target" class="home-page">
     <div class="banner">
       <div class="banner-desc">
-        <h1>Element Pro</h1>
+        <h1>Element Ultra</h1>
         <p>基于 Vue 3，面向设计师和开发者的组件库</p>
       </div>
     </div>
@@ -124,14 +124,14 @@ useEventListener(window, 'scroll', handleScroll)
     <div class="footer-main">
       <h4>链接</h4>
       <a
-        href="https://github.com/wenhongjie/element-pro"
+        href="https://github.com/cabinet-fe/element-pro"
         class="footer-main-link"
         target="_blank"
       >
         GitHub
       </a>
       <a
-        href="https://github.com/wenhongjie/element-pro/releases"
+        href="https://github.com/cabinet-fe/element-pro/releases"
         class="footer-main-link"
         target="_blank"
       >

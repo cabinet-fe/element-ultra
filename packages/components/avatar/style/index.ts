@@ -1,2 +1,2 @@
-import '@element-pro/components/base/style'
-import '@element-pro/theme-chalk/src/avatar.scss'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/avatar.scss'

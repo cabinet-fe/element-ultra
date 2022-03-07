@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue'
 
-import type { ButtonProps } from '@element-pro/components/button'
+import type { ButtonProps } from '@element-ultra/components/button'
 
 export interface ButtonGroupContext {
   size?: ButtonProps['size']

@@ -77,15 +77,15 @@
 <script lang="ts">
 import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { RepeatClick } from '@element-pro/directives'
-import ElScrollbar from '@element-pro/components/scrollbar'
-import ElIcon from '@element-pro/components/icon'
+import { RepeatClick } from '@element-ultra/directives'
+import ElScrollbar from '@element-ultra/components/scrollbar'
+import ElIcon from '@element-ultra/components/icon'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { getTimeLists } from './useTimePicker'
 
 import type { PropType, Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { Nullable } from '@element-pro/utils'
+import type { Nullable } from '@element-ultra/utils'
 
 export default defineComponent({
   directives: {

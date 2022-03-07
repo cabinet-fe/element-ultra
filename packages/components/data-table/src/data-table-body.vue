@@ -23,8 +23,8 @@
 import {
   FixedSizeList,
   // DynamicSizeList,
-} from '@element-pro/components/virtual-list'
-import { useNamespace } from '@element-pro/hooks'
+} from '@element-ultra/components/virtual-list'
+import { useNamespace } from '@element-ultra/hooks'
 import { inject } from 'vue'
 import { dataTableToken } from './token'
 

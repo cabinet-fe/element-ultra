@@ -12,17 +12,17 @@ import {
   watch,
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
-import { buildProps, definePropType } from '@element-pro/utils'
+import { buildProps, definePropType } from '@element-ultra/utils'
 import {
   EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
-} from '@element-pro/constants'
-import ElIcon from '@element-pro/components/icon'
+} from '@element-ultra/constants'
+import ElIcon from '@element-ultra/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import { tabsRootContextKey } from '@element-pro/tokens'
+import { tabsRootContextKey } from '@element-ultra/tokens'
 import TabNav from './tab-nav'
-import type { TabsPaneContext } from '@element-pro/tokens'
+import type { TabsPaneContext } from '@element-ultra/tokens'
 
 import type {
   Component,

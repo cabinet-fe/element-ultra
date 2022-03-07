@@ -1,4 +1,4 @@
-import { triggerEvent } from '@element-pro/test-utils'
+import { triggerEvent } from '@element-ultra/test-utils'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import { mount, getTestData, doubleWait } from './table-test-common'

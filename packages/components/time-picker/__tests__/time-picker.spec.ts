@@ -1,8 +1,8 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
-import { triggerEvent } from '@element-pro/test-utils'
-import { rAF } from '@element-pro/test-utils/tick'
+import { triggerEvent } from '@element-ultra/test-utils'
+import { rAF } from '@element-ultra/test-utils/tick'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 

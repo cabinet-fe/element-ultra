@@ -14,14 +14,14 @@ import {
   useLocale,
   useSize,
   useNamespace,
-} from '@element-pro/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-pro/constants'
+} from '@element-ultra/hooks'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-ultra/constants'
 import {
   ValidateComponentsMap,
   addResizeListener,
   removeResizeListener,
-} from '@element-pro/utils'
-import { useDeprecateAppendToBody } from '@element-pro/components/popper'
+} from '@element-ultra/utils'
+import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -29,7 +29,7 @@ import { useAllowCreate } from './useAllowCreate'
 import { flattenOptions } from './util'
 
 import { useInput } from './useInput'
-import type ElTooltip from '@element-pro/components/tooltip'
+import type ElTooltip from '@element-ultra/components/tooltip'
 import type { SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { OptionType, Option } from './select.types'

@@ -1,8 +1,8 @@
 import { inject, computed, ref } from 'vue'
-import { generateId, on, addClass } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { useNamespace } from '@element-pro/hooks'
-import type { Nullable } from '@element-pro/utils'
+import { generateId, on, addClass } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { useNamespace } from '@element-ultra/hooks'
+import type { Nullable } from '@element-ultra/utils'
 import type { IElDropdownInstance } from './dropdown'
 
 export const useDropdown = () => {

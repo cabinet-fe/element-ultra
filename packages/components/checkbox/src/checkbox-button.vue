@@ -50,8 +50,8 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { useNamespace } from '@element-pro/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { useNamespace } from '@element-ultra/hooks'
 import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'
 
 export default defineComponent({

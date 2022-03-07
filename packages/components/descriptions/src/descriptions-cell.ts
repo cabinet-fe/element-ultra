@@ -1,6 +1,6 @@
 import { defineComponent, h, inject } from 'vue'
-import { addUnit, getNormalizedProps } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { addUnit, getNormalizedProps } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import { elDescriptionsKey } from './token'
 
 import type { VNode } from 'vue'

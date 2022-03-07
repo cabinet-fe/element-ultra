@@ -1,4 +1,4 @@
-import { throwError } from '@element-pro/utils'
+import { throwError } from '@element-ultra/utils'
 
 import createList from '../builders/build-list'
 

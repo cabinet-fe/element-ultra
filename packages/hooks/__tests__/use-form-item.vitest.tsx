@@ -2,18 +2,18 @@ import { defineComponent, provide } from 'vue'
 import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
-import { ElButton } from '@element-pro/components'
+import { ElButton } from '@element-ultra/components'
 import {
   elFormKey,
   elFormItemKey,
   buttonGroupContextKey,
-} from '@element-pro/tokens'
+} from '@element-ultra/tokens'
 
 import type {
   ElFormContext,
   ElFormItemContext,
   ButtonGroupContext,
-} from '@element-pro/tokens'
+} from '@element-ultra/tokens'
 
 const AXIOM = 'Rem is the best girl'
 

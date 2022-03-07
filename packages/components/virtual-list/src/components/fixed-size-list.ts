@@ -1,4 +1,4 @@
-import { isString, throwError } from '@element-pro/utils'
+import { isString, throwError } from '@element-ultra/utils'
 import buildList from '../builders/build-list'
 import { isHorizontal } from '../utils'
 import {

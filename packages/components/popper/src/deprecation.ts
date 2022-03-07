@@ -1,6 +1,6 @@
 import { computed, getCurrentInstance } from 'vue'
-import { useDeprecated } from '@element-pro/hooks'
-import { isBoolean } from '@element-pro/utils'
+import { useDeprecated } from '@element-ultra/hooks'
+import { isBoolean } from '@element-ultra/utils'
 
 export function useDeprecateAppendToBody(scope: string, from: string) {
   const vm = getCurrentInstance()!

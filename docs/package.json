@@ -1,5 +1,5 @@
 {
-  "name": "@element-pro/docs",
+  "name": "@element-ultra/docs",
   "private": true,
   "scripts": {
     "dev": "vitepress dev .",
@@ -15,7 +15,7 @@
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.2",
-    "element-pro": "workspace:*"
+    "element-ultra": "workspace:*"
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.1.0",

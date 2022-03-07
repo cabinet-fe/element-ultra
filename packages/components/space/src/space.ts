@@ -14,8 +14,8 @@ import {
   definePropType,
   isArray,
   isNumber,
-} from '@element-pro/utils'
-import { componentSizes } from '@element-pro/constants'
+} from '@element-ultra/utils'
+import { componentSizes } from '@element-ultra/constants'
 import Item from './item.vue'
 import { useSpace } from './use-space'
 

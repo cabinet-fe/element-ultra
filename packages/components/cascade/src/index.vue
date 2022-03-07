@@ -170,19 +170,19 @@ import { debounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import ElCascadePanel, {
   CommonProps,
-} from '@element-pro/components/cascade-panel'
-import ElInput from '@element-pro/components/input'
+} from '@element-ultra/components/cascade-panel'
+import ElInput from '@element-ultra/components/input'
 import ElTooltip, {
   useTooltipContentProps,
-} from '@element-pro/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-pro/components/popper'
-import ElScrollbar from '@element-pro/components/scrollbar'
-import ElTag from '@element-pro/components/tag'
-import ElIcon from '@element-pro/components/icon'
+} from '@element-ultra/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
+import ElScrollbar from '@element-ultra/components/scrollbar'
+import ElTag from '@element-ultra/components/tag'
+import ElIcon from '@element-ultra/components/icon'
 
-import { elFormKey, elFormItemKey } from '@element-pro/tokens'
-import { ClickOutside as Clickoutside } from '@element-pro/directives'
-import { useFormItem, useLocale, useSize } from '@element-pro/hooks'
+import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
+import { ClickOutside as Clickoutside } from '@element-ultra/directives'
+import { useFormItem, useLocale, useSize } from '@element-ultra/hooks'
 
 import {
   focusNode,
@@ -191,22 +191,22 @@ import {
   removeResizeListener,
   isValidComponentSize,
   isKorean,
-} from '@element-pro/utils'
+} from '@element-ultra/utils'
 import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
-} from '@element-pro/constants'
+} from '@element-ultra/constants'
 import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
-import type { Options } from '@element-pro/components/popper'
+import type { Options } from '@element-ultra/components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'
 import type {
   CascadeValue,
   CascadeNode,
   Tag,
-} from '@element-pro/components/cascade-panel'
-import type { ComponentSize } from '@element-pro/constants'
+} from '@element-ultra/components/cascade-panel'
+import type { ComponentSize } from '@element-ultra/constants'
 
 type cascadePanelType = InstanceType<typeof ElCascadePanel>
 type tooltipType = InstanceType<typeof ElTooltip>

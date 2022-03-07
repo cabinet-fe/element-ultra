@@ -5,7 +5,7 @@
 
 <script lang="ts" setup>
 import { h } from 'vue'
-import { ElMessage } from 'element-pro'
+import { ElMessage } from 'element-ultra'
 
 const open = () => {
   ElMessage('this is a message.')

@@ -19,15 +19,15 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, unref, toRef } from 'vue'
-import { ElPopperTrigger } from '@element-pro/components/popper'
-import { composeEventHandlers } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { useNamespace } from '@element-pro/hooks'
+import { ElPopperTrigger } from '@element-ultra/components/popper'
+import { composeEventHandlers } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { useNamespace } from '@element-ultra/hooks'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'
 import { whenTrigger } from './utils'
 
-import type { ElOnlyChildExpose } from '@element-pro/components/slot'
+import type { ElOnlyChildExpose } from '@element-ultra/components/slot'
 
 export default defineComponent({
   name: 'ElTooltipTrigger',

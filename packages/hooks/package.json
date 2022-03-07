@@ -1,6 +1,6 @@
 {
-  "name": "@element-pro/hooks",
-  "description": "Element Pro composables",
+  "name": "@element-ultra/hooks",
+  "description": "Element Ultra composables",
   "version": "0.0.5",
   "main": "index.ts",
   "module": "index.ts",

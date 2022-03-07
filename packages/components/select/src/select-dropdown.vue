@@ -11,18 +11,18 @@ import {
   withModifiers,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isUndefined, isObject } from '@element-pro/utils'
+import { isUndefined, isObject } from '@element-ultra/utils'
 import {
   FixedSizeList,
   DynamicSizeList,
-} from '@element-pro/components/virtual-list'
-import { useNamespace } from '@element-pro/hooks'
+} from '@element-ultra/components/virtual-list'
+import { useNamespace } from '@element-ultra/hooks'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 
 import { selectInjectionKey } from './token'
 
-import type { ItemProps } from '@element-pro/components/virtual-list'
+import type { ItemProps } from '@element-ultra/components/virtual-list'
 import type { OptionItemProps, Option } from './select.types'
 
 export default defineComponent({

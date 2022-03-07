@@ -119,7 +119,7 @@ message-box/draggable
 如果你需要按需引入 `MessageBox`，那你可以像示例代码这样来引入。
 
 ```ts
-import { ElMessageBox } from 'element-pro'
+import { ElMessageBox } from 'element-ultra'
 ```
 
 那么对应于上述四个全局方法的调用方法依次为：`ElMessageBox`, `ElMessageBox.alert`, `ElMessageBox.confirm` 和 `ElMessageBox.prompt`. 这些参数与上面相同。

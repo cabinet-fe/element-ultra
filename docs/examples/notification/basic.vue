@@ -5,7 +5,7 @@
 
 <script lang="ts" setup>
 import { h } from 'vue'
-import { ElNotification } from 'element-pro'
+import { ElNotification } from 'element-ultra'
 
 const open1 = () => {
   ElNotification({

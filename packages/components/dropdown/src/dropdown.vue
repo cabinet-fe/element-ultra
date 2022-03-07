@@ -83,15 +83,15 @@ import {
   toRef,
   unref,
 } from 'vue'
-import ElButton from '@element-pro/components/button'
-import ElTooltip from '@element-pro/components/tooltip'
-import ElScrollbar from '@element-pro/components/scrollbar'
-import ElIcon from '@element-pro/components/icon'
-import ElFocusTrap from '@element-pro/components/focus-trap'
-import ElRovingFocusGroup from '@element-pro/components/roving-focus-group'
-import { addUnit } from '@element-pro/utils'
+import ElButton from '@element-ultra/components/button'
+import ElTooltip from '@element-ultra/components/tooltip'
+import ElScrollbar from '@element-ultra/components/scrollbar'
+import ElIcon from '@element-ultra/components/icon'
+import ElFocusTrap from '@element-ultra/components/focus-trap'
+import ElRovingFocusGroup from '@element-ultra/components/roving-focus-group'
+import { addUnit } from '@element-ultra/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useNamespace, useSize } from '@element-pro/hooks'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 

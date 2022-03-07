@@ -26,9 +26,9 @@ import {
   toRef,
 } from 'vue'
 import { useEventListener, isClient } from '@vueuse/core'
-import { scrollbarContextKey } from '@element-pro/tokens'
-import { throwError } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { scrollbarContextKey } from '@element-ultra/tokens'
+import { throwError } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import { BAR_MAP, renderThumbStyle } from './util'
 
 import { thumbProps } from './thumb'

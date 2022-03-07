@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import { h, ref } from 'vue'
-import { ElDivider } from 'element-pro'
+import { ElDivider } from 'element-ultra'
 
 const size = ref(10)
 const spacer = h(ElDivider, { direction: 'vertical' })

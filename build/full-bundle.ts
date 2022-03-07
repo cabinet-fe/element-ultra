@@ -11,9 +11,9 @@ import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
 import { camelCase, upperFirst } from 'lodash'
-import { version } from '../packages/element-pro/version'
+import { version } from '../packages/element-ultra/version'
 import { reporter } from './plugins/size-reporter'
-import { ElementProAlias } from './plugins/element-pro-alias'
+import { ElementUltraAlias } from './plugins/element-ultra-alias'
 import { epRoot, epOutput, localeRoot } from './utils/paths'
 import {
   formatBundleFilename,
@@ -31,7 +31,7 @@ async function buildFullEntry(minify: boolean) {
   const bundle = await rollup({
     input: path.resolve(epRoot, 'index.ts'),
     plugins: [
-      ElementProAlias(),
+      ElementUltraAlias(),
       DefineOptions(),
       vue({
         isProduction: true,

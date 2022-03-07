@@ -93,10 +93,10 @@ import {
 } from 'vue'
 import { useEventListener, isNumber } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
-import ElIcon from '@element-pro/components/icon'
-import { useLocale, useNamespace, useZIndex } from '@element-pro/hooks'
-import { EVENT_CODE } from '@element-pro/constants'
-import { isFirefox } from '@element-pro/utils'
+import ElIcon from '@element-ultra/components/icon'
+import { useLocale, useNamespace, useZIndex } from '@element-ultra/hooks'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { isFirefox } from '@element-ultra/utils'
 import {
   Close,
   ArrowLeft,

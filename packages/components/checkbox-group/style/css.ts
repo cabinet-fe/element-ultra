@@ -1,2 +1,2 @@
-import '@element-pro/components/base/style/css'
-import '@element-pro/theme-chalk/el-checkbox-group.css'
+import '@element-ultra/components/base/style/css'
+import '@element-ultra/theme-chalk/el-checkbox-group.css'

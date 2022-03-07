@@ -1,4 +1,4 @@
-<p align="center">Element Pro - 基于 element-plus 的增强版</p>
+<p align="center">Element Ultra - 基于 element-plus 的增强版</p>
 
 - 💪 使用 Vue 3 Composition API 开发
 - 🔥 使用 TypeScript 开发
@@ -59,8 +59,8 @@ $ pnpm dev
 </template>
 
 <script setup lang="ts">
-// 确保你开发的组件在 element-pro/index.ts 被导出
-import { ComponentYouAreDeveloping } from 'element-pro'
+// 确保你开发的组件在 element-ultra/index.ts 被导出
+import { ComponentYouAreDeveloping } from 'element-ultra'
 </script>
 ```
 
@@ -95,8 +95,8 @@ pnpm cz
 ## Licence
 
 必须是 MIT
-Element Pro is open source software licensed as
-[MIT](https://github.com/wenhongjie/element-pro/blob/master/LICENSE).
+Element Ultra is open source software licensed as
+[MIT](https://github.com/wenhongjie/element-ultra/blob/master/LICENSE).
 
 ## 贡献者
 

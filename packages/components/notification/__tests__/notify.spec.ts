@@ -1,5 +1,5 @@
 import { nextTick, h } from 'vue'
-import { rAF } from '@element-pro/test-utils/tick'
+import { rAF } from '@element-ultra/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
 
 import type { NotificationHandle } from '../src/notification'

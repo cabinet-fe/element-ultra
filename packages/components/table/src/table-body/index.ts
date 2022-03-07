@@ -8,8 +8,8 @@ import {
   inject,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { addClass, removeClass } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { addClass, removeClass } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'

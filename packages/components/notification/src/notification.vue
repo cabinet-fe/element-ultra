@@ -41,10 +41,10 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { TypeComponents, TypeComponentsMap } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { ElIcon } from '@element-pro/components/icon'
-import { useNamespace } from '@element-pro/hooks'
+import { TypeComponents, TypeComponentsMap } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { ElIcon } from '@element-ultra/components/icon'
+import { useNamespace } from '@element-ultra/hooks'
 import { notificationProps, notificationEmits } from './notification'
 
 import type { CSSProperties } from 'vue'

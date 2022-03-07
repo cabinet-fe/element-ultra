@@ -15,15 +15,15 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, inject, unref } from 'vue'
-import { composeRefs, composeEventHandlers } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { FOCUS_TRAP_INJECTION_KEY } from '@element-pro/components/focus-trap'
+import { composeRefs, composeEventHandlers } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { FOCUS_TRAP_INJECTION_KEY } from '@element-ultra/components/focus-trap'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ROVING_FOCUS_GROUP_INJECTION_KEY,
   focusFirst,
-} from '@element-pro/components/roving-focus-group'
-import { useNamespace } from '@element-pro/hooks'
+} from '@element-ultra/components/roving-focus-group'
+import { useNamespace } from '@element-ultra/hooks'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 import {
   DROPDOWN_COLLECTION_INJECTION_KEY,

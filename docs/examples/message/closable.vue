@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-pro'
+import { ElMessage } from 'element-ultra'
 
 const open1 = () => {
   ElMessage({

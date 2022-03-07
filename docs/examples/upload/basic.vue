@@ -20,7 +20,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-pro'
+import { ElMessage, ElMessageBox } from 'element-ultra'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 
 interface RawFile {

@@ -17,9 +17,9 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ElIcon } from '@element-pro/components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 
-import { useLocale, useNamespace } from '@element-pro/hooks'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
 import { pageHeaderEmits, pageHeaderProps } from './page-header'
 
 export default defineComponent({

@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 
-import { IMAGE_SUCCESS } from '@element-pro/test-utils/mock'
-import makeMount from '@element-pro/test-utils/make-mount'
+import { IMAGE_SUCCESS } from '@element-ultra/test-utils/mock'
+import makeMount from '@element-ultra/test-utils/make-mount'
 import ImageViewer from '../src/image-viewer.vue'
 
 const mount = makeMount(ImageViewer, {

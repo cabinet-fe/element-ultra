@@ -142,9 +142,9 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance, computed, provide } from 'vue'
 import { debounce } from 'lodash-unified'
-import { Mousewheel } from '@element-pro/directives'
-import { useLocale, useNamespace } from '@element-pro/hooks'
-import ElScrollbar from '@element-pro/components/scrollbar'
+import { Mousewheel } from '@element-ultra/directives'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
+import ElScrollbar from '@element-ultra/components/scrollbar'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
 import TableHeader from './table-header'

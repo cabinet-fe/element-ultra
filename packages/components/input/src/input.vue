@@ -110,17 +110,17 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
-import { ElIcon } from '@element-pro/components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import { ValidateComponentsMap, isKorean } from '@element-pro/utils'
+import { ValidateComponentsMap, isKorean } from '@element-ultra/utils'
 import {
   useAttrs,
   useDisabled,
   useFormItem,
   useSize,
   useNamespace,
-} from '@element-pro/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
+} from '@element-ultra/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { inputProps, inputEmits } from './input'
 
 import type { StyleValue } from 'vue'

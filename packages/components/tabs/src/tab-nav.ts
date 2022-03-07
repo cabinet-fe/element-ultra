@@ -19,14 +19,14 @@ import {
   definePropType,
   mutable,
   throwError,
-} from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { ElIcon } from '@element-pro/components/icon'
+} from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
-import { tabsRootContextKey } from '@element-pro/tokens'
+import { tabsRootContextKey } from '@element-ultra/tokens'
 import TabBar from './tab-bar.vue'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { TabsPaneContext } from '@element-pro/tokens'
+import type { TabsPaneContext } from '@element-ultra/tokens'
 export interface Scrollable {
   next?: boolean
   prev?: number

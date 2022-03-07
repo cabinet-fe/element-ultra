@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-pro/utils'
+import type { SFCWithInstall } from '@element-ultra/utils'
 import DataTable from './src/data-table.vue'
 
 (DataTable as SFCWithInstall<typeof DataTable>).install = (app: App) => {

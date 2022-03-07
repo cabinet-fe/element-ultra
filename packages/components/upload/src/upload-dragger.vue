@@ -10,7 +10,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 
 import type { ElUpload } from './upload.type'
 

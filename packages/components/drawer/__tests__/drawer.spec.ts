@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { rAF } from '@element-pro/test-utils/tick'
+import { rAF } from '@element-ultra/test-utils/tick'
 import Drawer from '../src/drawer.vue'
 import Button from '../../button/src/button.vue'
 

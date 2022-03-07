@@ -16,9 +16,9 @@
 <script lang="ts">
 import { defineComponent, watch, ref } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { ElSelect } from '@element-pro/components/select'
-import { useLocale, useNamespace } from '@element-pro/hooks'
-import { buildProps, definePropType, mutable } from '@element-pro/utils'
+import { ElSelect } from '@element-ultra/components/select'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { buildProps, definePropType, mutable } from '@element-ultra/utils'
 import { usePagination } from '../usePagination'
 
 const paginationSizesProps = buildProps({

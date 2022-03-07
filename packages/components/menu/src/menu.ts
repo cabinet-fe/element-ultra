@@ -16,7 +16,7 @@ import {
   mutable,
   isString,
   isObject,
-} from '@element-pro/utils'
+} from '@element-ultra/utils'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import { useMenuCssVar } from './use-menu-css-var'
 

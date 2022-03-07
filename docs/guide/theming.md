@@ -5,7 +5,7 @@ lang: zh-CN
 
 # 自定义主题
 
-Element Pro 默认提供一套主题，CSS 命名采用 BEM 的风格，方便使用者覆盖样式。 但是如果 你需要在大规模上替换样式，例如： 将主题颜色从 蓝色改为橙色或绿色，也许一个人将其覆盖起来不是一个好主意。 我们 提供四种方法来改变风格变量。
+Element Ultra 默认提供一套主题，CSS 命名采用 BEM 的风格，方便使用者覆盖样式。 但是如果 你需要在大规模上替换样式，例如： 将主题颜色从 蓝色改为橙色或绿色，也许一个人将其覆盖起来不是一个好主意。 我们 提供四种方法来改变风格变量。
 
 ## 更换主题色
 
@@ -81,7 +81,7 @@ $colors: map.deep-merge(
 // @use "element-plus/theme-chalk/src/index.scss" as *;
 ```
 
-然后在你的项目入口文件中，导入这个样式文件替换 Element Pro 内置的 CSS：
+然后在你的项目入口文件中，导入这个样式文件替换 Element Ultra 内置的 CSS：
 
 ::: tip
 
@@ -101,7 +101,7 @@ $colors: map.deep-merge(
 import Vue from 'vue'
 
 import './styles/element/index.scss'
-import ElementPlus from 'element-pro'
+import ElementPlus from 'element-ultra'
 import App from './App.vue'
 
 const app = createApp(App)

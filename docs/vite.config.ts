@@ -20,11 +20,11 @@ const alias: Alias[] = []
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
-      find: /^element-pro(\/(es|lib))?$/,
-      replacement: path.resolve(projRoot, 'packages/element-pro/index.ts'),
+      find: /^element-ultra(\/(es|lib))?$/,
+      replacement: path.resolve(projRoot, 'packages/element-ultra/index.ts'),
     },
     {
-      find: /^element-pro\/(es|lib)\/(.*)$/,
+      find: /^element-ultra\/(es|lib)\/(.*)$/,
       replacement: `${path.resolve(projRoot, 'packages')}/$2`,
     }
   )

@@ -65,9 +65,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from 'vue'
-import ElCheckbox from '@element-pro/components/checkbox'
-import ElRadio from '@element-pro/components/radio'
-import ElIcon from '@element-pro/components/icon'
+import ElCheckbox from '@element-ultra/components/checkbox'
+import ElRadio from '@element-ultra/components/radio'
+import ElIcon from '@element-ultra/components/icon'
 import { Check, Loading, ArrowRight } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { Cascade_PANEL_INJECTION_KEY } from './types'

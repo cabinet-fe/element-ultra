@@ -11,8 +11,8 @@ import {
   unref,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { BAR_MAP } from '@element-pro/components/scrollbar'
-import { on, off, rAF, cAF } from '@element-pro/utils'
+import { BAR_MAP } from '@element-ultra/components/scrollbar'
+import { on, off, rAF, cAF } from '@element-ultra/utils'
 
 import { SCROLLBAR_MIN_SIZE, HORIZONTAL, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'

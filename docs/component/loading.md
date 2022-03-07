@@ -11,7 +11,7 @@ lang: zh-CN
 
 在需要的时候展示加载动画，防止页面失去响应提高用户体验（例如表格）。
 
-:::demo Element Pro 提供了两种调用 Loading 的方法：指令和服务。 对于自定义指令 `v-loading`，只需要绑定 `boolean` 值即可。 默认状况下，Loading 遮罩会插入到绑定元素的子节点。 通过添加 `body` 修饰符，可以使遮罩插入至 Dom 中的 body 上。
+:::demo Element Ultra 提供了两种调用 Loading 的方法：指令和服务。 对于自定义指令 `v-loading`，只需要绑定 `boolean` 值即可。 默认状况下，Loading 遮罩会插入到绑定元素的子节点。 通过添加 `body` 修饰符，可以使遮罩插入至 Dom 中的 body 上。
 
 loading/basic
 
@@ -48,7 +48,7 @@ loading/fullscreen
 Loading 还可以以服务的方式调用。 你可以像这样引入 Loading 服务：
 
 ```ts
-import { ElLoading } from 'element-pro'
+import { ElLoading } from 'element-ultra'
 ```
 
 在你需要的时候通过下面的方式调用：
@@ -77,7 +77,7 @@ console.log(loadingInstance1 === loadingInstance2) // true
 
 此时调用它们中任意一个的 `close` 方法都能关闭这个全屏 Loading。
 
-如果完整引入了 Element Pro，那么 `app.config.globalProperties` 上会有一个全局方法`$loading`， 它的调用方式为：`this.$loading(options)`，同样会返回一个 Loading 实例。
+如果完整引入了 Element Ultra，那么 `app.config.globalProperties` 上会有一个全局方法`$loading`， 它的调用方式为：`this.$loading(options)`，同样会返回一个 Loading 实例。
 
 ## 配置项
 

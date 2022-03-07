@@ -1,4 +1,4 @@
-import { withInstall } from '@element-pro/utils'
+import { withInstall } from '@element-ultra/utils'
 import InputNumber from './src/input-number.vue'
 
 export const ElInputNumber = withInstall(InputNumber)

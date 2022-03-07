@@ -40,11 +40,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, unref } from 'vue'
-import ElButton from '@element-pro/components/button'
-import ElIcon from '@element-pro/components/icon'
-import ElTooltip from '@element-pro/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-pro/components/popper'
-import { useLocale, useNamespace } from '@element-pro/hooks'
+import ElButton from '@element-ultra/components/button'
+import ElIcon from '@element-ultra/components/icon'
+import ElTooltip from '@element-ultra/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
 import { popconfirmProps } from './popconfirm'
 
 const COMPONENT_NAME = 'ElPopconfirm'

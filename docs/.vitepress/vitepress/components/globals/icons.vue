@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { hyphenate } from '@vue/shared'
 import clipboardCopy from 'clipboard-copy'
-import { ElMessage } from 'element-pro'
+import { ElMessage } from 'element-ultra'
 import * as Icons from '@element-plus/icons-vue'
 
 const copyIcon = ref(true)

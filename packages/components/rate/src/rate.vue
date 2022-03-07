@@ -47,14 +47,14 @@
 <script lang="ts">
 import { defineComponent, inject, computed, ref, watch } from 'vue'
 import { isObject, isArray } from '@vue/shared'
-import { elFormKey } from '@element-pro/tokens'
-import { hasClass } from '@element-pro/utils'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { ElIcon } from '@element-pro/components/icon'
+import { elFormKey } from '@element-ultra/tokens'
+import { hasClass } from '@element-ultra/utils'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { ElIcon } from '@element-ultra/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
-import { useNamespace, useSize } from '@element-pro/hooks'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 import { rateProps, rateEmits } from './rate'
-import type { ElFormContext } from '@element-pro/tokens'
+import type { ElFormContext } from '@element-ultra/tokens'
 
 function getValueFromMap<T>(
   value: number,

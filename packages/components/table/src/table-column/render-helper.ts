@@ -1,6 +1,6 @@
 import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
-import { debugWarn } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { debugWarn } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import {
   cellForced,
   defaultRenderCell,

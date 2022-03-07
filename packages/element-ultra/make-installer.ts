@@ -1,7 +1,7 @@
-import { provideGlobalConfig } from '@element-pro/hooks'
+import { provideGlobalConfig } from '@element-ultra/hooks'
 import { version } from './version'
 import type { App, Plugin } from 'vue'
-import type { ConfigProviderContext } from '@element-pro/tokens'
+import type { ConfigProviderContext } from '@element-ultra/tokens'
 
 const INSTALLED_KEY = Symbol('INSTALLED_KEY')
 

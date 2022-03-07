@@ -20,9 +20,9 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { radioGroupKey } from '@element-pro/tokens'
-import { useFormItem, useNamespace } from '@element-pro/hooks'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { radioGroupKey } from '@element-ultra/tokens'
+import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import type { RadioGroupProps } from '..'
 

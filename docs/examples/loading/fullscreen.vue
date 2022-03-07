@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElLoading } from 'element-pro'
+import { ElLoading } from 'element-ultra'
 
 const fullscreenLoading = ref(false)
 const openFullScreen1 = () => {

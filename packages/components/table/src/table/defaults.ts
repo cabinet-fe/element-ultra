@@ -5,7 +5,7 @@ import type {
   VNode,
   PropType,
 } from 'vue'
-import type { Nullable } from '@element-pro/utils'
+import type { Nullable } from '@element-ultra/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'

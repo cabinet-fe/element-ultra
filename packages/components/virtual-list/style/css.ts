@@ -1,3 +1,3 @@
-import '@element-pro/components/base/style/css'
-import '@element-pro/theme-chalk/el-virtual-list.css'
-import '@element-pro/components/scrollbar/style/css'
+import '@element-ultra/components/base/style/css'
+import '@element-ultra/theme-chalk/el-virtual-list.css'
+import '@element-ultra/components/scrollbar/style/css'

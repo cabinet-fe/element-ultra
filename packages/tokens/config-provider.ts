@@ -1,4 +1,4 @@
-import type { configProviderProps } from '@element-pro/components/config-provider'
+import type { configProviderProps } from '@element-ultra/components/config-provider'
 import type { InjectionKey, ExtractPropTypes, Ref } from 'vue'
 
 export type ConfigProviderContext = Partial<

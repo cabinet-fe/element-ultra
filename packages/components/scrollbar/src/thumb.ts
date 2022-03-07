@@ -1,4 +1,4 @@
-import { buildProps } from '@element-pro/utils'
+import { buildProps } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 
 export const thumbProps = buildProps({

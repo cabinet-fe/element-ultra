@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-pro'
+import { ElMessage } from 'element-ultra'
 
 const value1 = ref(false)
 const value2 = ref(false)

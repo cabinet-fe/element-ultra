@@ -1,4 +1,4 @@
-import { withInstall } from '@element-pro/utils'
+import { withInstall } from '@element-ultra/utils'
 import Grid from './src/grid.vue'
 
 export const ElGrid = withInstall(Grid)

@@ -235,17 +235,17 @@
 <script lang="ts">
 import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
 import dayjs from 'dayjs'
-import ElButton from '@element-pro/components/button'
-import { ClickOutside } from '@element-pro/directives'
-import { useLocale } from '@element-pro/hooks'
-import ElInput from '@element-pro/components/input'
+import ElButton from '@element-ultra/components/button'
+import { ClickOutside } from '@element-ultra/directives'
+import { useLocale } from '@element-ultra/hooks'
+import ElInput from '@element-ultra/components/input'
 import {
   extractDateFormat,
   extractTimeFormat,
   TimePickPanel,
-} from '@element-pro/components/time-picker'
-import ElIcon from '@element-pro/components/icon'
-import { isValidDatePickType } from '@element-pro/utils'
+} from '@element-ultra/components/time-picker'
+import ElIcon from '@element-ultra/components/icon'
+import { isValidDatePickType } from '@element-ultra/utils'
 import {
   DArrowLeft,
   ArrowLeft,

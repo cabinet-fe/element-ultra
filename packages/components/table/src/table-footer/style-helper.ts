@@ -1,4 +1,4 @@
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import {
   getFixedColumnOffset,
   getFixedColumnsClass,

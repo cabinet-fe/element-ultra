@@ -45,14 +45,14 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { TypeComponents, TypeComponentsMap } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import ElBadge from '@element-pro/components/badge'
-import { ElIcon } from '@element-pro/components/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import ElBadge from '@element-ultra/components/badge'
+import { ElIcon } from '@element-ultra/components/icon'
 
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { messageEmits, messageProps } from './message'
-import type { BadgeProps } from '@element-pro/components/badge'
+import type { BadgeProps } from '@element-ultra/components/badge'
 
 import type { CSSProperties } from 'vue'
 

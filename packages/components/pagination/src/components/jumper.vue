@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { useLocale, useNamespace } from '@element-pro/hooks'
-import ElInput from '@element-pro/components/input'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
+import ElInput from '@element-ultra/components/input'
 import { usePagination } from '../usePagination'
 
 export default defineComponent({

@@ -1,4 +1,4 @@
-import ElementPro from 'element-pro'
+import ElementUltra from 'element-ultra'
 
 // windicss layers
 import 'virtual:windi-base.css'
@@ -18,7 +18,7 @@ export default define<Theme>({
   NotFound,
   Layout: VPApp,
   enhanceApp: ({ app }) => {
-    app.use(ElementPro)
+    app.use(ElementUltra)
 
     globals.forEach(([name, Comp]) => {
       app.component(name, Comp)

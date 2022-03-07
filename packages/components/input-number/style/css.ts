@@ -1,3 +1,3 @@
-import '@element-pro/components/base/style/css'
-import '@element-pro/theme-chalk/el-input-number.css'
-import '@element-pro/components/input/style/css'
+import '@element-ultra/components/base/style/css'
+import '@element-ultra/theme-chalk/el-input-number.css'
+import '@element-ultra/components/input/style/css'

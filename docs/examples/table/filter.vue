@@ -44,7 +44,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
-import type { ElTable } from 'element-pro'
+import type { ElTable } from 'element-ultra'
 
 interface User {
   date: string

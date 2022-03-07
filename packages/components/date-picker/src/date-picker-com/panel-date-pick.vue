@@ -164,25 +164,25 @@
 <script lang="ts">
 import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
 import dayjs from 'dayjs'
-import ElButton from '@element-pro/components/button'
-import { ClickOutside } from '@element-pro/directives'
-import { useLocale } from '@element-pro/hooks'
-import ElInput from '@element-pro/components/input'
+import ElButton from '@element-ultra/components/button'
+import { ClickOutside } from '@element-ultra/directives'
+import { useLocale } from '@element-ultra/hooks'
+import ElInput from '@element-ultra/components/input'
 import {
   extractDateFormat,
   extractTimeFormat,
   TimePickPanel,
-} from '@element-pro/components/time-picker'
-import { ElIcon } from '@element-pro/components/icon'
-import { isValidDatePickType } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
+} from '@element-ultra/components/time-picker'
+import { ElIcon } from '@element-ultra/components/icon'
+import { isValidDatePickType } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
 import {
   DArrowLeft,
   ArrowLeft,
   DArrowRight,
   ArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-pro/components/tooltip'
+import { TOOLTIP_INJECTION_KEY } from '@element-ultra/components/tooltip'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'

@@ -137,8 +137,8 @@ import {
   ref,
   toRefs,
 } from 'vue'
-import ElButton from '@element-pro/components/button'
-import { TrapFocus } from '@element-pro/directives'
+import ElButton from '@element-ultra/components/button'
+import { TrapFocus } from '@element-ultra/directives'
 import {
   useModal,
   useLockscreen,
@@ -149,21 +149,21 @@ import {
   useDraggable,
   useSameTarget,
   useZIndex,
-} from '@element-pro/hooks'
-import ElInput from '@element-pro/components/input'
-import { ElOverlay } from '@element-pro/components/overlay'
+} from '@element-ultra/hooks'
+import ElInput from '@element-ultra/components/input'
+import { ElOverlay } from '@element-ultra/components/overlay'
 import {
   on,
   off,
   isValidComponentSize,
   TypeComponents,
   TypeComponentsMap,
-} from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { ElIcon } from '@element-pro/components/icon'
+} from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { ElIcon } from '@element-ultra/components/icon'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-pro/constants'
+import type { ComponentSize } from '@element-ultra/constants'
 import type {
   Action,
   MessageBoxState,

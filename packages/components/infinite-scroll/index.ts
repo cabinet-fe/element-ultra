@@ -1,7 +1,7 @@
 import InfiniteScroll from './src/index'
 
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-pro/utils'
+import type { SFCWithInstall } from '@element-ultra/utils'
 
 const _InfiniteScroll = InfiniteScroll as SFCWithInstall<typeof InfiniteScroll>
 

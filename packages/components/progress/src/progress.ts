@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-pro/utils'
+import { buildProps, definePropType } from '@element-ultra/utils'
 import type { SVGAttributes, ExtractPropTypes } from 'vue'
 
 type Color = { color: string; percentage: number }

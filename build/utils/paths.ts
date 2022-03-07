@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-
+// 项目根目录
 export const projRoot = resolve(__dirname, '..', '..')
 export const pkgRoot = resolve(projRoot, 'packages')
 export const compRoot = resolve(pkgRoot, 'components')
@@ -7,14 +7,14 @@ export const themeRoot = resolve(pkgRoot, 'theme-chalk')
 export const hookRoot = resolve(pkgRoot, 'hooks')
 export const localeRoot = resolve(pkgRoot, 'locale')
 export const directiveRoot = resolve(pkgRoot, 'directives')
-export const epRoot = resolve(pkgRoot, 'element-pro')
+export const epRoot = resolve(pkgRoot, 'element-ultra')
 export const utilRoot = resolve(pkgRoot, 'utils')
 export const docRoot = resolve(projRoot, 'docs')
 
 /** dist */
 export const buildOutput = resolve(projRoot, 'dist')
-/** dist/element-pro */
-export const epOutput = resolve(buildOutput, 'element-pro')
+/** dist/element-ultra */
+export const epOutput = resolve(buildOutput, 'element-ultra')
 
 export const projPackage = resolve(projRoot, 'package.json')
 export const compPackage = resolve(compRoot, 'package.json')

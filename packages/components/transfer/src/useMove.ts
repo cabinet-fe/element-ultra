@@ -1,4 +1,4 @@
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-pro/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 
 import type { ComputedRef } from 'vue'
 import type {

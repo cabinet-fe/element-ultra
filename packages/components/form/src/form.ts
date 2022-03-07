@@ -1,4 +1,4 @@
-import type { ComponentSize } from '@element-pro/constants'
+import type { ComponentSize } from '@element-ultra/constants'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export type ModelValue = string | number | any[] | boolean
@@ -63,9 +63,9 @@ export const elFormComponents = new Set([
   'ElDatePicker',
   'ElTimePicker',
   'ElSlider',
-  'ElCascader',
+  'ElCascade',
   'ElCheckbox',
   'ElCheckboxGroup',
   'ElRadio',
-  'ElRadioGroup',
+  'ElRadioGroup'
 ])

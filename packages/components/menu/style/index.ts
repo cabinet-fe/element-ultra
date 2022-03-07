@@ -1,3 +1,3 @@
-import '@element-pro/components/base/style'
-import '@element-pro/theme-chalk/src/menu.scss'
-import '@element-pro/components/tooltip/style/index'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/menu.scss'
+import '@element-ultra/components/tooltip/style/index'

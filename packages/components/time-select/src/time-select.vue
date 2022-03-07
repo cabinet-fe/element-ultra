@@ -28,12 +28,12 @@
 import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import ElSelect from '@element-pro/components/select'
-import ElIcon from '@element-pro/components/icon'
+import ElSelect from '@element-ultra/components/select'
+import ElIcon from '@element-ultra/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-pro/constants'
+import type { ComponentSize } from '@element-ultra/constants'
 dayjs.extend(customParseFormat)
 
 interface Time {

@@ -20,7 +20,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElUpload } from 'element-pro'
+import type { ElUpload } from 'element-ultra'
 
 const uploadRef = ref<InstanceType<typeof ElUpload>>()
 

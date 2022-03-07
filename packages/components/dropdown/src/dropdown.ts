@@ -1,16 +1,16 @@
-import { buildProps, definePropType, iconPropType } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { createCollectionWithScope } from '@element-pro/components/collection'
+import { buildProps, definePropType, iconPropType } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { createCollectionWithScope } from '@element-ultra/components/collection'
 import {
   useTooltipTriggerProps,
   useTooltipContentProps,
-} from '@element-pro/components/tooltip'
+} from '@element-ultra/components/tooltip'
 import type { Options } from '@popperjs/core'
 
-import type { ButtonType } from '@element-pro/components/button'
-import type { Placement } from '@element-pro/components/popper'
+import type { ButtonType } from '@element-ultra/components/button'
+import type { Placement } from '@element-ultra/components/popper'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
-import type { Nullable } from '@element-pro/utils'
+import type { Nullable } from '@element-ultra/utils'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance

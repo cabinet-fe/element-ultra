@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import makeMount from '@element-pro/test-utils/make-mount'
+import makeMount from '@element-ultra/test-utils/make-mount'
 import Skeleton from '../src/skeleton.vue'
 const AXIOM = 'AXIOM is the best girl'
 

@@ -32,7 +32,8 @@
     "docs:serve": "pnpm run -C docs serve",
     "prepare": "husky install",
     "postinstall": "pnpm gen:version",
-    "preinstall": "npx only-allow pnpm -y"
+    "preinstall": "npx only-allow pnpm -y",
+    "release": "cd dist/element-ultra && npm publish --registry https://registry.npmjs.org --access public"
   },
   "config": {
     "commitizen": {
@@ -48,16 +49,16 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@element-pro/components": "workspace:*",
-    "@element-pro/constants": "workspace:*",
-    "@element-pro/directives": "workspace:*",
-    "@element-pro/hooks": "workspace:*",
+    "@element-ultra/components": "workspace:*",
+    "@element-ultra/constants": "workspace:*",
+    "@element-ultra/directives": "workspace:*",
+    "@element-ultra/hooks": "workspace:*",
     "@element-plus/icons-vue": "^0.2.7",
-    "@element-pro/locale": "workspace:*",
-    "@element-pro/test-utils": "workspace:*",
-    "@element-pro/theme-chalk": "workspace:*",
-    "@element-pro/tokens": "workspace:*",
-    "@element-pro/utils": "workspace:*",
+    "@element-ultra/locale": "workspace:*",
+    "@element-ultra/test-utils": "workspace:*",
+    "@element-ultra/theme-chalk": "workspace:*",
+    "@element-ultra/tokens": "workspace:*",
+    "@element-ultra/utils": "workspace:*",
     "@popperjs/core": "^2.11.2",
     "@vueuse/core": "^7.6.2",
     "dayjs": "^1.10.7",

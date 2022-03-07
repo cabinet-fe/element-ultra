@@ -20,9 +20,9 @@ import {
   onMounted,
   getCurrentInstance,
 } from 'vue'
-import ElIcon from '@element-pro/components/icon'
-import { elBreadcrumbKey } from '@element-pro/tokens'
-import { useNamespace } from '@element-pro/hooks'
+import ElIcon from '@element-ultra/components/icon'
+import { elBreadcrumbKey } from '@element-ultra/tokens'
+import { useNamespace } from '@element-ultra/hooks'
 import { breadcrumbItemProps } from './breadcrumb-item'
 
 import type { Router } from 'vue-router'

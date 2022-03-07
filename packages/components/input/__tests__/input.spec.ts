@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { defineGetter } from '@element-pro/test-utils'
+import { defineGetter } from '@element-ultra/test-utils'
 import Input from '../src/input.vue'
 
 jest.useFakeTimers()

@@ -61,13 +61,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { isValidComponentSize } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { isValidComponentSize } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import { useCheckbox } from './useCheckbox'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-pro/constants'
+import type { ComponentSize } from '@element-ultra/constants'
 
 export default defineComponent({
   name: 'ElCheckbox',

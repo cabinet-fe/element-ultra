@@ -1,7 +1,7 @@
 import DatePicker from './src/date-picker'
 
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-pro/utils'
+import type { SFCWithInstall } from '@element-ultra/utils'
 
 const _DatePicker = DatePicker as SFCWithInstall<typeof DatePicker>
 

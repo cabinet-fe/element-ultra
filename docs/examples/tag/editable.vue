@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { ref, nextTick } from 'vue'
-import type { ElInput } from 'element-pro'
+import type { ElInput } from 'element-ultra'
 
 const inputValue = ref('')
 const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])

@@ -19,11 +19,11 @@ import {
   shallowReactive,
 } from 'vue'
 import { omit } from 'lodash'
-import { ElFormItem, ElGrid } from '@element-pro/components'
-import { elFormKey } from '@element-pro/tokens'
+import { ElFormItem, ElGrid } from '@element-ultra/components'
+import { elFormKey } from '@element-ultra/tokens'
 import { elFormComponents, elFormProps } from './form'
 import { validators } from './form-validator'
-import type { ElFormItemContext as FormItemCtx } from '@element-pro/tokens'
+import type { ElFormItemContext as FormItemCtx } from '@element-ultra/tokens'
 import type { ElFormRules } from './form'
 
 type RuleType = keyof ElFormRules[string]

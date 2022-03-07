@@ -26,7 +26,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { resultProps, IconComponentMap, IconMap } from './result'
 
 export default defineComponent({

@@ -1,6 +1,6 @@
 import { nextTick, ref, isRef } from 'vue'
 import { isClient } from '@vueuse/core'
-import { hasOwn } from '@element-pro/utils'
+import { hasOwn } from '@element-ultra/utils'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 

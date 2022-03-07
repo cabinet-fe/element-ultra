@@ -5,7 +5,7 @@ lang: zh-CN
 
 # 内置过渡动画
 
-Element Pro 内应用在部分组件的过渡动画，你也可以直接使用。 在使用之前请阅读 [transition 组件文档](https://cn.vuejs.org/v2/api/#transition)。
+Element Ultra 内应用在部分组件的过渡动画，你也可以直接使用。 在使用之前请阅读 [transition 组件文档](https://cn.vuejs.org/v2/api/#transition)。
 
 ## Fade 淡入淡出
 
@@ -37,7 +37,7 @@ transition/collapse
 
 ```ts
 // collapse
-import { ElCollapseTransition } from 'element-pro'
+import { ElCollapseTransition } from 'element-ultra'
 // fade/zoom
 import 'element-plus/lib/theme-chalk/base.css'
 import App from './App.vue'

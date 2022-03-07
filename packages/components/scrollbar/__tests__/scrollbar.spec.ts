@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { defineGetter, makeScroll } from '@element-pro/test-utils'
+import { defineGetter, makeScroll } from '@element-ultra/test-utils'
 import Scrollbar from '../src/scrollbar.vue'
 
 const _mount = (template: string) =>

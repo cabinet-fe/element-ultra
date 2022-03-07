@@ -12,8 +12,8 @@ import { NOOP, isObject } from '@vue/shared'
 import {
   FORWARD_REF_INJECTION_KEY,
   useForwardRefDirective,
-} from '@element-pro/hooks'
-import { debugWarn } from '@element-pro/utils'
+} from '@element-ultra/hooks'
+import { debugWarn } from '@element-ultra/utils'
 
 import type { VNode } from 'vue'
 

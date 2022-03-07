@@ -44,9 +44,9 @@
 
 <script lang="ts" setup>
 import { inject } from 'vue'
-import { ElIcon } from '@element-pro/components/icon'
-import { FOCUS_TRAP_INJECTION_KEY } from '@element-pro/components/focus-trap'
-import { CloseComponents, composeRefs } from '@element-pro/utils'
+import { ElIcon } from '@element-ultra/components/icon'
+import { FOCUS_TRAP_INJECTION_KEY } from '@element-ultra/components/focus-trap'
+import { CloseComponents, composeRefs } from '@element-ultra/utils'
 import { dialogContentProps } from './dialog-content'
 
 import { elDialogInjectionKey } from './token'

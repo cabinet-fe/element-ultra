@@ -45,18 +45,18 @@
               class="demo-rich-content__name"
               style="margin: 0; font-weight: 500"
             >
-              Element Pro
+              Element Ultra
             </p>
             <p
               class="demo-rich-content__mention"
               style="margin: 0; font-size: 14px; color: var(--el-color-info)"
             >
-              @element-pro
+              @element-ultra
             </p>
           </div>
 
           <p class="demo-rich-content__desc" style="margin: 0">
-            Element Pro, a Vue 3 based component library for developers,
+            Element Ultra, a Vue 3 based component library for developers,
             designers and product managers
           </p>
         </div>

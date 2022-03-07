@@ -1,4 +1,4 @@
-import { EVENT_CODE } from '@element-pro/constants'
+import { EVENT_CODE } from '@element-ultra/constants'
 import * as Util from '../src/utils'
 
 describe('util', () => {

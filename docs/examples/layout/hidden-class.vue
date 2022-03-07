@@ -40,5 +40,5 @@
 </template>
 
 <script lang="ts">
-import '@element-pro/theme-chalk/src/display.scss'
+import '@element-ultra/theme-chalk/src/display.scss'
 </script>

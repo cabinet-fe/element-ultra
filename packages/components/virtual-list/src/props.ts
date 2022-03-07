@@ -3,7 +3,7 @@ import {
   buildProps,
   definePropType,
   mutable,
-} from '@element-pro/utils'
+} from '@element-ultra/utils'
 import { VERTICAL } from './defaults'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'

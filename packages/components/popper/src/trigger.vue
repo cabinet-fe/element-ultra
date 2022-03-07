@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import { defineComponent, inject, watch } from 'vue'
-import { ElOnlyChild } from '@element-pro/components/slot'
-import { useForwardRef } from '@element-pro/hooks'
+import { ElOnlyChild } from '@element-ultra/components/slot'
+import { useForwardRef } from '@element-ultra/hooks'
 import { usePopperTriggerProps } from './popper'
 import { POPPER_INJECTION_KEY } from './tokens'
 import { unwrapMeasurableEl } from './utils'

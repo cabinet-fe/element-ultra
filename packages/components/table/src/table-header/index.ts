@@ -7,8 +7,8 @@ import {
   h,
   inject,
 } from 'vue'
-import ElCheckbox from '@element-pro/components/checkbox'
-import { useNamespace } from '@element-pro/hooks'
+import ElCheckbox from '@element-ultra/components/checkbox'
+import { useNamespace } from '@element-ultra/hooks'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import { TABLE_INJECTION_KEY } from '../tokens'

@@ -12,7 +12,7 @@ import {
   watch,
   unref,
 } from 'vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { usePopperArrowProps } from './popper'
 import { POPPER_CONTENT_INJECTION_KEY } from './tokens'
 

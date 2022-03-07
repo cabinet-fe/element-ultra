@@ -157,19 +157,19 @@ import {
 import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useLocale, useSize } from '@element-pro/hooks'
-import { elFormKey, elFormItemKey } from '@element-pro/tokens'
-import ElInput from '@element-pro/components/input'
-import ElIcon from '@element-pro/components/icon'
-import ElTooltip from '@element-pro/components/tooltip'
-import { isEmpty } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
+import { useLocale, useSize } from '@element-ultra/hooks'
+import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
+import ElInput from '@element-ultra/components/input'
+import ElIcon from '@element-ultra/components/icon'
+import ElTooltip from '@element-ultra/components/tooltip'
+import { isEmpty } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
 import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-pro/tokens'
+import type { ElFormContext, ElFormItemContext } from '@element-ultra/tokens'
 import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
@@ -263,6 +263,13 @@ export default defineComponent({
     const pickerActualVisible = ref(false)
     const valueOnOpen = ref(null)
 
+    const valueFormat = computed(() => {
+      if  (props.valueFormat) return props.valueFormat
+      if (['date', 'daterange'].includes(props.type))  return 'YYYY-MM-DD'
+      if (['datetimerange', 'datetime'].includes(props.type)) return 'YYYY-MM-DD HH:mm:ss'
+      return ''
+    })
+
     watch(pickerVisible, (val) => {
       if (!val) {
         userInput.value = null
@@ -288,10 +295,10 @@ export default defineComponent({
         let formatValue
         if (Array.isArray(val)) {
           formatValue = val.map((_) =>
-            formatter(_, props.valueFormat, lang.value)
+            formatter(_, valueFormat.value, lang.value)
           )
         } else if (val) {
-          formatValue = formatter(val, props.valueFormat, lang.value)
+          formatValue = formatter(val, valueFormat.value, lang.value)
         }
         ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
       }
@@ -379,15 +386,15 @@ export default defineComponent({
       } else {
         if (Array.isArray(props.modelValue)) {
           result = props.modelValue.map((_) =>
-            parser(_, props.valueFormat, lang.value)
+            parser(_, valueFormat.value, lang.value)
           )
         } else if (props.start && props.end) {
           result = [
-            parser(props.start, props.valueFormat, lang.value),
-            parser(props.end, props.valueFormat, lang.value),
+            parser(props.start, valueFormat.value, lang.value),
+            parser(props.end, valueFormat.value, lang.value),
           ]
         } else {
-          result = parser(props.modelValue, props.valueFormat, lang.value)
+          result = parser(props.modelValue, valueFormat.value, lang.value)
         }
       }
 

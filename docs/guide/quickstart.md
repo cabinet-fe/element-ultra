@@ -5,7 +5,7 @@ lang: zh-CN
 
 # 快速开始
 
-本节将介绍如何在项目中使用 Element Pro。
+本节将介绍如何在项目中使用 Element Ultra。
 
 ## 用法
 
@@ -16,7 +16,7 @@ lang: zh-CN
 ```typescript
 // main.ts
 import { createApp } from 'vue'
-import ElementPlus from 'element-pro'
+import ElementPlus from 'element-ultra'
 import 'element-plus/dist/index.css'
 import App from './App.vue'
 
@@ -100,7 +100,7 @@ module.exports = {
 
 ### 手动导入
 
-Element Pro 提供了基于 ES Module 开箱即用的 [Tree Shaking](https://webpack.js.org/guides/tree-shaking/) 功能。
+Element Ultra 提供了基于 ES Module 开箱即用的 [Tree Shaking](https://webpack.js.org/guides/tree-shaking/) 功能。
 
 但是你需要安装 [unplugin-element-plus](https://github.com/element-plus/unplugin-element-plus) 来导入样式。 请参考 [文档](https://github.com/element-plus/unplugin-element-plus#readme) 了解如何配置它。
 
@@ -111,7 +111,7 @@ Element Pro 提供了基于 ES Module 开箱即用的 [Tree Shaking](https://web
   <el-button>I am ElButton</el-button>
 </template>
 <script>
-  import { ElButton } from 'element-pro'
+  import { ElButton } from 'element-ultra'
   export default {
     components: { ElButton },
   }
@@ -135,7 +135,7 @@ export default {
 
 ```ts
 import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-pro'
+import { ElMessage } from 'element-ultra'
 ```
 
 :::
@@ -146,13 +146,13 @@ import { ElMessage } from 'element-pro'
 
 ## 全局配置
 
-在引入 Element Pro 时，可以传入一个包含 `size` 和 `zIndex` 属性的全局配置对象。 `size` 用于设置表单组件的默认尺寸，`zIndex` 用于设置弹出组件的层级，`zIndex` 的默认值为 2000。
+在引入 Element Ultra 时，可以传入一个包含 `size` 和 `zIndex` 属性的全局配置对象。 `size` 用于设置表单组件的默认尺寸，`zIndex` 用于设置弹出组件的层级，`zIndex` 的默认值为 2000。
 
 完整引入：
 
 ```ts
 import { createApp } from 'vue'
-import ElementPlus from 'element-pro'
+import ElementPlus from 'element-ultra'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -170,7 +170,7 @@ app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 
 <script>
 import { defineComponent } from 'vue'
-import { ElConfigProvider } from 'element-pro'
+import { ElConfigProvider } from 'element-ultra'
 
 export default defineComponent({
   components: {

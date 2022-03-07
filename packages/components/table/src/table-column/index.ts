@@ -9,7 +9,7 @@ import {
   onBeforeUnmount,
   Fragment,
 } from 'vue'
-import ElCheckbox from '@element-pro/components/checkbox'
+import ElCheckbox from '@element-ultra/components/checkbox'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import useWatcher from './watcher-helper'

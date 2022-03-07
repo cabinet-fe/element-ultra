@@ -1,12 +1,12 @@
 import { h, ref, reactive, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { useLocale } from '@element-pro/hooks'
-import Chinese from '@element-pro/locale/lang/zh-cn'
-import English from '@element-pro/locale/lang/en'
-import { ElButton, ElMessage } from '@element-pro/components'
-import { rAF } from '@element-pro/test-utils/tick'
+import { useLocale } from '@element-ultra/hooks'
+import Chinese from '@element-ultra/locale/lang/zh-cn'
+import English from '@element-ultra/locale/lang/en'
+import { ElButton, ElMessage } from '@element-ultra/components'
+import { rAF } from '@element-ultra/test-utils/tick'
 import ConfigProvider from '../src/config-provider'
-import type { Language } from '@element-pro/locale'
+import type { Language } from '@element-ultra/locale'
 
 jest.useFakeTimers()
 

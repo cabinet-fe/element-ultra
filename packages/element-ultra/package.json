@@ -1,9 +1,9 @@
 {
-  "name": "element-pro",
-  "version": "0.0.0-dev.1",
+  "name": "element-ultra",
+  "version": "0.1.0",
   "description": "A Component Library for Vue 3",
   "keywords": [
-    "element-plus",
+    "element-ultra",
     "element",
     "component library",
     "ui framework",
@@ -38,10 +38,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
+    "url": "git+https://github.com/cabinet-fe/element-pro.git"
   },
   "bugs": {
-    "url": "https://github.com/element-plus/element-plus/issues"
+    "url": "https://github.com/cabinet-fe/element-pro/issues"
   },
   "peerDependencies": {
     "vue": "^3.2.0"

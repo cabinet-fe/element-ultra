@@ -1,8 +1,8 @@
 import { h, nextTick } from 'vue'
-import { useZIndex, POPPER_CONTAINER_SELECTOR } from '@element-pro/hooks'
-import makeMount from '@element-pro/test-utils/make-mount'
-import { rAF } from '@element-pro/test-utils/tick'
-import { ElPopperTrigger } from '@element-pro/components/popper'
+import { useZIndex, POPPER_CONTAINER_SELECTOR } from '@element-ultra/hooks'
+import makeMount from '@element-ultra/test-utils/make-mount'
+import { rAF } from '@element-ultra/test-utils/tick'
+import { ElPopperTrigger } from '@element-ultra/components/popper'
 import Popover from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'

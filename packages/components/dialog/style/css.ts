@@ -1,3 +1,3 @@
-import '@element-pro/components/base/style/css'
-import '@element-pro/theme-chalk/el-dialog.css'
-import '@element-pro/components/overlay/style/css'
+import '@element-ultra/components/base/style/css'
+import '@element-ultra/theme-chalk/el-dialog.css'
+import '@element-ultra/components/overlay/style/css'

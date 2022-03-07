@@ -5,7 +5,7 @@ lang: zh-CN
 
 # Icon 图标
 
-Element Pro 提供了一套常用的图标集合。
+Element Ultra 提供了一套常用的图标集合。
 
 ## 使用图标
 

@@ -5,7 +5,7 @@ lang: zh-CN
 
 # Color 色彩
 
-Element Pro 为了避免视觉传达差异，使用一套特定的调色板来规定颜色，为你所搭建的产品提供一致的外观视觉感受。
+Element Ultra 为了避免视觉传达差异，使用一套特定的调色板来规定颜色，为你所搭建的产品提供一致的外观视觉感受。
 
 <style lang="scss">
 .demo-color-box {
@@ -73,7 +73,7 @@ Element Pro 为了避免视觉传达差异，使用一套特定的调色板来�
 
 ## 主色
 
-Element Pro 默认的主题色是明亮、友好的蓝色。
+Element Ultra 默认的主题色是明亮、友好的蓝色。
 
 <!-- Do not touch -->
 <ClientOnly>

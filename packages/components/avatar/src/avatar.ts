@@ -1,4 +1,4 @@
-import { buildProps, definePropType, iconPropType } from '@element-pro/utils'
+import { buildProps, definePropType, iconPropType } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 import type Avatar from './avatar.vue'

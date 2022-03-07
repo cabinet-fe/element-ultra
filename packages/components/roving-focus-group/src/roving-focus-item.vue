@@ -18,9 +18,9 @@ import {
   nextTick,
   provide,
 } from 'vue'
-import { useId } from '@element-pro/hooks'
-import { composeEventHandlers } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
+import { useId } from '@element-ultra/hooks'
+import { composeEventHandlers } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ElCollectionItem as ElRovingFocusCollectionItem,

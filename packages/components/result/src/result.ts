@@ -1,4 +1,4 @@
-import { buildProps } from '@element-pro/utils'
+import { buildProps } from '@element-ultra/utils'
 import {
   WarningFilled,
   CircleCheckFilled,

@@ -1,7 +1,7 @@
 import { h } from 'vue'
-import { EVENT_CODE } from '@element-pro/constants'
+import { EVENT_CODE } from '@element-ultra/constants'
 
-import makeMount from '@element-pro/test-utils/make-mount'
+import makeMount from '@element-ultra/test-utils/make-mount'
 import UploadList from '../src/upload-list.vue'
 
 const testName = 'test name'

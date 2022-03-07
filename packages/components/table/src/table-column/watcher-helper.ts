@@ -1,5 +1,5 @@
 import { watch, getCurrentInstance } from 'vue'
-import { hasOwn } from '@element-pro/utils'
+import { hasOwn } from '@element-ultra/utils'
 import { parseMinWidth, parseWidth } from '../util'
 
 import type { ComputedRef } from 'vue'

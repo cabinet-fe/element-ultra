@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import Select from '@element-pro/components/select'
+import Select from '@element-ultra/components/select'
 import TimeSelect from '../src/time-select.vue'
 dayjs.extend(customParseFormat)
 

@@ -13,7 +13,7 @@ import {
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
   timePickerDefaultProps,
-} from '@element-pro/components/time-picker'
+} from '@element-ultra/components/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
 import DateRangePickPanel from './date-picker-com/panel-date-range.vue'
 import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'

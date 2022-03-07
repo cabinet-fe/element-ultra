@@ -1,5 +1,5 @@
-import { triggerEvent } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
+import { triggerEvent } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
 import SubMenu from './submenu'
 
 class MenuItem {

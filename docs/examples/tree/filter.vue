@@ -14,8 +14,8 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElTree } from 'element-pro'
-import type { TreeNode } from '@element-pro/components/tree/src/types'
+import type { ElTree } from 'element-ultra'
+import type { TreeNode } from '@element-ultra/components/tree/src/types'
 
 interface Tree {
   id: string

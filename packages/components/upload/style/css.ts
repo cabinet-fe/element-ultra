@@ -1,3 +1,3 @@
-import '@element-pro/components/base/style/css'
-import '@element-pro/theme-chalk/el-upload.css'
-import '@element-pro/components/progress/style/css'
+import '@element-ultra/components/base/style/css'
+import '@element-ultra/theme-chalk/el-upload.css'
+import '@element-ultra/components/progress/style/css'

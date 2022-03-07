@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { castArray } from '@element-pro/utils'
+import { castArray } from '@element-ultra/utils'
 import ElDatePickerCell from './basic-cell-render'
 import type { PropType } from 'vue'
 

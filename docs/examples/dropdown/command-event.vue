@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-pro'
+import { ElMessage } from 'element-ultra'
 import { ArrowDown } from '@element-plus/icons-vue'
 
 const handleCommand = (command: string | number | object) => {

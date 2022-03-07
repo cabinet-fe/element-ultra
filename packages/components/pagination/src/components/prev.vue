@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { ElIcon } from '@element-pro/components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowLeft } from '@element-plus/icons-vue'
 
 const paginationPrevProps = {

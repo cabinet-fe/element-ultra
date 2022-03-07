@@ -1,12 +1,12 @@
 import { ref, h, nextTick, Comment, Fragment } from 'vue'
 import { shallowMount } from '@vue/test-utils'
-import { debugWarn } from '@element-pro/utils'
-import { FORWARD_REF_INJECTION_KEY } from '@element-pro/hooks'
+import { debugWarn } from '@element-ultra/utils'
+import { FORWARD_REF_INJECTION_KEY } from '@element-ultra/hooks'
 import ElOnlyChild from '../src/only-child'
 
 import type { Slot } from 'vue'
 
-jest.mock('@element-pro/utils/error', () => ({
+jest.mock('@element-ultra/utils/error', () => ({
   debugWarn: jest.fn(),
 }))
 

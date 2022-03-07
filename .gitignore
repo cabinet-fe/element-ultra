@@ -11,7 +11,7 @@ node_modules
 # Bundle
 dist
 coverage
-packages/element-pro/version.ts
+packages/element-ultra/version.ts
 
 # local env files
 *.local

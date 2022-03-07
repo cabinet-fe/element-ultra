@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useLocale, useNamespace } from '@element-pro/hooks'
+import { useLocale, useNamespace } from '@element-ultra/hooks'
 import { usePagination } from '../usePagination'
 import type { ExtractPropTypes } from 'vue'
 

@@ -1,5 +1,5 @@
 import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
-import { hasOwn } from '@element-pro/utils'
+import { hasOwn } from '@element-ultra/utils'
 import {
   getKeysMap,
   getRowIdentity,

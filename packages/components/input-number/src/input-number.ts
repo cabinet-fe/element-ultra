@@ -1,5 +1,5 @@
-import { buildProps, isNumber } from '@element-pro/utils'
-import { componentSizes } from '@element-pro/constants'
+import { buildProps, isNumber } from '@element-ultra/utils'
+import { componentSizes } from '@element-ultra/constants'
 
 export const inputNumberProps = buildProps({
   step: {

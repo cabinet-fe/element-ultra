@@ -28,12 +28,12 @@ import { defineComponent, inject } from 'vue'
 import {
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
   ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
-} from '@element-pro/components/roving-focus-group'
-import { COLLECTION_ITEM_SIGN } from '@element-pro/components/collection'
-import { ElIcon } from '@element-pro/components/icon'
-import { useNamespace } from '@element-pro/hooks'
-import { composeEventHandlers, composeRefs } from '@element-pro/utils'
-import { EVENT_CODE } from '@element-pro/constants'
+} from '@element-ultra/components/roving-focus-group'
+import { COLLECTION_ITEM_SIGN } from '@element-ultra/components/collection'
+import { ElIcon } from '@element-ultra/components/icon'
+import { useNamespace } from '@element-ultra/hooks'
+import { composeEventHandlers, composeRefs } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/constants'
 import {
   DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
   dropdownItemProps,

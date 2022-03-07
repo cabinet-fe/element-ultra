@@ -28,14 +28,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
-import { hasOwn } from '@element-pro/utils'
+import { hasOwn } from '@element-ultra/utils'
 
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import ajax from './ajax'
 import UploadDragger from './upload-dragger.vue'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-pro/utils'
+import type { Nullable } from '@element-ultra/utils'
 import type { ListType, UploadFile, ElFile } from './upload.type'
 
 type IFileHanlder = (

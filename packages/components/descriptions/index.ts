@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-pro/utils'
+import { withInstall, withNoopInstall } from '@element-ultra/utils'
 
 import Descriptions from './src/index.vue'
 import DescriptionsItem from './src/description-item'

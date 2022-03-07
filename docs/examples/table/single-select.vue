@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElTable } from 'element-pro'
+import type { ElTable } from 'element-ultra'
 
 interface User {
   date: string

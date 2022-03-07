@@ -7,7 +7,7 @@ lang: zh-CN
 
 表单是web应用的核心之一.
 
-element-pro的表单在原来element-plus的基础上做了大量的改动.
+element-ultra的表单在原来element-plus的基础上做了大量的改动.
 
 1. 你无需在你的表单中加入el-form-item元素来包裹表单控件
 2. 你无需分开定义规则和表单值

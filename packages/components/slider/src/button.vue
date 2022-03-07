@@ -34,9 +34,9 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
-import ElTooltip from '@element-pro/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { useNamespace } from '@element-pro/hooks'
+import ElTooltip from '@element-ultra/components/tooltip'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { useNamespace } from '@element-ultra/hooks'
 import { useSliderButton } from './useSliderButton'
 
 export default defineComponent({

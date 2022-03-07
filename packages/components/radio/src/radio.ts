@@ -1,8 +1,8 @@
 import { ref, computed, inject } from 'vue'
-import { buildProps, isBoolean, isString, isNumber } from '@element-pro/utils'
-import { UPDATE_MODEL_EVENT } from '@element-pro/constants'
-import { radioGroupKey } from '@element-pro/tokens'
-import { useDisabled, useSize, useSizeProp } from '@element-pro/hooks'
+import { buildProps, isBoolean, isString, isNumber } from '@element-ultra/utils'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { radioGroupKey } from '@element-ultra/tokens'
+import { useDisabled, useSize, useSizeProp } from '@element-ultra/hooks'
 import type { ExtractPropTypes, SetupContext } from 'vue'
 
 export const radioPropsBase = buildProps({

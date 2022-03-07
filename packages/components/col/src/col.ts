@@ -1,6 +1,6 @@
 import { defineComponent, computed, inject, h, renderSlot } from 'vue'
-import { buildProps, definePropType, mutable } from '@element-pro/utils'
-import { useNamespace } from '@element-pro/hooks'
+import { buildProps, definePropType, mutable } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
 type SizeObject = {

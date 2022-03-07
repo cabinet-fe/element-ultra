@@ -1,9 +1,9 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-pro/constants'
-import { triggerEvent } from '@element-pro/test-utils'
+import { EVENT_CODE } from '@element-ultra/constants'
+import { triggerEvent } from '@element-ultra/test-utils'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-pro/hooks'
+import { POPPER_CONTAINER_SELECTOR } from '@element-ultra/hooks'
 import Cascader from '../src/index.vue'
 
 jest.mock('lodash-unified', () => {

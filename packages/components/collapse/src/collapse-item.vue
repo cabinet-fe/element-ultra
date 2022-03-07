@@ -50,11 +50,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, inject, computed, ref } from 'vue'
-import { generateId } from '@element-pro/utils'
-import ElCollapseTransition from '@element-pro/components/collapse-transition'
-import ElIcon from '@element-pro/components/icon'
+import { generateId } from '@element-ultra/utils'
+import ElCollapseTransition from '@element-ultra/components/collapse-transition'
+import ElIcon from '@element-ultra/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-pro/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 
 import type { PropType } from 'vue'
 import type { CollapseProvider } from './collapse.type'

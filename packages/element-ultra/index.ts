@@ -1,8 +1,8 @@
 import installer from './defaults'
-export * from '@element-pro/components'
-export * from '@element-pro/directives'
-export * from '@element-pro/hooks'
-export * from '@element-pro/tokens'
+export * from '@element-ultra/components'
+export * from '@element-ultra/directives'
+export * from '@element-ultra/hooks'
+export * from '@element-ultra/tokens'
 export { makeInstaller } from './make-installer'
 
 export const install = installer.install

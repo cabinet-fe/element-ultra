@@ -3,7 +3,7 @@ import {
   definePropType,
   mutable,
   isNumber,
-} from '@element-pro/utils'
+} from '@element-ultra/utils'
 
 import type { ExtractPropTypes } from 'vue'
 

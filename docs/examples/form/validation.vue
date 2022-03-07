@@ -55,7 +55,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElForm } from 'element-pro'
+import type { ElForm } from 'element-ultra'
 
 type FormInstance = InstanceType<typeof ElForm>
 
