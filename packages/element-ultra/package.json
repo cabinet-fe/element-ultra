@@ -12,29 +12,17 @@
   ],
   "license": "MIT",
   "exports": {
-    ".": {
-      "require": "./lib/index.js",
-      "import": "./es/index.mjs"
-    },
-    "./es": "./es/index.mjs",
-    "./lib": "./lib/index.js",
-    "./es/*.mjs": "./es/*.mjs",
-    "./es/*": "./es/*.mjs",
-    "./lib/*.js": "./lib/*.js",
-    "./lib/*": "./lib/*.js",
+    ".": "./index.mjs",
+    "./*.mjs": "./*.mjs",
     "./*": "./*"
   },
-  "main": "lib/index.js",
-  "module": "es/index.mjs",
+  "module": "index.mjs",
   "style": "dist/index.css",
-  "unpkg": "dist/index.full.js",
-  "jsdelivr": "dist/index.full.js",
   "sideEffects": [
     "dist/*",
     "theme-chalk/*.css",
     "theme-chalk/src/*.scss",
-    "es/components/*/style/*",
-    "lib/components/*/style/*"
+    "components/*/style/*"
   ],
   "repository": {
     "type": "git",

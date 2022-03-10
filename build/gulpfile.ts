@@ -29,7 +29,8 @@ export const copyTypesDefinitions: TaskFunction = (done) => {
       copy(src, buildConfig[module].output.path, { recursive: true })
     )
 
-  return parallel(copyTypes('esm'), copyTypes('cjs'))(done)
+  // copyTypes('cjs')去掉了
+  return parallel(copyTypes('esm'))(done)
 }
 
 export const copyFullStyle = async () => {
@@ -46,8 +47,8 @@ export default series(
 
   parallel(
     runTask('buildModules'),
-    runTask('buildFullBundle'),
-    runTask('generateTypesDefinitions'),
+    // runTask('buildFullBundle'), // 生成完成包, 一般不需要吧
+    runTask('generateTypesDefinitions'), // 生成类型定义文件
     runTask('buildHelper'),
     series(
       withTaskName('buildThemeChalk', () =>

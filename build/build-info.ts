@@ -22,31 +22,31 @@ export interface BuildInfo {
   }
 }
 
-export const buildConfig: Record<Module, BuildInfo> = {
+export const buildConfig: Record<string, BuildInfo> = {
   esm: {
     module: 'ESNext',
     format: 'esm',
     ext: 'mjs',
     output: {
       name: 'es',
-      path: path.resolve(epOutput, 'es'),
+      path: epOutput,
     },
     bundle: {
-      path: `${EP_PKG}/es`,
+      path: `${EP_PKG}`,
     },
   },
-  cjs: {
-    module: 'CommonJS',
-    format: 'cjs',
-    ext: 'js',
-    output: {
-      name: 'lib',
-      path: path.resolve(epOutput, 'lib'),
-    },
-    bundle: {
-      path: `${EP_PKG}/lib`,
-    },
-  },
+  // cjs: {
+  //   module: 'CommonJS',
+  //   format: 'cjs',
+  //   ext: 'js',
+  //   output: {
+  //     name: 'lib',
+  //     path: path.resolve(epOutput, 'lib'),
+  //   },
+  //   bundle: {
+  //     path: `${EP_PKG}/lib`,
+  //   },
+  // },
 }
 export const buildConfigEntries = Object.entries(
   buildConfig

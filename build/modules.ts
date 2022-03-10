@@ -53,6 +53,7 @@ export const buildModules = async () => {
   await writeBundles(
     bundle,
     buildConfigEntries.map(([module, config]): OutputOptions => {
+      console.log(module, config)
       return {
         format: config.format,
         dir: config.output.path,

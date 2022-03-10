@@ -4,12 +4,12 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, shallowRef } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 
 export default defineComponent({
   name: 'ElCollapseTransition',
-  setup() {
+  setup(props, { attrs }) {
     const ns = useNamespace('collapse-transition')
 
     return {
@@ -44,6 +44,11 @@ export default defineComponent({
         afterEnter(el) {
           el.style.maxHeight = ''
           el.style.overflow = el.dataset.oldOverflow
+          let style = (attrs.style || {}) as Record<string, any>
+          Object.keys(style).forEach((key) => {
+            let  _key = key.replace(/([A-Z])/g, (_, c) => `-${c.toLowerCase()}`)
+            el.style[_key] = style[key]
+          })
         },
 
         beforeLeave(el) {

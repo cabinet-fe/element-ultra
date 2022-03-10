@@ -87,6 +87,7 @@
     @include inset-input-border(
       var(--el-input-border-color, map.get($input, 'border-color'))
     );
+    border: none;
 
     &::placeholder {
       color: var(
