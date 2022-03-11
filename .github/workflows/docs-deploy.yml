@@ -1,0 +1,64 @@
+name: docs
+
+on:
+  # push到main分支时触发
+  push:
+    branches: [main]
+
+jobs:
+  docs:
+    if: "contains(github.event.head_commit.message, '[ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      # 使用nodejs 16版本
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+
+      # 缓存 node_modules
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      # 如果缓存没有命中，安装依赖
+      - uses: pnpm/action-setup@v2.2.1
+        with:
+          version: latest
+
+      - name: install
+        run: pnpm install
+
+      # 运行构建脚本
+      - name: Build
+        run: pnpm docs:build
+
+      # 部署
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          # 部署到 gh-pages 分支
+          target_branch: gh-pages
+          # 部署目录为 VuePress 的默认输出目录
+          build_dir: docs/.vitepress/dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.DK_ACTION }}
+
+      # - name: Deploy to szyh
+      #   uses: easingthemes/ssh-deploy@v2.0.7
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.DK_ACTION }}
+      #     ARGS: "-avz --delete"
+      #     SOURCE: "public/"
+      #     REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      #     REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      #     TARGET: ${{ secrets.TARGET }}
+
+
