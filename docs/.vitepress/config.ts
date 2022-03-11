@@ -4,6 +4,7 @@ import { nav } from './config/nav'
 import { mdPlugin } from './config/plugins'
 import { features } from './config/features'
 import type { UserConfig } from 'vitepress'
+import { BASE_PATH } from './utils/shared'
 
 const buildTransformers = () => {
   const transformer = () => {
@@ -38,8 +39,8 @@ export const config: UserConfig = {
   title: 'Element Ultra',
   description: 'a Vue 3 based component library for designers and developers',
   head,
-
-  base: '/element-pro/',
+  lang: 'zh-CN',
+  base: BASE_PATH,
 
   themeConfig: {
     repo: 'cabinet-fe/element-pro',
