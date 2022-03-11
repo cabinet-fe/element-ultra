@@ -38,6 +38,9 @@ export const config: UserConfig = {
   title: 'Element Ultra',
   description: 'a Vue 3 based component library for designers and developers',
   head,
+
+  base: '/element-pro/',
+
   themeConfig: {
     repo: 'cabinet-fe/element-pro',
     docsDir: 'docs',
