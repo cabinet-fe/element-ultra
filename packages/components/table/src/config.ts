@@ -87,7 +87,7 @@ export const cellForced = {
   },
   index: {
     renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
-      return column.label || '#'
+      return column.name || '#'
     },
     renderCell<T>({
       column,
@@ -110,7 +110,7 @@ export const cellForced = {
   },
   expand: {
     renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
-      return column.label || ''
+      return column.name || ''
     },
     renderCell<T>({ row, store }: { row: T; store: Store<T> }) {
       const { ns } = store
@@ -158,7 +158,7 @@ export function defaultRenderCell<T>({
   const property = column.property
   const value = property && getPropByPath(row, property, false).v
   if (column && column.formatter) {
-    return column.formatter(row, column, value, $index)
+    return column.formatter(row,   $index, value)
   }
   return value?.toString?.() || ''
 }

@@ -9,7 +9,6 @@ declare module 'vue' {
     IRiFileCopy2Line: typeof import('~icons/ri/file-copy2-line')['default']
     IRiGithubLine: typeof import('~icons/ri/github-line')['default']
     IRiPlayCircleLine: typeof import('~icons/ri/play-circle-line')['default']
-    IRiTranslate2: typeof import('~icons/ri/translate2')['default']
   }
 }
 

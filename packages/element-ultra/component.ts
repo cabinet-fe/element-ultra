@@ -65,6 +65,7 @@ import { ElPagination } from '@element-ultra/components/pagination'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
 import { ElPopover } from '@element-ultra/components/popover'
 import { ElPopper } from '@element-ultra/components/popper'
+import { ElProTable } from '@element-ultra/components/pro-table'
 import { ElProgress } from '@element-ultra/components/progress'
 import {
   ElRadio,
@@ -155,6 +156,7 @@ export default [
   ElPopconfirm,
   ElPopover,
   ElPopper,
+  ElProTable,
   ElProgress,
   ElRadio,
   ElRadioButton,

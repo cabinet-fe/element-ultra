@@ -66,6 +66,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         onMouseleave: handleMouseLeave,
       },
       columns.value.map((column, cellIndex) => {
+
         const { rowspan, colspan } = getSpan(row, column, $index, cellIndex)
         if (!rowspan || !colspan) {
           return null

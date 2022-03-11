@@ -156,6 +156,7 @@
   }
 
   @include e(sizes) {
+    width: 120px;
     margin: 0 16px 0 0;
     font-weight: normal;
     color: var(--el-text-color-regular);

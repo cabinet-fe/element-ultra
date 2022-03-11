@@ -30,40 +30,34 @@ mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
 mkdir -p "$DIRNAME/__tests__"
 
-cat > $DIRNAME/src/index.vue <<EOF
+cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
 <template>
-  <div>
-    <slot></slot>
-  </div>
+
 </template>
-<script lang='ts'>
+<script lang='ts' setup>
 import { defineComponent } from 'vue'
-export default defineComponent({
-  name: 'El${NAME}',
-  props: { },
-  setup(props) {
-    // init here
-  },
+
+defineOptions({
+  name: 'El${NAME}'
 })
 </script>
-<style>
+<style lang="scss">
+
 </style>
 EOF
 
 cat <<EOF >"$DIRNAME/index.ts"
-import { App } from 'vue'
-import ${NAME} from './src/index.vue'
+import { withInstall } from '@element-ultra/utils'
+import ${NAME} from './src/${INPUT_NAME}.vue'
 
-${NAME}.install = (app: App): void => {
-  app.component(${NAME}.name, ${NAME})
-}
+export const El${NAME} = withInstall(${NAME})
 
 export default ${NAME}
 EOF
 
 cat > $DIRNAME/__tests__/$INPUT_NAME.spec.ts <<EOF
 import { mount } from '@vue/test-utils'
-import $NAME from '../src/index.vue'
+import $NAME from '../src/${INPUT_NAME}.vue'
 
 const AXIOM = 'Rem is the best girl'
 

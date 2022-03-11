@@ -295,12 +295,14 @@ importers:
     specifiers:
       '@element-plus/icons-vue': ^0.2.7
       '@vitejs/plugin-vue': ^2.2.2
+      element-ultra: workspace:*
       unplugin-vue-components: ^0.17.18
       vite: ^2.8.4
       vite-plugin-inspect: ^0.3.14
       vite-plugin-mkcert: ^1.5.2
     dependencies:
       '@element-plus/icons-vue': registry.npmmirror.com/@element-plus/icons-vue/0.2.7_vue@3.2.31
+      element-ultra: link:../packages/element-ultra
     devDependencies:
       '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/2.2.4_vite@2.8.6+vue@3.2.31
       unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.17.21_4a849e022704a8d464a7212f82b7bb5c
@@ -4700,7 +4702,7 @@ packages:
     name: axios
     version: 0.21.4
     dependencies:
-      follow-redirects: registry.npmmirror.com/follow-redirects/1.14.9
+      follow-redirects: registry.npmmirror.com/follow-redirects/1.14.9_debug@4.3.3
     transitivePeerDependencies:
       - debug
     dev: true
@@ -4710,7 +4712,7 @@ packages:
     name: axios
     version: 0.26.0
     dependencies:
-      follow-redirects: registry.npmmirror.com/follow-redirects/1.14.9
+      follow-redirects: registry.npmmirror.com/follow-redirects/1.14.9_debug@4.3.3
     transitivePeerDependencies:
       - debug
     dev: false
@@ -7356,8 +7358,9 @@ packages:
       readable-stream: registry.npmmirror.com/readable-stream/2.3.7
     dev: true
 
-  registry.npmmirror.com/follow-redirects/1.14.9:
+  registry.npmmirror.com/follow-redirects/1.14.9_debug@4.3.3:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/follow-redirects/-/follow-redirects-1.14.9.tgz}
+    id: registry.npmmirror.com/follow-redirects/1.14.9
     name: follow-redirects
     version: 1.14.9
     engines: {node: '>=4.0'}
@@ -7366,6 +7369,8 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dependencies:
+      debug: registry.npmmirror.com/debug/4.3.3
 
   registry.npmmirror.com/for-in/1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/for-in/-/for-in-1.0.2.tgz}

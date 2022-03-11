@@ -3,6 +3,8 @@ import type { ExtractPropTypes, PropType, VNode } from 'vue'
 
 /** 数据表格列 */
 export interface DataTableColumn {
+  /** 列的默认宽度 */
+  width?: number;
   /** 列的名称, 在表头中显示 */
   name: string | (() => VNode)
   /** 从值中取的字段, 支持链式 */
@@ -10,7 +12,7 @@ export interface DataTableColumn {
   /** 是否支持排序 */
   sort?: boolean
   /** 自定义渲染 */
-  render?: () => any
+  render?: (row: any, index: number, val: string) => any
   /** 对齐方式 */
   align?: 'left' | 'center' | 'right'
   /** 是否固定 */

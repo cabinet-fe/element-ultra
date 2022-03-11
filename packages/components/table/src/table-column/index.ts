@@ -27,7 +27,7 @@ export default defineComponent({
     ElCheckbox,
   },
   props: defaultProps,
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const instance = getCurrentInstance() as TableColumn<DefaultRow>
     const columnConfig = ref<Partial<TableColumnCtx<DefaultRow>>>({})
     const owner = computed(() => {
@@ -90,7 +90,7 @@ export default defineComponent({
 
       const basicProps = [
         'columnKey',
-        'label',
+        'name',
         'className',
         'labelClassName',
         'type',
@@ -163,6 +163,7 @@ export default defineComponent({
         column: {},
         $index: -1,
       })
+
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
           if (

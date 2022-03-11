@@ -21,30 +21,15 @@ type ElementPlusResolverOptionsResolved = Required<
   Omit<ElementPlusResolverOptions, 'exclude'>
 > &
   Pick<ElementPlusResolverOptions, 'exclude'>
-/**
- * @deprecated
- * @param partialName
- * @param options
- *
- * @returns
- */
-function getSideEffectsLegacy(
-  partialName: string,
-  options: ElementPlusResolverOptionsResolved
-): any {
-  return [
-    'element-ultra/packages/theme-chalk/src/base.scss',
-    `element-ultra/packages/theme-chalk/src/${partialName}.scss`,
-  ]
-}
+
 
 function getSideEffects(
   dirName: string,
   options: ElementPlusResolverOptionsResolved
 ): any {
   const { ssr } = options
-  const themeFolder = 'element-ultra/theme-chalk'
-  const esComponentsFolder = 'element-ultra/es/components'
+  const themeFolder = '@element-ultra/theme-chalk'
+  const esComponentsFolder = '@element-ultra/components'
 
   return ssr
     ? `${themeFolder}/src/${dirName}.scss`
@@ -65,12 +50,12 @@ function resolveComponent(
   if (!name.match(/^El[A-Z]/)) return
 
   const partialName = kebabCase(name.slice(2)) // ElTableColumn -> table-column
-  const { ssr } = options
+
 
   // >=1.1.0-beta.1
   return {
     importName: name,
-    path: `element-ultra/${ssr ? 'lib' : 'es'}`,
+    path: `element-ultra`,
     sideEffects: getSideEffects(partialName, options),
   }
 }
@@ -94,11 +79,9 @@ function resolveDirective(
   const directive = directives[name]
   if (!directive) return
 
-  const { ssr } = options
-
   return {
     importName: directive.importName,
-    path: `element-ultra/${ssr ? 'lib' : 'es'}`,
+    path: `element-ultra`,
     sideEffects: getSideEffects(directive.styleName, options),
   }
 }

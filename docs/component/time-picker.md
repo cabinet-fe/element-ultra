@@ -55,7 +55,7 @@ time-picker/range
 | align                 | 对齐方式                                                   | left / center / right                  | left                                                                       |             |
 | popper-class          | TimePicker 下拉框的类名                                      | string                                 | —                                                                          | —           |
 | range-separator       | 选择范围时的分隔符                                              | string                                 | —                                                                          | '-'         |
-| format                | 显示在输入框中的格式                                             | string                                 | 请查看 [date formats](/en-US/component/date-picker#date-formats)              | HH:mm:ss    |
+| format                | 显示在输入框中的格式                                             | string                                 | 请查看 [date formats](/component/date-picker#date-formats)              | HH:mm:ss    |
 | default-value         | 可选，选择器打开时默认显示的时间                                       | Date(TimePicker) / string(TimeSelect)  | 可被`new Date()`解析(TimePicker) / 可选值(TimeSelect)                             | —           |
 | id                    | 等价于原生 input `id` 属性                                    | string / array(string)                 | 字符串 `id="my-time"`  range 模式 数组 `:id="['my-range-start', 'my-range-end']"` | -           |
 | name                  | 等价于原生 input `name` 属性                                  | string                                 | —                                                                          | —           |

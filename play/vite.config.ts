@@ -37,11 +37,11 @@ export default defineConfig(async () => {
     resolve: {
       alias: [
         {
-          find: /^element-plus(\/(es|lib))?$/,
+          find: /^element-ultra$/,
           replacement: path.resolve(epRoot, 'index.ts'),
         },
         {
-          find: /^element-plus\/(es|lib)\/(.*)$/,
+          find: /^element-ultra$/,
           replacement: `${pkgRoot}/$2`,
         },
       ],

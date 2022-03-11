@@ -7,9 +7,7 @@
       :size="size"
       :options="pageOptions"
       @change="handleChange"
-    >
-
-    </el-select>
+    />
   </span>
 </template>
 
@@ -17,7 +15,7 @@
 import { defineComponent, watch, ref } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElSelect } from '@element-ultra/components/select'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { buildProps, definePropType, mutable } from '@element-ultra/utils'
 import { usePagination } from '../usePagination'
 
@@ -53,7 +51,6 @@ export default defineComponent({
   emits: ['page-size-change'],
 
   setup(props, { emit }) {
-    const { t } = useLocale()
     const ns = useNamespace('pagination')
     const pagination = usePagination()
     const innerPageSize = ref<number |  null>(props.pageSize)
@@ -87,7 +84,7 @@ export default defineComponent({
     }
 
     const pageOptions = props.pageSizes.map((size) => ({
-      label: size + t('el.pagination.pagesize'),
+      label: size + '条/页',
       value: size,
     }))
 
@@ -95,8 +92,6 @@ export default defineComponent({
       ns,
       pageOptions,
       innerPageSize,
-
-      t,
       handleChange,
     }
   },

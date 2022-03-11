@@ -352,5 +352,14 @@ export const sidebars = {
         },
       ],
     },
+    {
+      text: 'Integrated 集成组件',
+      children: [
+        {
+          link: '/component/pro-table',
+          text: 'ProTable 集成表格',
+        },
+      ]
+    }
   ],
 }

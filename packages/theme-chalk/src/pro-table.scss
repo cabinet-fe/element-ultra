@@ -1,0 +1,31 @@
+@use 'mixins/mixins' as *;
+
+@include b('pro-table') {
+  @include e('searcher') {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+
+    &-box {
+      flex-grow: 1;
+      & > * {
+        display: inline-block;
+        max-width: 300px;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  @include e('tools') {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+
+    &-left {
+      flex-grow: 1;
+      margin-right: 6px;
+    }
+  }
+}

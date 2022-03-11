@@ -16,7 +16,7 @@ interface TableColumnCtx<T> {
   id: string
   realWidth: number
   type: string
-  label: string
+  name: string
   className: string
   labelClassName: string
   property: string
@@ -37,9 +37,8 @@ interface TableColumnCtx<T> {
   fixed: boolean | string
   formatter: (
     row: T,
-    column: TableColumnCtx<T>,
-    cellValue,
-    index: number
+    index: number,
+    cellValue: any,
   ) => VNode | string
   selectable: (row: T, index: number) => boolean
   reserveSelection: boolean
@@ -81,7 +80,7 @@ export default {
     type: String,
     default: 'default',
   },
-  label: String,
+  name: String,
   className: String,
   labelClassName: String,
   property: String,

@@ -102,7 +102,7 @@ function useRender<T>(
         // help render
         instance.columnConfig.value['label']
         const renderHeader = slots.header
-        return renderHeader ? renderHeader(scope) : column.label
+        return renderHeader ? renderHeader(scope) : column.name
       }
     }
 
