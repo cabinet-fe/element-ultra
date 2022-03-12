@@ -17,11 +17,9 @@ defineEmits(['toggle'])
 const themeEnabled = useFeatureFlag('theme')
 
 const { theme } = useData()
-
+const { site } = useData()
 const currentLink = computed(() => {
-  if (!inBrowser) return '/'
-
-  return '/'
+  return site.value.base
 })
 </script>
 
