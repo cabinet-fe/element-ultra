@@ -5,7 +5,7 @@ import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
 
 import { useSize } from '@element-ultra/hooks'
 import type { ExtractPropTypes } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-ultra/tokens'
+import type { FormContext, ElFormItemContext } from '@element-ultra/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 
 export const useCheckboxProps = {
@@ -38,7 +38,7 @@ export const useCheckboxProps = {
 export type IUseCheckboxProps = ExtractPropTypes<typeof useCheckboxProps>
 
 export const useCheckboxGroup = () => {
-  const elForm = inject(elFormKey, {} as ElFormContext)
+  const elForm = inject(elFormKey, {} as FormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
   const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup', {})
   const isGroup = computed(

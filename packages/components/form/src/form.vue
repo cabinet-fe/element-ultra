@@ -23,10 +23,10 @@ import { ElFormItem, ElGrid } from '@element-ultra/components'
 import { elFormKey } from '@element-ultra/tokens'
 import { elFormComponents, elFormProps } from './form'
 import { validators } from './form-validator'
-import type { ElFormItemContext as FormItemCtx } from '@element-ultra/tokens'
-import type { ElFormRules } from './form'
+import type { FormItemContext as FormItemCtx } from '@element-ultra/tokens'
+import type { FormRules } from './form'
 
-type RuleType = keyof ElFormRules[string]
+type RuleType = keyof FormRules[string]
 
 export default defineComponent({
   name: 'ElForm',
@@ -59,7 +59,7 @@ export default defineComponent({
 
     // 校验规则
     const formRules = computed(() => {
-      const result: ElFormRules = {}
+      const result: FormRules = {}
       if (props.model) {
         Object.keys(props.model).forEach((name) => {
           result[name] = omit(props.model![name], ['value', 'trigger'])
@@ -182,8 +182,10 @@ export default defineComponent({
     }
 
     const setValue = (values: Record<string, any>) => {
-      for (const key in values) {
-        formValues.value[key] = values[key]
+      for (const key in formValues.value) {
+        if (values[key] !== undefined) {
+          formValues.value[key] = values[key]
+        }
       }
     }
 

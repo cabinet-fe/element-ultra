@@ -1,4 +1,4 @@
-import type { ElFormRules, ModelValue } from './form'
+import type { FormRules, ModelValue } from './form'
 
 /** 校验器 */
 export const validators = {
@@ -115,7 +115,7 @@ export const validators = {
  */
 export async function validate(
   model: Record<string, any>,
-  rules: ElFormRules,
+  rules: FormRules,
   fields?: string[]
 ) {
   if (fields) {

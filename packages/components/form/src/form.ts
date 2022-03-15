@@ -1,9 +1,9 @@
 import type { ComponentSize } from '@element-ultra/constants'
 import type { ExtractPropTypes, PropType } from 'vue'
-
+import type Form from './form.vue'
 export type ModelValue = string | number | any[] | boolean
 
-export interface ElFormModelItem {
+export interface FormModelItem {
   /** 表单默认值 */
   value?: any
   trigger?: 'change' | 'blur'
@@ -22,20 +22,20 @@ export interface ElFormModelItem {
   validator?(
     value: any,
     model: Record<string, any>,
-    rule: ElFormRules[string]
+    rule: FormRules[string]
   ): string | Promise<string>
 }
 
-export type ElFormRules = Record<
+export type FormRules = Record<
   string,
-  Omit<ElFormModelItem, 'value' | 'trigger'>
+  Omit<FormModelItem, 'value' | 'trigger'>
 >
 
-export type ElFormModel = Record<string, ElFormModelItem>
+export type FormModel = Record<string, FormModelItem>
 
 export const elFormProps = {
   model: {
-    type: Object as PropType<ElFormModel>,
+    type: Object as PropType<FormModel>,
   },
   labelPosition: String as PropType<'left' | 'right' | 'top'>,
   labelWidth: {
@@ -57,6 +57,7 @@ export type ElFormProps = ExtractPropTypes<typeof elFormProps>
 
 export const elFormComponents = new Set([
   'ElInput',
+  'ElInputNumber',
   'ElTextarea',
   'ElSwitch',
   'ElSelect',
@@ -69,3 +70,5 @@ export const elFormComponents = new Set([
   'ElRadio',
   'ElRadioGroup'
 ])
+
+export type FormInstance = InstanceType<typeof Form>

@@ -123,7 +123,7 @@ import Color from './color'
 import { OPTIONS_KEY } from './useOption'
 
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-ultra/tokens'
+import type { FormContext, FormItemContext } from '@element-ultra/tokens'
 import type { ComponentSize } from '@element-ultra/constants'
 import type { IUseOptions } from './useOption'
 
@@ -160,8 +160,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('color')
-    const elForm = inject(elFormKey, {} as ElFormContext)
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elForm = inject(elFormKey, {} as FormContext)
+    const elFormItem = inject(elFormItemKey, {} as FormItemContext)
 
     const hue = ref(null)
     const svPanel = ref(null)

@@ -169,7 +169,7 @@ import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-ultra/tokens'
+import type { FormContext, FormItemContext } from '@element-ultra/tokens'
 import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
@@ -253,8 +253,8 @@ export default defineComponent({
   setup(props, ctx) {
     const { lang } = useLocale()
 
-    const elForm = inject(elFormKey, {} as ElFormContext)
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elForm = inject(elFormKey, {} as FormContext)
+    const elFormItem = inject(elFormItemKey, {} as FormItemContext)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref<InstanceType<typeof ElTooltip>>()

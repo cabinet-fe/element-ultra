@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b()" :style="{ height }">
+  <div :class="[ns.b(), $attrs.class]">
     <section ref="searcherRef" v-if="$slots.searcher" :class="ns.e('searcher')">
       <div :class="ns.e('searcher-box')">
         <slot name="searcher" />
@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <el-table :data="computedData" :height="tableHeight">
+    <el-table :data="computedData" v-bind="$attrs" :height="tableHeight">
       <el-table-column
         v-bind="column"
         v-for="column of preColumns"
@@ -51,16 +51,24 @@ import { proTableProps } from './pro-table'
 import usePreColumns from './use-pre-columns'
 import ElPagination from '@element-ultra/components/pagination'
 import ElButton from '@element-ultra/components/button'
-import { computed, shallowReactive, watch, shallowRef, onMounted } from 'vue'
+import {
+  computed,
+  shallowReactive,
+  watch,
+  shallowRef,
+  onMounted
+} from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 
 defineOptions({
   name: 'ElProTable',
+  inheritAttrs: false,
 })
 
 const ns = useNamespace('pro-table')
 
 const props = defineProps(proTableProps)
+
 const { proTableRequestMethod, proTableDefaultSize } = useConfig()
 
 const pageSizes = [20, 40, 60, 120, 200]
@@ -111,12 +119,12 @@ const fetchData = async () => {
     }
     acc[cur] = v
     return acc
-  }, {} as Record<string,  any>)
+  }, {} as Record<string, any>)
 
   const { total, data } = await proTableRequestMethod({
     api: props.api,
     query: {
-      ...query,
+      ...(props.pagination ? query : null),
       ...realQuery,
     },
   })
@@ -127,9 +135,11 @@ const fetchData = async () => {
 }
 
 // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
-let queryWatchList = Object.keys(props.query || {}).filter(k => k.startsWith('$')).map(k => {
-  return () => props.query?.[k]
-})
+let queryWatchList = Object.keys(props.query || {})
+  .filter((k) => k.startsWith('$'))
+  .map((k) => {
+    return () => props.query?.[k]
+  })
 
 watch([query, ...queryWatchList], fetchData)
 fetchData()
@@ -138,8 +148,7 @@ const { columns } = props
 
 const preColumns = usePreColumns(props)
 
-
 defineExpose({
-  fetchData
+  fetchData,
 })
 </script>

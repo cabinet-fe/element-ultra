@@ -71,6 +71,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-ultra')['ElSwitch']
     ElTabPane: typeof import('element-ultra')['ElTabPane']
     ElTable: typeof import('element-ultra')['ElTable']
+    ElProTable: typeof import('element-ultra')['ElProTable']
     ElTableColumn: typeof import('element-ultra')['ElTableColumn']
     ElTabs: typeof import('element-ultra')['ElTabs']
     ElTag: typeof import('element-ultra')['ElTag']

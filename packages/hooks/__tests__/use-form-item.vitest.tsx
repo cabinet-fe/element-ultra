@@ -10,8 +10,8 @@ import {
 } from '@element-ultra/tokens'
 
 import type {
-  ElFormContext,
-  ElFormItemContext,
+  FormContext,
+  FormItemContext,
   ButtonGroupContext,
 } from '@element-ultra/tokens'
 
@@ -68,11 +68,11 @@ describe('use-form-item', () => {
     const wrapper = mountComponent(() => {
       provide(elFormItemKey, {
         size: itemSize,
-      } as ElFormItemContext)
+      } as FormItemContext)
 
       provide(elFormKey, {
         size: 'large',
-      } as ElFormContext)
+      } as FormContext)
     })
 
     expect(wrapper.find(`.el-button--${itemSize}`).exists()).toBe(true)

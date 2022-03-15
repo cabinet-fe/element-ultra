@@ -54,7 +54,7 @@ import { ElIcon } from '@element-ultra/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
 import { useNamespace, useSize } from '@element-ultra/hooks'
 import { rateProps, rateEmits } from './rate'
-import type { ElFormContext } from '@element-ultra/tokens'
+import type { FormContext } from '@element-ultra/tokens'
 
 function getValueFromMap<T>(
   value: number,
@@ -87,7 +87,7 @@ export default defineComponent({
   emits: rateEmits,
 
   setup(props, { emit }) {
-    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elForm = inject(elFormKey, {} as FormContext)
     const rateSize = useSize()
     const ns = useNamespace('rate')
 

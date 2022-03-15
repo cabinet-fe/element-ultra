@@ -18,7 +18,7 @@ import Upload from './upload.vue'
 import useHandlers from './useHandlers'
 
 import type { PropType } from 'vue'
-import type { ElFormContext } from '@element-ultra/tokens'
+import type { FormContext } from '@element-ultra/tokens'
 import type { Nullable } from '@element-ultra/utils'
 import type {
   ListType,
@@ -139,7 +139,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elForm = inject(elFormKey, {} as FormContext)
 
     const uploadDisabled = computed(() => {
       return props.disabled || elForm.disabled
