@@ -6,11 +6,17 @@
       class="el-form-item__label"
       :style="labelStyle"
     >
-      <slot name="label" :label="currentLabel">
-        {{ currentLabel }}
-      </slot>
+      <span style="margin-right: 2px;">
+        <slot name="label" :label="currentLabel">
+          {{ currentLabel }}
+        </slot>
+      </span>
 
-      <QuestionFilled v-if="tips" />
+      <ElTooltip v-if="tips" :content="tips">
+        <ElIcon>
+          <QuestionFilled />
+        </ElIcon>
+      </ElTooltip>
     </label>
 
     <div class="el-form-item__content">
@@ -36,10 +42,12 @@ import {
   nextTick,
   provide,
 } from 'vue'
-import { elFormItemKey, elFormKey } from '@element-ultra/tokens'
+import { formItemKey, formKey } from '@element-ultra/tokens'
 import { addUnit } from '@element-ultra/utils'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import type { CSSProperties } from 'vue'
+import ElIcon from '@element-ultra/components/icon'
+import ElTooltip from '@element-ultra/components/tooltip'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -47,6 +55,8 @@ export default defineComponent({
 
   components: {
     QuestionFilled,
+    ElIcon,
+    ElTooltip,
   },
 
   props: {
@@ -59,7 +69,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const elForm = inject(elFormKey)
+    const elForm = inject(formKey)
 
     const validateMessage = ref('')
     const formItemRef = ref<HTMLDivElement>()
@@ -80,7 +90,7 @@ export default defineComponent({
 
     const isRequired = computed(() => {
       if (!elForm || !props.field) return false
-      return elForm.formRules.value[props.field].required
+      return elForm.formRules[props.field].required
     })
 
     const validate = async () => {
@@ -104,18 +114,17 @@ export default defineComponent({
     }
 
     // TODO跳转到第一个报错的位置
-    const elFormItem = {
-      // $el: formItemRef,
+    const formItem = {
       reset,
       clearValidate,
       validate,
     }
 
-    provide(elFormItemKey, elFormItem)
+    provide(formItemKey, formItem)
 
     onMounted(() => {
       if (props.field) {
-        elForm?.addFormItem(props.field, elFormItem)
+        elForm?.addFormItem(props.field, formItem)
       }
     })
 

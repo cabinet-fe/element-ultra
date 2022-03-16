@@ -61,6 +61,7 @@ export default defineComponent({
 
     const changeEvent = (value) => {
       emit(UPDATE_MODEL_EVENT, value)
+      elFormItem?.validate()
       nextTick(() => {
         emit('change', value)
       })
@@ -83,12 +84,7 @@ export default defineComponent({
       changeEvent,
     })
 
-    watch(
-      () => props.modelValue,
-      () => {
-        elFormItem.validate?.('change')
-      }
-    )
+
     return () => {
       return h(
         props.tag,

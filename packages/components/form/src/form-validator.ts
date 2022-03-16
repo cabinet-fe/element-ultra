@@ -1,4 +1,4 @@
-import type { FormRules, ModelValue } from './form'
+import type { ModelValue } from './form'
 
 /** 校验器 */
 export const validators = {
@@ -105,22 +105,4 @@ export const validators = {
 
     return null
   },
-}
-
-/**
- * 表单校验
- * @param model 所有数据模型
- * @param rules 所有表单的校验规则
- * @param fields 指定校验的字段
- */
-export async function validate(
-  model: Record<string, any>,
-  rules: FormRules,
-  fields?: string[]
-) {
-  if (fields) {
-    fields.forEach((field) => {
-      model[field]
-    })
-  }
 }

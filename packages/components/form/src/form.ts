@@ -6,8 +6,6 @@ export type ModelValue = string | number | any[] | boolean
 export interface FormModelItem {
   /** 表单默认值 */
   value?: any
-  trigger?: 'change' | 'blur'
-
   /** 必填 */
   required?: boolean | [boolean, string]
   /** 指定长度 */
@@ -28,14 +26,17 @@ export interface FormModelItem {
 
 export type FormRules = Record<
   string,
-  Omit<FormModelItem, 'value' | 'trigger'>
+  Omit<FormModelItem, 'value'>
 >
 
 export type FormModel = Record<string, FormModelItem>
 
-export const elFormProps = {
-  model: {
-    type: Object as PropType<FormModel>,
+export const formProps = {
+  data: {
+    type: Object as PropType<Record<string, any>>
+  },
+  rules: {
+    type: Object as PropType<FormRules>
   },
   labelPosition: String as PropType<'left' | 'right' | 'top'>,
   labelWidth: {
@@ -53,9 +54,9 @@ export const elFormProps = {
   disabled: Boolean,
 }
 
-export type ElFormProps = ExtractPropTypes<typeof elFormProps>
+export type FormProps = ExtractPropTypes<typeof formProps>
 
-export const elFormComponents = new Set([
+export const formComponents = new Set([
   'ElInput',
   'ElInputNumber',
   'ElTextarea',

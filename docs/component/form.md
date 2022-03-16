@@ -11,7 +11,7 @@ element-ultra的表单在原来element-plus的基础上做了大量的改动.
 
 1. 你无需在你的表单中加入el-form-item元素来包裹表单控件
 2. 你无需分开定义规则和表单值
-3. 使用el-grid组件来完成自适应布局
+3. 内部使用el-grid组件来完成自适应布局
 4. 校验方法移到了form中, 这意味着内存的节省
 5. 不再依赖async-validator的校验
 

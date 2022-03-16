@@ -4,7 +4,7 @@ import {
   UPDATE_MODEL_EVENT,
   INPUT_EVENT,
 } from '@element-ultra/constants'
-import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
+import { formKey, formItemKey } from '@element-ultra/tokens'
 import type { CSSProperties } from 'vue'
 import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
 
@@ -16,8 +16,8 @@ export const useSlide = (
   initData: ISliderInitData,
   emit
 ) => {
-  const elForm = inject(elFormKey, {} as FormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const elForm = inject(formKey, {} as FormContext)
+  const elFormItem = inject(formItemKey, {} as ElFormItemContext)
 
   const slider = shallowRef<Nullable<HTMLElement>>(null)
 

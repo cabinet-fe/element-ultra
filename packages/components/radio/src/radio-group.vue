@@ -38,6 +38,7 @@ export default defineComponent({
 
     const changeEvent = (value: RadioGroupProps['modelValue']) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
+      formItem?.validate()
       nextTick(() => ctx.emit('change', value))
     }
 
@@ -94,10 +95,7 @@ export default defineComponent({
       })
     )
 
-    watch(
-      () => props.modelValue,
-      () => formItem?.validate('change')
-    )
+
 
     return {
       ns,

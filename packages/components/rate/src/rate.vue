@@ -47,7 +47,7 @@
 <script lang="ts">
 import { defineComponent, inject, computed, ref, watch } from 'vue'
 import { isObject, isArray } from '@vue/shared'
-import { elFormKey } from '@element-ultra/tokens'
+import { formKey } from '@element-ultra/tokens'
 import { hasClass } from '@element-ultra/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { ElIcon } from '@element-ultra/components/icon'
@@ -87,7 +87,7 @@ export default defineComponent({
   emits: rateEmits,
 
   setup(props, { emit }) {
-    const elForm = inject(elFormKey, {} as FormContext)
+    const elForm = inject(formKey, {} as FormContext)
     const rateSize = useSize()
     const ns = useNamespace('rate')
 

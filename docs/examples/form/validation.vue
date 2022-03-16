@@ -1,8 +1,14 @@
 <template>
   <el-radio-group v-model="labelPosition">
-    <el-radio-button label="left">Left</el-radio-button>
-    <el-radio-button label="right">Right</el-radio-button>
-    <el-radio-button label="top">Top</el-radio-button>
+    <el-radio-button label="left">左</el-radio-button>
+    <el-radio-button label="right">右</el-radio-button>
+    <el-radio-button label="top">上</el-radio-button>
+  </el-radio-group>
+
+  <el-radio-group v-model="formSize">
+    <el-radio-button label="large">大</el-radio-button>
+    <el-radio-button label="default">中</el-radio-button>
+    <el-radio-button label="small">小</el-radio-button>
   </el-radio-group>
 
   <br /><br>
@@ -11,14 +17,15 @@
 
   <el-form
     ref="ruleFormRef"
-    :model="ruleForm"
+    :data="data"
+    :rules="rules"
     label-width="120px"
     class="demo-ruleForm"
     :size="formSize"
     :label-position="labelPosition"
   >
 
-    <el-input clearable label="活动名称" field="name"></el-input>
+    <el-input tips="给你的活动起一个帅气的名字" clearable label="活动名称" field="name"></el-input>
 
     <el-select
       label="活动地点"
@@ -44,10 +51,10 @@
 
     <el-input label="Activity form" field="desc" type="textarea"></el-input>
     <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)"
-        >Create</el-button
+      <el-button type="primary" @click="submitForm"
+        >提交</el-button
       >
-      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+      <el-button @click="resetForm">重置</el-button>
     </el-form-item>
 
   </el-form>
@@ -55,13 +62,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElForm } from 'element-ultra'
+import { FormInstance, useFormModel } from 'element-ultra'
 
-type FormInstance = InstanceType<typeof ElForm>
-
-const formSize = ref('')
+const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
-const ruleForm = {
+
+// 除此之外, 你也可以按照经典方式去使用form-item进行双向绑定, 可以但是没有必要
+const [data, rules] = useFormModel({
   name: {
     value: '',
     required: true,
@@ -89,16 +96,14 @@ const ruleForm = {
     required: true,
     value: '',
   },
+})
+
+const submitForm = () => {
+  ruleFormRef.value?.validate()
 }
 
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.validate()
-}
-
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
+const resetForm = () => {
+  ruleFormRef.value?.resetFields()
 }
 
 const labelPosition = ref('left')

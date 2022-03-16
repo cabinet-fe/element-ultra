@@ -153,6 +153,10 @@ $form-item-label-top-margin-bottom: map.merge(
     line-height: #{map.get($form-item-line-height, 'default')};
     padding: 0 12px 0 0;
     box-sizing: border-box;
+
+    & > * {
+      vertical-align: middle;
+    }
   }
   @include e(content) {
     display: flex;

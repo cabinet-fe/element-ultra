@@ -66,7 +66,7 @@ import {
 } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
-import { elFormItemKey } from '@element-ultra/tokens'
+import { formItemKey } from '@element-ultra/tokens'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { useLocale, useNamespace } from '@element-ultra/hooks'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
@@ -165,7 +165,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const { t } = useLocale()
     const ns = useNamespace('transfer')
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elFormItem = inject(formItemKey, {} as ElFormItemContext)
 
     const checkedState = reactive({
       leftChecked: [],
@@ -217,7 +217,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       () => {
-        elFormItem.validate?.('change')
+        elFormItem?.validate()
       }
     )
 

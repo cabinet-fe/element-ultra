@@ -1,7 +1,7 @@
 import { ref, computed, inject, getCurrentInstance, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
-import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
+import { formKey, formItemKey } from '@element-ultra/tokens'
 
 import { useSize } from '@element-ultra/hooks'
 import type { ExtractPropTypes } from 'vue'
@@ -38,8 +38,8 @@ export const useCheckboxProps = {
 export type IUseCheckboxProps = ExtractPropTypes<typeof useCheckboxProps>
 
 export const useCheckboxGroup = () => {
-  const elForm = inject(elFormKey, {} as FormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const elForm = inject(formKey, {} as FormContext)
+  const elFormItem = inject(formItemKey, {} as ElFormItemContext)
   const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup', {})
   const isGroup = computed(
     () => checkboxGroup && checkboxGroup?.name === 'ElCheckboxGroup'
@@ -186,7 +186,7 @@ const useEvent = (
   watch(
     () => props.modelValue,
     () => {
-      elFormItem.validate?.('change')
+      elFormItem?.validate()
     }
   )
 

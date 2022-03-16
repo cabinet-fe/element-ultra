@@ -1,9 +1,9 @@
 import { inject } from 'vue'
-import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
+import { formKey, formItemKey } from '@element-ultra/tokens'
 
 export const useFormItem = () => {
-  const form = inject(elFormKey, undefined)
-  const formItem = inject(elFormItemKey, undefined)
+  const form = inject(formKey, undefined)
+  const formItem = inject(formItemKey, undefined)
   return {
     form,
     formItem,

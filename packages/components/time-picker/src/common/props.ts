@@ -125,10 +125,6 @@ export const timePickerDefaultProps = {
     type: Boolean,
     default: false,
   },
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
   unlinkPanels: Boolean,
   start: {
     type: [Number, String, Date] as PropType<number | string | Date>,

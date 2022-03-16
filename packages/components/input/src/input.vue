@@ -106,13 +106,12 @@ import {
   nextTick,
   getCurrentInstance,
   ref,
-  shallowRef,
   onMounted,
   onUpdated,
 } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import { ValidateComponentsMap, isKorean } from '@element-ultra/utils'
+import { isKorean } from '@element-ultra/utils'
 import {
   useAttrs,
   useDisabled,
@@ -316,13 +315,6 @@ export default defineComponent({
         showClear.value ||
         props.showPassword ||
         isWordLimitVisible.value
-    )
-
-    watch(
-      () => props.modelValue,
-      () => {
-        formItem?.validate()
-      }
     )
 
     // native input value is set explicitly

@@ -158,7 +158,7 @@ import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useLocale, useSize } from '@element-ultra/hooks'
-import { elFormKey, elFormItemKey } from '@element-ultra/tokens'
+import { formKey, formItemKey } from '@element-ultra/tokens'
 import ElInput from '@element-ultra/components/input'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
@@ -253,8 +253,8 @@ export default defineComponent({
   setup(props, ctx) {
     const { lang } = useLocale()
 
-    const elForm = inject(elFormKey, {} as FormContext)
-    const elFormItem = inject(elFormItemKey, {} as FormItemContext)
+    const elForm = inject(formKey, {} as FormContext)
+    const elFormItem = inject(formItemKey, {} as FormItemContext)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref<InstanceType<typeof ElTooltip>>()
@@ -278,7 +278,7 @@ export default defineComponent({
         })
         ctx.emit('blur')
         blurInput()
-        props.validateEvent && elFormItem.validate?.('blur')
+        elFormItem?.validate()
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -287,7 +287,7 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        props.validateEvent && elFormItem.validate?.('change')
+        elFormItem.validate()
       }
     }
     const emitInput = (val) => {

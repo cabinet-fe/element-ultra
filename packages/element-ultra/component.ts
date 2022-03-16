@@ -48,6 +48,8 @@ import {
 } from '@element-ultra/components/dropdown'
 import { ElEmpty } from '@element-ultra/components/empty'
 import { ElForm, ElFormItem } from '@element-ultra/components/form'
+import { ElFormDialog } from '@element-ultra/components/form-dialog'
+
 import { ElGrid } from '@element-ultra/components/grid'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ElImage } from '@element-ultra/components/image'
@@ -141,6 +143,7 @@ export default [
   ElEmpty,
   ElForm,
   ElFormItem,
+  ElFormDialog,
   ElGrid,
   ElIcon,
   ElImage,

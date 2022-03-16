@@ -214,7 +214,6 @@ export default defineComponent({
       () => props.modelValue,
       () => {
         nextTick(resizeTextarea)
-        formItem?.validate()
       }
     )
 

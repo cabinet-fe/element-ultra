@@ -17,9 +17,10 @@ setConfigStore({
     }
   },
 })
-;(async () => {
+
+async function start () {
   const apps = import.meta.glob('./src/*.vue')
-  const name = location.pathname.replace(/^\//, '') || 'App'
+  const name = location.pathname.replace(/^\//, '') || 'app'
   const file = apps[`./src/${name}.vue`]
   if (!file) {
     location.pathname = 'App'
@@ -29,4 +30,6 @@ setConfigStore({
   const app = createApp(App)
 
   app.mount('#play')
-})()
+}
+
+start()

@@ -4,8 +4,8 @@ import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
 import { ElButton } from '@element-ultra/components'
 import {
-  elFormKey,
-  elFormItemKey,
+  formKey,
+  formItemKey,
   buttonGroupContextKey,
 } from '@element-ultra/tokens'
 
@@ -38,7 +38,7 @@ describe('use-form-item', () => {
     const propSize = 'small'
     const wrapper = mountComponent(
       () => {
-        provide(elFormItemKey, { size: 'large' } as ElFormItemContext)
+        provide(formItemKey, { size: 'large' } as ElFormItemContext)
       },
       {
         props: { size: propSize },
@@ -55,7 +55,7 @@ describe('use-form-item', () => {
         size: fallbackSize,
       } as ButtonGroupContext)
 
-      provide(elFormItemKey, {
+      provide(formItemKey, {
         size: 'large',
       } as ElFormItemContext)
     })
@@ -66,11 +66,11 @@ describe('use-form-item', () => {
   it('should return formItem.size instead form.size', () => {
     const itemSize = 'small'
     const wrapper = mountComponent(() => {
-      provide(elFormItemKey, {
+      provide(formItemKey, {
         size: itemSize,
       } as FormItemContext)
 
-      provide(elFormKey, {
+      provide(formKey, {
         size: 'large',
       } as FormContext)
     })

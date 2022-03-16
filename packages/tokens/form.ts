@@ -1,14 +1,14 @@
 import type { InjectionKey, Ref } from 'vue'
 import type { ValidateFieldsError } from 'async-validator'
 import type {
-  ElFormProps,
+  FormProps,
   FormRules,
 } from '@element-ultra/components/form/src/form'
 
 export interface FormContext {
-  props: ElFormProps
+  props: FormProps
 
-  formRules: Ref<FormRules>
+  formRules: FormRules
   emit: (evt: 'validate', ...args: any[]) => void
   addFormItem: (field: string, formItem: FormItemContext) => void
   deleteFormItem: (field: string) => void
@@ -26,6 +26,6 @@ export interface FormItemContext {
   clearValidate(): void
 }
 
-export const elFormKey: InjectionKey<FormContext> = Symbol('elForm')
-export const elFormItemKey: InjectionKey<FormItemContext> =
+export const formKey: InjectionKey<FormContext> = Symbol('elForm')
+export const formItemKey: InjectionKey<FormItemContext> =
   Symbol('elFormItem')

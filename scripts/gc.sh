@@ -35,15 +35,10 @@ cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
 
 </template>
 <script lang='ts' setup>
-import { defineComponent } from 'vue'
-
 defineOptions({
   name: 'El${NAME}'
 })
 </script>
-<style lang="scss">
-
-</style>
 EOF
 
 cat <<EOF >"$DIRNAME/index.ts"

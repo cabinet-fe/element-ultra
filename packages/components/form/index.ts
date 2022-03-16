@@ -11,3 +11,5 @@ export default ElForm
 export const ElFormItem = withNoopInstall(FormItem)
 
 export * from './src/form'
+
+export { default as useFormModel } from './src/use-form-model'

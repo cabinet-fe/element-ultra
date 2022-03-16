@@ -362,6 +362,10 @@ export const sidebars = {
           link: '/component/pro-table',
           text: 'ProTable 集成表格',
         },
+        {
+          link: '/component/form-dialog',
+          text: 'FormDialog 表单弹框',
+        },
       ]
     }
   ],

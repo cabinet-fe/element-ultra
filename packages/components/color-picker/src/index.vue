@@ -30,7 +30,6 @@
           <span :class="ns.be('dropdown', 'value')">
             <el-input
               v-model="customInput"
-              :validate-event="false"
               size="small"
               @keyup.enter="handleConfirm"
               @blur="handleConfirm"
@@ -108,7 +107,7 @@ import { debounce } from 'lodash-unified'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import { ClickOutside } from '@element-ultra/directives'
-import { elFormItemKey, elFormKey } from '@element-ultra/tokens'
+import { formItemKey, formKey } from '@element-ultra/tokens'
 import { useLocale, useSize, useNamespace } from '@element-ultra/hooks'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElInput from '@element-ultra/components/input'
@@ -160,8 +159,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('color')
-    const elForm = inject(elFormKey, {} as FormContext)
-    const elFormItem = inject(elFormItemKey, {} as FormItemContext)
+    const elForm = inject(formKey, {} as FormContext)
+    const elFormItem = inject(formItemKey, {} as FormItemContext)
 
     const hue = ref(null)
     const svPanel = ref(null)
@@ -267,7 +266,7 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem.validate?.('change')
+      elFormItem?.validate()
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
@@ -287,7 +286,7 @@ export default defineComponent({
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
       if (props.modelValue !== null) {
-        elFormItem.validate?.('change')
+        elFormItem?.validate()
       }
       resetColor()
     }

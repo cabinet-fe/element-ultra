@@ -45,7 +45,6 @@
       :min="min"
       :name="name"
       :label="label"
-      :validate-event="false"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -208,7 +207,6 @@ export default defineComponent({
       emit('update:modelValue', newVal)
       emit('input', newVal)
       emit('change', newVal, oldVal)
-      formItem?.validate?.('change')
       data.currentValue = newVal
     }
     const handleInput = (value: string) => {
