@@ -1,6 +1,6 @@
 import { omit } from 'lodash'
 import { shallowReactive } from 'vue'
-import type { FormModel, FormRules } from './form'
+import type { FormModel, FormModelItem } from './form'
 
 /**
  * 使用表单数据模型
@@ -19,6 +19,7 @@ export default function useFormModel<M extends FormModel>(model: M) {
   const rules = modelKeys.reduce((acc, key) => {
     acc[key] = omit(model[key], ['value'])
     return acc
-  }, {}) as { [K in keyof M]: FormRules }
+  }, {}) as { [K in keyof M]: Omit<FormModelItem, 'value'> }
+
   return [form, rules] as const
 }
