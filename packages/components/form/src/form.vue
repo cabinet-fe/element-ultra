@@ -9,7 +9,17 @@
 </template>
 
 <script lang="ts" setup>
-import { cloneVNode, h, inject, onBeforeUnmount, provide, useSlots } from 'vue'
+import {
+  cloneVNode,
+  h,
+  inject,
+  isVNode,
+  onBeforeUnmount,
+  provide,
+  useSlots,
+  type VNode,
+type VNodeArrayChildren,
+} from 'vue'
 import { ElFormItem, ElGrid } from '@element-ultra/components'
 import { formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
@@ -18,6 +28,7 @@ import type { FormItemContext as FormItemCtx } from '@element-ultra/tokens'
 import type { FormRules } from './form'
 import { useNamespace } from '@element-ultra/hooks'
 import { formDialogContextKey } from '@element-ultra/tokens'
+import { isFragment, isTemplate } from '@element-ultra/utils'
 defineOptions({
   name: 'ElForm',
 })
@@ -39,44 +50,57 @@ let defaultFormValues: Record<string, any> = {
   ...props.data,
 }
 
-/** 获取插槽 */
+const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
+  let result: any[] = []
+
+  nodeList.forEach((node) => {
+    if (!isVNode(node)) {
+      return result.push(node)
+    }
+
+    if (typeof node.type === 'object') {
+      if (formComponents.has((node.type as any).name)) {
+        // TODO最终将这些属性全部定义到各个组件中去
+        const { label, field, tips } = node.props || {}
+
+        if (!field) return node
+
+        result.push(
+          h(ElFormItem, { label, field, tips }, () => {
+            const cloned = cloneVNode(node, {
+              modelValue: data[field],
+              'onUpdate:modelValue': (value: any) => {
+                data[field] = value
+              },
+            })
+            return cloned
+          })
+        )
+      } else {
+        result.push(node)
+      }
+    } else if (isFragment(node) || isTemplate(node)) {
+      // 如果是模板或者片段则渲染children
+      // children type -> string | VNodeArrayChildren | RawSlots | null
+      if (Array.isArray(node.children)) {
+        result = result.concat(wrapFormItem(node.children, data))
+      } else {
+        result.push(node.children)
+      }
+    } else {
+      result.push(node)
+    }
+  })
+
+  return result
+}
+/** 获取子组件vnode */
 const getChildren = () => {
   const { data } = props
   const vNodeList = slots.default?.(data) || []
-
   if (!data) return vNodeList
 
-  return vNodeList.map((node) => {
-    if (
-      typeof node.type === 'object' &&
-      formComponents.has((node.type as any).name)
-    ) {
-      // TODO最终将这些属性全部定义到各个组件中去
-      const { label, field, tips } = node.props || {}
-
-      if (!field) return node
-
-      return h(
-        ElFormItem,
-        {
-          label,
-          field,
-          tips,
-        },
-        () => {
-          const cloned = cloneVNode(node, {
-            modelValue: data[field],
-            'onUpdate:modelValue': (value: any) => {
-              data[field] = value
-            },
-          })
-          return cloned
-        }
-      )
-    }
-
-    return node
-  })
+  return wrapFormItem(vNodeList, data)
 }
 // 添加和删除表单项
 const addFormItem = (name: string, formItem: FormItemCtx) => {

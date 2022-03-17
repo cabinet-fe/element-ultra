@@ -81,7 +81,7 @@ import { useMove } from './useMove'
 import { CHANGE_EVENT } from './transfer'
 
 import type { PropType, VNode } from 'vue'
-import type { ElFormItemContext } from '@element-ultra/tokens'
+import type { FormItemContext } from '@element-ultra/tokens'
 import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
 
 type TransferType = InstanceType<typeof TransferPanel>
@@ -165,7 +165,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const { t } = useLocale()
     const ns = useNamespace('transfer')
-    const elFormItem = inject(formItemKey, {} as ElFormItemContext)
+    const elFormItem = inject(formItemKey, {} as FormItemContext)
 
     const checkedState = reactive({
       leftChecked: [],

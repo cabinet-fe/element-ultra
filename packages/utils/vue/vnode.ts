@@ -6,7 +6,7 @@ import {
   openBlock,
   createCommentVNode,
   isVNode,
-  camelize,
+  camelize
 } from 'vue'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'

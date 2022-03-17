@@ -7,3 +7,5 @@ export * from './src/pro-table'
 export const ElProTable = withInstall(ProTable)
 
 export default ElProTable
+
+export type ProTableInstance = InstanceType<typeof ProTable>

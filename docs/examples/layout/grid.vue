@@ -26,7 +26,7 @@ const columnGap = ref(12)
 const gap = computed(() => `${rowGap.value},${columnGap.value}`)
 </script>
 
-<style>
+<style scoped>
 .el-grid div {
   background-color: #ccc;
   height: 36px;

@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :model-value="modelValue"
+    :title="title"
     @update:model-value="emit('update:modelValue', $event)"
   >
     <slot />
@@ -16,7 +17,7 @@
 import ElDialog from '@element-ultra/components/dialog'
 import ElButton from '@element-ultra/components/button'
 import { formDialogProps } from './form-dialog'
-import { formDialogContextKey, type FormContext } from '@element-ultra/tokens'
+import { formDialogContextKey } from '@element-ultra/tokens'
 import { provide } from 'vue'
 defineOptions({
   name: 'ElFormDialog',
@@ -26,8 +27,6 @@ const props = defineProps(formDialogProps)
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
-
-emit('update:modelValue', false)
 
 // TODO这里form的类型最终需要还原
 // TODO 要把一些代码抽成useFormDialog
@@ -47,6 +46,7 @@ provide(formDialogContextKey, {
 
 const cancel = () => {
   emit('update:modelValue', false)
+  resetForm()
 }
 
 const validateForm = async () => {
@@ -67,7 +67,7 @@ const submit = async () => {
   if (props.confirm) {
     await props.confirm()
   }
-  resetForm()
+
   cancel()
 }
 

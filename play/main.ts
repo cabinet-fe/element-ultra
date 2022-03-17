@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import '@element-ultra/theme-chalk/src/index.scss'
 import { setConfigStore } from 'element-ultra'
 
 setConfigStore({
@@ -28,6 +27,10 @@ async function start () {
   }
   const App = (await file()).default
   const app = createApp(App)
+
+  app.config.warnHandler = function(msg, vm, trace) {
+    console.warn(`[警告]: ${msg}, 地址: ${trace}`)
+  }
 
   app.mount('#play')
 }

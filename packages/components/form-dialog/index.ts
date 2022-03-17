@@ -6,3 +6,5 @@ export const ElFormDialog = withInstall(FormDialog)
 export default FormDialog
 
 export * from './src/form-dialog'
+
+export { default as useFormDialog } from './src/use-form-dialog'
