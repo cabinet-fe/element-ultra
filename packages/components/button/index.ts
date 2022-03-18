@@ -5,6 +5,7 @@ import ButtonGroup from './src/button-group.vue'
 export const ElButton = withInstall(Button, {
   ButtonGroup,
 })
+
 export const ElButtonGroup = withNoopInstall(ButtonGroup)
 export default ElButton
 

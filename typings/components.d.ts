@@ -54,6 +54,7 @@ declare module 'vue' {
     ElMenu: typeof import('../packages/element-ultra')['ElMenu']
     ElMenuItem: typeof import('../packages/element-ultra')['ElMenuItem']
     ElMenuItemGroup: typeof import('../packages/element-ultra')['ElMenuItemGroup']
+    ElMultipleForm: typeof import('../packages/element-ultra')['ElMultipleForm']
     ElOption: typeof import('../packages/element-ultra')['ElOption']
     ElOptionGroup: typeof import('../packages/element-ultra')['ElOptionGroup']
     ElPageHeader: typeof import('../packages/element-ultra')['ElPageHeader']

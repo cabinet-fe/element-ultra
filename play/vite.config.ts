@@ -50,7 +50,9 @@ export default defineConfig(async () => {
       https: !!process.env.HTTPS,
     },
     plugins: [
-      vue(),
+      vue({
+        reactivityTransform: true
+      }),
       esbuildPlugin(),
       vueJsx(),
       DefineOptions(),
