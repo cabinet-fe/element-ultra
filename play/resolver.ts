@@ -22,18 +22,9 @@ type ElementPlusResolverOptionsResolved = Required<
 > &
   Pick<ElementPlusResolverOptions, 'exclude'>
 
-
-function getSideEffects(
-  dirName: string,
-  options: ElementPlusResolverOptionsResolved
-): any {
-  const { ssr } = options
-  const themeFolder = '@element-ultra/theme-chalk'
+function getSideEffects(dirName: string): any {
   const esComponentsFolder = '@element-ultra/components'
-
-  return ssr
-    ? `${themeFolder}/src/${dirName}.scss`
-    : `${esComponentsFolder}/${dirName}/style/index`
+  return `${esComponentsFolder}/${dirName}/style/index`
 }
 
 function kebabCase(key: string) {
@@ -41,22 +32,15 @@ function kebabCase(key: string) {
   return result.split(' ').join('-').toLowerCase()
 }
 
-function resolveComponent(
-  name: string,
-  options: ElementPlusResolverOptionsResolved
-): any | undefined {
-  if (options.exclude && name.match(options.exclude)) return
-
+function resolveComponent(name: string): any | undefined {
   if (!name.match(/^El[A-Z]/)) return
 
   const partialName = kebabCase(name.slice(2)) // ElTableColumn -> table-column
 
-
-  // >=1.1.0-beta.1
   return {
     importName: name,
     path: `element-ultra`,
-    sideEffects: getSideEffects(partialName, options),
+    sideEffects: getSideEffects(partialName),
   }
 }
 
@@ -82,7 +66,7 @@ function resolveDirective(
   return {
     importName: directive.importName,
     path: `element-ultra`,
-    sideEffects: getSideEffects(directive.styleName, options),
+    sideEffects: getSideEffects(directive.styleName),
   }
 }
 
@@ -106,7 +90,7 @@ export function ElementPlusResolver(
     {
       type: 'component',
       resolve: async (name: string) => {
-        return resolveComponent(name, await resolveOptions())
+        return resolveComponent(name)
       },
     },
     {

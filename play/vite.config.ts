@@ -11,7 +11,6 @@ import DefineOptions from 'unplugin-vue-define-options/vite'
 import esbuild from 'rollup-plugin-esbuild'
 import { epRoot, pkgRoot, projRoot, epPackage } from '../build/utils/paths'
 import { getPackageDependencies } from '../build/utils/pkg'
-import './vite.init'
 
 const esbuildPlugin = () => ({
   ...esbuild({

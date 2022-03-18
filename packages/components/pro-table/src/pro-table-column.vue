@@ -1,24 +1,26 @@
 <template>
   <el-table-column
-    :width="column.width"
+    v-if="!column.children || !column.children.length"
+    v-bind="inheritColumns"
     :prop="column.key"
-    :fixed="column.fixed"
     :formatter="column.render"
     :name="label"
-    v-if="!column.children || !column.children.length"
   >
     <template #header v-if="headerRender">
       {{headerRender!()}}
     </template>
+
+    <template #default="scope" v-if="$slots.default">
+      <slot v-bind="scope" />
+    </template>
   </el-table-column>
 
   <el-table-column
-    :width="column.width"
+    v-else
+    v-bind="inheritColumns"
     :prop="column.key"
-    :fixed="column.fixed"
     :formatter="column.render"
     :name="label"
-    v-else
   >
     <template #header v-if="headerRender">
       {{headerRender!()}}
@@ -36,9 +38,21 @@
 import { computed, type PropType } from 'vue'
 import { ElTableColumn } from '@element-ultra/components/table'
 import type { ProTableColumn } from './pro-table'
+import { omit } from 'lodash'
 
 defineOptions({
   name: 'ProTableColumn',
+})
+
+const props = defineProps({
+  column: {
+    type: Object as PropType<ProTableColumn>,
+    required: true,
+  },
+})
+
+let inheritColumns = computed(() => {
+  return omit(props.column, ['key', 'render', 'name'])
 })
 
 const label = computed(() => {
@@ -49,12 +63,5 @@ const label = computed(() => {
 const headerRender = computed(() => {
   const { name } = props.column
   return typeof name === 'string' ? undefined : name
-})
-
-const props = defineProps({
-  column: {
-    type: Object as PropType<ProTableColumn>,
-    required: true,
-  },
 })
 </script>

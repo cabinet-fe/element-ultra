@@ -40,7 +40,10 @@ export const proTableProps =  buildProps({
 } as const)
 
 /** 专业数据表格类配置 */
-export interface ProTableColumn extends DataTableColumn {}
+export interface ProTableColumn extends DataTableColumn {
+  /** 定义此列的动态插槽 */
+  slot?: string
+}
 
 
 /** 专业表格属性 */

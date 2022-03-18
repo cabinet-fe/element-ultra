@@ -1,5 +1,7 @@
-import { createApp } from 'vue'
+import { createApp, h } from 'vue'
 import { setConfigStore } from 'element-ultra'
+import { router } from './src/router'
+import App from  './App.vue'
 
 setConfigStore({
   proTableDefaultSize: 60,
@@ -7,32 +9,31 @@ setConfigStore({
     let data = [
       {
         name: '张三',
+        id: 1,
         age: 20,
+
+        children: [
+          { name: '李四', id: 2, age: 21 }
+        ]
       },
     ]
     return {
       data,
-      total: data.length
+      total: data.length,
     }
   },
 })
 
-async function start () {
-  const apps = import.meta.glob('./src/*.vue')
-  const name = location.pathname.replace(/^\//, '') || 'app'
-  const file = apps[`./src/${name}.vue`]
-  if (!file) {
-    location.pathname = 'App'
-    return
-  }
-  const App = (await file()).default
-  const app = createApp(App)
+const app = createApp({
+  render() {
+    return h(App)
+  },
+})
 
-  app.config.warnHandler = function(msg, vm, trace) {
-    console.warn(`[警告]: ${msg}, 地址: ${trace}`)
-  }
+app.use(router)
 
-  app.mount('#play')
+app.config.warnHandler = function (msg, vm, trace) {
+  console.warn(`[警告]: ${msg}, 地址: ${trace}`)
 }
 
-start()
+app.mount('#play')

@@ -1,5 +1,5 @@
 <template>
-  <div :class="[ns.b(), $attrs.class]">
+  <div :class="[ns.b(), $attrs.class]" :style="{ height }">
     <section ref="searcherRef" v-if="$slots.searcher" :class="ns.e('searcher')">
       <div :class="ns.e('searcher-box')">
         <slot name="searcher" />
@@ -13,7 +13,7 @@
         <slot name="tools" />
       </div>
       <div :class="ns.e('tools-right')">
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="fetchData">查询</el-button>
       </div>
     </section>
 
@@ -28,10 +28,15 @@
         v-for="column of columns"
         :column="column"
         :key="column.key"
-      />
+      >
+        <template v-if="column.slot" #default="scope">
+          <slot v-bind="scope" :name="column.slot" />
+        </template>
+      </pro-table-column>
     </el-table>
 
     <el-pagination
+      :class="ns.e('pagination')"
       v-if="pagination"
       style="justify-content: flex-end"
       v-model:current-page="query.page"
@@ -51,13 +56,7 @@ import { proTableProps } from './pro-table'
 import usePreColumns from './use-pre-columns'
 import ElPagination from '@element-ultra/components/pagination'
 import ElButton from '@element-ultra/components/button'
-import {
-  computed,
-  shallowReactive,
-  watch,
-  shallowRef,
-  onMounted
-} from 'vue'
+import { computed, shallowReactive, watch, shallowRef, onMounted } from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 
 defineOptions({
