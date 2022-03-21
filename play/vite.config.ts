@@ -5,7 +5,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from './resolver'
 import Inspect from 'vite-plugin-inspect'
-import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import esbuild from 'rollup-plugin-esbuild'
@@ -38,11 +37,7 @@ export default defineConfig(async () => {
         {
           find: /^element-ultra$/,
           replacement: path.resolve(epRoot, 'index.ts'),
-        },
-        {
-          find: /^element-ultra$/,
-          replacement: `${pkgRoot}/$2`,
-        },
+        }
       ],
     },
     server: {
@@ -57,11 +52,10 @@ export default defineConfig(async () => {
       vueJsx(),
       DefineOptions(),
       Components({
-        include: `${__dirname}/**`,
+        include: ["src/*"],
         resolvers: ElementPlusResolver({}),
         dts: false,
       }),
-      mkcert(),
       Inspect(),
     ],
 
