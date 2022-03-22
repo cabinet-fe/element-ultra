@@ -107,6 +107,10 @@ export const sidebars = {
           link: '/component/config-provider',
           text: 'Config Provider 全局配置',
         },
+        {
+          link: '/component/config-store',
+          text: 'Config 全局配置(新)',
+        },
       ],
     },
     {

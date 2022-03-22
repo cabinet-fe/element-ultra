@@ -1,8 +1,9 @@
 import { createApp, h } from 'vue'
-import { setConfigStore } from 'element-ultra'
+import { useConfig } from 'element-ultra'
 import { router } from './src/router'
 import App from  './App.vue'
 
+const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
   proTableRequestMethod: () => {

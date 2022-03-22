@@ -10,45 +10,22 @@ lang: zh-CN
 element-ultra的表单在原来element-plus的基础上做了大量的改动.
 
 1. 你无需在你的表单中加入el-form-item元素来包裹表单控件
-2. 你无需分开定义规则和表单值
+2. 借助useFormModel方法, 你无需分开定义规则和表单值
 3. 内部使用el-grid组件来完成自适应布局
 4. 校验方法移到了form中, 这意味着内存的节省
 5. 不再依赖async-validator的校验
 
 
-## 带校验的表单示例
+## 比较完整的表单示例
 
 Form 组件允许你验证用户的输入是否符合规范，来帮助你找到和纠正错误。
-
+该示例很完整, 包含label-position控制, size尺寸控制.
 :::demo
 
 form/validation
 
 :::
 
-## 自定义校验规则
-
-这个例子中展示了如何使用自定义验证规则来完成密码的二次验证。
-
-:::demo 本例还使用`status-icon`属性为输入框添加了表示校验结果的反馈图标。
-
-form/custom-validation
-
-:::
-
-:::tip
-
-自定义的校验回调函数必须被调用。 更多高级用法可参考 [async-validator](https://github.com/yiminghe/async-validator)。
-
-:::
-
-## 动态增减表单项
-
-:::demo 除了一次通过表单组件上的所有验证规则外. 您也可以动态地通过验证规则或删除单个表单字段的规则。
-
-form/form-items
-
-:::
 
 ## 数字类型验证
 
@@ -64,21 +41,11 @@ form/number-validate
 
 :::
 
-## 表单内组件尺寸控制
-
-表单中的所有子组件都继承了该表单的 `size` 属性。 同样，form-item 也有一个 `size` 属性。
-
-:::demo 如果希望某个表单项或某个表单组件的尺寸不同于 Form 上的 `size` 属性，直接为这个表单项或表单组件设置自己的 size 属性即可。
-
-form/size-control
-
-:::
-
 ## Form 属性
 
 | 属性                    | 说明                                                                                        | 类型            | 可选值                | 默认值 |
 | ----------------------- | ------------------------------------------------------------------------------------------- | --------------- | --------------------- | ------ |
-| model                   | 表单数据对象                                                                                | object          | —                     | —      |
+| data                   | 表单数据对象                                                                                | object          | —                     | —      |
 | rules                   | 表单验证规则                                                                                | object          | —                     | —      |
 | inline                  | 行内表单模式                                                                                | boolean         | —                     | false  |
 | label-position          | 表单域标签的位置， 如果值为 left 或者 right 时，则需要设置 `label-width`                    | string          | left / right / top    | right  |

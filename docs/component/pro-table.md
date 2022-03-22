@@ -19,6 +19,7 @@ lang: zh-CN
 
 ```ts
 // 你的入口文件 main.ts
+import { useConfig } from 'element-ultra'
 
 const request: ProTableRequestMethod = ({ api, query }) => {
   //  在控制台查看参数
@@ -38,7 +39,7 @@ const request: ProTableRequestMethod = ({ api, query }) => {
     }, 600)
   })
 }
-
+const [, setConfigStore]  = useConfig()
 setConfigStore({
   // 表格分页的默认分页size
   proTableDefaultSize: 60,

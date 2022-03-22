@@ -11,6 +11,11 @@
     <el-radio-button label="small">小</el-radio-button>
   </el-radio-group>
 
+  <el-radio-group v-model="disabled">
+    <el-radio-button :label="true">禁止编辑</el-radio-button>
+    <el-radio-button :label="false">可编辑</el-radio-button>
+  </el-radio-group>
+
   <br /><br>
   <hr />
   <br />
@@ -22,6 +27,7 @@
     label-width="120px"
     class="demo-ruleForm"
     :size="formSize"
+    :disabled="disabled"
     :label-position="labelPosition"
   >
 
@@ -49,7 +55,7 @@
       <el-radio label="场地"></el-radio>
     </el-radio-group>
 
-    <el-input label="Activity form" field="desc" type="textarea"></el-input>
+    <el-textarea label="Activity form" field="desc" />
     <el-form-item>
       <el-button type="primary" @click="submitForm"
         >提交</el-button
@@ -65,6 +71,7 @@ import { ref } from 'vue'
 import { FormInstance, useFormModel } from 'element-ultra'
 
 const formSize = ref('default')
+const disabled = ref(false)
 const ruleFormRef = ref<FormInstance>()
 
 // 除此之外, 你也可以按照经典方式去使用form-item进行双向绑定, 可以但是没有必要
@@ -83,7 +90,7 @@ const [data, rules] = useFormModel({
     value: '',
     required: true,
   },
-  delivery: false,
+  delivery: { value: [] },
   type: {
     value: [],
     required: true,

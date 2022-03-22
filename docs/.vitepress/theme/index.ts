@@ -1,4 +1,4 @@
-import ElementUltra, { setConfigStore ,type ProTableRequestMethod } from 'element-ultra'
+import ElementUltra, { useConfig ,type ProTableRequestMethod } from 'element-ultra'
 
 // windicss layers
 import 'virtual:windi-base.css'
@@ -32,6 +32,8 @@ const request: ProTableRequestMethod = ({ api, query }) => {
   })
 }
 
+
+const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
   proTableRequestMethod: request
