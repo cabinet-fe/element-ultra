@@ -47,18 +47,19 @@ export default series(
 
   parallel(
     runTask('buildModules'),
-    // runTask('buildFullBundle'), // 生成完成包, 一般不需要吧
-    runTask('generateTypesDefinitions'), // 生成类型定义文件
-    runTask('buildHelper'),
-    series(
-      withTaskName('buildThemeChalk', () =>
-        run('pnpm run -C packages/theme-chalk build')
-      ),
-      copyFullStyle
-    )
+
+    // runTask('buildFullBundle'), // 生成完整包, 一般不需要吧
+    // runTask('generateTypesDefinitions'), // 生成类型定义文件
+    // runTask('buildHelper'),
+    // series(
+    //   withTaskName('buildThemeChalk', () =>
+    //     run('pnpm run -C packages/theme-chalk build')
+    //   ),
+    //   copyFullStyle
+    // )
   ),
 
-  parallel(copyTypesDefinitions, copyFiles)
+  // parallel(copyTypesDefinitions, copyFiles)
 )
 
 export * from './types-definitions'

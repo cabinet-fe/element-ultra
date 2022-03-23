@@ -50,7 +50,7 @@ export const buildConfig: Record<string, BuildInfo> = {
 }
 export const buildConfigEntries = Object.entries(
   buildConfig
-) as BuildConfigEntries
+)  as BuildConfigEntries
 
 export type BuildConfig = typeof buildConfig
 export type BuildConfigEntries = [Module, BuildInfo][]

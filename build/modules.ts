@@ -24,6 +24,7 @@ export const buildModules = async () => {
       onlyFiles: true,
     })
   )
+
   const bundle = await rollup({
     input,
     plugins: [
@@ -50,10 +51,12 @@ export const buildModules = async () => {
     external: await generateExternal({ full: false }),
     treeshake: false,
   })
+
+  return
+
   await writeBundles(
     bundle,
     buildConfigEntries.map(([module, config]): OutputOptions => {
-      console.log(module, config)
       return {
         format: config.format,
         dir: config.output.path,
