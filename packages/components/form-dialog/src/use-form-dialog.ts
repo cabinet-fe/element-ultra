@@ -8,7 +8,7 @@ type ReactiveObj = ShallowReactive<Record<string, any>>
  * @returns
  */
 export default function useFormDialog<
-  T extends string = string,
+  T extends string = 'create' | 'update',
   F extends ReactiveObj = ReactiveObj
 >(formData: F) {
   const dialog = shallowReactive({

@@ -3,7 +3,6 @@ import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import WindiCSS from 'vite-plugin-windicss'
-import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
@@ -53,7 +52,6 @@ export default async () => {
   return defineConfig({
     server: {
       host: true,
-      https: !!process.env.HTTPS,
       fs: {
         allow: [projRoot],
       },
@@ -90,7 +88,6 @@ export default async () => {
       }),
       WindiCSS(),
       Inspect(),
-      mkcert(),
     ],
     optimizeDeps: {
       include: optimizeDeps,

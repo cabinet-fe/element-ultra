@@ -1,12 +1,12 @@
 <template>
-  <div ref="formItemRef" class="el-form-item" :class="formItemClass">
+  <div ref="formItemRef" :class="formItemClass">
     <label
       v-if="currentLabel"
       :for="field"
-      class="el-form-item__label"
+      :class="ns.e('label')"
       :style="labelStyle"
     >
-      <span style="margin-right: 2px;">
+      <span style="margin-right: 2px">
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
@@ -19,11 +19,11 @@
       </ElTooltip>
     </label>
 
-    <div class="el-form-item__content">
+    <div :class="ns.e('content')">
       <slot></slot>
 
       <transition name="el-zoom-in-top">
-        <div v-if="errorVisible" class="el-form-item__error">
+        <div v-if="errorVisible" :class="ns.e('error')">
           {{ validateMessage }}
         </div>
       </transition>
@@ -48,6 +48,7 @@ import { QuestionFilled } from '@element-plus/icons-vue'
 import type { CSSProperties } from 'vue'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
+import { useNamespace } from '@element-ultra/hooks'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -70,7 +71,7 @@ export default defineComponent({
   },
   setup(props) {
     const elForm = inject(formKey)
-
+    const ns = useNamespace('form-item')
     const validateMessage = ref('')
     const formItemRef = ref<HTMLDivElement>()
 
@@ -132,10 +133,15 @@ export default defineComponent({
       props.field && elForm?.deleteFormItem(props.field)
     })
 
-    const formItemClass = computed(() => ({
-      'is-required': isRequired.value,
-      'is-error': errorVisible.value,
-    }))
+    const formItemClass = computed(() => {
+      const ret = [ns.b()]
+
+      isRequired.value && ret.push('is-required')
+      errorVisible.value && ret.push('is-error')
+      elForm?.props.size && ret.push(ns.m(elForm.props.size))
+
+      return ret
+    })
 
     const errorVisible = computed(() => !!validateMessage.value)
 
@@ -154,6 +160,7 @@ export default defineComponent({
       reset,
       clearValidate,
       currentLabel,
+      ns,
     }
   },
 })

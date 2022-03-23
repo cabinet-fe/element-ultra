@@ -75,22 +75,6 @@ $form-item-label-top-margin-bottom: map.merge(
       }
     }
   }
-  @include m(inline) {
-    .#{$namespace}-form-item {
-      display: inline-flex;
-      vertical-align: middle;
-      margin-right: 32px;
-    }
-
-    &.#{$namespace}-form--label-top {
-      display: flex;
-      flex-wrap: wrap;
-
-      .#{$namespace}-form-item {
-        display: block;
-      }
-    }
-  }
 
   @each $size in (large, default, small) {
     @include m($size) {
@@ -170,6 +154,15 @@ $form-item-label-top-margin-bottom: map.merge(
 
     .#{$namespace}-input-group {
       vertical-align: top;
+    }
+
+    .el-input,
+    .el-textarea,
+    .el-select,
+    .el-tree-select,
+    .el-date-picker,
+    .el-date-editor {
+      width: 100%;
     }
   }
   @include e(error) {

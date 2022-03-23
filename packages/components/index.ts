@@ -69,6 +69,7 @@ export * from './tree'
 export * from './tree-select'
 export * from './upload'
 export * from './virtual-list'
+export * from './wang-editor'
 // plugins
 export * from './infinite-scroll'
 export * from './loading'

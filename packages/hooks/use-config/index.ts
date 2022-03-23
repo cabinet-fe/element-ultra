@@ -13,8 +13,11 @@ export type ProTableRequestMethod =  (
 ) => Promise<RequestResponse> | RequestResponse
 
 export interface ConfigStore {
+  /** 全局组件尺寸 */
   size?: 'large' | 'default' | 'small'
+  /** 集成表格的api使用的请求方法 */
   proTableRequestMethod?: ProTableRequestMethod
+  /** 集成表格分页默认大小 */
   proTableDefaultSize?: number
 }
 
@@ -23,10 +26,10 @@ const configStore = reactive<ConfigStore>({
   proTableDefaultSize: 20,
 })
 
-export const setConfigStore = (config: ConfigStore) => {
+const setConfigStore = (config: ConfigStore) => {
   Object.assign(configStore, config)
 }
 
 export const useConfig = () => {
-  return readonly(configStore)
+  return [readonly(configStore), setConfigStore] as const
 }

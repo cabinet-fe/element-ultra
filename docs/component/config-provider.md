@@ -3,7 +3,11 @@ title: 全局配置
 lang: zh-CN
 ---
 
-# Config Provider 全局配置
+# ~~Config Provider 全局配置~~
+
+::: warning
+这个已经被废弃掉了, 该文档也会在某个时候删除!!!
+:::
 
 Config Provider 被用来提供全局的配置选项，让你的配置能够在全局都能够被访问到。
 
