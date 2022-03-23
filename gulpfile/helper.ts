@@ -1,8 +1,6 @@
 import path from 'path'
 import helper from 'components-helper'
 import { epPackage, epOutput, projRoot } from './utils/paths'
-import { getPackageManifest } from './utils/pkg'
-import type { TaskFunction } from 'gulp'
 import type { InstallOptions } from 'components-helper/lib/type'
 
 const reComponentName: InstallOptions['reComponentName'] = (title: string) =>
@@ -66,8 +64,8 @@ const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
   }
 }
 
-export const buildHelper: TaskFunction = (done) => {
-  const { name, version } = getPackageManifest(epPackage)
+export default async function buildHelper() {
+  const { name, version } = require(epPackage)
 
   const tagVer = process.env.TAG_VERSION
   const _version = tagVer
@@ -95,6 +93,4 @@ export const buildHelper: TaskFunction = (done) => {
     tableRegExp:
       '#+\\s+(.*\\s*Attributes|.*\\s*Events|.*\\s*Slots|.*\\s*Directives)\\s*\\n+(\\|?.+\\|.+)\\n\\|?\\s*:?-+:?\\s*\\|.+((\\n\\|?.+\\|.+)+)',
   })
-
-  done()
 }

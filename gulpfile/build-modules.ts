@@ -10,51 +10,53 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { epOutput, epRoot } from './utils/paths'
 import { generateExternal } from './utils/rollup'
+import { resolve } from 'path'
 
 /** 构建packages下的模块 */
 export default async function buildModules() {
   const excludeRE = /(test|mock|gulpfile|dist)/
 
-  const input = (await glob('packages/**/*.{js,ts,vue}', {
+  const input = (await glob('**/*.{js,ts,vue}', {
       absolute: true,
-      ignore: ['packages/**/node_modules'],
+      cwd: resolve(__dirname, '../packages'),
+      ignore: ['**/node_modules'],
       onlyFiles: true
     }))
     .filter((item) => !excludeRE.test(item))
 
-  // const bundle = await rollup({
-  //   input,
-  //   plugins: [
-  //     ElementUltraAlias(),
-  //     css(),
-  //     DefineOptions(),
-  //     vue({
-  //       isProduction: false,
-  //     }),
-  //     vueJsx(),
-  //     nodeResolve({
-  //       extensions: ['.mjs', '.js', '.json', '.ts'],
-  //     }),
-  //     commonjs(),
-  //     esbuild({
-  //       sourceMap: true,
-  //       target: 'es2018',
-  //       loaders: {
-  //         '.vue': 'ts',
-  //       },
-  //     }),
-  //   ],
-  //   external: await generateExternal({ full: false }),
-  //   treeshake: false,
-  // })
+  const bundle = await rollup({
+    input,
+    plugins: [
+      ElementUltraAlias(),
+      css(),
+      DefineOptions(),
+      vue({
+        isProduction: true,
+      }),
+      vueJsx(),
+      nodeResolve({
+        extensions: ['.mjs', '.js', '.json', '.ts'],
+      }),
+      commonjs(),
+      esbuild({
+        sourceMap: true,
+        target: 'es2018',
+        loaders: {
+          '.vue': 'ts',
+        },
+      }),
+    ],
+    external: await generateExternal({ full: false }),
+    treeshake: false,
+  })
 
-  // await bundle.write({
-  //   format: 'esm',
-  //   dir: epOutput,
-  //   exports: undefined,
-  //   preserveModules: true,
-  //   preserveModulesRoot: epRoot,
-  //   sourcemap: true,
-  //   entryFileNames: `[name].mjs`,
-  // })
+  await bundle.write({
+    format: 'esm',
+    dir: epOutput,
+    exports: undefined,
+    preserveModules: true,
+    preserveModulesRoot: epRoot,
+    sourcemap: true,
+    entryFileNames: `[name].mjs`,
+  })
 }

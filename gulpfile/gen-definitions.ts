@@ -6,45 +6,44 @@ import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { errorAndExit, green, yellow } from './utils/log'
-import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
+import { buildOutput, epOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
 
-import { excludeFiles, pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
-
-const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
-const outDir = path.resolve(buildOutput, 'types')
 
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-export const generateTypesDefinitions = async () => {
+export default async function genDefinitions() {
+  const excludeRE = /(test|mock|gulpfile|dist|node_modules)/
+
   const project = new Project({
     compilerOptions: {
       emitDeclarationOnly: true,
-      outDir,
+      outDir: path.resolve(buildOutput, 'types'),
       baseUrl: projRoot,
       paths: {
         '@element-ultra/*': ['packages/*'],
       },
       preserveSymlinks: true,
     },
-    tsConfigFilePath: TSCONFIG_PATH,
+    tsConfigFilePath: path.resolve(projRoot, 'tsconfig.json'),
     skipAddingFilesFromTsConfig: true,
   })
 
-  const filePaths = excludeFiles(
+  const filePaths = (
     await glob(['**/*.{js,ts,vue}', '!element-ultra/**/*'], {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true,
     })
-  )
-  const epPaths = excludeFiles(
+  ).filter((path) => !excludeRE.test(path))
+
+  const epPaths = (
     await glob('**/*.{js,ts,vue}', {
       cwd: epRoot,
       onlyFiles: true,
     })
-  )
+  ).filter((path) => !excludeRE.test(path))
 
   const sourceFiles: SourceFile[] = []
   await Promise.all([
@@ -109,11 +108,13 @@ export const generateTypesDefinitions = async () => {
         recursive: true,
       })
 
-      await fs.writeFile(
-        filepath,
-        pathRewriter('esm')(outputFile.getText()),
-        'utf8'
+      let content = outputFile.getText()
+      content.replaceAll(
+        `@element-ultra/theme-chalk`,
+        'element-ultra/theme-chalk'
       )
+      content.replaceAll(`@element-ultra/`, `${epOutput}/`)
+      await fs.writeFile(filepath, content, 'utf8')
 
       green(`Definition for file: ${bold(relativePath)} generated`)
     })
