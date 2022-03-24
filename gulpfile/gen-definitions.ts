@@ -92,7 +92,7 @@ export default async function genDefinitions() {
   // console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   await project.emit({
-    emitOnlyDtsFiles: true,
+    emitOnlyDtsFiles: true
   })
 
   const tasks = sourceFiles.map(async sourceFile => {
@@ -112,8 +112,9 @@ export default async function genDefinitions() {
       })
 
       let content = outputFile.getText()
-      content.replaceAll(`@element-ultra/theme-chalk`, 'element-ultra/theme-chalk')
-      content.replaceAll(`@element-ultra/`, `${epOutput}/`)
+      content = content.replaceAll(`@element-ultra/theme-chalk`, 'element-ultra/theme-chalk')
+      content = content.replaceAll(`@element-ultra/`, `element-ultra/`)
+
       await fs.writeFile(filepath, content, 'utf8')
 
       // green(`Definition for file: ${bold(relativePath)} generated`)
