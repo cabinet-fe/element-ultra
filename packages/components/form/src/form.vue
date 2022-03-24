@@ -17,10 +17,10 @@ import {
   onBeforeUnmount,
   provide,
   useSlots,
-  type VNode,
-type VNodeArrayChildren,
+  type VNodeArrayChildren
 } from 'vue'
-import { ElFormItem, ElGrid } from '@element-ultra/components'
+import ElFormItem from './form-item.vue'
+import ElGrid from '@element-ultra/components/grid'
 import { formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
@@ -29,8 +29,9 @@ import type { FormRules } from './form'
 import { useNamespace } from '@element-ultra/hooks'
 import { formDialogContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
+
 defineOptions({
-  name: 'ElForm',
+  name: 'ElForm'
 })
 
 const props = defineProps(formProps)
@@ -47,13 +48,13 @@ const formItems: Record<string, FormItemCtx> = {}
 
 // 默认表单值
 let defaultFormValues: Record<string, any> = {
-  ...props.data,
+  ...props.data
 }
 
 const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
   let result: any[] = []
 
-  nodeList.forEach((node) => {
+  nodeList.forEach(node => {
     if (!isVNode(node)) {
       return result.push(node)
     }
@@ -71,7 +72,7 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
               modelValue: data[field],
               'onUpdate:modelValue': (value: any) => {
                 data[field] = value
-              },
+              }
             })
             return cloned
           })
@@ -129,11 +130,11 @@ const resetFields = () => {
 // 清除校验
 const clearValidate = (fields?: string | string[]) => {
   if (!fields) {
-    Object.values(formItems).forEach((formItem) => formItem.clearValidate())
+    Object.values(formItems).forEach(formItem => formItem.clearValidate())
   } else if (typeof fields === 'string') {
     formItems[fields].clearValidate()
   } else {
-    fields.forEach((field) => formItems[field].clearValidate())
+    fields.forEach(field => formItems[field].clearValidate())
   }
 }
 
@@ -161,9 +162,7 @@ const validateField = async (field: string) => {
       if (errMsg) return errMsg
     } else {
       // 预置校验
-      const errMsg = validators[ruleType](value, rule[ruleType]) as
-        | string
-        | null
+      const errMsg = validators[ruleType](value, rule[ruleType]) as string | null
       if (errMsg) return errMsg
     }
   }
@@ -175,13 +174,11 @@ const validateField = async (field: string) => {
 const validate = async (fields?: string | string[]) => {
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
-      (Array.isArray(fields) ? fields : Object.keys(formItems)).map((name) =>
+      (Array.isArray(fields) ? fields : Object.keys(formItems)).map(name =>
         formItems[name].validate()
       )
     )
-    return allValidation.every((valid) => valid)
-      ? Promise.resolve(true)
-      : Promise.reject(false)
+    return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
   }
   if (typeof fields === 'string') {
     const valid = await formItems[fields].validate()
@@ -199,7 +196,7 @@ const elForm = {
   emit,
   addFormItem,
   deleteFormItem,
-  validateField,
+  validateField
 }
 
 provide(formKey, elForm)
@@ -207,7 +204,7 @@ provide(formKey, elForm)
 const exposed = {
   validate,
   resetFields,
-  clearValidate,
+  clearValidate
 }
 // 尝试往formDialog组件中注册自己
 const formDialogContext = inject(formDialogContextKey, null)

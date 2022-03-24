@@ -50,7 +50,6 @@ importers:
       cz-conventional-changelog: ^3.3.0
       dayjs: ^1.10.7
       del: ^6.0.0
-      element-plus: ^2.1.4
       esbuild: ^0.14.27
       expect-type: ^0.13.0
       fast-glob: ^3.2.11
@@ -96,7 +95,6 @@ importers:
       '@popperjs/core': 2.11.4
       '@vueuse/core': 8.1.2_vue@3.2.31
       dayjs: 1.11.0
-      element-plus: 2.1.4_1a412d14def5ff5ca1122000e4bee666
       fe-dk: 1.0.10
       lodash: 4.17.21
       lodash-es: 4.17.21
@@ -3672,10 +3670,6 @@ packages:
       async-done: 1.3.2
     dev: true
 
-  /async-validator/4.0.7:
-    resolution: {integrity: sha512-Pj2IR7u8hmUEDOwB++su6baaRi+QvsgajuFB9j95foM1N2gy5HM4z60hfusIO0fBPG5uLAEl6yCJr1jNSVugEQ==}
-    dev: false
-
   /async/3.2.3:
     resolution: {integrity: sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==}
     dev: true
@@ -5065,29 +5059,6 @@ packages:
     resolution: {integrity: sha512-EXXTtDHFUKdFVkCnhauU7Xp8wmFC1ZG6GK9a1BeI2vvNhy61IwfNPo/CRexhf7mh4ajxAHJPind62BzpzVUeuQ==}
     dev: true
 
-  /element-plus/2.1.4_1a412d14def5ff5ca1122000e4bee666:
-    resolution: {integrity: sha512-pcwgDbKUrzyWbixYB/zIbLPLBQ/NPGPJnGXJ+jYozUSthPW4SuriaUGJKgbAE6PDBAtw3IodiT2E2GbiaZLxww==}
-    peerDependencies:
-      vue: ^3.2.0
-    dependencies:
-      '@ctrl/tinycolor': 3.4.0
-      '@element-plus/icons-vue': 1.1.3_vue@3.2.31
-      '@popperjs/core': 2.11.4
-      '@vueuse/core': 8.1.2_vue@3.2.31
-      async-validator: 4.0.7
-      dayjs: 1.11.0
-      escape-html: 1.0.3
-      lodash: 4.17.21
-      lodash-es: 4.17.21
-      lodash-unified: 1.0.2_da03a4540fbd16bbaafbb96724306afd
-      memoize-one: 6.0.0
-      normalize-wheel-es: 1.1.1
-      vue: 3.2.31
-    transitivePeerDependencies:
-      - '@types/lodash-es'
-      - '@vue/composition-api'
-    dev: false
-
   /emittery/0.7.2:
     resolution: {integrity: sha512-A8OG5SR/ij3SsJdWDJdkkSYUjQdCUx6APQXem0SaEePBSRg4eymGYwBkKo1Y6DU+af/Jn2dBQqDBvjnr9Vi8nQ==}
     engines: {node: '>=10'}
@@ -5390,6 +5361,7 @@ packages:
 
   /escape-html/1.0.3:
     resolution: {integrity: sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==}
+    dev: true
 
   /escape-string-regexp/1.0.5:
     resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}

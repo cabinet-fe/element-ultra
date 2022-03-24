@@ -1,14 +1,14 @@
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import glob from 'fast-glob'
-import { ElementUltraAlias } from './plugins/alias'
 import DefineOptions from 'unplugin-vue-define-options/rollup'
-import esbuild from 'rollup-plugin-esbuild'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
+import esbuild from 'rollup-plugin-esbuild'
+import glob from 'fast-glob'
 import { epOutput, epRoot, pkgRoot } from './utils/paths'
 import { generateExternal } from './utils/rollup'
+import { ElementUltraAlias } from './plugins/alias'
 
 /** 构建packages下的模块 */
 export default async function buildModules() {
@@ -22,7 +22,6 @@ export default async function buildModules() {
       ignore: ['**/node_modules']
     })
   ).filter(item => !excludeRE.test(item))
-
 
   const bundle = await rollup({
     input,

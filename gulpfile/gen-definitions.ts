@@ -16,38 +16,42 @@ import type { SourceFile } from 'ts-morph'
 export default async function genDefinitions() {
   const excludeRE = /(test|mock|gulpfile|dist|node_modules)/
 
+  // 当前项目
   const project = new Project({
     compilerOptions: {
       emitDeclarationOnly: true,
       outDir: path.resolve(buildOutput, 'types'),
       baseUrl: projRoot,
       paths: {
-        '@element-ultra/*': ['packages/*'],
+        '@element-ultra/*': ['packages/*']
       },
-      preserveSymlinks: true,
+      preserveSymlinks: true
     },
+
     tsConfigFilePath: path.resolve(projRoot, 'tsconfig.json'),
-    skipAddingFilesFromTsConfig: true,
+    skipAddingFilesFromTsConfig: true
   })
 
+  //  packages下除了element-ultra目录中的文件
   const filePaths = (
     await glob(['**/*.{js,ts,vue}', '!element-ultra/**/*'], {
       cwd: pkgRoot,
       absolute: true,
-      onlyFiles: true,
+      onlyFiles: true
     })
-  ).filter((path) => !excludeRE.test(path))
+  ).filter(path => !excludeRE.test(path))
 
+  //  packages中的element-ultra目录中的文件
   const epPaths = (
     await glob('**/*.{js,ts,vue}', {
       cwd: epRoot,
-      onlyFiles: true,
+      onlyFiles: true
     })
-  ).filter((path) => !excludeRE.test(path))
+  ).filter(path => !excludeRE.test(path))
 
   const sourceFiles: SourceFile[] = []
   await Promise.all([
-    ...filePaths.map(async (file) => {
+    ...filePaths.map(async file => {
       if (file.endsWith('.vue')) {
         const content = await fs.readFile(file, 'utf-8')
         const sfc = vueCompiler.parse(content)
@@ -61,7 +65,7 @@ export default async function genDefinitions() {
           }
           if (scriptSetup) {
             const compiled = vueCompiler.compileScript(sfc.descriptor, {
-              id: 'xxx',
+              id: 'xxx'
             })
             content += compiled.content
             if (scriptSetup.lang === 'ts') isTS = true
@@ -77,24 +81,23 @@ export default async function genDefinitions() {
         sourceFiles.push(sourceFile)
       }
     }),
-    ...epPaths.map(async (file) => {
+    ...epPaths.map(async file => {
       const content = await fs.readFile(path.resolve(epRoot, file), 'utf-8')
-      sourceFiles.push(
-        project.createSourceFile(path.resolve(pkgRoot, file), content)
-      )
-    }),
+      sourceFiles.push(project.createSourceFile(path.resolve(pkgRoot, file), content))
+    })
   ])
 
-  const diagnostics = project.getPreEmitDiagnostics()
-  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+  // 输出诊断信息
+  // const diagnostics = project.getPreEmitDiagnostics()
+  // console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   await project.emit({
     emitOnlyDtsFiles: true,
   })
 
-  const tasks = sourceFiles.map(async (sourceFile) => {
+  const tasks = sourceFiles.map(async sourceFile => {
     const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
-    yellow(`Generating definition for file: ${bold(relativePath)}`)
+    // yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
@@ -102,21 +105,18 @@ export default async function genDefinitions() {
       errorAndExit(new Error(`Emit no file: ${bold(relativePath)}`))
     }
 
-    const tasks = emitFiles.map(async (outputFile) => {
+    const tasks = emitFiles.map(async outputFile => {
       const filepath = outputFile.getFilePath()
       await fs.mkdir(path.dirname(filepath), {
-        recursive: true,
+        recursive: true
       })
 
       let content = outputFile.getText()
-      content.replaceAll(
-        `@element-ultra/theme-chalk`,
-        'element-ultra/theme-chalk'
-      )
+      content.replaceAll(`@element-ultra/theme-chalk`, 'element-ultra/theme-chalk')
       content.replaceAll(`@element-ultra/`, `${epOutput}/`)
       await fs.writeFile(filepath, content, 'utf8')
 
-      green(`Definition for file: ${bold(relativePath)} generated`)
+      // green(`Definition for file: ${bold(relativePath)} generated`)
     })
 
     await Promise.all(tasks)
