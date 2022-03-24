@@ -1,6 +1,6 @@
 import { resolve, join } from 'path'
-import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
-import { copy } from 'fs-extra'
+import { buildOutput, epOutput, epPackage, pkgRoot, projRoot } from './utils/paths'
+import { copy, rm } from 'fs-extra'
 
 /** 复制文件到目标文件夹 */
 export default async function copyFiles() {
@@ -12,6 +12,6 @@ export default async function copyFiles() {
     // README文件
     copy(`${projRoot}/README.md`, `${epOutput}/README.md`),
     // 全局组件类型文件
-    copy(`${projRoot}/global.d.ts`, `${epOutput}/global.d.ts`),
+    copy(`${projRoot}/global.d.ts`, `${epOutput}/global.d.ts`)
   ])
 }

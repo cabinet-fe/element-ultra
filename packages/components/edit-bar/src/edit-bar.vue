@@ -40,7 +40,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { shallowRef, ref, onMounted, watch } from 'vue'
+import { shallowRef, onMounted, watch } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import ElButton from '@element-ultra/components/button'

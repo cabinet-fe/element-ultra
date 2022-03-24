@@ -1,23 +1,19 @@
-import { PKG, PREFIX} from '../utils/shared'
+import { PKG, PREFIX } from '../utils/shared'
 import type { Plugin } from 'rollup'
 
 export function ElementUltraAlias(): Plugin {
-
-  const StyleDir = `${PREFIX}/theme-chalk`
+  const sourceThemeChalk = `${PREFIX}/theme-chalk`
+  const bundleThemeChalk = `${PKG}/theme-chalk`
 
   return {
     name: 'element-ultra-alias-plugin',
-    resolveId(id, importer, options) {
-      if (!id.startsWith(PREFIX)) return
+    resolveId(id) {
+      if (!id.startsWith(sourceThemeChalk)) return
 
-      if (id.startsWith(StyleDir)) {
-        return {
-          id: id.replaceAll(StyleDir, `${PKG}/theme-chalk`),
-          external: 'absolute',
-        }
+      return {
+        id: id.replaceAll(sourceThemeChalk, bundleThemeChalk),
+        external: 'absolute',
       }
-
-      return this.resolve(id, importer, { skipSelf: true, ...options })
     },
   }
 }

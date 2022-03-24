@@ -12,10 +12,10 @@ export default series(
 
   parallel(
     buildModules,
-    genDefinitions,
-    buildHelper,
-    buildTheme
+    // genDefinitions,
+    // buildHelper,
+    // buildTheme
   ),
 
-  copyFiles
+  // copyFiles
 )

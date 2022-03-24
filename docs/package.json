@@ -7,8 +7,8 @@
     "serve": "cross-env NODE_ENV=production vitepress serve . --port 5001"
   },
   "dependencies": {
-    "@docsearch/js": "^3.0.0-alpha.50",
-    "@docsearch/react": "^3.0.0-alpha.50",
+    "@docsearch/js": "^3.0.0",
+    "@docsearch/react": "^3.0.0",
     "@vueuse/core": "^7.6.2",
     "axios": "^0.26.0",
     "clipboard-copy": "^4.0.1",

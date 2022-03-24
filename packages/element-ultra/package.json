@@ -39,7 +39,6 @@
     "@element-plus/icons-vue": "^0.2.7",
     "@popperjs/core": "^2.11.2",
     "@vueuse/core": "^7.6.2",
-    "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
