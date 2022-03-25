@@ -85,6 +85,7 @@ declare module 'vue' {
     ElTransfer: typeof import('element-ultra')['ElTransfer']
     ElTree: typeof import('element-ultra')['ElTree']
     ElTreeV2: typeof import('element-ultra')['ElTreeV2']
+    ElTextEditor: typeof import('element-ultra')['ElTextEditor']
     ElUpload: typeof import('element-ultra')['ElUpload']
     ElSpace: typeof import('element-ultra')['ElSpace']
     ElSkeleton: typeof import('element-ultra')['ElSkeleton']
@@ -94,7 +95,6 @@ declare module 'vue' {
     ElDescriptionsItem: typeof import('element-ultra')['ElDescriptionsItem']
     ElResult: typeof import('element-ultra')['ElResult']
     ElSelectV2: typeof import('element-ultra')['ElSelectV2']
-    ElWangEditor: typeof import('element-ultra')['ElWangEditor']
   }
 }
 
