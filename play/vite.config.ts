@@ -8,8 +8,7 @@ import Inspect from 'vite-plugin-inspect'
 import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import esbuild from 'rollup-plugin-esbuild'
-import { epRoot, pkgRoot, projRoot, epPackage } from '../build/utils/paths'
-import { getPackageDependencies } from '../build/utils/pkg'
+import { epRoot, projRoot, epPackage } from '../gulpfile/utils/paths'
 
 const esbuildPlugin = () => ({
   ...esbuild({
@@ -23,7 +22,7 @@ const esbuildPlugin = () => ({
 })
 
 export default defineConfig(async () => {
-  const { dependencies } = getPackageDependencies(epPackage)
+  const dependencies = Object.keys(require(epPackage).dependencies)
 
   const optimizeDeps = (
     await glob(['dayjs/(locale|plugin)/*.js'], {
