@@ -48,7 +48,12 @@ export const treeSelectProps = {
   clearable: {
     type: Boolean,
     default: false
-  }
+  },
+
+  checkStrictly: {
+    type: Boolean,
+    default: false,
+  },
 } as const
 
 

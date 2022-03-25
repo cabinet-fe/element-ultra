@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!-- <el-tree-select :data="data" v-model="inputTest" effect="light" isize="small">
+    <!-- <el-tree-select :data="data" v-model="inputTest" effect="light" isize="small" clearable>
 
   </el-tree-select>
   {{inputTest}} -->
-    <el-tree-select :data="data" v-model="checkTest" multiple effect="dark"> </el-tree-select>
-    {{ checkTest }}
+    <el-tree-select :data="data" v-model="checkTest" multiple effect="dark" clearable> </el-tree-select>
+    <!-- {{ checkTest }} -->
 
-    <el-input v-model="inputTest"></el-input>
+    <h1 style="border: 1px solid blue;">123</h1>
   </div>
 </template>
 

@@ -1,29 +1,31 @@
 <template>
-  <div :class="ns.b()">
+  <div :class="ns.b()" @mouseleave="hideMenu" @mouseenter="handleEnter">
     <div
       :class="ns.e('input')"
-      contenteditable="true"
-      @focus="handleFocus"
-      @[blurEvent]="handleBlur"
-      @[overEvent]="handleHover"
+      @click="showMenu"
+      @[closeEvent]="showClose"
       ref="inputRef"
     >
-      <span v-if="!multiple">{{ multiple ? undefined : label }}</span>
-      <el-tag
-        v-else
-        v-for="tag in selected"
-        :key="tag.id"
-        closable
-        type="info"
-        @close="handleClose(tag)"
-        :class="ns.e('tag')"
-      >
-        {{ tag.label }}
-      </el-tag>
+      <div :class="ns.e('content')">
+
+        <el-tag
+          v-if="multiple"
+          v-for="tag in selected"
+          :key="tag.id"
+          closable
+          type="info"
+          @close="handleClose(tag)"
+          :class="ns.e('tag')"
+        >
+          {{ tag.label }}
+        </el-tag>
+        <input type="text" :value="label" @input="handleInput" :class="ns.e('text')" placeholder="请输入..." v-else>
+        <input type="text" v-model="text" :class="ns.e('text')" placeholder="请输入..." v-if="multiple && isFilter">
+      </div>
       <el-icon :class="ns.e('icon')">
-        <arrow-down v-show="icon==='down'"/>
-        <arrow-up v-show="icon==='up'" />
-        <close v-show="icon==='close'" />
+        <arrow-down v-show="icon === 'down'" />
+        <arrow-up v-show="icon === 'up'" />
+        <close :class="ns.e('close')" v-show="icon === 'close'" @click.stop="handleClear"/>
       </el-icon>
     </div>
     <transition name="el-zoom-in-top">
@@ -31,12 +33,11 @@
         :class="ns.e('dropdown')"
         v-show="menuVisible"
         @mouseenter="handleEnter"
-        @mouseleave="handleLeave"
       >
         <span :class="ns.e('triangle')"></span>
         <el-tree
           :data="data"
-          :check-strictly="true"
+          :check-strictly="checkStrictly"
           ref="treeRef"
           node-key="id"
           default-expand-all
@@ -45,6 +46,7 @@
           @check-change="handleNodeCheck"
           :show-checkbox="multiple"
           :class="ns.e('tree')"
+          :filter-method="filterMethod"
         />
       </div>
     </transition>
@@ -57,17 +59,14 @@ import {
   ref,
   watch,
   computed,
-  onMounted,
   nextTick,
   shallowRef,
 } from 'vue'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
 import ElTag from '@element-ultra/components/tag'
-import ElInput from '@element-ultra/components/input'
-import ElSelect from '@element-ultra/components/select'
 import ElIcon from '@element-ultra/components/icon'
-import { Close, Edit, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import { Close, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 defineOptions({
   name: 'ElTreeSelect',
 })
@@ -75,10 +74,16 @@ defineOptions({
 const props = defineProps(treeSelectProps)
 
 const menuVisible = ref(false)
-const icon = ref<'down'|'up'|'close'>('down')
+const isFilter = ref(true)
+const timer = ref<any>(null)
 
-let blurEvent = ref('blur')
-let overEvent = computed(() => { return clearable ? 'mouseover' : '' })
+const icon = ref<'down' | 'up' | 'close'>('down')
+
+const text = ref('')
+
+let closeEvent = computed(() => {
+  return clearable ? 'mouseover' : ''
+})
 
 const emit = defineEmits<{
   (
@@ -95,7 +100,8 @@ const emit = defineEmits<{
   ): void
 }>()
 
-let { data, effect, modelValue, multiple, isize, clearable } = props
+let { data, effect, modelValue, multiple, isize, clearable, checkStrictly } =
+  props
 
 const ns = useNamespace('tree-select')
 
@@ -103,18 +109,14 @@ const treeRef = shallowRef<InstanceType<typeof ElTree>>()
 
 let labelTem = undefined as any
 
-
 const label = computed(() => {
   let { modelValue, data } = props
   if (labelTem) return labelTem
-  return treeRef.value?.getCurrentKey() || modelValue
+  return treeRef.value?.getCurrentKey()
 })
 
 const selected = computed(() => {
-  // if (!treeRef.value?.getCheckedNodes()) return modelValue
-  const nodes = treeRef.value?.getCheckedNodes()
-
-  return nodes
+  return treeRef.value?.getCheckedNodes()
 })
 
 const changeCkecked = (data: any, checked: boolean = true) => {
@@ -127,27 +129,37 @@ const changeCkecked = (data: any, checked: boolean = true) => {
   }
 }
 
-const handleFocus = () => {
+const showMenu = () => {
   menuVisible.value = true
   icon.value = 'up'
 }
 
-const handleBlur = () => {
-  menuVisible.value = false
-  icon.value = 'down'
+const hideMenu = () => {
+  timer.value = setTimeout(() => {
+    menuVisible.value = false
+    icon.value = 'down'
+  }, 100)
 }
 
 const handleEnter = () => {
-  blurEvent.value = ''
+  clearTimeout(timer.value)
 }
 
-const handleLeave = () => {
-  blurEvent.value = 'blur'
-  inputRef.value?.focus()
-}
-
-const handleHover = () => {
+const showClose = () => {
   icon.value = 'close'
+}
+
+const handleClear = () => {
+  text.value = ''
+  if(multiple) {
+    changeCkecked(selected.value, false)
+  }else {
+    treeRef.value?.setCurrentKey(null)
+  }
+}
+
+const handleInput = ($e: Event) => {
+  treeRef.value!.filter($e.target?.value)
 }
 
 const handleNodeClick = (data: any) => {
@@ -171,4 +183,15 @@ const handleClose = (data: any) => {
 }
 
 const inputRef = ref<HTMLInputElement>()
+
+watch(text, (val) => {
+  treeRef.value!.filter(val)
+})
+watch(() => selected.value, (cur, pre) => {
+  isFilter.value = !cur.length
+})
+
+const filterMethod = (query: string, node: any) => {
+  return node.label!.indexOf(query) !== -1
+}
 </script>
