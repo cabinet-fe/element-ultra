@@ -22,7 +22,6 @@ export const popconfirmProps = buildProps({
   cancelButtonType: {
     type: String,
     values: buttonTypes,
-    default: 'text',
   },
   icon: {
     type: iconPropType,

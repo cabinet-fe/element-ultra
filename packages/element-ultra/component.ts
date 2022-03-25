@@ -47,6 +47,7 @@ import {
   ElDropdownMenu,
 } from '@element-ultra/components/dropdown'
 import { ElEmpty } from '@element-ultra/components/empty'
+import { ElEditBar } from '@element-ultra/components/edit-bar'
 import { ElForm, ElFormItem } from '@element-ultra/components/form'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 
@@ -142,6 +143,7 @@ export default [
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElEditBar,
   ElEmpty,
   ElForm,
   ElFormItem,

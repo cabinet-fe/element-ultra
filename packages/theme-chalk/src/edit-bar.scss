@@ -1,0 +1,86 @@
+@use 'mixins/mixins' as *;
+
+@include b(edit-bar) {
+  height: 100%;
+  background-color: var(--theme-color);
+  width: 200px;
+
+  .el-scrollbar__view {
+    padding: 0;
+    margin: 0;
+  }
+
+  @include e(list) {
+    &.el-scrollbar {
+      height: calc(100% - 40px);
+      padding: 0;
+    }
+  }
+
+  @include e(item) {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 8px 0 0;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    color: var(--text-color);
+    font-size: var(--text-font-size);
+    position: relative;
+    transition: color 0.15s;
+    list-style: none;
+
+    &:hover {
+      color: var(--el-color-primary);
+
+      .el-edit-bar__action {
+        visibility: visible;
+      }
+    }
+
+    &.el-edit-bar__item--active {
+      color: var(--el-color-primary);
+    }
+
+    & > * {
+      vertical-align: middle;
+      display: inline-block;
+      margin-right: 6px;
+    }
+  }
+
+  @include e(action) {
+    position: absolute;
+    right: 6px;
+    top: 0;
+    visibility: hidden;
+
+    & > * {
+      vertical-align: middle;
+    }
+  }
+
+  @include e(tools) {
+    line-height: 40px;
+    height: 40px;
+    padding: 0 4px;
+    border-top: 1px solid #ddd;
+    box-sizing: border-box;
+    font-size: 0;
+
+    & > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  @include e(handle) {
+    height: 100%;
+    width: 12px;
+    cursor: move;
+    background-color: #ddd;
+  }
+
+  @include e(ghost) {
+    opacity: 0;
+  }
+}

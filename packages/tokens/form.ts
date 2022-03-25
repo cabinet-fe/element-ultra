@@ -1,9 +1,5 @@
-import type { InjectionKey, Ref } from 'vue'
-import type { ValidateFieldsError } from 'async-validator'
-import type {
-  FormProps,
-  FormRules,
-} from '@element-ultra/components/form/src/form'
+import type { InjectionKey } from 'vue'
+import type { FormProps, FormRules } from '@element-ultra/components/form/src/form'
 
 export interface FormContext {
   props: FormProps
@@ -16,10 +12,6 @@ export interface FormContext {
   validateField: (field: string) => Promise<string | null>
 }
 
-export interface ValidateFieldCallback {
-  (isValid?: string, invalidFields?: ValidateFieldsError): void
-}
-
 export interface FormItemContext {
   validate(): Promise<boolean | null>
   reset(): void
@@ -27,5 +19,4 @@ export interface FormItemContext {
 }
 
 export const formKey: InjectionKey<FormContext> = Symbol('elForm')
-export const formItemKey: InjectionKey<FormItemContext> =
-  Symbol('elFormItem')
+export const formItemKey: InjectionKey<FormItemContext> = Symbol('elFormItem')

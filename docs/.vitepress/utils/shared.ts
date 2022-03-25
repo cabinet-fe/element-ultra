@@ -1,1 +1,1 @@
-export const BASE_PATH = '/element-pro/'
+export const BASE_PATH = '/element-ultra/'
