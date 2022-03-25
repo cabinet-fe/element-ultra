@@ -1,0 +1,70 @@
+@use 'mixins/mixins.scss' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+$w: 300px;
+$h: 32px;
+
+@include b(tree-select) {
+  width: $w;
+  line-height: $h;
+  display: inline-block;
+  position: relative;
+  @include e(input) {
+    display: flex;
+    min-height: $h;
+    line-height: $h;
+    width: inherit;
+    outline: none;
+    background-color: var(--el-input-bg-color, var(--el-color-white));
+    border: 1px solid var(--el-border-color-base);
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    &:focus {
+      border: 1px solid var(--el-color-primary);
+    }
+    &:hover {
+      border: 1px solid var(--el-border-color-hover);
+    }
+    text-indent: 10px;
+    @include e(content) {
+      flex: 10;
+      @include e(text) {
+        outline: none;
+        border: none;
+        width: 100%;
+      }
+      @include e(tag) {
+        margin-right: 6px;
+        user-select: none;
+      }
+    }
+    @include e(icon) {
+      flex: 1;
+      min-height: $h;
+      height: inherit;
+      @include e(close) {
+        cursor: pointer;
+      }
+    }
+  }
+  @include e(dropdown) {
+    width: inherit;
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    background: gold;
+    margin-top: 10px;
+    position: absolute;
+    @include e(triangle) {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      transform: rotate(45deg);
+      background: #fff;
+    }
+    @include e(tree) {
+      border-radius: var(
+        --el-input-border-radius,
+        var(--el-border-radius-base)
+      );
+    }
+  }
+}

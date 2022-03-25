@@ -97,6 +97,7 @@ import { ElTimeline, ElTimelineItem } from '@element-ultra/components/timeline'
 import { ElTooltip } from '@element-ultra/components/tooltip'
 import { ElTransfer } from '@element-ultra/components/transfer'
 import { ElTree } from '@element-ultra/components/tree'
+import { ElTreeSelect } from '@element-ultra/components/tree-select'
 import { ElUpload } from '@element-ultra/components/upload'
 import type { Plugin } from 'vue'
 
@@ -193,5 +194,6 @@ export default [
   ElTooltip,
   ElTransfer,
   ElTree,
+  ElTreeSelect,
   ElUpload,
 ] as Plugin[]
