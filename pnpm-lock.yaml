@@ -225,7 +225,7 @@ importers:
       '@types/lodash': ^4.14.178
       '@types/lodash-es': ^4.17.6
       '@types/node': '*'
-      '@vueuse/core': ^7.6.2
+      '@vueuse/core': ^8.1.2
       csstype: ^2.6.19
       dayjs: ^1.10.7
       lodash: ^4.17.21
@@ -233,18 +233,20 @@ importers:
       lodash-unified: ^1.0.1
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.1.1
+      sortablejs: ^1.15.0
       vue-router: ^4.0.12
     dependencies:
       '@ctrl/tinycolor': 3.4.0
       '@element-plus/icons-vue': 0.2.7_vue@3.2.31
       '@popperjs/core': 2.11.4
-      '@vueuse/core': 7.7.1_vue@3.2.31
+      '@vueuse/core': 8.1.2_vue@3.2.31
       dayjs: 1.11.0
       lodash: 4.17.21
       lodash-es: 4.17.21
       lodash-unified: 1.0.2_da03a4540fbd16bbaafbb96724306afd
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
+      sortablejs: 1.15.0
     devDependencies:
       '@types/lodash': 4.14.180
       '@types/lodash-es': 4.17.6
