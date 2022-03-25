@@ -1,5 +1,55 @@
 @use 'mixins/mixins.scss' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+$w: 300px;
+$h: 32px;
 
 @include b(tree-select) {
-
+  width: $w;
+  line-height: $h;
+  display: inline-block;
+  position: relative;
+  @include e(input) {
+    line-height: $h;
+    width: inherit;
+    float: left;
+    outline: none;
+    background-color: var(--el-input-bg-color, var(--el-color-white));
+    border: 1px solid var(--el-border-color-base);
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    &:focus {
+      border: 1px solid var(--el-color-primary);
+    }
+    &:hover {
+      border: 1px solid var(--el-border-color-hover);
+    }
+    @include e(tag) {
+      margin-right: 6px;
+    }
+    @include e(icon) {
+      position: absolute;
+      right: 6px;
+      height: $h;
+      border: 1px solid red;
+    }
+  }
+  @include e(dropdown) {
+    width: inherit;
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    background: gold;
+    float: left;
+    margin-top: 16px;
+    position: relative;
+    @include e(triangle) {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      transform: rotate(45deg);
+      background: #fff;
+    }
+    @include e(tree) {
+      border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    }
+  }
 }

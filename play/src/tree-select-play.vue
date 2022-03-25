@@ -1,16 +1,20 @@
 <template>
-<div>
-  <el-tree-select :data="data" v-model="inputTest">
+  <div>
+    <!-- <el-tree-select :data="data" v-model="inputTest" effect="light" isize="small">
 
   </el-tree-select>
-  {{inputTest}}
-</div>
+  {{inputTest}} -->
+    <el-tree-select :data="data" v-model="checkTest" multiple effect="dark"> </el-tree-select>
+    {{ checkTest }}
 
+    <el-input v-model="inputTest"></el-input>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-let inputTest = ref('default')
+import { reactive, ref, shallowRef, watch, watchEffect } from 'vue'
+let inputTest = ref('node-5-2')
+let checkTest = shallowRef<string[]>([])
 
 interface Tree {
   id: string

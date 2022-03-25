@@ -5,7 +5,6 @@ import { formKey, formItemKey } from '@element-ultra/tokens'
 
 import { useSize } from '@element-ultra/hooks'
 import type { ExtractPropTypes } from 'vue'
-import type { FormContext, ElFormItemContext } from '@element-ultra/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 
 export const useCheckboxProps = {
@@ -38,27 +37,24 @@ export const useCheckboxProps = {
 export type IUseCheckboxProps = ExtractPropTypes<typeof useCheckboxProps>
 
 export const useCheckboxGroup = () => {
-  const elForm = inject(formKey, {} as FormContext)
-  const elFormItem = inject(formItemKey, {} as ElFormItemContext)
+  const elForm = inject(formKey, undefined)
+  const elFormItem = inject(formItemKey, undefined)
   const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup', {})
   const isGroup = computed(
     () => checkboxGroup && checkboxGroup?.name === 'ElCheckboxGroup'
   )
-  const elFormItemSize = computed(() => {
-    return elFormItem.size
-  })
+
   return {
     isGroup,
     checkboxGroup,
     elForm,
-    elFormItemSize,
     elFormItem,
   }
 }
 
 const useModel = (props: IUseCheckboxProps) => {
   const selfModel = ref(false)
-  const { emit } = getCurrentInstance()
+  const { emit } = getCurrentInstance()!
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitExceeded = ref(false)
   const model = computed({
@@ -134,16 +130,16 @@ const useDisabled = (
     const max = checkboxGroup.max?.value
     const min = checkboxGroup.min?.value
     return (
-      (!!(max || min) && model.value.length >= max && !isChecked.value) ||
-      (model.value.length <= min && isChecked.value)
+      (!!(max || min) && model?.value.length >= max! && !isChecked?.value) ||
+      (model?.value.length <= min! && isChecked?.value)
     )
   })
   const isDisabled = computed(() => {
-    const disabled = props.disabled || elForm.disabled
+    const disabled = props.disabled || elForm?.props?.disabled
     return (
       (isGroup.value
         ? checkboxGroup.disabled?.value || disabled || isLimitDisabled.value
-        : props.disabled || elForm.disabled) ?? false
+        : props.disabled || elForm?.props?.disabled) ?? false
     )
   })
 
@@ -158,6 +154,7 @@ const setStoreValue = (
   { model }: Partial<ReturnType<typeof useModel>>
 ) => {
   function addToStore() {
+    if (!model) return
     if (Array.isArray(model.value) && !model.value.includes(props.label)) {
       model.value.push(props.label)
     } else {

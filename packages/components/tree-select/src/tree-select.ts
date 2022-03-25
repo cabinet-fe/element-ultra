@@ -1,5 +1,5 @@
+import type { ValueKeyIteratee } from 'lodash'
 import type { ExtractPropTypes, PropType } from 'vue'
-import { isString } from '@vue/shared'
 export interface TreeOptionProps {
   children?: string
   label?: string
@@ -7,40 +7,49 @@ export interface TreeOptionProps {
   disabled?: string
 }
 
-
 export const treeSelectProps = {
   modelValue: {
-    type: String
+    type: [String, Number, Array] as PropType< any[] | string | number>,
+  },
+
+  childrenKey: {
+    type: String,
+    default: 'chidlren'
+  },
+  valueKey: {
+    type: String,
+    default: 'id'
+  },
+  labelKey: {
+    type: String,
+    default: 'label'
+  },
+
+  multiple: {
+    type: Boolean,
+    default: false
   },
 
   data: {
     type: Array as PropType<TreeOptionProps[]>,
-    default: [{
-      label: 'root',
-      children: [{
-        label: 'branch',
-        children: [{
-          label: 'leaf'
-        }]
-      }]
-    }]
-  },
-
-  trigger: {
-    type: String as PropType<'hover' | 'click' | 'focus' | 'contextmenu'>,
-    default: 'click'
+    default: () => [],
   },
 
   effect: {
     type: String as PropType<'light' | 'dark'>,
     default: 'light',
   },
-} as const
 
-export const treeSelectEmits = {
-  input: (value: string) => isString(value)
-}
-export type TreeSelectEmits = typeof treeSelectEmits
+  isize: {
+    type: String as PropType<'large'|'default'|'small'>,
+    default: 'default'
+  },
+
+  clearable: {
+    type: Boolean,
+    default: false
+  }
+} as const
 
 
 export type TreeSelectProps = ExtractPropTypes<typeof treeSelectProps>
