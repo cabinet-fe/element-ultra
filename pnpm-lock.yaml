@@ -42,6 +42,8 @@ importers:
       '@vue/test-utils': 2.0.0-rc.16
       '@vue/tsconfig': ^0.1.3
       '@vueuse/core': ^8.1.2
+      '@wangeditor/editor': ^0.15.15
+      '@wangeditor/editor-for-vue': ^5.1.8-11
       babel-jest: ^26.6.3
       chalk: ^4.1.2
       components-helper: ^2.0.0
@@ -2591,6 +2593,10 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
+  /@transloadit/prettier-bytes/0.0.7:
+    resolution: {integrity: sha512-VeJbUb0wEKbcwaSlj5n+LscBl9IPgLPkHVGBkh00cztv6X4L/TJXK58LzFuBKX7/GAfiGhIwH67YTLTlzvIzBA==}
+    dev: false
+
   /@ts-morph/common/0.13.0:
     resolution: {integrity: sha512-fEJ6j7Cu8yiWjA4UmybOBH9Efgb/64ZTWuvCF4KysGu4xz8ettfyaqFt8WZ1btCxXsGZJjZ2/3svOF6rL+UFdQ==}
     dependencies:
@@ -3181,6 +3187,191 @@ packages:
     dependencies:
       vue: 3.2.31
       vue-demi: 0.12.4_vue@3.2.31
+    dev: false
+
+  /@wangeditor/basic-modules/0.11.9_0f0e349f57f62f3f1e08c18b759f2486:
+    resolution: {integrity: sha512-fedzLBzhB2hiDHrRtKouP8eQBx4I8AXE5PDtgeEUbMBrj1Ap83kCpjtObVOIBriUUECvsCcpSPumnz0Lt46I7A==}
+    peerDependencies:
+      '@wangeditor/core': 0.x
+      dom7: ^3.0.0
+      lodash.throttle: ^4.1.1
+      nanoid: ^3.2.0
+      slate: ^0.72.0
+      snabbdom: ^3.1.0
+    dependencies:
+      '@wangeditor/core': 0.14.14_d434861f9f61c861eecbd3143793bcc2
+      dom7: 3.0.0
+      is-url: 1.2.4
+      lodash.throttle: 4.1.1
+      nanoid: 3.3.1
+      slate: 0.72.8
+      snabbdom: 3.4.0
+    dev: false
+
+  /@wangeditor/code-highlight/0.9.6_739125518a0c0f1cdcc5e99debe2ee7b:
+    resolution: {integrity: sha512-w9IB3GYwd+09htZmlOpKc0jQ0GzFgMOQViKC4777qfVaMLvCBYTWCgijs/WLRmiOxH0I8SX88xsFXXIq/YrztQ==}
+    peerDependencies:
+      '@wangeditor/core': 0.x
+      dom7: ^3.0.0
+      slate: ^0.72.0
+      snabbdom: ^3.1.0
+    dependencies:
+      '@wangeditor/core': 0.14.14_d434861f9f61c861eecbd3143793bcc2
+      dom7: 3.0.0
+      prismjs: 1.27.0
+      slate: 0.72.8
+      snabbdom: 3.4.0
+    dev: false
+
+  /@wangeditor/core/0.14.14_d434861f9f61c861eecbd3143793bcc2:
+    resolution: {integrity: sha512-NWDr1gQGE7Zroma2CYYueTU6xrYqnuVzp6kJPMFv+Oc7tSSczj9kGIBFWE1dJcKTCBPdSxm8LrgAoWgDgGqcYw==}
+    peerDependencies:
+      '@uppy/core': ^2.1.1
+      '@uppy/xhr-upload': ^2.0.3
+      dom7: ^3.0.0
+      is-hotkey: ^0.2.0
+      lodash.camelcase: ^4.3.0
+      lodash.clonedeep: ^4.5.0
+      lodash.debounce: ^4.0.8
+      lodash.foreach: ^4.5.0
+      lodash.isequal: ^4.5.0
+      lodash.throttle: ^4.1.1
+      lodash.toarray: ^4.4.0
+      nanoid: ^3.2.0
+      slate: ^0.72.0
+      snabbdom: ^3.1.0
+    dependencies:
+      '@types/event-emitter': 0.3.3
+      '@uppy/core': 2.1.6
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
+      dom7: 3.0.0
+      event-emitter: 0.3.5
+      html-void-elements: 2.0.1
+      i18next: 20.6.1
+      is-hotkey: 0.2.0
+      lodash.camelcase: 4.3.0
+      lodash.clonedeep: 4.5.0
+      lodash.debounce: 4.0.8
+      lodash.foreach: 4.5.0
+      lodash.isequal: 4.5.0
+      lodash.throttle: 4.1.1
+      lodash.toarray: 4.4.0
+      nanoid: 3.3.1
+      scroll-into-view-if-needed: 2.2.29
+      slate: 0.72.8
+      slate-history: 0.66.0_slate@0.72.8
+      snabbdom: 3.4.0
+    dev: false
+
+  /@wangeditor/editor-for-vue/5.1.8-11_f136bd55e60118f2810cb9599776e692:
+    resolution: {integrity: sha512-CojEWWeLHk62mv+aG0S2KQ2ZX5JqYg61H8WGO9wd3lzxIni+s2ATYscUyxCvoxcUcthIFEs4OVZrRs7HVbgUUw==}
+    peerDependencies:
+      '@wangeditor/editor': '>=0.15.6'
+      vue: ^3.0.5
+    dependencies:
+      '@wangeditor/editor': 0.15.15
+      eventemitter3: 4.0.7
+      vue: 3.2.31
+    dev: false
+
+  /@wangeditor/editor/0.15.15:
+    resolution: {integrity: sha512-xaFdZey+0itTe89cO1hksK9KbRGdFBxxYxFNQTpqZrddGMtTah1zpH7H6APgUlS1rkonwClr4o/wc2MivY089w==}
+    dependencies:
+      '@uppy/core': 2.1.6
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
+      '@wangeditor/basic-modules': 0.11.9_0f0e349f57f62f3f1e08c18b759f2486
+      '@wangeditor/code-highlight': 0.9.6_739125518a0c0f1cdcc5e99debe2ee7b
+      '@wangeditor/core': 0.14.14_d434861f9f61c861eecbd3143793bcc2
+      '@wangeditor/list-module': 0.9.4_739125518a0c0f1cdcc5e99debe2ee7b
+      '@wangeditor/table-module': 0.10.8_8fc634123a366eecabeb2cfca345a938
+      '@wangeditor/upload-image-module': 0.8.4_cc0bd6d2bd568db2d92b222d856ac151
+      '@wangeditor/video-module': 0.10.9_4012465ae1150e96a4a9d438e7e00930
+      dom7: 3.0.0
+      is-hotkey: 0.2.0
+      lodash.camelcase: 4.3.0
+      lodash.clonedeep: 4.5.0
+      lodash.debounce: 4.0.8
+      lodash.foreach: 4.5.0
+      lodash.isequal: 4.5.0
+      lodash.throttle: 4.1.1
+      lodash.toarray: 4.4.0
+      nanoid: 3.3.1
+      slate: 0.72.8
+      snabbdom: 3.4.0
+    dev: false
+
+  /@wangeditor/list-module/0.9.4_739125518a0c0f1cdcc5e99debe2ee7b:
+    resolution: {integrity: sha512-Vzs+dE2Vzpc1lCTtcPKwVgjDoIIDDa2BkwbZCYrec/+rHoJ97EZ2iApXO+jH4CEueUvtVd3JGQwuyo+H+9bgtg==}
+    peerDependencies:
+      '@wangeditor/core': 0.x
+      dom7: ^3.0.0
+      slate: ^0.72.0
+      snabbdom: ^3.1.0
+    dependencies:
+      '@wangeditor/core': 0.14.14_d434861f9f61c861eecbd3143793bcc2
+      dom7: 3.0.0
+      slate: 0.72.8
+      snabbdom: 3.4.0
+    dev: false
+
+  /@wangeditor/table-module/0.10.8_8fc634123a366eecabeb2cfca345a938:
+    resolution: {integrity: sha512-I7eLJc6IRw2vk4E7VaMh4MNoGeT1xr37ob5sHet8RVAwmwiyV9Kkj8RsNk/EFN/9tbeEJlcCNTX99HCAlddO5w==}
+    peerDependencies:
+      '@wangeditor/core': 0.x
+      dom7: ^3.0.0
+      lodash.isequal: ^4.5.0
+      nanoid: ^3.2.0
+      slate: ^0.72.0
+      snabbdom: ^3.1.0
+    dependencies:
+      '@wangeditor/core': 0.14.14_d434861f9f61c861eecbd3143793bcc2
+      dom7: 3.0.0
+      lodash.isequal: 4.5.0
+      nanoid: 3.3.1
+      slate: 0.72.8
+      snabbdom: 3.4.0
+    dev: false
+
+  /@wangeditor/upload-image-module/0.8.4_cc0bd6d2bd568db2d92b222d856ac151:
+    resolution: {integrity: sha512-WbXT8/GRRB7wMV8otkrkG/09x4kBrc/xgGGeR0aeM2RJr2Eg1SiG6JQThjZazXXpZPGpoeIzMOqM9UpPq07EUg==}
+    peerDependencies:
+      '@uppy/core': ^2.0.3
+      '@uppy/xhr-upload': ^2.0.3
+      '@wangeditor/basic-modules': 0.x
+      '@wangeditor/core': 0.x
+      dom7: ^3.0.0
+      lodash.foreach: ^4.5.0
+      slate: ^0.72.0
+      snabbdom: ^3.1.0
+    dependencies:
+      '@uppy/core': 2.1.6
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
+      '@wangeditor/basic-modules': 0.11.9_0f0e349f57f62f3f1e08c18b759f2486
+      '@wangeditor/core': 0.14.14_d434861f9f61c861eecbd3143793bcc2
+      dom7: 3.0.0
+      lodash.foreach: 4.5.0
+      slate: 0.72.8
+      snabbdom: 3.4.0
+    dev: false
+
+  /@wangeditor/video-module/0.10.9_4012465ae1150e96a4a9d438e7e00930:
+    resolution: {integrity: sha512-4ENNSGYd3BSvvu1GpIDEfilohfTxbaPfkX1qRlJFGs5sE/+6rlQxBubPYbFO+A553ws0N+cEYmge1mR6muaofA==}
+    peerDependencies:
+      '@uppy/core': ^2.1.4
+      '@uppy/xhr-upload': ^2.0.7
+      '@wangeditor/core': 0.x
+      dom7: ^3.0.0
+      nanoid: ^3.2.0
+      slate: ^0.72.0
+      snabbdom: ^3.1.0
+    dependencies:
+      '@uppy/core': 2.1.6
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
+      '@wangeditor/core': 0.14.14_d434861f9f61c861eecbd3143793bcc2
+      dom7: 3.0.0
+      nanoid: 3.3.1
+      slate: 0.72.8
+      snabbdom: 3.4.0
     dev: false
 
   /@windicss/config/1.8.3:
@@ -4798,6 +4989,12 @@ packages:
       path-type: 4.0.0
     dev: true
 
+  /dom7/3.0.0:
+    resolution: {integrity: sha512-oNlcUdHsC4zb7Msx7JN3K0Nro1dzJ48knvBOnDPKJ2GV9wl1i5vydJZUSyOfrkKFDZEud/jBsTk92S/VGSAe/g==}
+    dependencies:
+      ssr-window: 3.0.0
+    dev: false
+
   /domexception/2.0.1:
     resolution: {integrity: sha512-yxJ2mFy/sibVQlu5qHjOkf9J3K6zgmCxgJ94u2EdvDOV09H+32LtRswEcUsmUWN72pVLOEnTSRaIVVzVQgS0dg==}
     engines: {node: '>=8'}
@@ -6089,6 +6286,10 @@ packages:
     resolution: {integrity: sha512-1qYz89hW3lFDEazhjW0yVAV87lw8lVkrJocr72XmBkMKsoSVJCQx3W8BXsC7hO2qAt8BoVjYjtAcZ9perqGnNg==}
     engines: {node: '>=8'}
     dev: true
+
+  /html-void-elements/2.0.1:
+    resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
+    dev: false
 
   /http-cache-semantics/4.1.0:
     resolution: {integrity: sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==}
