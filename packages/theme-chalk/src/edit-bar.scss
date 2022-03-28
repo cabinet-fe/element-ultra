@@ -46,6 +46,10 @@
       display: inline-block;
       margin-right: 6px;
     }
+
+    & > .el-edit-bar__item-label {
+      margin: 0 6px;
+    }
   }
 
   @include e(action) {
