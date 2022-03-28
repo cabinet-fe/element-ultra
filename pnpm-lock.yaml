@@ -43,6 +43,7 @@ importers:
       '@vue/tsconfig': ^0.1.3
       '@vueuse/core': ^8.1.2
       '@wangeditor/editor': ^0.15.15
+      '@wangeditor/editor-for-vue': ^5.1.8-11
       babel-jest: ^26.6.3
       chalk: ^4.1.2
       components-helper: ^2.0.0
@@ -96,6 +97,7 @@ importers:
       '@popperjs/core': 2.11.4
       '@vueuse/core': 8.1.2_vue@3.2.31
       '@wangeditor/editor': 0.15.15
+      '@wangeditor/editor-for-vue': 5.1.8-11_f136bd55e60118f2810cb9599776e692
       dayjs: 1.11.0
       fe-dk: 1.0.10
       lodash: 4.17.21
@@ -3366,6 +3368,17 @@ packages:
       snabbdom: 3.4.0
     dev: false
 
+  /@wangeditor/editor-for-vue/5.1.8-11_f136bd55e60118f2810cb9599776e692:
+    resolution: {integrity: sha512-CojEWWeLHk62mv+aG0S2KQ2ZX5JqYg61H8WGO9wd3lzxIni+s2ATYscUyxCvoxcUcthIFEs4OVZrRs7HVbgUUw==}
+    peerDependencies:
+      '@wangeditor/editor': '>=0.15.6'
+      vue: ^3.0.5
+    dependencies:
+      '@wangeditor/editor': 0.15.15
+      eventemitter3: 4.0.7
+      vue: 3.2.31
+    dev: false
+
   /@wangeditor/editor/0.15.15:
     resolution: {integrity: sha512-xaFdZey+0itTe89cO1hksK9KbRGdFBxxYxFNQTpqZrddGMtTah1zpH7H6APgUlS1rkonwClr4o/wc2MivY089w==}
     dependencies:
@@ -5652,6 +5665,10 @@ packages:
   /eventemitter2/6.4.5:
     resolution: {integrity: sha512-bXE7Dyc1i6oQElDG0jMRZJrRAn9QR2xyyFGmBdZleNmyQX0FqGYmhZIrIrpPfm/w//LTo4tVQGOGQcGCb5q9uw==}
     dev: true
+
+  /eventemitter3/4.0.7:
+    resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+    dev: false
 
   /exec-sh/0.3.6:
     resolution: {integrity: sha512-nQn+hI3yp+oD0huYhKwvYI32+JFeq+XkNcD1GAo3Y/MjxsfVGmrrzrnzjWiNY6f+pUCP440fThsFh5gZrRAU/w==}
