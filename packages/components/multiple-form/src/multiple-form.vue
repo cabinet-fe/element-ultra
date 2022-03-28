@@ -63,7 +63,7 @@ import { computed, reactive, ref, shallowReactive, shallowRef, useSlots, watch }
 import { multipleFormProps, type MultipleColumns, type MultipleColumnsRules } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
-import { omit } from 'lodash'
+import { omit, result } from 'lodash'
 
 defineOptions({
   name: 'ElMultipleForm'
@@ -79,6 +79,7 @@ const internalData = ref<any[]>([])
 
 const emit = defineEmits<{
   (e: 'save', row: any): void
+  (e: 'delete', row: any): void
 }>()
 
 /** 列校验是否必填*/
@@ -231,7 +232,9 @@ const saveRow = (item: any) => {
 }
 
 /** 删除 */
-const deleteBtn = (item: object, index: number) => {
+const deleteBtn = (item: any, index: number) => {
   internalData.value.splice(index, 1)
+  const { _isInEdit, ...result } = item
+  emit('delete', result)
 }
 </script>

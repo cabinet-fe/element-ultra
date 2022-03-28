@@ -7,9 +7,8 @@
 
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import { createEditor, createToolbar } from '@wangeditor/editor'
-import type { IDomEditor, IEditorConfig } from '@wangeditor/editor'
-import '../style/index.ts'
+import { createEditor, createToolbar,  } from '@wangeditor/editor'
+import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
 const editorConfig: Partial<IEditorConfig> = {}
 editorConfig.placeholder = '请输入内容'
@@ -19,7 +18,29 @@ editorConfig.onChange = (editor: IDomEditor) => {
   console.log('html', editor.getHtml())
 }
 
+const toolbarConfig: Partial<IToolbarConfig> = {
+    toolbarKeys: [
+        // 菜单 key
+        'headerSelect',
+
+        // 分割线
+        '|',
+
+        // 菜单 key
+        'bold', 'italic',
+
+        // 菜单组，包含多个菜单
+        {
+            key: 'group-more-style', // 必填，要以 group 开头
+            title: '更多样式', // 必填
+            iconSvg: '<svg>....</svg>', // 可选
+            menuKeys: ["through", "code", "clearStyle"] // 下级菜单 key ，必填
+        }
+    ]
+}
+
 const init = () => {
+
   // 创建编辑器
   const editor = createEditor({
     selector: '#editor-container',
@@ -31,8 +52,10 @@ const init = () => {
   const toolbar = createToolbar({
     editor,
     selector: '#toolbar-container',
-    mode: 'default',
+    mode: 'default'
   })
+
+  console.log(editor.getAllMenuKeys(),1243)
 }
 
 onMounted(() => {

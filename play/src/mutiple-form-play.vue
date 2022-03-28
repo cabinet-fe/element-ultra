@@ -1,9 +1,9 @@
 <template>
-  <el-multiple-form :editable="true" :data="data" :columns="columns" @save="onSave">
+  <el-multiple-form :editable="true" :data="data" :columns="columns" @save="onSave" @delete="onDelete">
     <template #default="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
-      <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
-      <el-input v-model="row.school"></el-input>
+      <el-input-number :min="1" v-model="row.age" placeholder="单价" />
+      <el-input v-model="row.school" placeholder=""></el-input>
     </template>
   </el-multiple-form>
 </template>
@@ -40,13 +40,64 @@ const columns: MultipleColumns[] = [
 let data = $ref<any[]>([
   { name: '张三', age: 20, school: '苏大' },
   { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' }
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
+  { name: '张三', age: 20, school: '苏大' },
+  { name: '葛慧', age: 18, school: '北大' },
+  { name: '谢超', age: 18, school: '清华' },
 ])
 
+/** 保存 */
 const onSave = (row: any) => {
 
   console.log('保存成功, 数据是：', row)
 }
+
+/** 删除 */
+const onDelete = (row:any)=>{
+  
+  console.log(row,'row_删除')
+  console.log('删除')
+}
+
 </script>
 
 <style lang="scss" scoped></style>
