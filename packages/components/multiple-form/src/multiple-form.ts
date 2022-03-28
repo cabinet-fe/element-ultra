@@ -21,23 +21,23 @@ export const multipleFormProps = {
 export interface MultipleColumns {
   name: string
   key: string
-  rule?: Partial<MultipleColumnsRules>
+  rules?: Partial<MultipleColumnsRules>
 }
 
 /** 列校验 */
 export interface MultipleColumnsRules {
   /** 是否必填 */
-  required?: boolean | [boolean, string]
+  required: boolean | [boolean, string]
   /** 长度 */
-  length?: number | [number, string]
+  length: number | [number, string]
   /** 最小值  */
-  min?: number | [number | string]
+  min: number | [number | string]
   /** 最大值  */
-  max?: number | [number | string]
+  max: number | [number | string]
   /** 正则表达式 */
-  match?: RegExp | [RegExp | string]
+  match: RegExp | [RegExp | string]
   /** 自定义验证 */
-  validator?(value: any, model: Record<string, any>, rule: any)
+  validator(value: any, model: Record<string, any>, rule: any)
 }
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>

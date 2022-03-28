@@ -36,12 +36,8 @@
             </td>
 
             <td>
-              <el-button type="primary" text @click="saveRow(item)">
-                保存
-              </el-button>
-              <el-button type="primary" text @click="item._isInEdit = false">
-                取消
-              </el-button>
+              <el-button type="primary" text @click="saveRow(item)"> 保存 </el-button>
+              <el-button type="primary" text @click="item._isInEdit = false"> 取消 </el-button>
             </td>
           </template>
 
@@ -51,15 +47,9 @@
             </td>
 
             <td>
-              <el-button type="primary" text @click="item._isInEdit = true">
-                编辑
-              </el-button>
-              <el-button type="primary" text @click="deleteBtn(item, i)">
-                删除
-              </el-button>
-              <el-button type="primary" text @click="addToNextLine(item, i)">
-                增加
-              </el-button>
+              <el-button type="primary" text @click="item._isInEdit = true"> 编辑 </el-button>
+              <el-button type="primary" text @click="deleteBtn(item, i)"> 删除 </el-button>
+              <el-button type="primary" text @click="addToNextLine(item, i)"> 增加 </el-button>
             </td>
           </template>
         </tr>
@@ -69,27 +59,14 @@
 </template>
 <script lang="ts" setup>
 import { useNamespace } from '@element-ultra/hooks'
-import {
-  computed,
-  reactive,
-  ref,
-  shallowReactive,
-  shallowRef,
-  useSlots,
-  watch,
-} from 'vue'
-import {
-  multipleFormProps,
-  type MultipleColumns,
-  type MultipleColumnsRules,
-} from './multiple-form'
+import { computed, reactive, ref, shallowReactive, shallowRef, useSlots, watch } from 'vue'
+import { multipleFormProps, type MultipleColumns, type MultipleColumnsRules } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
-import { objectPick } from '@vueuse/core'
-import { emit } from 'process'
+import { omit } from 'lodash'
 
 defineOptions({
-  name: 'ElMultipleForm',
+  name: 'ElMultipleForm'
 })
 
 const ns = useNamespace('multiple-form')
@@ -100,7 +77,9 @@ const slots = useSlots()
 
 const internalData = ref<any[]>([])
 
-const isShow = ref<boolean>(true)
+const emit = defineEmits<{
+  (e: 'save', row: any): void
+}>()
 
 /** 列校验是否必填*/
 const columnRules = computed(() => {
@@ -119,11 +98,12 @@ const errorTip = computed(() => {
     return acc
   }, shallowReactive({}))
 })
+
 // 回显
 watch(
   () => props.data,
   () => {
-    internalData.value = props.data.map((item) => {
+    internalData.value = props.data.map(item => {
       if (item._isInEdit === undefined) {
         item._isInEdit = false
       }
@@ -131,7 +111,7 @@ watch(
     })
   },
   {
-    immediate: true,
+    immediate: true
   }
 )
 
@@ -148,7 +128,7 @@ const add = () => {
 
   internalData.value.push({
     ...(template as any),
-    _isInEdit: true,
+    _isInEdit: true
   })
 }
 
@@ -212,13 +192,13 @@ const validators = {
     if (!pattern.test(value)) {
       return msg || `不匹配正则表达式：${pattern}`
     }
-  },
+  }
 }
 
 /** 验证 */
 function validate(data: any, rules: Record<string, MultipleColumnsRules>) {
   let isValid = true
-  Object.keys(rules).forEach((item) => {
+  Object.keys(rules).forEach(item => {
     const rule = rules[item]
 
     for (const key in rule) {
@@ -246,6 +226,8 @@ const saveRow = (item: any) => {
   let valid = validate(item, columnRules.value)
   if (!valid) return
   item._isInEdit = false
+  const { _isInEdit, ...result } = item
+  emit('save', result)
 }
 
 /** 删除 */
