@@ -1,10 +1,10 @@
 <template>
   <el-edit-bar sortable @create="onCreate" @delete="onDelete" style="background-color: #fff;" :data="data">
-    <template #default="item">
+    <!-- <template #default="item">
       <span>
         {{ item.label }}
       </span>
-    </template>
+    </template> -->
   </el-edit-bar>
 </template>
 

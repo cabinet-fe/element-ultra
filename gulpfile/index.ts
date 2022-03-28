@@ -11,9 +11,9 @@ export default series(
 
   parallel(
     buildModules, // 构建packages中的模块
-    genDefinitions,
-    buildHelper, // 构建帮助信息
-    buildTheme // 样式主题构建
+    // genDefinitions,
+    // buildHelper, // 构建帮助信息
+    // buildTheme // 样式主题构建
   ),
 
   copyFiles // 拷贝常用文件
