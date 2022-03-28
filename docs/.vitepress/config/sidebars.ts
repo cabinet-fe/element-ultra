@@ -370,6 +370,10 @@ export const sidebars = {
           link: '/component/form-dialog',
           text: 'FormDialog 表单弹框',
         },
+        {
+          link: '/component/edit-bar',
+          text: 'EditBar 编辑栏',
+        },
       ]
     }
   ],

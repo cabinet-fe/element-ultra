@@ -2,18 +2,32 @@
 
 @include b(multiple-form) {
   background-color: var(--el-color-white);
+  @include e(button){
+    padding: 10px;
+  }
   @include e(table) {
     width: 100%;
-    border: 1px solid #eeeeee;
+    border: 1px solid var(--el-color-info-light-9);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     border-radius: 4px;
 
     tr{
-      padding: 10px 0;
+      
     }
     th,td{
       text-align: left;
+      padding: 10px;
+      box-sizing: border-box;
+      border-bottom: 1px solid var(--el-color-info-light-9);
+    }
+
+    thead .is-required {
+      &::before {
+        content: '*';
+        color: red;
+      }
     }
   }
+
 }

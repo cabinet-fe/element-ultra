@@ -14,23 +14,30 @@ export const multipleFormProps = {
   },
 
   /** 是否编辑 */
-  editable:Boolean
+  editable: Boolean,
 } as const
 
-interface tableItemData {
-  /** 类型 */
-  type: string
-  /** 是否只读 */
-  readonly?: boolean
-  /** type:'select‘ || ’radio‘ */
-  options?: tableOptions[]
-  /** 操作 */
-  actions: any[]
+/** 列配置 */
+export interface MultipleColumns {
+  name: string
+  key: string
+  rule?: Partial<MultipleColumnsRules>
 }
 
-interface tableOptions {
-  label: string
-  value: string
+/** 列校验 */
+export interface MultipleColumnsRules {
+  /** 是否必填 */
+  required?: boolean | [boolean, string]
+  /** 长度 */
+  length?: number | [number, string]
+  /** 最小值  */
+  min?: number | [number | string]
+  /** 最大值  */
+  max?: number | [number | string]
+  /** 正则表达式 */
+  match?: RegExp | [RegExp | string]
+  /** 自定义验证 */
+  validator?(value: any, model: Record<string, any>, rule: any)
 }
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>

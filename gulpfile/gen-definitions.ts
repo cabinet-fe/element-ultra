@@ -6,49 +6,52 @@ import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { errorAndExit, green, yellow } from './utils/log'
-import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
+import { buildOutput, epOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
 
-import { excludeFiles, pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
-
-const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
-const outDir = path.resolve(buildOutput, 'types')
 
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-export const generateTypesDefinitions = async () => {
+export default async function genDefinitions() {
+  const excludeRE = /(test|mock|gulpfile|dist|node_modules)/
+
+  // 当前项目
   const project = new Project({
     compilerOptions: {
       emitDeclarationOnly: true,
-      outDir,
+      outDir: path.resolve(buildOutput, 'types'),
       baseUrl: projRoot,
       paths: {
-        '@element-ultra/*': ['packages/*'],
+        '@element-ultra/*': ['packages/*']
       },
-      preserveSymlinks: true,
+      preserveSymlinks: true
     },
-    tsConfigFilePath: TSCONFIG_PATH,
-    skipAddingFilesFromTsConfig: true,
+
+    tsConfigFilePath: path.resolve(projRoot, 'tsconfig.json'),
+    skipAddingFilesFromTsConfig: true
   })
 
-  const filePaths = excludeFiles(
+  //  packages下除了element-ultra目录中的文件
+  const filePaths = (
     await glob(['**/*.{js,ts,vue}', '!element-ultra/**/*'], {
       cwd: pkgRoot,
       absolute: true,
-      onlyFiles: true,
+      onlyFiles: true
     })
-  )
-  const epPaths = excludeFiles(
+  ).filter(path => !excludeRE.test(path))
+
+  //  packages中的element-ultra目录中的文件
+  const epPaths = (
     await glob('**/*.{js,ts,vue}', {
       cwd: epRoot,
-      onlyFiles: true,
+      onlyFiles: true
     })
-  )
+  ).filter(path => !excludeRE.test(path))
 
   const sourceFiles: SourceFile[] = []
   await Promise.all([
-    ...filePaths.map(async (file) => {
+    ...filePaths.map(async file => {
       if (file.endsWith('.vue')) {
         const content = await fs.readFile(file, 'utf-8')
         const sfc = vueCompiler.parse(content)
@@ -62,7 +65,7 @@ export const generateTypesDefinitions = async () => {
           }
           if (scriptSetup) {
             const compiled = vueCompiler.compileScript(sfc.descriptor, {
-              id: 'xxx',
+              id: 'xxx'
             })
             content += compiled.content
             if (scriptSetup.lang === 'ts') isTS = true
@@ -78,24 +81,23 @@ export const generateTypesDefinitions = async () => {
         sourceFiles.push(sourceFile)
       }
     }),
-    ...epPaths.map(async (file) => {
+    ...epPaths.map(async file => {
       const content = await fs.readFile(path.resolve(epRoot, file), 'utf-8')
-      sourceFiles.push(
-        project.createSourceFile(path.resolve(pkgRoot, file), content)
-      )
-    }),
+      sourceFiles.push(project.createSourceFile(path.resolve(pkgRoot, file), content))
+    })
   ])
 
-  const diagnostics = project.getPreEmitDiagnostics()
-  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+  // 输出诊断信息
+  // const diagnostics = project.getPreEmitDiagnostics()
+  // console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   await project.emit({
-    emitOnlyDtsFiles: true,
+    emitOnlyDtsFiles: true
   })
 
-  const tasks = sourceFiles.map(async (sourceFile) => {
+  const tasks = sourceFiles.map(async sourceFile => {
     const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
-    yellow(`Generating definition for file: ${bold(relativePath)}`)
+    // yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
@@ -103,19 +105,19 @@ export const generateTypesDefinitions = async () => {
       errorAndExit(new Error(`Emit no file: ${bold(relativePath)}`))
     }
 
-    const tasks = emitFiles.map(async (outputFile) => {
+    const tasks = emitFiles.map(async outputFile => {
       const filepath = outputFile.getFilePath()
       await fs.mkdir(path.dirname(filepath), {
-        recursive: true,
+        recursive: true
       })
 
-      await fs.writeFile(
-        filepath,
-        pathRewriter('esm')(outputFile.getText()),
-        'utf8'
-      )
+      let content = outputFile.getText()
+      content = content.replaceAll(`@element-ultra/theme-chalk`, 'element-ultra/theme-chalk')
+      content = content.replaceAll(`@element-ultra/`, `element-ultra/`)
 
-      green(`Definition for file: ${bold(relativePath)} generated`)
+      await fs.writeFile(filepath, content, 'utf8')
+
+      // green(`Definition for file: ${bold(relativePath)} generated`)
     })
 
     await Promise.all(tasks)

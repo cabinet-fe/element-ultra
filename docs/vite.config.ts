@@ -10,8 +10,8 @@ import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 
-import { getPackageDependencies } from '../build/utils/pkg'
-import { epPackage } from '../build/utils/paths'
+import { epPackage } from '../gulpfile/utils/paths'
+
 import { projRoot } from './.vitepress/utils/paths'
 import type { Alias } from 'vite'
 
@@ -19,18 +19,19 @@ const alias: Alias[] = []
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
-      find: /^element-ultra(\/(es|lib))?$/,
+      find: /^element-ultra$/,
       replacement: path.resolve(projRoot, 'packages/element-ultra/index.ts'),
     },
     {
-      find: /^element-ultra\/(es|lib)\/(.*)$/,
+      find: /^element-ultra\/(.*)$/,
       replacement: `${path.resolve(projRoot, 'packages')}/$2`,
     }
   )
 }
 
 export default async () => {
-  const { dependencies } = getPackageDependencies(epPackage)
+  const dependencies = Object.keys(require(epPackage).dependencies)
+
   const optimizeDeps = [
     'vue',
     '@vue/shared',

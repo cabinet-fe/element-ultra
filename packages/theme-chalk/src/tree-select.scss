@@ -11,9 +11,10 @@ $h: 32px;
   display: inline-block;
   position: relative;
   @include e(input) {
+    display: flex;
+    min-height: $h;
     line-height: $h;
     width: inherit;
-    float: left;
     outline: none;
     background-color: var(--el-input-bg-color, var(--el-color-white));
     border: 1px solid var(--el-border-color-base);
@@ -24,23 +25,34 @@ $h: 32px;
     &:hover {
       border: 1px solid var(--el-border-color-hover);
     }
-    @include e(tag) {
-      margin-right: 6px;
+    text-indent: 10px;
+    @include e(content) {
+      flex: 10;
+      @include e(text) {
+        outline: none;
+        border: none;
+        width: 100%;
+      }
+      @include e(tag) {
+        margin-right: 6px;
+        user-select: none;
+      }
     }
     @include e(icon) {
-      position: absolute;
-      right: 6px;
-      height: $h;
-      border: 1px solid red;
+      flex: 1;
+      min-height: $h;
+      height: inherit;
+      @include e(close) {
+        cursor: pointer;
+      }
     }
   }
   @include e(dropdown) {
     width: inherit;
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
     background: gold;
-    float: left;
-    margin-top: 16px;
-    position: relative;
+    margin-top: 10px;
+    position: absolute;
     @include e(triangle) {
       position: absolute;
       width: 40px;
@@ -49,7 +61,10 @@ $h: 32px;
       background: #fff;
     }
     @include e(tree) {
-      border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+      border-radius: var(
+        --el-input-border-radius,
+        var(--el-border-radius-base)
+      );
     }
   }
 }
