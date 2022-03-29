@@ -31,6 +31,8 @@ const app = createApp({
   },
 })
 
+app.config.globalProperties.c = console
+
 app.use(router)
 
 app.config.warnHandler = function (msg, vm, trace) {

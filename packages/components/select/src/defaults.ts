@@ -43,7 +43,10 @@ export const SelectProps = {
   id: String,
   loading: Boolean,
   loadingText: String,
-  label: String,
+  labelKey: {
+    type: String,
+    default: 'label'
+  },
   modelValue: [Array, String, Number, Boolean, Object] as PropType<
     any[] | string | number | boolean | Record<string, any> | any
   >,
@@ -61,7 +64,7 @@ export const SelectProps = {
     default: true,
   },
   options: {
-    type: Array as PropType<OptionType[]>,
+    type: Array as PropType<Record<string, any>[]>,
     required: true,
   },
   placeholder: {

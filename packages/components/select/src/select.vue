@@ -33,7 +33,7 @@
             ns.is('focused', states.isComposing),
             ns.is('hovering', states.comboBoxHovering),
             ns.is('filterable', filterable),
-            ns.is('disabled', disabled),
+            ns.is('disabled', disabled)
           ]"
         >
           <div v-if="$slots.prefix">
@@ -54,7 +54,7 @@
                   <span
                     :class="ns.e('tags-text')"
                     :style="{
-                      maxWidth: `${tagMaxWidth}px`,
+                      maxWidth: `${tagMaxWidth}px`
                     }"
                     >{{ states.cachedOptions[0]?.label }}</span
                   >
@@ -69,7 +69,7 @@
                   <span
                     :class="ns.e('tags-text')"
                     :style="{
-                      maxWidth: `${tagMaxWidth}px`,
+                      maxWidth: `${tagMaxWidth}px`
                     }"
                     >+ {{ modelValue.length - 1 }}</span
                   >
@@ -84,7 +84,7 @@
                 :class="ns.e('selected-item')"
               >
                 <el-tag
-                  :key="getValueKey(selected)"
+                  :key="getValue(selected)"
                   :closable="!selectDisabled && !selected.disabled"
                   :size="collapseTagSize"
                   type="info"
@@ -94,7 +94,7 @@
                   <span
                     :class="ns.e('tags-text')"
                     :style="{
-                      maxWidth: `${tagMaxWidth}px`,
+                      maxWidth: `${tagMaxWidth}px`
                     }"
                     >{{ getLabel(selected) }}</span
                   >
@@ -102,10 +102,7 @@
               </div>
             </template>
             <div
-              :class="[
-                ns.e('selected-item'),
-                ns.e('input-wrapper'),
-              ]"
+              :class="[ns.e('selected-item'), ns.e('input-wrapper')]"
               :style="inputWrapperStyle"
             >
               <input
@@ -118,10 +115,7 @@
                 autocapitalize="off"
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
-                :class="[
-                  ns.is(selectSize),
-                  ns.e('combobox-input'),
-                ]"
+                :class="[ns.is(selectSize), ns.e('combobox-input')]"
                 :disabled="disabled"
                 role="combobox"
                 :readonly="!filterable"
@@ -152,12 +146,7 @@
             </div>
           </div>
           <template v-else>
-            <div
-              :class="[
-                ns.e('selected-item'),
-                ns.e('input-wrapper'),
-              ]"
-            >
+            <div :class="[ns.e('selected-item'), ns.e('input-wrapper')]">
               <input
                 :id="id"
                 ref="inputRef"
@@ -192,10 +181,7 @@
               v-if="filterable"
               ref="calculatorRef"
               aria-hidden="true"
-              :class="[
-                ns.e('selected-item'),
-                ns.e('input-calculator'),
-              ]"
+              :class="[ns.e('selected-item'), ns.e('input-calculator')]"
               v-text="states.displayInputValue"
             >
             </span>
@@ -210,7 +196,7 @@
                   (placeholder && multiple
                     ? modelValue.length === 0
                     : !hasModelValue)
-              ),
+              )
             ]"
           >
             {{ currentPlaceholder }}
@@ -280,7 +266,7 @@ export default defineComponent({
     ElSelectMenu,
     ElTag,
     ElTooltip,
-    ElIcon,
+    ElIcon
   },
   directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,
@@ -291,7 +277,7 @@ export default defineComponent({
     'clear',
     'visible-change',
     'focus',
-    'blur',
+    'blur'
   ],
 
   setup(props, { emit }) {
@@ -300,15 +286,17 @@ export default defineComponent({
     provide(selectInjectionKey, {
       props: reactive({
         ...toRefs(props),
-        height: API.popupHeight,
+        height: API.popupHeight
       }),
+      getLabel: API.getLabel,
+      getValue: API.getValue,
       onSelect: API.onSelect,
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
-      onKeyboardSelect: API.onKeyboardSelect,
+      onKeyboardSelect: API.onKeyboardSelect
     } as any)
 
     return API
-  },
+  }
 })
 </script>

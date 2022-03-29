@@ -8,6 +8,8 @@ export interface SelectContext {
   onSelect: (option: Option<any>, index: number, byClick?: boolean) => void
   onKeyboardNavigate: (direction: 'forward' | 'backward') => void
   onKeyboardSelect: () => void
+  getLabel: (item: any) => string | number
+  getValue: (item: any) => string | number
 }
 
 export const selectInjectionKey: InjectionKey<SelectContext> = Symbol()

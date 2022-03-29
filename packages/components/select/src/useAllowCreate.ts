@@ -1,10 +1,9 @@
 import { computed, ref } from 'vue'
 import type { ISelectProps } from './token'
-import type { Option } from './select.types'
 
 export function useAllowCreate(props: ISelectProps, states) {
   const createOptionCount = ref(0)
-  const cachedSelectedOption = ref<Option>(null)
+  const cachedSelectedOption = ref<any>(null)
 
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable
@@ -18,7 +17,7 @@ export function useAllowCreate(props: ISelectProps, states) {
     )
   }
 
-  function selectNewOption(option: Option) {
+  function selectNewOption(option) {
     if (!enableAllowCreateMode.value) {
       return
     }
@@ -57,19 +56,19 @@ export function useAllowCreate(props: ISelectProps, states) {
     }
   }
 
-  function removeNewOption(option: Option) {
+  function removeNewOption(option) {
     if (
       !enableAllowCreateMode.value ||
       !option ||
       !option.created ||
       (option.created &&
         props.reserveKeyword &&
-        states.inputValue === option.label)
+        states.inputValue === option[props.labelKey])
     ) {
       return
     }
     const idx = states.createdOptions.findIndex(
-      (it) => it.value === option.value
+      (it) => it.value === option[props.valueKey]
     )
     if (~idx) {
       states.createdOptions.splice(idx, 1)
