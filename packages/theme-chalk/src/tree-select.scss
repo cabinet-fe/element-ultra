@@ -1,20 +1,29 @@
-@use 'mixins/mixins.scss' as *;
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
-$w: 300px;
-$h: 32px;
-
 @include b(tree-select) {
-  width: $w;
-  line-height: $h;
-  display: inline-block;
+  width: 100%;
+  line-height: map.get($input-height, 'default');
+  height: map.get($input-height, 'default');
   position: relative;
+  color: var(--el-text-color-regular);
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($input-font-size, $size);
+      line-height: map.get($input-height, $size);
+      height: map.get($input-height, $size);
+    }
+  }
   @include e(input) {
+    padding: 0 15px;
     display: flex;
-    min-height: $h;
-    line-height: $h;
-    width: inherit;
+    min-height: inherit;
+    line-height: inherit;
+    height: 100%;
+    width: 100%;
     outline: none;
     background-color: var(--el-input-bg-color, var(--el-color-white));
     border: 1px solid var(--el-border-color-base);
@@ -25,26 +34,46 @@ $h: 32px;
     &:hover {
       border: 1px solid var(--el-border-color-hover);
     }
-    text-indent: 10px;
     @include e(content) {
       flex: 10;
+      height: inherit;
       @include e(text) {
+        width: 100%;
         outline: none;
         border: none;
-        width: 100%;
       }
       @include e(tag) {
-        margin-right: 6px;
-        user-select: none;
+        display: flex;
+        flex-wrap: wrap;
+        align-items:center;
+        justify-content:left;
+        width: 100%;
+        height: 100%;
+        padding: 1px 2px;
+        @include e(item) {
+          margin: 2px;
+          user-select: none;
+        }
+        @include e(query) {
+          height: inherit;
+          outline: none;
+          border: none;
+        }
       }
     }
     @include e(icon) {
       flex: 1;
-      min-height: $h;
+      min-height: inherit;
       height: inherit;
+      color: var(--el-input-icon-color, var(--el-text-color-placeholder));
+      justify-content: right;
       @include e(close) {
         cursor: pointer;
       }
+    }
+    @include e(prefix) {
+      display: inline-block;
+      color: var(--el-input-icon-color, var(--el-text-color-placeholder));
     }
   }
   @include e(dropdown) {
@@ -53,6 +82,7 @@ $h: 32px;
     background: gold;
     margin-top: 10px;
     position: absolute;
+    z-index: 2022;
     @include e(triangle) {
       position: absolute;
       width: 40px;
