@@ -34,6 +34,36 @@
     &:hover {
       border: 1px solid var(--el-border-color-hover);
     }
+    @include when(disabled) {
+      cursor: not-allowed;
+      background-color: map.get($input-disabled, 'fill');
+      &:hover {
+        border: 1px solid var(--el-border-color-base);
+      }
+      @include e(content) {
+        cursor: not-allowed;
+        @include e(text) {
+          cursor: not-allowed;
+          color: map.get($input-disabled, 'text-color');
+          &::placeholder {
+            color: map.get($input-disabled, 'text-color');
+          }
+        }
+        @include e(tag) {
+          cursor: not-allowed;
+          @include e(item) {
+            cursor: not-allowed;
+          }
+          @include e(query) {
+            cursor: not-allowed;
+            color: map.get($input-disabled, 'text-color');
+            &::placeholder {
+              color: map.get($input-disabled, 'text-color');
+            }
+          }
+        }
+      }
+    }
     @include e(content) {
       flex: 10;
       height: inherit;
@@ -41,6 +71,13 @@
         width: 100%;
         outline: none;
         border: none;
+        padding: 0;
+        &::placeholder {
+          color: var(
+            --el-input-placeholder-color,
+            map.get($input, 'placeholder-color')
+          );
+        }
       }
       @include e(tag) {
         display: flex;
@@ -49,15 +86,21 @@
         justify-content:left;
         width: 100%;
         height: 100%;
-        padding: 1px 2px;
         @include e(item) {
-          margin: 2px;
+          margin: 2px 4px 2px 0;
           user-select: none;
         }
         @include e(query) {
           height: inherit;
           outline: none;
           border: none;
+          padding: 0;
+          &::placeholder {
+            color: var(
+              --el-input-placeholder-color,
+              map.get($input, 'placeholder-color')
+            );
+          }
         }
       }
     }
@@ -79,18 +122,21 @@
   @include e(dropdown) {
     width: inherit;
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
-    background: gold;
+    box-shadow: var(--el-box-shadow-light);
     margin-top: 10px;
     position: absolute;
     z-index: 2022;
     @include e(triangle) {
       position: absolute;
+      left: 20px;
       width: 40px;
       height: 40px;
       transform: rotate(45deg);
       background: #fff;
+      box-shadow: var(--el-box-shadow-light);
     }
     @include e(tree) {
+      padding: 2px 0;
       border-radius: var(
         --el-input-border-radius,
         var(--el-border-radius-base)

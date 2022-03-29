@@ -10,7 +10,7 @@
       <el-tree-select
         :data="treeData"
         field="node1"
-        label="节点1"
+        label="单选"
         clearable
         value-key="id"
       >
@@ -19,7 +19,7 @@
       <el-tree-select
         :data="treeData"
         field="node2"
-        label="节点2"
+        label="多选"
         size="large"
         clearable
         value-key="id"
@@ -27,15 +27,6 @@
         tag-type="success"
       >
       </el-tree-select>
-
-      <el-select
-        field="value"
-        label="select"
-        filterable
-        :options="[{value: 1, label: 'aaaasdasdasdasd'},{value: 2, label: 'bbbasdadasdasdasd'}]"
-        placeholder="Please select"
-        multiple
-      />
 
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
@@ -85,6 +76,7 @@ const createData = (
 }
 
 const treeData = createData(2, 5, 5)
+console.log(treeData)
 
 const [data, rules] = useFormModel({
   node1: {
@@ -94,11 +86,8 @@ const [data, rules] = useFormModel({
     max: 6,
   },
   node2: {
-    value: [],
+    value: [{id: 'node-1-1', label: 'node-1-1', children: null}],
     required: true,
-  },
-  value: {
-    value: []
   }
 })
 

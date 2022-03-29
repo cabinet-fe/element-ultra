@@ -4,8 +4,8 @@
     v-clickoutside="onClickOutside"
   >
     <div
-      :class="ns.e('input')"
-      @click="showTree"
+      :class="[ns.e('input'), ns.is('disabled', inputDisabled)]"
+      @[clickEvent]="showTree"
       @[closeEvent]="showCloseIcon"
       @mouseleave="hideCloseIcon"
       ref="inputRef"
@@ -21,13 +21,14 @@
           :class="ns.e('text')"
           :placeholder="placeholder"
           v-if="!multiple"
+          :disabled="inputDisabled"
         />
         <div :class="ns.e('tag')" v-else>
           <el-tag
             v-if="!filterable"
             v-for="(tag, i) in selected"
             :key="tag.id"
-            closable
+            :closable="inputDisabled ? false : true"
             @close="handleCloseTag(tag, i)"
             :class="ns.e('item')"
             :size="tagSize"
@@ -42,6 +43,7 @@
             :class="ns.e('query')"
             :placeholder="!filterable ? '' : placeholder"
             @keydown.delete.stop="handleDelete"
+            :disabled="inputDisabled"
           />
         </div>
       </div>
@@ -76,7 +78,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useNamespace, useSize, useFormItem } from '@element-ultra/hooks'
+import { useNamespace, useSize, useFormItem, useDisabled } from '@element-ultra/hooks'
 import { ref, watch, computed, shallowRef, onMounted } from 'vue'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
@@ -164,6 +166,7 @@ watch(
 
 // 输入框 start
 const inputSize = useSize()
+const inputDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
 const icon = ref<'down' | 'up' | 'close'>('down')
 const query = ref<string>('')
@@ -171,9 +174,15 @@ const query = ref<string>('')
 const selected = ref<Record<string, any>[]>([])
 /** 单选值 */
 const label = ref<string | number>('')
-/** 根据clearable属性动态绑定清空按钮 */
+const clickEvent = computed(() => {
+  return inputDisabled.value ? '' : 'click'
+})
 const closeEvent = computed(() => {
-  return clearable ? 'mouseover' : ''
+  if(clearable && !inputDisabled.value) {
+    return 'mouseover'
+  }else {
+    return ''
+  }
 })
 
 const showTree = () => {
