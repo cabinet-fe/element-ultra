@@ -15,6 +15,9 @@
     <el-select
       filterable
       :options="options1"
+      allow-create
+      :reserve-keyword="false"
+      clearable
       label-key="text"
       value-key="id"
       multiple

@@ -10,7 +10,7 @@ export function useAllowCreate(props: ISelectProps, states) {
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = (option) => option.value === query
+    const hasValue = (option) => option[props.valueKey] === query
     return (
       (props.options && props.options.some(hasValue)) ||
       states.createdOptions.some(hasValue)
@@ -32,8 +32,8 @@ export function useAllowCreate(props: ISelectProps, states) {
     if (enableAllowCreateMode.value) {
       if (query && query.length > 0 && !hasExistingOption(query)) {
         const newOption = {
-          value: query,
-          label: query,
+          [props.valueKey]: query,
+          [props.labelKey]: query,
           created: true,
           disabled: false,
         }

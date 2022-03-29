@@ -56,7 +56,7 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`
                     }"
-                    >{{ states.cachedOptions[0]?.label }}</span
+                    >{{ getLabel(states.cachedOptions[0]) }}</span
                   >
                 </el-tag>
                 <el-tag
@@ -114,7 +114,6 @@
                 aria-haspopup="listbox"
                 autocapitalize="off"
                 :aria-expanded="expanded"
-                :aria-labelledby="label"
                 :class="[ns.is(selectSize), ns.e('combobox-input')]"
                 :disabled="disabled"
                 role="combobox"
@@ -153,7 +152,6 @@
                 v-model-text="states.displayInputValue"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
-                :aria-labelledby="label"
                 :aria-expanded="expanded"
                 autocapitalize="off"
                 :autocomplete="autocomplete"
@@ -295,6 +293,8 @@ export default defineComponent({
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect
     } as any)
+
+    console.log(API.states)
 
     return API
   }

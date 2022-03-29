@@ -164,7 +164,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // fill the conditions here.
       const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? getLabel(o).includes(query) : true
+      const containsQueryString = query ? getLabel(o)?.includes(query) : true
       return containsQueryString
     }
     if (props.loading) {
