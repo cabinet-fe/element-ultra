@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="[ns.b(), ns.m(inputSize), $attrs.class]"
-    v-clickoutside="onClickOutside"
-  >
+  <div :class="[ns.b(), ns.m(inputSize), $attrs.class]" v-clickoutside="onClickOutside">
     <div
       :class="[ns.e('input'), ns.is('disabled', inputDisabled)]"
       @[clickEvent]="showTree"
@@ -50,11 +47,7 @@
       <el-icon :class="ns.e('icon')">
         <arrow-down v-show="icon === 'down'" />
         <arrow-up v-show="icon === 'up'" />
-        <close
-          :class="ns.e('close')"
-          v-show="icon === 'close'"
-          @click.stop="handleClear"
-        />
+        <close :class="ns.e('close')" v-show="icon === 'close'" @click.stop="handleClear" />
       </el-icon>
     </div>
     <transition name="el-zoom-in-top">
@@ -64,7 +57,7 @@
           :data="data"
           :check-strictly="checkStrictly"
           ref="treeRef"
-          node-key="id"
+          :node-key="valueKey"
           default-expand-all
           :props="{ value: valueKey, label: labelKey, children: childrenKey }"
           @node-click="handleNodeClick"
@@ -72,6 +65,9 @@
           :show-checkbox="multiple"
           :class="ns.e('tree')"
           :filter-method="filterMethod"
+          :current-node-key="defaultChecked"
+          :default-checked-keys="defaultCheckedArray"
+          :indent="treeIndent"
         />
       </div>
     </transition>
@@ -79,7 +75,7 @@
 </template>
 <script lang="ts" setup>
 import { useNamespace, useSize, useFormItem, useDisabled } from '@element-ultra/hooks'
-import { ref, watch, computed, shallowRef, onMounted } from 'vue'
+import { ref, watch, computed, shallowRef, onMounted, nextTick } from 'vue'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
 import ElTag from '@element-ultra/components/tag'
@@ -94,8 +90,8 @@ const ns = useNamespace('tree-select')
 defineOptions({
   name: 'ElTreeSelect',
   directives: {
-    clickoutside: ClickOutside,
-  },
+    clickoutside: ClickOutside
+  }
 })
 
 const props = defineProps(treeSelectProps)
@@ -112,15 +108,11 @@ let {
   valueKey,
   labelKey,
   childrenKey,
+  treeIndent
 } = props
 
 const emit = defineEmits<{
-  (
-    e: 'update:modelValue',
-    value: string | number,
-    label: string,
-    item: Record<string, any>
-  ): void
+  (e: 'update:modelValue', value: string | number, label: string, item: Record<string, any>): void
   (
     e: 'update:modelValue',
     value: string[] | number[],
@@ -137,17 +129,12 @@ const onClickOutside = () => {
   hideTree()
 }
 
-const emitModelValue = (
-  value: string | number,
-  label: string,
-  item: Record<string, any>
-) => {
+const emitModelValue = (value: string | number, label: string, item: Record<string, any>) => {
   emit('update:modelValue', value, label, item)
 }
 
 onMounted(() => {
-  const { modelValue } = props
-  multiple ? (selected.value = modelValue) : (label.value = modelValue)
+  nextTick(() => { stateInit() })
 })
 
 const { formItem } = useFormItem()
@@ -159,9 +146,26 @@ watch(
     }
   },
   {
-    deep: true,
+    deep: true
   }
 )
+
+const stateInit = () => {
+  const { modelValue } = props
+  if (multiple) {
+    if (modelValue.length) {
+      selected.value = modelValue
+      defaultCheckedArray.value = modelValue.map((item: Record<string, any>) => {
+        return item[valueKey]
+      })
+    }
+  } else {
+    if (modelValue) {
+      label.value = modelValue
+      defaultChecked.value = modelValue
+    }
+  }
+}
 // 公共 end
 
 // 输入框 start
@@ -178,9 +182,9 @@ const clickEvent = computed(() => {
   return inputDisabled.value ? '' : 'click'
 })
 const closeEvent = computed(() => {
-  if(clearable && !inputDisabled.value) {
+  if (clearable && !inputDisabled.value) {
     return 'mouseover'
-  }else {
+  } else {
     return ''
   }
 })
@@ -245,6 +249,8 @@ const handleCloseTag = (data: Record<string, any>, i: number) => {
 // 标签 end
 
 // 树 start
+const defaultChecked = ref<string>('')
+const defaultCheckedArray = ref<string[]>([])
 const treeVisible = ref(false)
 const treeRef = shallowRef<InstanceType<typeof ElTree>>()
 /** 单选 */

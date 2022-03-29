@@ -73,6 +73,11 @@ export const treeSelectProps = {
     type: String,
     default: '请输入',
   },
+
+  treeIndent: {
+    type: Number,
+    default: 16
+  }
 } as const
 
 export type TreeSelectProps = ExtractPropTypes<typeof treeSelectProps>
