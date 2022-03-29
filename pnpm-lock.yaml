@@ -182,10 +182,10 @@ importers:
       prism-theme-vars: ^0.2.2
       unplugin-icons: ^0.13.2
       unplugin-vue-components: ^0.17.18
-      vite: ^2.8.4
+      vite: ^2.8.6
       vite-plugin-inspect: ^0.3.14
       vite-plugin-windicss: ^1.7.1
-      vitepress: ^0.22.2
+      vitepress: ^0.22.3
     dependencies:
       '@docsearch/js': 3.0.0
       '@docsearch/react': 3.0.0

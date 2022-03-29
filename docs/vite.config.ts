@@ -24,7 +24,7 @@ if (process.env.DOC_ENV !== 'production') {
     },
     {
       find: /^element-ultra\/(.*)$/,
-      replacement: `${path.resolve(projRoot, 'packages')}/$2`,
+      replacement: `${path.resolve(projRoot, 'packages')}/$1`,
     }
   )
 }

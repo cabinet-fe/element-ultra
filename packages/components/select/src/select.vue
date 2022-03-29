@@ -294,8 +294,6 @@ export default defineComponent({
       onKeyboardSelect: API.onKeyboardSelect
     } as any)
 
-    console.log(API.states)
-
     return API
   }
 })
