@@ -162,7 +162,7 @@ select/remote-search
 | loading-text | 远程加载时显示的文字 | string | — | 加载中 | -->
 </span>
 
-## SelectV2 事件
+## Select 事件
 
 | 事件名         | 说明                                     | 回调参数                           |
 | -------------- | ---------------------------------------- | ---------------------------------- |
@@ -173,7 +173,7 @@ select/remote-search
 | blur           | 当选择器的输入框失去焦点时触发           | (event: FocusEvent)                |
 | focus          | 当选择器的输入框获得焦点时触发           | (event: FocusEvent)                |
 
-## SelectV2 插槽
+## Select 插槽
 
 | 插槽名  | 说明                     |
 | ------- | ------------------------ |
