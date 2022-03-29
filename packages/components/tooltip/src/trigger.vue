@@ -32,7 +32,7 @@ import type { ElOnlyChildExpose } from '@element-ultra/components/slot'
 export default defineComponent({
   name: 'ElTooltipTrigger',
   components: {
-    ElPopperTrigger,
+    ElPopperTrigger
   },
   props: useTooltipTriggerProps,
   setup(props) {
@@ -59,7 +59,7 @@ export default defineComponent({
     )
     const onClick = composeEventHandlers(
       stopWhenControlledOrDisabled,
-      whenTrigger(trigger, 'click', (e) => {
+      whenTrigger(trigger, 'click', e => {
         // distinguish left click
         if ((e as MouseEvent).button === 0) {
           onToggle(e)
@@ -85,15 +85,12 @@ export default defineComponent({
       })
     )
 
-    const onKeydown = composeEventHandlers(
-      stopWhenControlledOrDisabled,
-      (e: KeyboardEvent) => {
-        const { code } = e
-        if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
-          onToggle(e)
-        }
+    const onKeydown = composeEventHandlers(stopWhenControlledOrDisabled, (e: KeyboardEvent) => {
+      const { code } = e
+      if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
+        onToggle(e)
       }
-    )
+    })
 
     return {
       onBlur,
@@ -106,8 +103,8 @@ export default defineComponent({
       open,
       id,
       triggerRef,
-      ns,
+      ns
     }
-  },
+  }
 })
 </script>
