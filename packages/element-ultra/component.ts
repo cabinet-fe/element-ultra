@@ -47,6 +47,7 @@ import {
   ElDropdownMenu,
 } from '@element-ultra/components/dropdown'
 import { ElEmpty } from '@element-ultra/components/empty'
+import { ElEditBar } from '@element-ultra/components/edit-bar'
 import { ElForm, ElFormItem } from '@element-ultra/components/form'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 
@@ -90,6 +91,7 @@ import { ElTable, ElTableColumn } from '@element-ultra/components/table'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
 import { ElTag } from '@element-ultra/components/tag'
 import { ElTextarea } from '@element-ultra/components/textarea'
+import { ElTextEditor } from '@element-ultra/components/text-editor'
 import { ElTimePicker } from '@element-ultra/components/time-picker'
 import { ElTimeSelect } from '@element-ultra/components/time-select'
 import { ElTimeline, ElTimelineItem } from '@element-ultra/components/timeline'
@@ -142,6 +144,7 @@ export default [
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElEditBar,
   ElEmpty,
   ElForm,
   ElFormItem,
@@ -185,6 +188,7 @@ export default [
   ElTabPane,
   ElTag,
   ElTextarea,
+  ElTextEditor,
   ElTimePicker,
   ElTimeSelect,
   ElTimeline,

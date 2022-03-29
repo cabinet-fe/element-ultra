@@ -38,6 +38,7 @@ declare module 'vue' {
     ElDropdown: typeof import('../packages/element-ultra')['ElDropdown']
     ElDropdownItem: typeof import('../packages/element-ultra')['ElDropdownItem']
     ElDropdownMenu: typeof import('../packages/element-ultra')['ElDropdownMenu']
+    ElEditBar: typeof import('../packages/element-ultra')['ElEditBar']
     ElEmpty: typeof import('../packages/element-ultra')['ElEmpty']
     ElFooter: typeof import('../packages/element-ultra')['ElFooter']
     ElForm: typeof import('../packages/element-ultra')['ElForm']

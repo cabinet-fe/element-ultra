@@ -1,5 +1,5 @@
 import { withInstall } from '@element-ultra/utils'
-import TextEditor from './src/index.vue'
+import TextEditor from './src/text-editor.vue'
 
 export const ElTextEditor = withInstall(TextEditor)
 

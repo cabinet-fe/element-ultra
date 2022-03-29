@@ -68,13 +68,13 @@ const ns = useNamespace('pro-table')
 
 const props = defineProps(proTableProps)
 
-const { proTableRequestMethod, proTableDefaultSize } = useConfig()
+const [configStore] = useConfig()
 
 const pageSizes = [20, 40, 60, 120, 200]
 
 const query = shallowReactive({
   page: 1,
-  size: proTableDefaultSize || 20,
+  size: configStore.proTableDefaultSize || 20,
 })
 
 const state = shallowReactive({
@@ -109,7 +109,7 @@ onMounted(() => {
 })
 
 const fetchData = async () => {
-  if (!props.api || !proTableRequestMethod || props.data) return
+  if (!props.api || !configStore.proTableRequestMethod || props.data) return
 
   let realQuery = Object.keys(props.query || {}).reduce((acc, cur) => {
     let v = props.query![cur]
@@ -120,7 +120,7 @@ const fetchData = async () => {
     return acc
   }, {} as Record<string, any>)
 
-  const { total, data } = await proTableRequestMethod({
+  const { total, data } = await configStore.proTableRequestMethod({
     api: props.api,
     query: {
       ...(props.pagination ? query : null),
