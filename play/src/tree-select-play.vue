@@ -1,20 +1,47 @@
 <template>
   <div>
-    <!-- <el-tree-select :data="data" v-model="inputTest" effect="light" isize="small" clearable>
+    <el-form
+      ref="ruleFormRef"
+      :data="data"
+      :rules="rules"
+      label-width="120px"
+      class="demo-ruleForm"
+    >
+      <el-tree-select
+        :data="treeData"
+        field="node1"
+        label="单选"
+        clearable
+        value-key="id"
+      >
+      </el-tree-select>
 
-  </el-tree-select>
-  {{inputTest}} -->
-    <el-tree-select :data="data" v-model="checkTest" multiple effect="dark" clearable> </el-tree-select>
-    <!-- {{ checkTest }} -->
+      <el-tree-select
+        :data="treeData"
+        field="node2"
+        label="多选"
+        size="large"
+        clearable
+        value-key="id"
+        multiple
+        tag-type="success"
+      >
+      </el-tree-select>
 
-    <h1 style="border: 1px solid blue;">123</h1>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button @click="resetForm">重置</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useFormModel } from 'element-ultra'
+import { Search } from '@element-plus/icons-vue'
 import { reactive, ref, shallowRef, watch, watchEffect } from 'vue'
-let inputTest = ref('node-5-2')
-let checkTest = shallowRef<string[]>([])
+let inputTest = ref('node-1')
+// let checkTest = shallowRef<string[]>([])
 
 interface Tree {
   id: string
@@ -48,7 +75,31 @@ const createData = (
   })
 }
 
-const data = createData(2, 5, 5)
+const treeData = createData(2, 5, 5)
+console.log(treeData)
+
+const [data, rules] = useFormModel({
+  node1: {
+    value: 'node-1',
+    required: true,
+    min: 3,
+    max: 6,
+  },
+  node2: {
+    value: [{id: 'node-1-1', label: 'node-1-1', children: null}],
+    required: true,
+  }
+})
+
+const ruleFormRef = ref()
+
+const submitForm = () => {
+  ruleFormRef.value?.validate()
+}
+
+const resetForm = () => {
+  ruleFormRef.value?.resetFields()
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -2907,8 +2907,8 @@ packages:
       namespace-emitter: 2.0.1
     dev: false
 
-  /@uppy/core/2.1.6:
-    resolution: {integrity: sha512-WTGthAAHMfB6uAtISbu+7jYh4opnBWHSf7A0jsPdREwXc4hrhC/z9lbejZfSLkVDXdbNwpWWH38EgOGCNQb5MQ==}
+  /@uppy/core/2.1.7:
+    resolution: {integrity: sha512-1xHBPdyxY01bBJkouEkeAU/Inp4MNm23cJn0/4sCl69hHao/Yhh70rBmMnpsTLXyS0zGoOd2hSr2m9vVoi2SyA==}
     dependencies:
       '@transloadit/prettier-bytes': 0.0.7
       '@uppy/store-default': 2.0.3
@@ -2930,13 +2930,13 @@ packages:
       lodash.throttle: 4.1.1
     dev: false
 
-  /@uppy/xhr-upload/2.0.7_@uppy+core@2.1.6:
+  /@uppy/xhr-upload/2.0.7_@uppy+core@2.1.7:
     resolution: {integrity: sha512-bzCc654B0HfNmL4BIr7gGTvg2pQBucYgPmAb4ST7jGyWlEJWbSxMXR/19zvISQzpJ6v1uP6q2ppgxGMqNdj/rA==}
     peerDependencies:
       '@uppy/core': ^2.1.4
     dependencies:
       '@uppy/companion-client': 2.0.5
-      '@uppy/core': 2.1.6
+      '@uppy/core': 2.1.7
       '@uppy/utils': 4.0.5
       nanoid: 3.3.2
     dev: false
@@ -3245,7 +3245,11 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
+<<<<<<< HEAD
       '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+=======
+      '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
+>>>>>>> 00626d1f7c1f634fe48f59d63355ae123968e5af
       dom7: 3.0.0
       is-url: 1.2.4
       lodash.throttle: 4.1.1
@@ -3262,14 +3266,22 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
+<<<<<<< HEAD
       '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+=======
+      '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
+>>>>>>> 00626d1f7c1f634fe48f59d63355ae123968e5af
       dom7: 3.0.0
       prismjs: 1.27.0
       slate: 0.72.8
       snabbdom: 3.4.0
     dev: false
 
+<<<<<<< HEAD
   /@wangeditor/core/0.14.14_2b33e53df862d4adc6daff798431734d:
+=======
+  /@wangeditor/core/0.14.14_6a33b5a9fd326a667de29f857efd1a00:
+>>>>>>> 00626d1f7c1f634fe48f59d63355ae123968e5af
     resolution: {integrity: sha512-NWDr1gQGE7Zroma2CYYueTU6xrYqnuVzp6kJPMFv+Oc7tSSczj9kGIBFWE1dJcKTCBPdSxm8LrgAoWgDgGqcYw==}
     peerDependencies:
       '@uppy/core': ^2.1.1
@@ -3288,8 +3300,8 @@ packages:
       snabbdom: ^3.1.0
     dependencies:
       '@types/event-emitter': 0.3.3
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
+      '@uppy/core': 2.1.7
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.7
       dom7: 3.0.0
       event-emitter: 0.3.5
       html-void-elements: 2.0.1
@@ -3323,15 +3335,15 @@ packages:
   /@wangeditor/editor/0.15.15:
     resolution: {integrity: sha512-xaFdZey+0itTe89cO1hksK9KbRGdFBxxYxFNQTpqZrddGMtTah1zpH7H6APgUlS1rkonwClr4o/wc2MivY089w==}
     dependencies:
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
+      '@uppy/core': 2.1.7
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.7
       '@wangeditor/basic-modules': 0.11.9_33094bc63b05d488b3b0b1a5aa3bd75a
       '@wangeditor/code-highlight': 0.9.6_739125518a0c0f1cdcc5e99debe2ee7b
-      '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+      '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
       '@wangeditor/list-module': 0.9.4_739125518a0c0f1cdcc5e99debe2ee7b
       '@wangeditor/table-module': 0.10.8_60a2826d859019bf529de5e25ebb3a0f
-      '@wangeditor/upload-image-module': 0.8.4_cc0bd6d2bd568db2d92b222d856ac151
-      '@wangeditor/video-module': 0.10.9_4baaef3484573b11fb39c7a6b19a6bf4
+      '@wangeditor/upload-image-module': 0.8.4_6aa9d024430973044d463179d33a7edc
+      '@wangeditor/video-module': 0.10.9_8cefd53d9e38573eb7c3c1553718c166
       dom7: 3.0.0
       is-hotkey: 0.2.0
       lodash.camelcase: 4.3.0
@@ -3354,7 +3366,7 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
-      '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+      '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
       dom7: 3.0.0
       slate: 0.72.8
       snabbdom: 3.4.0
@@ -3370,7 +3382,7 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
-      '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+      '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
       dom7: 3.0.0
       lodash.isequal: 4.5.0
       nanoid: 3.3.2
@@ -3378,7 +3390,7 @@ packages:
       snabbdom: 3.4.0
     dev: false
 
-  /@wangeditor/upload-image-module/0.8.4_cc0bd6d2bd568db2d92b222d856ac151:
+  /@wangeditor/upload-image-module/0.8.4_6aa9d024430973044d463179d33a7edc:
     resolution: {integrity: sha512-WbXT8/GRRB7wMV8otkrkG/09x4kBrc/xgGGeR0aeM2RJr2Eg1SiG6JQThjZazXXpZPGpoeIzMOqM9UpPq07EUg==}
     peerDependencies:
       '@uppy/core': ^2.0.3
@@ -3390,17 +3402,17 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
+      '@uppy/core': 2.1.7
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.7
       '@wangeditor/basic-modules': 0.11.9_33094bc63b05d488b3b0b1a5aa3bd75a
-      '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+      '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
       dom7: 3.0.0
       lodash.foreach: 4.5.0
       slate: 0.72.8
       snabbdom: 3.4.0
     dev: false
 
-  /@wangeditor/video-module/0.10.9_4baaef3484573b11fb39c7a6b19a6bf4:
+  /@wangeditor/video-module/0.10.9_8cefd53d9e38573eb7c3c1553718c166:
     resolution: {integrity: sha512-4ENNSGYd3BSvvu1GpIDEfilohfTxbaPfkX1qRlJFGs5sE/+6rlQxBubPYbFO+A553ws0N+cEYmge1mR6muaofA==}
     peerDependencies:
       '@uppy/core': ^2.1.4
@@ -3411,9 +3423,9 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
-      '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+      '@uppy/core': 2.1.7
+      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.7
+      '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
       dom7: 3.0.0
       nanoid: 3.3.2
       slate: 0.72.8

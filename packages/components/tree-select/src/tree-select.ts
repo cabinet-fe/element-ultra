@@ -1,4 +1,3 @@
-import type { ValueKeyIteratee } from 'lodash'
 import type { ExtractPropTypes, PropType } from 'vue'
 export interface TreeOptionProps {
   children?: string
@@ -9,25 +8,25 @@ export interface TreeOptionProps {
 
 export const treeSelectProps = {
   modelValue: {
-    type: [String, Number, Array] as PropType< any[] | string | number>,
+    type: [String, Number, Array] as PropType<any[] | string | number>,
   },
 
   childrenKey: {
     type: String,
-    default: 'chidlren'
+    default: 'children',
   },
   valueKey: {
     type: String,
-    default: 'id'
+    default: 'value',
   },
   labelKey: {
     type: String,
-    default: 'label'
+    default: 'label',
   },
 
   multiple: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   data: {
@@ -40,21 +39,45 @@ export const treeSelectProps = {
     default: 'light',
   },
 
-  isize: {
-    type: String as PropType<'large'|'default'|'small'>,
-    default: 'default'
+  size: {
+    type: String as PropType<'large' | 'default' | 'small'>,
+    default: 'default',
+  },
+
+  tagSize: {
+    type: String as PropType<'large' | 'default' | 'small'>,
+    default: 'default',
+  },
+
+  tagType: {
+    type: String as PropType<'success' | 'info' | 'warning' | 'danger'>,
+    default: 'info'
+  },
+
+  tagHit: {
+    type: Boolean,
+    default: false
   },
 
   clearable: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   checkStrictly: {
     type: Boolean,
     default: false,
   },
-} as const
 
+  placeholder: {
+    type: String,
+    default: '请输入',
+  },
+
+  treeIndent: {
+    type: Number,
+    default: 16
+  }
+} as const
 
 export type TreeSelectProps = ExtractPropTypes<typeof treeSelectProps>
