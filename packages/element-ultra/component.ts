@@ -52,6 +52,7 @@ import { ElForm, ElFormItem } from '@element-ultra/components/form'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 
 import { ElGrid } from '@element-ultra/components/grid'
+import { ElGridInput } from '@element-ultra/components/grid-input'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ElImage } from '@element-ultra/components/image'
 import { ElImageViewer } from '@element-ultra/components/image-viewer'
@@ -150,6 +151,7 @@ export default [
   ElFormItem,
   ElFormDialog,
   ElGrid,
+  ElGridInput,
   ElIcon,
   ElImage,
   ElImageViewer,
