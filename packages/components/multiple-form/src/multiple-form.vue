@@ -1,60 +1,85 @@
 <template>
   <div :class="ns.b()">
     <div :class="ns.e('button')">
-      <el-button @click="add">增加</el-button>
+      <el-button @click="add" :icon="Plus">增加</el-button>
     </div>
 
-    <table :class="ns.e('table')">
-      <thead>
-        <tr>
-          <th
+    <div :class="ns.e('source')">
+      <table cellpadding="0" border="0" cellspacing="0" :class="ns.e('table')">
+        <colgroup>
+          <col
             v-for="column of columns"
-            :class="{ 'is-required': columnRules[column.key]?.required }"
-          >
-            <el-tooltip
-              v-if="errorTip[column.key]"
-              placement="top"
-              :visible="true"
-              effect="dark"
-              :content="errorTip[column.key]"
+            :key="column.key"
+            :style="{ width: column.width + 'px' }"
+          />
+        </colgroup>
+        <thead>
+          <tr>
+            <th
+              v-for="column of columns"
+              :class="{ 'is-required': columnRules[column.key]?.required }"
+              :style="{ textAlign: column.align }"
             >
-              <span>{{ column.name }} --- {{ errorTip[column.key] }}</span>
-            </el-tooltip>
+              <el-tooltip
+                v-if="errorTip[column.key]"
+                placement="top"
+                :visible="true"
+                effect="dark"
+                :content="errorTip[column.key]"
+              >
+                <span>{{ column.name }} --- {{ errorTip[column.key] }}</span>
+              </el-tooltip>
+
+              <template v-else>
+                {{ column.name }}
+              </template>
+            </th>
+
+            <th>操作</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="(item, i) of internalData">
+            <template v-if="item._isInEdit === true">
+              <td
+                v-for="(node, nodexIndex) of getChildren({ row: item })"
+                :style="{ textAlign: columns[nodexIndex].align }"
+              >
+                <component :is="node" />
+              </td>
+
+              <td>
+                <el-button type="primary" :icon="Select" text @click="saveRow(item)">
+                  保存
+                </el-button>
+                <el-button type="primary" :icon="Remove" text @click="item._isInEdit = false">
+                  取消
+                </el-button>
+              </td>
+            </template>
 
             <template v-else>
-              {{ column.name }}
+              <td
+                v-for="(node, index) of getChildren({ row: item })"
+                :style="{ textAlign: columns[index].align }"
+              >
+                {{ item[columns[index]?.key] }}
+              </td>
+
+              <td>
+                <el-button type="primary" :icon="Edit" text @click="item._isInEdit = true">
+                </el-button>
+                <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)">
+                </el-button>
+                <el-button type="primary" :icon="Plus" text @click="addToNextLine(item, i)">
+                </el-button>
+              </td>
             </template>
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="(item, i) of internalData">
-          <template v-if="item._isInEdit === true">
-            <td v-for="node of getChildren({ row: item })">
-              <component :is="node" />
-            </td>
-
-            <td>
-              <el-button type="primary" text @click="saveRow(item)"> 保存 </el-button>
-              <el-button type="primary" text @click="item._isInEdit = false"> 取消 </el-button>
-            </td>
-          </template>
-
-          <template v-else>
-            <td v-for="(node, index) of getChildren({ row: item })">
-              {{ item[columns[index]?.key] }}
-            </td>
-
-            <td>
-              <el-button type="primary" text @click="item._isInEdit = true"> 编辑 </el-button>
-              <el-button type="primary" text @click="deleteBtn(item, i)"> 删除 </el-button>
-              <el-button type="primary" text @click="addToNextLine(item, i)"> 增加 </el-button>
-            </td>
-          </template>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -65,6 +90,7 @@ import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
 import { omit, result } from 'lodash'
 
+import { Edit, Delete, Plus, Select, Remove } from '@element-plus/icons-vue'
 defineOptions({
   name: 'ElMultipleForm'
 })
@@ -81,6 +107,8 @@ const emit = defineEmits<{
   (e: 'save', row: any): void
   (e: 'delete', row: any): void
 }>()
+
+const width = ref('200px')
 
 /** 列校验是否必填*/
 const columnRules = computed(() => {
@@ -232,7 +260,7 @@ const saveRow = (item: any) => {
 }
 
 /** 删除 */
-const deleteBtn = (item: any, index: number) => {
+const deleteRow = (item: any, index: number) => {
   internalData.value.splice(index, 1)
   const { _isInEdit, ...result } = item
   emit('delete', result)

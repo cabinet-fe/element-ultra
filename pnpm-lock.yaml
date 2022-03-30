@@ -3245,7 +3245,11 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
+<<<<<<< HEAD
+      '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+=======
       '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
+>>>>>>> 00626d1f7c1f634fe48f59d63355ae123968e5af
       dom7: 3.0.0
       is-url: 1.2.4
       lodash.throttle: 4.1.1
@@ -3262,14 +3266,22 @@ packages:
       slate: ^0.72.0
       snabbdom: ^3.1.0
     dependencies:
+<<<<<<< HEAD
+      '@wangeditor/core': 0.14.14_2b33e53df862d4adc6daff798431734d
+=======
       '@wangeditor/core': 0.14.14_6a33b5a9fd326a667de29f857efd1a00
+>>>>>>> 00626d1f7c1f634fe48f59d63355ae123968e5af
       dom7: 3.0.0
       prismjs: 1.27.0
       slate: 0.72.8
       snabbdom: 3.4.0
     dev: false
 
+<<<<<<< HEAD
+  /@wangeditor/core/0.14.14_2b33e53df862d4adc6daff798431734d:
+=======
   /@wangeditor/core/0.14.14_6a33b5a9fd326a667de29f857efd1a00:
+>>>>>>> 00626d1f7c1f634fe48f59d63355ae123968e5af
     resolution: {integrity: sha512-NWDr1gQGE7Zroma2CYYueTU6xrYqnuVzp6kJPMFv+Oc7tSSczj9kGIBFWE1dJcKTCBPdSxm8LrgAoWgDgGqcYw==}
     peerDependencies:
       '@uppy/core': ^2.1.1
