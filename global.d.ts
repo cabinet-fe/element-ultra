@@ -41,6 +41,7 @@ declare module 'vue' {
     ElForm: typeof import('element-ultra')['ElForm']
     ElFormItem: typeof import('element-ultra')['ElFormItem']
     ElFormDialog: typeof import('element-ultra')['ElFormDialog']
+    ElGrid: typeof import('element-ultra')['ElGrid']
     ElHeader: typeof import('element-ultra')['ElHeader']
     ElIcon: typeof import('element-ultra')['ElIcon']
     ElImage: typeof import('element-ultra')['ElImage']

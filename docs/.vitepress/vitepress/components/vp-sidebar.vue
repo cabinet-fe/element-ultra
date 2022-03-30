@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import { onMounted, provide, shallowRef, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
-
 import VPSidebarLink from './sidebar/vp-sidebar-link.vue'
 
 defineProps<{ open: boolean }>()
@@ -8,6 +8,25 @@ defineEmits(['close'])
 
 // const isHome = useIsHome()
 const { sidebars, hasSidebar } = useSidebar()
+
+let activeLink = shallowRef<HTMLElement>()
+
+const setActiveLink = (el: HTMLElement) => {
+  activeLink.value = el
+}
+
+const scrollIntoView = () => {
+  activeLink.value?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  })
+}
+
+watch(activeLink, () => {
+  scrollIntoView()
+})
+
+provide('setActiveLink', setActiveLink)
 </script>
 
 <template>
