@@ -20,7 +20,6 @@
         :data="treeData"
         field="node2"
         label="多选"
-        size="large"
         clearable
         value-key="id"
         multiple
@@ -37,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useFormModel } from 'element-ultra'
+import { useFormModel, type FormInstance } from 'element-ultra'
 import { Search } from '@element-plus/icons-vue'
 import { reactive, ref, shallowRef, watch, watchEffect } from 'vue'
 let inputTest = ref('node-1')
@@ -47,6 +46,7 @@ interface Tree {
   id: string
   label: string
   children?: Tree[]
+  type?: String
 }
 
 const getKey = (prefix: string, id: number) => {
@@ -67,7 +67,7 @@ const createData = (
     const nodeKey = getKey(key, ++id)
     return {
       id: nodeKey,
-      label: nodeKey,
+      label: '文本' + nodeKey,
       children: childrenNumber
         ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
         : undefined,
@@ -75,30 +75,32 @@ const createData = (
   })
 }
 
-const treeData = createData(2, 5, 5)
+const treeData = createData(2, 5, 15)
 console.log(treeData)
 
 const [data, rules] = useFormModel({
   node1: {
     value: 'node-1',
     required: true,
-    min: 3,
-    max: 6,
   },
   node2: {
-    value: [{id: 'node-1-1', label: 'node-1-1', children: null}],
+    value: ['node-2-1', 'node-3-1','node-3-2'],
     required: true,
+  },
+  test: {
+    value: '1231',
+    required: true
   }
 })
 
-const ruleFormRef = ref()
+const ruleFormRef = $ref<FormInstance>()
 
 const submitForm = () => {
-  ruleFormRef.value?.validate()
+  ruleFormRef?.validate()
 }
 
 const resetForm = () => {
-  ruleFormRef.value?.resetFields()
+  ruleFormRef?.resetFields()
 }
 </script>
 

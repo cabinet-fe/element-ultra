@@ -31,6 +31,8 @@
             :size="tagSize"
             :type="tagType"
             :hit="tagHit"
+            :color="tagColor"
+            :effect="tagEffect"
           >
             {{ tag[labelKey] }}
           </el-tag>
@@ -58,16 +60,22 @@
           :check-strictly="checkStrictly"
           ref="treeRef"
           :node-key="valueKey"
-          default-expand-all
-          :props="{ value: valueKey, label: labelKey, children: childrenKey }"
+          :props="{
+            value: valueKey,
+            label: labelKey,
+            children: childrenKey,
+            disabled: disabledKey
+          }"
           @node-click="handleNodeClick"
           @check-change="handleNodeCheck"
           :show-checkbox="multiple"
           :class="ns.e('tree')"
           :filter-method="filterMethod"
-          :current-node-key="defaultChecked"
-          :default-checked-keys="defaultCheckedArray"
           :indent="treeIndent"
+          :icon="treeIcon"
+          :empty-text="emptyText"
+          :highlight-current="highlightCurrent"
+          @node-expand="test"
         />
       </div>
     </transition>
@@ -84,6 +92,10 @@ import { ClickOutside } from '@element-ultra/directives'
 import { Close, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { isEqual } from 'lodash-unified'
 
+const test = (data, node) => {
+  emit('node-expand', data, node)
+}
+
 // 公共 start
 const ns = useNamespace('tree-select')
 
@@ -97,18 +109,28 @@ defineOptions({
 const props = defineProps(treeSelectProps)
 
 let {
-  data,
+  // common
   multiple,
+  // input
   clearable,
-  checkStrictly,
   placeholder,
+  // tag
   tagSize,
   tagType,
   tagHit,
+  tagColor,
+  tagEffect,
+  // tree
+  data,
+  checkStrictly,
   valueKey,
   labelKey,
   childrenKey,
-  treeIndent
+  disabledKey,
+  treeIndent,
+  treeIcon,
+  emptyText,
+  highlightCurrent
 } = props
 
 const emit = defineEmits<{
@@ -119,6 +141,7 @@ const emit = defineEmits<{
     label: string[],
     item: Record<string, any>[]
   ): void
+  (e: 'node-expand', data: any, node: any)
 }>()
 /** 输入框的显示、隐藏 */
 const filterable = computed(() => {
@@ -134,7 +157,9 @@ const emitModelValue = (value: string | number, label: string, item: Record<stri
 }
 
 onMounted(() => {
-  nextTick(() => { stateInit() })
+  nextTick(() => {
+    stateInit()
+  })
 })
 
 const { formItem } = useFormItem()
@@ -144,6 +169,7 @@ watch(
     if (!isEqual(val, oldVal)) {
       formItem?.validate()
     }
+    stateInit()
   },
   {
     deep: true
@@ -154,18 +180,17 @@ const stateInit = () => {
   const { modelValue } = props
   if (multiple) {
     if (modelValue.length) {
-      selected.value = modelValue
-      defaultCheckedArray.value = modelValue.map((item: Record<string, any>) => {
-        return item[valueKey]
-      })
+      treeRef.value?.setCheckedKeys(modelValue)
+      selected.value = treeRef.value?.getCheckedNodes() ?? []
     }
   } else {
     if (modelValue) {
-      label.value = modelValue
-      defaultChecked.value = modelValue
+      treeRef.value.setCurrentKey(modelValue)
+      label.value = treeRef.value?.getCurrentNode()[labelKey] ?? ''
     }
   }
 }
+
 // 公共 end
 
 // 输入框 start
@@ -239,6 +264,7 @@ const handleDelete = () => {
 /** 关闭标签 */
 const handleCloseTag = (data: Record<string, any>, i: number) => {
   selected.value.splice(i, 1)
+  console.log('trigger?', selected.value[i], selected.value)
   treeRef.value?.setChecked(data.id, false)
   emitModelValue(
     props.modelValue.slice(0, i).concat(props.modelValue.slice(i + 1)),
@@ -249,8 +275,6 @@ const handleCloseTag = (data: Record<string, any>, i: number) => {
 // 标签 end
 
 // 树 start
-const defaultChecked = ref<string>('')
-const defaultCheckedArray = ref<string[]>([])
 const treeVisible = ref(false)
 const treeRef = shallowRef<InstanceType<typeof ElTree>>()
 /** 单选 */
