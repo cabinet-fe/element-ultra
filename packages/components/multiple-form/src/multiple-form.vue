@@ -30,9 +30,7 @@
                 <span>{{ column.name }} --- {{ errorTip[column.key] }}</span>
               </el-tooltip>
 
-              <template v-else>
-                {{ column.name }}
-              </template>
+              <template v-else> {{ column.name }} </template>
             </th>
 
             <th>操作</th>
@@ -213,7 +211,7 @@ const validators = {
     }
   },
 
-  match(value: any, pattern: RegExp, msg = '') {
+  match(value: any, pattern: RegExp , msg = '') {
     if (typeof value !== 'string') {
       return msg || `请输入类型为：[string],而不是${typeof value}类型`
     }
