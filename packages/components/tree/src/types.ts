@@ -1,8 +1,4 @@
-import type {
-  ComponentInternalInstance,
-  SetupContext,
-  ExtractPropTypes,
-} from 'vue'
+import type { ComponentInternalInstance, SetupContext, ExtractPropTypes, Slots } from 'vue'
 import type { treeProps, treeEmits } from './virtual-tree'
 
 export type TreeNodeData = Record<string, any>
@@ -32,7 +28,7 @@ export interface TreeNode {
 }
 
 export interface TreeContext {
-  ctx: SetupContext<typeof treeEmits>
+  ctx: Omit<SetupContext<typeof treeEmits>, 'expose'>
   instance: ComponentInternalInstance
   props: TreeProps
 }

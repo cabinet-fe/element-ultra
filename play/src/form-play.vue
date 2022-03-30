@@ -8,7 +8,6 @@
       <el-radio label="1">菜单</el-radio>
       <el-radio label="2">按钮</el-radio>
     </el-radio-group>
-    <aa-bb></aa-bb>
 
     <template v-if="data.type === '1'">
       <el-input tips="这是一个姓名" label="姓名" field="name" />

@@ -1,5 +1,5 @@
 <template>
-<el-grid-input v-model="value"></el-grid-input>
+  <el-grid-input v-model="value"></el-grid-input>
 </template>
 
 <script setup lang="ts">

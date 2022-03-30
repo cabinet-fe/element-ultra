@@ -1,26 +1,29 @@
 import { isString } from '@vue/shared'
-import {
-  buildProps,
-  definePropType,
-  iconPropType,
-  mutable,
-} from '@element-ultra/utils'
+import { buildProps, definePropType, iconPropType, mutable } from '@element-ultra/utils'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { useSizeProp } from '@element-ultra/hooks'
-import type { StyleValue, ExtractPropTypes } from 'vue'
+import type { StyleValue, ExtractPropTypes, PropType, Component } from 'vue'
 
 
-export const inputProps = buildProps({
-  size: useSizeProp,
-  disabled: Boolean,
+// TODO 统一改掉useSizeProp等等
+export const inputProps = {
+  size: {
+    type: String as PropType<'default' | 'small' | 'large'>,
+    default: 'default' as 'default' | 'small' | 'large'
+  },
+  disabled: {
+    type: Boolean
+  },
+
   modelValue: {
-    type: definePropType<string | number | null | undefined>(undefined),
+    type: [String, Number] as PropType<string | number>,
     default: '',
+    required: false
   },
 
   autocomplete: {
     type: String,
-    default: 'off',
+    default: 'off'
   },
   placeholder: {
     type: String,
@@ -28,44 +31,44 @@ export const inputProps = buildProps({
   },
   form: {
     type: String,
-    default: '',
+    default: ''
   },
   readonly: {
     type: Boolean,
-    default: false,
+    default: false
   },
   clearable: {
     type: Boolean,
-    default: false,
+    default: false
   },
   showPassword: {
     type: Boolean,
-    default: false,
+    default: false
   },
   showWordLimit: {
     type: Boolean,
-    default: false,
+    default: false
   },
   suffixIcon: {
-    type: iconPropType,
-    default: '',
+    type: [String, Object, Function] as PropType<Component | string>,
+    default: ''
   },
   prefixIcon: {
-    type: iconPropType,
-    default: '',
+    type: [String, Object, Function] as PropType<Component | string>,
+    default: ''
   },
   label: {
-    type: String,
+    type: String
   },
   tabindex: {
-    type: [Number, String],
+    type: [Number, String] as PropType<string | number>
   },
 
   innerStyle: {
-    type: definePropType<StyleValue>([Object, Array, String]),
-    default: () => mutable({} as const),
-  },
-} as const)
+    type: [Object, Array, String] as PropType<StyleValue>,
+    default: () => mutable({} as const)
+  }
+} as const
 export type InputProps = ExtractPropTypes<typeof inputProps>
 
 export const inputEmits = {
@@ -80,6 +83,6 @@ export const inputEmits = {
   keydown: (evt: KeyboardEvent) => evt instanceof KeyboardEvent,
   compositionstart: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionupdate: (evt: CompositionEvent) => evt instanceof CompositionEvent,
-  compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
+  compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent
 }
 export type InputEmits = typeof inputEmits

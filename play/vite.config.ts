@@ -51,7 +51,7 @@ export default defineConfig(async () => {
       vueJsx(),
       DefineOptions(),
       Components({
-        include: ["src/*"],
+        include: ["src/*", './App.vue'],
         resolvers: ElementPlusResolver({}),
         dts: false,
       }),
