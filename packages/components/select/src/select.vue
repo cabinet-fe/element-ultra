@@ -292,7 +292,7 @@ export default defineComponent({
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect
-    } as any)
+    })
 
     return API
   }

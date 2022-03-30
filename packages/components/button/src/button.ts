@@ -27,11 +27,6 @@ export const buttonProps = buildProps({
     type: iconPropType,
     default: '',
   },
-  nativeType: {
-    type: String,
-    values: buttonNativeTypes,
-    default: 'button',
-  },
   loading: Boolean,
   loadingIcon: {
     type: iconPropType,
