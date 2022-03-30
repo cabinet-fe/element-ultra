@@ -1,24 +1,24 @@
 <template>
   <div :class="[ns.b(), ns.m(inputSize), $attrs.class]" v-clickoutside="onClickOutside">
     <div
+      ref="inputRef"
       :class="[ns.e('input'), ns.is('disabled', inputDisabled)]"
       @[clickEvent]="showTree"
       @[closeEvent]="showCloseIcon"
       @mouseleave="hideCloseIcon"
-      ref="inputRef"
     >
       <div v-if="$slots.prefix" :class="{ [ns.e('prefix')]: $slots.prefix }">
         <slot name="prefix"></slot>
       </div>
       <div :class="ns.e('content')">
         <input
+          v-if="!multiple"
           type="text"
           :value="label"
-          @input="handleInput"
           :class="ns.e('text')"
           :placeholder="placeholder"
-          v-if="!multiple"
           :disabled="inputDisabled"
+          @input="handleInput"
         />
         <div :class="ns.e('tag')" v-else>
           <el-tag
@@ -26,13 +26,13 @@
             v-for="(tag, i) in selected"
             :key="tag.id"
             :closable="inputDisabled ? false : true"
-            @close="handleCloseTag(tag, i)"
             :class="ns.e('item')"
             :size="tagSize"
             :type="tagType"
             :hit="tagHit"
             :color="tagColor"
             :effect="tagEffect"
+            @close="handleCloseTag(tag, i)"
           >
             {{ tag[labelKey] }}
           </el-tag>
@@ -41,8 +41,8 @@
             v-model="query"
             :class="ns.e('query')"
             :placeholder="!filterable ? '' : placeholder"
-            @keydown.delete.stop="handleDelete"
             :disabled="inputDisabled"
+            @keydown.delete.stop="handleDelete"
           />
         </div>
       </div>
@@ -66,8 +66,6 @@
             children: childrenKey,
             disabled: disabledKey
           }"
-          @node-click="handleNodeClick"
-          @check-change="handleNodeCheck"
           :show-checkbox="multiple"
           :class="ns.e('tree')"
           :filter-method="filterMethod"
@@ -75,7 +73,8 @@
           :icon="treeIcon"
           :empty-text="emptyText"
           :highlight-current="highlightCurrent"
-          @node-expand="test"
+          @[nodeClickEvent]="handleNodeClick"
+          @[checkChangeEvent]="handleNodeCheck"
         />
       </div>
     </transition>
@@ -91,12 +90,7 @@ import ElIcon from '@element-ultra/components/icon'
 import { ClickOutside } from '@element-ultra/directives'
 import { Close, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { isEqual } from 'lodash-unified'
-
-const test = (data, node) => {
-  emit('node-expand', data, node)
-}
-
-// 公共 start
+// common start
 const ns = useNamespace('tree-select')
 
 defineOptions({
@@ -141,9 +135,8 @@ const emit = defineEmits<{
     label: string[],
     item: Record<string, any>[]
   ): void
-  (e: 'node-expand', data: any, node: any)
 }>()
-/** 输入框的显示、隐藏 */
+
 const filterable = computed(() => {
   return selected.value.length === 0
 })
@@ -163,6 +156,7 @@ onMounted(() => {
 })
 
 const { formItem } = useFormItem()
+
 watch(
   () => props.modelValue,
   (val, oldVal) => {
@@ -181,7 +175,7 @@ const stateInit = () => {
   if (multiple) {
     if (modelValue.length) {
       treeRef.value?.setCheckedKeys(modelValue)
-      selected.value = treeRef.value?.getCheckedNodes() ?? []
+      selected.value = treeRef.value?.getCheckedNodes(true) ?? []
     }
   } else {
     if (modelValue) {
@@ -190,10 +184,9 @@ const stateInit = () => {
     }
   }
 }
+// common end
 
-// 公共 end
-
-// 输入框 start
+// input start
 const inputSize = useSize()
 const inputDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
@@ -212,6 +205,14 @@ const closeEvent = computed(() => {
   } else {
     return ''
   }
+})
+
+const nodeClickEvent = computed(() => {
+  return multiple ? '' : 'node-click'
+})
+
+const checkChangeEvent = computed(() => {
+  return multiple ? 'check-change' : ''
 })
 
 const showTree = () => {
@@ -258,23 +259,22 @@ const handleDelete = () => {
   const index = selected.value.length - 1
   index >= 0 ? handleCloseTag(selected.value[index], index) : void 0
 }
-// 输入框 end
+// input end
 
-// 标签 start
+// tag start
 /** 关闭标签 */
 const handleCloseTag = (data: Record<string, any>, i: number) => {
   selected.value.splice(i, 1)
-  console.log('trigger?', selected.value[i], selected.value)
   treeRef.value?.setChecked(data.id, false)
   emitModelValue(
-    props.modelValue.slice(0, i).concat(props.modelValue.slice(i + 1)),
+    props.modelValue?.slice(0, i).concat(props.modelValue.slice(i + 1)),
     selected.value.map((item) => item[labelKey]),
     selected.value
   )
 }
-// 标签 end
+// tag end
 
-// 树 start
+// tree start
 const treeVisible = ref(false)
 const treeRef = shallowRef<InstanceType<typeof ElTree>>()
 /** 单选 */
@@ -284,7 +284,7 @@ const handleNodeClick = (data: Record<string, any>) => {
 }
 /** 多选 */
 const handleNodeCheck = () => {
-  const nodes = treeRef.value?.getCheckedNodes() ?? []
+  const nodes = treeRef.value?.getCheckedNodes(true) ?? []
   selected.value = nodes
   const nodesValues = nodes.map((item: Record<string, any>) => item[valueKey])
   const nodesLabels = nodes.map((item: Record<string, any>) => item[labelKey])
@@ -295,5 +295,5 @@ const filterMethod = (query: string, node: Record<string, any>) => {
   if (!query) return true
   return node[labelKey].includes(query)
 }
-// 树 end
+// tree end
 </script>

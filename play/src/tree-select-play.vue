@@ -6,6 +6,7 @@
       :rules="rules"
       label-width="120px"
       class="demo-ruleForm"
+      cols="1"
     >
       <el-tree-select
         :data="treeData"
@@ -80,16 +81,12 @@ console.log(treeData)
 
 const [data, rules] = useFormModel({
   node1: {
-    value: 'node-1',
+    value: 'node-2-1',
     required: true,
   },
   node2: {
     value: ['node-2-1', 'node-3-1','node-3-2'],
     required: true,
-  },
-  test: {
-    value: '1231',
-    required: true
   }
 })
 
