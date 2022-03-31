@@ -21,7 +21,7 @@
             v-if="!modelValue?.length && !filterer.query && !filterer.filtering"
             :class="[ns.e('placeholder'), ns.is('transparent', filterer.focus)]"
           >
-            {{ selectedLabel || placeholder }}
+            {{ placeholder }}
           </span>
           <el-tag
             v-for="(tag, i) in tagList"
