@@ -20,6 +20,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   position: relative;
   vertical-align: middle;
   font-size: map.get($input-font-size, 'default');
+  width: 200px;
   $selector: &;
   @include e(wrapper) {
     display: flex;
@@ -272,6 +273,8 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     user-select: none;
     // using this to keep the item centered in both vertically and horizontally
     display: flex;
+    margin-right: 4px;
+    margin-bottom: 4px;
   }
 
   @include e(placeholder) {

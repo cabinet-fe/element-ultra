@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]"
-    role="tree"
-  >
+  <div :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]" role="tree">
     <fixed-size-list
       v-if="isNotEmpty"
       :class-name="ns.b('virtual-list')"
@@ -31,96 +28,81 @@
       </template>
     </fixed-size-list>
     <div v-else :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <span :class="ns.e('empty-text')">{{ emptyText ?? t('el.tree.emptyText') }}</span>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, getCurrentInstance, provide } from 'vue'
+<script setup lang="ts">
+import { getCurrentInstance, provide, useAttrs, useSlots } from 'vue'
 import { useLocale, useNamespace } from '@element-ultra/hooks'
 import { FixedSizeList } from '@element-ultra/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
 import { ROOT_TREE_INJECTION_KEY, treeEmits, treeProps } from './virtual-tree'
-import type { TreeProps } from './types'
 
-export default defineComponent({
-  name: 'ElTree',
-  components: {
-    ElTreeNode,
-    FixedSizeList,
+defineOptions({
+  name: 'ElTree'
+})
+
+const props = defineProps(treeProps)
+const emit = defineEmits(treeEmits)
+
+const attrs = useAttrs()
+const slots = useSlots()
+
+provide(ROOT_TREE_INJECTION_KEY, {
+  ctx: {
+    emit,
+    slots,
+    attrs
   },
-  props: treeProps,
-  emits: treeEmits,
-  setup(props: TreeProps, ctx) {
-    provide(ROOT_TREE_INJECTION_KEY, {
-      ctx,
-      props,
-      instance: getCurrentInstance(),
-    })
-    const { t } = useLocale()
-    const ns = useNamespace('tree')
-    const {
-      flattenTree,
-      isNotEmpty,
-      toggleExpand,
-      isExpanded,
-      isIndeterminate,
-      isChecked,
-      isDisabled,
-      isCurrent,
-      isForceHiddenExpandIcon,
-      toggleCheckbox,
-      handleNodeClick,
-      handleNodeCheck,
-      // expose
-      getCurrentNode,
-      getCurrentKey,
-      setCurrentKey,
-      getCheckedKeys,
-      getCheckedNodes,
-      getHalfCheckedKeys,
-      getHalfCheckedNodes,
-      setChecked,
-      setCheckedKeys,
-      filter,
-      setData,
-    } = useTree(props, ctx.emit)
+  props,
+  instance: getCurrentInstance()!
+})
 
-    ctx.expose({
-      getCurrentNode,
-      getCurrentKey,
-      setCurrentKey,
-      getCheckedKeys,
-      getCheckedNodes,
-      getHalfCheckedKeys,
-      getHalfCheckedNodes,
-      setChecked,
-      setCheckedKeys,
-      filter,
-      setData,
-    })
+const { t } = useLocale()
+const ns = useNamespace('tree')
+const {
+  flattenTree,
+  isNotEmpty,
+  toggleExpand,
+  isExpanded,
+  isIndeterminate,
+  isChecked,
+  isDisabled,
+  isCurrent,
+  isForceHiddenExpandIcon,
+  toggleCheckbox,
+  handleNodeClick,
+  handleNodeCheck,
+  // expose
+  getCurrentNode,
+  getCurrentKey,
+  setCurrentKey,
+  getCheckedKeys,
+  getCheckedNodes,
+  getHalfCheckedKeys,
+  getHalfCheckedNodes,
+  setChecked,
+  setCheckedKeys,
+  filter,
+  setData
+} = useTree(props, emit)
 
-    return {
-      t,
-      ns,
-      flattenTree,
-      itemSize: 26,
-      isNotEmpty,
-      toggleExpand,
-      toggleCheckbox,
-      isExpanded,
-      isIndeterminate,
-      isChecked,
-      isDisabled,
-      isCurrent,
-      isForceHiddenExpandIcon,
-      handleNodeClick,
-      handleNodeCheck,
-    }
-  },
+const itemSize = 26
+
+defineExpose({
+  getCurrentNode,
+  getCurrentKey,
+  setCurrentKey,
+  getCheckedKeys,
+  getCheckedNodes,
+  getHalfCheckedKeys,
+  getHalfCheckedNodes,
+  setChecked,
+  setCheckedKeys,
+  filter,
+  setData
 })
 </script>

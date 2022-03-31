@@ -14,7 +14,7 @@ lang: zh-CN
 
 ## 背景
 
-在某些用例中，单个选择器可以最终加载数万行的数据。渲染到DOM中的许多数据可能是浏览器的负担，这可能导致性能问题。为了更好的用户和开发者体验，因此开发出一个虚拟化的选择器。
+在某些用例中，单个选择器可以最终加载数万行的数据。渲染到 DOM 中的许多数据可能是浏览器的负担，这可能导致性能问题。为了更好的用户和开发者体验，因此开发出一个虚拟化的选择器。
 
 ## 基础用法
 
@@ -54,7 +54,7 @@ select/filterable
 
 :::
 
-## 禁用选择器本身或选项
+## ~~禁用选择器本身或选项~~（将会改进 2022/3/29）
 
 你可以选择禁用 Select 或者 Select 的 某个选项
 
@@ -64,7 +64,7 @@ select/disabled
 
 :::
 
-## 给选项进行分组
+## ~~给选项进行分组~~ (将会改进 2022/3/29)
 
 我们可以为选项分组，只需要和下面这个例子一样便可。
 
@@ -122,37 +122,38 @@ select/remote-search
 
 :::
 
-## SelectV2 属性
+## Select 属性
 
-| 属性                                | 说明                                                                                                                                       | 类型                                 | 可选值                 | 默认值           |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------------- | ------------- |
-| model-value / v-model             | 绑定值                                                                                                                                      | string / number / boolean / object | —                   | —             |
-| multiple                          | 是否多选                                                                                                                                     | boolean                            | —                   | false         |
-| disabled                          | 是否禁用                                                                                                                                     | boolean                            | —                   | false         |
-| value-key                         | 作为 value 唯一标识的键名，绑定值为对象类型时必填                                                                                                             | string                             | —                   | value         |
-| size                              | 输入框尺寸                                                                                                                                    | string                             | large/default/small | default       |
-| clearable                         | 是否可以清空选项                                                                                                                                 | boolean                            | —                   | false         |
-| clear-icon                        | 自定义清除图标                                                                                                                                  | string / component                 | —                   | CircleClose   |
-| collapse-tags                     | 多选时是否将选中值按文字的形式展示                                                                                                                        | boolean                            | —                   | false         |
-| multiple-limit                    | 多选时用户最多可以选择的项目数， 为 0 则不限制                                                                                                                | number                             | —                   | 0             |
-| name                              | 选择器的输入框的原生 name 属性                                                                                                                       | string                             | —                   | —             |
-| effect                            | Tooltip theme, built-in theme: `dark` / `light`                                                                                          | string                             | string              | light         |
-| autocomplete                      | autocomplete of select input                                                                                                             | string                             | —                   | off           |
-| placeholder                       | the autocomplete attribute of select input                                                                                               | string                             | —                   | Please select |
-| filterable                        | is filterable                                                                                                                            | boolean                            | —                   | false         |
-| allow-create                      | whether creating new items is allowed. To use this, `filterable` must be true                                                            | boolean                            | —                   | false         |
-| reserve-keyword                   | whether reserve the keyword after select filtered option.                                                                                | boolean                            | —                   | true          |
-| no-data-text                      | displayed text when there is no options, you can also use slot empty                                                                     | string                             | —                   | No Data       |
-| popper-class                      | custom class name for Select's dropdown                                                                                                  | string                             | —                   | —             |
-| popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | boolean                            | -                   | false         |
-| teleported                        | whether select dropdown is teleported to the body                                                                                        | boolean                            | true / false        | true          |
-| popper-options                    | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html)                                               | object                             | -                   | -             |
-| automatic-dropdown                | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | boolean                            | -                   | false         |
-| clear-icon                        | Customized clear icon component                                                                                                          | string / Component                 | —                   | CircleClose   |
-| height                            | The height of the dropdown panel, 34px for each item                                                                                     | number                             | -                   | 170           |
-| scrollbar-always-on               | Controls whether the scrollbar is always displayed                                                                                       | boolean                            | -                   | false         |
-| remote                            | whether search data from server                                                                                                          | boolean                            | —                   | false         |
-| remote-method                     | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | function(keyword: string)          | —                   | —             |
+| 属性                                           | 说明                                                                                   | 类型                               | 可选值              | 默认值      |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------- | ------------------- | ----------- |
+| model-value / v-model                          | 绑定值                                                                                 | string / number / boolean / object | —                   | —           |
+| multiple                                       | 是否多选                                                                               | boolean                            | —                   | false       |
+| disabled                                       | 是否禁用                                                                               | boolean                            | —                   | false       |
+| value-key                                      | 作为 value 唯一标识的键名                                                              | string                             | —                   | value       |
+| label-key                                      | 作为 label 唯一标识的键名                                                              | string                             | —                   | value       |
+| size                                           | 输入框尺寸                                                                             | string                             | large/default/small | default     |
+| clearable                                      | 是否可以清空选项                                                                       | boolean                            | —                   | false       |
+| clear-icon                                     | 自定义清除图标                                                                         | string / component                 | —                   | CircleClose |
+| collapse-tags                                  | 多选时是否将选中值按文字的形式展示                                                     | boolean                            | —                   | false       |
+| multiple-limit                                 | 多选时用户最多可以选择的项目数， 为 0 则不限制                                         | number                             | —                   | 0           |
+| name                                           | 选择器的输入框的原生 name 属性                                                         | string                             | —                   | —           |
+| effect                                         | Tooltip 主题, 内建主题: `dark` / `light`                                               | string                             | string              | light       |
+| autocomplete                                   | 选择器的自动完成                                                                       | string                             | —                   | off         |
+| placeholder                                    | 占位                                                                                   | string                             | —                   | 请选择      |
+| filterable                                     | 开启过滤                                                                               | boolean                            | —                   | false       |
+| allow-create                                   | 允许创建选项，使用时保证 filterable=true                                               | boolean                            | —                   | false       |
+| reserve-keyword                                | 过滤后的选项是否保留关键字                                                             | boolean                            | —                   | true        |
+| no-data-text                                   | 无数据时显示的内容                                                                     | string                             | —                   | No Data     |
+| popper-class                                   | popper 的类                                                                            | string                             | —                   | —           |
+| popper-append-to-body(废弃了，使用 teleported) | 将 popper 插入到 body 中渲染，如果 popper 的位置异常可以尝试使用                       | boolean                            | -                   | false       |
+| teleported                                     | 将 popper 插入到 body 中渲染，如果 popper 的位置异常可以尝试使用                       | boolean                            | true / false        | true        |
+| popper-options                                 | 自定义 popper 的属性， 更多请查看[popper.js](https://popper.js.org/documentation.html) | object                             | -                   | -           |
+| automatic-dropdown                             | 对于不可过滤的 Select，该属性决定在聚焦输入时是否弹出选项菜单                          | boolean                            | -                   | false       |
+| clear-icon                                     | 自定义清除图标                                                                         | string / Component                 | —                   | CircleClose |
+| height                                         | 下拉面板的高度, 每项为 34px                                                            | number                             | -                   | 170         |
+| scrollbar-always-on                            | 控制滚动条是否一直显示                                                                 | boolean                            | -                   | false       |
+| remote                                         | 远程查询数据                                                                           | boolean                            | —                   | false       |
+| remote-method                                  | 远程数据查询方法。要使用得确保 filterable=true                                         | function(keyword: string)          | —                   | —           |
 
 <span style="display: none;">
 <!-- | default-first-option | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用 | boolean | - | false |
@@ -161,21 +162,21 @@ select/remote-search
 | loading-text | 远程加载时显示的文字 | string | — | 加载中 | -->
 </span>
 
-## SelectV2 事件
+## Select 事件
 
-| 事件名            | 说明                   | 回调参数                     |
-| -------------- | -------------------- | ------------------------ |
-| change         | 选中值发生变化时触发           | val，目前的选中值               |
-| visible-change | 下拉框出现/隐藏时触发          | val，出现则为 true，隐藏则为 false |
-| remove-tag     | 多选模式下移除tag时触发        | val，移除的tag值              |
-| clear          | 可清空的单选模式下用户点击清空按钮时触发 | —                        |
-| blur           | 当选择器的输入框失去焦点时触发      | (event: FocusEvent)      |
-| focus          | 当选择器的输入框获得焦点时触发      | (event: FocusEvent)      |
+| 事件名         | 说明                                     | 回调参数                           |
+| -------------- | ---------------------------------------- | ---------------------------------- |
+| change         | 选中值发生变化时触发                     | val，目前的选中值                  |
+| visible-change | 下拉框出现/隐藏时触发                    | val，出现则为 true，隐藏则为 false |
+| remove-tag     | 多选模式下移除 tag 时触发                | val，移除的 tag 值                 |
+| clear          | 可清空的单选模式下用户点击清空按钮时触发 | —                                  |
+| blur           | 当选择器的输入框失去焦点时触发           | (event: FocusEvent)                |
+| focus          | 当选择器的输入框获得焦点时触发           | (event: FocusEvent)                |
 
-## SelectV2 插槽
+## Select 插槽
 
-| 插槽名     | 说明            |
-| ------- | ------------- |
-| default | 自定义 Option 模板 |
-| empty   | 自定义当选项为空时的内容  |
-| prefix  | 输入框的前缀        |
+| 插槽名  | 说明                     |
+| ------- | ------------------------ |
+| default | 自定义 Option 模板       |
+| empty   | 自定义当选项为空时的内容 |
+| prefix  | 输入框的前缀             |

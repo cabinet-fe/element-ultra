@@ -1,0 +1,53 @@
+@use 'mixins/mixins' as *;
+
+@include b('grid-input') {
+  li {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border: 1px solid #dcdfe6;
+    color: var(--el-color-primary);
+    border-radius: 4px;
+    outline: none;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    outline: none;
+
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+
+  & &--focus {
+    border-color: var(--el-color-primary);
+
+    @keyframes fade {
+      0% {
+        opacity: 0.2;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .el-grid-input__text {
+      color: var(--el-color-primary);
+      animation: fade 1s linear infinite alternate;
+    }
+
+    .el-grid-input__cursor {
+      position: absolute;
+      width: 2px;
+      height: 16px;
+      background: var(--el-color-primary);
+      content: '';
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: fade 1s linear infinite alternate;
+    }
+  }
+}

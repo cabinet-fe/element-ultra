@@ -1,22 +1,24 @@
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
+
+type GridUnit = 'px' | 'fr'
+type ColType = `${string}${GridUnit}` | 'auto'
 
 export const gridProps = {
+  /** 列数或者每一列在长度中的比例， 为数字时表示列数且等宽， 为数组表示每个元素列宽的值或者比例 */
   cols: {
-    type: Number,
-    required: true,
+    type: [Number, Array] as PropType<ColType[] | number>,
+    default: 1
   },
 
   gap: {
     type: String,
-    default: '8,12',
+    default: '8,12'
   },
 
   tag: {
     type: String,
-    default: 'div',
-  },
-}
-export type GridProps = ExtractPropTypes<typeof gridProps>
+    default: 'div'
+  }
+} as const
 
-export const gridEmits = {}
-export type GridEmits = typeof gridEmits
+export type GridProps = ExtractPropTypes<typeof gridProps>

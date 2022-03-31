@@ -13,7 +13,7 @@
         <span v-if="sortable"  :class="ns.e('handle')"></span>
 
         <slot v-bind="item">
-          <span :class="ns.e('item__label')">{{ item[labelKey] }}</span>
+          <span :class="ns.e('item-label')">{{ item[labelKey] }}</span>
         </slot>
 
         <span @click.prevent :class="ns.e('action')">

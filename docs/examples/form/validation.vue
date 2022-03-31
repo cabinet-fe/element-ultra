@@ -16,7 +16,13 @@
     <el-radio-button :label="false">可编辑</el-radio-button>
   </el-radio-group>
 
-  <br /><br>
+  <el-radio-group v-model="cols">
+    <el-radio-button :label="1">单列</el-radio-button>
+    <el-radio-button :label="2">两列</el-radio-button>
+    <el-radio-button :label="3">三列</el-radio-button>
+  </el-radio-group>
+
+  <br /><br />
   <hr />
   <br />
 
@@ -24,21 +30,26 @@
     ref="ruleFormRef"
     :data="data"
     :rules="rules"
+    :cols="cols"
     label-width="120px"
     class="demo-ruleForm"
     :size="formSize"
     :disabled="disabled"
     :label-position="labelPosition"
   >
-
-    <el-input tips="给你的活动起一个帅气的名字" clearable label="活动名称" field="name"></el-input>
+    <el-input
+      tips="给你的活动起一个帅气的名字"
+      clearable
+      label="活动名称"
+      field="name"
+    ></el-input>
 
     <el-select
       label="活动地点"
       field="region"
       :options="[
         { label: 'Zone one', value: '上海' },
-        { label: 'Zone two', value: '北京' },
+        { label: 'Zone two', value: '北京' }
       ]"
     >
     </el-select>
@@ -57,22 +68,21 @@
 
     <el-textarea label="Activity form" field="desc" />
     <el-form-item>
-      <el-button type="primary" @click="submitForm"
-        >提交</el-button
-      >
+      <el-button type="primary" @click="submitForm">提交</el-button>
       <el-button @click="resetForm">重置</el-button>
     </el-form-item>
-
   </el-form>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { FormInstance, useFormModel } from 'element-ultra'
+import { ComponentSize } from '@element-ultra/constants'
 
-const formSize = ref('default')
+const formSize = ref<ComponentSize>('default')
 const disabled = ref(false)
 const ruleFormRef = ref<FormInstance>()
+const cols = ref(1)
 
 // 除此之外, 你也可以按照经典方式去使用form-item进行双向绑定, 可以但是没有必要
 const [data, rules] = useFormModel({
@@ -80,30 +90,32 @@ const [data, rules] = useFormModel({
     value: '',
     required: true,
     min: 3,
-    max: 5,
+    max: 5
   },
   region: {
     value: '',
-    required: true,
+    required: true
   },
   date: {
     value: '',
-    required: true,
+    required: true
   },
   delivery: { value: [] },
   type: {
     value: [],
-    required: true,
+    required: true
   },
   resource: {
     value: '',
-    required: true,
+    required: true
   },
   desc: {
     required: true,
-    value: '',
-  },
+    value: ''
+  }
 })
+
+
 
 const submitForm = () => {
   ruleFormRef.value?.validate()
@@ -113,5 +125,5 @@ const resetForm = () => {
   ruleFormRef.value?.resetFields()
 }
 
-const labelPosition = ref('left')
+const labelPosition = ref('left' as const)
 </script>

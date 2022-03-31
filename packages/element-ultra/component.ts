@@ -52,6 +52,7 @@ import { ElForm, ElFormItem } from '@element-ultra/components/form'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 
 import { ElGrid } from '@element-ultra/components/grid'
+import { ElGridInput } from '@element-ultra/components/grid-input'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ElImage } from '@element-ultra/components/image'
 import { ElImageViewer } from '@element-ultra/components/image-viewer'
@@ -91,7 +92,7 @@ import { ElTable, ElTableColumn } from '@element-ultra/components/table'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
 import { ElTag } from '@element-ultra/components/tag'
 import { ElTextarea } from '@element-ultra/components/textarea'
-import { ElTextEditor } from '@element-ultra/components/text-editor'
+// import { ElTextEditor } from '@element-ultra/components/text-editor'
 import { ElTimePicker } from '@element-ultra/components/time-picker'
 import { ElTimeSelect } from '@element-ultra/components/time-select'
 import { ElTimeline, ElTimelineItem } from '@element-ultra/components/timeline'
@@ -150,6 +151,7 @@ export default [
   ElFormItem,
   ElFormDialog,
   ElGrid,
+  ElGridInput,
   ElIcon,
   ElImage,
   ElImageViewer,
@@ -188,7 +190,7 @@ export default [
   ElTabPane,
   ElTag,
   ElTextarea,
-  ElTextEditor,
+  // ElTextEditor,
   ElTimePicker,
   ElTimeSelect,
   ElTimeline,

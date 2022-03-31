@@ -5,7 +5,7 @@ import {
   reactive,
   nextTick,
   onMounted,
-  onBeforeMount,
+  onBeforeMount
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
@@ -13,13 +13,13 @@ import {
   useFormItem,
   useLocale,
   useSize,
-  useNamespace,
+  useNamespace
 } from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-ultra/constants'
 import {
   ValidateComponentsMap,
   addResizeListener,
-  removeResizeListener,
+  removeResizeListener
 } from '@element-ultra/utils'
 import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
 
@@ -32,14 +32,14 @@ import { useInput } from './useInput'
 import type ElTooltip from '@element-ultra/components/tooltip'
 import type { SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { OptionType, Option } from './select.types'
+import type { OptionType } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
 const TAG_BASE_WIDTH = {
   larget: 51,
   default: 42,
-  small: 33,
+  small: 33
 }
 const COMPONENT_NAME = 'ElSelect'
 
@@ -59,8 +59,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     displayInputValue: DEFAULT_INPUT_PLACEHOLDER,
     calculatedWidth: 0,
     cachedPlaceholder: '',
-    cachedOptions: [] as Option[],
-    createdOptions: [] as Option[],
+    cachedOptions: [] as any[],
+    createdOptions: [] as any[],
     createdLabel: '',
     createdSelected: false,
     currentPlaceholder: '',
@@ -77,7 +77,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     query: '',
     selectedLabel: '',
     softFocus: false,
-    tagInMultiLine: false,
+    tagInMultiLine: false
   })
 
   // data refs
@@ -91,12 +91,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const popper = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = ref(null)
   const selectionRef = ref(null) // tags ref
-  const calculatorRef = ref<HTMLElement>(null)
+  const calculatorRef = ref<HTMLElement | null>(null)
 
   // the controller of the expanded popup
   const expanded = ref(false)
 
-  const selectDisabled = computed(() => props.disabled || elForm?.disabled)
+  const selectDisabled = computed(
+    () => props.disabled || elForm?.props.disabled
+  )
 
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * 34
@@ -158,11 +160,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const filteredOptions = computed(() => {
-    const isValidOption = (o: Option): boolean => {
+    const isValidOption = (o): boolean => {
       // fill the conditions here.
       const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? o.label.includes(query) : true
+      const containsQueryString = query ? getLabel(o)?.includes(query) : true
       return containsQueryString
     }
     if (props.loading) {
@@ -177,11 +179,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
             if (filtered.length > 0) {
               return {
                 ...v,
-                options: filtered,
+                options: filtered
               }
             }
           } else {
-            if (props.remote || isValidOption(v as Option)) {
+            if (props.remote || isValidOption(v)) {
               return v
             }
           }
@@ -225,7 +227,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.calculatedWidth === 0
           ? MINIMUM_INPUT_WIDTH
           : Math.ceil(states.calculatedWidth) + MINIMUM_INPUT_WIDTH
-      }px`,
+      }px`
     } as CSSProperties
   })
 
@@ -241,7 +243,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder || t('el.select.placeholder')
-    return props.multiple ? _placeholder : states.selectedLabel || _placeholder
+    return props.multiple ? _placeholder : (states.selectedLabel + "") || _placeholder
   })
 
   // this obtains the actual popper DOM element.
@@ -275,12 +277,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     createNewOption,
     removeNewOption,
     selectNewOption,
-    clearAllNewOption,
+    clearAllNewOption
   } = useAllowCreate(props, states)
   const {
     handleCompositionStart,
     handleCompositionUpdate,
-    handleCompositionEnd,
+    handleCompositionEnd
   } = useInput((e) => onInput(e))
 
   // methods
@@ -340,7 +342,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     states.previousValue = val.toString()
   }
 
-  const getValueIndex = (arr = [], value: unknown) => {
+  const getValueIndex = (arr = [] as any[], value: unknown) => {
     if (!isObject(value)) {
       return arr.indexOf(value)
     }
@@ -356,14 +358,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return index
   }
 
-  const getValueKey = (item: unknown) => {
+  const getValue = (item: unknown) => {
     return isObject(item) ? get(item, props.valueKey) : item
   }
 
   // if the selected item is item then we get label via indexing
   // otherwise it should be string we simply return the item itself.
   const getLabel = (item: unknown) => {
-    return isObject(item) ? item.label : item
+    return isObject(item) ? get(item, props.labelKey) : item
   }
 
   const resetInputHeight = () => {
@@ -397,15 +399,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const onSelect = (option: Option, idx: number, byClick = true) => {
+  const onSelect = (option, idx: number, byClick = true) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
-      const index = getValueIndex(selectedOptions, getValueKey(option))
+      const index = getValueIndex(selectedOptions, getValue(option))
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
-          ...selectedOptions.slice(index + 1),
+          ...selectedOptions.slice(index + 1)
         ]
         states.cachedOptions.splice(index, 1)
         removeNewOption(option)
@@ -413,7 +415,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         props.multipleLimit <= 0 ||
         selectedOptions.length < props.multipleLimit
       ) {
-        selectedOptions = [...selectedOptions, getValueKey(option)]
+        selectedOptions = [...selectedOptions, getValue(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
         updateHoveringIndex(idx)
@@ -430,14 +432,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
       if (props.filterable) {
         states.calculatedWidth =
-          calculatorRef.value.getBoundingClientRect().width
+          calculatorRef.value?.getBoundingClientRect().width
       }
       resetInputHeight()
       setSoftFocus()
     } else {
       selectedIndex.value = idx
-      states.selectedLabel = option.label
-      update(getValueKey(option))
+      states.selectedLabel = getLabel(option)
+      update(getValue(option))
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
@@ -449,17 +451,17 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const deleteTag = (event: MouseEvent, tag: Option) => {
-    const index = (props.modelValue as Array<any>).indexOf(tag.value)
+  const deleteTag = (event: MouseEvent, tag) => {
+    const index = (props.modelValue as Array<any>).indexOf(getValue(tag))
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
         ...(props.modelValue as Array<unknown>).slice(0, index),
-        ...(props.modelValue as Array<unknown>).slice(index + 1),
+        ...(props.modelValue as Array<unknown>).slice(index + 1)
       ]
       states.cachedOptions.splice(index, 1)
       update(value)
-      emit('remove-tag', tag.value)
+      emit('remove-tag', getValue(tag))
       states.softFocus = true
       removeNewOption(tag)
       return nextTick(focusAndUpdatePopup)
@@ -664,12 +666,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue.toString()
         ;(props.modelValue as Array<any>).map((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
-            (option) => getValueKey(option) === selected
+            (option) => getValue(option) === selected
           )
           if (~itemIndex) {
-            states.cachedOptions.push(
-              filteredOptions.value[itemIndex] as Option
-            )
+            states.cachedOptions.push(filteredOptions.value[itemIndex])
             if (!initHovering) {
               updateHoveringIndex(itemIndex)
             }
@@ -685,10 +685,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === props.modelValue
+          (option) => getValue(option) === props.modelValue
         )
         if (~selectedItemIndex) {
-          states.selectedLabel = options[selectedItemIndex].label
+          states.selectedLabel = getLabel(options[selectedItemIndex])
           updateHoveringIndex(selectedItemIndex)
         } else {
           states.selectedLabel = `${props.modelValue}`
@@ -727,7 +727,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
     },
     {
-      deep: true,
+      deep: true
     }
   )
 
@@ -741,7 +741,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
     },
     {
-      deep: true,
+      deep: true
     }
   )
 
@@ -804,7 +804,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     debouncedOnInputChange,
     deleteTag,
     getLabel,
-    getValueKey,
+    getValue,
     handleBlur,
     handleClear,
     handleClickOutside,
@@ -823,7 +823,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     onUpdateInputValue,
     handleCompositionStart,
     handleCompositionEnd,
-    handleCompositionUpdate,
+    handleCompositionUpdate
   }
 }
 
