@@ -9,76 +9,62 @@ export interface TreeOptionProps {
 export const treeSelectProps = {
   // common
   modelValue: {
-    type: [String, Number, Array] as PropType<any[] | string | number>,
+    type: [String, Number, Array] as PropType<
+      (string | number)[] | string | number
+    >
   },
   multiple: {
     type: Boolean,
-    default: false,
+    default: false
   },
 
   // input
   size: {
     type: String as PropType<'large' | 'default' | 'small'>,
-    default: 'default',
+    default: 'default'
   },
   clearable: {
     type: Boolean,
-    default: false,
+    default: false
   },
   placeholder: {
     type: String,
-    default: '请输入',
+    default: '请选择'
   },
   disabled: {
     type: Boolean,
     default: false
   },
 
-  // tag
-  tagSize: {
-    type: String as PropType<'large' | 'default' | 'small'>,
-    default: 'default',
-  },
-  tagType: {
-    type: String as PropType<'success' | 'info' | 'warning' | 'danger'>,
-    default: 'info'
-  },
   tagHit: {
     type: Boolean,
     default: false
-  },
-  tagColor: {
-    type: String
-  },
-  tagEffect: {
-    type: String as PropType<'dark' | 'light' | 'plain'>,
-    default: 'light'
   },
 
   // tree
   valueKey: {
     type: String,
-    default: 'value',
+    default: 'value'
   },
   labelKey: {
     type: String,
-    default: 'label',
+    default: 'label'
   },
   childrenKey: {
     type: String,
-    default: 'children',
+    default: 'children'
   },
   disabledKey: {
     type: String,
     default: 'disabled'
   },
   data: {
-    type: Array as PropType<TreeOptionProps[]>,
-    default: () => [],
+    type: Array as PropType<any[]>,
+    default: () => []
   },
   checkStrictly: {
     type: Boolean,
-    default: false,
+    default: false
   },
   treeIndent: {
     type: Number,

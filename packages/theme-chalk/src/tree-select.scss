@@ -17,6 +17,7 @@
       min-height: map.get($input-height, $size);
     }
   }
+
   @include e(input) {
     padding: 0 15px;
     display: flex;
@@ -63,65 +64,88 @@
         }
       }
     }
-    @include e(content) {
-      flex: 10;
-      min-height: 100%;
-      @include e(text) {
-        width: 100%;
-        outline: none;
-        border: none;
-        padding: 0;
-        &::placeholder {
-          color: var(
-            --el-input-placeholder-color,
-            map.get($input, 'placeholder-color')
-          );
-        }
-      }
-      @include e(tag) {
-        display: flex;
-        flex-wrap: wrap;
-        align-items:center;
-        justify-content:left;
-        width: 100%;
-        min-height: 100%;
-        @include e(item) {
-          margin: 2px 4px 2px 0;
-          user-select: none;
-        }
-        @include e(query) {
-          outline: none;
-          border: none;
-          padding: 0;
-          &::placeholder {
-            color: var(
-              --el-input-placeholder-color,
-              map.get($input, 'placeholder-color')
-            );
-          }
-        }
-      }
-    }
-    @include e(icon) {
-      flex: 1;
-      min-height: inherit;
-      height: inherit;
-      color: var(--el-input-icon-color, var(--el-text-color-placeholder));
-      justify-content: right;
-      @include e(close) {
-        cursor: pointer;
-      }
-    }
+
     @include e(prefix) {
       display: inline-block;
       color: var(--el-input-icon-color, var(--el-text-color-placeholder));
     }
   }
+
+  @include e(text) {
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0;
+    &::placeholder {
+      color: var(
+        --el-input-placeholder-color,
+        map.get($input, 'placeholder-color')
+      );
+    }
+  }
+
+  @include e(content) {
+    flex: 10;
+    min-height: 100%;
+    position: relative;
+
+    @include e(tag) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: left;
+      width: 100%;
+      min-height: 100%;
+      @include e(item) {
+        margin: 2px 4px 2px 0;
+        user-select: none;
+      }
+      
+    }
+  }
+
+  @include e(query) {
+    outline: none;
+    border: none;
+    padding: 0;
+    width: 100px;
+    &::placeholder {
+      color: var(
+        --el-input-placeholder-color,
+        map.get($input, 'placeholder-color')
+      );
+    }
+  }
+
+  @include e(icon) {
+    flex: 1;
+    min-height: inherit;
+    height: inherit;
+    color: var(--el-input-icon-color, var(--el-text-color-placeholder));
+    justify-content: right;
+    @include e(close) {
+      cursor: pointer;
+    }
+  }
+
+  @include e(placeholder) {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: calc(100% - 52px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include when('transparent') {
+    color: var(--el-text-color-placeholder);
+  }
+
   @include e(dropdown) {
-    width: inherit;
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
     box-shadow: var(--el-box-shadow-light);
-    margin-top: 10px;
     position: absolute;
     z-index: 2022;
     @include e(triangle) {

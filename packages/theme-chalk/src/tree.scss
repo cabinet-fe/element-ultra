@@ -61,6 +61,7 @@
     align-items: center;
     height: 26px;
     cursor: pointer;
+    user-select: none;
 
     & > .#{$namespace}-tree-node__expand-icon {
       padding: 6px;

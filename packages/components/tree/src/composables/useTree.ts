@@ -4,7 +4,7 @@ import {
   NODE_COLLAPSE,
   NODE_EXPAND,
   CURRENT_CHANGE,
-  TreeOptionsEnum,
+  TreeOptionsEnum
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
@@ -14,7 +14,7 @@ import type {
   TreeKey,
   TreeNode,
   TreeData,
-  Tree,
+  Tree
 } from '../types'
 
 export function useTree(props: TreeProps, emit) {
@@ -28,7 +28,7 @@ export function useTree(props: TreeProps, emit) {
       currentKey.value = key
     },
     {
-      immediate: true,
+      immediate: true
     }
   )
 
@@ -38,7 +38,7 @@ export function useTree(props: TreeProps, emit) {
       setData(data)
     },
     {
-      immediate: true,
+      immediate: true
     }
   )
 
@@ -46,12 +46,10 @@ export function useTree(props: TreeProps, emit) {
     isIndeterminate,
     isChecked,
     toggleCheckbox,
-    getCheckedKeys,
-    getCheckedNodes,
-    getHalfCheckedKeys,
-    getHalfCheckedNodes,
+    getChecked,
+    getHalfChecked,
     setChecked,
-    setCheckedKeys,
+    setCheckedKeys
   } = useCheck(props, tree)
 
   const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
@@ -124,7 +122,7 @@ export function useTree(props: TreeProps, emit) {
         const node: TreeNode = {
           level,
           key: value,
-          data: rawNode,
+          data: rawNode
         }
         node.label = getLabel(rawNode)
         node.parent = parent
@@ -151,7 +149,7 @@ export function useTree(props: TreeProps, emit) {
       treeNodeMap,
       levelTreeNodeMap,
       maxLevel,
-      treeNodes,
+      treeNodes
     }
   }
 
@@ -260,7 +258,9 @@ export function useTree(props: TreeProps, emit) {
   }
 
   function setData(data: TreeData) {
-    nextTick(() => (tree.value = createTree(data)))
+    nextTick(() => {
+      tree.value = createTree(data)
+    })
   }
 
   return {
@@ -283,13 +283,11 @@ export function useTree(props: TreeProps, emit) {
     getCurrentNode,
     getCurrentKey,
     setCurrentKey,
-    getCheckedKeys,
-    getCheckedNodes,
-    getHalfCheckedKeys,
-    getHalfCheckedNodes,
+    getChecked,
+    getHalfChecked,
     setChecked,
     setCheckedKeys,
     filter,
-    setData,
+    setData
   }
 }

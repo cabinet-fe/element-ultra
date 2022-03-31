@@ -1,5 +1,8 @@
 <template>
-  <div :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]" role="tree">
+  <div
+    :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]"
+    role="tree"
+  >
     <fixed-size-list
       v-if="isNotEmpty"
       :class-name="ns.b('virtual-list')"
@@ -28,7 +31,9 @@
       </template>
     </fixed-size-list>
     <div v-else :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{ emptyText ?? t('el.tree.emptyText') }}</span>
+      <span :class="ns.e('empty-text')">{{
+        emptyText ?? t('el.tree.emptyText')
+      }}</span>
     </div>
   </div>
 </template>
@@ -80,10 +85,8 @@ const {
   getCurrentNode,
   getCurrentKey,
   setCurrentKey,
-  getCheckedKeys,
-  getCheckedNodes,
-  getHalfCheckedKeys,
-  getHalfCheckedNodes,
+  getChecked,
+  getHalfChecked,
   setChecked,
   setCheckedKeys,
   filter,
@@ -96,10 +99,8 @@ defineExpose({
   getCurrentNode,
   getCurrentKey,
   setCurrentKey,
-  getCheckedKeys,
-  getCheckedNodes,
-  getHalfCheckedKeys,
-  getHalfCheckedNodes,
+  getChecked,
+  getHalfChecked,
   setChecked,
   setCheckedKeys,
   filter,
