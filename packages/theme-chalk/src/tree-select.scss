@@ -1,20 +1,28 @@
-@use 'mixins/mixins.scss' as *;
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
-$w: 300px;
-$h: 32px;
-
 @include b(tree-select) {
-  width: $w;
-  line-height: $h;
-  display: inline-block;
+  width: 100%;
+  line-height: map.get($input-height, 'default');
+  min-height: map.get($input-height, 'default');
   position: relative;
+  color: var(--el-text-color-regular);
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($input-font-size, $size);
+      line-height: map.get($input-height, $size);
+      min-height: map.get($input-height, $size);
+    }
+  }
   @include e(input) {
+    padding: 0 15px;
     display: flex;
-    min-height: $h;
-    line-height: $h;
-    width: inherit;
+    line-height: inherit;
+    min-height: inherit;
+    width: 100%;
     outline: none;
     background-color: var(--el-input-bg-color, var(--el-color-white));
     border: 1px solid var(--el-border-color-base);
@@ -25,42 +33,108 @@ $h: 32px;
     &:hover {
       border: 1px solid var(--el-border-color-hover);
     }
-    text-indent: 10px;
+    @include when(disabled) {
+      cursor: not-allowed;
+      background-color: map.get($input-disabled, 'fill');
+      &:hover {
+        border: 1px solid var(--el-border-color-base);
+      }
+      @include e(content) {
+        cursor: not-allowed;
+        @include e(text) {
+          cursor: not-allowed;
+          color: map.get($input-disabled, 'text-color');
+          &::placeholder {
+            color: map.get($input-disabled, 'text-color');
+          }
+        }
+        @include e(tag) {
+          cursor: not-allowed;
+          @include e(item) {
+            cursor: not-allowed;
+          }
+          @include e(query) {
+            cursor: not-allowed;
+            color: map.get($input-disabled, 'text-color');
+            &::placeholder {
+              color: map.get($input-disabled, 'text-color');
+            }
+          }
+        }
+      }
+    }
     @include e(content) {
       flex: 10;
+      min-height: 100%;
       @include e(text) {
+        width: 100%;
         outline: none;
         border: none;
-        width: 100%;
+        padding: 0;
+        &::placeholder {
+          color: var(
+            --el-input-placeholder-color,
+            map.get($input, 'placeholder-color')
+          );
+        }
       }
       @include e(tag) {
-        margin-right: 6px;
-        user-select: none;
+        display: flex;
+        flex-wrap: wrap;
+        align-items:center;
+        justify-content:left;
+        width: 100%;
+        min-height: 100%;
+        @include e(item) {
+          margin: 2px 4px 2px 0;
+          user-select: none;
+        }
+        @include e(query) {
+          outline: none;
+          border: none;
+          padding: 0;
+          &::placeholder {
+            color: var(
+              --el-input-placeholder-color,
+              map.get($input, 'placeholder-color')
+            );
+          }
+        }
       }
     }
     @include e(icon) {
       flex: 1;
-      min-height: $h;
+      min-height: inherit;
       height: inherit;
+      color: var(--el-input-icon-color, var(--el-text-color-placeholder));
+      justify-content: right;
       @include e(close) {
         cursor: pointer;
       }
+    }
+    @include e(prefix) {
+      display: inline-block;
+      color: var(--el-input-icon-color, var(--el-text-color-placeholder));
     }
   }
   @include e(dropdown) {
     width: inherit;
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
-    background: gold;
+    box-shadow: var(--el-box-shadow-light);
     margin-top: 10px;
     position: absolute;
+    z-index: 2022;
     @include e(triangle) {
       position: absolute;
+      left: 20px;
       width: 40px;
       height: 40px;
       transform: rotate(45deg);
       background: #fff;
+      box-shadow: var(--el-box-shadow-light);
     }
     @include e(tree) {
+      padding: 2px 0;
       border-radius: var(
         --el-input-border-radius,
         var(--el-border-radius-base)

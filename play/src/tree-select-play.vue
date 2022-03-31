@@ -1,25 +1,53 @@
 <template>
   <div>
-    <!-- <el-tree-select :data="data" v-model="inputTest" effect="light" isize="small" clearable>
+    <el-form
+      ref="ruleFormRef"
+      :data="data"
+      :rules="rules"
+      label-width="120px"
+      class="demo-ruleForm"
+      cols="1"
+    >
+      <el-tree-select
+        :data="treeData"
+        field="node1"
+        label="单选"
+        clearable
+        value-key="id"
+      >
+      </el-tree-select>
 
-  </el-tree-select>
-  {{inputTest}} -->
-    <el-tree-select :data="data" v-model="checkTest" multiple effect="dark" clearable> </el-tree-select>
-    <!-- {{ checkTest }} -->
+      <el-tree-select
+        :data="treeData"
+        field="node2"
+        label="多选"
+        clearable
+        value-key="id"
+        multiple
+        tag-type="success"
+      >
+      </el-tree-select>
 
-    <h1 style="border: 1px solid blue;">123</h1>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button @click="resetForm">重置</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useFormModel, type FormInstance } from 'element-ultra'
+import { Search } from '@element-plus/icons-vue'
 import { reactive, ref, shallowRef, watch, watchEffect } from 'vue'
-let inputTest = ref('node-5-2')
-let checkTest = shallowRef<string[]>([])
+let inputTest = ref('node-1')
+// let checkTest = shallowRef<string[]>([])
 
 interface Tree {
   id: string
   label: string
   children?: Tree[]
+  type?: String
 }
 
 const getKey = (prefix: string, id: number) => {
@@ -40,7 +68,7 @@ const createData = (
     const nodeKey = getKey(key, ++id)
     return {
       id: nodeKey,
-      label: nodeKey,
+      label: '文本' + nodeKey,
       children: childrenNumber
         ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
         : undefined,
@@ -48,7 +76,29 @@ const createData = (
   })
 }
 
-const data = createData(2, 5, 5)
+const treeData = createData(2, 5, 15)
+console.log(treeData)
+
+const [data, rules] = useFormModel({
+  node1: {
+    value: 'node-2-1',
+    required: true,
+  },
+  node2: {
+    value: ['node-2-1', 'node-3-1','node-3-2'],
+    required: true,
+  }
+})
+
+const ruleFormRef = $ref<FormInstance>()
+
+const submitForm = () => {
+  ruleFormRef?.validate()
+}
+
+const resetForm = () => {
+  ruleFormRef?.resetFields()
+}
 </script>
 
 <style lang="scss" scoped></style>

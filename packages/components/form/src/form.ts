@@ -24,10 +24,7 @@ export interface FormModelItem {
   ): string | Promise<string>
 }
 
-export type FormRules = Record<
-  string,
-  Omit<FormModelItem, 'value'>
->
+export type FormRules = Record<string, Omit<FormModelItem, 'value'>>
 
 export type FormModel = Record<string, FormModelItem>
 
@@ -41,17 +38,17 @@ export const formProps = {
   labelPosition: String as PropType<'left' | 'right' | 'top'>,
   labelWidth: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   labelSuffix: {
     type: String,
-    default: '',
+    default: ''
   },
   cols: {
-    type: Number,
+    type: Number
   },
   size: String as PropType<ComponentSize>,
-  disabled: Boolean,
+  disabled: Boolean
 }
 
 export type FormProps = ExtractPropTypes<typeof formProps>
@@ -69,7 +66,8 @@ export const formComponents = new Set([
   'ElCheckbox',
   'ElCheckboxGroup',
   'ElRadio',
-  'ElRadioGroup'
+  'ElRadioGroup',
+  'ElTreeSelect'
 ])
 
 export type FormInstance = InstanceType<typeof Form>
