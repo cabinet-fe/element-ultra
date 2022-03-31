@@ -10,10 +10,6 @@
       <el-input v-model="row.name" placeholder="名称" />
       <el-input-number :min="1" v-model="row.age" placeholder="单价" />
       <el-input v-model="row.school" placeholder=""></el-input>
-
-      <el-input v-model="row.name" placeholder="名称" />
-      <el-input-number :min="1" v-model="row.age" placeholder="单价" />
-      <el-input v-model="row.school" placeholder=""></el-input>
     </template>
   </el-multiple-form>
 </template>
@@ -24,10 +20,11 @@ import type { MultipleColumns } from 'element-ultra'
 
 const columns: MultipleColumns[] = [
   {
-    name: '姓名',
+    name: '银行卡号',
     key: 'name',
     rules: {
-      required: [true, '必填']
+      required: [true, '必填'],
+      match: [/^([1-9]{1})(\d{15}|\d{16}|\d{18})$/, '输入正确银行卡号']
     },
     width: 200,
     align: left
@@ -37,116 +34,29 @@ const columns: MultipleColumns[] = [
     key: 'age',
     rules: {
       required: [true, '必填'],
-      min: 2,
-      max: 6
+      min: 2
     },
     align: 'left',
     width: 200
   },
   {
-    name: '学校',
+    name: '手机号',
     key: 'school',
     rules: {
-      required: true
+      required: true,
+      match: [
+        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+        '输入正确手机号'
+      ]
     },
     width: 150
-  },
-  {
-    name: '姓名',
-    key: 'name',
-    rules: {
-      required: [true, '必填']
-    },
-    width: 200,
-    align: left
-  },
-  {
-    name: '年龄',
-    key: 'age',
-    rules: {
-      required: [true, '必填'],
-      min: 2,
-      max: 6
-    },
-    align: 'left',
-    width: 200
-  },
-  {
-    name: '学校',
-    key: 'school',
-    rules: {
-      required: true
-    }
   }
 ]
 
 let data = $ref<any[]>([
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
-  { name: '张三', age: 20, school: '苏大' },
-  { name: '葛慧', age: 18, school: '北大' },
-  { name: '谢超', age: 18, school: '清华' },
+  { name: '6216616101002312625', age: 20, school: '15962245908' },
+  { name: '6216616101002312625', age: 18, school: '15962245908' },
+  { name: '6216616101002312625', age: 18, school: '15962245908' }
 ])
 
 /** 保存 */
