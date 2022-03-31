@@ -23,10 +23,6 @@ export const treeSelectProps = {
     type: String as PropType<'large' | 'default' | 'small'>,
     default: 'default'
   },
-  clearable: {
-    type: Boolean,
-    default: false
-  },
   placeholder: {
     type: String,
     default: '请选择'

@@ -17,6 +17,12 @@
       <div :class="ns.e('content')">
         <!-- 多选 -->
         <template v-if="multiple">
+          <span
+            v-if="!modelValue?.length && !filterer.query && !filterer.filtering"
+            :class="[ns.e('placeholder'), ns.is('transparent', filterer.focus)]"
+          >
+            {{ selectedLabel || placeholder }}
+          </span>
           <el-tag
             v-for="(tag, i) in tagList"
             :key="tag.id"
@@ -29,28 +35,37 @@
           </el-tag>
           <input
             type="text"
-            v-model="query"
+            v-model="filterer.query"
             :class="ns.e('query')"
             :disabled="inputDisabled"
             @keydown.delete.stop="handleDelete"
+            @focus="handleFiltererFocus"
+            @blur="handleFiltererBlur"
+            @compositionstart="handleCompositionStart"
+            @compositionend="handleCompositionEnd"
           />
         </template>
 
         <!-- 单选 -->
         <template v-else>
+          <span
+            v-if="!filterer.query && !filterer.filtering"
+            :class="[ns.e('placeholder'), ns.is('transparent', filterer.focus)]"
+          >
+            {{ selectedLabel || placeholder }}
+          </span>
+
           <input
             type="text"
-            v-model="query"
+            v-model="filterer.query"
             :class="ns.e('text')"
             :disabled="inputDisabled"
             @input="handleFilter"
-            @focus="queryInputFocus = true"
-            @blur="queryInputFocus = false"
+            @focus="handleFiltererFocus"
+            @blur="handleFiltererBlur"
+            @compositionstart="handleCompositionStart"
+            @compositionend="handleCompositionEnd"
           />
-
-          <span v-if="!query" :class="[ns.e('placeholder'), ns.is('transparent', queryInputFocus)]">
-            {{ selectedLabel || placeholder }}
-          </span>
         </template>
 
         <!-- 输入框，可以用来对列表进行查询 -->
@@ -59,7 +74,11 @@
       <el-icon :class="ns.e('icon')">
         <arrow-down v-show="icon === 'down'" />
         <arrow-up v-show="icon === 'up'" />
-        <CircleClose :class="ns.e('close')" v-show="icon === 'close'" @click.stop="handleClear" />
+        <CircleClose
+          :class="ns.e('close')"
+          v-show="icon === 'close' && clearable"
+          @click.stop="handleClear"
+        />
       </el-icon>
     </div>
   </div>
@@ -103,7 +122,7 @@
   </teleport>
 </template>
 <script lang="ts" setup>
-import { ref, watch, shallowRef, onMounted } from 'vue'
+import { ref, watch, shallowRef, onMounted, nextTick } from 'vue'
 import { useNamespace, useSize, useFormItem, useDisabled } from '@element-ultra/hooks'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
@@ -112,6 +131,7 @@ import ElIcon from '@element-ultra/components/icon'
 import { ClickOutside } from '@element-ultra/directives'
 import { CircleClose, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import useTreeSelect from './use-tree-select'
+import useFilter from './use-filter'
 
 const ns = useNamespace('tree-select')
 
@@ -148,6 +168,7 @@ const {
   icon,
   hasRendered,
   treeVisible,
+  clearable,
   showCloseIcon,
   hideCloseIcon,
   emitModelValue,
@@ -155,10 +176,19 @@ const {
   showTree,
   hideTree,
   handleCheck,
-  filterMethod,
   handleSelectChange,
   handleCloseTag
 } = useTreeSelect(props, emit)
+
+const {
+  filterer,
+  filterMethod,
+  handleCompositionStart,
+  handleCompositionEnd,
+  handleFiltererBlur,
+  handleFiltererFocus,
+  handleFilter
+} = useFilter(props, treeRef)
 
 onMounted(() => {
   setTreeChecked()
@@ -169,31 +199,33 @@ const { formItem } = useFormItem()
 const inputSize = useSize()
 const inputDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
-const query = ref<string>('')
-const queryInputFocus = shallowRef(false)
 
-/** 清空输入框 */
+/**
+ * 清空
+ */
 const handleClear = () => {
-  query.value = ''
   const { multiple } = props
+  const tree = treeRef.value
+  const { query } = filterer
+  if (query) {
+    filterer.query = ''
+    treeRef.value?.filter('')
+    return
+  }
 
   if (multiple) {
     emitModelValue([], [], [])
   } else {
     emitModelValue('', '', undefined)
+    selectedLabel.value = ''
+    tree?.setCurrentKey('')
+    hideTree()
   }
-
-  treeRef.value?.filter('')
-}
-
-/** 过滤 */
-const handleFilter = (ev: any) => {
-  treeRef.value?.filter(ev.target.value)
 }
 
 /** 删除键删除 */
 const handleDelete = () => {
-  if (query.value) return
+  if (filterer.query) return
   const lastIndex = tagList.value.length - 1
   handleCloseTag(tagList.value[lastIndex], lastIndex)
 }
@@ -201,11 +233,11 @@ const handleDelete = () => {
 // 监听值的变化
 // 主要是监听外部值的变化来保证正确的视图
 // 值更改的时候进行校验
-// 
 watch(
   () => props.modelValue,
-  (val) => {
+  () => {
     formItem?.validate()
+    // TODO 此处应该优化一下
     setTreeChecked()
   },
   {

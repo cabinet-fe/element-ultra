@@ -1,4 +1,4 @@
-import { shallowRef, watch, nextTick } from 'vue'
+import { shallowRef, watch, nextTick, computed } from 'vue'
 import type { ElTree, CheckedInfo, TreeNodeData } from '@element-ultra/components/tree'
 import type { TreeSelectProps } from './tree-select'
 
@@ -9,10 +9,23 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const treeVisible = shallowRef(false)
   /** 是否已渲染 */
   const hasRendered = shallowRef(false)
-  const stopWatchVisible = watch(treeVisible, (v) => {
+
+  /** 是否可清除 */
+  const clearable = computed(() => {
+    const { modelValue, multiple } = props
+    const hasValue = Array.isArray(modelValue)
+      ? modelValue.length
+      : !!(modelValue || modelValue === 0)
+
+    return hasValue
+  })
+  const stopWatchVisible = watch(treeVisible, v => {
     if (v) {
       hasRendered.value = true
       stopWatchVisible()
+      nextTick(() => {
+        setTreeChecked()
+      })
     }
   })
 
@@ -83,7 +96,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     tree.setChecked(data[valueKey], false)
 
     const { nodes, keys } = tree.getChecked()
-    const labels = nodes.map((node) => node[labelKey])
+    const labels = nodes.map(node => node[labelKey])
     emitModelValue(keys, labels, nodes)
   }
 
@@ -97,7 +110,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     if (Array.isArray(modelValue)) {
       if (!multiple) return
       tree.setCheckedKeys(modelValue)
-      tagList.value = tree.getChecked(true).nodes
+      tagList.value = tree.getChecked().nodes
     } else {
       if (!modelValue && modelValue !== 0) return
       tree.setCurrentKey(modelValue)
@@ -120,7 +133,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const handleCheck = (_, info: CheckedInfo) => {
     const { checkedKeys, checkedNodes } = info
     const { labelKey } = props
-    const checkedLabels = checkedNodes.map((node) => node[labelKey])
+    const checkedLabels = checkedNodes.map(node => node[labelKey])
     emitModelValue(checkedKeys, checkedLabels, checkedNodes)
     nextTick(() => {
       calcDropdownStyle()
@@ -138,6 +151,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     treeRef,
     treeSelectRef,
     treeVisible,
+    clearable,
     icon,
     hideCloseIcon,
     showCloseIcon,

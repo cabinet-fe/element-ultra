@@ -77,10 +77,7 @@
     border: none;
     padding: 0;
     &::placeholder {
-      color: var(
-        --el-input-placeholder-color,
-        map.get($input, 'placeholder-color')
-      );
+      color: var(--el-input-placeholder-color, map.get($input, 'placeholder-color'));
     }
   }
 
@@ -100,7 +97,6 @@
         margin: 2px 4px 2px 0;
         user-select: none;
       }
-      
     }
   }
 
@@ -110,10 +106,7 @@
     padding: 0;
     width: 100px;
     &::placeholder {
-      color: var(
-        --el-input-placeholder-color,
-        map.get($input, 'placeholder-color')
-      );
+      color: var(--el-input-placeholder-color, map.get($input, 'placeholder-color'));
     }
   }
 
@@ -137,10 +130,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
+    pointer-events: none;
 
-  @include when('transparent') {
-    color: var(--el-text-color-placeholder);
+    @include when('transparent') {
+      color: var(--el-text-color-placeholder);
+    }
   }
 
   @include e(dropdown) {
@@ -150,19 +144,18 @@
     z-index: 2022;
     @include e(triangle) {
       position: absolute;
+      transform: rotate(45deg) translateY(-8px);
       left: 20px;
-      width: 40px;
-      height: 40px;
-      transform: rotate(45deg);
+      top: 0;
+      width: 12px;
+      height: 12px;
+
       background: #fff;
       box-shadow: var(--el-box-shadow-light);
     }
     @include e(tree) {
       padding: 2px 0;
-      border-radius: var(
-        --el-input-border-radius,
-        var(--el-border-radius-base)
-      );
+      border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
     }
   }
 }

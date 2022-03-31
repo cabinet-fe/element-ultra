@@ -32,7 +32,7 @@ const treeData = Array.from({ length: 10 }).map((_, index) => {
   return {
     label: `文本${index}`,
     value: `${index}`,
-    children: Array.from({ length: Math.round(Math.random() * 10) }).map(
+    children: Array.from({ length: Math.round(Math.random() * 2) }).map(
       (_, childIndex) => {
         return {
           label: `文本${index}-${childIndex}`,
@@ -45,11 +45,11 @@ const treeData = Array.from({ length: 10 }).map((_, index) => {
 
 const [data, rules] = useFormModel({
   node1: {
-    value: '',
+    value: '0',
     required: true
   },
   node2: {
-    value: [],
+    value: ['0'],
     required: true
   }
 })
