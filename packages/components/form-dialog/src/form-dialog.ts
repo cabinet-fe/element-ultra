@@ -1,21 +1,25 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
 export type FormDialogConfirmFn = () => Promise<any> | any
 
-export const formDialogProps = buildProps({
+export const formDialogProps = {
   modelValue: {
     type: Boolean,
-    default: false,
+    default: false
   },
 
   title: {
-    type: String,
+    type: String
   },
 
   confirm: {
-    type: definePropType<FormDialogConfirmFn>(Function)
+    type: Function as PropType<FormDialogConfirmFn>
+  },
+
+  continue: {
+    type: Boolean,
+    default: false
   }
-} as const)
+} as const
 
 export type FormDialogProps = ExtractPropTypes<typeof formDialogProps>

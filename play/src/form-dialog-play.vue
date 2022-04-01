@@ -1,44 +1,53 @@
 <template>
-  <el-button @click="visible = true">打开</el-button>
-
-  <el-form-dialog
-    width="700px"
-    title="这是一个弹框"
-    v-model="visible"
-    :confirm="confirm"
+  <el-button
+    @click="
+      open('create', {
+        title: '新增'
+      })
+    "
+    >新增</el-button
   >
+
+  <el-button
+    @click="
+      open('update', {
+        title: '编辑',
+        data: { name: '张三', type: '2', school: '清华' }
+      })
+    "
+    >编辑</el-button
+  >
+
+  <div>{{ data }}</div>
+
+  <el-form-dialog width="700px" :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
     <el-form :data="data" :rules="rules">
+      {{ data }}
       <el-radio-group field="type" label="类型">
         <el-radio label="1">名称</el-radio>
         <el-radio label="2">学校</el-radio>
       </el-radio-group>
 
-      <template key="1" v-if="data.type === '1'">
-        <el-input field="name" label="名称" tips="输入一个名称" />
-      </template>
-      <template v-else>
-        <el-input field="school" label="学校" tips="输入一个学校" />
-      </template>
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" tips="输入一个名称" />
+      <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
     </el-form>
   </el-form-dialog>
 </template>
 
 <script setup lang="ts">
-import { useFormModel } from 'element-ultra'
-import { ref } from 'vue'
+import { useFormDialog, useFormModel } from 'element-ultra'
 const [data, rules] = useFormModel({
   name: { required: true },
   school: { required: true },
-  type: { value: '1' },
+  type: { value: '1' }
 })
 
-const visible = ref(false)
+const [dialog, open] = useFormDialog(data)
 
 const confirm = () => {
   return new Promise((rs) => {
     setTimeout(() => {
       rs('成功')
-      console.log(data)
     }, 2000)
   })
 }

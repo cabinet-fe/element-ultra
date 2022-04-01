@@ -253,8 +253,8 @@ export default defineComponent({
   setup(props, ctx) {
     const { lang } = useLocale()
 
-    const elForm = inject(formKey, {} as FormContext)
-    const elFormItem = inject(formItemKey, {} as FormItemContext)
+    const elForm = inject(formKey, undefined)
+    const elFormItem = inject(formItemKey, undefined)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref<InstanceType<typeof ElTooltip>>()
