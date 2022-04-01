@@ -2,13 +2,15 @@
   <div
     :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]"
     role="tree"
+    :style="containerStyle"
+    ref="treeContainer"
   >
     <fixed-size-list
-      v-if="isNotEmpty"
+      v-if="isNotEmpty && listHeight"
       :class-name="ns.b('virtual-list')"
       :data="flattenTree"
       :total="flattenTree.length"
-      :height="height"
+      :height="listHeight"
       :item-size="itemSize"
       :perf-mode="perfMode"
     >
@@ -31,16 +33,23 @@
       </template>
     </fixed-size-list>
     <div v-else :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <span :class="ns.e('empty-text')">{{ emptyText }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, provide, useAttrs, useSlots } from 'vue'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import {
+  computed,
+  getCurrentInstance,
+  onMounted,
+  onUnmounted,
+  provide,
+  shallowRef,
+  useAttrs,
+  useSlots
+} from 'vue'
+import { useNamespace } from '@element-ultra/hooks'
 import { FixedSizeList } from '@element-ultra/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
@@ -66,8 +75,36 @@ provide(ROOT_TREE_INJECTION_KEY, {
   instance: getCurrentInstance()!
 })
 
-const { t } = useLocale()
 const ns = useNamespace('tree')
+
+const containerStyle = computed(() => {
+  const { height } = props
+  return {
+    height: typeof height === 'number' ? height + 'px' : height
+  }
+})
+
+const listHeight = shallowRef(0)
+const treeContainer = shallowRef<HTMLDivElement>()
+
+let observer: ResizeObserver | undefined = undefined
+onMounted(() => {
+  if (!treeContainer.value) return
+
+  observer = new ResizeObserver((entries) => {
+    for (let entry of entries) {
+      listHeight.value = (entry.target as any).offsetHeight
+    }
+  })
+
+  observer.observe(treeContainer.value)
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+  observer = undefined
+})
+
 const {
   flattenTree,
   isNotEmpty,

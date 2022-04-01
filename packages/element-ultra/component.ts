@@ -1,3 +1,4 @@
+import { ElAction, ElActionGroup } from '@element-ultra/components/action'
 import { ElAffix } from '@element-ultra/components/affix'
 import { ElAlert } from '@element-ultra/components/alert'
 import { ElAutocomplete } from '@element-ultra/components/autocomplete'
@@ -104,6 +105,8 @@ import { ElUpload } from '@element-ultra/components/upload'
 import type { Plugin } from 'vue'
 
 export default [
+  ElAction,
+  ElActionGroup,
   ElAffix,
   ElAlert,
   ElAutocomplete,

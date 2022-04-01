@@ -39,10 +39,11 @@ export const treeProps = buildProps({
     default: () => mutable([] as const)
   },
   emptyText: {
-    type: String
+    type: String,
+    default: '暂无数据'
   },
   height: {
-    type: Number,
+    type: [Number, String],
     default: 200
   },
   props: {

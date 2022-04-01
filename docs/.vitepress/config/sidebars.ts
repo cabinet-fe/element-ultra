@@ -352,6 +352,10 @@ export const sidebars = {
           link: '/component/tooltip',
           text: 'Tooltip 文字提示',
         },
+        {
+          link: '/component/action',
+          text: 'Action 操作按钮',
+        },
       ],
     },
     {

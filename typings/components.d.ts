@@ -3,6 +3,8 @@
 // GlobalComponents for Volar
 declare module 'vue' {
   export interface GlobalComponents {
+    ElAction: typeof import('../packages/element-ultra')['ElAction']
+    ElActionGroup: typeof import('../packages/element-ultra')['ElActionGroup']
     ElAffix: typeof import('../packages/element-ultra')['ElAffix']
     ElAlert: typeof import('../packages/element-ultra')['ElAlert']
     ElAside: typeof import('../packages/element-ultra')['ElAside']

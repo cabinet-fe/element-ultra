@@ -1,17 +1,9 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-export interface TreeOptionProps {
-  children?: string
-  label?: string
-  value?: string
-  disabled?: string
-}
 
 export const treeSelectProps = {
   // common
   modelValue: {
-    type: [String, Number, Array] as PropType<
-      (string | number)[] | string | number
-    >
+    type: [String, Number, Array] as PropType<(string | number)[] | string | number>
   },
   multiple: {
     type: Boolean,

@@ -16,13 +16,13 @@ lang: zh-CN
 ```typescript
 // main.ts
 import { createApp } from 'vue'
-import ElementPlus from 'element-ultra'
+import ElementUltra from 'element-ultra'
 import 'element-plus/dist/index.css'
 import App from './App.vue'
 
 const app = createApp(App)
 
-app.use(ElementPlus)
+app.use(ElementUltra)
 app.mount('#app')
 ```
 
@@ -60,16 +60,16 @@ npm install -D unplugin-vue-components unplugin-auto-import
 // vite.config.ts
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { ElementUltraResolver } from 'unplugin-vue-components/resolvers'
 
 export default {
   plugins: [
     // ...
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementUltraResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementUltraResolver()],
     }),
   ],
 }
@@ -81,16 +81,16 @@ export default {
 // webpack.config.js
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+const { ElementUltraResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {
   // ...
   plugins: [
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementUltraResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementUltraResolver()],
     }),
   ],
 }
@@ -120,10 +120,10 @@ Element Ultra 提供了基于 ES Module 开箱即用的 [Tree Shaking](https://w
 
 ```ts
 // vite.config.ts
-import ElementPlus from 'unplugin-element-plus/vite'
+import ElementUltra from 'unplugin-element-plus/vite'
 
 export default {
-  plugins: [ElementPlus()],
+  plugins: [ElementUltra()],
 }
 ```
 
@@ -152,11 +152,11 @@ import { ElMessage } from 'element-ultra'
 
 ```ts
 import { createApp } from 'vue'
-import ElementPlus from 'element-ultra'
+import ElementUltra from 'element-ultra'
 import App from './App.vue'
 
 const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 })
+app.use(ElementUltra, { size: 'small', zIndex: 3000 })
 ```
 
 按需引入：
