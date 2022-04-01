@@ -47,7 +47,8 @@ import {
   provide,
   shallowRef,
   useAttrs,
-  useSlots
+  useSlots,
+watch
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { FixedSizeList } from '@element-ultra/components/virtual-list'
