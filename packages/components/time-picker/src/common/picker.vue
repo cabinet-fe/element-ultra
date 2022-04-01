@@ -287,7 +287,7 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        elFormItem.validate()
+        elFormItem?.validate()
       }
     }
     const emitInput = (val) => {
@@ -374,7 +374,7 @@ export default defineComponent({
     }
 
     const pickerDisabled = computed(() => {
-      return props.disabled || elForm.disabled
+      return props.disabled || elForm?.disabled
     })
 
     const parsedValue = computed(() => {
