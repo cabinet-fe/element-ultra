@@ -28,6 +28,8 @@
         <el-radio label="2">学校</el-radio>
       </el-radio-group>
 
+      <el-input-number field="age" label="年龄"></el-input-number>
+
       <el-input v-if="data.type === '1'" key="1" field="name" label="名称" tips="输入一个名称" />
       <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
     </el-form>
@@ -39,7 +41,8 @@ import { useFormDialog, useFormModel } from 'element-ultra'
 const [data, rules] = useFormModel({
   name: { required: true },
   school: { required: true },
-  type: { value: '1' }
+  type: { value: '1' },
+  age: {  }
 })
 
 const [dialog, open] = useFormDialog(data)

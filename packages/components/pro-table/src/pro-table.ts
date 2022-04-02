@@ -36,6 +36,11 @@ export const proTableProps =  buildProps({
 
   height: {
     type: definePropType<string | number>([Number, String])
+  },
+
+  showTools: {
+    type: Boolean,
+    default: true
   }
 } as const)
 

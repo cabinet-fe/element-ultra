@@ -89,7 +89,7 @@ function useStore<T>() {
       sortColumn(newColumns)
       states._columns.value = newColumns
       if (column.type === 'selection') {
-        states.selectable.value = column.selectable
+        states.checkable.value = column.checkable
         states.reserveSelection.value = column.reserveSelection
       }
       if (instance.$ready) {

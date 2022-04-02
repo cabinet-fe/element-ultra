@@ -89,7 +89,7 @@
       <!-- 惰性渲染，一旦渲染了之后， 后续的渲染都采用样式渲染 -->
       <div
         :class="ns.e('dropdown')"
-        v-if="treeVisible || hasRendered"
+        v-if="treeVisible"
         v-show="treeVisible"
         :style="dropdownStyle"
         v-clickoutside:[treeSelectRef]="hideTree"

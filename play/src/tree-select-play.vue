@@ -13,9 +13,9 @@
       class="demo-ruleForm"
       :cols="1"
     >
-      <el-tree-select :data="treeData" field="node1" label="单选" />
+      <el-tree-select key="111" :data="treeData" field="node1" label="单选" />
 
-      <el-tree-select :data="treeData" field="node2" label="多选" multiple />
+      <!-- <el-tree-select :data="treeData" field="node2" label="多选" multiple /> -->
 
       <el-form-item label="操作">
         <el-button type="primary" @click="submit">提交</el-button>
@@ -27,21 +27,22 @@
 
 <script lang="ts" setup>
 import { useFormModel, type FormInstance } from 'element-ultra'
-
-const treeData = Array.from({ length: 10 }).map((_, index) => {
-  return {
-    label: `文本${index}`,
-    value: `${index}`,
-    children: Array.from({ length: Math.round(Math.random() * 2) }).map(
-      (_, childIndex) => {
+import { shallowRef, watch } from 'vue'
+let treeData = shallowRef<any[]>([])
+setTimeout(() => {
+  treeData.value = Array.from({ length: 10 }).map((_, index) => {
+    return {
+      label: `文本${index}`,
+      value: `${index}`,
+      children: Array.from({ length: Math.round(Math.random() * 2) }).map((_, childIndex) => {
         return {
           label: `文本${index}-${childIndex}`,
           value: `${index}-${childIndex}`
         }
-      }
-    )
-  }
-})
+      })
+    }
+  })
+}, 1000)
 
 const [data, rules] = useFormModel({
   node1: {

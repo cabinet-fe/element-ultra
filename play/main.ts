@@ -13,10 +13,15 @@ setConfigStore({
         id: 1,
         age: 20,
 
-        children: [
-          { name: '李四', id: 2, age: 21 }
-        ]
+        // children: [
+        //   { name: '李四', id: 2, age: 21 }
+        // ]
       },
+      {
+        name: '李四',
+        id: 2,
+        age: 28
+      }
     ]
     return {
       data,

@@ -1,22 +1,13 @@
 import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
 import { debugWarn } from '@element-ultra/utils'
 import { useNamespace } from '@element-ultra/hooks'
-import {
-  cellForced,
-  defaultRenderCell,
-  treeCellPrefix,
-  getDefaultClassName,
-} from '../config'
+import { cellForced, defaultRenderCell, treeCellPrefix, getDefaultClassName } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
 
 import type { ComputedRef } from 'vue'
 import type { TableColumnCtx, TableColumn } from './defaults'
 
-function useRender<T>(
-  props: TableColumnCtx<T>,
-  slots,
-  owner: ComputedRef<any>
-) {
+function useRender<T>(props: TableColumnCtx<T>, slots, owner: ComputedRef<any>) {
   const instance = getCurrentInstance() as TableColumn<T>
   const columnId = ref('')
   const isSubColumn = ref(false)
@@ -29,9 +20,7 @@ function useRender<T>(
     realAlign.value
   })
   watchEffect(() => {
-    realHeaderAlign.value = props.headerAlign
-      ? `is-${props.headerAlign}`
-      : realAlign.value
+    realHeaderAlign.value = props.headerAlign ? `is-${props.headerAlign}` : realAlign.value
     // nextline help render
     realHeaderAlign.value
   })
@@ -53,9 +42,7 @@ function useRender<T>(
     if (!column.minWidth) {
       column.minWidth = 80
     }
-    column.realWidth = Number(
-      column.width === undefined ? column.minWidth : column.width
-    )
+    column.realWidth = Number(column.width === undefined ? column.minWidth : column.width)
     return column
   }
   const setColumnForcedProps = (column: TableColumnCtx<T>) => {
@@ -71,9 +58,7 @@ function useRender<T>(
     const className = getDefaultClassName(type)
     if (className) {
       const forceClass = `${unref(ns.namespace)}-${className}`
-      column.className = column.className
-        ? `${column.className} ${forceClass}`
-        : forceClass
+      column.className = column.className ? `${column.className} ${forceClass}` : forceClass
     }
     return column
   }
@@ -91,13 +76,7 @@ function useRender<T>(
     }
   }
   const setColumnRenders = (column: TableColumnCtx<T>) => {
-    // renderHeader 属性不推荐使用。
-    if (props.renderHeader) {
-      debugWarn(
-        'TableColumn',
-        'Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.'
-      )
-    } else if (column.type !== 'selection') {
+    if (column.type !== 'selection') {
       column.renderHeader = (scope) => {
         // help render
         instance.columnConfig.value['label']
@@ -114,7 +93,7 @@ function useRender<T>(
         h(
           'div',
           {
-            class: 'cell',
+            class: 'cell'
           },
           [originRenderCell(data)]
         )
@@ -134,14 +113,12 @@ function useRender<T>(
         const prefix = treeCellPrefix(data)
         const props = {
           class: 'cell',
-          style: {},
+          style: {}
         }
         if (column.showOverflowTooltip) {
           props.class = `${props.class} ${unref(ns.namespace)}-tooltip`
           props.style = {
-            width: `${
-              (data.column.realWidth || Number(data.column.width)) - 1
-            }px`,
+            width: `${(data.column.realWidth || Number(data.column.width)) - 1}px`
           }
         }
         checkSubColumn(children)
@@ -174,7 +151,7 @@ function useRender<T>(
     setColumnForcedProps,
     setColumnRenders,
     getPropsData,
-    getColumnElIndex,
+    getColumnElIndex
   }
 }
 

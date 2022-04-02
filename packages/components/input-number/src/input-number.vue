@@ -289,7 +289,7 @@ export default defineComponent({
       }
     })
     onUpdated(() => {
-      const innerInput = input.value?.input
+      const innerInput = input.value?.inputRef
       innerInput?.setAttribute('aria-valuenow', data.currentValue)
     })
     return {

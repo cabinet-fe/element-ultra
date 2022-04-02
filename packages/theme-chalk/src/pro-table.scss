@@ -1,6 +1,9 @@
 @use 'mixins/mixins' as *;
 
 @include b('pro-table') {
+  width: 100%;
+  overflow: auto;
+
   @include e('searcher') {
     margin-bottom: 6px;
     display: flex;

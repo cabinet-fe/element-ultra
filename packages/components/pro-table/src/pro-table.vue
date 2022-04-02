@@ -8,7 +8,7 @@
       <el-button text>展开/隐藏</el-button>
     </section>
 
-    <section ref="toolsRef" v-if="$slots.tools" :class="ns.e('tools')">
+    <section ref="toolsRef" v-if="$slots.tools || showTools" :class="ns.e('tools')">
       <div :class="ns.e('tools-left')">
         <slot name="tools" />
       </div>
@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <el-table :data="computedData" v-bind="$attrs" :height="tableHeight">
+    <el-table :data="computedData" v-if="columns.length" v-bind="$attrs" :height="tableHeight">
       <el-table-column
         v-bind="column"
         v-for="column of preColumns"
@@ -143,11 +143,19 @@ let queryWatchList = Object.keys(props.query || {})
 watch([query, ...queryWatchList], fetchData)
 fetchData()
 
-const { columns } = props
-
 const preColumns = usePreColumns(props)
+
+const find = () => {
+  return computedData.value
+}
+
+const deleteRow = (index: number) => {
+  state.data = [...state.data.slice(0, index), ...state.data.slice(index + 1)]
+}
 
 defineExpose({
   fetchData,
+  find,
+  deleteRow
 })
 </script>

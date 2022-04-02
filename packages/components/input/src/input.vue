@@ -328,4 +328,8 @@ const onMouseEnter = (evt: MouseEvent) => {
 const handleKeydown = (evt: KeyboardEvent) => {
   emit('keydown', evt)
 }
+
+defineExpose({
+  inputRef
+})
 </script>

@@ -11,6 +11,7 @@ export default function usePreColumns(props: ProTableProps) {
         width: 60,
         key: '$index',
         name: '序号',
+        align: 'center'
       })
     }
     if (checkable) {
@@ -18,12 +19,15 @@ export default function usePreColumns(props: ProTableProps) {
         type: 'selection',
         width: 60,
         key: '$checkbox',
+        align: 'center',
+        checkable: checkable instanceof Function ? checkable : undefined
       })
     } else if (selectable) {
       result.unshift({
         type: 'select',
         width: 60,
-        key: '$radio'
+        key: '$radio',
+        align: 'center'
       })
     }
 

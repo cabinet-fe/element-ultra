@@ -15,12 +15,12 @@
         [ns.m('enable-row-transition')]:
           (store.states.data.value || []).length !== 0 &&
           (store.states.data.value || []).length < 100,
-        'has-footer': showSummary,
+        'has-footer': showSummary
       },
       ns.m(tableSize),
       className,
       ns.b(),
-      ns.m(`layout-${tableLayout}`),
+      ns.m(`layout-${tableLayout}`)
     ]"
     :style="style"
     :data-prefix="ns.namespace.value"
@@ -44,10 +44,7 @@
           cellpadding="0"
           cellspacing="0"
         >
-          <hColgroup
-            :columns="store.states.columns.value"
-            :table-layout="tableLayout"
-          ></hColgroup>
+          <hColgroup :columns="store.states.columns.value" :table-layout="tableLayout"></hColgroup>
           <table-header
             :border="border"
             :default-sort="defaultSort"
@@ -70,7 +67,7 @@
             border="0"
             :style="{
               width: bodyWidth,
-              tableLayout,
+              tableLayout
             }"
           >
             <hColgroup
@@ -104,11 +101,7 @@
               <slot name="empty">{{ computedEmptyText }}</slot>
             </span>
           </div>
-          <div
-            v-if="$slots.append"
-            ref="appendWrapper"
-            :class="ns.e('append-wrapper')"
-          >
+          <div v-if="$slots.append" ref="appendWrapper" :class="ns.e('append-wrapper')">
             <slot name="append"></slot>
           </div>
         </el-scrollbar>
@@ -131,11 +124,7 @@
         :summary-method="summaryMethod"
       />
     </div>
-    <div
-      v-show="resizeProxyVisible"
-      ref="resizeProxy"
-      :class="ns.e('column-resize-proxy')"
-    ></div>
+    <div v-show="resizeProxyVisible" ref="resizeProxy" :class="ns.e('column-resize-proxy')"></div>
   </div>
 </template>
 
@@ -162,14 +151,14 @@ let tableIdSeed = 1
 export default defineComponent({
   name: 'ElTable',
   directives: {
-    Mousewheel,
+    Mousewheel
   },
   components: {
     TableHeader,
     TableBody,
     TableFooter,
     ElScrollbar,
-    hColgroup,
+    hColgroup
   },
   props: defaultProps,
   emits: [
@@ -190,7 +179,7 @@ export default defineComponent({
     'filter-change',
     'current-change',
     'header-dragend',
-    'expand-change',
+    'expand-change'
   ],
   setup(props) {
     type Row = typeof props.data[number]
@@ -204,7 +193,7 @@ export default defineComponent({
       store: table.store,
       table,
       fit: props.fit,
-      showHeader: props.showHeader,
+      showHeader: props.showHeader
     })
     table.layout = layout
 
@@ -221,7 +210,7 @@ export default defineComponent({
       toggleAllSelection,
       toggleRowExpansion,
       clearSort,
-      sort,
+      sort
     } = useUtils<Row>(store)
     const {
       isHidden,
@@ -242,7 +231,7 @@ export default defineComponent({
       resizeState,
       doLayout,
       tableBodyStyles,
-      tableLayout,
+      tableLayout
     } = useStyle<Row>(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
@@ -253,11 +242,9 @@ export default defineComponent({
       isGroup,
       resizeState,
       doLayout,
-      debouncedUpdateLayout,
+      debouncedUpdateLayout
     }
-    const computedSumText = computed(
-      () => props.sumText || t('el.table.sumText')
-    )
+    const computedSumText = computed(() => props.sumText || t('el.table.sumText'))
 
     const computedEmptyText = computed(() => {
       return props.emptyText || t('el.table.emptyText')
@@ -300,8 +287,8 @@ export default defineComponent({
       context: table,
       computedSumText,
       computedEmptyText,
-      tableLayout,
+      tableLayout
     }
-  },
+  }
 })
 </script>
