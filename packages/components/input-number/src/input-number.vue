@@ -271,12 +271,12 @@ export default defineComponent({
       { immediate: true }
     )
     onMounted(() => {
-      const innerInput = input.value!.inputRef
-      innerInput.setAttribute('role', 'spinbutton')
-      innerInput.setAttribute('aria-valuemax', String(props.max))
-      innerInput.setAttribute('aria-valuemin', String(props.min))
-      innerInput.setAttribute('aria-valuenow', String(data.currentValue))
-      innerInput.setAttribute(
+      const innerInput = input.value?.inputRef
+      innerInput?.setAttribute('role', 'spinbutton')
+      innerInput?.setAttribute('aria-valuemax', String(props.max))
+      innerInput?.setAttribute('aria-valuemin', String(props.min))
+      innerInput?.setAttribute('aria-valuenow', String(data.currentValue))
+      innerInput?.setAttribute(
         'aria-disabled',
         String(inputNumberDisabled.value)
       )
