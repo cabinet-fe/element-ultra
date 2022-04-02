@@ -266,6 +266,10 @@ export const sidebars = {
           link: '/component/tree',
           text: 'Tree 树形控件',
         },
+        {
+          link: '/component/tree-select',
+          text: 'TreeSelect 树形选择器',
+        },
       ],
     },
     {
@@ -347,6 +351,10 @@ export const sidebars = {
         {
           link: '/component/tooltip',
           text: 'Tooltip 文字提示',
+        },
+        {
+          link: '/component/action',
+          text: 'Action 操作按钮',
         },
       ],
     },

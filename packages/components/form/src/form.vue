@@ -14,6 +14,7 @@ import {
   h,
   inject,
   isVNode,
+  nextTick,
   onBeforeUnmount,
   provide,
   useSlots,
@@ -54,7 +55,7 @@ let defaultFormValues: Record<string, any> = {
 const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
   let result: any[] = []
 
-  nodeList.forEach(node => {
+  nodeList.forEach((node) => {
     if (!isVNode(node)) {
       return result.push(node)
     }
@@ -67,15 +68,14 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
         if (!field) return node
 
         result.push(
-          h(ElFormItem, { label, field, tips }, () => {
-            const cloned = cloneVNode(node, {
+          h(ElFormItem, { label, field, tips, key: node.key ?? undefined }, () =>
+            cloneVNode(node, {
               modelValue: data[field],
               'onUpdate:modelValue': (value: any) => {
                 data[field] = value
               }
             })
-            return cloned
-          })
+          )
         )
       } else {
         result.push(node)
@@ -100,7 +100,6 @@ const getChildren = () => {
   const { data } = props
   const vNodeList = slots.default?.(data) || []
   if (!data) return vNodeList
-
   return wrapFormItem(vNodeList, data)
 }
 // 添加和删除表单项
@@ -122,19 +121,22 @@ const resetField = (field: string) => {
 
 /** 重置所有字段 */
 const resetFields = () => {
-  for (const key in formItems) {
-    formItems[key].reset()
+  if (!props.data) return
+
+  for (const key in props.data) {
+    props.data[key] = defaultFormValues[key]
   }
+  nextTick(() => clearValidate())
 }
 
 // 清除校验
 const clearValidate = (fields?: string | string[]) => {
   if (!fields) {
-    Object.values(formItems).forEach(formItem => formItem.clearValidate())
+    Object.values(formItems).forEach((formItem) => formItem.clearValidate())
   } else if (typeof fields === 'string') {
     formItems[fields].clearValidate()
   } else {
-    fields.forEach(field => formItems[field].clearValidate())
+    fields.forEach((field) => formItems[field].clearValidate())
   }
 }
 
@@ -174,11 +176,11 @@ const validateField = async (field: string) => {
 const validate = async (fields?: string | string[]) => {
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
-      (Array.isArray(fields) ? fields : Object.keys(formItems)).map(name =>
+      (Array.isArray(fields) ? fields : Object.keys(formItems)).map((name) =>
         formItems[name].validate()
       )
     )
-    return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
+    return allValidation.every((valid) => valid) ? Promise.resolve(true) : Promise.reject(false)
   }
   if (typeof fields === 'string') {
     const valid = await formItems[fields].validate()

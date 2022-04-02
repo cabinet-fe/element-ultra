@@ -10,6 +10,7 @@
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,
     "types": ["unplugin-vue-define-options"]
+    // "noErrorTruncation": true
   },
   "references": [
     { "path": "./tsconfig.vite-config.json" },

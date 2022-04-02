@@ -1,4 +1,4 @@
-import { shallowReactive, nextTick, type ShallowReactive } from 'vue'
+import { shallowReactive, nextTick, type ShallowReactive, watch } from 'vue'
 
 type ReactiveObj = ShallowReactive<Record<string, any>>
 
@@ -15,7 +15,7 @@ export default function useFormDialog<
     visible: false,
     type: '' as T,
     title: '' as string,
-    data: null as F | null,
+    data: null as Partial<F> | null,
     ctx: null as any
   })
 
@@ -30,6 +30,10 @@ export default function useFormDialog<
     merge?: boolean
   }
   type Open = (type: T, options?: OpenOptions) => void
+
+  watch(() => dialog.visible, (v) => {
+    !v && (dialog.data = null)
+  })
 
   const open: Open = (type, options) => {
     dialog.visible = true

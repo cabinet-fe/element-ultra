@@ -2,7 +2,7 @@
   <el-tree :data="data" :props="props" :height="208">
     <template #default="{ node }">
       <span class="prefix" :class="{ 'is-leaf': node.isLeaf }"
-        >[ElementPlus]</span
+        >[ElementUltra]</span
       >
       <span>{{ node.label }}</span>
     </template>

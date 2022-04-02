@@ -122,7 +122,7 @@
   </teleport>
 </template>
 <script lang="ts" setup>
-import { ref, watch, shallowRef, onMounted, nextTick } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useNamespace, useSize, useFormItem, useDisabled } from '@element-ultra/hooks'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'

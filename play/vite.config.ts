@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from './resolver'
+import { ElementUltraResolver } from './resolver'
 import Inspect from 'vite-plugin-inspect'
 import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
@@ -52,7 +52,7 @@ export default defineConfig(async () => {
       DefineOptions(),
       Components({
         include: ["src/*", './App.vue'],
-        resolvers: ElementPlusResolver({}),
+        resolvers: ElementUltraResolver({}),
         dts: false,
       }),
       Inspect(),
