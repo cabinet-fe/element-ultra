@@ -2,6 +2,7 @@
   <el-dialog
     :model-value="modelValue"
     :title="title"
+    append-to-body
     @update:model-value="emit('update:modelValue', $event)"
   >
     <slot />
@@ -82,7 +83,7 @@ const submit = async () => {
       loading.value = false
     }
   }
-  
+
   cancel()
 }
 

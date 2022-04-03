@@ -19,10 +19,12 @@ const ns = useNamespace('grid')
 const props = defineProps(gridProps)
 
 const style = computed(() => {
-  const { cols } = props
-  const gridTemplateColumns = typeof cols === 'number' ? `repeat(${cols}, 1fr)` : cols.join(' ')
+  const { cols, rows } = props
+  const gridTemplateColumns = typeof cols === 'number' ? `repeat(${cols}, 1fr)` : typeof cols === 'string' ? cols :  cols.join(' ')
+  const gridTemplateRows = typeof rows === 'string' ? rows : rows?.join(' ')
   const result: CSSProperties = {
     gridTemplateColumns,
+    gridTemplateRows,
     gap: props.gap
       .split(',')
       .map((s) => `${s}px`)

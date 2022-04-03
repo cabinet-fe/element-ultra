@@ -12,7 +12,10 @@
     @click="
       open('update', {
         title: '编辑',
-        data: { name: '张三', type: '2', school: '清华' }
+        data: [
+          { name: '张三', type: '2', school: '清华', age: 1 },
+          { 'test': '' }
+        ]
       })
     "
     >编辑</el-button
@@ -33,6 +36,10 @@
       <el-input v-if="data.type === '1'" key="1" field="name" label="名称" tips="输入一个名称" />
       <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
     </el-form>
+
+    <el-form :data="data2" >
+      <el-input field="test" />
+    </el-form>
   </el-form-dialog>
 </template>
 
@@ -45,7 +52,11 @@ const [data, rules] = useFormModel({
   age: {  }
 })
 
-const [dialog, open] = useFormDialog(data)
+const [data2, rules2] = useFormModel({
+  test: {}
+})
+
+const [dialog, open] = useFormDialog([data, data2])
 
 const confirm = () => {
   return new Promise((rs) => {

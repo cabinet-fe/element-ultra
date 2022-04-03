@@ -91,7 +91,7 @@ export default defineComponent({
 
     const isRequired = computed(() => {
       if (!elForm || !props.field) return false
-      return elForm.formRules[props.field].required
+      return elForm.formRules?.[props.field]?.required
     })
 
     const validate = async () => {
