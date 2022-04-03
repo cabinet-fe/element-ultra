@@ -190,7 +190,7 @@ const calcIconOffset = (place: 'prefix' | 'suffix') => {
   const { el } = instance.vnode
   if (!el) return
   const elList: HTMLSpanElement[] = Array.from(el.querySelectorAll(`.${ns.e(place)}`))
-  const target = elList.find(item => item.parentNode === el)
+  const target = elList.find((item) => item.parentNode === el)
 
   if (!target) return
 

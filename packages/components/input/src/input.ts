@@ -4,7 +4,6 @@ import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { useSizeProp } from '@element-ultra/hooks'
 import type { StyleValue, ExtractPropTypes, PropType, Component } from 'vue'
 
-
 // TODO 统一改掉useSizeProp等等
 export const inputProps = {
   size: {
@@ -80,9 +79,13 @@ export const inputEmits = {
   clear: () => true,
   mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
-  keydown: (evt: KeyboardEvent) => evt instanceof KeyboardEvent,
+  keydown: (evt: KeyboardEvent) => true,
   compositionstart: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionupdate: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent
 }
 export type InputEmits = typeof inputEmits
+
+export type AA = {
+  (e: 'test', name: string): void
+}
