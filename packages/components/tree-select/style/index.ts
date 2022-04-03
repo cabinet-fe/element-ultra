@@ -6,5 +6,6 @@ import '@element-ultra/components/input/style'
 import '@element-ultra/components/select/style'
 import '@element-ultra/components/popper/style'
 import '@element-ultra/components/icon/style'
+import '@element-ultra/components/checkbox/style'
 
 import '@element-ultra/theme-chalk/src/tree-select.scss'

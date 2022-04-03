@@ -142,6 +142,7 @@
     box-shadow: var(--el-box-shadow-light);
     position: absolute;
     z-index: 2022;
+    background-color: var(--el-color-white);
     @include e(triangle) {
       position: absolute;
       transform: rotate(45deg) translateY(-8px);

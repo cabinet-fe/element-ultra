@@ -127,6 +127,7 @@ const {
   getHalfChecked,
   setChecked,
   setCheckedKeys,
+  setCheckedAll,
   filter,
   setData
 } = useTree(props, emit)
@@ -141,6 +142,7 @@ defineExpose({
   getHalfChecked,
   setChecked,
   setCheckedKeys,
+  setCheckedAll,
   filter,
   setData
 })

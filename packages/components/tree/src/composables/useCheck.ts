@@ -191,6 +191,16 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
   }
 
+  /** TODO 还没有完成， 暂时这样写  */
+  function setCheckedAll() {
+    if (!tree?.value) return
+    const { treeNodeMap } = tree.value
+    for (let entry of treeNodeMap) {
+      const node = treeNodeMap.get(entry[0])!
+      toggleCheckbox(node, true, false)
+    }
+  }
+
   return {
     updateCheckedKeys,
     toggleCheckbox,
@@ -199,6 +209,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     setChecked,
     setCheckedKeys,
     getChecked,
-    getHalfChecked
+    getHalfChecked,
+    setCheckedAll
   }
 }

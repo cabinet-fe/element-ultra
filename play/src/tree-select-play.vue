@@ -15,7 +15,7 @@
     >
       <el-tree-select key="111" :data="treeData" field="node1" label="单选" />
 
-      <!-- <el-tree-select :data="treeData" field="node2" label="多选" multiple /> -->
+      <el-tree-select :data="treeData" field="node2" label="多选" multiple />
 
       <el-form-item label="操作">
         <el-button type="primary" @click="submit">提交</el-button>

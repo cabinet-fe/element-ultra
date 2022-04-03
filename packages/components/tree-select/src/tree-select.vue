@@ -94,6 +94,7 @@
         v-clickoutside:[treeSelectRef]="hideTree"
       >
         <span :class="ns.e('triangle')"></span>
+        <el-checkbox @change="handleToggleSelect" v-if="multiple">全选</el-checkbox>
         <el-tree
           :data="data"
           :check-strictly="checkStrictly"
@@ -127,6 +128,7 @@ import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
 import ElTag from '@element-ultra/components/tag'
 import ElIcon from '@element-ultra/components/icon'
+import ElCheckbox from '@element-ultra/components/checkbox'
 import { ClickOutside } from '@element-ultra/directives'
 import { CircleClose, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import useTreeSelect from './use-tree-select'
@@ -198,6 +200,14 @@ const { formItem } = useFormItem()
 const inputSize = useSize()
 const inputDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
+
+const handleToggleSelect = (v: boolean) => {
+  if (v) {
+    treeRef.value?.setCheckedAll()
+  } else {
+     treeRef.value?.setCheckedKeys([])
+  }
+}
 
 /**
  * 清空
