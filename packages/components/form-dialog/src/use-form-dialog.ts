@@ -21,14 +21,14 @@ type Open<T, F> = (type: T, options?: OpenOptions<F>) => void
  * @returns
  */
 export default function useFormDialog<T extends string = 'create' | 'update', F = any>(
-  formData: F | [F]
+  formData: F
 ) {
   // 弹框对象
   const dialog = shallowReactive({
     visible: false,
     type: '' as T,
     title: '' as string,
-    data: null as (F extends [any] ? [Partial<F[number]>] : Partial<F>) | null,
+    data: null as F | null,
     ctx: null as any
   })
 
@@ -44,7 +44,7 @@ export default function useFormDialog<T extends string = 'create' | 'update', F 
     }
   )
 
-  const open: Open<T, F> = (type, options) => {
+  const open: Open<T, F extends any[] ? Partial<F[number]>[]: Partial<F>> = (type, options) => {
     dialog.visible = true
     dialog.type = type
 
@@ -60,6 +60,7 @@ export default function useFormDialog<T extends string = 'create' | 'update', F 
     // 合并值
     if (options.merge !== false && dialog.data) {
       nextTick(() => {
+        // 数组
         if (Array.isArray(formData)) {
           return formData.forEach((item, i) => {
             Object.keys(item).forEach((k) => {

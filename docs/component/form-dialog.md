@@ -11,23 +11,16 @@ lang: zh-CN
 大部分时候推荐使用 useFormDialog api 来操作你的表单
 :::
 
-## 基础示例
+## useFormDialog 方法
 
-:::demo
+element-ultra 提供了一个 useFormDialog 的 hooks, 该函数接收一个响应式的对象, 返回
+dialog 对象和 open 方法。
 
-form-dialog/basic
-
-:::
-
-## useFormDialog方法
-element-ultra提供了一个useFormDialog的hooks, 该函数接收一个响应式的对象, 返回
-dialog对象和open方法。
-
-dialog属性：
+dialog 属性：
 
 - visible 控制表单的显示隐藏
 - ctx 一个可以传入任意值的上下文
-- data 填充到表单的数据，一旦传入该属性， 原始表单数据会被自动合并 
+- data 填充到表单的数据，一旦传入该属性， 原始表单数据会被自动合并
 - title 标题
 - type 类型默认有'create' 'update'两种
 
@@ -47,7 +40,6 @@ const [data, rules] = useFormModel({
 // useFormDialog方法默认有'create' | 'update'两种类型， 你也可以传入自定义类型
 const [dialog, open] = useFormDialog<'create' | 'update'>(data)
 
-
 // 分页页面
 open('create', {
   title: '弹框标题',
@@ -59,8 +51,22 @@ open('create', {
 // 上面的open调用后
 // 弹框会被打开
 // 你可以访问dialog对象访问由open传入的数据
-
 ```
+
+## 基础示例
+
+:::demo
+
+form-dialog/basic
+
+:::
+
+## 多个表格
+:::demo
+
+form-dialog/multiple
+
+:::
 
 ## FormDialog 属性
 
