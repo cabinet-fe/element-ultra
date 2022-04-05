@@ -5,6 +5,7 @@
     :columns="columns"
     @save="onSave"
     @delete="onDelete"
+    @add-next-line="addNextLine"
   >
     <template #default="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
@@ -68,6 +69,11 @@ const onSave = (row: any) => {
 const onDelete = (row: any) => {
   console.log(row, 'row_删除')
   console.log('删除')
+}
+
+/** 增加下一行 */
+const addNextLine = (row:any)=>{
+  console.log(row,'row_增加')
 }
 </script>
 

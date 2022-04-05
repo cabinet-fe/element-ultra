@@ -48,11 +48,8 @@
               </td>
 
               <td>
-                <el-button type="primary" :icon="Select" text @click="saveRow(item)">
-                  保存
-                </el-button>
+                <el-button type="primary" :icon="Select" text @click="saveRow(item)"> </el-button>
                 <el-button type="primary" :icon="Remove" text @click="item._isInEdit = false">
-                  取消
                 </el-button>
               </td>
             </template>
@@ -104,6 +101,7 @@ const internalData = ref<any[]>([])
 const emit = defineEmits<{
   (e: 'save', row: any): void
   (e: 'delete', row: any): void
+  (e: 'addNextLine', row: any): void
 }>()
 
 const width = ref('200px')
@@ -162,6 +160,8 @@ const add = () => {
 /** 增加到下一行 */
 const addToNextLine = (item: any, index: number) => {
   internalData.value.splice(index + 1, 0, { _isInEdit: true })
+  const { _isInEdit, ...result } = item
+  emit('addNextLine', result)
 }
 
 /** 校验器 */
@@ -211,7 +211,7 @@ const validators = {
     }
   },
 
-  match(value: any, pattern: RegExp , msg = '') {
+  match(value: any, pattern: RegExp, msg = '') {
     if (typeof value !== 'string') {
       return msg || `请输入类型为：[string],而不是${typeof value}类型`
     }
