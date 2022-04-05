@@ -68,7 +68,6 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
         // TODO此处的key有问题， 暂时这么解决
         result.push(
           h(ElFormItem, { label, field, tips, key: Math.random() }, () => {
-            
             const cloned = cloneVNode(node, {
               modelValue: data[field],
               'onUpdate:modelValue': (value: any) => {

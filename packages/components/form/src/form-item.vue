@@ -1,11 +1,6 @@
 <template>
   <div ref="formItemRef" :class="formItemClass">
-    <label
-      v-if="currentLabel"
-      :for="field"
-      :class="ns.e('label')"
-      :style="labelStyle"
-    >
+    <label v-if="currentLabel" :for="field" :title="currentLabel" :class="ns.e('label')" :style="labelStyle">
       <span style="margin-right: 2px">
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
@@ -40,7 +35,7 @@ import {
   onMounted,
   ref,
   nextTick,
-  provide,
+  provide
 } from 'vue'
 import { formItemKey, formKey } from '@element-ultra/tokens'
 import { addUnit } from '@element-ultra/utils'
@@ -57,7 +52,7 @@ export default defineComponent({
   components: {
     QuestionFilled,
     ElIcon,
-    ElTooltip,
+    ElTooltip
   },
 
   props: {
@@ -66,8 +61,8 @@ export default defineComponent({
     tips: String,
     labelWidth: {
       type: [String, Number],
-      default: '',
-    },
+      default: ''
+    }
   },
   setup(props) {
     const elForm = inject(formKey)
@@ -118,7 +113,7 @@ export default defineComponent({
     const formItem = {
       reset,
       clearValidate,
-      validate,
+      validate
     }
 
     provide(formItemKey, formItem)
@@ -160,8 +155,8 @@ export default defineComponent({
       reset,
       clearValidate,
       currentLabel,
-      ns,
+      ns
     }
-  },
+  }
 })
 </script>
