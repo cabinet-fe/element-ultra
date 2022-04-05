@@ -61,7 +61,7 @@ form-dialog/basic
 
 :::
 
-## 多个表格
+## 多个表单
 :::demo
 
 form-dialog/multiple
