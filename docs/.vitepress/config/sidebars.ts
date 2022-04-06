@@ -296,6 +296,10 @@ export const sidebars = {
           text: 'Menu 菜单',
         },
         {
+          link: '/component/page',
+          text: 'Page 页面',
+        },
+        {
           link: '/component/page-header',
           text: 'Page Header 页头',
         },

@@ -62,6 +62,7 @@ declare module 'vue' {
     ElMultipleForm: typeof import('../packages/element-ultra')['ElMultipleForm']
     ElOption: typeof import('../packages/element-ultra')['ElOption']
     ElOptionGroup: typeof import('../packages/element-ultra')['ElOptionGroup']
+    ElPage: typeof import('../packages/element-ultra')['ElPage']
     ElPageHeader: typeof import('../packages/element-ultra')['ElPageHeader']
     ElPagination: typeof import('../packages/element-ultra')['ElPagination']
     ElPopconfirm: typeof import('../packages/element-ultra')['ElPopconfirm']

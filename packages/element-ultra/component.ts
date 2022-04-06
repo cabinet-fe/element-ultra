@@ -66,6 +66,7 @@ import {
   ElMenuItemGroup,
 } from '@element-ultra/components/menu'
 import { ElMultipleForm } from '@element-ultra/components/multiple-form'
+import { ElPage } from '@element-ultra/components/page'
 import { ElPageHeader } from '@element-ultra/components/page-header'
 import { ElPagination } from '@element-ultra/components/pagination'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
@@ -165,6 +166,7 @@ export default [
   ElMenuItem,
   ElMenuItemGroup,
   ElMultipleForm,
+  ElPage,
   ElPageHeader,
   ElPagination,
   ElPopconfirm,

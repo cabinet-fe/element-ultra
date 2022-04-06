@@ -60,6 +60,7 @@ declare module 'vue' {
     ElOption: typeof import('element-ultra')['ElOption']
     ElOptionGroup: typeof import('element-ultra')['ElOptionGroup']
     ElPageHeader: typeof import('element-ultra')['ElPageHeader']
+    ElPage: typeof import('element-ultra')['ElPage']
     ElPagination: typeof import('element-ultra')['ElPagination']
     ElPopconfirm: typeof import('element-ultra')['ElPopconfirm']
     ElPopper: typeof import('element-ultra')['ElPopper']
