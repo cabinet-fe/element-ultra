@@ -1,5 +1,5 @@
 ---
-name: 优化
+name: 改进和优化
 about: 改进和优化
 title: ''
 labels: ''
