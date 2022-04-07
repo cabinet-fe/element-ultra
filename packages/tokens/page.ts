@@ -4,4 +4,4 @@ export interface PageContext {
   observer: IntersectionObserver
 }
 
-export const pageContextKey: InjectionKey<PageContext> = Symbol()
+export const pageContextKey: InjectionKey<PageContext> = Symbol('pageContextKey')

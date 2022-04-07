@@ -20,7 +20,7 @@ defineOptions({
 defineProps(cardProps)
 const ns = useNamespace('card')
 
-const { observer } = inject(pageContextKey) || {}
+const { observer } = inject(pageContextKey, undefined) || {}
 const cardRef = shallowRef<HTMLDivElement>()
 
 onMounted(() => {
