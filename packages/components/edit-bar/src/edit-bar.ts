@@ -14,6 +14,16 @@ export const editBarProps = {
   labelKey: {
     type: String,
     default: 'label'
+  },
+  /** 子节点属性标识 */
+  childrenKey: {
+    type: String,
+    default: 'children'
+  },
+  /** 树形列表显示 */
+  tree: {
+    type: Boolean,
+    default: false
   }
 } as const
 

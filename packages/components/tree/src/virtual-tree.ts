@@ -38,6 +38,10 @@ export const treeProps = buildProps({
     type: definePropType<TreeData>(Array),
     default: () => mutable([] as const)
   },
+  itemClass: {
+    type: [String, Object],
+    default: ''
+  },
   emptyText: {
     type: String,
     default: '暂无数据'

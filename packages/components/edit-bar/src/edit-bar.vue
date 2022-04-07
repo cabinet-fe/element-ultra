@@ -1,27 +1,63 @@
 <template>
   <div :class="ns.b()">
-    <el-scrollbar ref="listRef" tag="ul" :class="ns.e('list')">
+    <el-tree
+      v-if="tree"
+      :data="data"
+      :props="{
+        children: childrenKey
+      }"
+      :expand-on-click-node="false"
+      highlight-current
+      height="calc(100% - 40px)"
+      @current-change="onSelect"
+    >
+      <template #default="{ data }">
+        <div
+          style="width: 100%"
+          :class="{
+            [ns.e('tree-item')]: true,
+            [ns.em('item', 'active')]: data[valueKey] === itemId
+          }"
+        >
+          <slot v-bind="data">
+            <span :class="ns.e('item-label')">{{ data[labelKey] }}</span>
+          </slot>
+
+          <span @click.prevent :class="ns.e('action')">
+            <el-icon @click="emit('create', data)" :size="16" style="margin-right: 4px">
+              <Plus />
+            </el-icon>
+            <el-icon @click="emit('update', data)" :size="16" style="margin-right: 4px">
+              <Edit />
+            </el-icon>
+            <el-popconfirm title="确定删除吗?" @confirm="onDelete(data)">
+              <template #reference>
+                <el-icon :size="16"><Delete /></el-icon>
+              </template>
+            </el-popconfirm>
+          </span>
+        </div>
+      </template>
+    </el-tree>
+
+    <el-scrollbar v-else ref="listRef" tag="ul" :class="ns.e('list')">
       <li
         v-for="item of data"
         :key="item[valueKey]"
         :class="{
           [ns.e('item')]: true,
-          [ns.em('item', 'active')]: item[valueKey] === itemId,
+          [ns.em('item', 'active')]: item[valueKey] === itemId
         }"
         @click="onSelect(item)"
       >
-        <span v-if="sortable"  :class="ns.e('handle')"></span>
+        <span v-if="sortable" :class="ns.e('handle')"></span>
 
         <slot v-bind="item">
           <span :class="ns.e('item-label')">{{ item[labelKey] }}</span>
         </slot>
 
         <span @click.prevent :class="ns.e('action')">
-          <el-icon
-            @click="emit('update', item)"
-            :size="16"
-            style="margin-right: 4px"
-          >
+          <el-icon @click="emit('update', item)" :size="16" style="margin-right: 4px">
             <Edit />
           </el-icon>
           <el-popconfirm title="确定删除吗?" @confirm="onDelete(item)">
@@ -46,12 +82,13 @@ import ElScrollbar from '@element-ultra/components/scrollbar'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import ElPopconfirm from '@element-ultra/components/popconfirm'
+import ElTree from '@element-ultra/components/tree'
 import { editBarProps } from './edit-bar'
 import Sortable from 'sortablejs'
-import { Edit, Delete } from '@element-plus/icons-vue'
+import { Edit, Delete, Plus } from '@element-plus/icons-vue'
 
 defineOptions({
-  name: 'ElEditBar',
+  name: 'ElEditBar'
 })
 
 const ns = useNamespace('edit-bar')
@@ -59,7 +96,7 @@ const ns = useNamespace('edit-bar')
 const props = defineProps(editBarProps)
 
 const emit = defineEmits<{
-  (e: 'create'): void
+  (e: 'create', data?: any): void
   (e: 'update', item: any): void
   (e: 'select', id: any, item: any): void
   (e: 'delete', id: any, item: any): void
@@ -74,6 +111,7 @@ const listRef = shallowRef<any>()
 let sortInstance: Sortable
 
 const getSortInstance = () => {
+  if (props.tree) return
   sortInstance = new Sortable(listRef.value?.resize$, {
     animation: 150,
     ghostClass: 'el-edit-bar__ghost',
@@ -84,7 +122,7 @@ const getSortInstance = () => {
       if (oldIndex === undefined || newIndex === undefined || !data) return
       data.splice(newIndex, 0, data.splice(oldIndex, 1)[0])
       emit('sorted', data, oldIndex, newIndex)
-    },
+    }
   })
 }
 
@@ -111,10 +149,13 @@ const onDelete = (item: any) => {
   emit('delete', item[props.valueKey], item)
 }
 
-watch(() => props.data, (data) => {
-
-  if  (data && data.length) {
-    onSelect(data[0])
-  }
-}, { immediate: true })
+watch(
+  () => props.data,
+  (data) => {
+    if (data && data.length) {
+      onSelect(data[0])
+    }
+  },
+  { immediate: true }
+)
 </script>

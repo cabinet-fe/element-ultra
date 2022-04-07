@@ -19,6 +19,7 @@
           :key="data[index].key"
           :style="style"
           :node="data[index]"
+          :class="props.itemClass"
           :expanded="isExpanded(data[index])"
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"

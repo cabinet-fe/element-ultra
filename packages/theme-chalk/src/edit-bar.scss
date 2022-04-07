@@ -28,34 +28,45 @@
     position: relative;
     transition: color 0.15s;
     list-style: none;
+  }
 
-    &:hover {
-      color: var(--el-color-primary);
+  @include e(tree-item) {
+    height: 100%;
+  }
 
-      .el-edit-bar__action {
-        visibility: visible;
+  @each $e in (tree-item, item) {
+    @include e($e) {
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: space-between;
+
+      &:hover {
+        color: var(--el-color-primary);
+
+        .el-edit-bar__action {
+          visibility: visible;
+        }
       }
-    }
 
-    &.el-edit-bar__item--active {
-      color: var(--el-color-primary);
-    }
+      &.el-edit-bar__item--active {
+        color: var(--el-color-primary);
+      }
 
-    & > * {
-      vertical-align: middle;
-      display: inline-block;
-      margin-right: 6px;
-    }
+      & > * {
+        vertical-align: middle;
+        display: inline-block;
+        margin-right: 6px;
+      }
 
-    & > .el-edit-bar__item-label {
-      margin: 0 6px;
+      & > .el-edit-bar__item-label {
+        margin: 0 6px;
+        font-size: 14px;
+      }
     }
   }
 
   @include e(action) {
-    position: absolute;
-    right: 6px;
-    top: 0;
     visibility: hidden;
 
     & > * {
