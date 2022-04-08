@@ -75,7 +75,7 @@
 </template>
 <script lang="ts" setup>
 import { useNamespace } from '@element-ultra/hooks'
-import { computed, reactive, ref, shallowReactive, useSlots, watch } from 'vue'
+import { computed, ref, shallowReactive, useSlots, watch } from 'vue'
 import { multipleFormProps, type MultipleFormColumn, type MultipleFormRules } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'

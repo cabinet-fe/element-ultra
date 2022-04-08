@@ -1,5 +1,15 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
+/** 列配置 */
+export interface MultipleFormColumn {
+  name: string
+  key: string
+  rules?: Partial<MultipleFormRules>
+  align?: 'left' | 'center' | 'right'
+  width?: number
+  render?: (val: string | number, row: any, index: number) => string
+}
+
 export const multipleFormProps = {
   /** 列表数据 */
   data: {
@@ -14,22 +24,10 @@ export const multipleFormProps = {
   },
 
   width: String || Number,
-  // height:String | Number,
-  // maxHeight:String | Number,
 
   /** 是否编辑 */
   editable: Boolean
 } as const
-
-/** 列配置 */
-export interface MultipleFormColumn {
-  name: string
-  key: string
-  rules?: Partial<MultipleFormRules>,
-  align?: 'left' | 'center' | 'right'
-  width?: number
-  render?: (val: string | number, row: any, index: number) => string
-}
 
 /** 列校验 */
 export interface MultipleFormRules {
@@ -38,13 +36,13 @@ export interface MultipleFormRules {
   /** 长度 */
   length: number | [number, string]
   /** 最小值  */
-  min: number | [number , string]
+  min: number | [number, string]
   /** 最大值  */
-  max: number | [number , string]
+  max: number | [number, string]
   /** 正则表达式 */
-  match: RegExp | [RegExp , string]
+  match: RegExp | [RegExp, string]
   /** 自定义验证 */
-  validator(value: any, model: Record<string, any>, rule: any)
+  validator: (value: any, model: Record<string, any>, rule: any) => string
 }
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
