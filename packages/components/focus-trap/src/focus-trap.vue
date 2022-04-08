@@ -97,6 +97,7 @@ export default defineComponent({
       const trapContainer = unref(forwardRef)
       if (focusLayer.paused || !trapContainer) return
       const target = e.target as HTMLElement | null
+      
       if (target && trapContainer.contains(target)) {
         lastFocusAfterMounted = target
       } else {

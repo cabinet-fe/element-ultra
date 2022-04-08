@@ -12,10 +12,7 @@
     @click="
       open('update', {
         title: '编辑',
-        data: [
-          { name: '张三', type: '2', school: '清华', age: 1 },
-          { 'test': '' }
-        ]
+        data: [{ name: '张三', type: '2', school: '清华', age: 1 }, { test: '' }]
       })
     "
     >编辑</el-button
@@ -25,7 +22,6 @@
 
   <el-form-dialog width="700px" :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
     <el-form :data="data" :rules="rules">
-      {{ data }}
       <el-radio-group field="type" label="类型">
         <el-radio label="1">名称</el-radio>
         <el-radio label="2">学校</el-radio>
@@ -33,11 +29,14 @@
 
       <el-input-number field="age" label="年龄"></el-input-number>
 
-      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" tips="输入一个名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+
       <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
+
+      <el-textarea field="name" label="副文本"></el-textarea>
     </el-form>
 
-    <el-form :data="data2" >
+    <el-form :data="data2" :rules="rules2">
       <el-input field="test" />
     </el-form>
   </el-form-dialog>
@@ -46,10 +45,22 @@
 <script setup lang="ts">
 import { useFormDialog, useFormModel } from 'element-ultra'
 const [data, rules] = useFormModel({
-  name: { required: true },
+  name: {
+    required: true,
+    validator(v) {
+      if (v && v.length < 3) {
+        return new Promise((rs) => {
+          setTimeout(() => {
+            rs('名称长度不能小于3')
+          }, 1000)
+        })
+      }
+      return ''
+    }
+  },
   school: { required: true },
   type: { value: '1' },
-  age: {  }
+  age: {}
 })
 
 const [data2, rules2] = useFormModel({

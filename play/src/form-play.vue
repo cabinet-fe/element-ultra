@@ -30,7 +30,7 @@ const [data, rules] = useFormModel({
 
   type: { value: '2' },
   aa: {},
-  area: {}
+  area: { required: true }
 })
 
 const formRef = shallowRef<any>()

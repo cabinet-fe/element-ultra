@@ -239,10 +239,6 @@ const focus = () => {
   })
 }
 
-const blur = () => {
-  inputRef.value?.blur()
-}
-
 const handleFocus = (event: FocusEvent) => {
   focused.value = true
   emit('focus', event)
@@ -252,10 +248,6 @@ const handleBlur = (event: FocusEvent) => {
   focused.value = false
   emit('blur', event)
   formItem?.validate()
-}
-
-const select = () => {
-  inputRef.value?.select()
 }
 
 const handleCompositionStart = (event: CompositionEvent) => {

@@ -53,6 +53,7 @@ let defaultFormValues: Record<string, any> = {
 }
 
 const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
+ 
   let result: any[] = []
   nodeList.forEach((node) => {
     if (!isVNode(node)) {
