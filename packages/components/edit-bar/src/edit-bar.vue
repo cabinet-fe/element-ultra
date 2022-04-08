@@ -4,7 +4,9 @@
       v-if="tree"
       :data="data"
       :props="{
-        children: childrenKey
+        children: childrenKey,
+        value: valueKey,
+        label: labelKey
       }"
       :expand-on-click-node="false"
       highlight-current
