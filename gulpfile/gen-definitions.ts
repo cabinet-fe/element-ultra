@@ -33,8 +33,9 @@ export default async function genDefinitions() {
   })
 
   //  packages下除了element-ultra目录中的文件
+  // '**/*.{vue,ts,js}'
   const filePaths = (
-    await glob(['**/*.{js,ts,vue}', '!element-ultra/**/*'], {
+    await glob(['**/*.{vue,ts,js}', '!element-ultra/**/*'], {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true

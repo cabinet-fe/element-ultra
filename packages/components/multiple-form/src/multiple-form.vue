@@ -15,7 +15,7 @@
         </colgroup>
 
         <thead>
-          <tr>
+          <tr>multipleFormProps
             <th
               v-for="column of columns"
               :class="{ 'is-required': columnRules[column.key]?.required }"
@@ -73,31 +73,31 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { useNamespace } from '@element-ultra/hooks'
-import { computed, ref, shallowReactive, useSlots, watch } from 'vue'
-import { multipleFormProps, type MultipleFormColumn, type MultipleFormRules } from './multiple-form'
+import { computed, ref, reactive, useSlots, watch } from 'vue'
+import { multipleFormProps } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
-
 import { Edit, Close, Plus, Select, Delete } from '@element-plus/icons-vue'
 
 defineOptions({
   name: 'ElMultipleForm'
 })
 
-const ns = useNamespace('multiple-form')
-
 const props = defineProps(multipleFormProps)
-
-const slots = useSlots()
-
-const internalData = ref<any[]>([])
 
 const emit = defineEmits<{
   (e: 'save', row: any): void
   (e: 'delete', row: any): void
 }>()
+
+const ns = useNamespace('multiple-form')
+
+const slots = useSlots()
+
+const internalData = ref<any[]>([])
 
 /** 列校验是否必填*/
 const columnRules = computed(() => {
@@ -110,7 +110,7 @@ const columnRules = computed(() => {
 })
 
 /** 错误提示 */
-const errorTip = shallowReactive({})
+const errorTip = reactive<Record<string, any>>({})
 
 // 回显
 watch(
@@ -128,7 +128,7 @@ watch(
   }
 )
 
-function getChildren(scope: any) {
+const getChildren = (scope: any) => {
   return slots.default?.(scope) || []
 }
 
@@ -209,7 +209,7 @@ const validators = {
 }
 
 /** 验证 */
-function validate(data: any, rules: Record<string, MultipleFormRules>) {
+function validate(data: any, rules: Record<string, any>) {
   let isValid = true
   Object.keys(rules).forEach((item) => {
     const rule = rules[item]

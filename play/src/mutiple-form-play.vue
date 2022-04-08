@@ -16,9 +16,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { MultipleFormColumn } from 'element-ultra'
+import type { MultipleColumn } from 'element-ultra'
 
-const columns: MultipleFormColumn[] = [
+const columns: MultipleColumn[] = [
   {
     name: '银行卡号',
     key: 'name',

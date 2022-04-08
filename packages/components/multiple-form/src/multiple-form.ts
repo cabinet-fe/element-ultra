@@ -1,7 +1,23 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
+/** 列校验 */
+export type MultipleFormRules = {
+  /** 是否必填 */
+  required: boolean | [boolean, string]
+  /** 长度 */
+  length: number | [number, string]
+  /** 最小值  */
+  min: number | [number, string]
+  /** 最大值  */
+  max: number | [number, string]
+  /** 正则表达式 */
+  match: RegExp | [RegExp, string]
+  /** 自定义验证 */
+  validator: (value: any, model: Record<string, any>, rule: any) => string
+}
+
 /** 列配置 */
-export interface MultipleFormColumn {
+export type MultipleFormColumn = {
   name: string
   key: string
   rules?: Partial<MultipleFormRules>
@@ -28,21 +44,5 @@ export const multipleFormProps = {
   /** 是否编辑 */
   editable: Boolean
 } as const
-
-/** 列校验 */
-export interface MultipleFormRules {
-  /** 是否必填 */
-  required: boolean | [boolean, string]
-  /** 长度 */
-  length: number | [number, string]
-  /** 最小值  */
-  min: number | [number, string]
-  /** 最大值  */
-  max: number | [number, string]
-  /** 正则表达式 */
-  match: RegExp | [RegExp, string]
-  /** 自定义验证 */
-  validator: (value: any, model: Record<string, any>, rule: any) => string
-}
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
