@@ -9,7 +9,7 @@ export const multipleFormProps = {
 
   /** 列配置  */
   columns: {
-    type: Array as PropType<any[]>,
+    type: Array as PropType<MultipleFormColumn[]>,
     required: true
   },
 
@@ -22,16 +22,17 @@ export const multipleFormProps = {
 } as const
 
 /** 列配置 */
-export interface MultipleColumns {
+export interface MultipleFormColumn {
   name: string
   key: string
-  rules?: Partial<MultipleColumnsRules>,
-  align?:string
+  rules?: Partial<MultipleFormRules>,
+  align?: 'left' | 'center' | 'right'
   width?: number
+  render?: (val: string | number, row: any, index: number) => string
 }
 
 /** 列校验 */
-export interface MultipleColumnsRules {
+export interface MultipleFormRules {
   /** 是否必填 */
   required: boolean | [boolean, string]
   /** 长度 */

@@ -1,7 +1,7 @@
 <template>
   <div :class="ns.b()">
     <div :class="ns.e('button')">
-      <el-button @click="add" :icon="Plus">增加</el-button>
+      <el-button @click="create" :icon="Plus">增加</el-button>
     </div>
 
     <div :class="ns.e('source')">
@@ -13,6 +13,7 @@
             :style="{ width: column.width + 'px' }"
           />
         </colgroup>
+
         <thead>
           <tr>
             <th
@@ -27,7 +28,7 @@
                 effect="dark"
                 :content="errorTip[column.key]"
               >
-                <span>{{ column.name }} --- {{ errorTip[column.key] }}</span>
+                <span style="color: #f00">{{ column.name }}</span>
               </el-tooltip>
 
               <template v-else> {{ column.name }} </template>
@@ -39,7 +40,7 @@
 
         <tbody>
           <tr v-for="(item, i) of internalData">
-            <template v-if="item._isInEdit === true">
+            <template v-if="item._isInEdit !== false">
               <td
                 v-for="(node, nodexIndex) of getChildren({ row: item })"
                 :style="{ textAlign: columns[nodexIndex].align }"
@@ -48,18 +49,14 @@
               </td>
 
               <td>
-                <el-button type="primary" :icon="Select" text @click="saveRow(item)"> </el-button>
-                <el-button type="primary" :icon="Remove" text @click="item._isInEdit = false">
-                </el-button>
+                <el-button type="primary" :icon="Select" text @click="saveRow(item)" />
+                <el-button type="primary" :icon="Close" text @click="handleExitEdit(item, i)" />
               </td>
             </template>
 
             <template v-else>
-              <td
-                v-for="(node, index) of getChildren({ row: item })"
-                :style="{ textAlign: columns[index].align }"
-              >
-                {{ item[columns[index]?.key] }}
+              <td v-for="column of columns" :style="{ textAlign: column.align }">
+                {{ column.render?.(item[column.key], item, i) || item[column.key] }}
               </td>
 
               <td>
@@ -67,8 +64,7 @@
                 </el-button>
                 <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)">
                 </el-button>
-                <el-button type="primary" :icon="Plus" text @click="addToNextLine(item, i)">
-                </el-button>
+                <el-button type="primary" :icon="Plus" text @click="addToNextLine(i)"> </el-button>
               </td>
             </template>
           </tr>
@@ -79,13 +75,13 @@
 </template>
 <script lang="ts" setup>
 import { useNamespace } from '@element-ultra/hooks'
-import { computed, reactive, ref, shallowReactive, shallowRef, useSlots, watch } from 'vue'
-import { multipleFormProps, type MultipleColumns, type MultipleColumnsRules } from './multiple-form'
+import { computed, reactive, ref, shallowReactive, useSlots, watch } from 'vue'
+import { multipleFormProps, type MultipleFormColumn, type MultipleFormRules } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
-import { omit, result } from 'lodash'
 
-import { Edit, Delete, Plus, Select, Remove } from '@element-plus/icons-vue'
+import { Edit, Close, Plus, Select, Delete } from '@element-plus/icons-vue'
+
 defineOptions({
   name: 'ElMultipleForm'
 })
@@ -101,10 +97,7 @@ const internalData = ref<any[]>([])
 const emit = defineEmits<{
   (e: 'save', row: any): void
   (e: 'delete', row: any): void
-  (e: 'addNextLine', row: any): void
 }>()
-
-const width = ref('200px')
 
 /** 列校验是否必填*/
 const columnRules = computed(() => {
@@ -117,18 +110,13 @@ const columnRules = computed(() => {
 })
 
 /** 错误提示 */
-const errorTip = computed(() => {
-  return props.columns.reduce((acc, column) => {
-    acc[column.key] = undefined
-    return acc
-  }, shallowReactive({}))
-})
+const errorTip = shallowReactive({})
 
 // 回显
 watch(
   () => props.data,
   () => {
-    internalData.value = props.data.map(item => {
+    internalData.value = props.data.map((item) => {
       if (item._isInEdit === undefined) {
         item._isInEdit = false
       }
@@ -144,24 +132,22 @@ function getChildren(scope: any) {
   return slots.default?.(scope) || []
 }
 
-/** 增加 */
-const add = () => {
-  let template = props.columns.reduce((acc, cur) => {
-    acc[cur.key] = ''
+/** 创建一个空行 */
+const createRow = () => {
+  return props.columns.reduce((acc, cur) => {
+    acc[cur.key] = undefined
     return acc
   }, {} as Record<string, any>)
+}
 
-  internalData.value.push({
-    ...(template as any),
-    _isInEdit: true
-  })
+/** 增加 */
+const create = () => {
+  internalData.value.push(createRow())
 }
 
 /** 增加到下一行 */
-const addToNextLine = (item: any, index: number) => {
-  internalData.value.splice(index + 1, 0, { _isInEdit: true })
-  const { _isInEdit, ...result } = item
-  emit('addNextLine', result)
+const addToNextLine = (index: number) => {
+  internalData.value.splice(index + 1, 0, createRow())
 }
 
 /** 校验器 */
@@ -223,9 +209,9 @@ const validators = {
 }
 
 /** 验证 */
-function validate(data: any, rules: Record<string, MultipleColumnsRules>) {
+function validate(data: any, rules: Record<string, MultipleFormRules>) {
   let isValid = true
-  Object.keys(rules).forEach(item => {
+  Object.keys(rules).forEach((item) => {
     const rule = rules[item]
 
     for (const key in rule) {
@@ -237,7 +223,7 @@ function validate(data: any, rules: Record<string, MultipleColumnsRules>) {
         rulesIsArray ? rule[key][1] : undefined
       )
 
-      errorTip.value[item] = errorMsg
+      errorTip[item] = errorMsg
       if (errorMsg) {
         isValid = false
         break
@@ -246,6 +232,12 @@ function validate(data: any, rules: Record<string, MultipleColumnsRules>) {
   })
 
   return isValid
+}
+
+const clearValidate = () => {
+  for (const key in errorTip) {
+    errorTip[key] = undefined
+  }
 }
 
 /** 保存 */
@@ -263,4 +255,20 @@ const deleteRow = (item: any, index: number) => {
   const { _isInEdit, ...result } = item
   emit('delete', result)
 }
+
+/** 退出编辑 */
+const handleExitEdit = (item: any, index: number) => {
+  /** 如果没有_isInEdit属性则视为刚刚新增 */
+  if (item._isInEdit === undefined) {
+    internalData.value.splice(index, 1)
+    clearValidate()
+  } else {
+    item._isInEdit = false
+  }
+}
+
+defineExpose({
+  create,
+  clearValidate
+})
 </script>

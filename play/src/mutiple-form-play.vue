@@ -10,25 +10,24 @@
     <template #default="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
       <el-input-number :min="1" v-model="row.age" placeholder="单价" />
-      <el-input v-model="row.school" placeholder=""></el-input>
+      <el-input v-model="row.school"></el-input>
     </template>
   </el-multiple-form>
 </template>
 
 <script lang="ts" setup>
-import { left, right } from '@popperjs/core'
-import type { MultipleColumns } from 'element-ultra'
+import type { MultipleFormColumn } from 'element-ultra'
 
-const columns: MultipleColumns[] = [
+const columns: MultipleFormColumn[] = [
   {
     name: '银行卡号',
     key: 'name',
     rules: {
-      required: [true, '必填'],
+      required: true,
       match: [/^([1-9]{1})(\d{15}|\d{16}|\d{18})$/, '输入正确银行卡号']
     },
     width: 200,
-    align: left
+    align: 'center'
   },
   {
     name: '年龄',
@@ -77,4 +76,3 @@ const addNextLine = (row:any)=>{
 }
 </script>
 
-<style lang="scss" scoped></style>
