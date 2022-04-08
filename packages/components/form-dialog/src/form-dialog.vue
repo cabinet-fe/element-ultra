@@ -4,6 +4,7 @@
     :title="title"
     append-to-body
     @update:model-value="emit('update:modelValue', $event)"
+    @close="cancel"
   >
     <slot />
 
