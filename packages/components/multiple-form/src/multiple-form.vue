@@ -15,7 +15,7 @@
         </colgroup>
 
         <thead>
-          <tr>multipleFormProps
+          <tr>
             <th
               v-for="column of columns"
               :class="{ 'is-required': columnRules[column.key]?.required }"
@@ -89,7 +89,7 @@ defineOptions({
 const props = defineProps(multipleFormProps)
 
 const emit = defineEmits<{
-  (e: 'save', row: any): void
+  (e: 'save', row: any, data: any[]): void
   (e: 'delete', row: any): void
 }>()
 
@@ -246,7 +246,7 @@ const saveRow = (item: any) => {
   if (!valid) return
   item._isInEdit = false
   const { _isInEdit, ...result } = item
-  emit('save', result)
+  emit('save', result, internalData.value)
 }
 
 /** 删除 */

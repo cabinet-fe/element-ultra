@@ -20,7 +20,7 @@ declare module 'vue' {
     ElCard: typeof import('../packages/element-ultra')['ElCard']
     ElCarousel: typeof import('../packages/element-ultra')['ElCarousel']
     ElCarouselItem: typeof import('../packages/element-ultra')['ElCarouselItem']
-    ElCascader: typeof import('../packages/element-ultra')['ElCascader']
+    ElCascade: typeof import('../packages/element-ultra')['ElCascade']
     ElCascaderPanel: typeof import('../packages/element-ultra')['ElCascaderPanel']
     ElCheckbox: typeof import('../packages/element-ultra')['ElCheckbox']
     ElCheckboxButton: typeof import('../packages/element-ultra')['ElCheckboxButton']
