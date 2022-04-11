@@ -3,11 +3,11 @@ import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-ultra/constants'
-import type { OptionType } from './select.types'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constants'
 import type { Options } from '@element-ultra/components/popper'
 
 export const SelectProps = {
+  ...FORM_COMPONENT_PROPS,
   allowCreate: Boolean,
   autocomplete: {
     type: String as PropType<'none' | 'both' | 'list' | 'inline'>,

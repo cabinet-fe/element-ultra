@@ -9,7 +9,7 @@ import {
   h,
   renderSlot,
 } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { isValidComponentSize } from '@element-ultra/utils'
 import { useSize, useNamespace } from '@element-ultra/hooks'
 import { useCheckboxGroup } from './useCheckbox'
@@ -21,6 +21,7 @@ export default defineComponent({
   name: 'ElCheckboxGroup',
 
   props: {
+    ...FORM_COMPONENT_PROPS,
     modelValue: {
       type: Array,
       default: () => [],

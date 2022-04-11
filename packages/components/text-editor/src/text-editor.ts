@@ -1,7 +1,9 @@
+import { FORM_COMPONENT_PROPS } from "@element-ultra/constants"
 import type { ExtractPropTypes, PropType } from "vue"
 
 
 export const textEditorProps = {
+  ...FORM_COMPONENT_PROPS,
   mode: {
     type: String as PropType<'default' | 'simple'>,
     default: 'default'

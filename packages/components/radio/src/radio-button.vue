@@ -2,22 +2,22 @@
   <label
     :class="[
       ns.b('button'),
-      ns.is('active', modelValue === label),
+      ns.is('active', modelValue === value),
       ns.is('disabled', disabled),
       ns.is('focus', focus),
-      ns.bm('button', size),
+      ns.bm('button', size)
     ]"
     role="radio"
-    :aria-checked="modelValue === label"
+    :aria-checked="modelValue === value"
     :aria-disabled="disabled"
     :tabindex="tabIndex"
-    @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
+    @keydown.space.stop.prevent="modelValue = disabled ? modelValue : value"
   >
     <input
       ref="radioRef"
       v-model="modelValue"
       :class="ns.be('button', 'original-radio')"
-      :value="label"
+      :value="value"
       type="radio"
       :name="name"
       :disabled="disabled"
@@ -27,59 +27,42 @@
     />
     <span
       :class="ns.be('button', 'inner')"
-      :style="modelValue === label ? activeStyle : {}"
+      :style="modelValue === value ? activeStyle : {}"
       @keydown.stop
     >
       <slot>
-        {{ label }}
+        {{ value }}
       </slot>
     </span>
   </label>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script setup lang="ts">
+import { computed, } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { useRadio } from './radio'
+import { useRadio, radioEmits } from './radio'
 import { radioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
-  name: 'ElRadioButton',
-  props: radioButtonProps,
+defineOptions({
+  name: 'ElRadioButton'
+})
 
-  setup(props, { emit }) {
-    const ns = useNamespace('radio')
-    const {
-      radioRef,
-      isGroup,
-      focus,
-      size,
-      disabled,
-      tabIndex,
-      modelValue,
-      radioGroup,
-    } = useRadio(props, emit)
+const props = defineProps(radioButtonProps)
+const emit = defineEmits(radioEmits)
 
-    const activeStyle = computed<CSSProperties>(() => {
-      return {
-        backgroundColor: radioGroup?.fill || '',
-        borderColor: radioGroup?.fill || '',
-        boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
-        color: radioGroup?.textColor || '',
-      }
-    })
+const ns = useNamespace('radio')
 
-    return {
-      ns,
-      isGroup,
-      size,
-      disabled,
-      tabIndex,
-      modelValue,
-      focus,
-      activeStyle,
-      radioRef,
-    }
-  },
+const { radioRef, focus, size, disabled, tabIndex, modelValue, radioGroup } = useRadio(
+  props,
+  emit
+)
+
+const activeStyle = computed<CSSProperties>(() => {
+  return {
+    backgroundColor: radioGroup?.fill || '',
+    borderColor: radioGroup?.fill || '',
+    boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
+    color: radioGroup?.textColor || ''
+  }
 })
 </script>

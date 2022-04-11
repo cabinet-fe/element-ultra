@@ -1,10 +1,10 @@
 <template>
   <el-checkbox-group v-model="checkList">
-    <el-checkbox label="Option A" />
-    <el-checkbox label="Option B" />
-    <el-checkbox label="Option C" />
-    <el-checkbox label="disabled" disabled />
-    <el-checkbox label="selected and disabled" disabled />
+    <el-checkbox value="Option A" />
+    <el-checkbox value="Option B" />
+    <el-checkbox value="Option C" />
+    <el-checkbox value="disabled" disabled />
+    <el-checkbox value="selected and disabled" disabled />
   </el-checkbox-group>
 </template>
 

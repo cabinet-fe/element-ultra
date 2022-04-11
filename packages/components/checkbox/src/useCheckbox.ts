@@ -1,6 +1,6 @@
 import { ref, computed, inject, getCurrentInstance, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { formKey, formItemKey } from '@element-ultra/tokens'
 
 import { useSize } from '@element-ultra/hooks'
@@ -8,11 +8,12 @@ import type { ExtractPropTypes } from 'vue'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 
 export const useCheckboxProps = {
+  ...FORM_COMPONENT_PROPS,
   modelValue: {
     type: [Boolean, Number, String],
     default: () => undefined,
   },
-  label: {
+  value: {
     type: [String, Boolean, Number, Object],
   },
   indeterminate: Boolean,
@@ -95,7 +96,7 @@ const useCheckboxStatus = (
     if (toTypeString(value) === '[object Boolean]') {
       return value
     } else if (Array.isArray(value)) {
-      return value.includes(props.label)
+      return value.includes(props.value)
     } else if (value !== null && value !== undefined) {
       return value === props.trueLabel
     } else {
@@ -155,8 +156,8 @@ const setStoreValue = (
 ) => {
   function addToStore() {
     if (!model) return
-    if (Array.isArray(model.value) && !model.value.includes(props.label)) {
-      model.value.push(props.label)
+    if (Array.isArray(model.value) && !model.value.includes(props.value)) {
+      model.value.push(props.value)
     } else {
       model.value = props.trueLabel || true
     }

@@ -1,6 +1,8 @@
+import { FORM_COMPONENT_PROPS } from '@element-ultra/constants'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const treeSelectProps = {
+  ...FORM_COMPONENT_PROPS,
   // common
   modelValue: {
     type: [String, Number, Array] as PropType<(string | number)[] | string | number>

@@ -3,9 +3,10 @@ import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
 import type { Options } from '@popperjs/core'
-import type { ComponentSize } from '@element-ultra/constants'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constants'
 
 export const timePickerDefaultProps = {
+  ...FORM_COMPONENT_PROPS,
   id: {
     type: [Array, String],
   },

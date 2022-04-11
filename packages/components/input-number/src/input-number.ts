@@ -1,7 +1,8 @@
 import { buildProps, isNumber } from '@element-ultra/utils'
-import { componentSizes } from '@element-ultra/constants'
+import { componentSizes, FORM_COMPONENT_PROPS } from '@element-ultra/constants'
 
 export const inputNumberProps = buildProps({
+  ...FORM_COMPONENT_PROPS,
   step: {
     type: Number,
     default: 1,
@@ -39,7 +40,6 @@ export const inputNumberProps = buildProps({
     values: ['', 'right'],
   },
   name: String,
-  label: String,
   placeholder: String,
   precision: {
     type: Number,

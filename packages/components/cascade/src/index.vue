@@ -196,6 +196,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
+FORM_COMPONENT_PROPS,
 } from '@element-ultra/constants'
 import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
@@ -257,6 +258,7 @@ export default defineComponent({
   },
 
   props: {
+    ...FORM_COMPONENT_PROPS,
     ...CommonProps,
     size: {
       type: String as PropType<ComponentSize>,

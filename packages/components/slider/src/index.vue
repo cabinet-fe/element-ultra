@@ -96,6 +96,7 @@ import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
+FORM_COMPONENT_PROPS,
 } from '@element-ultra/constants'
 import { off, on, throwError, isValidComponentSize } from '@element-ultra/utils'
 import { useNamespace, useSize } from '@element-ultra/hooks'
@@ -119,6 +120,7 @@ export default defineComponent({
   },
 
   props: {
+    ...FORM_COMPONENT_PROPS,
     modelValue: {
       type: [Number, Array] as PropType<number | number[]>,
       default: 0,
@@ -183,10 +185,6 @@ export default defineComponent({
       type: Number,
       default: 300,
     },
-    label: {
-      type: String,
-      default: undefined,
-    },
     tooltipClass: {
       type: String,
       default: undefined,
@@ -197,6 +195,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT],
 
   setup(props, { emit }) {
+    
     const ns = useNamespace('slider')
     const initData = reactive({
       firstValue: 0,

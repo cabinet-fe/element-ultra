@@ -13,11 +13,7 @@
     <template #content>
       <div :class="ns.b()">
         <div :class="ns.e('main')">
-          <el-icon
-            v-if="!hideIcon && icon"
-            :class="ns.e('icon')"
-            :style="{ color: iconColor }"
-          >
+          <el-icon v-if="!hideIcon && icon" :class="ns.e('icon')" :style="{ color: iconColor }">
             <component :is="icon" />
           </el-icon>
           {{ title }}
@@ -38,72 +34,43 @@
   </el-tooltip>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, unref } from 'vue'
+<script setup lang="ts">
+import { ref, computed, unref } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { popconfirmProps } from './popconfirm'
 
-const COMPONENT_NAME = 'ElPopconfirm'
-export default defineComponent({
-  name: COMPONENT_NAME,
-
-  components: {
-    ElButton,
-    ElTooltip,
-    ElIcon,
-  },
-
-  props: popconfirmProps,
-
-  setup(props) {
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'appendToBody'
-    )
-    const { t } = useLocale()
-    const ns = useNamespace('popconfirm')
-    const tooltipRef = ref<{ onClose: () => void }>()
-
-    const hidePopper = () => {
-      unref(tooltipRef)?.onClose?.()
-    }
-
-    const handleCallback = () => {
-      hidePopper()
-    }
-
-    const confirm = (e: Event) => {
-      props.onConfirm?.(e)
-      handleCallback()
-    }
-    const cancel = (e: Event) => {
-      props.onCancel?.(e)
-      handleCallback()
-    }
-
-    const finalConfirmButtonText = computed(
-      () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
-    )
-    const finalCancelButtonText = computed(
-      () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
-    )
-
-    return {
-      finalConfirmButtonText,
-      finalCancelButtonText,
-      tooltipRef,
-      ns,
-
-      // Deprecation in 2.1.0
-      compatTeleported,
-
-      confirm,
-      cancel,
-    }
-  },
+defineOptions({
+  name: 'ElPopconfirm'
 })
+
+const props = defineProps(popconfirmProps)
+
+const { compatTeleported } = useDeprecateAppendToBody('ElPopconfirm', 'appendToBody')
+
+const ns = useNamespace('popconfirm')
+const tooltipRef = ref<{ onClose: () => void }>()
+
+const hidePopper = () => {
+  unref(tooltipRef)?.onClose?.()
+}
+
+const handleCallback = () => {
+  hidePopper()
+}
+
+const confirm = (e: Event) => {
+  props.onConfirm?.(e)
+  handleCallback()
+}
+const cancel = (e: Event) => {
+  props.onCancel?.(e)
+  handleCallback()
+}
+
+const finalConfirmButtonText = computed(() => props.confirmButtonText)
+const finalCancelButtonText = computed(() => props.cancelButtonText)
 </script>

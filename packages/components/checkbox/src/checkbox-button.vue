@@ -33,18 +33,18 @@
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :value="label"
+      :value="value"
       @change="handleChange"
       @focus="focus = true"
       @blur="focus = false"
     />
 
     <span
-      v-if="$slots.default || label"
+      v-if="$slots.default || value"
       :class="ns.be('button', 'inner')"
       :style="isChecked ? activeStyle : null"
     >
-      <slot>{{ label }}</slot>
+      <slot>{{ value }}</slot>
     </span>
   </label>
 </template>

@@ -22,9 +22,9 @@
 
   <el-form-dialog width="700px" :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
     <el-form :cols="2" :data="data" :rules="rules">
-      <el-radio-group field="type" label="类型">
-        <el-radio label="1">名称</el-radio>
-        <el-radio label="2">学校</el-radio>
+      <el-radio-group  field="type" label="类型">
+        <el-radio value="1">名称</el-radio>
+        <el-radio value="2">学校</el-radio>
       </el-radio-group>
 
       <el-input-number field="age" label="年龄"></el-input-number>

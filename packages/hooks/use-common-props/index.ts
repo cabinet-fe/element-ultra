@@ -1,17 +1,14 @@
-import { ref, unref, inject, computed } from 'vue'
+import { ref, unref, inject, computed, type PropType } from 'vue'
 import {  formKey } from '@element-ultra/tokens'
-import { buildProp } from '@element-ultra/utils'
-import { componentSizes } from '@element-ultra/constants'
 import { useProp } from '../use-prop'
 import type { ComponentSize } from '@element-ultra/constants'
 import type { MaybeRef } from '@vueuse/core'
 import { useConfig } from '../use-config'
 
-export const useSizeProp = buildProp({
-  type: String,
-  values: componentSizes,
-  required: false,
-} as const)
+export const useSizeProp = {
+  type: String as PropType<'default' | 'small' | 'large'>,
+  default: 'default'
+}
 
 export const useSize = (
   fallback?: MaybeRef<ComponentSize | undefined>,

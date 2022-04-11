@@ -1,15 +1,12 @@
 import { isString } from '@vue/shared'
-import { buildProps, definePropType, iconPropType, mutable } from '@element-ultra/utils'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { mutable } from '@element-ultra/utils'
+import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { useSizeProp } from '@element-ultra/hooks'
 import type { StyleValue, ExtractPropTypes, PropType, Component } from 'vue'
 
-// TODO 统一改掉useSizeProp等等
 export const inputProps = {
-  size: {
-    type: String as PropType<'default' | 'small' | 'large'>,
-    default: 'default' as 'default' | 'small' | 'large'
-  },
+  ...FORM_COMPONENT_PROPS,
+  size: useSizeProp,
   disabled: {
     type: Boolean
   },
@@ -56,9 +53,6 @@ export const inputProps = {
     type: [String, Object, Function] as PropType<Component | string>,
     default: ''
   },
-  label: {
-    type: String
-  },
   tabindex: {
     type: [Number, String] as PropType<string | number>
   },
@@ -85,7 +79,3 @@ export const inputEmits = {
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent
 }
 export type InputEmits = typeof inputEmits
-
-export type AA = {
-  (e: 'test', name: string): void
-}
