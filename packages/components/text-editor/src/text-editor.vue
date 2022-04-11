@@ -1,7 +1,7 @@
 <template>
   <div :class="ns.b()">
     <div :class="ns.e('toolbar')" ref="toolbarRef"></div>
-    <div :class="ns.e('body')" ref="bodyRef" id="editor-container"></div>
+    <div :class="ns.e('body')" ref="bodyRef"></div>
   </div>
 </template>
 
@@ -12,20 +12,23 @@ import {
   createToolbar,
   SlateTransforms,
   type Toolbar,
-  type IDomEditor,
-  
+  type IDomEditor
 } from '@wangeditor/editor'
 import { textEditorProps } from './text-editor'
 import { useFormItem, useNamespace } from '@element-ultra/hooks'
 
-const props = defineProps(textEditorProps)
+defineOptions({
+  name: 'ElTextEditor'
+})
 
-const ns = useNamespace('text-editor')
+const props = defineProps(textEditorProps)
 
 let emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
   (e: 'change', value: any): void
 }>()
+
+const ns = useNamespace('text-editor')
 
 const { formItem } = useFormItem()
 
@@ -52,7 +55,6 @@ const createTextEditor = () => {
       MENU_CONF: {
         async uploadImage(file: File, insert: any) {
           // 上传, 此处接入我们的分片上传
-          
           // 上传完成后插入
           // insert(url, alt, href)
         }
@@ -72,8 +74,6 @@ const createTextEditor = () => {
     },
     mode
   })
-
-  
 
   toolbar = createToolbar({
     editor,
