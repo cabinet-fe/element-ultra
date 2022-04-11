@@ -21,7 +21,7 @@
   <div>{{ data }}</div>
 
   <el-form-dialog width="700px" :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
-    <el-form :data="data" :rules="rules">
+    <el-form :cols="2" :data="data" :rules="rules">
       <el-radio-group field="type" label="类型">
         <el-radio label="1">名称</el-radio>
         <el-radio label="2">学校</el-radio>
@@ -33,7 +33,7 @@
 
       <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
 
-      <el-textarea field="name" label="副文本"></el-textarea>
+      <el-textarea field="name" label="副文本" span="max"></el-textarea>
     </el-form>
 
     <el-form :data="data2" :rules="rules2">

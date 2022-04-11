@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { cloneVNode, computed, useSlots } from 'vue'
 import { gridProps } from './grid'
 import type { CSSProperties } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
@@ -20,7 +20,12 @@ const props = defineProps(gridProps)
 
 const style = computed(() => {
   const { cols, rows } = props
-  const gridTemplateColumns = typeof cols === 'number' ? `repeat(${cols}, 1fr)` : typeof cols === 'string' ? cols :  cols.join(' ')
+  const gridTemplateColumns =
+    typeof cols === 'number'
+      ? `repeat(${cols}, 1fr)`
+      : typeof cols === 'string'
+      ? cols
+      : cols.join(' ')
   const gridTemplateRows = typeof rows === 'string' ? rows : rows?.join(' ')
   const result: CSSProperties = {
     gridTemplateColumns,

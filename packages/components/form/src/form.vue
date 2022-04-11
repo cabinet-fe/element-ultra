@@ -52,8 +52,19 @@ let defaultFormValues: Record<string, any> = {
   ...props.data
 }
 
+const getFormItemSpan = (span?: 'max' | number) => {
+  const { cols } = props
+  if (!span) return ''
+  
+  if (span === 'max' && typeof cols === 'number') {
+    return `span ${cols}`
+  } else if (!isNaN(+span)) {
+    return `span ${span}`
+  } else {
+    return ''
+  }
+}
 const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
- 
   let result: any[] = []
   nodeList.forEach((node) => {
     if (!isVNode(node)) {
@@ -63,20 +74,32 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
     if (typeof node.type === 'object') {
       if (formComponents.has((node.type as any).name)) {
         // TODO最终将这些属性全部定义到各个组件中去
-        const { label, field, tips } = node.props || {}
+        const { label, field, tips, span } = node.props || {}
         if (!field) return node
 
         // TODO此处的key有问题， 暂时这么解决
         result.push(
-          h(ElFormItem, { label, field, tips, key: Math.random() }, () => {
-            const cloned = cloneVNode(node, {
-              modelValue: data[field],
-              'onUpdate:modelValue': (value: any) => {
-                data[field] = value
-              }
-            })
-            return cloned
-          })
+          h(
+            ElFormItem,
+            {
+              label,
+              field,
+              tips,
+              style: {
+                gridColumn: getFormItemSpan(span)
+              },
+              key: Math.random()
+            },
+            () => {
+              const cloned = cloneVNode(node, {
+                modelValue: data[field],
+                'onUpdate:modelValue': (value: any) => {
+                  data[field] = value
+                }
+              })
+              return cloned
+            }
+          )
         )
       } else {
         result.push(node)

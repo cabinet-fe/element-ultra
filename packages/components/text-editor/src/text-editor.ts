@@ -1,9 +1,9 @@
-import type { ExtractPropTypes } from "vue"
+import type { ExtractPropTypes, PropType } from "vue"
 
 
 export const textEditorProps = {
   mode: {
-    type: String,
+    type: String as PropType<'default' | 'simple'>,
     default: 'default'
   },
 
