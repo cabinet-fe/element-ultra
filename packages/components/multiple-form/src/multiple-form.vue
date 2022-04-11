@@ -1,7 +1,8 @@
 <template>
   <div :class="ns.b()">
-    <div :class="ns.e('button')">
-      <el-button @click="create" :icon="Plus">增加</el-button>
+    <div :class="ns.e('button')" v-if="$slots.tools || createBtnText !== false">
+      <el-button @click="create" :icon="Plus">{{createBtnText}}</el-button>
+      <slot name="tools" />
     </div>
 
     <div :class="ns.e('source')">
@@ -77,7 +78,7 @@
 <script lang="ts" setup>
 import { useNamespace } from '@element-ultra/hooks'
 import { computed, ref, reactive, useSlots, watch } from 'vue'
-import { multipleFormProps } from './multiple-form'
+import { multipleFormProps, type MultipleFormRules } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
 import { Edit, Close, Plus, Select, Delete } from '@element-plus/icons-vue'
@@ -106,7 +107,7 @@ const columnRules = computed(() => {
       acc[column.key] = column.rules
     }
     return acc
-  }, {})
+  }, {} as Record<string, Partial<MultipleFormRules>>)
 })
 
 /** 错误提示 */
@@ -209,21 +210,31 @@ const validators = {
 }
 
 /** 验证 */
-function validate(data: any, rules: Record<string, any>) {
+function validate(data: any, rules: Record<string, Partial<MultipleFormRules>>) {
   let isValid = true
-  Object.keys(rules).forEach((item) => {
-    const rule = rules[item]
+  Object.keys(rules).forEach(async (fieldKey) => {
+    const rule = rules[fieldKey]
 
-    for (const key in rule) {
-      let rulesIsArray = Array.isArray(rule[key])
+    const { validator, ...restRule } = rule
+    // validator独立校验
+    if (validator) {
+      let errorMsg = await validator(data[fieldKey], data, internalData.value)
+      errorTip[fieldKey] = errorMsg
+      if (errorMsg) {
+        isValid = false
+        return
+      }
+    }
+    for (const key in restRule) {
+      let rulesIsArray = Array.isArray(restRule[key])
 
       const errorMsg = validators[key](
-        data[item],
-        rulesIsArray ? rule[key][0] : rule[key],
-        rulesIsArray ? rule[key][1] : undefined
+        data[fieldKey],
+        rulesIsArray ? restRule[key][0] : restRule[key],
+        rulesIsArray ? restRule[key][1] : undefined
       )
 
-      errorTip[item] = errorMsg
+      errorTip[fieldKey] = errorMsg
       if (errorMsg) {
         isValid = false
         break

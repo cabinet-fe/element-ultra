@@ -67,7 +67,8 @@ export const formComponents = new Set([
   'ElCheckboxGroup',
   'ElRadio',
   'ElRadioGroup',
-  'ElTreeSelect'
+  'ElTreeSelect',
+  'ElTextEditor'
 ])
 
 export type FormInstance = InstanceType<typeof Form>

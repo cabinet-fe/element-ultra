@@ -1,5 +1,5 @@
 import type { ComponentSize } from '@element-ultra/constants'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { Component, ExtractPropTypes, PropType } from 'vue'
 
 export const actionProps = {
   needConfirm: {
@@ -9,6 +9,9 @@ export const actionProps = {
   size: {
     type: String as PropType<ComponentSize>,
     default: 'default'
+  },
+  icon: {
+    type: Object as PropType<Component>
   },
   isDrop: {
     type: Boolean,

@@ -6,6 +6,7 @@
     @save="onSave"
     @delete="onDelete"
     @add-next-line="addNextLine"
+    :create-btn-text="false"
   >
     <template #default="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
@@ -16,15 +17,22 @@
 </template>
 
 <script lang="ts" setup>
-import type { MultipleColumn } from 'element-ultra'
+import type { MultipleFormColumn } from 'element-ultra'
 
-const columns: MultipleColumn[] = [
+const columns: MultipleFormColumn[] = [
   {
     name: '银行卡号',
     key: 'name',
     rules: {
       required: true,
-      match: [/^([1-9]{1})(\d{15}|\d{16}|\d{18})$/, '输入正确银行卡号']
+      validator(v) {
+        console.log(...arguments)
+        if (!v) return '必填'
+        if (v.length < 6) {
+          return ''
+        }
+        return '不能超过6'
+      }
     },
     width: 200,
     align: 'center'

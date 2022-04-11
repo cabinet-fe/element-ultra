@@ -13,7 +13,11 @@ export type MultipleFormRules = {
   /** 正则表达式 */
   match: RegExp | [RegExp, string]
   /** 自定义验证 */
-  validator: (value: any, model: Record<string, any>, rule: any) => string
+  validator: (
+    value: any,
+    model: Record<string, any>,
+    list: Record<string, any>[]
+  ) => Promise<string> | string
 }
 
 /** 列配置 */
@@ -31,6 +35,11 @@ export const multipleFormProps = {
   data: {
     type: Array as PropType<any[]>,
     required: true
+  },
+
+  createBtnText: {
+    type: [String, Boolean] as PropType<string | false>,
+    default: '新增'
   },
 
   /** 列配置  */

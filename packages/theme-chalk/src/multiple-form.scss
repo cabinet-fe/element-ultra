@@ -6,7 +6,7 @@
   height: 100%;
 
   @include e(button) {
-    padding: 10px;
+    padding: 10px 0;
     background-color: var(--el-color-white);
   }
 

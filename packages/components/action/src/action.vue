@@ -12,7 +12,7 @@
         <slot />
       </li>
 
-      <el-button v-else :size="size" text> <slot /> </el-button>
+      <el-button v-else :icon="icon" :size="size" text> <slot /> </el-button>
     </template>
   </el-popconfirm>
 
@@ -20,7 +20,7 @@
     <li :class="ns.b()" v-if="isDrop" @click="run">
       <slot />
     </li>
-    <el-button v-else :size="size" text @click="run"> <slot /> </el-button>
+    <el-button :icon="icon" v-else :size="size" text @click="run"> <slot /> </el-button>
   </template>
 </template>
 
@@ -31,6 +31,7 @@ import ElButton from '@element-ultra/components/button'
 import ElPopconfirm from '@element-ultra/components/popconfirm'
 import { useNamespace } from '@element-ultra/hooks'
 import { closeDrop } from './token'
+
 
 const ns = useNamespace('action')
 
