@@ -1,5 +1,6 @@
 # element-plus to element-ultra 迁移指南
 
+
 - global.d.ts文件的导入需要改成对应的element-ultra包名
 - packages/element-pro包名改成element-ultra, package.json文件中的name字段改成"element-ultra"
 - docs文件夹下的package.json文件中的dependencies字段中的element-pro改成element-ultra
