@@ -2,7 +2,7 @@ import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
 import DefineOptions from 'unplugin-vue-define-options/vite'
-import WindiCSS from 'vite-plugin-windicss'
+import UnoCSS from 'unocss/vite'
 import glob from 'fast-glob'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
@@ -60,15 +60,6 @@ export default async () => {
     resolve: {
       alias,
     },
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            windicss: ['windicss'],
-          },
-        },
-      },
-    },
     plugins: [
       vueJsx(),
       DefineOptions(),
@@ -87,7 +78,7 @@ export default async () => {
       Icons({
         autoInstall: true,
       }),
-      WindiCSS(),
+      UnoCSS(),
       Inspect(),
     ],
     optimizeDeps: {

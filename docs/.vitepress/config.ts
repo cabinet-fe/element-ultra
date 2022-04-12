@@ -37,7 +37,7 @@ console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
 
 export const config: UserConfig = {
   title: 'Element Ultra',
-  description: 'a Vue 3 based component library for designers and developers',
+  description: '一个专为设计师和开发者打造的Vue3组件库',
   head,
   lang: 'zh-CN',
   base: BASE_PATH,
@@ -64,12 +64,12 @@ export const config: UserConfig = {
   },
 
   vue: {
-    template: {
-      ssr: true,
-      compilerOptions: {
-        directiveTransforms: buildTransformers(),
-      },
-    },
+    // template: {
+    //   ssr: true,
+    //   compilerOptions: {
+    //     directiveTransforms: buildTransformers(),
+    //   },
+    // },
   },
 }
 

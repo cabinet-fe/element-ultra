@@ -8,8 +8,8 @@
   "dependencies": {
     "@docsearch/js": "^3.0.0",
     "@docsearch/react": "^3.0.0",
-    "@vueuse/core": "^7.6.2",
-    "axios": "^0.26.0",
+    "@vueuse/core": "^8.2.5",
+    "axios": "^0.26.1",
     "clipboard-copy": "^4.0.1",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
@@ -22,11 +22,11 @@
     "escape-html": "^1.0.3",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
-    "unplugin-icons": "^0.14.0",
-    "unplugin-vue-components": "^0.18.3",
-    "vite": "^2.9.0",
+    "unplugin-icons": "^0.14.1",
+    "unplugin-vue-components": "^0.19.2",
+    "vite": "^2.9.1",
     "vite-plugin-inspect": "^0.4.3",
-    "vite-plugin-windicss": "^1.8.3",
+    "unocss": "^0.31.0",
     "vitepress": "^0.22.3"
   }
 }
