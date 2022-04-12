@@ -195,8 +195,6 @@ onMounted(() => {
   setTreeChecked()
 })
 
-const { formItem } = useFormItem()
-
 const inputSize = useSize()
 const inputDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
@@ -205,7 +203,7 @@ const handleToggleSelect = (v: boolean) => {
   if (v) {
     treeRef.value?.setCheckedAll()
   } else {
-     treeRef.value?.setCheckedKeys([])
+    treeRef.value?.setCheckedKeys([])
   }
 }
 
@@ -245,7 +243,6 @@ const handleDelete = () => {
 watch(
   () => props.modelValue,
   () => {
-    formItem?.validate()
     // TODO 此处应该优化一下
     setTreeChecked()
   },

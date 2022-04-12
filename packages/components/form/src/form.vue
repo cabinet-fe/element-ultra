@@ -55,7 +55,7 @@ let defaultFormValues: Record<string, any> = {
 const getFormItemSpan = (span?: 'max' | number) => {
   const { cols } = props
   if (!span) return ''
-  
+
   if (span === 'max' && typeof cols === 'number') {
     return `span ${cols}`
   } else if (!isNaN(+span)) {
@@ -77,7 +77,6 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
         const { label, field, tips, span } = node.props || {}
         if (!field) return node
 
-        // TODO此处的key有问题， 暂时这么解决
         result.push(
           h(
             ElFormItem,
@@ -88,17 +87,16 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
               style: {
                 gridColumn: getFormItemSpan(span)
               },
-              key: Math.random()
+              // TODO此处的key有问题， 暂时这么解决
+              key: node.key
             },
-            () => {
-              const cloned = cloneVNode(node, {
+            () =>
+              cloneVNode(node, {
                 modelValue: data[field],
                 'onUpdate:modelValue': (value: any) => {
                   data[field] = value
                 }
               })
-              return cloned
-            }
           )
         )
       } else {
