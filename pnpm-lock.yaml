@@ -226,7 +226,7 @@ importers:
       '@types/lodash-es': ^4.17.6
       '@types/node': '*'
       '@vueuse/core': ^8.1.2
-      '@wangeditor/editor': ^0.15.16
+      '@wangeditor/editor': ^5.0.0
       csstype: ^2.6.19
       dayjs: ^1.10.7
       lodash: ^4.17.21
@@ -241,7 +241,7 @@ importers:
       '@element-plus/icons-vue': 0.2.7_vue@3.2.31
       '@popperjs/core': 2.11.4
       '@vueuse/core': 8.2.0_vue@3.2.31
-      '@wangeditor/editor': 0.15.16
+      '@wangeditor/editor': 5.0.0
       dayjs: 1.11.0
       lodash: 4.17.21
       lodash-es: 4.17.21
@@ -3235,25 +3235,6 @@ packages:
       vue-demi: 0.12.4_vue@3.2.31
     dev: false
 
-  /@wangeditor/basic-modules/0.11.10_390c4bc56f44349794ef681c1b916473:
-    resolution: {integrity: sha512-DwyoCb+AwpdcHnZUO6DQgvD5Hvc1qVmZjuXC2dztJo+W8UuFj1ITEhekL4D0G8W6/lmE4JgvpujcM5v7ZX8uCQ==}
-    peerDependencies:
-      '@wangeditor/core': 0.x
-      dom7: ^3.0.0
-      lodash.throttle: ^4.1.1
-      nanoid: ^3.2.0
-      slate: ^0.72.0
-      snabbdom: ^3.1.0
-    dependencies:
-      '@wangeditor/core': 0.14.15_2b33e53df862d4adc6daff798431734d
-      dom7: 3.0.0
-      is-url: 1.2.4
-      lodash.throttle: 4.1.1
-      nanoid: 3.3.2
-      slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
   /@wangeditor/basic-modules/1.0.0_63d5770696338ea0da7a982bbac5bb7d:
     resolution: {integrity: sha512-s+xkK6UbQg7ALzd6IxpnYdxMOZMOj6v4lPYYF0xVE5yjGsoZ1Ez/meTSH7MErE4lH/8ZAt2opfEe5B4jhgVBvg==}
     peerDependencies:
@@ -3273,21 +3254,6 @@ packages:
       snabbdom: 3.4.0
     dev: false
 
-  /@wangeditor/code-highlight/0.9.6_8f22c8879c5217106c4407d204b2ced8:
-    resolution: {integrity: sha512-w9IB3GYwd+09htZmlOpKc0jQ0GzFgMOQViKC4777qfVaMLvCBYTWCgijs/WLRmiOxH0I8SX88xsFXXIq/YrztQ==}
-    peerDependencies:
-      '@wangeditor/core': 0.x
-      dom7: ^3.0.0
-      slate: ^0.72.0
-      snabbdom: ^3.1.0
-    dependencies:
-      '@wangeditor/core': 0.14.15_2b33e53df862d4adc6daff798431734d
-      dom7: 3.0.0
-      prismjs: 1.27.0
-      slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
   /@wangeditor/code-highlight/1.0.0_5ea451efa64d3eab3533ea5c4b91bf55:
     resolution: {integrity: sha512-1l97wm9K2GKcENDNrHgPa+9qPkXtvcyxHnMvmIxxLe8VoPcc8URQDf7FO2ZQYkGqsZiL6NdYgVT79gRh9vLsUQ==}
     peerDependencies:
@@ -3300,46 +3266,6 @@ packages:
       dom7: 3.0.0
       prismjs: 1.27.0
       slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
-  /@wangeditor/core/0.14.15_2b33e53df862d4adc6daff798431734d:
-    resolution: {integrity: sha512-MGPbHQtjbQixRPAl1x0FXgoSjs+8c6YUksb9fBkTzmSVXqcuN/2ahR0EU8fuNJNuHzyGgterZjxHTUM3LnKHGw==}
-    peerDependencies:
-      '@uppy/core': ^2.1.1
-      '@uppy/xhr-upload': ^2.0.3
-      dom7: ^3.0.0
-      is-hotkey: ^0.2.0
-      lodash.camelcase: ^4.3.0
-      lodash.clonedeep: ^4.5.0
-      lodash.debounce: ^4.0.8
-      lodash.foreach: ^4.5.0
-      lodash.isequal: ^4.5.0
-      lodash.throttle: ^4.1.1
-      lodash.toarray: ^4.4.0
-      nanoid: ^3.2.0
-      slate: ^0.72.0
-      snabbdom: ^3.1.0
-    dependencies:
-      '@types/event-emitter': 0.3.3
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
-      dom7: 3.0.0
-      event-emitter: 0.3.5
-      html-void-elements: 2.0.1
-      i18next: 20.6.1
-      is-hotkey: 0.2.0
-      lodash.camelcase: 4.3.0
-      lodash.clonedeep: 4.5.0
-      lodash.debounce: 4.0.8
-      lodash.foreach: 4.5.0
-      lodash.isequal: 4.5.0
-      lodash.throttle: 4.1.1
-      lodash.toarray: 4.4.0
-      nanoid: 3.3.2
-      scroll-into-view-if-needed: 2.2.29
-      slate: 0.72.8
-      slate-history: 0.66.0_slate@0.72.8
       snabbdom: 3.4.0
     dev: false
 
@@ -3383,32 +3309,6 @@ packages:
       snabbdom: 3.4.0
     dev: false
 
-  /@wangeditor/editor/0.15.16:
-    resolution: {integrity: sha512-MAJsij8Pn343ag03lBGYJGidaC4Jm1RJn9geCk8oSPsEj0nSSxYGBjhI0gydMbNQdqhEVBRRaO1eN0V3rXYqXA==}
-    dependencies:
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
-      '@wangeditor/basic-modules': 0.11.10_390c4bc56f44349794ef681c1b916473
-      '@wangeditor/code-highlight': 0.9.6_8f22c8879c5217106c4407d204b2ced8
-      '@wangeditor/core': 0.14.15_2b33e53df862d4adc6daff798431734d
-      '@wangeditor/list-module': 0.9.5_8f22c8879c5217106c4407d204b2ced8
-      '@wangeditor/table-module': 0.10.9_d6503a61e05c4ad2303936f17de86ed9
-      '@wangeditor/upload-image-module': 0.8.4_399be91103d5ab2a4bb21cf6ac4c4816
-      '@wangeditor/video-module': 0.10.10_23679c2113df279b408b3952570e3091
-      dom7: 3.0.0
-      is-hotkey: 0.2.0
-      lodash.camelcase: 4.3.0
-      lodash.clonedeep: 4.5.0
-      lodash.debounce: 4.0.8
-      lodash.foreach: 4.5.0
-      lodash.isequal: 4.5.0
-      lodash.throttle: 4.1.1
-      lodash.toarray: 4.4.0
-      nanoid: 3.3.2
-      slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
   /@wangeditor/editor/5.0.0:
     resolution: {integrity: sha512-yOoGafe8lH3oXGDuWs7niZPTCPQNuqqcWA7638cusI41FTRO+0G638HWLq3gpKpnp+kTzxzXxNlC4ok0sK71pw==}
     dependencies:
@@ -3435,20 +3335,6 @@ packages:
       snabbdom: 3.4.0
     dev: false
 
-  /@wangeditor/list-module/0.9.5_8f22c8879c5217106c4407d204b2ced8:
-    resolution: {integrity: sha512-q0rAapCJqhMziT9EqplHEnPZ/XdoNvw0+fzfAKWyJqzxoFuPfU6dpbrMONSAsvT8EYwunyGJBzOfZpsFrwY63g==}
-    peerDependencies:
-      '@wangeditor/core': 0.x
-      dom7: ^3.0.0
-      slate: ^0.72.0
-      snabbdom: ^3.1.0
-    dependencies:
-      '@wangeditor/core': 0.14.15_2b33e53df862d4adc6daff798431734d
-      dom7: 3.0.0
-      slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
   /@wangeditor/list-module/1.0.0_5ea451efa64d3eab3533ea5c4b91bf55:
     resolution: {integrity: sha512-kRh8qqmebqCBJAiINFJnfQP6hA0wBqKOVWcSaQgUiDRC2PRf91HQrCjdza8xeaNzB+/qAPLbz/lmp+ru/1v1Yg==}
     peerDependencies:
@@ -3459,24 +3345,6 @@ packages:
     dependencies:
       '@wangeditor/core': 1.0.0_2b33e53df862d4adc6daff798431734d
       dom7: 3.0.0
-      slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
-  /@wangeditor/table-module/0.10.9_d6503a61e05c4ad2303936f17de86ed9:
-    resolution: {integrity: sha512-CfP/cxc0wMEiyiT9NEDSsYwOT/cH30n1wI7fr7DVcmBV4Xz0pPI3mt3Yc/giEyzHuKyyYIh4anfz6UPEbAhL5g==}
-    peerDependencies:
-      '@wangeditor/core': 0.x
-      dom7: ^3.0.0
-      lodash.isequal: ^4.5.0
-      nanoid: ^3.2.0
-      slate: ^0.72.0
-      snabbdom: ^3.1.0
-    dependencies:
-      '@wangeditor/core': 0.14.15_2b33e53df862d4adc6daff798431734d
-      dom7: 3.0.0
-      lodash.isequal: 4.5.0
-      nanoid: 3.3.2
       slate: 0.72.8
       snabbdom: 3.4.0
     dev: false
@@ -3499,28 +3367,6 @@ packages:
       snabbdom: 3.4.0
     dev: false
 
-  /@wangeditor/upload-image-module/0.8.4_399be91103d5ab2a4bb21cf6ac4c4816:
-    resolution: {integrity: sha512-WbXT8/GRRB7wMV8otkrkG/09x4kBrc/xgGGeR0aeM2RJr2Eg1SiG6JQThjZazXXpZPGpoeIzMOqM9UpPq07EUg==}
-    peerDependencies:
-      '@uppy/core': ^2.0.3
-      '@uppy/xhr-upload': ^2.0.3
-      '@wangeditor/basic-modules': 0.x
-      '@wangeditor/core': 0.x
-      dom7: ^3.0.0
-      lodash.foreach: ^4.5.0
-      slate: ^0.72.0
-      snabbdom: ^3.1.0
-    dependencies:
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
-      '@wangeditor/basic-modules': 0.11.10_390c4bc56f44349794ef681c1b916473
-      '@wangeditor/core': 0.14.15_2b33e53df862d4adc6daff798431734d
-      dom7: 3.0.0
-      lodash.foreach: 4.5.0
-      slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
   /@wangeditor/upload-image-module/1.0.0_747a77b61427526a020104f9e75288ca:
     resolution: {integrity: sha512-WaxtlgxfEP7/+Qo4JA0wOtEBn4uqNRDoWPshbzB25J0KeMaHpst9DvpqCjMxYBzjYjtJoEhYeyazvrT/vnzzzA==}
     peerDependencies:
@@ -3539,26 +3385,6 @@ packages:
       '@wangeditor/core': 1.0.0_2b33e53df862d4adc6daff798431734d
       dom7: 3.0.0
       lodash.foreach: 4.5.0
-      slate: 0.72.8
-      snabbdom: 3.4.0
-    dev: false
-
-  /@wangeditor/video-module/0.10.10_23679c2113df279b408b3952570e3091:
-    resolution: {integrity: sha512-a/KCto7s8cMbvlkqqDfBzSc+U4jVWju9DQolHdmsup4sLfXFZ8uhgMrzW3wN/bT2vAy8YNuOcG31MF1EJ8om+w==}
-    peerDependencies:
-      '@uppy/core': ^2.1.4
-      '@uppy/xhr-upload': ^2.0.7
-      '@wangeditor/core': 0.x
-      dom7: ^3.0.0
-      nanoid: ^3.2.0
-      slate: ^0.72.0
-      snabbdom: ^3.1.0
-    dependencies:
-      '@uppy/core': 2.1.6
-      '@uppy/xhr-upload': 2.0.7_@uppy+core@2.1.6
-      '@wangeditor/core': 0.14.15_2b33e53df862d4adc6daff798431734d
-      dom7: 3.0.0
-      nanoid: 3.3.2
       slate: 0.72.8
       snabbdom: 3.4.0
     dev: false
