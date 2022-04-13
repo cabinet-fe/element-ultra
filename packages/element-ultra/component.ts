@@ -102,6 +102,7 @@ import { ElTooltip } from '@element-ultra/components/tooltip'
 import { ElTransfer } from '@element-ultra/components/transfer'
 import { ElTree } from '@element-ultra/components/tree'
 import { ElTreeSelect } from '@element-ultra/components/tree-select'
+import { ElTableSelect } from '@element-ultra/components/table-select'
 import { ElUpload } from '@element-ultra/components/upload'
 import type { Plugin } from 'vue'
 
@@ -204,5 +205,6 @@ export default [
   ElTransfer,
   ElTree,
   ElTreeSelect,
+  ElTableSelect,
   ElUpload,
 ] as Plugin[]

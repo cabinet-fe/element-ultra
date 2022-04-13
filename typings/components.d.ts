@@ -95,6 +95,7 @@ declare module 'vue' {
     ElTransfer: typeof import('../packages/element-ultra')['ElTransfer']
     ElTree: typeof import('../packages/element-ultra')['ElTree']
     ElTreeSelect: typeof import('../packages/element-ultra')['ElTreeSelect']
+    ElTableSelect: typeof import('../packages/element-ultra')['ElTableSelect']
     ElUpload: typeof import('../packages/element-ultra')['ElUpload']
     ElSpace: typeof import('../packages/element-ultra')['ElSpace']
     ElSkeleton: typeof import('../packages/element-ultra')['ElSkeleton']
