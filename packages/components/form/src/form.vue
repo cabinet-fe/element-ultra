@@ -73,7 +73,6 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
 
     if (typeof node.type === 'object') {
       if (formComponents.has((node.type as any).name)) {
-        // TODO最终将这些属性全部定义到各个组件中去
         const { label, field, tips, span } = node.props || {}
         if (!field) return node
 
@@ -88,7 +87,7 @@ const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) =
                 gridColumn: getFormItemSpan(span)
               },
               // TODO此处的key有问题， 暂时这么解决
-              key: node.key
+              key: node.key ?? undefined
             },
             () =>
               cloneVNode(node, {
