@@ -38,9 +38,11 @@
 </template>
 <script lang="ts" setup>
 import { ElGrid } from '@element-ultra/components/grid'
+import { ElButton } from '@element-ultra/components/button'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
 import { useNamespace } from '@element-ultra/hooks'
 import {
+  getCurrentInstance,
   isVNode,
   onUnmounted,
   provide,
@@ -51,7 +53,7 @@ import {
 } from 'vue'
 import { pageContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
-import { useRoute, useRouter } from 'vue-router'
+import type { Router } from 'vue-router'
 
 defineOptions({
   name: 'ElPage'
@@ -64,7 +66,8 @@ const slots = useSlots()
 const navList = shallowRef<string[]>([])
 const currentNavIndex = shallowRef(0)
 
-const router = useRouter()
+const instance = getCurrentInstance()!
+const router = instance.appContext.config.globalProperties.$router as Router
 const handleBack = () => {
   router.go(-1)
 }
