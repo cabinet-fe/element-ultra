@@ -11,7 +11,10 @@
       </section>
 
       <section :class="ns.e('footer')">
-        <slot name="footer" />
+        <el-button @click="handleBack">返回</el-button>
+        <div>
+          <slot name="footer" />
+        </div>
       </section>
     </div>
 
@@ -48,6 +51,7 @@ import {
 } from 'vue'
 import { pageContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
+import { useRoute, useRouter } from 'vue-router'
 
 defineOptions({
   name: 'ElPage'
@@ -60,13 +64,18 @@ const slots = useSlots()
 const navList = shallowRef<string[]>([])
 const currentNavIndex = shallowRef(0)
 
+const router = useRouter()
+const handleBack = () => {
+  router.go(-1)
+}
+
 const getDefaultSlots = () => {
   let children = slots.default?.() || []
   let nav: string[] = []
   let result: VNode[] = []
 
   function recursive(nodeList: VNodeArrayChildren) {
-    nodeList.forEach((node) => {
+    nodeList.forEach(node => {
       if (!isVNode(node)) return
 
       if (isFragment(node) || isTemplate(node)) {

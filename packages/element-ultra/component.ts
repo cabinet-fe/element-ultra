@@ -94,7 +94,7 @@ import { ElTable, ElTableColumn } from '@element-ultra/components/table'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
 import { ElTag } from '@element-ultra/components/tag'
 import { ElTextarea } from '@element-ultra/components/textarea'
-// import { ElTextEditor } from '@element-ultra/components/text-editor'
+import { ElTextEditor } from '@element-ultra/components/text-editor'
 import { ElTimePicker } from '@element-ultra/components/time-picker'
 import { ElTimeSelect } from '@element-ultra/components/time-select'
 import { ElTimeline, ElTimelineItem } from '@element-ultra/components/timeline'
@@ -196,7 +196,7 @@ export default [
   ElTabPane,
   ElTag,
   ElTextarea,
-  // ElTextEditor,
+  ElTextEditor,
   ElTimePicker,
   ElTimeSelect,
   ElTimeline,

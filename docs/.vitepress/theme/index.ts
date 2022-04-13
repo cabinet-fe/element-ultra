@@ -1,6 +1,4 @@
-import ElementUltra, { useConfig ,type ProTableRequestMethod } from 'element-ultra'
-
-
+import ElementUltra, { useConfig, type ProTableRequestMethod } from 'element-ultra'
 import VPApp, { globals, NotFound } from '../vitepress'
 import { define } from '../utils/types'
 
@@ -13,18 +11,17 @@ const request: ProTableRequestMethod = ({ api, query }) => {
   console.log('query', query)
   return new Promise((rs, rj) => {
     setTimeout(() => {
-      const data = Array.from({ length: 20 }).map((_, i) =>  ({
+      const data = Array.from({ length: 20 }).map((_, i) => ({
         name: '张' + i,
         age: 10 + i
       }))
       rs({
         data,
-        total: data.length, // 在分页时total必须返回
+        total: data.length // 在分页时total必须返回
       })
     }, 600)
   })
 }
-
 
 const [, setConfigStore] = useConfig()
 setConfigStore({
@@ -41,7 +38,5 @@ export default define<Theme>({
     globals.forEach(([name, Comp]) => {
       app.component(name, Comp)
     })
-  },
+  }
 })
-
-
