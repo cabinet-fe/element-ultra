@@ -55,6 +55,7 @@ layout/grid-two-cols
 :::
 
 ## Grid 响应式
+
 该响应式布局基于容器自身
 
 :::demo
@@ -126,6 +127,46 @@ import 'element-ultra/theme-chalk/display.css'
 layout/hidden-class
 
 :::
+
+## Grid 属性
+
+```ts
+
+type ResponsiveCols = {
+  cols: number
+  xs?: number
+  s?: number
+  m?: number
+  l?: number
+  xl?: number
+  xxl?: number
+}
+
+type GridProps = {
+  /**
+   * 默认1
+   * 是字符串时代表grid-columns-template属性
+   * 是数字时表示具体几列（每列等宽）
+   * 是数组时和字符串类似, 字符串以空格分割开即数组('1fr 1fr' 等价于 ['1fr', '1fr'])
+   * 是数组时表示响应式布局 请查看上方 ResponsiveCols 类型
+   */
+  readonly cols?: string | number | string[] | ResponsiveCols
+  /** 元素之间的间隔, 写法: <X,Y>或<Gap>  */
+  readonly gap?: string
+  /** 以何种标签渲染容器， 只支持原生元素， 后期有可能添加组件 */
+  readonly tag?: string
+  /** 和cols类似, 不过没有响应式（因为几乎大部分设备都是默认高度的） */
+  readonly rows?: string | any[]
+}
+```
+
+## Grid 事件
+
+```ts
+type Emits = {
+  (e: 'resize', rect: DOMRectReadOnly): void
+}
+```
 
 ## Row 属性
 
