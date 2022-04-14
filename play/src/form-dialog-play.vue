@@ -21,6 +21,35 @@
   <div>{{ data }}</div>
 
   <el-form-dialog :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
+  <p>11</p>
     <el-form :cols="{ cols: 3, xs: 1, s: 2 }" :data="data" :rules="rules">
       <el-radio-group field="type" label="类型">
         <el-radio value="1">名称</el-radio>
