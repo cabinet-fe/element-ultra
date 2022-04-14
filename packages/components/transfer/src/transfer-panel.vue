@@ -33,7 +33,7 @@
           v-for="item in filteredData"
           :key="item[keyProp]"
           :class="ns.be('panel', 'item')"
-          :label="item[keyProp]"
+          :value="item[keyProp]"
           :disabled="item[disabledProp]"
         >
           <option-content :option="optionRender(item)" />
