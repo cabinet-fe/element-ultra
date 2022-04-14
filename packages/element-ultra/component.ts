@@ -52,7 +52,7 @@ import { ElEditBar } from '@element-ultra/components/edit-bar'
 import { ElForm, ElFormItem } from '@element-ultra/components/form'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 
-import { ElGrid } from '@element-ultra/components/grid'
+import { ElGrid, ElGridItem } from '@element-ultra/components/grid'
 import { ElGridInput } from '@element-ultra/components/grid-input'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ElImage } from '@element-ultra/components/image'
@@ -156,6 +156,7 @@ export default [
   ElFormItem,
   ElFormDialog,
   ElGrid,
+  ElGridItem,
   ElGridInput,
   ElIcon,
   ElImage,

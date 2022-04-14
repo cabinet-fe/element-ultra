@@ -30,5 +30,6 @@ let yGap = ref(4)
 }
 .item {
   background-color: #d3dce6;
+  list-style: none;
 }
 </style>

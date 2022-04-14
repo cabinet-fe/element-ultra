@@ -20,9 +20,9 @@
 
   <div>{{ data }}</div>
 
-  <el-form-dialog width="700px" :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
-    <el-form :cols="2" :data="data" :rules="rules">
-      <el-radio-group  field="type" label="类型">
+  <el-form-dialog :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
+    <el-form :cols="{ cols: 3, xs: 1, s: 2 }" :data="data" :rules="rules">
+      <el-radio-group field="type" label="类型">
         <el-radio value="1">名称</el-radio>
         <el-radio value="2">学校</el-radio>
       </el-radio-group>
@@ -49,7 +49,7 @@ const [data, rules] = useFormModel({
     required: true,
     validator(v) {
       if (v && v.length < 3) {
-        return new Promise((rs) => {
+        return new Promise(rs => {
           setTimeout(() => {
             rs('名称长度不能小于3')
           }, 1000)
@@ -70,7 +70,7 @@ const [data2, rules2] = useFormModel({
 const [dialog, open] = useFormDialog([data, data2])
 
 const confirm = () => {
-  return new Promise((rs) => {
+  return new Promise(rs => {
     setTimeout(() => {
       rs('成功')
     }, 2000)

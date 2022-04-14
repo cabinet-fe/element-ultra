@@ -1,5 +1,6 @@
 import type { ComponentSize } from '@element-ultra/constants'
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { ResponsiveCols } from '@element-ultra/components/grid'
 import type Form from './form.vue'
 export type ModelValue = string | number | any[] | boolean
 
@@ -45,7 +46,7 @@ export const formProps = {
     default: ''
   },
   cols: {
-    type: Number
+    type: [Number, Array, String, Object] as PropType<string[] | number | string | ResponsiveCols>,
   },
   size: String as PropType<ComponentSize>,
   disabled: Boolean

@@ -3,7 +3,7 @@
     {{ data }}
   </div>
 
-  <el-form ref="formRef" :cols="2" :data="data" :rules="rules">
+  <el-form ref="formRef" :cols="{ cols: 2 }" :data="data" :rules="rules">
     <component
       :is="ElTextarea"
       v-bind="{

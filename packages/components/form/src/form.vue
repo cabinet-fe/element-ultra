@@ -53,11 +53,10 @@ let defaultFormValues: Record<string, any> = {
 }
 
 const getFormItemSpan = (span?: 'max' | number) => {
-  const { cols } = props
   if (!span) return ''
 
-  if (span === 'max' && typeof cols === 'number') {
-    return `span ${cols}`
+  if (span === 'max') {
+    return '1 / -1'
   } else if (!isNaN(+span)) {
     return `span ${span}`
   } else {
@@ -66,7 +65,7 @@ const getFormItemSpan = (span?: 'max' | number) => {
 }
 const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
   let result: any[] = []
-  nodeList.forEach((node) => {
+  nodeList.forEach(node => {
     if (!isVNode(node)) {
       return result.push(node)
     }
@@ -153,11 +152,11 @@ const resetFields = () => {
 // 清除校验
 const clearValidate = (fields?: string | string[]) => {
   if (!fields) {
-    Object.values(formItems).forEach((formItem) => formItem.clearValidate())
+    Object.values(formItems).forEach(formItem => formItem.clearValidate())
   } else if (typeof fields === 'string') {
     formItems[fields].clearValidate()
   } else {
-    fields.forEach((field) => formItems[field].clearValidate())
+    fields.forEach(field => formItems[field].clearValidate())
   }
 }
 
@@ -197,11 +196,11 @@ const validateField = async (field: string) => {
 const validate = async (fields?: string | string[]) => {
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
-      (Array.isArray(fields) ? fields : Object.keys(formItems)).map((name) =>
+      (Array.isArray(fields) ? fields : Object.keys(formItems)).map(name =>
         formItems[name].validate()
       )
     )
-    return allValidation.every((valid) => valid) ? Promise.resolve(true) : Promise.reject(false)
+    return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
   }
   if (typeof fields === 'string') {
     const valid = await formItems[fields].validate()

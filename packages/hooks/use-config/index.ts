@@ -6,9 +6,9 @@ interface RequestOptions {
   query: Record<string, any>
 }
 
-type  RequestResponse = { data: any[]; total?: number }
+type RequestResponse = { data: any[]; total?: number }
 
-export type ProTableRequestMethod =  (
+export type ProTableRequestMethod = (
   option: RequestOptions
 ) => Promise<RequestResponse> | RequestResponse
 
@@ -19,14 +19,17 @@ export interface ConfigStore {
   proTableRequestMethod?: ProTableRequestMethod
   /** 集成表格分页默认大小 */
   proTableDefaultSize?: number
+  /** 断点 */
+  breakpoint: { xs: number; s: number; m: number; l: number; xl: number }
 }
 
 const configStore = reactive<ConfigStore>({
   size: 'default',
   proTableDefaultSize: 20,
+  breakpoint: { xs: 540, s: 768, m: 1280, l: 1536, xl: 1920 }
 })
 
-const setConfigStore = (config: ConfigStore) => {
+const setConfigStore = (config: Partial<ConfigStore>) => {
   Object.assign(configStore, config)
 }
 
