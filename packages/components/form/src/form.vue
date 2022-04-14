@@ -1,23 +1,32 @@
 <template>
   <el-grid
     tag="form"
-    :cols="cols || 1"
+    :cols="cols"
     :class="[ns.b(), labelPosition ? 'el-form--label-' + labelPosition : '']"
   >
-    <component :is="node" v-for="node of getChildren()" />
+    <template v-for="slot of getSlots()">
+      <el-form-item v-if="isFormComponent(slot)" v-bind="slot.formItemProps">
+        <component
+          :key="slot.node.key || undefined"
+          :is="slot.node"
+          :modelValue="data[slot.field]"
+          @update:model-value="data[slot.field] = $event"
+        />
+      </el-form-item>
+      <component v-else :key="slot.node.key || undefined" :is="slot.node" />
+    </template>
   </el-grid>
 </template>
 
 <script lang="ts" setup>
 import {
-  cloneVNode,
-  h,
   inject,
   isVNode,
   nextTick,
   onBeforeUnmount,
   provide,
   useSlots,
+  type VNode,
   type VNodeArrayChildren
 } from 'vue'
 import ElFormItem from './form-item.vue'
@@ -30,6 +39,7 @@ import type { FormRules } from './form'
 import { useNamespace } from '@element-ultra/hooks'
 import { formDialogContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
+import { isObject } from 'lodash'
 
 defineOptions({
   name: 'ElForm'
@@ -63,65 +73,60 @@ const getFormItemSpan = (span?: 'max' | number) => {
     return ''
   }
 }
-const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
-  let result: any[] = []
-  nodeList.forEach(node => {
-    if (!isVNode(node)) {
-      return result.push(node)
-    }
 
-    if (typeof node.type === 'object') {
-      if (formComponents.has((node.type as any).name)) {
-        const { label, field, tips, span } = node.props || {}
-        if (!field) return node
+type FormComponentSlot = {
+  node: VNode
+  formItemProps: { label: string; field: string; style: any; tips: string }
+  field: string
+}
 
-        result.push(
-          h(
-            ElFormItem,
-            {
-              label,
-              field,
-              tips,
-              style: {
-                gridColumn: getFormItemSpan(span)
-              },
-              // TODO此处的key有问题， 暂时这么解决
-              key: node.key ?? undefined
-            },
-            () =>
-              cloneVNode(node, {
-                modelValue: data[field],
-                'onUpdate:modelValue': (value: any) => {
-                  data[field] = value
-                }
-              })
-          )
-        )
-      } else {
-        result.push(node)
-      }
-    } else if (isFragment(node) || isTemplate(node)) {
+type OtherSlot = {
+  node: VNode
+}
+
+const isFormComponent = (slot: any): slot is FormComponentSlot => {
+  return !!slot.field
+}
+
+const getSlots = () => {
+  const vNodeList = slots.default?.() || []
+
+  let result: Array<FormComponentSlot | OtherSlot> = []
+
+  const recursive = (nodeList: VNodeArrayChildren) => {
+    nodeList.forEach(node => {
+      if (!isVNode(node)) return
+
       // 如果是模板或者片段则渲染children
-      // children type -> string | VNodeArrayChildren | RawSlots | null
-      if (Array.isArray(node.children)) {
-        result = result.concat(wrapFormItem(node.children, data))
-      } else {
-        result.push(node.children)
+      if ((isFragment(node) || isTemplate(node)) && Array.isArray(node.children)) {
+        return recursive(node.children)
       }
-    } else {
-      result.push(node)
-    }
-  })
+
+      if (isObject(node.type) && formComponents.has((node.type as any).name)) {
+        const { label, field, tips, span } = node.props || {}
+        return result.push({
+          node,
+          field,
+          formItemProps: {
+            label,
+            field,
+            tips,
+            style: {
+              gridColumn: getFormItemSpan(span)
+            }
+          }
+        })
+      }
+
+      result.push({ node })
+    })
+  }
+
+  recursive(vNodeList)
 
   return result
 }
-/** 获取子组件vnode */
-const getChildren = () => {
-  const { data } = props
-  const vNodeList = slots.default?.(data) || []
-  if (!data) return vNodeList
-  return wrapFormItem(vNodeList, data)
-}
+
 // 添加和删除表单项
 const addFormItem = (name: string, formItem: FormItemCtx) => {
   formItems[name] = formItem
