@@ -1,9 +1,8 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
-export const tableSelectProps = {
+export const tableClProps = {
   modelValue: {
-    type: Array as PropType<Record<string, any>[]>,
-    required: true
+    type: [Array, Object] as PropType<Record<string, any>[] | Record<string, any>>
   },
   columns: {
     type: Array as PropType<Record<string, any>[]>,
@@ -15,4 +14,4 @@ export const tableSelectProps = {
   }
 } as const
 
-export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>
+export type TableClProps = ExtractPropTypes<typeof tableClProps>
