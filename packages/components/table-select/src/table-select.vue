@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, watch } from 'vue'
+import { shallowRef, provide, watch, onMounted, nextTick } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableCl from './table-cl.vue'
@@ -22,7 +22,9 @@ defineOptions({
 
 const props = defineProps(tableSelectProps)
 
-const { modelValue, columns, data } = props
+const { modelValue, columns, data, multiple } = props
+
+provide('multiple', multiple)
 
 const ns = useNamespace('table-select')
 
@@ -35,7 +37,7 @@ const handleClick = () => {
 }
 
 const handleSelect = (data: Record<string, any>) => {
-  selected = data
+  multiple ? selected = data : selected = [data]
 }
 
 const emits = defineEmits<{
@@ -44,6 +46,14 @@ const emits = defineEmits<{
 
 watch(() => selected, (cur, pre) => {
   emits('update:modelValue', cur)
+})
+
+const stateInit = () => {
+  selected = modelValue
+}
+
+onMounted(() => {
+  stateInit()
 })
 
 defineExpose({

@@ -1,9 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const tableClProps = {
-  modelValue: {
-    type: [Array, Object] as PropType<Record<string, any>[] | Record<string, any>>
-  },
   columns: {
     type: Array as PropType<Record<string, any>[]>,
     required: true
@@ -11,6 +8,10 @@ export const tableClProps = {
   data: {
     type: Array as PropType<Record<string, any>[]>,
     required: true
+  },
+  checkable: {
+    type: Boolean,
+    default: false
   }
 } as const
 
