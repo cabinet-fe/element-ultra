@@ -133,6 +133,8 @@ const addFormItem = (name: string, formItem: FormItemCtx) => {
 }
 const deleteFormItem = (name: string) => {
   delete formItems[name]
+  // 删除表单后重置该项表单值
+  resetField(name)
 }
 
 /**

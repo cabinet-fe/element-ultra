@@ -5,11 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, shallowRef, watch } from 'vue'
+import { computed, onMounted, onUnmounted, provide, shallowRef, watch } from 'vue'
 import { gridProps, type ResponsiveCols } from './grid'
 import type { CSSProperties } from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { throttle } from 'lodash'
+import { gridInjectionKey } from './token'
 
 defineOptions({
   name: 'ElGrid'
@@ -32,12 +33,19 @@ const isResponsiveCols = (v: any): v is ResponsiveCols => {
   return Object.prototype.toString.call(v) === '[object Object]'
 }
 
-let gridTemplateColumns = computed(() => {
+const point = computed(() => {
+  return getCurrentPoint(containerWidth.value)
+})
+
+provide(gridInjectionKey, {
+  point
+})
+
+const gridTemplateColumns = computed(() => {
   const { cols } = props
 
   if (isResponsiveCols(cols)) {
-    const point = getCurrentPoint(containerWidth.value)
-    responsiveCols.value = getPointCols(point, cols)
+    responsiveCols.value = getPointCols(point.value, cols)
     return `repeat(${responsiveCols.value}, 1fr)`
   }
 
