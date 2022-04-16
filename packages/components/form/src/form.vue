@@ -4,16 +4,15 @@
     :cols="cols"
     :class="[ns.b(), labelPosition ? 'el-form--label-' + labelPosition : '']"
   >
-    <template v-for="slot of getSlots()">
-      <el-form-item v-if="isFormComponent(slot)" v-bind="slot.formItemProps">
+    <template :key="slot.node.key || undefined" v-for="slot of getSlots()">
+      <el-form-item ref="formItemRefs" v-if="isFormComponent(slot)" v-bind="slot.formItemProps">
         <component
-          :key="slot.node.key || undefined"
           :is="slot.node"
           :modelValue="data[slot.field]"
           @update:model-value="data[slot.field] = $event"
         />
       </el-form-item>
-      <component v-else :key="slot.node.key || undefined" :is="slot.node" />
+      <component v-else :is="slot.node" />
     </template>
   </el-grid>
 </template>
@@ -25,7 +24,10 @@ import {
   nextTick,
   onBeforeUnmount,
   provide,
+  shallowRef,
   useSlots,
+  watch,
+  watchEffect,
   type VNode,
   type VNodeArrayChildren
 } from 'vue'
@@ -34,12 +36,13 @@ import ElGrid from '@element-ultra/components/grid'
 import { formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
-import type { FormItemContext as FormItemCtx } from '@element-ultra/tokens'
 import type { FormRules } from './form'
 import { useNamespace } from '@element-ultra/hooks'
 import { formDialogContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import { isObject } from 'lodash'
+
+type FormItemType = InstanceType<typeof ElFormItem>
 
 defineOptions({
   name: 'ElForm'
@@ -55,7 +58,22 @@ const ns = useNamespace('form')
 type RuleType = keyof FormRules[string]
 
 // 表单实例项
-const formItems: Record<string, FormItemCtx> = {}
+const formItemRefs = shallowRef<FormItemType[]>([])
+// 表单实例项的字段映射
+let formItemRefsMap: Record<string, FormItemType> = {}
+
+watch(() => formItemRefs.value, (v) => {
+  console.log(v)
+}, { immediate: true })
+watchEffect((clean) => {
+
+  formItemRefsMap = formItemRefs.value.reduce((map, ref) => {
+    if (ref.field) {
+      map[ref.field] = ref
+    }
+    return map
+  }, {} as Record<string, FormItemType>)
+}, { flush: 'post'})
 
 // 默认表单值
 let defaultFormValues: Record<string, any> = {
@@ -92,7 +110,6 @@ const getSlots = () => {
   const vNodeList = slots.default?.() || []
 
   let result: Array<FormComponentSlot | OtherSlot> = []
-
   const recursive = (nodeList: VNodeArrayChildren) => {
     nodeList.forEach(node => {
       if (!isVNode(node)) return
@@ -127,16 +144,6 @@ const getSlots = () => {
   return result
 }
 
-// 添加和删除表单项
-const addFormItem = (name: string, formItem: FormItemCtx) => {
-  formItems[name] = formItem
-}
-const deleteFormItem = (name: string) => {
-  delete formItems[name]
-  // 删除表单后重置该项表单值
-  resetField(name)
-}
-
 /**
  * 重置单个字段值
  * @param field 字段
@@ -144,6 +151,7 @@ const deleteFormItem = (name: string) => {
 const resetField = (field: string) => {
   if (!props.data) return
   props.data[field] = defaultFormValues[field]
+  nextTick(() => clearValidate(field))
 }
 
 /** 重置所有字段 */
@@ -159,11 +167,11 @@ const resetFields = () => {
 // 清除校验
 const clearValidate = (fields?: string | string[]) => {
   if (!fields) {
-    Object.values(formItems).forEach(formItem => formItem.clearValidate())
+    formItemRefs.value.forEach(formItem => formItem.clearValidate())
   } else if (typeof fields === 'string') {
-    formItems[fields].clearValidate()
+    formItemRefsMap[fields].clearValidate()
   } else {
-    fields.forEach(field => formItems[field].clearValidate())
+    fields.forEach(field => formItemRefsMap[field].clearValidate())
   }
 }
 
@@ -203,14 +211,14 @@ const validateField = async (field: string) => {
 const validate = async (fields?: string | string[]) => {
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
-      (Array.isArray(fields) ? fields : Object.keys(formItems)).map(name =>
-        formItems[name].validate()
+      (Array.isArray(fields) ? fields : Object.keys(formItemRefsMap)).map(name =>
+        formItemRefsMap[name].validate()
       )
     )
     return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
   }
   if (typeof fields === 'string') {
-    const valid = await formItems[fields].validate()
+    const valid = await formItemRefsMap[fields]?.validate()
     return valid ? Promise.resolve(true) : Promise.reject(false)
   }
 
@@ -223,8 +231,6 @@ const elForm = {
   formRules: props.rules,
   resetField,
   emit,
-  addFormItem,
-  deleteFormItem,
   validateField
 }
 

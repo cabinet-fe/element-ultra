@@ -1,102 +1,59 @@
-<script lang="ts">
-import {
-  defineComponent,
-  computed,
-  watch,
-  provide,
-  nextTick,
-  toRefs,
-  h,
-  renderSlot,
-} from 'vue'
-import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
-import { isValidComponentSize } from '@element-ultra/utils'
-import { useSize, useNamespace } from '@element-ultra/hooks'
-import { useCheckboxGroup } from './useCheckbox'
+<template>
+  <component :is="tag" :class="ns.b('group')">
+    <slot />
+  </component>
+</template>
 
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-ultra/constants'
+<script setup lang="ts">
+import { provide, ref, watch } from 'vue'
+import { useFormItem, useNamespace } from '@element-ultra/hooks'
+import { checkboxGroupProps, checkboxGroupEmit } from './checkbox-group'
+import { checkboxGroupInjectionKey } from './token'
 
-export default defineComponent({
-  name: 'ElCheckboxGroup',
+defineOptions({
+  name: 'ElCheckboxGroup'
+})
 
-  props: {
-    ...FORM_COMPONENT_PROPS,
-    modelValue: {
-      type: Array,
-      default: () => [],
-    },
-    disabled: Boolean,
-    min: {
-      type: Number,
-      default: undefined,
-    },
-    max: {
-      type: Number,
-      default: undefined,
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    fill: {
-      type: String,
-      default: undefined,
-    },
-    textColor: {
-      type: String,
-      default: undefined,
-    },
-    tag: {
-      type: String,
-      default: 'div',
-    },
-  },
+const ns = useNamespace('checkbox')
 
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+const props = defineProps(checkboxGroupProps)
+const emit = defineEmits(checkboxGroupEmit)
 
-  setup(props, { emit, slots }) {
-    const { elFormItem } = useCheckboxGroup()
-    const checkboxGroupSize = useSize()
-    const ns = useNamespace('checkbox')
+let checkedValue = ref(new Set<string | number>())
+let checkedLabel = ref(new Set<string | number>())
+let propsChangedByEvent = false
+const { formItem } = useFormItem()
 
-    const changeEvent = (value) => {
-      emit(UPDATE_MODEL_EVENT, value)
-      elFormItem?.validate()
-      nextTick(() => {
-        emit('change', value)
-      })
+const handleItemChange = (checked: boolean, value: string | number, label: string | number) => {
+  propsChangedByEvent = true
+  checkedValue.value[checked ? 'add' : 'delete'](value)
+  checkedLabel.value[checked ? 'add' : 'delete'](label)
+
+  const modelValue = Array.from(checkedValue.value)
+  const labelValue = Array.from(checkedValue.value)
+
+  emit('update:modelValue', modelValue)
+  emit('change', modelValue, labelValue)
+  formItem?.validate()
+}
+
+// 回显
+watch(
+  () => props.modelValue,
+  value => {
+    if (propsChangedByEvent) {
+      propsChangedByEvent = false
+      return
     }
-
-    const modelValue = computed({
-      get() {
-        return props.modelValue
-      },
-      set(val) {
-        changeEvent(val)
-      },
-    })
-
-    provide('CheckboxGroup', {
-      name: 'ElCheckboxGroup',
-      modelValue,
-      ...toRefs(props),
-      checkboxGroupSize,
-      changeEvent,
-    })
-
-
-    return () => {
-      return h(
-        props.tag,
-        {
-          class: ns.b('group'),
-          role: 'group',
-          'aria-label': 'checkbox-group',
-        },
-        [renderSlot(slots, 'default')]
-      )
-    }
+    checkedValue.value = new Set(value)
   },
+  { immediate: true }
+)
+
+provide(checkboxGroupInjectionKey, {
+  isGroup: true,
+  groupProps: props,
+  groupCheckedSet: checkedValue,
+  handleItemChange
 })
 </script>

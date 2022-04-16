@@ -6,8 +6,6 @@ export interface FormContext {
 
   formRules: FormRules
   emit: (evt: 'validate', ...args: any[]) => void
-  addFormItem: (field: string, formItem: FormItemContext) => void
-  deleteFormItem: (field: string) => void
   resetField: (field: string) => void
   validateField: (field: string) => Promise<string | null>
 }

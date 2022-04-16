@@ -5,22 +5,10 @@
     </div>
     <el-card title="表单数据">
       <el-form ref="formRef" :cols="{ cols: 2 }" :data="data" label-width="80px" :rules="rules">
-        <el-select
-          label="审批流程"
-          :options="options"
-          field="type"
-          value-key="modelKey"
-          label-key="name"
-          filterable
-        />
-        <el-select
-          label="审批流程2"
-          :options="options2"
-          field="type"
-          value-key="modelKey"
-          label-key="name"
-          filterable
-        />
+        <el-radio-group label="审批流程" field="type">
+          <el-radio value="1">文本1</el-radio>
+          <el-radio value="2">文本2</el-radio>
+        </el-radio-group>
 
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
@@ -33,6 +21,9 @@
       </el-form>
       <el-button @click="formRef.validate()">校验</el-button>
     </el-card>
+
+    <el-checkbox :checked="checked">aa</el-checkbox>
+    <el-button @click="checked = !checked">切换</el-button>
   </el-page>
 </template>
 
@@ -40,6 +31,8 @@
 import { useFormModel } from 'element-ultra'
 import { shallowRef } from 'vue'
 document.title = '表单测试'
+
+let checked = $shallowRef(false)
 
 let options = $shallowRef<any[]>([])
 let options2 = $shallowRef<any[]>([])
@@ -60,7 +53,7 @@ setTimeout(() => {
 
 const [data, rules] = useFormModel({
   name: { required: true, value: '' },
-  phone: {},
+  phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
   type: { value: '2' },
   address: { required: true }
 })

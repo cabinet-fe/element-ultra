@@ -10,6 +10,7 @@
       :query="query"
       :columns="columns"
       show-index
+      checkable
     >
       <template #searcher>
         <el-input v-model="query.name" />
