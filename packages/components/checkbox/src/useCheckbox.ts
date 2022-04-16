@@ -9,7 +9,13 @@ export const useCheckbox = (props: CheckboxProps, emit: CheckboxEmit) => {
   const { form, formItem } = useFormItem(!isGroup)
 
   const isDisabled = computed(() => {
-    return props.disabled || form?.props.disabled
+    const { max } = groupProps || {}
+    const maxDisabled =
+      max !== undefined &&
+      groupCheckedSet &&
+      groupCheckedSet.value.size >= max &&
+      !groupCheckedSet.value.has(props.value!)
+    return props.disabled || form?.props.disabled || maxDisabled
   })
 
   const isChecked = computed(() => {

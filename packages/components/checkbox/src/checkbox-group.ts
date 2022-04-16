@@ -9,10 +9,6 @@ export const checkboxGroupProps = {
     default: () => []
   },
   disabled: Boolean,
-  min: {
-    type: Number,
-    default: undefined
-  },
   max: {
     type: Number,
     default: undefined
@@ -21,14 +17,7 @@ export const checkboxGroupProps = {
     type: String as PropType<ComponentSize>,
     default: 'default'
   },
-  fill: {
-    type: String,
-    default: undefined
-  },
-  textColor: {
-    type: String,
-    default: undefined
-  },
+
   tag: {
     type: String,
     default: 'div'
