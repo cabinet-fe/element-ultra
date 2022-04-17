@@ -14,6 +14,8 @@
       </el-form-item>
       <component v-else :is="slot.node" />
     </template>
+
+    {{ renderEffect() }}
   </el-grid>
 </template>
 
@@ -23,11 +25,11 @@ import {
   isVNode,
   nextTick,
   onBeforeUnmount,
+  onBeforeUpdate,
   provide,
+  ref,
   shallowRef,
   useSlots,
-  watch,
-  watchEffect,
   type VNode,
   type VNodeArrayChildren
 } from 'vue'
@@ -62,18 +64,28 @@ const formItemRefs = shallowRef<FormItemType[]>([])
 // 表单实例项的字段映射
 let formItemRefsMap: Record<string, FormItemType> = {}
 
-watch(() => formItemRefs.value, (v) => {
-  console.log(v)
-}, { immediate: true })
-watchEffect((clean) => {
+// 组件渲染时的副作用
+const renderEffect = () => {
+  nextTick(() => {
+    let oldMap: any = formItemRefsMap
+    let ret: Record<string, FormItemType> = {}
+    formItemRefs.value.forEach(item => {
+      if (!item.field) return
+      ret[item.field] = item
+    })
+    formItemRefsMap = ret
 
-  formItemRefsMap = formItemRefs.value.reduce((map, ref) => {
-    if (ref.field) {
-      map[ref.field] = ref
+    // 清除已消失的组件的data数据
+    if (props.data) {
+      for (const field in oldMap) {
+        if (!formItemRefsMap[field]) {
+          props.data[field] = defaultFormValues[field]
+        }
+      }
+      oldMap = null
     }
-    return map
-  }, {} as Record<string, FormItemType>)
-}, { flush: 'post'})
+  })
+}
 
 // 默认表单值
 let defaultFormValues: Record<string, any> = {
@@ -167,7 +179,7 @@ const resetFields = () => {
 // 清除校验
 const clearValidate = (fields?: string | string[]) => {
   if (!fields) {
-    formItemRefs.value.forEach(formItem => formItem.clearValidate())
+    formItemRefs.value.forEach(item => item.clearValidate())
   } else if (typeof fields === 'string') {
     formItemRefsMap[fields].clearValidate()
   } else {
@@ -211,9 +223,9 @@ const validateField = async (field: string) => {
 const validate = async (fields?: string | string[]) => {
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
-      (Array.isArray(fields) ? fields : Object.keys(formItemRefsMap)).map(name =>
-        formItemRefsMap[name].validate()
-      )
+      Array.isArray(fields)
+        ? fields.map(field => formItemRefsMap[field].validate())
+        : formItemRefs.value.map(formItem => formItem.validate())
     )
     return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
   }
