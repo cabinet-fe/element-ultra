@@ -12,6 +12,9 @@ export const tableClProps = {
   checkable: {
     type: Boolean,
     default: false
+  },
+  value: {
+    type: Object,
   }
 } as const
 

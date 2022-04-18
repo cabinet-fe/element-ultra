@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="visible">
-    <TableCl :data="data" :columns="columns" checkable ref="tableRef" />
+    <TableCl :data="data" :columns="columns" :value="value" checkable ref="tableRef" />
     <template #footer>
       <el-button-group>
         <el-button @click="handleCancel">取消</el-button>
@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { ElDialog, ElButtonGroup, ElButton } from '@element-ultra/components'
 import { useNamespace } from '@element-ultra/hooks'
-import { shallowRef, onMounted } from 'vue'
+import { shallowRef, onMounted, inject } from 'vue'
 import { dialogClProps } from './dialog-cl'
 import TableCl from './table-cl.vue'
 
@@ -47,13 +47,12 @@ const handleCancel = () => {
 }
 
 const submit = () => {
-  emits('change', tableRef.value.getValue())
+  const data = tableRef.value.getValue()
+  emits('change', data)
   close()
 }
 
-const stateInit = (data: Record<string, any>) => {
-  tableRef.value.setValue(data.map((item: Record<string, any>) => item.id))
-}
+let multiple = inject('multiple')
 
 defineExpose({
   open

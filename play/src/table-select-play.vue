@@ -1,9 +1,7 @@
 <template>
-  <el-table-select v-model="multipleData" :columns="columns" :data="treeData" :multiple="multiple">
-    <el-button type="primary" :icon="Plus">选择</el-button>
+  <el-table-select v-model="singleData" :columns="columns" :data="treeData" :multiple="multiple">
+    <el-button type="primary" :icon="Plus">自定义按钮</el-button>
   </el-table-select>
-  <div>singleData: {{ singleData }}</div>
-  <div>multipleData: {{multipleData}}</div>
 </template>
 
 <script lang="ts" setup>
@@ -19,9 +17,9 @@ const columns = $ref([
   { key: 'score', name: '成绩' }
 ])
 
-let singleData = $ref({})
+let singleData = $ref({ name: '王五', score: 36, id: 3 })
 
 let multipleData = $ref([{ name: '李四', score: 87, id: 2 }])
 
-let multiple = $ref<boolean>(true)
+let multiple = $ref<boolean>(false)
 </script>

@@ -1,10 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const dialogClProps = {
-  // modelValue: {
-  //   type: Array as PropType<Record<string, any>[]>,
-  //   required: true
-  // },
   columns: {
     type: Array as PropType<Record<string, any>[]>,
     required: true
@@ -12,6 +8,9 @@ export const dialogClProps = {
   data: {
     type: Array as PropType<Record<string, any>[]>,
     required: true
+  },
+  value: {
+    type: Object as PropType<Record<string, any>>
   }
 } as const
 

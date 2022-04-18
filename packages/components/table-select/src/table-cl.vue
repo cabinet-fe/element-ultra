@@ -29,18 +29,17 @@
       </tr>
     </tfoot> -->
   </table>
-  {{ checkbox }}
 </template>
 
 <script lang="ts" setup>
-import { onMounted, watch, inject, nextTick, ref } from 'vue'
+import { watch, inject } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableClProps } from './table-cl'
 import { ElCheckbox, ElRadio } from '@element-ultra/components'
 
 const props = defineProps(tableClProps)
 
-const { data, checkable } = props
+const { data, checkable, value } = props
 
 const ns = useNamespace('table-cl')
 
@@ -50,13 +49,12 @@ let radio = $ref<string | number | boolean | undefined>(null)
 
 let checkbox = $ref(new Set())
 
-let selected = $ref<Record<string, any>>(null)
+let store = $ref({
+  radio: null,
+  checkbox: new Set()
+})
 
 let tableData = $ref<any>(null)
-
-const stateInit = () => {
-
-}
 
 const getValue = () => {
   if (multiple) {
@@ -71,14 +69,28 @@ const getValue = () => {
 }
 
 const setValue = (data: Record<string, any>) => {
-  console.log('setvalue')
-  if(multiple) {
-    data.forEach((id: string | number | undefined) => checkbox.add(id))
+  if (multiple) {
+    checkbox.clear()
+    store.checkbox.clear()
+    data?.forEach((item: Record<string, any>) => {
+      checkbox.add(item.id)
+      store.checkbox.add(item.id)
+    })
+  }else {
+    radio = data[0].id
+    store.radio = data[0].id
   }
 }
 
 const clear = () => {
-  checkbox.clear()
+  if (multiple) {
+    checkbox.clear()
+    store.checkbox.forEach((item: string) => {
+      checkbox.add(item)
+    })
+  }else {
+    radio = store.radio
+  }
 }
 
 watch(
@@ -91,12 +103,17 @@ watch(
   }
 )
 
-onMounted(() => {
-  stateInit()
-})
+watch(
+  () => props.value,
+  (cur, pre) => {
+    cur ? setValue(cur) : void 0
+  },
+  {
+    immediate: true
+  }
+)
 
 defineExpose({
-  setValue,
   getValue,
   clear
 })

@@ -1,20 +1,30 @@
 <template>
   <div :class="ns.b()">
     <!-- 按钮 -->
-    <div @click="handleClick" style="display: inline-block;"><slot /></div>
+    <div @click="handleClick" style="display: inline-block"><slot>
+      <el-button type="primary" :icon="Plus">选择</el-button>
+    </slot></div>
     <!-- 表格 -->
     <TableCl :data="selected" :columns="columns" />
     <!-- 弹框 -->
-    <DialogCl ref="dialogRef" :data="data" :columns="columns" @change="handleSelect" />
+    <DialogCl
+      ref="dialogRef"
+      :data="data"
+      :columns="columns"
+      :value="selected"
+      @change="handleSelect"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, watch, onMounted, nextTick } from 'vue'
+import { shallowRef, provide, onMounted } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableCl from './table-cl.vue'
 import DialogCl from './dialog-cl.vue'
+import { Plus } from '@element-plus/icons-vue'
+import { ElButton } from '@element-ultra/components'
 
 defineOptions({
   name: 'ElTableSelect'
@@ -37,26 +47,21 @@ const handleClick = () => {
 }
 
 const handleSelect = (data: Record<string, any>) => {
-  multiple ? selected = data : selected = [data]
+  multiple ? (selected = data) : (selected = [data])
+  emits('update:modelValue', data)
 }
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', data: Record<string, any>[]): void
+  (e: 'update:modelValue', data: Record<string, any>): void
 }>()
 
-watch(() => selected, (cur, pre) => {
-  emits('update:modelValue', cur)
-})
-
 const stateInit = () => {
-  selected = modelValue
+  multiple ? (selected = modelValue) : (selected = [modelValue])
 }
 
 onMounted(() => {
   stateInit()
 })
 
-defineExpose({
-
-})
+defineExpose({})
 </script>
