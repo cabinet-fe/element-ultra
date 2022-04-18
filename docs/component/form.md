@@ -14,6 +14,7 @@ element-ultra的表单在原来element-plus的基础上做了大量的改动.
 3. 内部使用el-grid组件来完成自适应布局
 4. 校验方法移到了form中, 这意味着内存的节省
 5. 不再依赖async-validator的校验
+6. 现在组件在被销毁时（通过v-if, v-else），会自动清空绑定的值
 
 
 ## 比较完整的表单示例

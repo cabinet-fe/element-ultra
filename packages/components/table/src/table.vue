@@ -209,6 +209,7 @@ export default defineComponent({
       clearFilter,
       toggleAllSelection,
       toggleRowExpansion,
+      toggleAllRowsExpansion,
       clearSort,
       sort
     } = useUtils<Row>(store)
@@ -279,6 +280,7 @@ export default defineComponent({
       clearFilter,
       toggleAllSelection,
       toggleRowExpansion,
+      toggleAllRowsExpansion,
       clearSort,
       doLayout,
       sort,

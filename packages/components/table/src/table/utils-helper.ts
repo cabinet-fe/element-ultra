@@ -20,6 +20,9 @@ function useUtils<T>(store: Store<T>) {
   const toggleRowExpansion = (row: T, expanded: boolean) => {
     store.toggleRowExpansionAdapter(row, expanded)
   }
+  const toggleAllRowsExpansion = () => {
+    store.toggleAllRowsExpansion()
+  }
   const clearSort = () => {
     store.clearSort()
   }
@@ -34,6 +37,7 @@ function useUtils<T>(store: Store<T>) {
     clearFilter,
     toggleAllSelection,
     toggleRowExpansion,
+    toggleAllRowsExpansion,
     clearSort,
     sort,
   }

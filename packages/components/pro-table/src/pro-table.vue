@@ -17,18 +17,24 @@
       </div>
     </section>
 
-    <el-table :data="computedData" v-if="columns.length" v-bind="$attrs" :height="tableHeight">
-      <el-table-column
-        v-bind="column"
-        v-for="column of preColumns"
-        :key="column.key"
-      />
+    <el-table
+      :data="computedData"
+      v-if="columns.length"
+      v-bind="$attrs"
+      :default-expand-all="defaultExpandAll"
+      ref="tableRef"
+      :height="tableHeight"
+      v-loading="loading"
+    >
+      <pro-table-column :column="expandColumn" v-if="$slots['row-expand']">
+        <template #default="scope">
+          <slot name="row-expand" v-bind="scope" />
+        </template>
+      </pro-table-column>
 
-      <pro-table-column
-        v-for="column of columns"
-        :column="column"
-        :key="column.key"
-      >
+      <el-table-column v-bind="column" v-for="column of preColumns" :key="column.key" />
+
+      <pro-table-column v-for="column of columns" :column="column" :key="column.key">
         <template v-if="column.slot" #default="scope">
           <slot v-bind="scope" :name="column.slot" />
         </template>
@@ -61,7 +67,7 @@ import { useConfig, useNamespace } from '@element-ultra/hooks'
 
 defineOptions({
   name: 'ElProTable',
-  inheritAttrs: false,
+  inheritAttrs: false
 })
 
 const ns = useNamespace('pro-table')
@@ -74,12 +80,12 @@ const pageSizes = [20, 40, 60, 120, 200]
 
 const query = shallowReactive({
   page: 1,
-  size: configStore.proTableDefaultSize || 20,
+  size: configStore.proTableDefaultSize || 20
 })
 
 const state = shallowReactive({
   total: 0,
-  data: [] as any[],
+  data: [] as any[]
 })
 
 const computedData = computed(() => {
@@ -108,9 +114,10 @@ onMounted(() => {
   calcTableHeight()
 })
 
+let loading = shallowRef(false)
 const fetchData = async () => {
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
-
+  loading.value = true
   let realQuery = Object.keys(props.query || {}).reduce((acc, cur) => {
     let v = props.query![cur]
     if (cur.startsWith('$')) {
@@ -124,9 +131,12 @@ const fetchData = async () => {
     api: props.api,
     query: {
       ...(props.pagination ? query : null),
-      ...realQuery,
-    },
+      ...realQuery
+    }
+  }).finally(() => {
+    loading.value = false
   })
+
   if (total) {
     state.total = total
   }
@@ -135,15 +145,16 @@ const fetchData = async () => {
 
 // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
 let queryWatchList = Object.keys(props.query || {})
-  .filter((k) => k.startsWith('$'))
-  .map((k) => {
+  .filter(k => k.startsWith('$'))
+  .map(k => {
     return () => props.query?.[k]
   })
 
 watch([query, ...queryWatchList], fetchData)
 fetchData()
 
-const preColumns = usePreColumns(props)
+const tableRef = shallowRef()
+const [expandColumn, preColumns] = usePreColumns(props, tableRef)
 
 const find = () => {
   return computedData.value

@@ -37,7 +37,6 @@
 </template>
 <script setup lang="ts">
 import { useNamespace } from '@element-ultra/hooks'
-import { defineComponent } from 'vue'
 import { checkboxProps, checkboxEmit } from './checkbox'
 import { useCheckbox } from './useCheckbox'
 

@@ -99,3 +99,12 @@ interface ProTableColumn {
   children?: ProTableColumn[]
 }
 ```
+
+
+## ProTable 插槽
+
+| 名称      | 说明                         |
+| ------- | -------------------------- |
+| row-expand | 展开行内容 |
+| [column.slot] | 在列中自定义的插槽名称 |
+

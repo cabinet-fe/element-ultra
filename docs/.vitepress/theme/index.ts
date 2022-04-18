@@ -15,9 +15,16 @@ const request: ProTableRequestMethod = ({ api, query }) => {
         name: '张' + i,
         age: 10 + i
       }))
-      rs({
-        data,
-        total: data.length // 在分页时total必须返回
+      let random = Math.random()
+      if (random > 0.4) {
+        rs({
+          data,
+          total: data.length // 在分页时total必须返回
+        })
+      }
+      rj({
+        data: [],
+        total: 0
       })
     }, 600)
   })

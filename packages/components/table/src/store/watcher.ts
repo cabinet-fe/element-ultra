@@ -422,6 +422,7 @@ function useWatcher<T>() {
     setExpandRowKeys,
     toggleRowExpansion,
     updateExpandRows,
+    toggleAllRowsExpansion,
     states: expandStates,
     isRowExpanded,
   } = useExpand({
@@ -485,6 +486,7 @@ function useWatcher<T>() {
     clearFilter,
     clearSort,
     toggleRowExpansion,
+    toggleAllRowsExpansion,
     setExpandRowKeysAdapter,
     setCurrentRowKey,
     toggleRowExpansionAdapter,

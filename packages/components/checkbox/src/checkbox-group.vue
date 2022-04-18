@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { provide, ref, watch } from 'vue'
+import { computed, provide, ref, watch } from 'vue'
 import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import { checkboxGroupProps, checkboxGroupEmit } from './checkbox-group'
 import { checkboxGroupInjectionKey } from './token'
@@ -22,7 +22,7 @@ const emit = defineEmits(checkboxGroupEmit)
 let checkedValue = ref(new Set<string | number>())
 let checkedLabel = ref(new Set<string | number>())
 let propsChangedByEvent = false
-const { formItem } = useFormItem()
+const { formItem, form } = useFormItem()
 
 const handleItemChange = (checked: boolean, value: string | number, label: string | number) => {
   propsChangedByEvent = true
@@ -36,6 +36,10 @@ const handleItemChange = (checked: boolean, value: string | number, label: strin
   emit('change', modelValue, labelValue)
   formItem?.validate()
 }
+
+const groupDisabled = computed(() => {
+  return props.disabled || form?.props.disabled
+})
 
 // 回显
 watch(
@@ -52,6 +56,7 @@ watch(
 
 provide(checkboxGroupInjectionKey, {
   isGroup: true,
+  groupDisabled,
   groupProps: props,
   groupCheckedSet: checkedValue,
   handleItemChange

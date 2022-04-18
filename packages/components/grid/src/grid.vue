@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, provide, shallowRef, watch } from 'vue'
-import { gridProps, type ResponsiveCols } from './grid'
+import { gridProps, type GridProps, type ResponsiveCols } from './grid'
 import type { CSSProperties } from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { throttle } from 'lodash'
@@ -112,9 +112,7 @@ const getPointCols = (point: ReturnType<typeof getCurrentPoint>, cols: Responsiv
   return ret
 }
 
-onMounted(() => {
-  const { cols } = props
-
+const observe = (cols: GridProps['cols']) => {
   if (!gridRef.value || !isResponsiveCols(cols)) return
 
   const observer = new ResizeObserver(
@@ -129,8 +127,24 @@ onMounted(() => {
 
   observer.observe(gridRef.value)
 
-  onUnmounted(() => {
-    observer.disconnect()
-  })
+  return observer
+}
+
+let currentObserver: ResizeObserver | undefined = undefined
+watch(
+  () => props.cols,
+  cols => {
+    if (!isResponsiveCols(cols)) {
+      currentObserver?.disconnect()
+      currentObserver = undefined
+      return
+    }
+    currentObserver = observe(cols)
+  }
+)
+
+onMounted(() => {
+  currentObserver = observe(props.cols)
+  onUnmounted(() => currentObserver?.disconnect())
 })
 </script>

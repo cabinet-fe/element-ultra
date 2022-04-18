@@ -1,19 +1,18 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type { DataTableColumn } from '../../data-table/src/data-table'
 
-export const proTableProps =  buildProps({
+export const proTableProps = {
   api: {
-    type: definePropType<string>(String)
+    type: String
   },
 
   data: {
-    type: definePropType<any[]>(Array),
+    type: Array as PropType<any[]>
   },
 
   columns: {
-    type: definePropType<ProTableColumn[]>(Array),
-    required: true,
+    type: Array as PropType<ProTableColumn[]>,
+    required: true
   },
 
   showIndex: {
@@ -21,35 +20,39 @@ export const proTableProps =  buildProps({
   },
 
   checkable: {
-    type: definePropType<boolean | ((row: any, index: number) => boolean)>([Boolean, Function]),
+    type: [Boolean, Function] as PropType<boolean | ((row: any, index: number) => boolean)>
   },
 
   selectable: {
-    type: definePropType<boolean | ((row: any, index: number) => boolean)>([Boolean, Function]),
+    type: [Boolean, Function] as PropType<boolean | ((row: any, index: number) => boolean)>
   },
 
   pagination: Boolean,
 
   query: {
-    type: definePropType<Record<string, any>>(Object)
+    type: Object as PropType<Record<string, any>>
   },
 
   height: {
-    type: definePropType<string | number>([Number, String])
+    type: [Number, String] as PropType<string | number>
   },
 
   showTools: {
     type: Boolean,
     default: true
+  },
+
+  defaultExpandAll: {
+    type: Boolean,
+    default: false
   }
-} as const)
+}
 
 /** 专业数据表格类配置 */
 export interface ProTableColumn extends DataTableColumn {
   /** 定义此列的动态插槽 */
   slot?: string
 }
-
 
 /** 专业表格属性 */
 export type ProTableProps = ExtractPropTypes<typeof proTableProps>

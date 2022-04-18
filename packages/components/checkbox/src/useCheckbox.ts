@@ -4,7 +4,7 @@ import type { CheckboxEmit, CheckboxProps } from './checkbox'
 import { checkboxGroupInjectionKey } from './token'
 
 export const useCheckbox = (props: CheckboxProps, emit: CheckboxEmit) => {
-  const { isGroup, groupProps, groupCheckedSet, handleItemChange } =
+  const { isGroup, groupProps, groupCheckedSet, handleItemChange, groupDisabled } =
     inject(checkboxGroupInjectionKey, undefined) || {}
   const { form, formItem } = useFormItem(!isGroup)
 
@@ -15,7 +15,8 @@ export const useCheckbox = (props: CheckboxProps, emit: CheckboxEmit) => {
       groupCheckedSet &&
       groupCheckedSet.value.size >= max &&
       !groupCheckedSet.value.has(props.value!)
-    return props.disabled || form?.props.disabled || maxDisabled
+
+    return props.disabled || groupDisabled?.value || form?.props.disabled || maxDisabled
   })
 
   const isChecked = computed(() => {

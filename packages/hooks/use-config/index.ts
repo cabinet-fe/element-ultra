@@ -10,7 +10,7 @@ type RequestResponse = { data: any[]; total?: number }
 
 export type ProTableRequestMethod = (
   option: RequestOptions
-) => Promise<RequestResponse> | RequestResponse
+) => Promise<RequestResponse>
 
 export interface ConfigStore {
   /** 全局组件尺寸 */
