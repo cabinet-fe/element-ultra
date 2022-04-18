@@ -39,8 +39,6 @@ export default function usePreColumns(props: ProTableProps, tableRef: ShallowRef
 
   const allExpanded = shallowRef(props.defaultExpandAll)
 
-  console.log(props.defaultExpandAll)
-
   let expandClasses = computed(() => {
     let ret = 'el-table__expand-icon'
     if (allExpanded.value) {
