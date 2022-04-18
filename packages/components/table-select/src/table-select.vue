@@ -9,6 +9,7 @@
     <!-- 弹框 -->
     <DialogCl
       ref="dialogRef"
+      :api="api"
       :data="data"
       :columns="columns"
       :value="selected"
@@ -32,7 +33,7 @@ defineOptions({
 
 const props = defineProps(tableSelectProps)
 
-const { modelValue, columns, data, multiple } = props
+const { modelValue, columns, data, multiple, api } = props
 
 provide('multiple', multiple)
 

@@ -11,6 +11,10 @@ export const dialogClProps = {
   },
   value: {
     type: Object as PropType<Record<string, any>>
+  },
+  api: {
+    type: String,
+    default: ''
   }
 } as const
 

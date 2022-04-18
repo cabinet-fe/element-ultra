@@ -1,4 +1,5 @@
 <template>
+{{data}}
   <table :class="ns.b()" border="1">
     <thead>
       <tr>
@@ -39,7 +40,7 @@ import { ElCheckbox, ElRadio } from '@element-ultra/components'
 
 const props = defineProps(tableClProps)
 
-const { data, checkable, value } = props
+const { data, checkable } = props
 
 const ns = useNamespace('table-cl')
 

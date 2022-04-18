@@ -16,6 +16,10 @@ export const tableSelectProps = {
   multiple: {
     type: Boolean,
     default: false
+  },
+  api: {
+    type: String,
+    default: ''
   }
 } as const
 

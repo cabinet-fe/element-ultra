@@ -15,6 +15,10 @@ export const tableClProps = {
   },
   value: {
     type: Object,
+  },
+  api: {
+    type: String,
+    default: ''
   }
 } as const
 
