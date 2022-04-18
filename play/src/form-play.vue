@@ -1,36 +1,61 @@
 <template>
-  <div style="padding: 8px">
-    {{ data }}
-  </div>
+  <el-page>
+    <div style="padding: 8px">
+      {{ data }}
+    </div>
+    <el-card title="表单数据">
+      <el-form ref="formRef" :cols="{ cols: 2 }" :data="data" label-width="80px" :rules="rules">
+        <el-radio-group label="审批流程" field="type">
+          <el-radio value="1">文本1</el-radio>
+          <el-radio value="2">文本2</el-radio>
+        </el-radio-group>
 
-  <el-form ref="formRef" :cols="2" :data="data" :rules="rules">
-    <component
-      :is="ElTextarea"
-      v-bind="{
-        label: '文本域',
-        field: 'area'
-      }"
-    />
-  </el-form>
+        <template v-if="data.type === '1'">
+          <el-input label="手机号" field="phone" />
+        </template>
 
-  <el-button @click="formRef.validate()">校验</el-button>
+        <template v-else>
+          <el-input label="姓名" field="name" />
+          <el-input label="住址" field="address" />
+        </template>
+      </el-form>
+      <el-button @click="formRef.validate()">校验</el-button>
+    </el-card>
+
+    <el-checkbox :checked="checked">aa</el-checkbox>
+    <el-button @click="checked = !checked">切换</el-button>
+  </el-page>
 </template>
 
 <script setup lang="ts">
-import { useFormModel, ElTextarea } from 'element-ultra'
+import { useFormModel } from 'element-ultra'
 import { shallowRef } from 'vue'
 document.title = '表单测试'
 
-const [data, rules] = useFormModel({
-  name: {
-    required: true,
-    value: ''
-  },
-  test: { required: true },
+let checked = $shallowRef(false)
 
+let options = $shallowRef<any[]>([])
+let options2 = $shallowRef<any[]>([])
+
+setTimeout(() => {
+  options = [
+    { modelKey: '1', name: '文本1' },
+    { modelKey: '2', name: '文本2' }
+  ]
+}, 500)
+
+setTimeout(() => {
+  options2 = [
+    { modelKey: '1', name: '文本1' },
+    { modelKey: '2', name: '文本2' }
+  ]
+}, 200)
+
+const [data, rules] = useFormModel({
+  name: { required: true, value: '' },
+  phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
   type: { value: '2' },
-  aa: {},
-  area: { required: true }
+  address: { required: true }
 })
 
 const formRef = shallowRef<any>()

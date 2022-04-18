@@ -2,14 +2,14 @@
 
 @include b(page) {
   height: 100%;
-  
+
   & .el-card {
     margin-bottom: 10px;
   }
 
   @include e(content) {
     height: calc(100% - 40px);
-    
+
     overflow: auto;
   }
 
@@ -51,6 +51,7 @@
     height: 40px;
     display: flex;
     padding: 0 8px;
+    justify-content: space-between;
     align-items: center;
     align-content: center;
     border-top: 1px solid var(--el-border-color-light);

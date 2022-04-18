@@ -1,17 +1,8 @@
-import ElementUltra, { useConfig ,type ProTableRequestMethod } from 'element-ultra'
-
-// windicss layers
-import 'virtual:windi-base.css'
-import 'virtual:windi-components.css'
-
+import ElementUltra, { useConfig, type ProTableRequestMethod } from 'element-ultra'
 import VPApp, { globals, NotFound } from '../vitepress'
 import { define } from '../utils/types'
 
-// windicss utilities should be the last style import
-import 'virtual:windi-utilities.css'
-// windicss devtools support (dev only)
-import 'virtual:windi-devtools'
-
+import 'uno.css'
 import type { Theme } from 'vitepress'
 
 const request: ProTableRequestMethod = ({ api, query }) => {
@@ -20,18 +11,17 @@ const request: ProTableRequestMethod = ({ api, query }) => {
   console.log('query', query)
   return new Promise((rs, rj) => {
     setTimeout(() => {
-      const data = Array.from({ length: 20 }).map((_, i) =>  ({
+      const data = Array.from({ length: 20 }).map((_, i) => ({
         name: '张' + i,
         age: 10 + i
       }))
       rs({
         data,
-        total: data.length, // 在分页时total必须返回
+        total: data.length // 在分页时total必须返回
       })
     }, 600)
   })
 }
-
 
 const [, setConfigStore] = useConfig()
 setConfigStore({
@@ -48,7 +38,5 @@ export default define<Theme>({
     globals.forEach(([name, Comp]) => {
       app.component(name, Comp)
     })
-  },
+  }
 })
-
-

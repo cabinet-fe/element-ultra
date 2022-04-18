@@ -10,12 +10,14 @@ export const makeInstaller = (components: Plugin[] = []) => {
     if (app[INSTALLED_KEY]) return
 
     app[INSTALLED_KEY] = true
-    components.forEach((c) => app.use(c))
+    components.forEach(c => {
+      app.use(c)
+    })
     provideGlobalConfig(options, app, true)
   }
 
   return {
     version,
-    install,
+    install
   }
 }

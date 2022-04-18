@@ -1,6 +1,12 @@
 <template>
   <div ref="formItemRef" :class="formItemClass">
-    <label v-if="currentLabel" :for="field" :title="currentLabel" :class="ns.e('label')" :style="labelStyle">
+    <label
+      v-if="currentLabel"
+      :for="field"
+      :title="currentLabel"
+      :class="ns.e('label')"
+      :style="labelStyle"
+    >
       <span style="margin-right: 2px">
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
@@ -27,16 +33,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  nextTick,
-  provide
-} from 'vue'
+import { computed, defineComponent, inject, ref, nextTick, provide } from 'vue'
 import { formItemKey, formKey } from '@element-ultra/tokens'
 import { addUnit } from '@element-ultra/utils'
 import { QuestionFilled } from '@element-plus/icons-vue'
@@ -117,16 +114,6 @@ export default defineComponent({
     }
 
     provide(formItemKey, formItem)
-
-    onMounted(() => {
-      if (props.field) {
-        elForm?.addFormItem(props.field, formItem)
-      }
-    })
-
-    onBeforeUnmount(() => {
-      props.field && elForm?.deleteFormItem(props.field)
-    })
 
     const formItemClass = computed(() => {
       const ret = [ns.b()]

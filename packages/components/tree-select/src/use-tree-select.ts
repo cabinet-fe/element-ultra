@@ -1,6 +1,7 @@
 import { shallowRef, watch, nextTick, computed } from 'vue'
 import type { ElTree, CheckedInfo, TreeNodeData } from '@element-ultra/components/tree'
 import type { TreeSelectProps } from './tree-select'
+import { useFormItem } from '@element-ultra/hooks'
 
 export default function useTreeSelect(props: TreeSelectProps, emit) {
   /** 树的引用 */
@@ -19,7 +20,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
 
     return hasValue
   })
-  const stopWatchVisible = watch(treeVisible, v => {
+  const stopWatchVisible = watch(treeVisible, (v) => {
     if (v) {
       hasRendered.value = true
       stopWatchVisible()
@@ -34,8 +35,10 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     (v: (string | number)[], label: string[], model: Record<string, any>[]): void
   }
 
+  const { formItem } = useFormItem()
   const emitModelValue: EmitModelValue = (value, label, model) => {
     emit('update:modelValue', value, label, model)
+    formItem?.validate()
   }
 
   /** 计算dropdown的位置 */
@@ -96,7 +99,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     tree.setChecked(data[valueKey], false)
 
     const { nodes, keys } = tree.getChecked()
-    const labels = nodes.map(node => node[labelKey])
+    const labels = nodes.map((node) => node[labelKey])
     emitModelValue(keys, labels, nodes)
   }
 
@@ -133,7 +136,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const handleCheck = (_, info: CheckedInfo) => {
     const { checkedKeys, checkedNodes } = info
     const { labelKey } = props
-    const checkedLabels = checkedNodes.map(node => node[labelKey])
+    const checkedLabels = checkedNodes.map((node) => node[labelKey])
     emitModelValue(checkedKeys, checkedLabels, checkedNodes)
     nextTick(() => {
       calcDropdownStyle()

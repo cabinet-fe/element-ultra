@@ -1,23 +1,36 @@
 <template>
   <el-grid
     tag="form"
-    :cols="cols || 1"
+    :cols="cols"
     :class="[ns.b(), labelPosition ? 'el-form--label-' + labelPosition : '']"
   >
-    <component :is="node" v-for="node of getChildren()" />
+    <template :key="slot.node.key || undefined" v-for="slot of getSlots()">
+      <el-form-item ref="formItemRefs" v-if="isFormComponent(slot)" v-bind="slot.formItemProps">
+        <component
+          :is="slot.node"
+          :modelValue="data[slot.field]"
+          @update:model-value="data[slot.field] = $event"
+        />
+      </el-form-item>
+      <component v-else :is="slot.node" />
+    </template>
+
+    {{ renderEffect() }}
   </el-grid>
 </template>
 
 <script lang="ts" setup>
 import {
-  cloneVNode,
-  h,
   inject,
   isVNode,
   nextTick,
   onBeforeUnmount,
+  onBeforeUpdate,
   provide,
+  ref,
+  shallowRef,
   useSlots,
+  type VNode,
   type VNodeArrayChildren
 } from 'vue'
 import ElFormItem from './form-item.vue'
@@ -25,11 +38,13 @@ import ElGrid from '@element-ultra/components/grid'
 import { formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
-import type { FormItemContext as FormItemCtx } from '@element-ultra/tokens'
 import type { FormRules } from './form'
 import { useNamespace } from '@element-ultra/hooks'
 import { formDialogContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
+import { isObject } from 'lodash'
+
+type FormItemType = InstanceType<typeof ElFormItem>
 
 defineOptions({
   name: 'ElForm'
@@ -45,7 +60,32 @@ const ns = useNamespace('form')
 type RuleType = keyof FormRules[string]
 
 // 表单实例项
-const formItems: Record<string, FormItemCtx> = {}
+const formItemRefs = shallowRef<FormItemType[]>([])
+// 表单实例项的字段映射
+let formItemRefsMap: Record<string, FormItemType> = {}
+
+// 组件渲染时的副作用
+const renderEffect = () => {
+  nextTick(() => {
+    let oldMap: any = formItemRefsMap
+    let ret: Record<string, FormItemType> = {}
+    formItemRefs.value.forEach(item => {
+      if (!item.field) return
+      ret[item.field] = item
+    })
+    formItemRefsMap = ret
+
+    // 清除已消失的组件的data数据
+    if (props.data) {
+      for (const field in oldMap) {
+        if (!formItemRefsMap[field]) {
+          props.data[field] = defaultFormValues[field]
+        }
+      }
+      oldMap = null
+    }
+  })
+}
 
 // 默认表单值
 let defaultFormValues: Record<string, any> = {
@@ -53,85 +93,67 @@ let defaultFormValues: Record<string, any> = {
 }
 
 const getFormItemSpan = (span?: 'max' | number) => {
-  const { cols } = props
   if (!span) return ''
-  
-  if (span === 'max' && typeof cols === 'number') {
-    return `span ${cols}`
+
+  if (span === 'max') {
+    return '1 / -1'
   } else if (!isNaN(+span)) {
     return `span ${span}`
   } else {
     return ''
   }
 }
-const wrapFormItem = (nodeList: VNodeArrayChildren, data: Record<string, any>) => {
-  let result: any[] = []
-  nodeList.forEach((node) => {
-    if (!isVNode(node)) {
-      return result.push(node)
-    }
 
-    if (typeof node.type === 'object') {
-      if (formComponents.has((node.type as any).name)) {
-        // TODO最终将这些属性全部定义到各个组件中去
-        const { label, field, tips, span } = node.props || {}
-        if (!field) return node
+type FormComponentSlot = {
+  node: VNode
+  formItemProps: { label: string; field: string; style: any; tips: string }
+  field: string
+}
 
-        // TODO此处的key有问题， 暂时这么解决
-        result.push(
-          h(
-            ElFormItem,
-            {
-              label,
-              field,
-              tips,
-              style: {
-                gridColumn: getFormItemSpan(span)
-              },
-              key: Math.random()
-            },
-            () => {
-              const cloned = cloneVNode(node, {
-                modelValue: data[field],
-                'onUpdate:modelValue': (value: any) => {
-                  data[field] = value
-                }
-              })
-              return cloned
-            }
-          )
-        )
-      } else {
-        result.push(node)
-      }
-    } else if (isFragment(node) || isTemplate(node)) {
+type OtherSlot = {
+  node: VNode
+}
+
+const isFormComponent = (slot: any): slot is FormComponentSlot => {
+  return !!slot.field
+}
+
+const getSlots = () => {
+  const vNodeList = slots.default?.() || []
+
+  let result: Array<FormComponentSlot | OtherSlot> = []
+  const recursive = (nodeList: VNodeArrayChildren) => {
+    nodeList.forEach(node => {
+      if (!isVNode(node)) return
+
       // 如果是模板或者片段则渲染children
-      // children type -> string | VNodeArrayChildren | RawSlots | null
-      if (Array.isArray(node.children)) {
-        result = result.concat(wrapFormItem(node.children, data))
-      } else {
-        result.push(node.children)
+      if ((isFragment(node) || isTemplate(node)) && Array.isArray(node.children)) {
+        return recursive(node.children)
       }
-    } else {
-      result.push(node)
-    }
-  })
+
+      if (isObject(node.type) && formComponents.has((node.type as any).name)) {
+        const { label, field, tips, span } = node.props || {}
+        return result.push({
+          node,
+          field,
+          formItemProps: {
+            label,
+            field,
+            tips,
+            style: {
+              gridColumn: getFormItemSpan(span)
+            }
+          }
+        })
+      }
+
+      result.push({ node })
+    })
+  }
+
+  recursive(vNodeList)
 
   return result
-}
-/** 获取子组件vnode */
-const getChildren = () => {
-  const { data } = props
-  const vNodeList = slots.default?.(data) || []
-  if (!data) return vNodeList
-  return wrapFormItem(vNodeList, data)
-}
-// 添加和删除表单项
-const addFormItem = (name: string, formItem: FormItemCtx) => {
-  formItems[name] = formItem
-}
-const deleteFormItem = (name: string) => {
-  delete formItems[name]
 }
 
 /**
@@ -141,6 +163,7 @@ const deleteFormItem = (name: string) => {
 const resetField = (field: string) => {
   if (!props.data) return
   props.data[field] = defaultFormValues[field]
+  nextTick(() => clearValidate(field))
 }
 
 /** 重置所有字段 */
@@ -156,11 +179,11 @@ const resetFields = () => {
 // 清除校验
 const clearValidate = (fields?: string | string[]) => {
   if (!fields) {
-    Object.values(formItems).forEach((formItem) => formItem.clearValidate())
+    formItemRefs.value.forEach(item => item.clearValidate())
   } else if (typeof fields === 'string') {
-    formItems[fields].clearValidate()
+    formItemRefsMap[fields].clearValidate()
   } else {
-    fields.forEach((field) => formItems[field].clearValidate())
+    fields.forEach(field => formItemRefsMap[field].clearValidate())
   }
 }
 
@@ -200,14 +223,14 @@ const validateField = async (field: string) => {
 const validate = async (fields?: string | string[]) => {
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
-      (Array.isArray(fields) ? fields : Object.keys(formItems)).map((name) =>
-        formItems[name].validate()
-      )
+      Array.isArray(fields)
+        ? fields.map(field => formItemRefsMap[field].validate())
+        : formItemRefs.value.map(formItem => formItem.validate())
     )
-    return allValidation.every((valid) => valid) ? Promise.resolve(true) : Promise.reject(false)
+    return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
   }
   if (typeof fields === 'string') {
-    const valid = await formItems[fields].validate()
+    const valid = await formItemRefsMap[fields]?.validate()
     return valid ? Promise.resolve(true) : Promise.reject(false)
   }
 
@@ -220,8 +243,6 @@ const elForm = {
   formRules: props.rules,
   resetField,
   emit,
-  addFormItem,
-  deleteFormItem,
   validateField
 }
 

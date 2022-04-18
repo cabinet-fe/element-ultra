@@ -11,7 +11,10 @@
       </section>
 
       <section :class="ns.e('footer')">
-        <slot name="footer" />
+        <el-button @click="handleBack">返回</el-button>
+        <div>
+          <slot name="footer" />
+        </div>
       </section>
     </div>
 
@@ -35,9 +38,11 @@
 </template>
 <script lang="ts" setup>
 import { ElGrid } from '@element-ultra/components/grid'
+import { ElButton } from '@element-ultra/components/button'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
 import { useNamespace } from '@element-ultra/hooks'
 import {
+  getCurrentInstance,
   isVNode,
   onUnmounted,
   provide,
@@ -48,6 +53,7 @@ import {
 } from 'vue'
 import { pageContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
+import type { Router } from 'vue-router'
 
 defineOptions({
   name: 'ElPage'
@@ -60,13 +66,19 @@ const slots = useSlots()
 const navList = shallowRef<string[]>([])
 const currentNavIndex = shallowRef(0)
 
+const instance = getCurrentInstance()!
+const router = instance.appContext.config.globalProperties.$router as Router
+const handleBack = () => {
+  router.go(-1)
+}
+
 const getDefaultSlots = () => {
   let children = slots.default?.() || []
   let nav: string[] = []
   let result: VNode[] = []
 
   function recursive(nodeList: VNodeArrayChildren) {
-    nodeList.forEach((node) => {
+    nodeList.forEach(node => {
       if (!isVNode(node)) return
 
       if (isFragment(node) || isTemplate(node)) {
