@@ -64,6 +64,7 @@ import ElPagination from '@element-ultra/components/pagination'
 import ElButton from '@element-ultra/components/button'
 import { computed, shallowReactive, watch, shallowRef, onMounted } from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
+import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 
 defineOptions({
   name: 'ElProTable',
@@ -127,15 +128,17 @@ const fetchData = async () => {
     return acc
   }, {} as Record<string, any>)
 
-  const { total, data } = await configStore.proTableRequestMethod({
-    api: props.api,
-    query: {
-      ...(props.pagination ? query : null),
-      ...realQuery
-    }
-  }).finally(() => {
-    loading.value = false
-  })
+  const { total, data } = await configStore
+    .proTableRequestMethod({
+      api: props.api,
+      query: {
+        ...(props.pagination ? query : null),
+        ...realQuery
+      }
+    })
+    .finally(() => {
+      loading.value = false
+    })
 
   if (total) {
     state.total = total
