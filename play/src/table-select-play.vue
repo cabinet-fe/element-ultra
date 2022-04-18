@@ -1,5 +1,5 @@
 <template>
-  <el-table-select v-model="singleData" :columns="columns" :data="treeData" :multiple="multiple" :api="`/admin/dept/tree`">
+  <el-table-select v-model="singleData" :columns="columns" :data="treeData" :multiple="multiple" :api="``">
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
   </el-table-select>
 </template>

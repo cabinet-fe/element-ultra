@@ -1,5 +1,4 @@
 <template>
-{{data}}
   <table :class="ns.b()" border="1">
     <thead>
       <tr>
