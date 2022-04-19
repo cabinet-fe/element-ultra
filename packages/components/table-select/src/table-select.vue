@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, onMounted } from 'vue'
+import { shallowRef, provide, onMounted, ref } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableCl from './table-cl.vue'
@@ -42,7 +42,7 @@ provide('stripe', stripe)
 
 const ns = useNamespace('table-select')
 
-let selected = $ref<any>([])
+let selected = ref<any>([])
 
 const dialogRef = shallowRef()
 
@@ -51,7 +51,7 @@ const handleClick = () => {
 }
 
 const handleSelect = (data: Record<string, any>) => {
-  multiple ? (selected = data) : (selected = [data])
+  multiple ? (selected.value = data) : (selected.value = [data])
   emits('update:modelValue', data)
 }
 
@@ -60,7 +60,7 @@ const emits = defineEmits<{
 }>()
 
 const stateInit = () => {
-  multiple ? (selected = modelValue) : (selected = [modelValue])
+  multiple ? (selected.value = modelValue) : (selected.value = [modelValue])
 }
 
 onMounted(() => {

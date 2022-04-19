@@ -386,6 +386,10 @@ export const sidebars = {
           link: '/component/edit-bar',
           text: 'EditBar 编辑栏',
         },
+        {
+          link: '/component/table-select',
+          text: 'TableSelect 表格选择组件',
+        }
       ]
     }
   ],

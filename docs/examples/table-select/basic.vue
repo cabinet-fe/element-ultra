@@ -3,37 +3,36 @@
     v-model="singleData"
     :columns="columns"
     :data="tableData"
-    :multiple="multiple"
-    :api="``"
-    pagination
-    :show-index="true"
   >
-    <el-button type="primary" :icon="Plus">自定义按钮</el-button>
+    <el-button type="primary">单选</el-button>
   </el-table-select>
-
-  <!-- <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="Date" name="Date" />
-    <el-table-column prop="name" label="Name" name="Name" />
-    <el-table-column prop="address" label="Address" name="Address" />
-  </el-table> -->
+  <el-table-select
+    v-model="multipleData"
+    :columns="columns"
+    :data="tableData"
+    multiple
+    show-index
+  >
+    <el-button type="primary">多选</el-button>
+  </el-table-select>
 </template>
 
-<script lang="ts" setup>
-import { Plus } from '@element-plus/icons-vue'
-const columns = $ref([
+<script setup lang="ts">
+import { ref } from 'vue'
+const columns = ref([
   { key: 'name', name: '名字' },
   { key: 'date', name: '日期' },
-  { key: 'address', name: '地址' }
+  { key: 'address', name: '地址', width: 300 }
 ])
 
-let singleData = $ref({
+let singleData = ref({
   date: '2016-05-03',
   name: 'Bob',
   address: 'No. 189, Grove St, Los Angeles',
   id: 1
 })
 
-let multipleData = $ref([
+let multipleData = ref([
   {
     date: '2016-05-03',
     name: 'Bob',
@@ -42,9 +41,7 @@ let multipleData = $ref([
   }
 ])
 
-let multiple = $ref<boolean>(false)
-
-const tableData = $ref([
+const tableData = ref([
   {
     date: '2016-05-03',
     name: 'Bob',
