@@ -23,6 +23,7 @@ export default function usePreColumns(props: ProTableProps, tableRef: ShallowRef
         width: 60,
         key: '$checkbox',
         align: 'center',
+        fixed: 'left',
         checkable: checkable instanceof Function ? checkable : undefined
       })
     } else if (selectable) {
@@ -30,7 +31,8 @@ export default function usePreColumns(props: ProTableProps, tableRef: ShallowRef
         type: 'select',
         width: 60,
         key: '$radio',
-        align: 'center'
+        align: 'center',
+        fixed: 'left'
       })
     }
 
@@ -51,6 +53,7 @@ export default function usePreColumns(props: ProTableProps, tableRef: ShallowRef
     type: 'expand',
     width: 40,
     key: '$expand',
+    fixed: 'left',
     name: () => {
       return [
         h(

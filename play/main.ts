@@ -23,10 +23,10 @@ setConfigStore({
         age: 28
       }
     ]
-    return {
+    return Promise.resolve({
       data,
       total: data.length,
-    }
+    })
   },
 })
 

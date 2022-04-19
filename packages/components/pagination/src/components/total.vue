@@ -1,41 +1,22 @@
 <template>
-  <span :class="ns.e('total')" :disabled="disabled">
-    {{
-      t('el.pagination.total', {
-        total,
-      })
-    }}
-  </span>
+  <span :class="ns.e('total')" :disabled="disabled"> 共 {{ total }} 条 </span>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+<script setup lang="ts">
+import { useNamespace } from '@element-ultra/hooks'
 import { usePagination } from '../usePagination'
-import type { ExtractPropTypes } from 'vue'
 
-const paginationTotalProps = {
+defineOptions({
+  name: 'ElPaginationTotal'
+})
+
+defineProps({
   total: {
     type: Number,
-    default: 1000,
-  },
-} as const
-export type PaginationTotalProps = ExtractPropTypes<typeof paginationTotalProps>
-
-export default defineComponent({
-  name: 'ElPaginationTotal',
-
-  props: paginationTotalProps,
-
-  setup() {
-    const { t } = useLocale()
-    const ns = useNamespace('pagination')
-    const { disabled } = usePagination()
-    return {
-      t,
-      ns,
-      disabled,
-    }
-  },
+    default: 1000
+  }
 })
+
+const ns = useNamespace('pagination')
+const { disabled } = usePagination()
 </script>

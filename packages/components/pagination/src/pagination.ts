@@ -258,7 +258,7 @@ export default defineComponent({
 
     return () => {
       if (!assertValidUsage.value) {
-        debugWarn(componentName, t('el.pagination.deprecationWarning'))
+        debugWarn(componentName, '废弃警告')
         return null
       }
       if (!props.layout) return null
