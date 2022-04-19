@@ -27,7 +27,7 @@
         :class="{ [ns.e('row')]: true, [ns.e('row-stripe')]: index % 2 === 1 && stripe }"
       >
         <td v-if="checkable && !multiple">
-          <el-radio v-model="radio" :value="row.id">{{}}</el-radio>
+          <el-radio v-model="radio.val" :value="row.id">{{}}</el-radio>
         </td>
         <td v-else-if="checkable && multiple">
           <el-checkbox
@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, inject, computed } from 'vue'
+import { watch, inject, computed, ref, reactive } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableClProps } from './table-cl'
 import { ElCheckbox, ElRadio } from '@element-ultra/components'
@@ -72,72 +72,72 @@ const multiple = inject('multiple')
 const showIndex = inject('showIndex')
 const stripe = inject('stripe')
 
-let radio = $ref<string | number | boolean | undefined>(null)
+let radio = ref({val: ''})
 
-let checkbox = $ref(new Set())
+let checkbox = ref(new Set())
 
-let store = $ref({
-  radio: null,
+let store = reactive({
+  radio: '',
   checkbox: new Set()
 })
 
-let tableData = $ref<any>(null)
+let tableData = ref<any>(null)
 
-let isIndeterminate = $ref<boolean>(false)
+let isIndeterminate = ref<boolean>(false)
 
-let allCheck = $ref<boolean>(false)
+let allCheck = ref<boolean>(false)
 
 const handleAllCheck = (val: boolean) => {
-  if(val) {
-    tableData.forEach((item: Record<string, any>) => {
-      checkbox.add(item.id)
+  if (val) {
+    tableData.value.forEach((item: Record<string, any>) => {
+      checkbox.value.add(item.id)
     })
-  }else {
-    checkbox.clear()
+  } else {
+    checkbox.value.clear()
   }
 }
 
 const getValue = () => {
   if (multiple) {
-    return [...checkbox].map((id: any) => {
-      return tableData.find((item: any) => item.id === id)
+    return [...checkbox.value].map((id: any) => {
+      return tableData.value.find((item: any) => item.id === id)
     })
   } else {
     return data.find((item: any) => {
-      return item.id === radio
+      return item.id === radio.value.val
     })
   }
 }
 
 const setValue = (data: Record<string, any>) => {
   if (multiple) {
-    checkbox.clear()
+    checkbox.value.clear()
     store.checkbox.clear()
     data?.forEach((item: Record<string, any>) => {
-      checkbox.add(item.id)
+      checkbox.value.add(item.id)
       store.checkbox.add(item.id)
     })
   } else {
-    radio = data[0].id
+    radio.value.val = data[0].id
     store.radio = data[0].id
   }
 }
 
 const clear = () => {
   if (multiple) {
-    checkbox.clear()
-    store.checkbox.forEach((item: string) => {
-      checkbox.add(item)
+    checkbox.value.clear()
+    store.checkbox.forEach((item: any) => {
+      checkbox.value.add(item)
     })
   } else {
-    radio = store.radio
+    radio.value.val = store.radio || ''
   }
 }
 
 watch(
   () => props.data,
   (cur, pre) => {
-    tableData = cur
+    tableData.value = cur
   },
   {
     immediate: true
@@ -155,13 +155,15 @@ watch(
 )
 
 let checkboxsize = computed(() => {
-  return checkbox.size
+  return checkbox.value.size
 })
 
 watch(
   () => checkboxsize.value,
   (cur, pre) => {
-    ( cur && cur !== tableData.length ) ? isIndeterminate = true : isIndeterminate = false
+    cur && cur !== tableData.value.length
+      ? (isIndeterminate.value = true)
+      : (isIndeterminate.value = false)
   },
   {
     immediate: true

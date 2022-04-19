@@ -30,12 +30,12 @@
 <script lang="ts" setup>
 import { ElDialog, ElButtonGroup, ElButton, ElPagination } from '@element-ultra/components'
 import { useNamespace } from '@element-ultra/hooks'
-import { shallowRef, watch, inject } from 'vue'
+import { shallowRef, watch, inject, ref } from 'vue'
 import { dialogClProps } from './dialog-cl'
 import TableCl from './table-cl.vue'
 import { Http } from 'fe-dk'
 
-let visible = $ref<boolean>(false)
+let visible = ref<boolean>(false)
 
 const props = defineProps(dialogClProps)
 
@@ -51,24 +51,24 @@ const emits = defineEmits<{
 
 // pagination
 let pagination = inject('pagination')
-let currentPage = $ref(1)
-let pageSize = $ref(20)
-let totalSize = $ref(400)
+let currentPage = ref(1)
+let pageSize = ref(20)
+let totalSize = ref(400)
 const handleSizeChange = (size: number) => {
-  pageSize = size
+  pageSize.value = size
   fetchData(api)
 }
 const handleCurrentChange = (current: number) => {
-  currentPage = current
+  currentPage.value = current
   fetchData(api)
 }
 
 const open = () => {
-  visible = true
+  visible.value = true
 }
 
 const close = () => {
-  visible = false
+  visible.value = false
 }
 
 const handleCancel = () => {
@@ -86,7 +86,7 @@ const http = new Http({
   timeout: 18000
 })
 
-let tableData = $ref(null)
+let tableData = ref(null)
 
 const fetchData = (api: string) => {
   http
