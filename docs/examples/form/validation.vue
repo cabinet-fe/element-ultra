@@ -120,7 +120,14 @@ const [data, rules] = useFormModel({
   },
 
   sponsor: {},
-  address: {}
+  address: {
+    validator(v, model) {
+      if (model.region === '上海') {
+        return '上海疫情比较严重，请换个地方'
+      }
+      return ''
+    }
+  }
 })
 
 const submitForm = () => {
