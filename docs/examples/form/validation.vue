@@ -44,8 +44,8 @@
       label="活动地点"
       field="region"
       :options="[
-        { label: 'Zone one', value: '上海' },
-        { label: 'Zone two', value: '北京' }
+        { label: '上海', value: '上海' },
+        { label: '北京', value: '北京' }
       ]"
     />
 
