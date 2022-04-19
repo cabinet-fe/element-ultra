@@ -20,6 +20,10 @@ export const tableSelectProps = {
   api: {
     type: String,
     default: ''
+  },
+  pagination: {
+    type: Boolean,
+    default: false
   }
 } as const
 

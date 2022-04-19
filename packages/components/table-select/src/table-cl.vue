@@ -76,7 +76,7 @@ const setValue = (data: Record<string, any>) => {
       checkbox.add(item.id)
       store.checkbox.add(item.id)
     })
-  }else {
+  } else {
     radio = data[0].id
     store.radio = data[0].id
   }
@@ -88,7 +88,7 @@ const clear = () => {
     store.checkbox.forEach((item: string) => {
       checkbox.add(item)
     })
-  }else {
+  } else {
     radio = store.radio
   }
 }

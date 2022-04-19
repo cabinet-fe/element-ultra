@@ -33,9 +33,10 @@ defineOptions({
 
 const props = defineProps(tableSelectProps)
 
-const { modelValue, columns, data, multiple, api } = props
+const { modelValue, columns, data, multiple, api, pagination } = props
 
 provide('multiple', multiple)
+provide('pagination', pagination)
 
 const ns = useNamespace('table-select')
 
