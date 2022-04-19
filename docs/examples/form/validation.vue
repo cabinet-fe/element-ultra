@@ -62,7 +62,7 @@
     </el-radio-group>
 
     <el-input v-if="data.resource === '赞助'" label="赞助商" field="sponsor" />
-    <el-input v-else label="场地地址" field="address" />
+    <el-input v-else label="场地地址" tips="这有个自定义校验" field="address" />
 
     <el-textarea span="max" label="描述" field="desc" />
 
