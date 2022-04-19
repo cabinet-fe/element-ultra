@@ -60,7 +60,8 @@
 import { watch, inject, computed, ref, reactive } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableClProps } from './table-cl'
-import { ElCheckbox, ElRadio } from '@element-ultra/components'
+import { ElCheckbox } from '@element-ultra/components/checkbox'
+import { ElRadio } from '@element-ultra/components/radio'
 
 const props = defineProps(tableClProps)
 
@@ -72,7 +73,7 @@ const multiple = inject('multiple')
 const showIndex = inject('showIndex')
 const stripe = inject('stripe')
 
-let radio = ref({val: ''})
+let radio = ref({ val: '' })
 
 let checkbox = ref(new Set())
 

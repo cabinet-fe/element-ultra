@@ -25,7 +25,7 @@ import { tableSelectProps } from './table-select'
 import TableCl from './table-cl.vue'
 import DialogCl from './dialog-cl.vue'
 import { Plus } from '@element-plus/icons-vue'
-import { ElButton } from '@element-ultra/components'
+import { ElButton } from '@element-ultra/components/button'
 
 defineOptions({
   name: 'ElTableSelect'

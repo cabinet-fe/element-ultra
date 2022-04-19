@@ -28,9 +28,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ElDialog, ElButtonGroup, ElButton, ElPagination } from '@element-ultra/components'
-import { useNamespace } from '@element-ultra/hooks'
 import { shallowRef, watch, inject, ref } from 'vue'
+import { ElDialog } from '@element-ultra/components/dialog'
+import { ElButtonGroup, ElButton } from '@element-ultra/components/button'
+import { ElPagination } from '@element-ultra/components/pagination'
+import { useNamespace } from '@element-ultra/hooks'
 import { dialogClProps } from './dialog-cl'
 import TableCl from './table-cl.vue'
 import { Http } from 'fe-dk'
@@ -96,7 +98,7 @@ const fetchData = (api: string) => {
         size: pageSize
       }
     })
-    .then((res) => {
+    .then(res => {
       const { code, data } = res
       if (code !== 200) return
       tableData = data.records
