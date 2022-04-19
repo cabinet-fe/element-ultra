@@ -119,6 +119,8 @@ let loading = shallowRef(false)
 const fetchData = async () => {
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
   loading.value = true
+
+  // 还原真实的请求参数
   let realQuery = Object.keys(props.query || {}).reduce((acc, cur) => {
     let v = props.query![cur]
     if (cur.startsWith('$')) {

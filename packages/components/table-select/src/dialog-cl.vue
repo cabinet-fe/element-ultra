@@ -106,6 +106,7 @@ const fetchData = (api: string) => {
     })
 }
 
+// FIXME: cur ? fetchData(cur) : void 0 => cur && fetchData(cur)
 watch(
   () => props.api,
   (cur, pre) => {
