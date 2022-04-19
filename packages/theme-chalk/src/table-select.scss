@@ -1,0 +1,53 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use './table.scss' as *;
+
+
+@include b(table-select) {
+  @include e(btn) {
+    display: inline-block;
+    margin: 5px;
+  }
+  @include b(table-cl) {
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: fit-content;
+    width: 100%;
+    max-width: 100%;
+    background-color: #fff;
+    font-size: 14px;
+    color: #606266;
+    border-collapse: collapse;
+    tr {
+      border-bottom: 1px solid #ebeef5;
+      display: flex;
+      th, td {
+        padding: 8px 12px;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        @include e(auto) {
+          flex: 1;
+        }
+      }
+
+    }
+    @include e(header) {
+      color: #909399;
+      font-weight: 500;
+      text-align: left;
+
+    }
+    @include e(body) {
+      tr:hover {
+        background-color: #f5f7fa;
+      }
+      @include e('row-stripe') {
+        background-color: #fafafa;
+      }
+    }
+  }
+}
