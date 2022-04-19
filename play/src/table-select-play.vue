@@ -1,6 +1,6 @@
 <template>
   <el-table-select
-    v-model="singleData"
+    v-model="multipleData"
     :columns="columns"
     :data="tableData"
     :multiple="multiple"
@@ -42,7 +42,7 @@ let multipleData = $ref([
   }
 ])
 
-let multiple = $ref<boolean>(false)
+let multiple = $ref<boolean>(true)
 
 const tableData = $ref([
   {

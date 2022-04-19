@@ -2,7 +2,15 @@
   <table :class="ns.b()">
     <thead :class="ns.e('header')">
       <tr :class="ns.e('header-row')">
-        <th v-if="checkable"></th>
+        <th v-if="checkable">
+          <el-radio v-if="!multiple"></el-radio>
+          <el-checkbox
+            v-else
+            v-model="allCheck"
+            @change="handleAllCheck"
+            :indeterminate="isIndeterminate"
+          ></el-checkbox>
+        </th>
         <th v-if="showIndex" :class="ns.e('auto')">序号</th>
         <th
           v-for="item in columns"
@@ -49,7 +57,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, inject } from 'vue'
+import { watch, inject, computed } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableClProps } from './table-cl'
 import { ElCheckbox, ElRadio } from '@element-ultra/components'
@@ -74,6 +82,20 @@ let store = $ref({
 })
 
 let tableData = $ref<any>(null)
+
+let isIndeterminate = $ref<boolean>(false)
+
+let allCheck = $ref<boolean>(false)
+
+const handleAllCheck = (val: boolean) => {
+  if(val) {
+    tableData.forEach((item: Record<string, any>) => {
+      checkbox.add(item.id)
+    })
+  }else {
+    checkbox.clear()
+  }
+}
 
 const getValue = () => {
   if (multiple) {
@@ -126,6 +148,20 @@ watch(
   () => props.value,
   (cur, pre) => {
     cur ? setValue(cur) : void 0
+  },
+  {
+    immediate: true
+  }
+)
+
+let checkboxsize = computed(() => {
+  return checkbox.size
+})
+
+watch(
+  () => checkboxsize.value,
+  (cur, pre) => {
+    ( cur && cur !== tableData.length ) ? isIndeterminate = true : isIndeterminate = false
   },
   {
     immediate: true
