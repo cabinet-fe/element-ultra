@@ -24,6 +24,14 @@ export const tableSelectProps = {
   pagination: {
     type: Boolean,
     default: false
+  },
+  showIndex: {
+    type: Boolean,
+    default: false
+  },
+  stripe: {
+    type: Boolean,
+    default: true
   }
 } as const
 

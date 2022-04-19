@@ -8,7 +8,7 @@
       ref="tableRef"
     />
     <el-pagination
-      v-if="pagination"
+      v-if="api && pagination"
       v-model:currentPage="currentPage"
       v-model:page-size="pageSize"
       :page-sizes="[20, 40, 80, 100, 150, 200]"
@@ -99,8 +99,8 @@ const fetchData = (api: string) => {
     .then((res) => {
       const { code, data } = res
       if (code !== 200) return
-      tableData = data.records || [{name: 'lily', score: 23, id: 23}]
-      totalSize = data.total || 30
+      tableData = data.records
+      totalSize = data.total
     })
 }
 

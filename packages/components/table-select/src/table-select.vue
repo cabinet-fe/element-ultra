@@ -1,7 +1,7 @@
 <template>
   <div :class="ns.b()">
     <!-- 按钮 -->
-    <div @click="handleClick" style="display: inline-block"><slot>
+    <div @click="handleClick" :class="ns.e('btn')"><slot>
       <el-button type="primary" :icon="Plus">选择</el-button>
     </slot></div>
     <!-- 表格 -->
@@ -33,10 +33,12 @@ defineOptions({
 
 const props = defineProps(tableSelectProps)
 
-const { modelValue, columns, data, multiple, api, pagination } = props
+const { modelValue, columns, data, multiple, api, pagination, showIndex, stripe } = props
 
 provide('multiple', multiple)
 provide('pagination', pagination)
+provide('showIndex', showIndex)
+provide('stripe', stripe)
 
 const ns = useNamespace('table-select')
 

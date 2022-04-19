@@ -1,13 +1,23 @@
 <template>
-  <table :class="ns.b()" border="1">
-    <thead>
-      <tr>
+  <table :class="ns.b()">
+    <thead :class="ns.e('header')">
+      <tr :class="ns.e('header-row')">
         <th v-if="checkable"></th>
-        <th v-for="item in columns">{{ item.name }}</th>
+        <th v-if="showIndex" :class="ns.e('auto')">序号</th>
+        <th
+          v-for="item in columns"
+          :class="{ [ns.e('auto')]: !item.width }"
+          :style="{ width: `${item.width}px` }"
+        >
+          {{ item.name }}
+        </th>
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="row in tableData">
+    <tbody :class="ns.e('body')">
+      <tr
+        v-for="(row, index) in tableData"
+        :class="{ [ns.e('row')]: true, [ns.e('row-stripe')]: index % 2 === 1 && stripe }"
+      >
         <td v-if="checkable && !multiple">
           <el-radio v-model="radio" :value="row.id">{{}}</el-radio>
         </td>
@@ -19,7 +29,14 @@
             >{{}}</el-checkbox
           >
         </td>
-        <td v-for="item in columns">{{ row[item.key] }}</td>
+        <td v-if="showIndex" :class="ns.e('auto')">{{ index + 1 }}</td>
+        <td
+          v-for="item in columns"
+          :class="{ [ns.e('auto')]: !item.width }"
+          :style="{ width: `${item.width}px` }"
+        >
+          {{ row[item.key] }}
+        </td>
       </tr>
     </tbody>
     <!-- <tfoot>
@@ -43,7 +60,9 @@ const { data, checkable } = props
 
 const ns = useNamespace('table-cl')
 
-let multiple = inject('multiple')
+const multiple = inject('multiple')
+const showIndex = inject('showIndex')
+const stripe = inject('stripe')
 
 let radio = $ref<string | number | boolean | undefined>(null)
 
