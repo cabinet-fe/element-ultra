@@ -1,6 +1,12 @@
 <template>
-  <el-dialog v-model="visible">
-    <TableCl
+  <el-dialog v-model="visible" :class="ns.b()">
+    <div :class="ns.e('searcher')">
+      <div :class="ns.e('wrapper')">
+        <slot name="searcher"></slot>
+      </div>
+      <div :class="ns.e('btn')"><el-button type="primary">查询</el-button></div>
+    </div>
+    <TableSelectDisplay
       :data="tableData ? tableData : data"
       :columns="columns"
       :value="value"
@@ -28,22 +34,22 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, watch, inject, ref } from 'vue'
+import { shallowRef, watch, inject, ref, shallowReactive } from 'vue'
 import { ElDialog } from '@element-ultra/components/dialog'
 import { ElButtonGroup, ElButton } from '@element-ultra/components/button'
 import { ElPagination } from '@element-ultra/components/pagination'
-import { useNamespace } from '@element-ultra/hooks'
-import { dialogClProps } from './dialog-cl'
-import TableCl from './table-cl.vue'
-import { Http } from 'fe-dk'
+import { useNamespace, useConfig } from '@element-ultra/hooks'
+import { tableSelectDialogProps } from './table-select-dialog'
+import TableSelectDisplay from './table-select-display.vue'
+import { paginationKey } from './token'
 
 let visible = ref<boolean>(false)
 
-const props = defineProps(dialogClProps)
+const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api } = props
+const { data, columns, api, query } = props
 
-const ns = useNamespace('dialog-cl')
+const ns = useNamespace('table-select-dialog')
 
 const tableRef = shallowRef()
 
@@ -52,7 +58,7 @@ const emits = defineEmits<{
 }>()
 
 // pagination
-let pagination = inject('pagination')
+let pagination = inject(paginationKey)
 let currentPage = ref(1)
 let pageSize = ref(20)
 let totalSize = ref(400)
@@ -84,33 +90,36 @@ const submit = () => {
   close()
 }
 
-const http = new Http({
-  timeout: 18000
-})
-
 let tableData = ref(null)
 
-const fetchData = (api: string) => {
-  http
-    .get(api, {
-      params: {
-        current: currentPage,
-        size: pageSize
-      }
-    })
-    .then(res => {
-      const { code, data } = res
-      if (code !== 200) return
-      tableData = data.records
-      totalSize = data.total
-    })
+// api
+const [configStore] = useConfig()
+
+// const query = shallowReactive({
+//   page: 1,
+//   size: configStore.proTableDefaultSize || 20
+// })
+
+const fetchData = async (api: string) => {
+  // http
+  //   .get(api, {
+  //     params: {
+  //       current: currentPage,
+  //       size: pageSize
+  //     }
+  //   })
+  //   .then(res => {
+  //     const { code, data } = res
+  //     if (code !== 200) return
+  //     tableData = data.records
+  //     totalSize = data.total
+  //   })
 }
 
-// FIXME: cur ? fetchData(cur) : void 0 => cur && fetchData(cur)
 watch(
   () => props.api,
   (cur, pre) => {
-    cur ? fetchData(cur) : void 0
+    cur && fetchData(cur)
   },
   {
     immediate: true

@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
-export const dialogClProps = {
+export const tableSelectDialogProps = {
   columns: {
     type: Array as PropType<Record<string, any>[]>,
     required: true
@@ -15,7 +15,10 @@ export const dialogClProps = {
   api: {
     type: String,
     default: ''
-  }
+  },
+  query: {
+    type: Object as PropType<Record<string, any>>
+  },
 } as const
 
-export type DialogClProps = ExtractPropTypes<typeof dialogClProps>
+export type TableSelectDialogProps = ExtractPropTypes<typeof tableSelectDialogProps>

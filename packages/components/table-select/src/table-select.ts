@@ -32,7 +32,10 @@ export const tableSelectProps = {
   stripe: {
     type: Boolean,
     default: true
-  }
+  },
+  query: {
+    type: Object as PropType<Record<string, any>>
+  },
 } as const
 
 export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>

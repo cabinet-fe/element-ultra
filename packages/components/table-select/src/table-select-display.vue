@@ -59,19 +59,20 @@
 <script lang="ts" setup>
 import { watch, inject, computed, ref, reactive } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { tableClProps } from './table-cl'
+import { tableSelectDisplayProps } from './table-select-display'
 import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { ElRadio } from '@element-ultra/components/radio'
+import { multipleKey, showIndexKey, stripeKey } from './token'
 
-const props = defineProps(tableClProps)
+const props = defineProps(tableSelectDisplayProps)
 
 const { data, checkable } = props
 
-const ns = useNamespace('table-cl')
+const ns = useNamespace('table-select-display')
 
-const multiple = inject('multiple')
-const showIndex = inject('showIndex')
-const stripe = inject('stripe')
+const multiple = inject(multipleKey)
+const showIndex = inject(showIndexKey)
+const stripe = inject(stripeKey)
 
 let radio = ref({ val: '' })
 

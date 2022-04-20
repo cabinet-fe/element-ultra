@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
-export const tableClProps = {
+export const tableSelectDisplayProps = {
   columns: {
     type: Array as PropType<Record<string, any>[]>,
     required: true
@@ -22,4 +22,4 @@ export const tableClProps = {
   }
 } as const
 
-export type TableClProps = ExtractPropTypes<typeof tableClProps>
+export type TableSelectDisplayProps = ExtractPropTypes<typeof tableSelectDisplayProps>
