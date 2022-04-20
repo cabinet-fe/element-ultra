@@ -35,7 +35,7 @@ import { ElPagination } from '@element-ultra/components/pagination'
 import { useNamespace } from '@element-ultra/hooks'
 import { dialogClProps } from './dialog-cl'
 import TableCl from './table-cl.vue'
-import { Http } from 'fe-dk'
+// import { Http } from 'fe-dk'
 
 let visible = ref<boolean>(false)
 
@@ -84,26 +84,23 @@ const submit = () => {
   close()
 }
 
-const http = new Http({
-  timeout: 18000
-})
-
 let tableData = ref(null)
 
 const fetchData = (api: string) => {
-  http
-    .get(api, {
-      params: {
-        current: currentPage,
-        size: pageSize
-      }
-    })
-    .then(res => {
-      const { code, data } = res
-      if (code !== 200) return
-      tableData = data.records
-      totalSize = data.total
-    })
+  // FIXME 参考pro-table的实现方法
+  // http
+  //   .get(api, {
+  //     params: {
+  //       current: currentPage,
+  //       size: pageSize
+  //     }
+  //   })
+  //   .then(res => {
+  //     const { code, data } = res
+  //     if (code !== 200) return
+  //     tableData = data.records
+  //     totalSize = data.total
+  //   })
 }
 
 // FIXME: cur ? fetchData(cur) : void 0 => cur && fetchData(cur)
