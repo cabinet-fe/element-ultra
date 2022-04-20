@@ -1,6 +1,7 @@
 <template>
-  <thumb :move="moveX" :ratio="ratioX" :size="width" :always="always" />
+  <thumb :style="{ zIndex }" :move="moveX" :ratio="ratioX" :size="width" :always="always" />
   <thumb
+    :style="{ zIndex }"
     :move="moveY"
     :ratio="ratioY"
     :size="height"
@@ -15,7 +16,7 @@ import { barProps } from './bar'
 
 export default defineComponent({
   components: {
-    Thumb,
+    Thumb
   },
   props: barProps,
   setup(props) {
@@ -36,8 +37,8 @@ export default defineComponent({
     return {
       handleScroll,
       moveX,
-      moveY,
+      moveY
     }
-  },
+  }
 })
 </script>

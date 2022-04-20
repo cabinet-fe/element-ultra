@@ -1,22 +1,29 @@
 <template>
-  <div :class="ns.b()">
-    <div :class="ns.e('button')" v-if="$slots.tools || createBtnText !== false">
-      <el-button @click="create" :icon="Plus">{{createBtnText}}</el-button>
+  <div v-bind="$attrs" :class="ns.b()" :style="{ height }">
+    <div :class="ns.e('title')" v-if="title">
+      {{ title }}
+    </div>
+
+    <div :class="ns.e('tools')" v-if="$slots.tools">
       <slot name="tools" />
     </div>
 
-    <div :class="ns.e('source')">
+    <!-- FIXME :noresize="!!height" -->
+    <el-scrollbar :style="{ height: bodyHeight }" always :bar-z-index="3" :class="ns.e('source')">
       <table cellpadding="0" border="0" cellspacing="0" :class="ns.e('table')">
         <colgroup>
+          <col style="width: 60px" />
           <col
             v-for="column of columns"
             :key="column.key"
             :style="{ width: column.width + 'px' }"
           />
+          <col :style="{ width: actionWidth + 'px' }" />
         </colgroup>
 
         <thead>
           <tr>
+            <th style="text-align: center">序号</th>
             <th
               v-for="column of columns"
               :class="{ 'is-required': columnRules[column.key]?.required }"
@@ -35,21 +42,23 @@
               <template v-else> {{ column.name }} </template>
             </th>
 
-            <th>操作</th>
+            <th :class="ns.e('action')">操作</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr v-for="(item, i) of internalData">
+          <tr v-for="(item, i) of internalData" ref="rowRefs">
+            <td style="text-align: center">{{ i + 1 }}</td>
+
             <template v-if="item._isInEdit !== false">
               <td
-                v-for="(node, nodexIndex) of getChildren({ row: item })"
-                :style="{ textAlign: columns[nodexIndex].align }"
+                v-for="(node, nodeIndex) of getChildren({ row: item })"
+                :style="{ textAlign: columns[nodeIndex].align }"
               >
                 <component :is="node" />
               </td>
 
-              <td>
+              <td :class="ns.e('action')">
                 <el-button type="primary" :icon="Select" text @click="saveRow(item)" />
                 <el-button type="primary" :icon="Close" text @click="handleExitEdit(item, i)" />
               </td>
@@ -60,7 +69,7 @@
                 {{ column.render?.(item[column.key], item, i) || item[column.key] }}
               </td>
 
-              <td>
+              <td :class="ns.e('action')">
                 <el-button type="primary" :icon="Edit" text @click="item._isInEdit = true">
                 </el-button>
                 <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)">
@@ -69,18 +78,24 @@
               </td>
             </template>
           </tr>
+
+          <tr v-if="!internalData.length">
+            <td :colspan="columns.length + 2" style="text-align: center">暂无数据</td>
+          </tr>
         </tbody>
       </table>
-    </div>
+    </el-scrollbar>
+    <el-button @click="create" style="width: 100%">{{ createBtnText }}</el-button>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed, ref, reactive, useSlots, watch, shallowRef, nextTick } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { computed, ref, reactive, useSlots, watch } from 'vue'
 import { multipleFormProps, type MultipleFormRules } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
+import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { Edit, Close, Plus, Select, Delete } from '@element-plus/icons-vue'
 
 defineOptions({
@@ -113,11 +128,18 @@ const columnRules = computed(() => {
 /** 错误提示 */
 const errorTip = reactive<Record<string, any>>({})
 
+const bodyHeight = computed(() => {
+  const titleHeight = props.title ? 36 : 0
+  const toolsHeight = slots.tools ? 40 : 0
+  const btnHeight = props.mode !== 'custom' ? 32 : 0
+  return props.height ? `calc(100% - ${titleHeight + toolsHeight + btnHeight}px)` : ''
+})
+
 // 回显
 watch(
   () => props.data,
   () => {
-    internalData.value = props.data.map((item) => {
+    internalData.value = props.data.map(item => {
       if (item._isInEdit === undefined) {
         item._isInEdit = false
       }
@@ -141,9 +163,18 @@ const createRow = () => {
   }, {} as Record<string, any>)
 }
 
+const rowRefs = shallowRef<HTMLTableRowElement[]>([])
+
 /** 增加 */
 const create = () => {
-  internalData.value.push(createRow())
+  if (props.mode === 'inline') {
+    internalData.value.push(createRow())
+  } else if (props.mode === 'dialog') {
+  }
+
+  nextTick(() => {
+    rowRefs.value[internalData.value.length - 1].scrollIntoView()
+  })
 }
 
 /** 增加到下一行 */
@@ -212,7 +243,7 @@ const validators = {
 /** 验证 */
 function validate(data: any, rules: Record<string, Partial<MultipleFormRules>>) {
   let isValid = true
-  Object.keys(rules).forEach(async (fieldKey) => {
+  Object.keys(rules).forEach(async fieldKey => {
     const rule = rules[fieldKey]
 
     const { validator, ...restRule } = rule

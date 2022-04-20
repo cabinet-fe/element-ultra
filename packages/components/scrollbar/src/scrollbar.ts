@@ -43,6 +43,9 @@ export const scrollbarProps = buildProps({
     type: Number,
     default: 20,
   },
+  barZIndex: {
+    type: Number
+  }
 } as const)
 
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>

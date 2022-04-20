@@ -3,11 +3,16 @@
     :editable="true"
     :data="data"
     :columns="columns"
+    title="标题"
+    height="400px"
     @save="onSave"
     @delete="onDelete"
     @add-next-line="addNextLine"
-    :create-btn-text="false"
   >
+    <template #tools>
+      <el-button type="primary" @click="addNextLine">添加一行</el-button>
+    </template>
+
     <template #default="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
       <el-input-number :min="1" v-model="row.age" placeholder="单价" />
@@ -24,40 +29,25 @@ const columns: MultipleFormColumn[] = [
     name: '银行卡号',
     key: 'name',
     rules: {
-      required: true,
-      validator(v) {
-        console.log(...arguments)
-        if (!v) return '必填'
-        if (v.length < 6) {
-          return ''
-        }
-        return '不能超过6'
-      }
+      required: true
     },
-    width: 200,
     align: 'center'
   },
   {
     name: '年龄',
     key: 'age',
     rules: {
-      required: [true, '必填'],
+      required: true,
       min: 2
     },
-    align: 'left',
-    width: 200
+    align: 'left'
   },
   {
     name: '手机号',
     key: 'school',
     rules: {
-      required: true,
-      match: [
-        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-        '输入正确手机号'
-      ]
-    },
-    width: 150
+      required: true
+    }
   }
 ]
 
@@ -79,8 +69,7 @@ const onDelete = (row: any) => {
 }
 
 /** 增加下一行 */
-const addNextLine = (row:any)=>{
-  console.log(row,'row_增加')
+const addNextLine = (row: any) => {
+  console.log(row, 'row_增加')
 }
 </script>
-

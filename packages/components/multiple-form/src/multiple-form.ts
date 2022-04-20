@@ -48,10 +48,27 @@ export const multipleFormProps = {
     required: true
   },
 
-  width: String || Number,
+  /** 设置表单固定高度 */
+  height: {
+    type: String as PropType<string>
+  },
 
   /** 是否编辑 */
-  editable: Boolean
+  editable: Boolean,
+
+  mode: {
+    type: String as PropType<'inline' | 'dialog' | 'custom'>,
+    default: 'inline'
+  },
+
+  title: {
+    type: String
+  },
+
+  actionWidth: {
+    type: Number,
+    default: 120
+  }
 } as const
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>

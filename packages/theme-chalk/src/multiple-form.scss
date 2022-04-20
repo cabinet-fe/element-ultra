@@ -3,16 +3,32 @@
 @include b(multiple-form) {
   background-color: var(--el-color-white);
   width: 100%;
-  height: 100%;
 
-  @include e(button) {
-    padding: 10px 0;
+  $title-height: 36px;
+
+  @include e(title) {
+    height: $title-height;
+    line-height: $title-height;
+    padding: 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  $tools-height: 40px;
+  @include e(tools) {
+    height: $tools-height;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    align-content: center;
     background-color: var(--el-color-white);
+
+    & > * {
+      vertical-align: middle;
+    }
   }
 
   @include e(source) {
-    height: calc(100% - 55px);
-    overflow: auto;
     border: 1px solid var(--el-color-info-light-9);
   }
 
@@ -35,6 +51,7 @@
       position: sticky;
       top: 0;
       z-index: 2;
+
       background-color: var(--el-color-white);
     }
 
@@ -43,20 +60,10 @@
       text-align: left;
       padding: 10px;
       box-sizing: border-box;
+      font-size: 14px;
     }
     th {
       box-shadow: 5px 2px 6px 1px rgba(0, 0, 0, 0.1);
-    }
-
-    th:last-child,
-    td:last-child {
-      position: sticky;
-      right: 0;
-      z-index: 2;
-      text-align: left;
-      width: 150px;
-      background-color: var(--el-color-white);
-      box-shadow: -3px 2px 6px 1px rgba(0, 0, 0, 0.1);
     }
 
     th:last-child {
@@ -70,5 +77,26 @@
         color: red;
       }
     }
+  }
+
+  @include e(action) {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 100%;
+      pointer-events: none;
+      touch-action: none;
+      box-shadow: -2px 0 5px 0px rgba(0, 0, 0, 0.05);
+    }
+
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    text-align: left;
+    width: 150px;
+    background-color: var(--el-color-white);
   }
 }
