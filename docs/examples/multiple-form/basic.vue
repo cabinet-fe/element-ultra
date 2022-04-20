@@ -5,7 +5,7 @@
     @save="onSave"
     @delete="onDelete"
     @add-next-line="addNextLine"
-    create-btn-text="新增"
+    :create-btn-text="false"
   >
     <template #default="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import type { MultipleFormColumn } from 'element-ultra'
 
 const columns: MultipleFormColumn[] = [
@@ -60,7 +61,7 @@ const columns: MultipleFormColumn[] = [
   }
 ]
 
-let data = $ref<any[]>([
+let data = ref<any[]>([
   { name: '6216616101002312625', age: 20, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' }
@@ -78,8 +79,7 @@ const onDelete = (row: any) => {
 }
 
 /** 增加下一行 */
-const addNextLine = (row:any)=>{
-  console.log(row,'row_增加')
+const addNextLine = (row: any) => {
+  console.log(row, 'row_增加')
 }
 </script>
-
