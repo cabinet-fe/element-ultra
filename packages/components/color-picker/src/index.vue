@@ -20,12 +20,7 @@
           <sv-panel ref="svPanel" :color="color" />
         </div>
         <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
-        <predefine
-          v-if="predefine"
-          ref="predefine"
-          :color="color"
-          :colors="predefine"
-        />
+        <predefine v-if="predefine" ref="predefine" :color="color" :colors="predefine" />
         <div :class="ns.be('dropdown', 'btns')">
           <span :class="ns.be('dropdown', 'value')">
             <el-input
@@ -35,40 +30,24 @@
               @blur="handleConfirm"
             />
           </span>
-          <el-button
-            size="small"
-            text
-            :class="ns.be('dropdown', 'link-btn')"
-            @click="clear"
-          >
+          <el-button size="small" text :class="ns.be('dropdown', 'link-btn')" @click="clear">
             {{ t('el.colorpicker.clear') }}
           </el-button>
-          <el-button
-            plain
-            size="small"
-            :class="ns.be('dropdown', 'btn')"
-            @click="confirmValue"
-          >
+          <el-button plain size="small" :class="ns.be('dropdown', 'btn')" @click="confirmValue">
             {{ t('el.colorpicker.confirm') }}
           </el-button>
         </div>
       </div>
     </template>
     <template #default>
-      <div
-        :class="[
-          ns.b('picker'),
-          ns.is('disabled', colorDisabled),
-          ns.bm('picker', colorSize),
-        ]"
-      >
+      <div :class="[ns.b('picker'), ns.is('disabled', colorDisabled), ns.bm('picker', colorSize)]">
         <div v-if="colorDisabled" :class="ns.be('picker', 'mask')"></div>
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
             <span
               :class="ns.be('picker', 'color-inner')"
               :style="{
-                backgroundColor: displayedColor,
+                backgroundColor: displayedColor
               }"
             >
               <el-icon
@@ -101,14 +80,13 @@ import {
   provide,
   reactive,
   ref,
-  watch,
+  watch
 } from 'vue'
 import { debounce } from 'lodash-unified'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import { ClickOutside } from '@element-ultra/directives'
-import { formItemKey, formKey } from '@element-ultra/tokens'
-import { useLocale, useSize, useNamespace } from '@element-ultra/hooks'
+import { useLocale, useSize, useNamespace, useFormItem } from '@element-ultra/hooks'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElInput from '@element-ultra/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
@@ -122,7 +100,6 @@ import Color from './color'
 import { OPTIONS_KEY } from './useOption'
 
 import type { PropType } from 'vue'
-import type { FormContext, FormItemContext } from '@element-ultra/tokens'
 import type { ComponentSize } from '@element-ultra/constants'
 import type { IUseOptions } from './useOption'
 
@@ -138,10 +115,10 @@ export default defineComponent({
     SvPanel,
     HueSlider,
     AlphaSlider,
-    Predefine,
+    Predefine
   },
   directives: {
-    ClickOutside,
+    ClickOutside
   },
   props: {
     modelValue: String,
@@ -150,17 +127,16 @@ export default defineComponent({
     disabled: Boolean,
     size: {
       type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
+      validator: isValidComponentSize
     },
     popperClass: String,
-    predefine: Array,
+    predefine: Array
   },
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('color')
-    const elForm = inject(formKey, {} as FormContext)
-    const elFormItem = inject(formItemKey, {} as FormItemContext)
+    const { formItem, form } = useFormItem()
 
     const hue = ref(null)
     const svPanel = ref(null)
@@ -171,7 +147,7 @@ export default defineComponent({
       new Color({
         enableAlpha: props.showAlpha,
         format: props.colorFormat,
-        value: props.modelValue,
+        value: props.modelValue
       })
     )
     const showPicker = ref(false)
@@ -186,7 +162,7 @@ export default defineComponent({
     })
     const colorSize = useSize()
     const colorDisabled = computed(() => {
-      return !!(props.disabled || elForm.disabled)
+      return !!(props.disabled || form?.props.disabled)
     })
 
     const currentColor = computed(() => {
@@ -195,7 +171,7 @@ export default defineComponent({
     // watch
     watch(
       () => props.modelValue,
-      (newVal) => {
+      newVal => {
         if (!newVal) {
           showPanelColor.value = false
         } else if (newVal && newVal !== color.value) {
@@ -205,7 +181,7 @@ export default defineComponent({
     )
     watch(
       () => currentColor.value,
-      (val) => {
+      val => {
         customInput.value = val
         emit('active-change', val)
       }
@@ -266,14 +242,14 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem?.validate()
+      formItem?.validate()
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
         const newColor = new Color({
           enableAlpha: props.showAlpha,
           format: props.colorFormat,
-          value: props.modelValue,
+          value: props.modelValue
         })
         if (!color.compare(newColor)) {
           resetColor()
@@ -286,7 +262,7 @@ export default defineComponent({
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
       if (props.modelValue !== null) {
-        elFormItem?.validate()
+        formItem?.validate()
       }
       resetColor()
     }
@@ -308,7 +284,7 @@ export default defineComponent({
     )
 
     provide<IUseOptions>(OPTIONS_KEY, {
-      currentColor,
+      currentColor
     })
 
     return {
@@ -329,8 +305,8 @@ export default defineComponent({
       hue,
       svPanel,
       alpha,
-      popper,
+      popper
     }
-  },
+  }
 })
 </script>
