@@ -1,7 +1,7 @@
 <template>
   <div :class="ns.b()">
     <div :class="ns.e('button')" v-if="$slots.tools || createBtnText !== false">
-      <el-button @click="create" :icon="Plus">{{createBtnText}}</el-button>
+      <el-button @click="create" :icon="Plus">{{ createBtnText }}</el-button>
       <slot name="tools" />
     </div>
 
@@ -50,8 +50,13 @@
               </td>
 
               <td>
-                <el-button type="primary" :icon="Select" text @click="saveRow(item)" />
-                <el-button type="primary" :icon="Close" text @click="handleExitEdit(item, i)" />
+                <el-tooltip placement="top" content="保存">
+                  <el-button type="primary" :icon="Select" text @click="saveRow(item)" />
+                </el-tooltip>
+
+                <el-tooltip placement="top" content="关闭">
+                  <el-button type="primary" :icon="Close" text @click="handleExitEdit(item, i)" />
+                </el-tooltip>
               </td>
             </template>
 
@@ -61,11 +66,17 @@
               </td>
 
               <td>
-                <el-button type="primary" :icon="Edit" text @click="item._isInEdit = true">
-                </el-button>
-                <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)">
-                </el-button>
-                <el-button type="primary" :icon="Plus" text @click="addToNextLine(i)"> </el-button>
+                <el-tooltip placement="top" content="编辑">
+                  <el-button type="primary" :icon="Edit" text @click="item._isInEdit = true" />
+                </el-tooltip>
+
+                <el-tooltip placement="top" content="删除">
+                  <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)" />
+                </el-tooltip>
+
+                <el-tooltip placement="top" content="添加">
+                  <el-button type="primary" :icon="Plus" text @click="addToNextLine(i)" />
+                </el-tooltip>
               </td>
             </template>
           </tr>
@@ -117,7 +128,7 @@ const errorTip = reactive<Record<string, any>>({})
 watch(
   () => props.data,
   () => {
-    internalData.value = props.data.map((item) => {
+    internalData.value = props.data.map(item => {
       if (item._isInEdit === undefined) {
         item._isInEdit = false
       }
@@ -212,7 +223,7 @@ const validators = {
 /** 验证 */
 function validate(data: any, rules: Record<string, Partial<MultipleFormRules>>) {
   let isValid = true
-  Object.keys(rules).forEach(async (fieldKey) => {
+  Object.keys(rules).forEach(async fieldKey => {
     const rule = rules[fieldKey]
 
     const { validator, ...restRule } = rule
