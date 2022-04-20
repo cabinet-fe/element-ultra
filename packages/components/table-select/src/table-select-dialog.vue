@@ -92,6 +92,7 @@ const submit = () => {
 
 let tableData = ref(null)
 
+<<<<<<< HEAD:packages/components/table-select/src/table-select-dialog.vue
 // api
 const [configStore] = useConfig()
 
@@ -101,6 +102,10 @@ const [configStore] = useConfig()
 // })
 
 const fetchData = async (api: string) => {
+=======
+const fetchData = (api: string) => {
+  // FIXME 参考pro-table的实现方法
+>>>>>>> db38b5a337ea7622edd4d9d8462dc643e9d8a327:packages/components/table-select/src/dialog-cl.vue
   // http
   //   .get(api, {
   //     params: {
