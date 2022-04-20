@@ -135,21 +135,17 @@ const bodyHeight = computed(() => {
   return props.height ? `calc(100% - ${titleHeight + toolsHeight + btnHeight}px)` : ''
 })
 
+const initInternalData = () => {
+  internalData.value = props.data.map(item => {
+    if (item._isInEdit === undefined) {
+      item._isInEdit = false
+    }
+    return item
+  })
+}
+
 // 回显
-watch(
-  () => props.data,
-  () => {
-    internalData.value = props.data.map(item => {
-      if (item._isInEdit === undefined) {
-        item._isInEdit = false
-      }
-      return item
-    })
-  },
-  {
-    immediate: true
-  }
-)
+watch(() => props.data, initInternalData, { immediate: true })
 
 const getChildren = (scope: any) => {
   return slots.default?.(scope) || []
