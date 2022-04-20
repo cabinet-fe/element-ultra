@@ -12,6 +12,10 @@ export type ProTableRequestMethod = (
   option: RequestOptions
 ) => Promise<RequestResponse>
 
+export type TableSelectRequestMethod = (
+  option: RequestOptions
+ ) => Promise<RequestResponse>
+
 export interface ConfigStore {
   /** 全局组件尺寸 */
   size?: 'large' | 'default' | 'small'
@@ -21,6 +25,8 @@ export interface ConfigStore {
   proTableDefaultSize?: number
   /** 断点 */
   breakpoint: { xs: number; s: number; m: number; l: number; xl: number }
+  /** 表格选择器 */
+  tableSelectRequestMethod?: TableSelectRequestMethod
 }
 
 const configStore = reactive<ConfigStore>({

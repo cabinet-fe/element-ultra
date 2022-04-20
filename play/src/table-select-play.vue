@@ -4,7 +4,7 @@
     :columns="columns"
     :data="tableData"
     :multiple="multiple"
-    :api="``"
+    :api="`/admin/dept/tree`"
     pagination
     :show-index="true"
     :query="query"

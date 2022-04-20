@@ -1,10 +1,12 @@
-<template>
-  <el-dialog v-model="visible" :class="ns.b()">
+<template :class="ns.b()">
+  <el-dialog v-model="visible">
     <div :class="ns.e('searcher')">
       <div :class="ns.e('wrapper')">
         <slot name="searcher"></slot>
       </div>
-      <div :class="ns.e('btn')"><el-button type="primary">查询</el-button></div>
+      <div :class="ns.e('btn')">
+        <el-button type="primary" @click="handleSearch">查询</el-button>
+      </div>
     </div>
     <TableSelectDisplay
       :data="tableData ? tableData : data"
@@ -90,31 +92,58 @@ const submit = () => {
   close()
 }
 
-let tableData = ref(null)
+let tableData = ref<any>(null)
 
 // api
+const handleSearch = () => {
+  fetchData(api)
+}
+
 const [configStore] = useConfig()
 
-// const query = shallowReactive({
-//   page: 1,
-//   size: configStore.proTableDefaultSize || 20
-// })
+let loading = shallowRef(false)
 
 const fetchData = async (api: string) => {
-  // http
-  //   .get(api, {
-  //     params: {
-  //       current: currentPage,
-  //       size: pageSize
-  //     }
-  //   })
-  //   .then(res => {
-  //     const { code, data } = res
-  //     if (code !== 200) return
-  //     tableData = data.records
-  //     totalSize = data.total
-  //   })
+  if (!configStore.tableSelectRequestMethod) return
+
+  let realQuery = Object.keys(props.query || {}).reduce((acc, cur) => {
+    let v = props.query![cur]
+    if (cur.startsWith('$')) {
+      cur = cur.slice(1)
+    }
+    acc[cur] = v
+    return acc
+  }, {} as Record<string, any>)
+
+  const { total, data } = await configStore
+    .tableSelectRequestMethod({
+      api,
+      query: {
+        ...realQuery
+      }
+    })
+    .finally(() => {
+      loading.value = false
+    })
+
+    if (total) {
+    totalSize.value = total
+  }
+  tableData.value = data
 }
+
+let queryWatchList = Object.keys(props.query || {})
+  .filter(k => k.startsWith('$'))
+  .map(k => {
+    return () => props.query?.[k]
+  })
+
+watch(
+  [...queryWatchList],
+  (cur, pre) => {
+    fetchData(api)
+  }
+)
 
 watch(
   () => props.api,
