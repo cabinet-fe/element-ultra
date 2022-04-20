@@ -2,16 +2,11 @@
   <el-multiple-form
     :data="data"
     :columns="columns"
-    title="标题"
-    height="400px"
     @save="onSave"
     @delete="onDelete"
     @add-next-line="addNextLine"
+    :create-btn-text="false"
   >
-    <template #tools>
-      <el-button type="primary" @click="addNextLine">添加一行</el-button>
-    </template>
-
     <template #default="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
       <el-input-number :min="1" v-model="row.age" placeholder="单价" />
@@ -21,6 +16,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import type { MultipleFormColumn } from 'element-ultra'
 
 const columns: MultipleFormColumn[] = [
@@ -28,29 +24,44 @@ const columns: MultipleFormColumn[] = [
     name: '银行卡号',
     key: 'name',
     rules: {
-      required: true
+      required: true,
+      validator(v) {
+        console.log(...arguments)
+        if (!v) return '必填'
+        if (v.length < 6) {
+          return ''
+        }
+        return '不能超过6'
+      }
     },
+    width: 200,
     align: 'center'
   },
   {
     name: '年龄',
     key: 'age',
     rules: {
-      required: true,
+      required: [true, '必填'],
       min: 2
     },
-    align: 'left'
+    align: 'left',
+    width: 200
   },
   {
     name: '手机号',
     key: 'school',
     rules: {
-      required: true
-    }
+      required: true,
+      match: [
+        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+        '输入正确手机号'
+      ]
+    },
+    width: 150
   }
 ]
 
-let data = $ref<any[]>([
+let data = ref<any[]>([
   { name: '6216616101002312625', age: 20, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' }
