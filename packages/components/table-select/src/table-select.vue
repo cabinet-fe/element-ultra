@@ -1,20 +1,27 @@
 <template>
   <div :class="ns.b()">
     <!-- 按钮 -->
-    <div @click="handleClick" :class="ns.e('btn')"><slot>
-      <el-button type="primary" :icon="Plus">选择</el-button>
-    </slot></div>
+    <div @click="handleClick" :class="ns.e('btn')">
+      <slot>
+        <el-button type="primary" :icon="Plus">选择</el-button>
+      </slot>
+    </div>
     <!-- 表格 -->
-    <TableCl :data="selected" :columns="columns" />
+    <TableSelectDisplay :data="selected" :columns="columns" />
     <!-- 弹框 -->
-    <DialogCl
+    <TableSelectDialog
       ref="dialogRef"
       :api="api"
       :data="data"
       :columns="columns"
       :value="selected"
+      :query="query"
       @change="handleSelect"
-    />
+    >
+      <template #searcher>
+        <slot name="searcher"></slot>
+      </template>
+    </TableSelectDialog>
   </div>
 </template>
 
@@ -22,10 +29,11 @@
 import { shallowRef, provide, onMounted, ref } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
-import TableCl from './table-cl.vue'
-import DialogCl from './dialog-cl.vue'
+import TableSelectDisplay from './table-select-display.vue'
+import TableSelectDialog from './table-select-dialog.vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElButton } from '@element-ultra/components/button'
+import { multipleKey, paginationKey, showIndexKey, stripeKey } from './token'
 
 defineOptions({
   name: 'ElTableSelect'
@@ -33,12 +41,12 @@ defineOptions({
 
 const props = defineProps(tableSelectProps)
 
-const { modelValue, columns, data, multiple, api, pagination, showIndex, stripe } = props
+const { modelValue, columns, data, multiple, api, pagination, showIndex, stripe, query } = props
 
-provide('multiple', multiple)
-provide('pagination', pagination)
-provide('showIndex', showIndex)
-provide('stripe', stripe)
+provide(multipleKey, multiple)
+provide(paginationKey, pagination)
+provide(showIndexKey, showIndex)
+provide(stripeKey, stripe)
 
 const ns = useNamespace('table-select')
 

@@ -7,8 +7,17 @@
     :api="``"
     pagination
     :show-index="true"
+    :query="query"
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
+
+    <template #searcher>
+      <el-input v-model="query.name" />
+      <el-date-picker
+        v-model="query.$date"
+        clearable
+      />
+    </template>
   </el-table-select>
 
   <!-- <el-table :data="tableData" style="width: 100%">
@@ -19,7 +28,9 @@
 </template>
 
 <script lang="ts" setup>
+import { shallowReactive } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
+
 const columns = $ref([
   { key: 'name', name: '名字' },
   { key: 'date', name: '日期' },
@@ -70,4 +81,9 @@ const tableData = $ref([
     id: 4
   }
 ])
+
+const query = shallowReactive({
+  name: '',
+  $date: ''
+})
 </script>

@@ -11,7 +11,7 @@
     display: inline-block;
     margin: 5px;
   }
-  @include b(table-cl) {
+  @include b(table-select-display) {
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
@@ -22,6 +22,8 @@
     font-size: 14px;
     color: #606266;
     border-collapse: collapse;
+    border: 1px solid #ebeef5;
+    border-bottom: 0;
     tr {
       border-bottom: 1px solid #ebeef5;
       display: flex;
@@ -47,6 +49,17 @@
       }
       @include e('row-stripe') {
         background-color: #fafafa;
+      }
+    }
+  }
+
+  @include b(table-select-dialog) {
+    @include e(searcher) {
+      @include e(wrapper) {
+        display: flex;
+      }
+      @include e(btn) {
+        text-align: right;
       }
     }
   }
