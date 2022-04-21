@@ -1,13 +1,5 @@
 <template>
-  <el-multiple-form
-    :data="data"
-    :columns="columns"
-    title="标题"
-    height="400px"
-    @save="onSave"
-    @delete="onDelete"
-    @add-next-line="addNextLine"
-  >
+  <el-multiple-form :data="data" :columns="columns" title="标题" height="400px" @change="onChange" @save="onSave">
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
     </template>
@@ -61,10 +53,10 @@ const onSave = (row: any) => {
   console.log('保存成功, 数据是：', row)
 }
 
-/** 删除 */
-const onDelete = (row: any) => {
-  console.log(row, 'row_删除')
-  console.log('删除')
+
+const onChange = (rows: any) => {
+
+  console.log(`rows`, rows)
 }
 
 /** 增加下一行 */

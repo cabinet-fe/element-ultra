@@ -1,5 +1,14 @@
 @use 'mixins/mixins.scss' as *;
 
+@keyframes guide {
+  0% {
+    box-shadow: 0 0 0 0 rgb(255, 255, 255);
+  }
+  100% {
+    box-shadow: 0 0 5px 0px var(--el-color-primary);
+  }
+}
+
 @include b(multiple-form) {
   background-color: var(--el-color-white);
   width: 100%;
@@ -58,7 +67,7 @@
     th,
     td {
       text-align: left;
-      padding: 10px;
+      padding: 2px 6px;
       box-sizing: border-box;
       font-size: 14px;
     }
@@ -99,5 +108,11 @@
     text-align: left;
     width: 150px;
     background-color: var(--el-color-white);
+  }
+
+  tr {
+    @include when(guide) {
+      animation: guide .8s ease-in-out alternate infinite;
+    }
   }
 }

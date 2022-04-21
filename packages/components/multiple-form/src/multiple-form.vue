@@ -49,7 +49,7 @@
                 v-if="mode !== 'custom'"
                 style="margin-left: 8px"
                 :icon="Plus"
-                @click="create"
+                @click="addTo(internalData.length)"
                 text
               >
                 新增
@@ -59,10 +59,15 @@
         </thead>
 
         <tbody>
-          <tr v-for="(item, i) of internalData" ref="rowRefs">
+          <tr
+            :class="ns.is('guide', showGuide && i === editingIndex)"
+            @mouseenter="i === editingIndex && (showGuide = false)"
+            v-for="(item, i) of internalData"
+            ref="rowRefs"
+          >
             <td style="text-align: center">{{ i + 1 }}</td>
 
-            <template v-if="item._isInEdit !== false">
+            <template v-if="editingIndex === i">
               <td
                 v-for="(node, nodeIndex) of getChildren({ row: item })"
                 :style="{ textAlign: columns[nodeIndex].align }"
@@ -71,7 +76,7 @@
               </td>
 
               <td :class="ns.e('action')">
-                <el-button type="primary" :icon="Select" text @click="saveRow(item)" />
+                <el-button type="primary" :icon="Select" text @click="saveRow(item, i)" />
                 <el-button type="primary" :icon="Close" text @click="handleExitEdit(item, i)" />
               </td>
             </template>
@@ -82,14 +87,14 @@
               </td>
 
               <td :class="ns.e('action')">
-                <el-button type="primary" :icon="Edit" text @click="item._isInEdit = true" />
+                <el-button type="primary" :icon="Edit" text @click="handleEnterEdit(i)" />
                 <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)" />
                 <el-button
                   type="primary"
                   v-if="mode !== 'custom'"
                   :icon="Plus"
                   text
-                  @click="addToNextLine(i)"
+                  @click="addTo(i + 1)"
                 />
               </td>
             </template>
@@ -119,9 +124,12 @@ defineOptions({
 
 const props = defineProps(multipleFormProps)
 
+let editingIndex = shallowRef(-1)
+
 const emit = defineEmits<{
-  (e: 'save', row: any, data: any[]): void
+  (e: 'save', row: any, rows: any[]): void
   (e: 'delete', row: any): void
+  (e: 'change', rows: any[]): void
 }>()
 
 const ns = useNamespace('multiple-form')
@@ -147,15 +155,12 @@ const bodyHeight = computed(() => {
   return props.height ? `calc(100% - ${titleHeight + toolsHeight}px)` : ''
 })
 
+const showGuide = ref(false)
+
 const internalData = ref<any[]>([])
 
 const initInternalData = () => {
-  internalData.value = props.data.map(item => {
-    if (item._isInEdit === undefined) {
-      item._isInEdit = false
-    }
-    return item
-  })
+  internalData.value = [...props.data]
 }
 
 // 回显
@@ -167,29 +172,34 @@ const getChildren = (scope: any) => {
 
 /** 创建一个空行 */
 const createRow = () => {
-  return props.columns.reduce((acc, cur) => {
-    acc[cur.key] = undefined
-    return acc
-  }, {} as Record<string, any>)
+  return props.columns.reduce(
+    (acc, cur) => {
+      acc[cur.key] = undefined
+      return acc
+    },
+    { __new__: true } as Record<string, any>
+  )
 }
 
 const rowRefs = shallowRef<HTMLTableRowElement[]>([])
 
-/** 增加 */
-const create = () => {
-  if (props.mode === 'inline') {
-    internalData.value.push(createRow())
-  } else if (props.mode === 'dialog') {
+const addTo = (index: number) => {
+  if (editingIndex.value !== -1) {
+    showGuide.value = true
+    return
   }
 
-  nextTick(() => {
-    rowRefs.value[internalData.value.length - 1].scrollIntoView()
-  })
-}
+  editingIndex.value = index
 
-/** 增加到下一行 */
-const addToNextLine = (index: number) => {
-  internalData.value.splice(index + 1, 0, createRow())
+  internalData.value = [
+    ...internalData.value.slice(0, index),
+    createRow(),
+    ...internalData.value.slice(index)
+  ]
+
+  nextTick(() => {
+    rowRefs.value[index].scrollIntoView()
+  })
 }
 
 /** 校验器 */
@@ -251,7 +261,7 @@ const validators = {
 }
 
 /** 验证 */
-function validate(data: any, rules: Record<string, Partial<MultipleFormRules>>) {
+function validate(item: any, rules: Record<string, Partial<MultipleFormRules>>) {
   let isValid = true
   Object.keys(rules).forEach(async fieldKey => {
     const rule = rules[fieldKey]
@@ -259,7 +269,7 @@ function validate(data: any, rules: Record<string, Partial<MultipleFormRules>>) 
     const { validator, ...restRule } = rule
     // validator独立校验
     if (validator) {
-      let errorMsg = await validator(data[fieldKey], data, internalData.value)
+      let errorMsg = await validator(item[fieldKey], item, internalData.value)
       errorTip[fieldKey] = errorMsg
       if (errorMsg) {
         isValid = false
@@ -270,7 +280,7 @@ function validate(data: any, rules: Record<string, Partial<MultipleFormRules>>) 
       let rulesIsArray = Array.isArray(restRule[key])
 
       const errorMsg = validators[key](
-        data[fieldKey],
+        item[fieldKey],
         rulesIsArray ? restRule[key][0] : restRule[key],
         rulesIsArray ? restRule[key][1] : undefined
       )
@@ -293,34 +303,56 @@ const clearValidate = () => {
 }
 
 /** 保存 */
-const saveRow = (item: any) => {
+const saveRow = (item: any, i: number) => {
   let valid = validate(item, columnRules.value)
   if (!valid) return
-  item._isInEdit = false
-  const { _isInEdit, ...result } = item
-  emit('save', result, internalData.value)
+  delete item['__new__']
+  editingIndex.value = -1
+  emit('save', item, internalData.value)
+  emit('change', internalData.value)
 }
 
 /** 删除 */
 const deleteRow = (item: any, index: number) => {
   internalData.value.splice(index, 1)
-  const { _isInEdit, ...result } = item
-  emit('delete', result)
+  if (index === editingIndex.value) {
+    editingIndex.value = -1
+  } else if (editingIndex.value > index) {
+    editingIndex.value = index
+  }
+  emit('delete', item)
+  emit('change', internalData.value)
 }
 
-/** 退出编辑 */
-const handleExitEdit = (item: any, index: number) => {
-  /** 如果没有_isInEdit属性则视为刚刚新增 */
-  if (item._isInEdit === undefined) {
-    internalData.value.splice(index, 1)
-    clearValidate()
-  } else {
-    item._isInEdit = false
+const handleEnterEdit = (index: number) => {
+  let preEditItem = internalData.value[editingIndex.value]
+  if (preEditItem?.__new__) {
+    internalData.value = [
+      ...internalData.value.slice(0, editingIndex.value),
+      ...internalData.value.slice(editingIndex.value + 1)
+    ]
   }
+  editingIndex.value = index
+}
+
+/**
+ * 退出编辑
+ * 1. 更新状态下退出正常退出
+ * 2. 新增状态下退出删除
+ */
+const handleExitEdit = (item: any, index: number) => {
+  if (item.__new__) {
+    internalData.value = [
+      ...internalData.value.slice(0, index),
+      ...internalData.value.slice(index + 1)
+    ]
+    clearValidate()
+  }
+  editingIndex.value = -1
 }
 
 defineExpose({
-  create,
+  addTo,
   clearValidate
 })
 </script>
