@@ -42,7 +42,19 @@
               <template v-else> {{ column.name }} </template>
             </th>
 
-            <th :class="ns.e('action')">操作</th>
+            <th :class="ns.e('action')">
+              <span>操作</span>
+
+              <el-button
+                v-if="mode !== 'custom'"
+                style="margin-left: 8px"
+                :icon="Plus"
+                @click="create"
+                text
+              >
+                新增
+              </el-button>
+            </th>
           </tr>
         </thead>
 
@@ -70,11 +82,15 @@
               </td>
 
               <td :class="ns.e('action')">
-                <el-button type="primary" :icon="Edit" text @click="item._isInEdit = true">
-                </el-button>
-                <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)">
-                </el-button>
-                <el-button type="primary" :icon="Plus" text @click="addToNextLine(i)"> </el-button>
+                <el-button type="primary" :icon="Edit" text @click="item._isInEdit = true" />
+                <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)" />
+                <el-button
+                  type="primary"
+                  v-if="mode !== 'custom'"
+                  :icon="Plus"
+                  text
+                  @click="addToNextLine(i)"
+                />
               </td>
             </template>
           </tr>
@@ -85,7 +101,6 @@
         </tbody>
       </table>
     </el-scrollbar>
-    <el-button @click="create" style="width: 100%">{{ createBtnText }}</el-button>
   </div>
 </template>
 
@@ -113,8 +128,6 @@ const ns = useNamespace('multiple-form')
 
 const slots = useSlots()
 
-const internalData = ref<any[]>([])
-
 /** 列校验是否必填*/
 const columnRules = computed(() => {
   return props.columns.reduce((acc, column) => {
@@ -131,9 +144,10 @@ const errorTip = reactive<Record<string, any>>({})
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0
   const toolsHeight = slots.tools ? 40 : 0
-  const btnHeight = props.mode !== 'custom' ? 32 : 0
-  return props.height ? `calc(100% - ${titleHeight + toolsHeight + btnHeight}px)` : ''
+  return props.height ? `calc(100% - ${titleHeight + toolsHeight}px)` : ''
 })
+
+const internalData = ref<any[]>([])
 
 const initInternalData = () => {
   internalData.value = props.data.map(item => {
