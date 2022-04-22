@@ -68,11 +68,8 @@
             <td style="text-align: center">{{ i + 1 }}</td>
 
             <template v-if="editingIndex === i">
-              <td
-                v-for="(node, nodeIndex) of getChildren({ row: item })"
-                :style="{ textAlign: columns[nodeIndex].align }"
-              >
-                <component :is="node" />
+              <td v-for="column of columns" :key="column.key" :style="{ textAlign: column.align }">
+                <slot :name="column.key" v-bind="{ row: item, index: i }" />
               </td>
 
               <td :class="ns.e('action')">
@@ -82,7 +79,7 @@
             </template>
 
             <template v-else>
-              <td v-for="column of columns" :style="{ textAlign: column.align }">
+              <td v-for="column of columns" :key="column.key" :style="{ textAlign: column.align }">
                 {{ column.render?.(item[column.key], item, i) || item[column.key] }}
               </td>
 
@@ -166,15 +163,11 @@ const initInternalData = () => {
 // 回显
 watch(() => props.data, initInternalData, { immediate: true })
 
-const getChildren = (scope: any) => {
-  return slots.default?.(scope) || []
-}
-
 /** 创建一个空行 */
 const createRow = () => {
   return props.columns.reduce(
     (acc, cur) => {
-      acc[cur.key] = undefined
+      acc[cur.key] = cur.defaultValue
       return acc
     },
     { __new__: true } as Record<string, any>

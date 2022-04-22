@@ -42,7 +42,10 @@ export type MultipleFormColumn = {
   /** 列的宽度 */
   width?: number
 
-  /** 自定义渲染*/
+  /** 编辑时的默认值 */
+  defaultValue?: string | number | boolean
+
+  /** 自定义渲染 */
   render?: (val: string | number, row: any, index: number) => string
 }
 
