@@ -1,4 +1,4 @@
-<template>
+        <template>
   <div
     :class="[ns.b(), ns.m(inputSize), $attrs.class]"
     ref="treeSelectRef"
@@ -94,7 +94,7 @@
         v-clickoutside:[treeSelectRef]="hideTree"
       >
         <span :class="ns.e('triangle')"></span>
-        <el-checkbox @change="handleToggleSelect" v-if="multiple">全选</el-checkbox>
+        <el-checkbox v-model="allSelect" @change="handleToggleSelect" v-if="multiple">全选</el-checkbox>
         <el-tree
           :data="data"
           :check-strictly="checkStrictly"
@@ -142,6 +142,8 @@ defineOptions({
     clickoutside: ClickOutside
   }
 })
+
+const allSelect = ref(false)
 
 const props = defineProps(treeSelectProps)
 
