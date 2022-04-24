@@ -19,7 +19,7 @@
 
     <el-table
       :data="computedData"
-      v-if="columns.length"
+      v-if="columns && columns.length"
       v-bind="$attrs"
       :default-expand-all="defaultExpandAll"
       ref="tableRef"
@@ -155,7 +155,7 @@ let queryWatchList = Object.keys(props.query || {})
     return () => props.query?.[k]
   })
 
-watch([query, ...queryWatchList], fetchData)
+watch([query, ...queryWatchList, () => props.api], fetchData)
 fetchData()
 
 const tableRef = shallowRef()

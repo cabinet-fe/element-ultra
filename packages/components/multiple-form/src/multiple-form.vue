@@ -24,6 +24,7 @@
         <thead>
           <tr>
             <th style="text-align: center">序号</th>
+
             <th
               v-for="column of columns"
               :class="{ 'is-required': columnRules[column.key]?.required }"
