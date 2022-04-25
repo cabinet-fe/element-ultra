@@ -97,7 +97,7 @@
     :continue="dialog.type === 'create'"
   >
     <el-form :data="formData" :rules="rules" label-width="100px">
-      <slot />
+      <slot v-bind="formData" />
     </el-form>
   </el-form-dialog>
 </template>
