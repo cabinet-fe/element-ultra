@@ -149,11 +149,11 @@ export default function useInline(options: Options) {
 
   /** 删除rows或插入row */
   const splitRowByIndex = (index: number, row?: any) => {
-    rows.value = [
-      ...rows.value.slice(0, index),
-      ...(row ? [row] : []),
-      ...rows.value.slice(index + 1)
-    ]
+    if (row) {
+      rows.value = [...rows.value.slice(0, index), row, ...rows.value.slice(index)]
+    } else {
+      rows.value = [...rows.value.slice(0, index), ...rows.value.slice(index + 1)]
+    }
   }
 
   /** 保存行 */
