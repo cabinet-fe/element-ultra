@@ -73,7 +73,7 @@
             :show-inline="mode === 'inline' && i === targetIndex"
             @save="handleSaveRow(row, i)"
             @exit-edit="handleExitEdit(row, i)"
-            @create="handleCreate(i)"
+            @create="handleCreate(i + 1)"
             @delete="handleDeleteRow(row, i)"
             @edit="handleEdit(row, i)"
             @mouseenter="handleMouseEnter(i)"
@@ -210,7 +210,7 @@ const handleCreate = (index: number) => {
 const handleEdit = (row: any, index: number) => {
   const { mode } = props
   if (mode === 'inline') {
-    handleEnterEdit!(index)
+    handleEnterEdit(index)
   } else if (mode === 'dialog') {
     open('update', { title: '编辑', data: row, ctx: { index } })
   }
