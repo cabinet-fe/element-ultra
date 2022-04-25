@@ -41,6 +41,10 @@
               </el-tooltip>
 
               <template v-else> {{ column.name }} </template>
+
+              <el-tooltip v-if="column.tips" effect="dark" :content="column.tips">
+                <el-icon><QuestionFilled /></el-icon>
+              </el-tooltip>
             </th>
 
             <th :class="ns.e('action')">
@@ -50,7 +54,7 @@
                 v-if="mode !== 'custom'"
                 style="margin-left: 8px"
                 :icon="Plus"
-                @click="addTo(internalData.length)"
+                @click="handleCreate(rows.length)"
                 text
               >
                 新增
@@ -60,92 +64,109 @@
         </thead>
 
         <tbody>
-          <tr
-            :class="ns.is('guide', showGuide && i === editingIndex)"
-            @mouseenter="i === editingIndex && (showGuide = false)"
-            v-for="(item, i) of internalData"
+          <MultipleFormRow
+            v-for="(row, i) of rows"
             ref="rowRefs"
+            :row="row"
+            :row-index="i"
+            :class="ns.is('guide', showGuide && i === targetIndex)"
+            :show-inline="mode === 'inline' && i === targetIndex"
+            @save="handleSaveRow(row, i)"
+            @exit-edit="handleExitEdit(row, i)"
+            @create="handleCreate(i)"
+            @delete="handleDeleteRow(row, i)"
+            @edit="handleEdit(row, i)"
+            @mouseenter="handleMouseEnter(i)"
           >
-            <td style="text-align: center">{{ i + 1 }}</td>
+          </MultipleFormRow>
 
-            <template v-if="editingIndex === i">
-              <td v-for="column of columns" :key="column.key" :style="{ textAlign: column.align }">
-                <slot :name="column.key" v-bind="{ row: item, index: i }" />
-              </td>
-
-              <td :class="ns.e('action')">
-                <el-button type="primary" :icon="Select" text @click="saveRow(item, i)" />
-                <el-button type="primary" :icon="Close" text @click="handleExitEdit(item, i)" />
-              </td>
-            </template>
-
-            <template v-else>
-              <td v-for="column of columns" :key="column.key" :style="{ textAlign: column.align }">
-                {{ column.render?.(item[column.key], item, i) || item[column.key] }}
-              </td>
-
-              <td :class="ns.e('action')">
-                <el-button type="primary" :icon="Edit" text @click="handleEnterEdit(i)" />
-                <el-button type="primary" :icon="Delete" text @click="deleteRow(item, i)" />
-                <el-button
-                  type="primary"
-                  v-if="mode !== 'custom'"
-                  :icon="Plus"
-                  text
-                  @click="addTo(i + 1)"
-                />
-              </td>
-            </template>
-          </tr>
-
-          <tr v-if="!internalData.length">
+          <tr v-if="!rows.length">
             <td :colspan="columns.length + 2" style="text-align: center">暂无数据</td>
           </tr>
         </tbody>
       </table>
     </el-scrollbar>
   </div>
+
+  <!-- 弹框型表单 -->
+  <el-form-dialog
+    v-if="props.mode === 'dialog'"
+    v-model="dialog.visible"
+    :title="dialog.title"
+    :confirm="submit"
+    :continue="dialog.type === 'create'"
+  >
+    <el-form :data="formData" :rules="rules" label-width="100px">
+      <slot />
+    </el-form>
+  </el-form-dialog>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, useSlots, watch, shallowRef, nextTick } from 'vue'
+import {
+  computed,
+  useSlots,
+  watch,
+  shallowRef,
+  nextTick,
+  shallowReactive,
+  type ShallowReactive,
+  provide
+} from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { multipleFormProps, type MultipleFormRules } from './multiple-form'
+import { multipleFormEmits, multipleFormProps, type MultipleFormRules } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
-import { Edit, Close, Plus, Select, Delete } from '@element-plus/icons-vue'
+import { ElFormDialog } from '@element-ultra/components/form-dialog'
+import { ElForm } from '@element-ultra/components/form'
+import { ElIcon } from '@element-ultra/components/icon'
+import { Plus, QuestionFilled } from '@element-plus/icons-vue'
+import useDialog from './use-dialog'
+import useInline from './use-inline'
+import { multipleFormKey } from './token'
+import MultipleFormRow from './multiple-form-row.vue'
 
 defineOptions({
   name: 'ElMultipleForm'
 })
 
 const props = defineProps(multipleFormProps)
-
-let editingIndex = shallowRef(-1)
-
-const emit = defineEmits<{
-  (e: 'save', row: any, rows: any[]): void
-  (e: 'delete', row: any): void
-  (e: 'change', rows: any[]): void
-}>()
+const emit = defineEmits(multipleFormEmits)
 
 const ns = useNamespace('multiple-form')
 
+let targetIndex = shallowRef(-1)
+
+const rows = shallowRef<ShallowReactive<Record<string, any>>[]>([])
+
 const slots = useSlots()
 
-/** 列校验是否必填*/
-const columnRules = computed(() => {
-  return props.columns.reduce((acc, column) => {
-    if (column.rules) {
-      acc[column.key] = column.rules
-    }
-    return acc
-  }, {} as Record<string, Partial<MultipleFormRules>>)
+const { formData, rules, dialog, open, submit } = useDialog({
+  props,
+  rows
 })
 
-/** 错误提示 */
-const errorTip = reactive<Record<string, any>>({})
+const {
+  errorTip,
+  showGuide,
+  columnRules,
+  rowRefs,
+  createInlineRow,
+  handleSaveRow,
+  splitRowByIndex,
+  handleDeleteRow,
+  clearValidate,
+  handleEnterEdit,
+  handleExitEdit,
+  handleMouseEnter
+} = useInline({ props, emit, targetIndex, rows })
+
+provide(multipleFormKey, {
+  multipleFormProps: props,
+  ns,
+  slots
+})
 
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0
@@ -153,200 +174,49 @@ const bodyHeight = computed(() => {
   return props.height ? `calc(100% - ${titleHeight + toolsHeight}px)` : ''
 })
 
-const showGuide = ref(false)
-
-const internalData = ref<any[]>([])
-
-const initInternalData = () => {
-  internalData.value = [...props.data]
+const initRows = () => {
+  rows.value = props.data.map(item => shallowReactive(item))
 }
 
 // 回显
-watch(() => props.data, initInternalData, { immediate: true })
+watch(() => props.data, initRows, { immediate: true })
 
-/** 创建一个空行 */
-const createRow = () => {
-  return props.columns.reduce(
-    (acc, cur) => {
-      acc[cur.key] = cur.defaultValue
-      return acc
-    },
-    { __new__: true } as Record<string, any>
-  )
-}
+watch(
+  () => props.mode,
+  () => (targetIndex.value = -1)
+)
 
-const rowRefs = shallowRef<HTMLTableRowElement[]>([])
+/** 创建 */
+const handleCreate = (index: number) => {
+  const { mode } = props
 
-const addTo = (index: number) => {
-  if (editingIndex.value !== -1) {
-    showGuide.value = true
-    return
-  }
-
-  editingIndex.value = index
-
-  internalData.value = [
-    ...internalData.value.slice(0, index),
-    createRow(),
-    ...internalData.value.slice(index)
-  ]
-
-  nextTick(() => {
-    rowRefs.value[index].scrollIntoView()
-  })
-}
-
-/** 校验器 */
-const validators = {
-  required(value: any, required: boolean, msg = '该项必填') {
-    if (!required) return
-
-    if (Array.isArray(value)) {
-      return value.length > 0 ? undefined : msg
+  if (mode === 'inline') {
+    if (targetIndex.value !== -1) {
+      showGuide.value = true
+      return
     }
-    if (!value && value !== 0) {
-      return msg
-    }
-  },
-
-  length(value: any, len: number, msg = '') {
-    if (value.length !== len) {
-      return msg || `长度应该等于${len}`
-    }
-  },
-
-  min(value: any, min: number, msg = '') {
-    if (Array.isArray(value)) {
-      return value.length < min ? msg || `该项最小长度应为 ${min}` : undefined
-    }
-
-    if (typeof value !== 'number') {
-      return msg || '请输入数字 '
-    }
-
-    if (typeof value === 'number' && value < min) {
-      return msg || `最小值不得小于：${min}`
-    }
-  },
-
-  max(value: any, max: number, msg = ''): any {
-    if (Array.isArray(value)) {
-      return value.length > max ? msg || `该项最大长度应为 ${max}` : undefined
-    }
-
-    if (typeof value !== 'number') {
-      return msg || '请输入数字'
-    }
-
-    if (typeof value === 'number' && value > max) {
-      return msg || `最大值不得大于：${max}`
-    }
-  },
-
-  match(value: any, pattern: RegExp, msg = '') {
-    if (typeof value !== 'string') {
-      return msg || `请输入类型为：[string],而不是${typeof value}类型`
-    }
-
-    if (!pattern.test(value)) {
-      return msg || `不匹配正则表达式：${pattern}`
-    }
+    targetIndex.value = index
+    splitRowByIndex(index, createInlineRow())
+    createInlineRow()
+    nextTick(() => {
+      rowRefs.value[index]?.el.scrollIntoView()
+    })
+  } else if (mode === 'dialog') {
+    open('create', { title: '新增', ctx: { index } })
   }
 }
 
-/** 验证 */
-function validate(item: any, rules: Record<string, Partial<MultipleFormRules>>) {
-  let isValid = true
-  Object.keys(rules).forEach(async fieldKey => {
-    const rule = rules[fieldKey]
-
-    const { validator, ...restRule } = rule
-    // validator独立校验
-    if (validator) {
-      let errorMsg = await validator(item[fieldKey], item, internalData.value)
-      errorTip[fieldKey] = errorMsg
-      if (errorMsg) {
-        isValid = false
-        return
-      }
-    }
-    for (const key in restRule) {
-      let rulesIsArray = Array.isArray(restRule[key])
-
-      const errorMsg = validators[key](
-        item[fieldKey],
-        rulesIsArray ? restRule[key][0] : restRule[key],
-        rulesIsArray ? restRule[key][1] : undefined
-      )
-
-      errorTip[fieldKey] = errorMsg
-      if (errorMsg) {
-        isValid = false
-        break
-      }
-    }
-  })
-
-  return isValid
-}
-
-const clearValidate = () => {
-  for (const key in errorTip) {
-    errorTip[key] = undefined
+/** 编辑 */
+const handleEdit = (row: any, index: number) => {
+  const { mode } = props
+  if (mode === 'inline') {
+    handleEnterEdit!(index)
+  } else if (mode === 'dialog') {
+    open('update', { title: '编辑', data: row, ctx: { index } })
   }
-}
-
-/** 保存 */
-const saveRow = (item: any, i: number) => {
-  let valid = validate(item, columnRules.value)
-  if (!valid) return
-  delete item['__new__']
-  editingIndex.value = -1
-  emit('save', item, internalData.value)
-  emit('change', internalData.value)
-}
-
-/** 删除 */
-const deleteRow = (item: any, index: number) => {
-  internalData.value.splice(index, 1)
-  if (index === editingIndex.value) {
-    editingIndex.value = -1
-  } else if (editingIndex.value > index) {
-    editingIndex.value = index
-  }
-  emit('delete', item)
-  emit('change', internalData.value)
-}
-
-const handleEnterEdit = (index: number) => {
-  let preEditItem = internalData.value[editingIndex.value]
-  if (preEditItem?.__new__) {
-    internalData.value = [
-      ...internalData.value.slice(0, editingIndex.value),
-      ...internalData.value.slice(editingIndex.value + 1)
-    ]
-  }
-  editingIndex.value = index
-}
-
-/**
- * 退出编辑
- * 1. 更新状态下退出正常退出
- * 2. 新增状态下退出删除
- */
-const handleExitEdit = (item: any, index: number) => {
-  if (item.__new__) {
-    internalData.value = [
-      ...internalData.value.slice(0, index),
-      ...internalData.value.slice(index + 1)
-    ]
-    clearValidate()
-  }
-  editingIndex.value = -1
 }
 
 defineExpose({
-  addTo,
   clearValidate
 })
 </script>

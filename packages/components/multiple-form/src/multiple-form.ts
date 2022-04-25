@@ -1,3 +1,4 @@
+import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 列校验 */
@@ -45,6 +46,9 @@ export type MultipleFormColumn = {
   /** 编辑时的默认值 */
   defaultValue?: string | number | boolean
 
+  /** 提示消息 */
+  tips?: string
+
   /** 自定义渲染 */
   render?: (val: string | number, row: any, index: number) => string
 }
@@ -73,9 +77,6 @@ export const multipleFormProps = {
     type: String as PropType<string>
   },
 
-  /** 是否编辑 */
-  editable: Boolean,
-
   mode: {
     type: String as PropType<'inline' | 'dialog' | 'custom'>,
     default: 'inline'
@@ -91,4 +92,12 @@ export const multipleFormProps = {
   }
 } as const
 
+export const multipleFormEmits = {
+  save: (row: any, rows: any[]) => true,
+  delete: (row: any) => true,
+  change: (rows: any[]) => true
+}
+
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
+
+export type MultipleFormEmits = EmitFn<typeof multipleFormEmits>

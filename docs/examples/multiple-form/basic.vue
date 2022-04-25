@@ -1,85 +1,77 @@
 <template>
+  <el-radio-group v-model="mode">
+    <el-radio value="inline">行内</el-radio>
+    <el-radio value="dialog">弹框</el-radio>
+  </el-radio-group>
+
   <el-multiple-form
     :data="data"
+    :mode="mode"
     :columns="columns"
-    @save="onSave"
-    @delete="onDelete"
-    @add-next-line="addNextLine"
-    :create-btn-text="false"
+    title="标题"
+    height="400px"
+    @change="c.log"
   >
-    <template #default="{ row }">
+    <!-- 行内编辑时 -->
+    <template #name="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
-      <el-input-number :min="1" v-model="row.age" placeholder="单价" />
+    </template>
+
+    <template #age="{ row }">
+      <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
+    </template>
+
+    <template #school="{ row }">
       <el-input v-model="row.school"></el-input>
+    </template>
+
+    <!-- 弹框编辑时 -->
+    <template>
+      <el-input label="名称" field="name"></el-input>
+      <el-input label="年龄" field="age"></el-input>
+      <el-input label="学校" field="school"></el-input>
     </template>
   </el-multiple-form>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import type { MultipleFormColumn } from 'element-ultra'
+import { shallowRef } from 'vue'
+
+const mode = shallowRef<'inline' | 'dialog'>('inline')
 
 const columns: MultipleFormColumn[] = [
   {
-    name: '银行卡号',
+    name: '名称',
     key: 'name',
     rules: {
-      required: true,
-      validator(v) {
-        console.log(...arguments)
-        if (!v) return '必填'
-        if (v.length < 6) {
-          return ''
-        }
-        return '不能超过6'
-      }
+      required: true
     },
-    width: 200,
     align: 'center'
   },
   {
     name: '年龄',
     key: 'age',
     rules: {
-      required: [true, '必填'],
+      required: true,
       min: 2
     },
-    align: 'left',
-    width: 200
+    defaultValue: 12,
+    align: 'left'
   },
   {
     name: '手机号',
     key: 'school',
     rules: {
-      required: true,
-      match: [
-        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-        '输入正确手机号'
-      ]
-    },
-    width: 150
+      required: true
+    }
   }
 ]
 
-let data = ref<any[]>([
-  { name: '6216616101002312625', age: 20, school: '15962245908' },
-  { name: '6216616101002312625', age: 18, school: '15962245908' },
-  { name: '6216616101002312625', age: 18, school: '15962245908' }
+let data = shallowRef<any[]>([
+  { name: '张三', age: 20, school: '清华' },
+  { name: '李四', age: 22, school: '北大' }
 ])
 
-/** 保存 */
-const onSave = (row: any) => {
-  console.log('保存成功, 数据是：', row)
-}
-
-/** 删除 */
-const onDelete = (row: any) => {
-  console.log(row, 'row_删除')
-  console.log('删除')
-}
-
-/** 增加下一行 */
-const addNextLine = (row: any) => {
-  console.log(row, 'row_增加')
-}
+const c = console
 </script>

@@ -60,6 +60,9 @@ type MultipleFormColumn = {
   /** 列的宽度 */
   width?: number
 
+  /** 默认值 */
+  defaultValue: string | number | boolean;
+
   /** 自定义渲染*/
   render?: (val: string | number, row: any, index: number) => string
 }
@@ -87,8 +90,27 @@ type multipleFormProps = {
     required: true
   },
 
-  /** 列表宽度 */
-  width: String || Number
+  /** 设置表单固定高度 */
+  height: {
+    type: String as PropType<string>
+  },
+
+  /** 模式 */
+  mode: {
+    type: String as PropType<'inline' | 'dialog' | 'custom'>,
+    default: 'inline'
+  },
+
+  /** 标题 */
+  title: {
+    type: String
+  },
+
+  /** 操作栏宽度 */
+  actionWidth: {
+    type: Number,
+    default: 120
+  }
 }
 ```
 

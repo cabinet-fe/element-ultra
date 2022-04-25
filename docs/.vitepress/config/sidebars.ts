@@ -383,6 +383,10 @@ export const sidebars = {
           text: 'FormDialog 表单弹框',
         },
         {
+          link: '/component/multiple-form',
+          text: 'MultipleForm 多行表单',
+        },
+        {
           link: '/component/edit-bar',
           text: 'EditBar 编辑栏',
         },

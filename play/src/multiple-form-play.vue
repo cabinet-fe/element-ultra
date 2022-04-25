@@ -1,6 +1,12 @@
 <template>
+  <el-radio-group v-model="mode">
+    <el-radio value="inline">行内</el-radio>
+    <el-radio value="dialog">弹框</el-radio>
+  </el-radio-group>
+
   <el-multiple-form
     :data="data"
+    :mode="mode"
     :columns="columns"
     title="标题"
     height="400px"
@@ -16,17 +22,25 @@
     </template>
 
     <template #age="{ row }">
-      <el-input-number :min="1" v-model="row.age" placeholder="单价" />
+      <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
     </template>
 
     <template #school="{ row }">
       <el-input v-model="row.school"></el-input>
+    </template>
+
+    <template>
+      <el-input label="名称" field="name"></el-input>
+      <el-input label="年龄" field="age"></el-input>
+      <el-input label="学校" field="school"></el-input>
     </template>
   </el-multiple-form>
 </template>
 
 <script lang="ts" setup>
 import type { MultipleFormColumn } from 'element-ultra'
+
+const mode = $ref('inline')
 
 const columns: MultipleFormColumn[] = [
   {
