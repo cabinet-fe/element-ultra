@@ -144,7 +144,8 @@ const slots = useSlots()
 
 const { formData, rules, dialog, open, submit } = useDialog({
   props,
-  rows
+  rows,
+  emit
 })
 
 const {
