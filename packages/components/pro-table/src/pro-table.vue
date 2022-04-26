@@ -172,6 +172,8 @@ const deleteRow = (index: number) => {
 defineExpose({
   fetchData,
   find,
-  deleteRow
+  deleteRow,
+  toggleRowSelection: (row: any, selected: boolean) =>
+    tableRef.value?.toggleRowSelection(row, selected)
 })
 </script>

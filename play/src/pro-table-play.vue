@@ -11,6 +11,7 @@
       :columns="columns"
       show-index
       checkable
+      ref="tableRef"
     >
       <template #searcher>
         <el-input v-model="query.name" />
@@ -22,6 +23,19 @@
 
       <template #tools>
         <el-button type="primary">新增</el-button>
+        <el-button
+          @click="
+            tableRef.tableRef.toggleRowSelection(
+              {
+                name: '张三',
+                id: 1,
+                age: 20
+              },
+              true
+            )
+          "
+          >切换选中</el-button
+        >
       </template>
     </el-pro-table>
   </el-grid>
@@ -29,7 +43,7 @@
 
 <script setup lang="tsx">
 import { type ProTableColumn, ElButton } from 'element-ultra'
-import { shallowReactive } from 'vue'
+import { shallowReactive, shallowRef } from 'vue'
 
 // 查询
 const query = shallowReactive({
@@ -37,6 +51,8 @@ const query = shallowReactive({
 })
 
 let columns: ProTableColumn[] = $shallowRef([])
+
+const tableRef = shallowRef()
 
 setTimeout(() => {
   columns = [
