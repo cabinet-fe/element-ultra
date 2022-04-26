@@ -14,7 +14,7 @@
         <colgroup>
           <col style="width: 60px" />
           <col
-            v-for="column of columns"
+            v-for="column of visibleColumns"
             :key="column.key"
             :style="{ width: column.width + 'px' }"
           />
@@ -26,7 +26,7 @@
             <th style="text-align: center">序号</th>
 
             <th
-              v-for="column of columns"
+              v-for="column of visibleColumns"
               :class="{ 'is-required': columnRules[column.key]?.required }"
               :style="{ textAlign: column.align }"
             >
@@ -81,7 +81,7 @@
           </MultipleFormRow>
 
           <tr v-if="!rows.length">
-            <td :colspan="columns.length + 2" style="text-align: center">暂无数据</td>
+            <td :colspan="visibleColumns.length + 2" style="text-align: center">暂无数据</td>
           </tr>
         </tbody>
       </table>
@@ -142,6 +142,12 @@ const rows = shallowRef<ShallowReactive<Record<string, any>>[]>([])
 
 const slots = useSlots()
 
+/** 弹框模式下应用显示列 */
+const visibleColumns = computed(() => {
+  const { columns, mode } = props
+  return mode === 'dialog' ? columns.filter(column => column.visible !== false) : columns
+})
+
 const { formData, rules, dialog, open, submit } = useDialog({
   props,
   rows,
@@ -165,6 +171,7 @@ const {
 
 provide(multipleFormKey, {
   multipleFormProps: props,
+  visibleColumns,
   ns,
   slots
 })

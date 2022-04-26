@@ -49,6 +49,9 @@ export type MultipleFormColumn = {
   /** 提示消息 */
   tips?: string
 
+  /** 是否在列中显示 */
+  visible?: boolean
+
   /** 自定义渲染 */
   render?: (val: string | number, row: any, index: number) => string
 }

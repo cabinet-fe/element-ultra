@@ -5,7 +5,7 @@
     <!-- 行内编辑 -->
     <template v-if="showInline">
       <td
-        v-for="column of multipleFormProps.columns"
+        v-for="column of visibleColumns"
         :key="column.key"
         :style="{ textAlign: column.align }"
       >
@@ -21,7 +21,7 @@
     <!-- 正常的行 -->
     <template v-else>
       <td
-        v-for="column of multipleFormProps.columns"
+        v-for="column of visibleColumns"
         :key="column.key"
         :style="{ textAlign: column.align }"
       >
@@ -55,7 +55,7 @@ defineProps<{
   showInline: boolean
 }>()
 
-const { multipleFormProps, ns, slots } = inject(multipleFormKey)!
+const { multipleFormProps, ns, slots, visibleColumns } = inject(multipleFormKey)!
 
 const emit = defineEmits<{
   (e: 'save'): void
