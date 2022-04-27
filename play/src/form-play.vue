@@ -18,6 +18,20 @@
           <el-input label="姓名" field="name" />
           <el-input label="住址" field="address" />
         </template>
+
+
+
+        <el-date-picker
+          type="daterange"
+          label="范围日期"
+          v-model:start="data.start"
+          v-model:end="data.end"
+        />
+
+         <el-date-picker
+          label="日期"
+          v-model="data.start"
+        />
       </el-form>
       <el-button @click="formRef.validate()">校验</el-button>
     </el-card>
@@ -55,7 +69,9 @@ const [data, rules] = useFormModel({
   name: { required: true, value: '' },
   phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
   type: { value: '2' },
-  address: { required: true }
+  address: { required: true },
+  start: { value: '' },
+  end: { value: '' }
 })
 
 const formRef = shallowRef<any>()

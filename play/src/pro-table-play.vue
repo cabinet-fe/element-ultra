@@ -10,7 +10,9 @@
       :query="query"
       :columns="columns"
       show-index
-      checkable
+      :checkable="(row, index) => {
+        return index % 2 === 0;
+      }"
       ref="tableRef"
     >
       <template #searcher>
