@@ -1,0 +1,13 @@
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+
+@include b(checkbox-groups) {
+  @include e(items) {
+    padding-left: 14px;
+
+    .el-checkbox {
+      height: 24px;
+      display: flex;
+    }
+  }
+}

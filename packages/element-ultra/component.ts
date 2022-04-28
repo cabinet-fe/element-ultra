@@ -20,6 +20,7 @@ import {
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCheckboxGroups,
 } from '@element-ultra/components/checkbox'
 import { ElCol } from '@element-ultra/components/col'
 import { ElCollapse, ElCollapseItem } from '@element-ultra/components/collapse'
@@ -129,6 +130,7 @@ export default [
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCheckboxGroups,
   ElCol,
   ElCollapse,
   ElCollapseItem,
