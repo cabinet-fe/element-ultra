@@ -17,7 +17,7 @@
 
   <el-checkbox-groups v-model="checked2" :groups="groups"> </el-checkbox-groups>
 
-  {{checked2}}
+  {{ checked2 }}
 </template>
 
 <script lang="ts" setup>
@@ -28,8 +28,8 @@ const multipleChecked = $shallowRef(['1'])
 const checked2 = $shallowRef<string[]>(['2'])
 
 const groups = [
-  { label: '选项1', items: [{ value: '1' }] },
-  { label: '选项2', items: [{ value: '2' }, { value: '3' }] }
+  { label: '分组1', items: [{ value: '1' }] },
+  { label: '分组2', items: [{ value: '2' }, { value: '3' }] }
 ]
 </script>
 

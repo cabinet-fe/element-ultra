@@ -1,7 +1,7 @@
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
-interface CheckGroup {
+export interface CheckGroup {
   label: string
   items: Array<{
     label?: string
