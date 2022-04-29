@@ -10,13 +10,15 @@
       :query="query"
       :columns="columns"
       show-index
-      :checkable="(row, index) => {
-        return index % 2 === 0;
-      }"
+      :checkable="
+        (row, index) => {
+          return index % 2 === 0
+        }
+      "
       ref="tableRef"
     >
       <template #searcher>
-        <el-input v-model="query.name" />
+        <el-input v-model="query.$name" />
       </template>
 
       <template #age="{ row }">
@@ -48,9 +50,17 @@ import { type ProTableColumn, ElButton } from 'element-ultra'
 import { shallowReactive, shallowRef } from 'vue'
 
 // 查询
-const query = shallowReactive({
-  name: ''
-})
+const query = shallowRef(
+  shallowReactive({
+    $name: ''
+  })
+)
+
+setTimeout(() => {
+  query.value = shallowReactive({
+    $name: ''
+  })
+}, 1200)
 
 let columns: ProTableColumn[] = $shallowRef([])
 

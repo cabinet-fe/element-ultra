@@ -148,14 +148,28 @@ const fetchData = async () => {
   state.data = data
 }
 
-// hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
-let queryWatchList = Object.keys(props.query || {})
-  .filter(k => k.startsWith('$'))
-  .map(k => {
-    return () => props.query?.[k]
-  })
+let a = shallowRef(0)
 
-watch([query, ...queryWatchList, () => props.api], fetchData)
+// query发生改变时重新监听里面的属性
+let stopWatchQueryProps: () => void
+watch(
+  () => props.query,
+  query => {
+    stopWatchQueryProps?.()
+
+    const watchList = Object.keys(query || {})
+      .filter(k => k.startsWith('$'))
+      .map(k => {
+        return () => props.query?.[k]
+      })
+
+    // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
+    stopWatchQueryProps = watch(watchList, fetchData)
+  },
+  { immediate: true }
+)
+
+watch(() => props.api, fetchData)
 fetchData()
 
 const tableRef = shallowRef()
