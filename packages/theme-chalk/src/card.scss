@@ -1,19 +1,10 @@
 @use 'mixins/mixins' as *;
-@use 'mixins/var' as *;
 @use 'common/var' as *;
 
 @include b(card) {
-  @include set-component-css-var('card', $card);
-}
-
-@include dark(card) {
-  @include set-component-css-var('card', $dark-card);
-}
-
-@include b(card) {
-  border-radius: var(--el-card-border-radius);
-  border: 1px solid var(--el-card-border-color);
-  background-color: var(--el-card-bg-color);
+  border-radius: var(--el-border-radius-base);
+  border: var(--el-border-base);
+  background-color: var(--el-color-white);
   overflow: hidden;
   color: var(--el-text-color-primary);
   transition: var(--el-transition-duration);
@@ -30,12 +21,12 @@
   }
 
   @include e(header) {
-    padding: calc(var(--el-card-padding) - 2px) var(--el-card-padding);
-    border-bottom: 1px solid var(--el-card-border-color);
+    padding: 4px 8px;
+    border-bottom: var(--el-border-base);
     box-sizing: border-box;
   }
 
   @include e(body) {
-    padding: var(--el-card-padding);
+    padding: 4px 8px;
   }
 }
