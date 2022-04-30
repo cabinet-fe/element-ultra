@@ -14,7 +14,6 @@ importers:
       '@element-ultra/constants': workspace:*
       '@element-ultra/directives': workspace:*
       '@element-ultra/hooks': workspace:*
-      '@element-ultra/locale': workspace:*
       '@element-ultra/test-utils': workspace:*
       '@element-ultra/theme-chalk': workspace:*
       '@element-ultra/tokens': workspace:*
@@ -88,7 +87,6 @@ importers:
       '@element-ultra/constants': link:packages/constants
       '@element-ultra/directives': link:packages/directives
       '@element-ultra/hooks': link:packages/hooks
-      '@element-ultra/locale': link:packages/locale
       '@element-ultra/test-utils': link:packages/test-utils
       '@element-ultra/theme-chalk': link:packages/theme-chalk
       '@element-ultra/tokens': link:packages/tokens
@@ -257,9 +255,6 @@ importers:
       vue-router: 4.0.14_vue@3.2.32
 
   packages/hooks:
-    specifiers: {}
-
-  packages/locale:
     specifiers: {}
 
   packages/test-utils:
