@@ -3,8 +3,8 @@
     class="el-picker-panel el-date-range-picker"
     :class="[
       {
-        'has-sidebar': $slots.sidebar || hasShortcuts,
-      },
+        'has-sidebar': $slots.sidebar || hasShortcuts
+      }
     ]"
   >
     <div class="el-picker-panel__body-wrapper">
@@ -21,9 +21,7 @@
         </button>
       </div>
       <div class="el-picker-panel__body">
-        <div
-          class="el-picker-panel__content el-date-range-picker__content is-left"
-        >
+        <div class="el-picker-panel__content el-date-range-picker__content is-left">
           <div class="el-date-range-picker__header">
             <button
               type="button"
@@ -56,9 +54,7 @@
             @select="onSelect"
           />
         </div>
-        <div
-          class="el-picker-panel__content el-date-range-picker__content is-right"
-        >
+        <div class="el-picker-panel__content el-date-range-picker__content is-right">
           <div class="el-date-range-picker__header">
             <button
               v-if="unlinkPanels"
@@ -100,7 +96,6 @@
 import { defineComponent, computed, ref, watch, inject, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-ultra/components/icon'
-import { useLocale } from '@element-ultra/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import MonthTable from './basic-month-table.vue'
 
@@ -113,26 +108,26 @@ export default defineComponent({
   props: {
     unlinkPanels: Boolean,
     parsedValue: {
-      type: Array as PropType<Dayjs[]>,
-    },
+      type: Array as PropType<Dayjs[]>
+    }
   },
 
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocale()
-    const leftDate = ref(dayjs().locale(lang.value))
-    const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
+    const lang = 'zh-cn'
+    const leftDate = ref(dayjs().locale(lang))
+    const rightDate = ref(dayjs().locale(lang).add(1, 'year'))
 
     const hasShortcuts = computed(() => !!shortcuts.length)
 
-    const handleShortcutClick = (shortcut) => {
+    const handleShortcutClick = shortcut => {
       const shortcutValues =
         typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
       if (shortcutValues) {
         ctx.emit('pick', [
-          dayjs(shortcutValues[0]).locale(lang.value),
-          dayjs(shortcutValues[1]).locale(lang.value),
+          dayjs(shortcutValues[0]).locale(lang),
+          dayjs(shortcutValues[1]).locale(lang)
         ])
         return
       }
@@ -163,11 +158,11 @@ export default defineComponent({
       rightDate.value = rightDate.value.subtract(1, 'year')
     }
     const leftLabel = computed(() => {
-      return `${leftDate.value.year()} ${t('el.datepicker.year')}`
+      return `${leftDate.value.year()} 年`
     })
 
     const rightLabel = computed(() => {
-      return `${rightDate.value.year()} ${t('el.datepicker.year')}`
+      return `${rightDate.value.year()} 年`
     })
 
     const leftYear = computed(() => {
@@ -189,10 +184,10 @@ export default defineComponent({
 
     const rangeState = ref({
       endDate: null,
-      selecting: false,
+      selecting: false
     })
 
-    const handleChangeRange = (val) => {
+    const handleChangeRange = val => {
       rangeState.value = val
     }
 
@@ -213,7 +208,7 @@ export default defineComponent({
       handleConfirm()
     }
 
-    const isValidValue = (value) => {
+    const isValidValue = value => {
       return (
         Array.isArray(value) &&
         value &&
@@ -229,15 +224,15 @@ export default defineComponent({
       }
     }
 
-    const onSelect = (selecting) => {
+    const onSelect = selecting => {
       rangeState.value.selecting = selecting
       if (!selecting) {
         rangeState.value.endDate = null
       }
     }
 
-    const formatToString = (value) => {
-      return value.map((_) => _.format(format))
+    const formatToString = value => {
+      return value.map(_ => _.format(format))
     }
 
     const getDefaultValue = () => {
@@ -254,7 +249,7 @@ export default defineComponent({
       } else {
         start = dayjs()
       }
-      start = start.locale(lang.value)
+      start = start.locale(lang)
       return [start, start.add(1, 'year')]
     }
 
@@ -266,7 +261,7 @@ export default defineComponent({
 
     watch(
       () => defaultValue.value,
-      (val) => {
+      val => {
         if (val) {
           const defaultArr = getDefaultValue()
           leftDate.value = defaultArr[0]
@@ -278,7 +273,7 @@ export default defineComponent({
 
     watch(
       () => props.parsedValue,
-      (newVal) => {
+      newVal => {
         if (newVal && newVal.length === 2) {
           minDate.value = newVal[0]
           maxDate.value = newVal[1]
@@ -287,9 +282,7 @@ export default defineComponent({
             const minDateYear = minDate.value.year()
             const maxDateYear = maxDate.value.year()
             rightDate.value =
-              minDateYear === maxDateYear
-                ? maxDate.value.add(1, 'year')
-                : maxDate.value
+              minDateYear === maxDateYear ? maxDate.value.add(1, 'year') : maxDate.value
           } else {
             rightDate.value = leftDate.value.add(1, 'year')
           }
@@ -320,12 +313,11 @@ export default defineComponent({
       leftPrevYear,
       rightNextYear,
       rightPrevYear,
-      t,
       leftDate,
       rightDate,
       hasShortcuts,
-      handleShortcutClick,
+      handleShortcutClick
     }
-  },
+  }
 })
 </script>

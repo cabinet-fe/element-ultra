@@ -54,28 +54,19 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  h,
-  reactive,
-  ref,
-  toRefs,
-  watch,
-} from 'vue'
+import { computed, defineComponent, inject, h, reactive, ref, toRefs, watch } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import { formItemKey } from '@element-ultra/tokens'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import {
   useCheckedChange,
   LEFT_CHECK_CHANGE_EVENT,
-  RIGHT_CHECK_CHANGE_EVENT,
+  RIGHT_CHECK_CHANGE_EVENT
 } from './useCheckedChange'
 import { useMove } from './useMove'
 import { CHANGE_EVENT } from './transfer'
@@ -94,97 +85,81 @@ export default defineComponent({
     ElButton,
     ElIcon,
     ArrowLeft,
-    ArrowRight,
+    ArrowRight
   },
 
   props: {
     data: {
       type: Array as PropType<DataItem[]>,
-      default: () => [],
+      default: () => []
     },
     titles: {
       type: Array as PropType<any> as PropType<[string, string]>,
-      default: () => [],
+      default: () => []
     },
     buttonTexts: {
       type: Array as PropType<any> as PropType<[string, string]>,
-      default: () => [],
+      default: () => []
     },
     filterPlaceholder: {
       type: String,
-      default: '',
+      default: ''
     },
-    filterMethod: Function as PropType<
-      (query: string, item: DataItem) => boolean
-    >,
+    filterMethod: Function as PropType<(query: string, item: DataItem) => boolean>,
     leftDefaultChecked: {
       type: Array as PropType<Key[]>,
-      default: () => [],
+      default: () => []
     },
     rightDefaultChecked: {
       type: Array as PropType<Key[]>,
-      default: () => [],
+      default: () => []
     },
     renderContent: Function as PropType<(h, option) => VNode>,
     modelValue: {
       type: Array as PropType<Key[]>,
-      default: () => [],
+      default: () => []
     },
     format: {
       type: Object as PropType<Format>,
-      default: () => ({}),
+      default: () => ({})
     },
     filterable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     props: {
       type: Object as PropType<Props>,
       default: () => ({
         label: 'label',
         key: 'key',
-        disabled: 'disabled',
-      }),
+        disabled: 'disabled'
+      })
     },
     targetOrder: {
       type: String as PropType<TargetOrder>,
       default: 'original',
       validator: (val: string) => {
         return ['original', 'push', 'unshift'].includes(val)
-      },
-    },
+      }
+    }
   },
 
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    LEFT_CHECK_CHANGE_EVENT,
-    RIGHT_CHECK_CHANGE_EVENT,
-  ],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, LEFT_CHECK_CHANGE_EVENT, RIGHT_CHECK_CHANGE_EVENT],
 
   setup(props, { emit, slots }) {
-    const { t } = useLocale()
     const ns = useNamespace('transfer')
     const elFormItem = inject(formItemKey, {} as FormItemContext)
 
     const checkedState = reactive({
       leftChecked: [],
-      rightChecked: [],
+      rightChecked: []
     })
 
     const { propsKey, sourceData, targetData } = useComputedData(props)
 
-    const { onSourceCheckedChange, onTargetCheckedChange } = useCheckedChange(
-      checkedState,
-      emit
-    )
+    const { onSourceCheckedChange, onTargetCheckedChange } = useCheckedChange(checkedState, emit)
 
-    const { addToLeft, addToRight } = useMove(
-      props,
-      checkedState,
-      propsKey,
-      emit
-    )
+    const { addToLeft, addToRight } = useMove(props, checkedState, propsKey, emit)
 
     const leftPanel = ref<TransferType>()
     const rightPanel = ref<TransferType>()
@@ -202,17 +177,11 @@ export default defineComponent({
 
     const hasButtonTexts = computed(() => props.buttonTexts.length === 2)
 
-    const leftPanelTitle = computed(
-      () => props.titles[0] || t('el.transfer.titles.0')
-    )
+    const leftPanelTitle = computed(() => props.titles[0] || '列表1')
 
-    const rightPanelTitle = computed(
-      () => props.titles[1] || t('el.transfer.titles.1')
-    )
+    const rightPanelTitle = computed(() => props.titles[1] || '列表2')
 
-    const panelFilterPlaceholder = computed(
-      () => props.filterPlaceholder || t('el.transfer.filterPlaceholder')
-    )
+    const panelFilterPlaceholder = computed(() => props.filterPlaceholder || '请输入搜索内容')
 
     watch(
       () => props.modelValue,
@@ -221,7 +190,7 @@ export default defineComponent({
       }
     )
 
-    const optionRender = computed(() => (option) => {
+    const optionRender = computed(() => option => {
       if (props.renderContent) return props.renderContent(h, option)
 
       if (slots.default) return slots.default({ option })
@@ -248,8 +217,8 @@ export default defineComponent({
       leftPanel,
       rightPanel,
 
-      optionRender,
+      optionRender
     }
-  },
+  }
 })
 </script>

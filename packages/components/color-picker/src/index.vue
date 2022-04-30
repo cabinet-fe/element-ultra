@@ -31,10 +31,10 @@
             />
           </span>
           <el-button size="small" text :class="ns.be('dropdown', 'link-btn')" @click="clear">
-            {{ t('el.colorpicker.clear') }}
+            清空
           </el-button>
           <el-button plain size="small" :class="ns.be('dropdown', 'btn')" @click="confirmValue">
-            {{ t('el.colorpicker.confirm') }}
+            确定
           </el-button>
         </div>
       </div>
@@ -86,7 +86,7 @@ import { debounce } from 'lodash-unified'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import { ClickOutside } from '@element-ultra/directives'
-import { useLocale, useSize, useNamespace, useFormItem } from '@element-ultra/hooks'
+import { useSize, useNamespace, useFormItem } from '@element-ultra/hooks'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElInput from '@element-ultra/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
@@ -134,7 +134,6 @@ export default defineComponent({
   },
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
-    const { t } = useLocale()
     const ns = useNamespace('color')
     const { formItem, form } = useFormItem()
 
@@ -300,7 +299,6 @@ export default defineComponent({
       handleTrigger,
       clear,
       confirmValue,
-      t,
       ns,
       hue,
       svPanel,

@@ -11,7 +11,6 @@ import { isArray, isFunction, isObject } from '@vue/shared'
 import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
 import {
   useFormItem,
-  useLocale,
   useSize,
   useNamespace
 } from '@element-ultra/hooks'
@@ -45,7 +44,7 @@ const COMPONENT_NAME = 'ElSelect'
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
-  const { t } = useLocale()
+
   const ns = useNamespace('select')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
@@ -145,15 +144,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const emptyText = computed(() => {
     const options = filteredOptions.value
     if (props.loading) {
-      return props.loadingText || t('el.select.loading')
+      return props.loadingText
     } else {
       if (props.remote && states.inputValue === '' && options.length === 0)
         return false
       if (props.filterable && states.inputValue && options.length > 0) {
-        return props.noMatchText || t('el.select.noMatch')
+        return props.noMatchText
       }
       if (options.length === 0) {
-        return props.noDataText || t('el.select.noData')
+        return props.noDataText
       }
     }
     return null
@@ -242,7 +241,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const currentPlaceholder = computed(() => {
-    const _placeholder = props.placeholder || t('el.select.placeholder')
+    const _placeholder = props.placeholder
     return props.multiple ? _placeholder : (states.selectedLabel + "") || _placeholder
   })
 

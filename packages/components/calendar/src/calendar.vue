@@ -5,15 +5,9 @@
         <div :class="ns.e('title')">{{ i18nDate }}</div>
         <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
           <el-button-group>
-            <el-button size="small" @click="selectDate('prev-month')">
-              {{ t('el.datepicker.prevMonth') }}
-            </el-button>
-            <el-button size="small" @click="selectDate('today')">
-              {{ t('el.datepicker.today') }}
-            </el-button>
-            <el-button size="small" @click="selectDate('next-month')">
-              {{ t('el.datepicker.nextMonth') }}
-            </el-button>
+            <el-button size="small" @click="selectDate('prev-month')"> 上个月 </el-button>
+            <el-button size="small" @click="selectDate('today')"> 今天 </el-button>
+            <el-button size="small" @click="selectDate('next-month')"> 下个月 </el-button>
           </el-button-group>
         </div>
       </slot>
@@ -47,7 +41,7 @@
 import { ref, computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-ultra/components/button'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { debugWarn } from '@element-ultra/utils'
 import DateTable from './date-table.vue'
 import { calendarProps, calendarEmits } from './calendar'
@@ -55,12 +49,7 @@ import { calendarProps, calendarEmits } from './calendar'
 import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 
-type DateType =
-  | 'prev-month'
-  | 'next-month'
-  | 'prev-year'
-  | 'next-year'
-  | 'today'
+type DateType = 'prev-month' | 'next-month' | 'prev-year' | 'next-year' | 'today'
 
 export default defineComponent({
   name: 'ElCalendar',
@@ -68,7 +57,7 @@ export default defineComponent({
   components: {
     DateTable,
     ElButton,
-    ElButtonGroup,
+    ElButtonGroup
   },
 
   props: calendarProps,
@@ -77,15 +66,14 @@ export default defineComponent({
   setup(props, { emit }) {
     const ns = useNamespace('calendar')
 
-    const { t, lang } = useLocale()
     const selectedDay = ref<Dayjs>()
-    const now = dayjs().locale(lang.value)
+    const now = dayjs().locale('zh-cn')
 
     const prevMonthDayjs = computed(() => {
       return date.value.subtract(1, 'month').date(1)
     })
     const curMonthDatePrefix = computed(() => {
-      return dayjs(date.value).locale(lang.value).format('YYYY-MM')
+      return dayjs(date.value).locale('zh-cn').format('YYYY-MM')
     })
 
     const nextMonthDayjs = computed(() => {
@@ -101,8 +89,7 @@ export default defineComponent({
     })
 
     const i18nDate = computed(() => {
-      const pickedMonth = `el.datepicker.month${date.value.format('M')}`
-      return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
+      return `${date.value.year()} 年 ${date.value.format('M')} 月`
     })
 
     const realSelectedDay = computed<Dayjs | undefined>({
@@ -117,7 +104,7 @@ export default defineComponent({
 
         emit('input', result)
         emit('update:modelValue', result)
-      },
+      }
     })
 
     const date: ComputedRef<Dayjs> = computed(() => {
@@ -129,16 +116,13 @@ export default defineComponent({
         }
         return now
       } else {
-        return dayjs(props.modelValue).locale(lang.value)
+        return dayjs(props.modelValue).locale('zh-cn')
       }
     })
 
     // https://github.com/element-plus/element-plus/issues/3155
     // Calculate the validate date range according to the start and end dates
-    const calculateValidatedDateRange = (
-      startDayjs: Dayjs,
-      endDayjs: Dayjs
-    ): [Dayjs, Dayjs][] => {
+    const calculateValidatedDateRange = (startDayjs: Dayjs, endDayjs: Dayjs): [Dayjs, Dayjs][] => {
       const firstDay = startDayjs.startOf('week')
       const lastDay = endDayjs.endOf('week')
       const firstMonth = firstDay.get('month')
@@ -155,13 +139,11 @@ export default defineComponent({
 
         // Whether the last day of the first month and the first day of the last month is in the same week
         const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
-        const lastMonthStartDay = isSameWeek
-          ? lastMonthFirstDay.add(1, 'week')
-          : lastMonthFirstDay
+        const lastMonthStartDay = isSameWeek ? lastMonthFirstDay.add(1, 'week') : lastMonthFirstDay
 
         return [
           [firstDay, firstMonthLastDay],
-          [lastMonthStartDay.startOf('week'), lastDay],
+          [lastMonthStartDay.startOf('week'), lastDay]
         ]
       }
       // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
@@ -170,10 +152,7 @@ export default defineComponent({
         const secondMonthFirstDay = firstDay.add(1, 'month').startOf('month')
 
         // Whether the last day of the first month and the second month is in the same week
-        const secondMonthStartDay = firstMonthLastDay.isSame(
-          secondMonthFirstDay,
-          'week'
-        )
+        const secondMonthStartDay = firstMonthLastDay.isSame(secondMonthFirstDay, 'week')
           ? secondMonthFirstDay.add(1, 'week')
           : secondMonthFirstDay
 
@@ -181,25 +160,19 @@ export default defineComponent({
         const lastMonthFirstDay = lastDay.startOf('month')
 
         // Whether the last day of the second month and the last day of the last month is in the same week
-        const lastMonthStartDay = secondMonthLastDay.isSame(
-          lastMonthFirstDay,
-          'week'
-        )
+        const lastMonthStartDay = secondMonthLastDay.isSame(lastMonthFirstDay, 'week')
           ? lastMonthFirstDay.add(1, 'week')
           : lastMonthFirstDay
 
         return [
           [firstDay, firstMonthLastDay],
           [secondMonthStartDay.startOf('week'), secondMonthLastDay],
-          [lastMonthStartDay.startOf('week'), lastDay],
+          [lastMonthStartDay.startOf('week'), lastDay]
         ]
       }
       // Other cases
       else {
-        debugWarn(
-          'ElCalendar',
-          'start time and end time interval must not exceed two months'
-        )
+        debugWarn('ElCalendar', 'start time and end time interval must not exceed two months')
         return []
       }
     }
@@ -207,7 +180,7 @@ export default defineComponent({
     // if range is valid, we get a two-digit array
     const validatedRange = computed(() => {
       if (!props.range) return []
-      const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
+      const rangeArrDayjs = props.range.map(_ => dayjs(_).locale('zh-cn'))
       const [startDayjs, endDayjs] = rangeArrDayjs
       if (startDayjs.isAfter(endDayjs)) {
         debugWarn('ElCalendar', 'end time should be greater than start time')
@@ -219,10 +192,7 @@ export default defineComponent({
       } else {
         // two months
         if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
-          debugWarn(
-            'ElCalendar',
-            'start time and end time interval must not exceed two months'
-          )
+          debugWarn('ElCalendar', 'start time and end time interval must not exceed two months')
           return []
         }
         return calculateValidatedDateRange(startDayjs, endDayjs)
@@ -260,10 +230,9 @@ export default defineComponent({
       validatedRange,
       pickDay,
       selectDate,
-      t,
 
-      ns,
+      ns
     }
-  },
+  }
 })
 </script>

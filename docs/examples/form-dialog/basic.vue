@@ -23,9 +23,9 @@
   <el-form-dialog width="700px" :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
     <el-form :data="data" :rules="rules">
       {{ data }}
-      <el-radio-group field="type" label="类型">
-        <el-radio label="1">名称</el-radio>
-        <el-radio label="2">学校</el-radio>
+      <el-radio-group field="type" value="类型">
+        <el-radio value="1">名称</el-radio>
+        <el-radio value="2">学校</el-radio>
       </el-radio-group>
 
       <el-input v-if="data.type === '1'" key="1" field="name" label="名称" tips="输入一个名称" />

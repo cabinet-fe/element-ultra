@@ -30,7 +30,7 @@
           <span>Navigator Two</span>
         </el-menu-item>
         <el-menu-item index="3" disabled>
-          <el-icon><document /></el-icon>
+          <el-icon><IconDocument /></el-icon>
           <span>Navigator Three</span>
         </el-menu-item>
         <el-menu-item index="4">

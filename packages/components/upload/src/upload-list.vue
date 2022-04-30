@@ -1,21 +1,13 @@
 <template>
   <transition-group
     tag="ul"
-    :class="[
-      nsUpload.b('list'),
-      nsUpload.bm('list', listType),
-      nsUpload.is('disabled', disabled),
-    ]"
+    :class="[nsUpload.b('list'), nsUpload.bm('list', listType), nsUpload.is('disabled', disabled)]"
     :name="nsList.b()"
   >
     <li
       v-for="file in files"
       :key="file.uid || file"
-      :class="[
-        nsUpload.be('list', 'item'),
-        nsUpload.is(file.status),
-        { focusing },
-      ]"
+      :class="[nsUpload.be('list', 'item'), nsUpload.is(file.status), { focusing }]"
       tabindex="0"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
@@ -24,10 +16,7 @@
     >
       <slot :file="file">
         <img
-          v-if="
-            file.status !== 'uploading' &&
-            ['picture-card', 'picture'].includes(listType)
-          "
+          v-if="file.status !== 'uploading' && ['picture-card', 'picture'].includes(listType)"
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
           alt=""
@@ -50,19 +39,13 @@
             <check />
           </el-icon>
         </label>
-        <el-icon
-          v-if="!disabled"
-          :class="nsIcon.m('close')"
-          @click="handleRemove(file)"
-        >
+        <el-icon v-if="!disabled" :class="nsIcon.m('close')" @click="handleRemove(file)">
           <close />
         </el-icon>
         <!-- Due to close btn only appears when li gets focused disappears after li gets blurred, thus keyboard navigation can never reach close btn-->
         <!-- This is a bug which needs to be fixed -->
         <!-- TODO: Fix the incorrect navigation interaction -->
-        <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
-          t('el.upload.deleteTip')
-        }}</i>
+        <i v-if="!disabled" :class="nsIcon.m('close-tip')">按 delete 键可删除</i>
         <el-progress
           v-if="file.status === 'uploading'"
           :type="listType === 'picture-card' ? 'circle' : 'line'"
@@ -70,14 +53,8 @@
           :percentage="+file.percentage"
           style="margin-top: 0.5rem"
         />
-        <span
-          v-if="listType === 'picture-card'"
-          :class="nsUpload.be('list', 'item-actions')"
-        >
-          <span
-            :class="nsUpload.be('list', 'item-preview')"
-            @click="handlePreview(file)"
-          >
+        <span v-if="listType === 'picture-card'" :class="nsUpload.be('list', 'item-actions')">
+          <span :class="nsUpload.be('list', 'item-preview')" @click="handlePreview(file)">
             <el-icon :class="nsIcon.m('zoom-in')"><zoom-in /></el-icon>
           </span>
           <span
@@ -96,15 +73,8 @@
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
 import { ElIcon } from '@element-ultra/components/icon'
-import {
-  Document,
-  Delete,
-  Close,
-  ZoomIn,
-  Check,
-  CircleCheck,
-} from '@element-plus/icons-vue'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { Document, Delete, Close, ZoomIn, Check, CircleCheck } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-ultra/hooks'
 import ElProgress from '@element-ultra/components/progress'
 
 import type { PropType } from 'vue'
@@ -120,29 +90,28 @@ export default defineComponent({
     Close,
     ZoomIn,
     Check,
-    CircleCheck,
+    CircleCheck
   },
   props: {
     files: {
       type: Array as PropType<UploadFile[]>,
-      default: () => [] as File[],
+      default: () => [] as File[]
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     handlePreview: {
       type: Function as PropType<(file: UploadFile) => void>,
-      default: () => NOOP,
+      default: () => NOOP
     },
     listType: {
       type: String as PropType<'picture' | 'picture-card' | 'text'>,
-      default: 'text',
-    },
+      default: 'text'
+    }
   },
   emits: ['remove'],
   setup(props, { emit }) {
-    const { t } = useLocale()
     const nsUpload = useNamespace('upload')
     const nsIcon = useNamespace('icon')
     const nsList = useNamespace('list')
@@ -163,11 +132,10 @@ export default defineComponent({
       handleClick,
       handleRemove,
       onFileClicked,
-      t,
       nsUpload,
       nsIcon,
-      nsList,
+      nsList
     }
-  },
+  }
 })
 </script>

@@ -1,27 +1,10 @@
 <template>
-  <el-button text @click="table = true"
-    >Open Drawer with nested table</el-button
-  >
-  <el-button text @click="dialog = true"
-    >Open Drawer with nested form</el-button
-  >
-  <el-drawer
-    v-model="table"
-    title="I have a nested table inside!"
-    direction="rtl"
-    size="50%"
-  >
+  <el-button text @click="table = true">Open Drawer with nested table</el-button>
+  <el-button text @click="dialog = true">Open Drawer with nested form</el-button>
+  <el-drawer v-model="table" title="I have a nested table inside!" direction="rtl" size="50%">
     <el-table :data="gridData">
-      <el-table-column
-        property="date"
-        label="Date"
-        width="150"
-      ></el-table-column>
-      <el-table-column
-        property="name"
-        label="Name"
-        width="200"
-      ></el-table-column>
+      <el-table-column property="date" label="Date" width="150"></el-table-column>
+      <el-table-column property="name" label="Name" width="200"></el-table-column>
       <el-table-column property="address" label="Address"></el-table-column>
     </el-table>
   </el-drawer>
@@ -43,9 +26,11 @@
           <el-select
             v-model="form.region"
             placeholder="Please select activity area"
+            :options="[
+              { value: 'shanghai', label: '上海' },
+              { value: 'beijing', label: '北京' }
+            ]"
           >
-            <el-option label="Area1" value="shanghai"></el-option>
-            <el-option label="Area2" value="beijing"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -79,30 +64,30 @@ const form = reactive({
   delivery: false,
   type: [],
   resource: '',
-  desc: '',
+  desc: ''
 })
 
 const gridData = [
   {
     date: '2016-05-02',
     name: 'Peter Parker',
-    address: 'Queens, New York City',
+    address: 'Queens, New York City'
   },
   {
     date: '2016-05-04',
     name: 'Peter Parker',
-    address: 'Queens, New York City',
+    address: 'Queens, New York City'
   },
   {
     date: '2016-05-01',
     name: 'Peter Parker',
-    address: 'Queens, New York City',
+    address: 'Queens, New York City'
   },
   {
     date: '2016-05-03',
     name: 'Peter Parker',
-    address: 'Queens, New York City',
-  },
+    address: 'Queens, New York City'
+  }
 ]
 
 const drawerRef = ref<InstanceType<typeof ElDrawer>>()
@@ -110,7 +95,7 @@ const onClick = () => {
   drawerRef.value!.close()
 }
 
-const handleClose = (done) => {
+const handleClose = done => {
   if (loading.value) {
     return
   }

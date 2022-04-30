@@ -42,7 +42,10 @@ export const SelectProps = {
   },
   id: String,
   loading: Boolean,
-  loadingText: String,
+  loadingText: {
+    type: String,
+    default: '加载中'
+  },
   labelKey: {
     type: String,
     default: 'label'
@@ -56,8 +59,14 @@ export const SelectProps = {
     default: 0,
   },
   name: String,
-  noDataText: String,
-  noMatchText: String,
+  noDataText: {
+    type: String,
+    default: '无数据'
+  },
+  noMatchText: {
+    type: String,
+    default: '无匹配数据'
+  },
   remoteMethod: Function,
   reserveKeyword: {
     type: Boolean,

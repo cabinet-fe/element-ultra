@@ -21,7 +21,7 @@
           :class="[
             'el-message-box',
             customClass,
-            { 'el-message-box--center': center, 'is-draggable': draggable },
+            { 'el-message-box--center': center, 'is-draggable': draggable }
           ]"
           :style="customStyle"
           @click.stop=""
@@ -46,12 +46,8 @@
               type="button"
               class="el-message-box__headerbtn"
               aria-label="Close"
-              @click="
-                handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
-              "
-              @keydown.prevent.enter="
-                handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
-              "
+              @click="handleAction(distinguishCancelAndClose ? 'close' : 'cancel')"
+              @keydown.prevent.enter="handleAction(distinguishCancelAndClose ? 'close' : 'cancel')"
             >
               <el-icon class="el-message-box__close">
                 <close />
@@ -86,7 +82,7 @@
               <div
                 class="el-message-box__errormsg"
                 :style="{
-                  visibility: !!editorErrorMessage ? 'visible' : 'hidden',
+                  visibility: !!editorErrorMessage ? 'visible' : 'hidden'
                 }"
               >
                 {{ editorErrorMessage }}
@@ -103,7 +99,7 @@
               @click="handleAction('cancel')"
               @keydown.prevent.enter="handleAction('cancel')"
             >
-              {{ cancelButtonText || t('el.messagebox.cancel') }}
+              {{ cancelButtonText }}
             </el-button>
             <el-button
               v-show="showConfirmButton"
@@ -117,7 +113,7 @@
               @click="handleAction('confirm')"
               @keydown.prevent.enter="handleAction('confirm')"
             >
-              {{ confirmButtonText || t('el.messagebox.confirm') }}
+              {{ confirmButtonText }}
             </el-button>
           </div>
         </div>
@@ -135,20 +131,19 @@ import {
   watch,
   reactive,
   ref,
-  toRefs,
+  toRefs
 } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import { TrapFocus } from '@element-ultra/directives'
 import {
   useModal,
   useLockscreen,
-  useLocale,
   useRestoreActive,
   usePreventGlobal,
   useSize,
   useDraggable,
   useSameTarget,
-  useZIndex,
+  useZIndex
 } from '@element-ultra/hooks'
 import ElInput from '@element-ultra/components/input'
 import { ElOverlay } from '@element-ultra/components/overlay'
@@ -157,89 +152,84 @@ import {
   off,
   isValidComponentSize,
   TypeComponents,
-  TypeComponentsMap,
+  TypeComponentsMap
 } from '@element-ultra/utils'
 import { EVENT_CODE } from '@element-ultra/constants'
 import { ElIcon } from '@element-ultra/components/icon'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-ultra/constants'
-import type {
-  Action,
-  MessageBoxState,
-  MessageBoxType,
-} from './message-box.type'
+import type { Action, MessageBoxState, MessageBoxType } from './message-box.type'
 
 export default defineComponent({
   name: 'ElMessageBox',
   directives: {
-    TrapFocus,
+    TrapFocus
   },
   components: {
     ElButton,
     ElInput,
     ElOverlay,
     ElIcon,
-    ...TypeComponents,
+    ...TypeComponents
   },
   inheritAttrs: false,
   props: {
     buttonSize: {
       type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
+      validator: isValidComponentSize
     },
     modal: {
       type: Boolean,
-      default: true,
+      default: true
     },
     lockScroll: {
       type: Boolean,
-      default: true,
+      default: true
     },
     showClose: {
       type: Boolean,
-      default: true,
+      default: true
     },
     closeOnClickModal: {
       type: Boolean,
-      default: true,
+      default: true
     },
     closeOnPressEscape: {
       type: Boolean,
-      default: true,
+      default: true
     },
     closeOnHashChange: {
       type: Boolean,
-      default: true,
+      default: true
     },
     center: Boolean,
     draggable: Boolean,
     roundButton: {
       default: false,
-      type: Boolean,
+      type: Boolean
     },
     container: {
       type: String, // default append to body
-      default: 'body',
+      default: 'body'
     },
     boxType: {
       type: String as PropType<MessageBoxType>,
-      default: '',
-    },
+      default: ''
+    }
   },
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
-    const { t } = useLocale()
     const visible = ref(false)
     const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
       beforeClose: null,
       callback: null,
-      cancelButtonText: '',
+      cancelButtonText: '取消',
       cancelButtonClass: '',
-      confirmButtonText: '',
+      confirmButtonText: '确认',
       confirmButtonClass: '',
       customClass: '',
       customStyle: {},
@@ -269,14 +259,12 @@ export default defineComponent({
       // seemed ok for now without this state.
       // isOnComposition: false, // temporary remove
       validateError: false,
-      zIndex: nextZIndex(),
+      zIndex: nextZIndex()
     })
 
     const typeClass = computed(() => {
       const type = state.type
-      return type && TypeComponentsMap[type]
-        ? `el-message-box-icon--${type}`
-        : ''
+      return type && TypeComponentsMap[type] ? `el-message-box-icon--${type}` : ''
     })
 
     const btnSize = useSize(
@@ -284,9 +272,7 @@ export default defineComponent({
       { prop: true, form: true, formItem: true }
     )
 
-    const iconComponent = computed(
-      () => state.icon || TypeComponentsMap[state.type] || ''
-    )
+    const iconComponent = computed(() => state.icon || TypeComponentsMap[state.type] || '')
     const hasMessage = computed(() => !!state.message)
     const rootRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
@@ -297,7 +283,7 @@ export default defineComponent({
 
     watch(
       () => state.inputValue,
-      async (val) => {
+      async val => {
         await nextTick()
         if (props.boxType === 'prompt' && val !== null) {
           validate()
@@ -308,7 +294,7 @@ export default defineComponent({
 
     watch(
       () => visible.value,
-      (val) => {
+      val => {
         if (val) {
           if (props.boxType === 'alert' || props.boxType === 'confirm') {
             nextTick().then(() => {
@@ -387,8 +373,7 @@ export default defineComponent({
       if (props.boxType === 'prompt') {
         const inputPattern = state.inputPattern
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
-          state.editorErrorMessage =
-            state.inputErrorMessage || t('el.messagebox.error')
+          state.editorErrorMessage = state.inputErrorMessage || '输入的数据不合法'
           state.validateError = true
           return false
         }
@@ -396,8 +381,7 @@ export default defineComponent({
         if (typeof inputValidator === 'function') {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
-            state.editorErrorMessage =
-              state.inputErrorMessage || t('el.messagebox.error')
+            state.editorErrorMessage = state.inputErrorMessage || '输入的数据不合法'
             state.validateError = true
             return false
           }
@@ -431,16 +415,12 @@ export default defineComponent({
     if (props.closeOnPressEscape) {
       useModal(
         {
-          handleClose,
+          handleClose
         },
         visible
       )
     } else {
-      usePreventGlobal(
-        visible,
-        'keydown',
-        (e: KeyboardEvent) => e.code === EVENT_CODE.esc
-      )
+      usePreventGlobal(visible, 'keydown', (e: KeyboardEvent) => e.code === EVENT_CODE.esc)
     }
 
     // locks the screen to prevent scroll
@@ -468,9 +448,8 @@ export default defineComponent({
       handleClose, // for out side usage
       handleWrapperClick,
       handleInputEnter,
-      handleAction,
-      t,
+      handleAction
     }
-  },
+  }
 })
 </script>

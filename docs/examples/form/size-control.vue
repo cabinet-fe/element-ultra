@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-radio-group v-model="size">
-      <el-radio-button label="large">large</el-radio-button>
-      <el-radio-button label="default">default</el-radio-button>
-      <el-radio-button label="small">small</el-radio-button>
+      <el-radio-button value="large">large</el-radio-button>
+      <el-radio-button value="default">default</el-radio-button>
+      <el-radio-button value="small">small</el-radio-button>
     </el-radio-group>
     <el-radio-group v-model="labelPosition">
-      <el-radio-button label="left">Left</el-radio-button>
-      <el-radio-button label="right">Right</el-radio-button>
-      <el-radio-button label="top">Top</el-radio-button>
+      <el-radio-button value="left">Left</el-radio-button>
+      <el-radio-button value="right">Right</el-radio-button>
+      <el-radio-button value="top">Top</el-radio-button>
     </el-radio-group>
   </div>
   <br />
@@ -65,8 +65,8 @@
     </el-form-item>
     <el-form-item label="Resources">
       <el-radio-group v-model="sizeForm.resource">
-        <el-radio border label="Sponsor"></el-radio>
-        <el-radio border label="Venue"></el-radio>
+        <el-radio border value="Sponsor"></el-radio>
+        <el-radio border value="Venue"></el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item>

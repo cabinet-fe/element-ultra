@@ -1,7 +1,5 @@
-import { unref, computed } from 'vue'
-import { useGlobalConfig } from '../use-global-config'
-
-const defaultNamespace = 'el'
+import { unref } from 'vue'
+import { useConfig } from '../use-config'
 const statePrefix = 'is-'
 
 const _bem = (
@@ -25,26 +23,16 @@ const _bem = (
 }
 
 export const useNamespace = (block: string) => {
-  const globalConfig = useGlobalConfig('namespace')
-  const namespace = computed(() => globalConfig.value || defaultNamespace)
-  const b = (blockSuffix = '') =>
-    _bem(unref(namespace), block, blockSuffix, '', '')
-  const e = (element?: string) =>
-    element ? _bem(unref(namespace), block, '', element, '') : ''
-  const m = (modifier?: string) =>
-    modifier ? _bem(unref(namespace), block, '', '', modifier) : ''
+  const [{ namespace }] = useConfig()
+  const b = (blockSuffix = '') => _bem(unref(namespace), block, blockSuffix, '', '')
+  const e = (element?: string) => (element ? _bem(unref(namespace), block, '', element, '') : '')
+  const m = (modifier?: string) => (modifier ? _bem(unref(namespace), block, '', '', modifier) : '')
   const be = (blockSuffix?: string, element?: string) =>
-    blockSuffix && element
-      ? _bem(unref(namespace), block, blockSuffix, element, '')
-      : ''
+    blockSuffix && element ? _bem(unref(namespace), block, blockSuffix, element, '') : ''
   const em = (element?: string, modifier?: string) =>
-    element && modifier
-      ? _bem(unref(namespace), block, '', element, modifier)
-      : ''
+    element && modifier ? _bem(unref(namespace), block, '', element, modifier) : ''
   const bm = (blockSuffix?: string, modifier?: string) =>
-    blockSuffix && modifier
-      ? _bem(unref(namespace), block, blockSuffix, '', modifier)
-      : ''
+    blockSuffix && modifier ? _bem(unref(namespace), block, blockSuffix, '', modifier) : ''
   const bem = (blockSuffix?: string, element?: string, modifier?: string) =>
     blockSuffix && element && modifier
       ? _bem(unref(namespace), block, blockSuffix, element, modifier)
@@ -65,6 +53,6 @@ export const useNamespace = (block: string) => {
     em,
     bm,
     bem,
-    is,
+    is
   }
 }

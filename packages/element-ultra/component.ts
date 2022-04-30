@@ -26,7 +26,6 @@ import { ElCol } from '@element-ultra/components/col'
 import { ElCollapse, ElCollapseItem } from '@element-ultra/components/collapse'
 import { ElCollapseTransition } from '@element-ultra/components/collapse-transition'
 import { ElColorPicker } from '@element-ultra/components/color-picker'
-import { ElConfigProvider } from '@element-ultra/components/config-provider'
 import {
   ElContainer,
   ElAside,
@@ -136,7 +135,6 @@ export default [
   ElCollapseItem,
   ElCollapseTransition,
   ElColorPicker,
-  ElConfigProvider,
   ElContainer,
   ElAside,
   ElFooter,

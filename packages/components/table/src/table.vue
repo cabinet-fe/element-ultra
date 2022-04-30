@@ -98,7 +98,7 @@
             :class="ns.e('empty-block')"
           >
             <span :class="ns.e('empty-text')">
-              <slot name="empty">{{ computedEmptyText }}</slot>
+              <slot name="empty">{{ emptyText }}</slot>
             </span>
           </div>
           <div v-if="$slots.append" ref="appendWrapper" :class="ns.e('append-wrapper')">
@@ -120,7 +120,7 @@
         :default-sort="defaultSort"
         :store="store"
         :style="tableBodyStyles"
-        :sum-text="computedSumText"
+        :sum-text="sumText"
         :summary-method="summaryMethod"
       />
     </div>
@@ -132,7 +132,7 @@
 import { defineComponent, getCurrentInstance, computed, provide } from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-ultra/directives'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
@@ -183,7 +183,6 @@ export default defineComponent({
   ],
   setup(props) {
     type Row = typeof props.data[number]
-    const { t } = useLocale()
     const ns = useNamespace('table')
     const table = getCurrentInstance() as Table<Row>
     provide(TABLE_INJECTION_KEY, table)
@@ -245,11 +244,6 @@ export default defineComponent({
       doLayout,
       debouncedUpdateLayout
     }
-    const computedSumText = computed(() => props.sumText || t('el.table.sumText'))
-
-    const computedEmptyText = computed(() => {
-      return props.emptyText || t('el.table.emptyText')
-    })
 
     return {
       ns,
@@ -284,11 +278,8 @@ export default defineComponent({
       clearSort,
       doLayout,
       sort,
-      t,
       setDragVisible,
       context: table,
-      computedSumText,
-      computedEmptyText,
       tableLayout
     }
   }

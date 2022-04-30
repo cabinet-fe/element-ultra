@@ -56,7 +56,7 @@
       <el-checkbox value="线下" name="type"></el-checkbox>
     </el-checkbox-group>
 
-    <el-radio-group label="资源" field="resource">
+    <el-radio-group value="资源" field="resource">
       <el-radio value="赞助"></el-radio>
       <el-radio value="场地"></el-radio>
     </el-radio-group>

@@ -16,15 +16,8 @@
       <div v-if="multiple">
         <div :class="ns.e('content')">
           <el-scrollbar :wrap-class="ns.e('wrap')">
-            <el-checkbox-group
-              v-model="filteredValue"
-              :class="ns.e('checkbox-group')"
-            >
-              <el-checkbox
-                v-for="filter in filters"
-                :key="filter.value"
-                :value="filter.value"
-              >
+            <el-checkbox-group v-model="filteredValue" :class="ns.e('checkbox-group')">
+              <el-checkbox v-for="filter in filters" :key="filter.value" :value="filter.value">
                 {{ filter.text }}
               </el-checkbox>
             </el-checkbox-group>
@@ -37,11 +30,9 @@
             type="button"
             @click="handleConfirm"
           >
-            {{ t('el.table.confirmFilter') }}
+            筛选
           </button>
-          <button type="button" @click="handleReset">
-            {{ t('el.table.resetFilter') }}
-          </button>
+          <button type="button" @click="handleReset">重置</button>
         </div>
       </div>
       <ul v-else :class="ns.e('list')">
@@ -49,13 +40,12 @@
           :class="[
             ns.e('list-item'),
             {
-              [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
-            },
+              [ns.is('active')]: filterValue === undefined || filterValue === null
+            }
           ]"
           @click="handleSelect(null)"
         >
-          {{ t('el.table.clearFilter') }}
+          全部
         </li>
         <li
           v-for="filter in filters"
@@ -73,7 +63,7 @@
         v-click-outside:[popperPaneRef]="hideFilterPanel"
         :class="[
           `${ns.namespace.value}-table__column-filter-trigger`,
-          `${ns.namespace.value}-none-outline`,
+          `${ns.namespace.value}-none-outline`
         ]"
         @click="showFilterPanel"
       >
@@ -92,7 +82,7 @@ import ElCheckbox from '@element-ultra/components/checkbox'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-ultra/directives'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import type { Placement } from '@element-ultra/components/popper'
@@ -113,27 +103,26 @@ export default defineComponent({
     ElTooltip,
     ElIcon,
     ArrowDown,
-    ArrowUp,
+    ArrowUp
   },
   directives: { ClickOutside },
   props: {
     placement: {
       type: String as PropType<Placement>,
-      default: 'bottom-start',
+      default: 'bottom-start'
     },
     store: {
-      type: Object as PropType<Store<unknown>>,
+      type: Object as PropType<Store<unknown>>
     },
     column: {
-      type: Object as PropType<TableColumnCtx<unknown>>,
+      type: Object as PropType<TableColumnCtx<unknown>>
     },
     upDataColumn: {
-      type: Function,
-    },
+      type: Function
+    }
   },
   setup(props) {
     const instance = getCurrentInstance()
-    const { t } = useLocale()
     const ns = useNamespace('table-filter')
     const parent = instance?.parent as TableHeader
     if (!parent.filterPanels.value[props.column.id]) {
@@ -154,7 +143,7 @@ export default defineComponent({
             filteredValue.value.splice(0, 1)
           }
         }
-      },
+      }
     })
     const filteredValue: WritableComputedRef<unknown[]> = computed({
       get() {
@@ -167,7 +156,7 @@ export default defineComponent({
         if (props.column) {
           props.upDataColumn('filteredValue', value)
         }
-      },
+      }
     })
     const multiple = computed(() => {
       if (props.column) {
@@ -175,7 +164,7 @@ export default defineComponent({
       }
       return true
     })
-    const isActive = (filter) => {
+    const isActive = filter => {
       return filter.value === filterValue.value
     }
     const hidden = () => {
@@ -209,20 +198,20 @@ export default defineComponent({
     const confirmFilter = (filteredValue: unknown[]) => {
       props.store.commit('filterChange', {
         column: props.column,
-        values: filteredValue,
+        values: filteredValue
       })
       props.store.updateAllSelected()
     }
     watch(
       tooltipVisible,
-      (value) => {
+      value => {
         // todo
         if (props.column) {
           props.upDataColumn('filterOpened', value)
         }
       },
       {
-        immediate: true,
+        immediate: true
       }
     )
 
@@ -240,13 +229,12 @@ export default defineComponent({
       handleReset,
       handleSelect,
       isActive,
-      t,
       ns,
       showFilterPanel,
       hideFilterPanel,
       popperPaneRef,
-      tooltip,
+      tooltip
     }
-  },
+  }
 })
 </script>

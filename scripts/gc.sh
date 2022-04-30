@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/powershell
 
 NAME=$1
 

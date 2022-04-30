@@ -46,7 +46,6 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-ultra/hooks'
 import { rangeArr } from '@element-ultra/components/time-picker'
 import { hasClass, castArray } from '@element-ultra/utils'
 
@@ -76,16 +75,15 @@ export default defineComponent({
   emits: ['pick'],
 
   setup(props, ctx) {
-    const { lang } = useLocale()
     const startYear = computed(() => {
       return Math.floor(props.date.year() / 10) * 10
     })
     const getCellStyle = (year) => {
       const style = {} as any
-      const today = dayjs().locale(lang.value)
+      const today = dayjs().locale('zh-cn')
 
       style.disabled = props.disabledDate
-        ? datesInYear(year, lang.value).every(props.disabledDate)
+        ? datesInYear(year, 'zh-cn').every(props.disabledDate)
         : false
 
       style.current =

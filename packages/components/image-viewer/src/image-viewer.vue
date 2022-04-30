@@ -17,21 +17,13 @@
         <!-- ARROW -->
         <template v-if="!isSingle">
           <span
-            :class="[
-              ns.e('btn'),
-              ns.e('prev'),
-              ns.is('disabled', !infinite && isFirst),
-            ]"
+            :class="[ns.e('btn'), ns.e('prev'), ns.is('disabled', !infinite && isFirst)]"
             @click="prev"
           >
             <el-icon><arrow-left /></el-icon>
           </span>
           <span
-            :class="[
-              ns.e('btn'),
-              ns.e('next'),
-              ns.is('disabled', !infinite && isLast),
-            ]"
+            :class="[ns.e('btn'), ns.e('next'), ns.is('disabled', !infinite && isLast)]"
             @click="next"
           >
             <el-icon><arrow-right /></el-icon>
@@ -64,7 +56,7 @@
           <img
             v-for="(url, i) in urlList"
             v-show="i === index"
-            :ref="(el) => (imgRefs[i] = el)"
+            :ref="el => (imgRefs[i] = el)"
             :key="url"
             :src="url"
             :style="imgStyle"
@@ -89,12 +81,12 @@ import {
   watch,
   nextTick,
   effectScope,
-  markRaw,
+  markRaw
 } from 'vue'
 import { useEventListener, isNumber } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import ElIcon from '@element-ultra/components/icon'
-import { useLocale, useNamespace, useZIndex } from '@element-ultra/hooks'
+import { useNamespace, useZIndex } from '@element-ultra/hooks'
 import { EVENT_CODE } from '@element-ultra/constants'
 import { isFirefox } from '@element-ultra/utils'
 import {
@@ -106,7 +98,7 @@ import {
   RefreshLeft,
   RefreshRight,
   FullScreen,
-  ScaleToOriginal,
+  ScaleToOriginal
 } from '@element-plus/icons-vue'
 import { imageViewerProps, imageViewerEmits } from './image-viewer'
 
@@ -115,20 +107,16 @@ import type { CSSProperties } from 'vue'
 const Mode = {
   CONTAIN: {
     name: 'contain',
-    icon: markRaw(FullScreen),
+    icon: markRaw(FullScreen)
   },
   ORIGINAL: {
     name: 'original',
-    icon: markRaw(ScaleToOriginal),
-  },
+    icon: markRaw(ScaleToOriginal)
+  }
 }
 
 const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
-export type ImageViewerAction =
-  | 'zoomIn'
-  | 'zoomOut'
-  | 'clockwise'
-  | 'anticlockwise'
+export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
 
 export default defineComponent({
   name: 'ElImageViewer',
@@ -140,13 +128,12 @@ export default defineComponent({
     ZoomOut,
     ZoomIn,
     RefreshLeft,
-    RefreshRight,
+    RefreshRight
   },
   props: imageViewerProps,
   emits: imageViewerEmits,
 
   setup(props, { emit }) {
-    const { t } = useLocale()
     const ns = useNamespace('image-viewer')
     const { nextZIndex } = useZIndex()
     const wrapper = ref<HTMLDivElement>()
@@ -162,7 +149,7 @@ export default defineComponent({
       deg: 0,
       offsetX: 0,
       offsetY: 0,
-      enableTransition: false,
+      enableTransition: false
     })
 
     const isSingle = computed(() => {
@@ -204,7 +191,7 @@ export default defineComponent({
 
       const style: CSSProperties = {
         transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
-        transition: enableTransition ? 'transform .3s' : '',
+        transition: enableTransition ? 'transform .3s' : ''
       }
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
@@ -256,12 +243,12 @@ export default defineComponent({
           if (delta > 0) {
             handleActions('zoomIn', {
               zoomRate: 1.2,
-              enableTransition: false,
+              enableTransition: false
             })
           } else {
             handleActions('zoomOut', {
               zoomRate: 1.2,
-              enableTransition: false,
+              enableTransition: false
             })
           }
         }
@@ -283,7 +270,7 @@ export default defineComponent({
 
     function handleImgError(e: Event) {
       loading.value = false
-      ;(e.target as HTMLImageElement).alt = t('el.image.error')
+      ;(e.target as HTMLImageElement).alt = '加载失败'
     }
 
     function handleMouseDown(e: MouseEvent) {
@@ -298,14 +285,10 @@ export default defineComponent({
         transform.value = {
           ...transform.value,
           offsetX: offsetX + ev.pageX - startX,
-          offsetY: offsetY + ev.pageY - startY,
+          offsetY: offsetY + ev.pageY - startY
         }
       })
-      const removeMousemove = useEventListener(
-        document,
-        'mousemove',
-        dragHandler
-      )
+      const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
       useEventListener(document, 'mouseup', () => {
         removeMousemove()
       })
@@ -319,7 +302,7 @@ export default defineComponent({
         deg: 0,
         offsetX: 0,
         offsetY: 0,
-        enableTransition: false,
+        enableTransition: false
       }
     }
 
@@ -329,7 +312,7 @@ export default defineComponent({
       const modeNames = Object.keys(Mode)
       const modeValues = Object.values(Mode)
       const currentMode = mode.value.name
-      const index = modeValues.findIndex((i) => i.name === currentMode)
+      const index = modeValues.findIndex(i => i.name === currentMode)
       const nextIndex = (index + 1) % modeNames.length
       mode.value = Mode[modeNames[nextIndex]]
       reset()
@@ -353,21 +336,17 @@ export default defineComponent({
         zoomRate: 1.4,
         rotateDeg: 90,
         enableTransition: true,
-        ...options,
+        ...options
       }
       switch (action) {
         case 'zoomOut':
           if (transform.value.scale > 0.2) {
-            transform.value.scale = parseFloat(
-              (transform.value.scale / zoomRate).toFixed(3)
-            )
+            transform.value.scale = parseFloat((transform.value.scale / zoomRate).toFixed(3))
           }
           break
         case 'zoomIn':
           if (transform.value.scale < 7) {
-            transform.value.scale = parseFloat(
-              (transform.value.scale * zoomRate).toFixed(3)
-            )
+            transform.value.scale = parseFloat((transform.value.scale * zoomRate).toFixed(3))
           }
           break
         case 'clockwise':
@@ -389,7 +368,7 @@ export default defineComponent({
       })
     })
 
-    watch(index, (val) => {
+    watch(index, val => {
       reset()
       emit('switch', val)
     })
@@ -420,8 +399,8 @@ export default defineComponent({
       handleImgLoad,
       handleImgError,
       handleMouseDown,
-      ns,
+      ns
     }
-  },
+  }
 })
 </script>

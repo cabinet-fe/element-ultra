@@ -1,7 +1,7 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { useNamespace, provideGlobalConfig } from '..'
+import { useNamespace } from '..'
 import type { VueWrapper } from '@vue/test-utils'
 
 const TestComp = defineComponent({
@@ -37,7 +37,6 @@ const TestComp = defineComponent({
 describe('use-locale', () => {
   const Comp = defineComponent({
     setup(_props, { slots }) {
-      provideGlobalConfig({ namespace: 'ep' })
       return () => slots.default?.()
     },
   })

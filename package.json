@@ -16,7 +16,7 @@
     "test:vitest": "vitest",
     "test:coverage": "vitest --coverage",
     "dev": "pnpm -C play dev",
-    "gen": "bash ./scripts/gc.sh",
+    "gen": "powershell ./scripts/gc.sh",
     "gen:version": "sucrase-node scripts/gen-version.ts",
     "update:version": "sucrase-node scripts/update-version.ts",
     "build": "gulp --require sucrase/register/ts -f gulpfile",
@@ -48,7 +48,6 @@
     "@element-ultra/constants": "workspace:*",
     "@element-ultra/directives": "workspace:*",
     "@element-ultra/hooks": "workspace:*",
-    "@element-ultra/locale": "workspace:*",
     "@element-ultra/test-utils": "workspace:*",
     "@element-ultra/theme-chalk": "workspace:*",
     "@element-ultra/tokens": "workspace:*",
@@ -65,7 +64,7 @@
     "normalize-wheel-es": "^1.1.1",
     "sortablejs": "^1.15.0"
   },
- 
+
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",

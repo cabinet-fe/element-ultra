@@ -39,11 +39,8 @@
           <option-content :option="optionRender(item)" />
         </el-checkbox>
       </el-checkbox-group>
-      <p
-        v-show="hasNoMatch || data.length === 0"
-        :class="ns.be('panel', 'empty')"
-      >
-        {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
+      <p v-show="hasNoMatch || data.length === 0" :class="ns.be('panel', 'empty')">
+        {{ hasNoMatch ? '无匹配数据' : '无数据' }}
       </p>
     </div>
     <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
@@ -54,7 +51,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-ultra/components/checkbox'
 import ElInput from '@element-ultra/components/input'
 import { Search } from '@element-plus/icons-vue'
@@ -67,7 +64,7 @@ export default defineComponent({
     ElCheckboxGroup,
     ElCheckbox,
     ElInput,
-    OptionContent: ({ option }) => option,
+    OptionContent: ({ option }) => option
   },
 
   props: useCheckProps,
@@ -75,7 +72,6 @@ export default defineComponent({
   emits: [CHECKED_CHANGE_EVENT],
 
   setup(props, { slots }) {
-    const { t } = useLocale()
     const ns = useNamespace('transfer')
 
     const panelState = reactive({
@@ -83,7 +79,7 @@ export default defineComponent({
       allChecked: false,
       query: '',
       inputHover: false,
-      checkChangeByUser: true,
+      checkChangeByUser: true
     })
 
     const {
@@ -93,7 +89,7 @@ export default defineComponent({
       filteredData,
       checkedSummary,
       isIndeterminate,
-      handleAllCheckedChange,
+      handleAllCheckedChange
     } = useCheck(props, panelState)
 
     const hasNoMatch = computed(() => {
@@ -102,8 +98,7 @@ export default defineComponent({
 
     const hasFooter = computed(() => !!slots.default()[0].children.length)
 
-    const { checked, allChecked, query, inputHover, checkChangeByUser } =
-      toRefs(panelState)
+    const { checked, allChecked, query, inputHover, checkChangeByUser } = toRefs(panelState)
 
     return {
       ns,
@@ -123,10 +118,8 @@ export default defineComponent({
 
       hasNoMatch,
       SearchIcon: Search,
-      hasFooter,
-
-      t,
+      hasFooter
     }
-  },
+  }
 })
 </script>

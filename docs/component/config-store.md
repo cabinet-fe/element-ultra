@@ -33,6 +33,18 @@ interface ConfigStore {
   proTableRequestMethod?: ProTableRequestMethod
   /** 集成表格分页默认大小 */
   proTableDefaultSize?: number
+  /** 断点 */
+  breakpoint: { xs: number; s: number; m: number; l: number; xl: number }
+  /** 表格选择器 */
+  tableSelectRequestMethod?: TableSelectRequestMethod
+  /** 消息弹框 */
+  message?: {
+    max: number
+  }
+  /** zIndex */
+  zIndex: number
+  /** 命名空间, 默认el */
+  namespace: string
 }
 ```
 全局配置后续还会继续更新, 参考此[文件](https://github.com/cabinet-fe/element-pro/blob/main/packages/hooks/use-config/index.ts)来查看最新的配置

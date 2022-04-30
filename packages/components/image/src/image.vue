@@ -4,7 +4,7 @@
       <div :class="ns.e('placeholder')"></div>
     </slot>
     <slot v-else-if="hasLoadError" name="error">
-      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+      <div :class="ns.e('error')">加载失败</div>
     </slot>
     <img
       v-else
@@ -44,7 +44,6 @@ import {
 } from '@vueuse/core'
 import {
   useAttrs,
-  useLocale,
   useNamespace,
   useDeprecated,
 } from '@element-ultra/hooks'
@@ -81,7 +80,6 @@ export default defineComponent({
       computed(() => isBoolean(props.appendToBody))
     )
 
-    const { t } = useLocale()
     const ns = useNamespace('image')
 
     const attrs = useAttrs()
@@ -287,8 +285,7 @@ export default defineComponent({
 
       clickHandler,
       closeViewer,
-      switchViewer,
-      t,
+      switchViewer
     }
   },
 })

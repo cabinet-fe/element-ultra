@@ -186,7 +186,10 @@ export default {
     default: true,
   },
   showSummary: Boolean,
-  sumText: String,
+  sumText: {
+    type: String,
+    default: '合计'
+  },
   summaryMethod: Function as PropType<TableProps<DefaultRow>['summaryMethod']>,
   rowClassName: [String, Function] as PropType<
     TableProps<DefaultRow>['rowClassName']
@@ -212,7 +215,10 @@ export default {
   >,
   highlightCurrentRow: Boolean,
   currentRowKey: [String, Number],
-  emptyText: String,
+  emptyText: {
+    type: String,
+    default: '暂无数据'
+  },
   expandRowKeys: Array as PropType<TableProps<DefaultRow>['expandRowKeys']>,
   defaultExpandAll: Boolean,
   defaultSort: Object as PropType<TableProps<DefaultRow>['defaultSort']>,

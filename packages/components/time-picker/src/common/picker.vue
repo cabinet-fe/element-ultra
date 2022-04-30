@@ -140,7 +140,7 @@ import { defineComponent, ref, computed, nextTick, inject, watch, provide, unref
 import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useLocale, useSize } from '@element-ultra/hooks'
+import { useSize } from '@element-ultra/hooks'
 import { formKey, formItemKey } from '@element-ultra/tokens'
 import ElInput from '@element-ultra/components/input'
 import ElIcon from '@element-ultra/components/icon'
@@ -225,8 +225,6 @@ export default defineComponent({
     'visible-change'
   ],
   setup(props, ctx) {
-    const { lang } = useLocale()
-
     const elForm = inject(formKey, undefined)
     const elFormItem = inject(formItemKey, undefined)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
@@ -236,6 +234,8 @@ export default defineComponent({
     const pickerVisible = ref(false)
     const pickerActualVisible = ref(false)
     const valueOnOpen = ref(null)
+
+    const lang = 'zh-cn'
 
     const valueFormat = computed(() => {
       if (props.valueFormat) return props.valueFormat
@@ -272,11 +272,11 @@ export default defineComponent({
         let formatValue
 
         if (Array.isArray(val)) {
-          formatValue = val.map(_ => formatter(_, valueFormat.value, lang.value))
+          formatValue = val.map(_ => formatter(_, valueFormat.value, lang))
         } else if (val) {
-          formatValue = formatter(val, valueFormat.value, lang.value)
+          formatValue = formatter(val, valueFormat.value, lang)
         }
-        ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
+        ctx.emit('update:modelValue', val ? formatValue : val, lang)
       }
     }
     const refInput = computed<HTMLInputElement[]>(() => {
@@ -361,14 +361,14 @@ export default defineComponent({
         }
       } else {
         if (Array.isArray(props.modelValue)) {
-          result = props.modelValue.map(_ => parser(_, valueFormat.value, lang.value))
+          result = props.modelValue.map(_ => parser(_, valueFormat.value, lang))
         } else if (props.start && props.end) {
           result = [
-            parser(props.start, valueFormat.value, lang.value),
-            parser(props.end, valueFormat.value, lang.value)
+            parser(props.start, valueFormat.value, lang),
+            parser(props.end, valueFormat.value, lang)
           ]
         } else {
-          result = parser(props.modelValue, valueFormat.value, lang.value)
+          result = parser(props.modelValue, valueFormat.value, lang)
         }
       }
 
