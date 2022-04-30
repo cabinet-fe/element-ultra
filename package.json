@@ -16,7 +16,7 @@
     "test:vitest": "vitest",
     "test:coverage": "vitest --coverage",
     "dev": "pnpm -C play dev",
-    "gen": "powershell ./scripts/gc.sh",
+    "gen": "sucrase-node scripts/gen.ts",
     "gen:version": "sucrase-node scripts/gen-version.ts",
     "update:version": "sucrase-node scripts/update-version.ts",
     "build": "gulp --require sucrase/register/ts -f gulpfile",
