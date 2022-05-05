@@ -50,6 +50,6 @@ const handleUpdateModelValue = (checked: boolean) => {
 
 const handleItemChange = (checked: boolean, value: string) => {
   checkedSet.value[checked ? 'add' : 'delete'](value)
-  emitChange()
+  emitChange(checked, value)
 }
 </script>

@@ -13,5 +13,5 @@ export const checkboxGroupInjectionKey: InjectionKey<{
 export const checkboxGroupsKey: InjectionKey<{
   checkedSet: Ref<Set<string | number>>
   ns: ReturnType<typeof useNamespace>
-  emitChange: () => void
+  emitChange: (checked: boolean, value: string) => void
 }> = Symbol('checkboxGroups')

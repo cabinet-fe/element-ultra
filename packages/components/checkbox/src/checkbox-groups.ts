@@ -18,7 +18,8 @@ export const checkboxGroupsProps = {
 } as const
 
 export const checkboxGroupsEmits = {
-  'update:modelValue': (checked: (string | number)[]) => true
+  'update:modelValue': (checkedList: (string | number)[]) => true,
+  'checked-change': (checked: boolean, value: string) => true
 }
 
 export type CheckboxGroupsProps = ExtractPropTypes<typeof checkboxGroupsProps>

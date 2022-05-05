@@ -23,9 +23,10 @@ let checkedSet = ref(new Set<string | number>())
 // TODO watchExcludeEvent()
 let changedByEvent = false
 
-const emitChange = () => {
+const emitChange = (checked: boolean, value: string) => {
   changedByEvent = true
   emit('update:modelValue', Array.from(checkedSet.value))
+  emit('checked-change', checked, value)
 }
 
 watch(
