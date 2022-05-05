@@ -85,6 +85,7 @@ tree/filter
 | filter-method         | 对树节点进行筛选时执行的方法，返回 true 表示这个节点可以显示， 返回 `false` 则表示这个节点会被隐藏             | Function(value, data) | —      |
 | indent                | 相邻级节点间的水平缩进，单位为像素                                                                             | number                | 16     |
 | icon                  | 自定义树节点的图标                                                                                             | string / Component    | -      |
+| selectable            | 禁选某些子节点                                                                                            | Function(row)              | -       |
 
 ## props
 

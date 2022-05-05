@@ -4,7 +4,7 @@
       <div :class="ns.e('wrapper')">
         <slot name="searcher"></slot>
       </div>
-      <div :class="ns.e('btn')" v-if="Object.keys(query).length">
+      <div :class="ns.e('btn')" v-if="query && Object.keys(query).length">
         <el-button type="primary" @click="handleSearch">查询</el-button>
       </div>
     </div>

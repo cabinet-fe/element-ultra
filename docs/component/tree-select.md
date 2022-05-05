@@ -49,6 +49,8 @@ type TreeSelectProps = {
   readonly treeIcon?: string | undefined
   /** 数据为空时展现的内容 */
   readonly emptyText?: string | undefined
+  /** 禁选某些子节点 */
+  readonly selectable?: Function
 }
 ```
 
