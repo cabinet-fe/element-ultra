@@ -24,7 +24,7 @@
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"
           :indeterminate="isIndeterminate(data[index])"
-          :disabled="isDisabled(data[index])"
+          :disabled="props.selectable ? props.selectable(data[index]) : isDisabled(data[index])"
           :current="isCurrent(data[index])"
           :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
           @click="handleNodeClick"

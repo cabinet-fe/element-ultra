@@ -69,6 +69,9 @@ export const treeSelectProps = {
   highlightCurrent: {
     type: Boolean,
     default: true
+  },
+  selectable: {
+    type: Function
   }
 } as const
 
