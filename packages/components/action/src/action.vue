@@ -32,7 +32,6 @@ import ElPopconfirm from '@element-ultra/components/popconfirm'
 import { useNamespace } from '@element-ultra/hooks'
 import { closeDrop } from './token'
 
-
 const ns = useNamespace('action')
 
 defineOptions({
@@ -49,7 +48,7 @@ const close = inject(closeDrop)
 
 const run = () => {
   emit('run')
-  if(props.isDrop) {
+  if (props.isDrop) {
     close?.()
   }
 }

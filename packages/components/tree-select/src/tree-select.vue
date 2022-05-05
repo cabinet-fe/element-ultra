@@ -118,6 +118,7 @@
           @current-change="handleSelectChange"
           @check="handleCheck"
           :expand-on-click-node="false"
+          :selectable="props.selectable ? selectable : undefined"
         />
       </div>
     </transition>
@@ -254,4 +255,8 @@ watch(
     immediate: true
   }
 )
+
+const selectable = (row: Record<string, any>) => {
+  if(props.selectable) return props.selectable(row)
+}
 </script>

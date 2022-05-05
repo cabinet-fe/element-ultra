@@ -112,6 +112,9 @@ export const treeProps = buildProps({
   perfMode: {
     type: Boolean,
     default: true
+  },
+  selectable: {
+    type: Function
   }
 } as const)
 
