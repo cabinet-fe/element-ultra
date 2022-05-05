@@ -21,12 +21,12 @@
   }
 
   @include e(header) {
-    padding: 4px 8px;
+    padding: 8px;
     border-bottom: var(--el-border-base);
     box-sizing: border-box;
   }
 
   @include e(body) {
-    padding: 4px 8px;
+    padding: 8px;
   }
 }
