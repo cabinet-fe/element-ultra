@@ -7,6 +7,7 @@
       ns.is('current', current),
       ns.is('focusable', !disabled),
       ns.is('checked', !disabled && checked),
+      ns.is('disabled', disabled)
     ]"
     role="treeitem"
     tabindex="-1"
@@ -87,6 +88,7 @@ export default defineComponent({
     })
 
     const handleClick = (e: MouseEvent) => {
+      if (props.disabled) return
       emit('click', props.node, e)
     }
     const handleExpandIconClick = () => {
