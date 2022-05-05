@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, provide, shallowRef } from 'vue'
+import { defineComponent, provide, shallowRef, render, type VNode } from 'vue'
 import { actionGroupProps } from './type'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElButton from '@element-ultra/components/button'
@@ -29,9 +29,25 @@ export default defineComponent({
 
     const getSlots = () => {
       const children = slots.default?.() || []
+      let result: VNode[] = []
+      children.forEach((item: Record<string, any>) => {
+        if (item.type.name !== 'ElAction') {
+          if (item.type.render) {
+            let node = item.type.render(item.props)
+            result = result.concat(node.children)
+          } else if (item.type.setup) {
+            let node = item.type.setup(item.props)()
+
+            result = result.concat(node.children)
+          }
+        } else {
+          result.push(item as VNode)
+        }
+      })
+
       const { max } = props
-      const normalChildren = max >= children.length ? children : children.slice(0, max - 1)
-      const restChildren = (max >= children.length ? [] : children.slice(max - 1)).map((node) => {
+      const normalChildren = max >= result.length ? result : result.slice(0, max - 1)
+      const restChildren = (max >= result.length ? [] : result.slice(max - 1)).map((node) => {
         if (node.props) {
           node.props.isDrop = true
         }
