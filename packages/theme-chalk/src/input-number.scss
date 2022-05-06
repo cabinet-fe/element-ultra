@@ -34,6 +34,7 @@
     right: 1px;
     z-index: 1;
     line-height: math.div(map.get($input-height, 'default') - 2, 2);
+    height: math.div(map.get($input-height, 'default') - 2, 2);
 
     width: map.get($input-height, 'default');
     background: var(--el-bg-color);
