@@ -1,7 +1,8 @@
-import { buildProps, isNumber } from '@element-ultra/utils'
+import { isNumber } from '@element-ultra/utils'
 import { componentSizes, FORM_COMPONENT_PROPS } from '@element-ultra/constants'
+import type { PropType } from 'vue'
 
-export const inputNumberProps = buildProps({
+export const inputNumberProps = {
   ...FORM_COMPONENT_PROPS,
   step: {
     type: Number,
@@ -27,25 +28,21 @@ export const inputNumberProps = buildProps({
     default: false,
   },
   size: {
-    type: String,
-    values: componentSizes,
+    type: String as PropType<keyof typeof componentSizes>,
+    default: ''
   },
   controls: {
     type: Boolean,
     default: true,
   },
-  controlsPosition: {
-    type: String,
-    default: '',
-    values: ['', 'right'],
-  },
+
   name: String,
   placeholder: String,
   precision: {
     type: Number,
     validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10),
   },
-} as const)
+} as const
 
 export const inputNumberEmits = {
   change: (prev: number, cur: number) => prev !== cur,

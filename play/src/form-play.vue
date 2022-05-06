@@ -10,16 +10,19 @@
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
+        <el-input-number size="large" label="数字" field="num"></el-input-number>
+
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
         </template>
+
 
         <template v-else>
           <el-input label="姓名" field="name" />
           <el-input label="住址" field="address" />
         </template>
 
-
+        <el-select :options="[{ label: 'aa', value: '1' }]" multiple field="aa" />
 
         <el-date-picker
           type="daterange"
@@ -71,7 +74,9 @@ const [data, rules] = useFormModel({
   type: { value: '2' },
   address: { required: true },
   start: { value: '' },
-  end: { value: '' }
+  end: { value: '' },
+  aa: { value: [] },
+  num: { value: 1 }
 })
 
 const formRef = shallowRef<any>()

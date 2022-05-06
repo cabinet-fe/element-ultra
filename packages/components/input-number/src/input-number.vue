@@ -5,7 +5,6 @@
       ns.m(inputNumberSize),
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
-      ns.is('controls-right', controlsAtRight),
     ]"
     @dragstart.prevent
   >
@@ -17,8 +16,7 @@
       @keydown.enter="decrease"
     >
       <el-icon>
-        <arrow-down v-if="controlsAtRight" />
-        <minus v-else />
+        <arrow-down />
       </el-icon>
     </span>
     <span
@@ -29,8 +27,7 @@
       @keydown.enter="increase"
     >
       <el-icon>
-        <arrow-up v-if="controlsAtRight" />
-        <plus v-else />
+        <arrow-up />
       </el-icon>
     </span>
     <el-input
@@ -125,9 +122,6 @@ export default defineComponent({
       } else {
         return Math.max(getPrecision(props.modelValue), stepPrecision)
       }
-    })
-    const controlsAtRight = computed(() => {
-      return props.controls && props.controlsPosition === 'right'
     })
 
     const inputNumberSize = useSize()
@@ -297,7 +291,6 @@ export default defineComponent({
       displayValue,
       handleInput,
       handleInputChange,
-      controlsAtRight,
       decrease,
       increase,
       inputNumberSize,
