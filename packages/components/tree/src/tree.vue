@@ -130,7 +130,8 @@ const {
   setCheckedKeys,
   setCheckedAll,
   filter,
-  setData
+  setData,
+  getTreeNodes
 } = useTree(props, emit)
 
 const itemSize = 26
@@ -145,6 +146,7 @@ defineExpose({
   setCheckedKeys,
   setCheckedAll,
   filter,
-  setData
+  setData,
+  getTreeNodes
 })
 </script>

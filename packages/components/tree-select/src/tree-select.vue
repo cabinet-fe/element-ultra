@@ -19,7 +19,7 @@
         <template v-if="multiple">
           <span
             v-if="!modelValue?.length && !filterer.query && !filterer.filtering"
-            :class="[ns.e('placeholder'), ns.is('transparent', filterer.focus)]"
+            :class="[ns.e('placeholder'), ns.is('transparent')]"
           >
             {{ placeholder }}
           </span>
@@ -50,7 +50,7 @@
         <template v-else>
           <span
             v-if="!filterer.query && !filterer.filtering"
-            :class="[ns.e('placeholder'), ns.is('transparent', filterer.focus)]"
+            :class="[ns.e('placeholder'), ns.is('transparent', filterer.focus || !selectedLabel)]"
           >
             {{ selectedLabel || placeholder }}
           </span>
@@ -241,20 +241,6 @@ const handleDelete = () => {
   const lastIndex = tagList.value.length - 1
   handleCloseTag(tagList.value[lastIndex], lastIndex)
 }
-
-// 监听值的变化
-// 主要是监听外部值的变化来保证正确的视图
-// 值更改的时候进行校验
-watch(
-  () => props.modelValue,
-  () => {
-    // TODO 此处应该优化一下
-    setTreeChecked()
-  },
-  {
-    immediate: true
-  }
-)
 
 const selectable = (row: Record<string, any>) => {
   if(props.selectable) return props.selectable(row)

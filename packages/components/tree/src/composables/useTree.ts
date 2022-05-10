@@ -259,9 +259,13 @@ export function useTree(props: TreeProps, emit) {
   }
 
   function setData(data: TreeData) {
-    nextTick(() => {
-      tree.value = createTree(data)
-    })
+    tree.value = createTree(data)
+    // nextTick(() => {
+    // })
+  }
+
+  function getTreeNodes() {
+    return tree.value
   }
 
   return {
@@ -290,6 +294,7 @@ export function useTree(props: TreeProps, emit) {
     setCheckedKeys,
     filter,
     setData,
-    setCheckedAll
+    setCheckedAll,
+    getTreeNodes
   }
 }

@@ -10,6 +10,8 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const treeVisible = shallowRef(false)
   /** 是否已渲染 */
   const hasRendered = shallowRef(false)
+  /** 通过事件更改的值 */
+  const changedByEvent = shallowRef(false)
 
   /** 是否可清除 */
   const clearable = computed(() => {
@@ -20,15 +22,21 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
 
     return hasValue
   })
-  const stopWatchVisible = watch(treeVisible, (v) => {
-    if (v) {
-      hasRendered.value = true
-      stopWatchVisible()
+
+  // 只有通过用户事件触发的才调用
+  watch(
+    [() => props.modelValue, () => props.data],
+    () => {
+      if (changedByEvent.value) {
+        return changedByEvent.value = false
+      }
+
       nextTick(() => {
         setTreeChecked()
       })
-    }
-  })
+    },
+    { immediate: true }
+  )
 
   type EmitModelValue = {
     (v: string | number, label: string, model: Record<string, any> | undefined): void
@@ -38,6 +46,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const { formItem } = useFormItem()
   const emitModelValue: EmitModelValue = (value, label, model) => {
     emit('update:modelValue', value, label, model)
+    changedByEvent.value = true
     formItem?.validate()
   }
 
@@ -99,7 +108,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     tree.setChecked(data[valueKey], false)
 
     const { nodes, keys } = tree.getChecked()
-    const labels = nodes.map((node) => node[labelKey])
+    const labels = nodes.map(node => node[labelKey])
     emitModelValue(keys, labels, nodes)
   }
 
@@ -136,7 +145,8 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const handleCheck = (_, info: CheckedInfo) => {
     const { checkedKeys, checkedNodes } = info
     const { labelKey } = props
-    const checkedLabels = checkedNodes.map((node) => node[labelKey])
+    const checkedLabels = checkedNodes.map(node => node[labelKey])
+    tagList.value = checkedNodes
     emitModelValue(checkedKeys, checkedLabels, checkedNodes)
     nextTick(() => {
       calcDropdownStyle()
@@ -154,6 +164,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     treeRef,
     treeSelectRef,
     treeVisible,
+    changedByEvent,
     clearable,
     icon,
     hideCloseIcon,
