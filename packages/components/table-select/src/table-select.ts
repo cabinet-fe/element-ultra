@@ -11,7 +11,6 @@ export const tableSelectProps = {
   },
   data: {
     type: Array as PropType<Record<string, any>[]>,
-    required: true
   },
   multiple: {
     type: Boolean,
