@@ -329,15 +329,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const emitChange = (val: any | any[]) => {
+  const emitChange = (val: any | any[], label: any | any[]) => {
     if (!isEqual(props.modelValue, val)) {
-      emit(CHANGE_EVENT, val)
+      emit(CHANGE_EVENT, val, label)
     }
   }
 
-  const update = (val: any) => {
-    emit(UPDATE_MODEL_EVENT, val)
-    emitChange(val)
+  const update = (val: any, label: any) => {
+    emit(UPDATE_MODEL_EVENT, val, label)
+    emitChange(val, label)
     states.previousValue = val.toString()
   }
 
@@ -398,11 +398,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
+  // TODO修复多选时的label问题, 优化select的性能
   const onSelect = (option, idx: number, byClick = true) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
       const index = getValueIndex(selectedOptions, getValue(option))
+      // 有
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
@@ -419,7 +421,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         selectNewOption(option)
         updateHoveringIndex(idx)
       }
-      update(selectedOptions)
+      update(selectedOptions, [])
       if (option.created) {
         states.query = ''
         handleQueryChange('')
@@ -438,7 +440,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       selectedIndex.value = idx
       states.selectedLabel = getLabel(option)
-      update(getValue(option))
+      update(getValue(option), states.selectedLabel)
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
@@ -459,7 +461,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         ...(props.modelValue as Array<unknown>).slice(index + 1)
       ]
       states.cachedOptions.splice(index, 1)
-      update(value)
+      update(value, [])
       emit('remove-tag', getValue(tag))
       states.softFocus = true
       removeNewOption(tag)
@@ -516,16 +518,19 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       const selected = (props.modelValue as Array<any>).slice()
       selected.pop()
       removeNewOption(states.cachedOptions.pop())
-      update(selected)
+      update(selected, [])
     }
   }
 
   const handleClear = () => {
     let emptyValue: string | any[]
+    let emptyLabel: string | any[]
     if (isArray(props.modelValue)) {
       emptyValue = []
+      emptyLabel = []
     } else {
       emptyValue = ''
+      emptyLabel = ''
     }
 
     states.softFocus = true
@@ -535,7 +540,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       states.selectedLabel = ''
     }
     expanded.value = false
-    update(emptyValue)
+    update(emptyValue, emptyLabel)
     emit('clear')
     clearAllNewOption()
     return nextTick(focusAndUpdatePopup)
