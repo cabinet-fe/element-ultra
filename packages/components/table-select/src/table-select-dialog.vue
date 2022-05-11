@@ -52,7 +52,7 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api, query, title } = props
+const { data, columns, api, query, title, value } = $(props)
 
 const ns = useNamespace('table-select-dialog')
 
