@@ -13,9 +13,9 @@
   }
   @include b(table-select-display) {
     position: relative;
-    overflow: hidden;
     box-sizing: border-box;
     height: fit-content;
+    overflow: scroll;
     width: 100%;
     max-width: 100%;
     background-color: #fff;
@@ -28,9 +28,12 @@
       border-bottom: 1px solid #ebeef5;
       display: flex;
       th, td {
+        min-width: 100px;
         padding: 8px 12px;
         text-overflow: ellipsis;
         vertical-align: middle;
+        display: flex;
+        align-items: center;
         @include e(auto) {
           flex: 1;
         }
@@ -44,6 +47,22 @@
 
     }
     @include e(body) {
+      @include e('wrapper') {
+        height: 300px;
+        overflow-y: scroll;
+        @include e('radio') {
+          .el-radio {
+            padding: 10px;
+            cursor: pointer;
+          }
+        }
+        @include e('checkbox') {
+          .el-radio {
+            padding: 10px;
+            cursor: pointer;
+          }
+        }
+      }
       tr:hover {
         background-color: #f5f7fa;
       }
@@ -56,12 +75,20 @@
   @include b(table-select-dialog) {
     @include e(searcher) {
       @include e(wrapper) {
-        display: flex;
+        // display: flex;
+        div {
+          max-width: 31%;
+          padding: 2px;
+        }
       }
       @include e(btn) {
         text-align: right;
         padding: 8px 0;
       }
+    }
+    @include e(table) {
+      position: relative;
+      overflow-x: scroll;
     }
   }
 }

@@ -7,7 +7,11 @@
       </slot>
     </div>
     <!-- 表格 -->
-    <TableSelectDisplay :data="selected" :columns="columns" />
+    <TableSelectDisplay :data="selected" :columns="columns">
+      <template #action>
+        <slot name="action"></slot>
+      </template>
+    </TableSelectDisplay>
     <!-- 弹框 -->
     <TableSelectDialog
       ref="dialogRef"
@@ -16,7 +20,9 @@
       :columns="columns"
       :value="selected"
       :query="query"
+      :title="dialogTitle"
       @change="handleSelect"
+      @api-data="apiData"
     >
       <template #searcher>
         <slot name="searcher"></slot>
@@ -41,7 +47,19 @@ defineOptions({
 
 const props = defineProps(tableSelectProps)
 
-const { modelValue, columns, data, multiple, api, pagination, showIndex, stripe, query } = props
+const {
+  modelValue,
+  columns,
+  data,
+  multiple,
+  api,
+  pagination,
+  showIndex,
+  stripe,
+  query,
+  valueKey,
+  dialogTitle
+} = props
 
 provide(multipleKey, multiple)
 provide(paginationKey, pagination)
@@ -67,8 +85,22 @@ const emits = defineEmits<{
   (e: 'update:modelValue', data: Record<string, any>): void
 }>()
 
-const stateInit = () => {
-  multiple ? (selected.value = modelValue) : (selected.value = [modelValue])
+const stateInit = (tableData?: Record<string, any>) => {
+  let arr: Array<string> = []
+  multiple ? (arr = modelValue.map((item: any) => item[valueKey])) : (arr = [modelValue[valueKey]])
+  if (api) {
+    selected.value = tableData?.filter((row: Record<string, any>) => {
+      return arr.includes(row[valueKey])
+    })
+  } else {
+    selected.value = data?.filter((row: Record<string, any>) => {
+      return arr.includes(row[valueKey])
+    })
+  }
+}
+
+const apiData = (data: Record<string, any>) => {
+  stateInit(data)
 }
 
 onMounted(() => {

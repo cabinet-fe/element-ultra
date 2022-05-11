@@ -1,5 +1,5 @@
 <template :class="ns.b()">
-  <el-dialog v-model="visible">
+  <el-dialog v-model="visible" :title="title">
     <div :class="ns.e('searcher')">
       <div :class="ns.e('wrapper')">
         <slot name="searcher"></slot>
@@ -8,14 +8,17 @@
         <el-button type="primary" @click="handleSearch">查询</el-button>
       </div>
     </div>
-    <TableSelectDisplay
+    <div :class="ns.e('table')">
+      <TableSelectDisplay
       :data="tableData ? tableData : data"
-      :columns="columns"
+      :columns="columns.filter(column=>column.key !== 'action')"
       :value="value"
       checkable
       ref="tableRef"
     />
+    </div>
     <el-pagination
+      :class="ns.e('pagination')"
       v-if="api && pagination"
       v-model:currentPage="currentPage"
       v-model:page-size="pageSize"
@@ -49,14 +52,15 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api, query } = props
+const { data, columns, api, query, title } = props
 
 const ns = useNamespace('table-select-dialog')
 
 const tableRef = shallowRef()
 
 const emits = defineEmits<{
-  (e: 'change', data: Record<string, any>[]): void
+  (e: 'change', data: Record<string, any>[]): void,
+  (e: 'apiData', data: Record<string, any>[]): void
 }>()
 
 // pagination
@@ -130,6 +134,7 @@ const fetchData = async (api: string) => {
     totalSize.value = total
   }
   tableData.value = data
+  emits('apiData', data)
 }
 
 let queryWatchList = Object.keys(props.query || {})

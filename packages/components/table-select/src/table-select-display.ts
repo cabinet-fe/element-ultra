@@ -7,7 +7,6 @@ export const tableSelectDisplayProps = {
   },
   data: {
     type: Array as PropType<Record<string, any>[]>,
-    required: true
   },
   checkable: {
     type: Boolean,

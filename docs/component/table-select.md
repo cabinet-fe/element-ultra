@@ -17,9 +17,9 @@ table-select/basic
 
 ```ts
 type TableSelectProps = {
-  /** 值 */
+  /** 值 {id: 1} || [{id: 1}, {id: 2}]*/
   readonly modelValue: Object as PropType<Record<string, any>>,
-  /** 表头 */
+  /** 表头（参照pro-table） */
   readonly columns: Array as PropType<Record<string, any>[]>,
   /** 表格数据 */
   readonly data: Array as PropType<Record<string, any>[]>,
@@ -32,9 +32,17 @@ type TableSelectProps = {
   /** 是否显示序号 */
   readonly showIndex: Boolean,
   /** 表格斑马纹（默认开启） */
-  readonly stripe: Boolean
+  readonly stripe: Boolean,
+  /** 索引值，默认为id */
+  readonly valueKey: String,
+  /** 弹框标题 */
+  readonly dialogTitle: String
 }
 ```
 
-## Tips：
-任何该组件相关的意见或建议，请github上提issues！！！
+## 插槽
+
+| 插槽名     | 说明                 |
+| ------- | ------------------ |
+| seacher | query搜索内容|
+| action  | 操作              |
