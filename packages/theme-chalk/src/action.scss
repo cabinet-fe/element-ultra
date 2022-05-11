@@ -1,0 +1,28 @@
+@use 'mixins/mixins' as *;
+
+@include b('action') {
+  list-style: none;
+  cursor: pointer;
+  min-width: 80px;
+  padding: 0 4px;
+  height: 28px;
+  line-height: 28px;
+
+  color: var(--el-text-color-regular);
+
+  &:hover {
+    background-color: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
+  }
+}
+
+@include b('action-group') {
+  @include e('dropdown') {
+    padding: 5px 0;
+
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}

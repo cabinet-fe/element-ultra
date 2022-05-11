@@ -2,46 +2,29 @@
   <div ref="scrollbar$" :class="ns.b()">
     <div
       ref="wrap$"
-      :class="[
-        wrapClass,
-        ns.e('wrap'),
-        { [ns.em('wrap', 'hidden-default')]: !native },
-      ]"
+      :class="[wrapClass, ns.e('wrap'), { [ns.em('wrap', 'hidden-default')]: !native }]"
       :style="style"
       @scroll="handleScroll"
     >
-      <component
-        :is="tag"
-        ref="resize$"
-        :class="[ns.e('view'), viewClass]"
-        :style="viewStyle"
-      >
+      <component :is="tag" ref="resize$" :class="[ns.e('view'), viewClass]" :style="viewStyle">
         <slot />
       </component>
     </div>
-    <template v-if="!native">
-      <bar
-        ref="barRef"
-        :height="sizeHeight"
-        :width="sizeWidth"
-        :always="always"
-        :ratio-x="ratioX"
-        :ratio-y="ratioY"
-      ></bar>
-    </template>
+
+    <Bar
+      v-if="!native"
+      ref="barRef"
+      :height="sizeHeight"
+      :width="sizeWidth"
+      :always="always"
+      :ratio-x="ratioX"
+      :ratio-y="ratioY"
+      :z-index="barZIndex"
+    />
   </div>
 </template>
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  onMounted,
-  provide,
-  ref,
-  watch,
-  reactive,
-} from 'vue'
+import { computed, defineComponent, nextTick, onMounted, provide, ref, watch, reactive } from 'vue'
 import { useResizeObserver, useEventListener } from '@vueuse/core'
 import { isNumber, debugWarn, addUnit } from '@element-ultra/utils'
 import { scrollbarContextKey } from '@element-ultra/tokens'
@@ -54,7 +37,7 @@ import type { StyleValue, CSSProperties } from 'vue'
 export default defineComponent({
   name: 'ElScrollbar',
   components: {
-    Bar,
+    Bar
   },
   props: scrollbarProps,
   emits: scrollbarEmits,
@@ -92,7 +75,7 @@ export default defineComponent({
 
         emit('scroll', {
           scrollTop: wrap$.value.scrollTop,
-          scrollLeft: wrap$.value.scrollLeft,
+          scrollLeft: wrap$.value.scrollLeft
         })
       }
     }
@@ -124,13 +107,8 @@ export default defineComponent({
       const width = Math.max(originalWidth, props.minSize)
 
       ratioY.value =
-        originalHeight /
-        (offsetHeight - originalHeight) /
-        (height / (offsetHeight - height))
-      ratioX.value =
-        originalWidth /
-        (offsetWidth - originalWidth) /
-        (width / (offsetWidth - width))
+        originalHeight / (offsetHeight - originalHeight) / (height / (offsetHeight - height))
+      ratioX.value = originalWidth / (offsetWidth - originalWidth) / (width / (offsetWidth - width))
 
       sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
       sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
@@ -138,7 +116,7 @@ export default defineComponent({
 
     watch(
       () => props.noresize,
-      (noresize) => {
+      noresize => {
         if (noresize) {
           stopResizeObserver?.()
           stopResizeListener?.()
@@ -167,7 +145,7 @@ export default defineComponent({
       scrollbarContextKey,
       reactive({
         scrollbarElement: scrollbar$,
-        wrapElement: wrap$,
+        wrapElement: wrap$
       })
     )
 
@@ -191,8 +169,8 @@ export default defineComponent({
       update,
       handleScroll,
       setScrollTop,
-      setScrollLeft,
+      setScrollLeft
     }
-  },
+  }
 })
 </script>

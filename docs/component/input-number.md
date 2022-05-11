@@ -71,13 +71,6 @@ input-number/size
 
 :::
 
-## 按钮位置
-
-:::demo 设置 `controls-position` 属性可以控制按钮位置。
-
-input-number/controlled
-
-:::
 
 ## 属性
 
@@ -92,7 +85,6 @@ input-number/controlled
 | size                  | 计数器尺寸             | string             | large/small | default     |
 | disabled              | 是否禁用计数器           | boolean            | —           | false       |
 | controls              | 是否使用控制按钮          | boolean            | —           | true        |
-| controls-position     | 控制按钮位置            | string             | right       | -           |
 | name                  | 原生 `name` 属性      | string             | —           | —           |
 | label                 | 输入框关联的 label 文字   | string             | —           | —           |
 | placeholder           | 输入框默认 placeholder | string             | -           | -           |

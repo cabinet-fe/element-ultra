@@ -1,19 +1,6 @@
-import {
-  h,
-  ref,
-  provide,
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  watch,
-} from 'vue'
-import {
-  debugWarn,
-  buildProps,
-  definePropType,
-  mutable,
-} from '@element-ultra/utils'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { h, ref, provide, computed, defineComponent, getCurrentInstance, watch } from 'vue'
+import { debugWarn, buildProps, definePropType, mutable } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import { elPaginationKey } from '@element-ultra/tokens'
 
 import Prev from './components/prev.vue'
@@ -32,15 +19,7 @@ import type { VNode, ExtractPropTypes } from 'vue'
  */
 const isAbsent = (v: unknown): v is undefined => typeof v !== 'number'
 
-type LayoutKey =
-  | 'prev'
-  | 'pager'
-  | 'next'
-  | 'jumper'
-  | '->'
-  | 'total'
-  | 'sizes'
-  | 'slot'
+type LayoutKey = 'prev' | 'pager' | 'next' | 'jumper' | '->' | 'total' | 'sizes' | 'slot'
 
 export const paginationProps = buildProps({
   total: Number,
@@ -60,34 +39,32 @@ export const paginationProps = buildProps({
         value % 2 === 1
       )
     },
-    default: 7,
+    default: 7
   },
   layout: {
     type: String,
-    default: (
-      ['prev', 'pager', 'next', 'jumper', '->', 'total'] as LayoutKey[]
-    ).join(', '),
+    default: (['prev', 'pager', 'next', 'jumper', '->', 'total'] as LayoutKey[]).join(', ')
   },
   pageSizes: {
     type: definePropType<number[]>(Array),
-    default: () => mutable([10, 20, 30, 40, 50, 100] as const),
+    default: () => mutable([10, 20, 30, 40, 50, 100] as const)
   },
   popperClass: {
     type: String,
-    default: '',
+    default: ''
   },
   prevText: {
     type: String,
-    default: '',
+    default: ''
   },
   nextText: {
     type: String,
-    default: '',
+    default: ''
   },
   small: Boolean,
   background: Boolean,
   disabled: Boolean,
-  hideOnSinglePage: Boolean,
+  hideOnSinglePage: Boolean
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
@@ -97,7 +74,7 @@ export const paginationEmits = {
   'size-change': (val: number) => typeof val === 'number',
   'current-change': (val: number) => typeof val === 'number',
   'prev-click': (val: number) => typeof val === 'number',
-  'next-click': (val: number) => typeof val === 'number',
+  'next-click': (val: number) => typeof val === 'number'
 }
 export type PaginationEmits = typeof paginationEmits
 
@@ -109,7 +86,6 @@ export default defineComponent({
   emits: paginationEmits,
 
   setup(props, { emit, slots }) {
-    const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
@@ -156,12 +132,8 @@ export default defineComponent({
       return true
     })
 
-    const innerPageSize = ref(
-      isAbsent(props.defaultPageSize) ? 10 : props.defaultPageSize
-    )
-    const innerCurrentPage = ref(
-      isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage
-    )
+    const innerPageSize = ref(isAbsent(props.defaultPageSize) ? 10 : props.defaultPageSize)
+    const innerCurrentPage = ref(isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage)
 
     const pageSizeBridge = computed({
       get() {
@@ -175,7 +147,7 @@ export default defineComponent({
           emit('update:page-size', v)
           emit('size-change', v)
         }
-      },
+      }
     })
 
     const pageCountBridge = computed<number>(() => {
@@ -190,9 +162,7 @@ export default defineComponent({
 
     const currentPageBridge = computed<number>({
       get() {
-        return isAbsent(props.currentPage)
-          ? innerCurrentPage.value
-          : props.currentPage
+        return isAbsent(props.currentPage) ? innerCurrentPage.value : props.currentPage
       },
       set(v) {
         let newCurrentPage = v
@@ -208,10 +178,10 @@ export default defineComponent({
           emit('update:current-page', newCurrentPage)
           emit('current-change', newCurrentPage)
         }
-      },
+      }
     })
 
-    watch(pageCountBridge, (val) => {
+    watch(pageCountBridge, val => {
       if (currentPageBridge.value > val) currentPageBridge.value = val
     })
 
@@ -253,32 +223,25 @@ export default defineComponent({
       disabled: computed(() => props.disabled),
       currentPage: currentPageBridge,
       changeEvent: handleCurrentChange,
-      handleSizeChange,
+      handleSizeChange
     })
 
     return () => {
       if (!assertValidUsage.value) {
-        debugWarn(componentName, t('el.pagination.deprecationWarning'))
+        debugWarn(componentName, '废弃警告')
         return null
       }
       if (!props.layout) return null
       if (props.hideOnSinglePage && pageCountBridge.value <= 1) return null
       const rootChildren: Array<VNode | VNode[] | null> = []
       const rightWrapperChildren: Array<VNode | VNode[] | null> = []
-      const rightWrapperRoot = h(
-        'div',
-        { class: ns.e('rightwrapper') },
-        rightWrapperChildren
-      )
-      const TEMPLATE_MAP: Record<
-        Exclude<LayoutKey, '->'>,
-        VNode | VNode[] | null
-      > = {
+      const rightWrapperRoot = h('div', { class: ns.e('rightwrapper') }, rightWrapperChildren)
+      const TEMPLATE_MAP: Record<Exclude<LayoutKey, '->'>, VNode | VNode[] | null> = {
         prev: h(Prev, {
           disabled: props.disabled,
           currentPage: currentPageBridge.value,
           prevText: props.prevText,
-          onClick: prev,
+          onClick: prev
         }),
         jumper: h(Jumper),
         pager: h(Pager, {
@@ -286,33 +249,31 @@ export default defineComponent({
           pageCount: pageCountBridge.value,
           pagerCount: props.pagerCount,
           onChange: handleCurrentChange,
-          disabled: props.disabled,
+          disabled: props.disabled
         }),
         next: h(Next, {
           disabled: props.disabled,
           currentPage: currentPageBridge.value,
           pageCount: pageCountBridge.value,
           nextText: props.nextText,
-          onClick: next,
+          onClick: next
         }),
         sizes: h(Sizes, {
           pageSize: pageSizeBridge.value,
           pageSizes: props.pageSizes,
           popperClass: props.popperClass,
           disabled: props.disabled,
-          size: props.small ? 'small' : 'default',
+          size: props.small ? 'small' : 'default'
         }),
         slot: slots?.default?.() ?? null,
-        total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
+        total: h(Total, { total: isAbsent(props.total) ? 0 : props.total })
       }
 
-      const components = props.layout
-        .split(',')
-        .map((item: string) => item.trim()) as LayoutKey[]
+      const components = props.layout.split(',').map((item: string) => item.trim()) as LayoutKey[]
 
       let haveRightWrapper = false
 
-      components.forEach((c) => {
+      components.forEach(c => {
         if (c === '->') {
           haveRightWrapper = true
           return
@@ -329,10 +290,7 @@ export default defineComponent({
 
       if (haveRightWrapper && rightWrapperChildren.length > 0) {
         addClass(rightWrapperChildren[0], ns.is('first'))
-        addClass(
-          rightWrapperChildren[rightWrapperChildren.length - 1],
-          ns.is('last')
-        )
+        addClass(rightWrapperChildren[rightWrapperChildren.length - 1], ns.is('last'))
         rootChildren.push(rightWrapperRoot)
       }
       return h(
@@ -344,12 +302,12 @@ export default defineComponent({
             ns.b(),
             ns.is('background', props.background),
             {
-              [ns.m('small')]: props.small,
-            },
-          ],
+              [ns.m('small')]: props.small
+            }
+          ]
         },
         rootChildren
       )
     }
-  },
+  }
 })

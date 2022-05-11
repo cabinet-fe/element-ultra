@@ -30,7 +30,7 @@
     <el-radio
       v-else-if="checkStrictly"
       :model-value="checkedNodeId"
-      :label="node.uid"
+      :value="node.uid"
       :disabled="isDisabled"
       @update:model-value="handleSelectCheck"
       @click.stop

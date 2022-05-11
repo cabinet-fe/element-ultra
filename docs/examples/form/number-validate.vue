@@ -10,12 +10,11 @@
       prop="age"
       :rules="[
         { required: true, message: 'age is required' },
-        { type: 'number', message: 'age must be a number' },
+        { type: 'number', message: 'age must be a number' }
       ]"
     >
       <el-input
         v-model.number="numberValidateForm.age"
-        type="text"
         autocomplete="off"
       ></el-input>
     </el-form-item>
@@ -34,7 +33,7 @@ type FormInstance = InstanceType<typeof ElForm>
 const formRef = ref<FormInstance>()
 
 const numberValidateForm = reactive({
-  age: '',
+  age: ''
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {

@@ -95,6 +95,9 @@
       background-color: transparent !important;
     }
   }
+  .el-table__expanded-cell.el-table__cell {
+    padding: 8px 12px;
+  }
 
   @include e(placeholder) {
     display: inline-block;

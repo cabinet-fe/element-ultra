@@ -1,11 +1,14 @@
 import { inject } from 'vue'
 import { formKey, formItemKey } from '@element-ultra/tokens'
 
-export const useFormItem = () => {
-  const form = inject(formKey, undefined)
-  const formItem = inject(formItemKey, undefined)
+/**
+ * 注入formItem和form
+ * @param injectIt 是否注入默认true
+ * @returns
+ */
+export const useFormItem = (injectIt = true) => {
   return {
-    form,
-    formItem,
+    form: injectIt ? inject(formKey, undefined) : undefined,
+    formItem: injectIt ?  inject(formItemKey, undefined) : undefined
   }
 }

@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useData, inBrowser } from 'vitepress'
 
 import { useFeatureFlag } from '../composables/feature-flag'
-import VPNavbarSearch from './navbar/vp-search.vue'
+// import VPNavbarSearch from './navbar/vp-search.vue'
 import VPNavbarMenu from './navbar/vp-menu.vue'
 import VPNavbarThemeToggler from './navbar/vp-theme-toggler.vue'
 import VPNavbarSocialLinks from './navbar/vp-social-links.vue'
@@ -36,7 +36,7 @@ const currentLink = computed(() => {
         </a>
       </div>
       <div class="content">
-        <VPNavbarSearch class="search" :options="theme.agolia" multilang />
+        <!-- <VPNavbarSearch class="search" :options="theme.agolia" multilang /> -->
         <VPNavbarMenu class="menu" />
         <VPNavbarThemeToggler v-if="themeEnabled" class="theme-toggler" />
         <VPNavbarSocialLinks class="social-links" />

@@ -1,24 +1,23 @@
 import { computed, ref } from 'vue'
 import type { ISelectProps } from './token'
-import type { Option } from './select.types'
 
 export function useAllowCreate(props: ISelectProps, states) {
   const createOptionCount = ref(0)
-  const cachedSelectedOption = ref<Option>(null)
+  const cachedSelectedOption = ref<any>(null)
 
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = (option) => option.value === query
+    const hasValue = (option) => option[props.valueKey] === query
     return (
       (props.options && props.options.some(hasValue)) ||
       states.createdOptions.some(hasValue)
     )
   }
 
-  function selectNewOption(option: Option) {
+  function selectNewOption(option) {
     if (!enableAllowCreateMode.value) {
       return
     }
@@ -33,8 +32,8 @@ export function useAllowCreate(props: ISelectProps, states) {
     if (enableAllowCreateMode.value) {
       if (query && query.length > 0 && !hasExistingOption(query)) {
         const newOption = {
-          value: query,
-          label: query,
+          [props.valueKey]: query,
+          [props.labelKey]: query,
           created: true,
           disabled: false,
         }
@@ -57,19 +56,19 @@ export function useAllowCreate(props: ISelectProps, states) {
     }
   }
 
-  function removeNewOption(option: Option) {
+  function removeNewOption(option) {
     if (
       !enableAllowCreateMode.value ||
       !option ||
       !option.created ||
       (option.created &&
         props.reserveKeyword &&
-        states.inputValue === option.label)
+        states.inputValue === option[props.labelKey])
     ) {
       return
     }
     const idx = states.createdOptions.findIndex(
-      (it) => it.value === option.value
+      (it) => it.value === option[props.valueKey]
     )
     if (~idx) {
       states.createdOptions.splice(idx, 1)

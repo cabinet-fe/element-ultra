@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import ImgEmpty from './img-empty.vue'
 import { emptyProps } from './empty'
 
@@ -33,10 +33,10 @@ export default defineComponent({
   props: emptyProps,
 
   setup(props) {
-    const { t } = useLocale()
+
     const ns = useNamespace('empty')
     const emptyDescription = computed(
-      () => props.description || t('el.table.emptyText')
+      () => props.description || '暂无数据'
     )
     const imageStyle = computed<CSSProperties>(() => ({
       width: props.imageSize ? `${props.imageSize}px` : '',

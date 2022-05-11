@@ -30,7 +30,7 @@
           <span>Navigator Two</span>
         </el-menu-item>
         <el-menu-item index="3" disabled>
-          <el-icon><document /></el-icon>
+          <el-icon><IconDocument /></el-icon>
           <span>Navigator Three</span>
         </el-menu-item>
         <el-menu-item index="4">
@@ -68,15 +68,15 @@
           </el-sub-menu>
         </el-sub-menu>
         <el-menu-item index="2">
-          <el-icon><icon-menu /></el-icon>
+          <el-icon><IconMenu /></el-icon>
           <span>Navigator Two</span>
         </el-menu-item>
         <el-menu-item index="3" disabled>
-          <el-icon><document /></el-icon>
+          <el-icon><IconDocument /></el-icon>
           <span>Navigator Three</span>
         </el-menu-item>
         <el-menu-item index="4">
-          <el-icon><setting /></el-icon>
+          <el-icon><Setting /></el-icon>
           <span>Navigator Four</span>
         </el-menu-item>
       </el-menu>
@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import {
   Location,
-  Document,
+  Document as IconDocument,
   Menu as IconMenu,
   Setting,
 } from '@element-plus/icons-vue'

@@ -1,4 +1,4 @@
-export interface ElementPlusResolverOptions {
+export interface ElementUltraResolverOptions {
   /**
    * use commonjs lib & source css or scss for ssr
    */
@@ -17,10 +17,10 @@ export interface ElementPlusResolverOptions {
   exclude?: RegExp
 }
 
-type ElementPlusResolverOptionsResolved = Required<
-  Omit<ElementPlusResolverOptions, 'exclude'>
+type ElementUltraResolverOptionsResolved = Required<
+  Omit<ElementUltraResolverOptions, 'exclude'>
 > &
-  Pick<ElementPlusResolverOptions, 'exclude'>
+  Pick<ElementUltraResolverOptions, 'exclude'>
 
 function getSideEffects(dirName: string): any {
   const esComponentsFolder = '@element-ultra/components'
@@ -46,7 +46,7 @@ function resolveComponent(name: string): any | undefined {
 
 function resolveDirective(
   name: string,
-  options: ElementPlusResolverOptionsResolved
+  options: ElementUltraResolverOptionsResolved
 ): any | undefined {
   if (!options.directives) return
 
@@ -70,10 +70,10 @@ function resolveDirective(
   }
 }
 
-export function ElementPlusResolver(
-  options: ElementPlusResolverOptions = {}
+export function ElementUltraResolver(
+  options: ElementUltraResolverOptions = {}
 ): any[] {
-  let optionsResolved: ElementPlusResolverOptionsResolved
+  let optionsResolved: ElementUltraResolverOptionsResolved
 
   async function resolveOptions() {
     if (optionsResolved) return optionsResolved

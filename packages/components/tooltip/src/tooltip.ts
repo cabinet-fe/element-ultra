@@ -8,17 +8,17 @@ import {
   POPPER_CONTAINER_SELECTOR,
 } from '@element-ultra/hooks'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
 const triggers = ['hover', 'focus', 'click', 'contextmenu'] as const
 
 export type Trigger = typeof triggers[number]
 
-export const useTooltipContentProps = buildProps({
+export const useTooltipContentProps = {
   ...useDelayedToggleProps,
   ...usePopperContentProps,
   appendTo: {
-    type: definePropType<string | HTMLElement>([String, Object]),
+    type: [String, Object] as PropType<string | HTMLElement>,
     default: POPPER_CONTAINER_SELECTOR,
   },
   content: {
@@ -36,7 +36,7 @@ export const useTooltipContentProps = buildProps({
   // [name]: { type: Boolean, default: null }
   // so we need to declare that again for type checking.
   visible: {
-    type: definePropType<boolean | null>(Boolean),
+    type: Boolean as PropType<boolean | null>,
     default: null,
   },
   transition: {
@@ -50,7 +50,7 @@ export const useTooltipContentProps = buildProps({
   disabled: {
     type: Boolean,
   },
-} as const)
+} as const
 
 export const useTooltipTriggerProps = buildProps({
   ...usePopperTriggerProps,

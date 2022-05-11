@@ -6,11 +6,20 @@
 @use 'common/var' as *;
 @use 'common/popup' as *;
 
+$padding: 10px;
+
 @include b(dialog) {
   @include set-component-css-var('dialog', $dialog);
 
   position: relative;
-  margin: var(--el-dialog-margin-top, 15vh) auto 50px;
+  margin: 0 auto;
+  top: 5%;
+  // left: 0;
+  // right: 0;
+  // top: 0;
+  // bottom: 0;
+  // margin: auto;
+
   background: var(--el-dialog-bg-color);
   border-radius: var(--el-border-radius-small);
   box-shadow: var(--el-dialog-box-shadow);
@@ -43,57 +52,41 @@
   }
 
   @include e(header) {
-    padding: var(--el-dialog-padding-primary);
-    padding-bottom: 10px;
-    margin-right: 16px;
+    padding: 0 $padding;
+    background-color: var(--el-color-primary);
+    height: 36px;
+    line-height: 36px;
     word-break: break-all;
+    color: var(--el-color-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
   }
 
-  @include e(headerbtn) {
-    position: absolute;
-    top: 6px;
-    right: 0;
-    padding: 0;
-    width: 54px;
-    height: 54px;
-    background: transparent;
-    border: none;
-    outline: none;
+  @include e(close) {
     cursor: pointer;
-    font-size: var(--el-message-close-size, map.get($message, 'close-size'));
-
-    .#{$namespace}-dialog__close {
-      color: var(--el-color-info);
-      font-size: inherit;
-    }
-
-    &:focus,
-    &:hover {
-      .#{$namespace}-dialog__close {
-        color: var(--el-color-primary);
-      }
-    }
   }
 
   @include e(title) {
     line-height: var(--el-dialog-font-line-height);
     font-size: var(--el-dialog-title-font-size);
-    color: var(--el-text-color-primary);
   }
 
   @include e(body) {
-    padding: calc(var(--el-dialog-padding-primary) + 10px)
-      var(--el-dialog-padding-primary);
+    padding: $padding;
+    max-height: calc(90vh - 88px);
+    overflow: auto;
     color: var(--el-text-color-regular);
     font-size: var(--el-dialog-content-font-size);
     word-break: break-all;
   }
 
   @include e(footer) {
-    padding: var(--el-dialog-padding-primary);
-    padding-top: 10px;
+    padding: $padding;
     text-align: right;
     box-sizing: border-box;
+    border-top: 1px solid var(--el-border-color-base);
   }
 
   // 内容居中布局
@@ -111,25 +104,16 @@
   }
 }
 
-.#{$namespace}-overlay-dialog {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
-}
-
 .dialog-fade-enter-active {
   animation: modal-fade-in var(--el-transition-duration);
-  .#{$namespace}-overlay-dialog {
+  .#{$namespace}-dialog {
     animation: dialog-fade-in var(--el-transition-duration);
   }
 }
 
 .dialog-fade-leave-active {
   animation: modal-fade-out var(--el-transition-duration);
-  .#{$namespace}-overlay-dialog {
+  .#{$namespace}-dialog {
     animation: dialog-fade-out var(--el-transition-duration);
   }
 }

@@ -40,7 +40,7 @@ interface TableColumnCtx<T> {
     index: number,
     cellValue: any,
   ) => VNode | string
-  selectable: (row: T, index: number) => boolean
+  checkable: (row: T, index: number) => boolean
   reserveSelection: boolean
   filterMethod: FilterMethods<T>
   filteredValue: string[]
@@ -115,7 +115,7 @@ export default {
   showOverflowTooltip: Boolean,
   fixed: [Boolean, String],
   formatter: Function as PropType<TableColumnCtx<DefaultRow>['formatter']>,
-  selectable: Function as PropType<TableColumnCtx<DefaultRow>['selectable']>,
+  checkable: Function as PropType<TableColumnCtx<DefaultRow>['checkable']>,
   reserveSelection: Boolean,
   filterMethod: Function as PropType<
     TableColumnCtx<DefaultRow>['filterMethod']

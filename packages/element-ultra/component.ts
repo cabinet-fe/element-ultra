@@ -1,3 +1,4 @@
+import { ElAction, ElActionGroup } from '@element-ultra/components/action'
 import { ElAffix } from '@element-ultra/components/affix'
 import { ElAlert } from '@element-ultra/components/alert'
 import { ElAutocomplete } from '@element-ultra/components/autocomplete'
@@ -19,12 +20,12 @@ import {
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCheckboxGroups,
 } from '@element-ultra/components/checkbox'
 import { ElCol } from '@element-ultra/components/col'
 import { ElCollapse, ElCollapseItem } from '@element-ultra/components/collapse'
 import { ElCollapseTransition } from '@element-ultra/components/collapse-transition'
 import { ElColorPicker } from '@element-ultra/components/color-picker'
-import { ElConfigProvider } from '@element-ultra/components/config-provider'
 import {
   ElContainer,
   ElAside,
@@ -47,10 +48,12 @@ import {
   ElDropdownMenu,
 } from '@element-ultra/components/dropdown'
 import { ElEmpty } from '@element-ultra/components/empty'
+import { ElEditBar } from '@element-ultra/components/edit-bar'
 import { ElForm, ElFormItem } from '@element-ultra/components/form'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 
-import { ElGrid } from '@element-ultra/components/grid'
+import { ElGrid, ElGridItem } from '@element-ultra/components/grid'
+import { ElGridInput } from '@element-ultra/components/grid-input'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ElImage } from '@element-ultra/components/image'
 import { ElImageViewer } from '@element-ultra/components/image-viewer'
@@ -63,6 +66,7 @@ import {
   ElMenuItemGroup,
 } from '@element-ultra/components/menu'
 import { ElMultipleForm } from '@element-ultra/components/multiple-form'
+import { ElPage } from '@element-ultra/components/page'
 import { ElPageHeader } from '@element-ultra/components/page-header'
 import { ElPagination } from '@element-ultra/components/pagination'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
@@ -90,16 +94,21 @@ import { ElTable, ElTableColumn } from '@element-ultra/components/table'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
 import { ElTag } from '@element-ultra/components/tag'
 import { ElTextarea } from '@element-ultra/components/textarea'
+import { ElTextEditor } from '@element-ultra/components/text-editor'
 import { ElTimePicker } from '@element-ultra/components/time-picker'
 import { ElTimeSelect } from '@element-ultra/components/time-select'
 import { ElTimeline, ElTimelineItem } from '@element-ultra/components/timeline'
 import { ElTooltip } from '@element-ultra/components/tooltip'
 import { ElTransfer } from '@element-ultra/components/transfer'
 import { ElTree } from '@element-ultra/components/tree'
+import { ElTreeSelect } from '@element-ultra/components/tree-select'
+import { ElTableSelect } from '@element-ultra/components/table-select'
 import { ElUpload } from '@element-ultra/components/upload'
 import type { Plugin } from 'vue'
 
 export default [
+  ElAction,
+  ElActionGroup,
   ElAffix,
   ElAlert,
   ElAutocomplete,
@@ -120,12 +129,12 @@ export default [
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCheckboxGroups,
   ElCol,
   ElCollapse,
   ElCollapseItem,
   ElCollapseTransition,
   ElColorPicker,
-  ElConfigProvider,
   ElContainer,
   ElAside,
   ElFooter,
@@ -141,11 +150,14 @@ export default [
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElEditBar,
   ElEmpty,
   ElForm,
   ElFormItem,
   ElFormDialog,
   ElGrid,
+  ElGridItem,
+  ElGridInput,
   ElIcon,
   ElImage,
   ElImageViewer,
@@ -156,6 +168,7 @@ export default [
   ElMenuItem,
   ElMenuItemGroup,
   ElMultipleForm,
+  ElPage,
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
@@ -184,6 +197,7 @@ export default [
   ElTabPane,
   ElTag,
   ElTextarea,
+  ElTextEditor,
   ElTimePicker,
   ElTimeSelect,
   ElTimeline,
@@ -191,5 +205,7 @@ export default [
   ElTooltip,
   ElTransfer,
   ElTree,
+  ElTreeSelect,
+  ElTableSelect,
   ElUpload,
 ] as Plugin[]

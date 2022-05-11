@@ -1,26 +1,29 @@
-import { buildProps } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 
-export const barProps = buildProps({
+export const barProps = {
   always: {
     type: Boolean,
-    default: true,
+    default: true
   },
   width: {
     type: String,
-    default: '',
+    default: ''
   },
   height: {
     type: String,
-    default: '',
+    default: ''
   },
   ratioX: {
     type: Number,
-    default: 1,
+    default: 1
   },
   ratioY: {
     type: Number,
-    default: 1,
+    default: 1
   },
-} as const)
+  zIndex: {
+    type: Number,
+    default: 1
+  }
+} as const
 export type BarProps = ExtractPropTypes<typeof barProps>

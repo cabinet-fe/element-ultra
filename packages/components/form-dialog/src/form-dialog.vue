@@ -2,14 +2,18 @@
   <el-dialog
     :model-value="modelValue"
     :title="title"
+    append-to-body
     @update:model-value="emit('update:modelValue', $event)"
+    @close="cancel"
   >
     <slot />
 
     <template #footer>
       <el-button @click="cancel">取消</el-button>
-      <el-button type="info" @click="submitAndContinue">提交并继续</el-button>
-      <el-button type="primary" @click="submit">提交</el-button>
+      <el-button :loading="loading" type="info" v-if="props.continue" @click="submitAndContinue"
+        >提交并继续</el-button
+      >
+      <el-button :loading="loading" type="primary" @click="submit">提交</el-button>
     </template>
   </el-dialog>
 </template>
@@ -18,9 +22,10 @@ import ElDialog from '@element-ultra/components/dialog'
 import ElButton from '@element-ultra/components/button'
 import { formDialogProps } from './form-dialog'
 import { formDialogContextKey } from '@element-ultra/tokens'
-import { provide } from 'vue'
+import { provide, shallowRef } from 'vue'
+
 defineOptions({
-  name: 'ElFormDialog',
+  name: 'ElFormDialog'
 })
 
 const props = defineProps(formDialogProps)
@@ -41,7 +46,7 @@ const deleteForm = (form: any) => {
 
 provide(formDialogContextKey, {
   addForm,
-  deleteForm,
+  deleteForm
 })
 
 const cancel = () => {
@@ -61,20 +66,43 @@ const resetForm = async () => {
   }
 }
 
+const loading = shallowRef(false)
+
+/** 提交 */
 const submit = async () => {
   await validateForm()
+ 
+  loading.value = true
 
   if (props.confirm) {
-    await props.confirm()
+    const p = props.confirm()
+    if (p instanceof Promise) {
+      await p.finally(() => {
+        loading.value = false
+      })
+    } else {
+      loading.value = false
+    }
   }
 
   cancel()
 }
 
+/** 提交并继续 */
 const submitAndContinue = async () => {
   await validateForm()
+
+  loading.value = true
+
   if (props.confirm) {
-    await props.confirm()
+    const p = props.confirm()
+    if (p instanceof Promise) {
+      await p.finally(() => {
+        loading.value = false
+      })
+    } else {
+      loading.value = false
+    }
   }
   resetForm()
 }

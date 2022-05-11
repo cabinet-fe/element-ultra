@@ -2,7 +2,7 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "compilerOptions": {
     "allowJs": true,
-    "module": "ES6",
+    "module": "ES2020",
     "target": "ES2018",
     "noImplicitAny": false,
     "declaration": true,
@@ -10,6 +10,7 @@
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,
     "types": ["unplugin-vue-define-options"]
+    // "noErrorTruncation": true
   },
   "references": [
     { "path": "./tsconfig.vite-config.json" },

@@ -20,6 +20,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   position: relative;
   vertical-align: middle;
   font-size: map.get($input-font-size, 'default');
+  width: 200px;
   $selector: &;
   @include e(wrapper) {
     display: flex;
@@ -28,7 +29,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     box-sizing: border-box;
     cursor: pointer;
-    padding: 1px 30px 1px 0;
+    padding: 0 30px 0 0;
     border: 1px solid var(--el-border-color-base);
     border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
@@ -272,6 +273,8 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     user-select: none;
     // using this to keep the item centered in both vertically and horizontally
     display: flex;
+    margin-right: 2px;
+    margin-bottom: 2px;
   }
 
   @include e(placeholder) {

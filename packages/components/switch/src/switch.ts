@@ -11,12 +11,14 @@ import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
+  FORM_COMPONENT_PROPS,
 } from '@element-ultra/constants'
 import type { ComponentSize } from '@element-ultra/constants'
 import type Switch from './switch.vue'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const switchProps = buildProps({
+  ...FORM_COMPONENT_PROPS,
   modelValue: {
     type: [Boolean, String, Number],
     default: false,

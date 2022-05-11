@@ -1,5 +1,6 @@
 import type { ComponentSize } from '@element-ultra/constants'
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { ResponsiveCols } from '@element-ultra/components/grid'
 import type Form from './form.vue'
 export type ModelValue = string | number | any[] | boolean
 
@@ -24,10 +25,7 @@ export interface FormModelItem {
   ): string | Promise<string>
 }
 
-export type FormRules = Record<
-  string,
-  Omit<FormModelItem, 'value'>
->
+export type FormRules = Record<string, Omit<FormModelItem, 'value'>>
 
 export type FormModel = Record<string, FormModelItem>
 
@@ -41,17 +39,18 @@ export const formProps = {
   labelPosition: String as PropType<'left' | 'right' | 'top'>,
   labelWidth: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   labelSuffix: {
     type: String,
-    default: '',
+    default: ''
   },
   cols: {
-    type: Number,
+    type: [Number, Array, String, Object] as PropType<string[] | number | string | ResponsiveCols>,
+    default: { cols: 4, xs: 1, s: 2, l: 3, xl: 4 }
   },
   size: String as PropType<ComponentSize>,
-  disabled: Boolean,
+  disabled: Boolean
 }
 
 export type FormProps = ExtractPropTypes<typeof formProps>
@@ -69,7 +68,9 @@ export const formComponents = new Set([
   'ElCheckbox',
   'ElCheckboxGroup',
   'ElRadio',
-  'ElRadioGroup'
+  'ElRadioGroup',
+  'ElTreeSelect',
+  'ElTextEditor'
 ])
 
 export type FormInstance = InstanceType<typeof Form>

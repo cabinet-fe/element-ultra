@@ -6,7 +6,7 @@ import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
 import cleanCSS from 'gulp-clean-css'
 import rename from 'gulp-rename'
-import { epOutput } from '../../build/utils/paths'
+import { epOutput } from '../../gulpfile/utils/paths'
 
 const distFolder = path.resolve(__dirname, 'dist')
 const distBundle = path.resolve(epOutput, 'theme-chalk')
@@ -22,17 +22,9 @@ function buildThemeChalk() {
   return src(path.resolve(__dirname, 'src/*.scss'))
     .pipe(sass.sync())
     .pipe(autoprefixer({ cascade: false }))
+    .pipe(cleanCSS({}, details => {}))
     .pipe(
-      cleanCSS({}, (details) => {
-        console.log(
-          `${chalk.cyan(details.name)}: ${chalk.yellow(
-            details.stats.originalSize / 1000
-          )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
-        )
-      })
-    )
-    .pipe(
-      rename((path) => {
+      rename(path => {
         if (!noElPrefixFile.test(path.basename)) {
           path.basename = `el-${path.basename}`
         }
@@ -53,14 +45,9 @@ export function copyThemeChalkBundle() {
  */
 
 export function copyThemeChalkSource() {
-  return src(path.resolve(__dirname, 'src/**')).pipe(
-    dest(path.resolve(distBundle, 'src'))
-  )
+  return src(path.resolve(__dirname, 'src/**')).pipe(dest(path.resolve(distBundle, 'src')))
 }
 
-export const build = parallel(
-  copyThemeChalkSource,
-  series(buildThemeChalk, copyThemeChalkBundle)
-)
+export const build = parallel(copyThemeChalkSource, series(buildThemeChalk, copyThemeChalkBundle))
 
 export default build

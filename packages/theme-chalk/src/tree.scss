@@ -12,7 +12,12 @@
   cursor: default;
   background: var(--el-color-white);
   color: var(--el-tree-text-color);
-
+  .is-disabled {
+    .el-tree-node__content {
+      cursor: not-allowed;
+      background-color: var(--el-tree-node-hover-bg-color);
+    }
+  }
   @include e(empty-block) {
     position: relative;
     min-height: 60px;
@@ -61,6 +66,7 @@
     align-items: center;
     height: 26px;
     cursor: pointer;
+    user-select: none;
 
     & > .#{$namespace}-tree-node__expand-icon {
       padding: 6px;

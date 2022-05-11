@@ -17,7 +17,8 @@
 
 ## 文档
 
-纯中文文档, 没有任何其他国家
+[查看](https://cabinet-fe.github.io/element-ultra/)纯中文文档, 没有任何其他语言,
+以后可能有, 但那是以后的事情了
 
 ## 启动项目
 
@@ -49,7 +50,7 @@ $ pnpm dev
 
 启动本地开发环境
 
-2. 引入你的组件到 `play/src/App.vue` 文件中
+2. 引入你的组件到 `play/src/*.vue` 文件中
 
 > App.vue 文件
 

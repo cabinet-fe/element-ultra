@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-const elementPlus = require('element-plus');
+const ElementUltra = require('element-plus');
 
 // TODO: DEMONSTRATE API
 ```

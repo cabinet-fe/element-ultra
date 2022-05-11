@@ -19,7 +19,7 @@ Element Ultra 可以在支持 [ES2018](https://caniuse.com/?feats=mdn-javascript
 
 Element Ultra 目前还处于快速开发迭代中。
 
-[![ElementPlus version badge](https://img.shiods.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
+[![ElementUltra version badge](https://img.shiods.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
 
 ## 使用包管理器
 
@@ -42,7 +42,7 @@ $ pnpm install element-plus
 
 ## 浏览器直接引入
 
-直接通过浏览器的 HTML 标签导入 Element Ultra，然后就可以使用全局变量 `ElementPlus`了。
+直接通过浏览器的 HTML 标签导入 Element Ultra，然后就可以使用全局变量 `ElementUltra`了。
 
 根据不同的 CDN 提供商有不同的引入方式， 根据不同的 CDN 提供商有不同的引入方式， 我们在这里以 [unpkg](https://unpkg.com) 和 [jsDelivr](https://jsdelivr.com) 举例。 你也可以使用其它的 CDN 供应商。
 
@@ -77,7 +77,7 @@ $ pnpm install element-plus
 
 :::tip
 
-我们建议使用 CDN 引入 Element Ultra 的用户在链接地址上锁定版本，以免将来 ElementPlus 升级时受到非兼容性更新的影响。 锁定版本的方法请查看 [unpkg.com](https://unpkg.com)。
+我们建议使用 CDN 引入 Element Ultra 的用户在链接地址上锁定版本，以免将来 ElementUltra 升级时受到非兼容性更新的影响。 锁定版本的方法请查看 [unpkg.com](https://unpkg.com)。
 
 :::
 

@@ -6,7 +6,10 @@ export const pageHeaderProps = {
     type: [String, Object] as PropType<string | Component>,
     default: Back,
   },
-  title: String,
+  title: {
+    type: String,
+    default: '返回'
+  },
   content: {
     type: String,
     default: '',

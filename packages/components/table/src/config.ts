@@ -68,11 +68,11 @@ export const cellForced = {
       row: T
       column: TableColumnCtx<T>
       store: Store<T>
-      $index: string
+      $index: number
     }) {
       return h(ElCheckbox, {
-        disabled: column.selectable
-          ? !column.selectable.call(null, row, $index)
+        disabled: column.checkable
+          ? !column.checkable.call(null, row, $index)
           : false,
         size: store.states.tableSize.value,
         onChange: () => {

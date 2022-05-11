@@ -13,7 +13,7 @@
     ]"
     :disabled="_disabled || loading"
     :autofocus="autofocus"
-    :type="nativeType"
+    type="button"
     @click="handleClick"
   >
     <template v-if="loading">
@@ -65,15 +65,12 @@ const _type = computed(() => {
 })
 
 const handleClick = (evt: MouseEvent) => {
-  if (props.nativeType === 'reset') {
-    form?.resetFields()
-  }
   emit('click', evt)
 }
 
 defineExpose({
   /** @description button html element */
-  ref: _ref,
+  $el: _ref,
   /** @description button size */
   size: _size,
   /** @description button type */

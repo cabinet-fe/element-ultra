@@ -1,6 +1,6 @@
 <template>
-  <div :class="[ns.b(), ns.is(`${shadow}-shadow`)]">
-    <div v-if="$slots.header || header" :class="ns.e('header')">
+  <div ref="cardRef" :class="[ns.b(), ns.is(`${shadow}-shadow`)]">
+    <div v-if="$slots.header || header" :id="header" :class="ns.e('header')">
       <slot name="header">{{ header }}</slot>
     </div>
     <div :class="ns.e('body')" :style="bodyStyle">
@@ -8,20 +8,26 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { useNamespace } from '@element-ultra/hooks'
+import { pageContextKey } from '@element-ultra/tokens'
+import { inject, onMounted, onUnmounted, shallowRef } from 'vue'
 import { cardProps } from './card'
 
-export default defineComponent({
-  name: 'ElCard',
-  props: cardProps,
-  setup() {
-    const ns = useNamespace('card')
+defineOptions({
+  name: 'ElCard'
+})
+defineProps(cardProps)
+const ns = useNamespace('card')
 
-    return {
-      ns,
-    }
-  },
+const { observer } = inject(pageContextKey, undefined) || {}
+const cardRef = shallowRef<HTMLDivElement>()
+
+onMounted(() => {
+  cardRef.value && observer?.observe(cardRef.value)
+})
+
+onUnmounted(() => {
+  cardRef.value && observer?.unobserve(cardRef.value)
 })
 </script>

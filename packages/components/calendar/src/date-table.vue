@@ -1,9 +1,5 @@
 <template>
-  <table
-    :class="[nsTable.b(), nsTable.is('range', isInRange)]"
-    cellspacing="0"
-    cellpadding="0"
-  >
+  <table :class="[nsTable.b(), nsTable.is('range', isInRange)]" cellspacing="0" cellpadding="0">
     <thead v-if="!hideHeader">
       <th v-for="day in weekDays" :key="day">{{ day }}</th>
     </thead>
@@ -14,7 +10,7 @@
         :key="index"
         :class="{
           [nsTable.e('row')]: true,
-          [nsTable.em('row', 'hide-border')]: index === 0 && hideHeader,
+          [nsTable.em('row', 'hide-border')]: index === 0 && hideHeader
         }"
       >
         <td
@@ -38,7 +34,7 @@
 import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { rangeArr } from '@element-ultra/components/time-picker'
 import { dateTableProps, dateTableEmits } from './date-table'
 import type { Dayjs } from 'dayjs'
@@ -50,7 +46,7 @@ interface Cell {
   type: CellType
 }
 
-const WEEK_DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const
+const WEEK_DAYS = ['日', '一', '二', '三', '四', '五', '六'] as const
 
 export const getPrevMonthLastDays = (date: Dayjs, count: number) => {
   const lastDay = date.subtract(1, 'month').endOf('month').date()
@@ -63,7 +59,7 @@ export const getMonthDays = (date: Dayjs) => {
 }
 
 const toNestedArr = (days: Cell[]) =>
-  rangeArr(days.length / 7).map((index) => {
+  rangeArr(days.length / 7).map(index => {
     const start = index * 7
     return days.slice(start, start + 7)
   })
@@ -73,11 +69,10 @@ export default defineComponent({
   emits: dateTableEmits,
 
   setup(props, { emit }) {
-    const { t, lang } = useLocale()
     const nsTable = useNamespace('calendar-table')
     const nsDay = useNamespace('calendar-day')
 
-    const now = dayjs().locale(lang.value)
+    const now = dayjs().locale('zh-cn')
     // todo better way to get Day.js locale object
     const firstDayOfWeek: number = (now as any).$locale().weekStart || 0
 
@@ -87,18 +82,16 @@ export default defineComponent({
       let days: Cell[] = []
       if (isInRange.value) {
         const [start, end] = props.range!
-        const currentMonthRange: Cell[] = rangeArr(
-          end.date() - start.date() + 1
-        ).map((index) => ({
+        const currentMonthRange: Cell[] = rangeArr(end.date() - start.date() + 1).map(index => ({
           text: start.date() + index,
-          type: 'current',
+          type: 'current'
         }))
 
         let remaining = currentMonthRange.length % 7
         remaining = remaining === 0 ? 0 : 7 - remaining
         const nextMonthRange: Cell[] = rangeArr(remaining).map((_, index) => ({
           text: index + 1,
-          type: 'next',
+          type: 'next'
         }))
         days = currentMonthRange.concat(nextMonthRange)
       } else {
@@ -106,23 +99,19 @@ export default defineComponent({
         const prevMonthDays: Cell[] = getPrevMonthLastDays(
           props.date,
           firstDay - firstDayOfWeek
-        ).map((day) => ({
+        ).map(day => ({
           text: day,
-          type: 'prev',
+          type: 'prev'
         }))
-        const currentMonthDays: Cell[] = getMonthDays(props.date).map(
-          (day) => ({
-            text: day,
-            type: 'current',
-          })
-        )
+        const currentMonthDays: Cell[] = getMonthDays(props.date).map(day => ({
+          text: day,
+          type: 'current'
+        }))
         days = [...prevMonthDays, ...currentMonthDays]
-        const nextMonthDays: Cell[] = rangeArr(42 - days.length).map(
-          (_, index) => ({
-            text: index + 1,
-            type: 'next',
-          })
-        )
+        const nextMonthDays: Cell[] = rangeArr(42 - days.length).map((_, index) => ({
+          text: index + 1,
+          type: 'next'
+        }))
         days = days.concat(nextMonthDays)
       }
       return toNestedArr(days)
@@ -131,11 +120,9 @@ export default defineComponent({
     const weekDays = computed(() => {
       const start = firstDayOfWeek
       if (start === 0) {
-        return WEEK_DAYS.map((_) => t(`el.datepicker.weeks.${_}`))
+        return WEEK_DAYS
       } else {
-        return WEEK_DAYS.slice(start)
-          .concat(WEEK_DAYS.slice(0, start))
-          .map((_) => t(`el.datepicker.weeks.${_}`))
+        return WEEK_DAYS.slice(start).concat(WEEK_DAYS.slice(0, start))
       }
     })
 
@@ -175,7 +162,7 @@ export default defineComponent({
         isSelected: day.isSame(props.selectedDay),
         type: `${type}-month`,
         day: day.format('YYYY-MM-DD'),
-        date: day.toDate(),
+        date: day.toDate()
       }
     }
 
@@ -188,8 +175,8 @@ export default defineComponent({
       getSlotData,
 
       nsTable,
-      nsDay,
+      nsDay
     }
-  },
+  }
 })
 </script>

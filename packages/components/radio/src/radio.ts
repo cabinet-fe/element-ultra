@@ -1,47 +1,52 @@
-import { ref, computed, inject } from 'vue'
-import { buildProps, isBoolean, isString, isNumber } from '@element-ultra/utils'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { ref, computed, inject, type PropType } from 'vue'
+import { UPDATE_MODEL_EVENT, FORM_COMPONENT_PROPS } from '@element-ultra/constants'
 import { radioGroupKey } from '@element-ultra/tokens'
 import { useDisabled, useSize, useSizeProp } from '@element-ultra/hooks'
 import type { ExtractPropTypes, SetupContext } from 'vue'
+import type { EmitFn } from '@element-ultra/utils'
 
-export const radioPropsBase = buildProps({
+export const radioPropsBase = {
+  ...FORM_COMPONENT_PROPS,
+
   size: useSizeProp,
-  disabled: Boolean,
-  label: {
-    type: [String, Number, Boolean],
-    default: '',
+
+  disabled: {
+    type: Boolean
   },
-})
-export const radioProps = buildProps({
+  value: {
+    type: [String, Number, Boolean] as PropType<string | number | boolean>,
+    default: ''
+  },
+ 
+}
+
+export const radioProps = {
   ...radioPropsBase,
   modelValue: {
-    type: [String, Number, Boolean],
-    default: '',
+    type: [String, Number, Boolean] as PropType<string | number | boolean>,
+    default: ''
   },
   name: {
     type: String,
-    default: '',
+    default: ''
   },
-  border: Boolean,
-} as const)
+  border: {
+    type: Boolean
+  }
+} as const
+
 export type RadioProps = ExtractPropTypes<typeof radioProps>
 
 export const radioEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
-    isString(val) || isNumber(val) || isBoolean(val),
-  change: (val: string | number | boolean) =>
-    isString(val) || isNumber(val) || isBoolean(val),
+  'update:modelValue': (value: string | number | boolean) => true,
+  change: (value: string | number | boolean) => true
 }
-export type RadioEmits = typeof radioEmits
 
-export const useRadio = (
-  props: { label: RadioProps['label']; modelValue?: RadioProps['modelValue'] },
-  emit: SetupContext<RadioEmits>['emit']
-) => {
+export const useRadio = (props: Pick<Partial<RadioProps>, 'value' | 'modelValue'>, emit: EmitFn<typeof radioEmits>) => {
   const radioRef = ref<HTMLInputElement>()
   const radioGroup = inject(radioGroupKey, undefined)
   const isGroup = computed(() => !!radioGroup)
+
   const modelValue = computed<RadioProps['modelValue']>({
     get() {
       return isGroup.value ? radioGroup!.modelValue : props.modelValue!
@@ -52,17 +57,16 @@ export const useRadio = (
       } else {
         emit(UPDATE_MODEL_EVENT, val)
       }
-      radioRef.value!.checked = props.modelValue === props.label
-    },
+      radioRef.value!.checked = props.modelValue === props.value
+    }
   })
 
   const size = useSize(computed(() => radioGroup?.size))
   const disabled = useDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
+
   const tabIndex = computed(() => {
-    return disabled.value || (isGroup.value && modelValue.value !== props.label)
-      ? -1
-      : 0
+    return disabled.value || (isGroup.value && modelValue.value !== props.value) ? -1 : 0
   })
 
   return {
@@ -73,6 +77,6 @@ export const useRadio = (
     size,
     disabled,
     tabIndex,
-    modelValue,
+    modelValue
   }
 }

@@ -2,13 +2,13 @@ import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
 import { isVNode, isNumber, debugWarn } from '@element-ultra/utils'
 import { useZIndex } from '@element-ultra/hooks'
-import { messageConfig } from '@element-ultra/components/config-provider/src/config-provider'
+import { useConfig } from '@element-ultra/hooks'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
 import type { Message, MessageFn, MessageQueue, MessageProps } from './message'
 import type { ComponentPublicInstance, VNode } from 'vue'
-
+const [store] = useConfig()
 const instances: MessageQueue = []
 let seed = 1
 
@@ -16,7 +16,7 @@ let seed = 1
 
 const message: MessageFn & Partial<Message> = function (options = {}) {
   if (!isClient) return { close: () => undefined }
-  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+  if (isNumber(store.message?.max) && instances.length >= store.message!.max) {
     return { close: () => undefined }
   }
 

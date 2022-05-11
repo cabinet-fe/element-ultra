@@ -8,45 +8,31 @@
     >
       <el-overlay
         v-show="visible"
-        custom-mask-event
         :mask="modal"
         :overlay-class="modalClass"
         :z-index="zIndex"
+        @click="onModalClick"
       >
-        <div
-          :class="`${ns.namespace.value}-overlay-dialog`"
-          @click="overlayEvent.onClick"
-          @mousedown="overlayEvent.onMousedown"
-          @mouseup="overlayEvent.onMouseup"
+        <el-dialog-content
+          v-if="rendered"
+          :custom-class="customClass"
+          :center="center"
+          :close-icon="closeIcon"
+          :draggable="draggable"
+          :fullscreen="fullscreen"
+          :show-close="showClose"
+          :style="style"
+          :title="title"
+          @close="handleClose"
         >
-          <el-focus-trap
-            v-if="rendered"
-            loop
-            trapped
-            @mount-on-focus="$emit('openAutoFocus')"
-            @unmount-on-focus="$emit('closeAutoFocus')"
-          >
-            <el-dialog-content
-              :custom-class="customClass"
-              :center="center"
-              :close-icon="closeIcon"
-              :draggable="draggable"
-              :fullscreen="fullscreen"
-              :show-close="showClose"
-              :style="style"
-              :title="title"
-              @close="handleClose"
-            >
-              <template #title>
-                <slot name="title" />
-              </template>
-              <slot />
-              <template #footer>
-                <slot name="footer" />
-              </template>
-            </el-dialog-content>
-          </el-focus-trap>
-        </div>
+          <template #title>
+            <slot name="title" />
+          </template>
+          <slot />
+          <template #footer>
+            <slot name="footer" />
+          </template>
+        </el-dialog-content>
       </el-overlay>
     </transition>
   </teleport>
@@ -55,7 +41,6 @@
 <script lang="ts" setup>
 import { computed, ref, provide } from 'vue'
 import { ElOverlay } from '@element-ultra/components/overlay'
-import { ElFocusTrap } from '@element-ultra/components/focus-trap'
 import { useNamespace, useDraggable, useSameTarget } from '@element-ultra/hooks'
 import ElDialogContent from './dialog-content.vue'
 import { dialogProps, dialogEmits } from './dialog'
@@ -66,7 +51,7 @@ import type { SetupContext, Ref } from 'vue'
 import type { DialogEmits } from './dialog'
 
 defineOptions({
-  name: 'ElDialog',
+  name: 'ElDialog'
 })
 
 const props = defineProps(dialogProps)
@@ -81,31 +66,17 @@ const dialog = useDialog(
   { emit } as SetupContext<DialogEmits>,
   dialogRef as Ref<HTMLElement>
 )
-const {
-  visible,
-  afterEnter,
-  afterLeave,
-  beforeLeave,
-  style,
-  handleClose,
-  rendered,
-} = dialog
+const { visible, afterEnter, afterLeave, beforeLeave, style, handleClose, rendered, onModalClick } = dialog
 
 provide(elDialogInjectionKey, {
   dialogRef,
   headerRef,
   ns,
   rendered,
-  style,
+  style
 })
-
-const overlayEvent = useSameTarget(dialog.onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
 
-useDraggable(
-  dialogRef as Ref<HTMLElement>,
-  headerRef as Ref<HTMLElement>,
-  draggable
-)
+useDraggable(dialogRef as Ref<HTMLElement>, headerRef as Ref<HTMLElement>, draggable)
 </script>

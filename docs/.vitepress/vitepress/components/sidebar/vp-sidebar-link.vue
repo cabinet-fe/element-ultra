@@ -1,21 +1,30 @@
 <script lang="ts" setup>
 import { useRoute } from 'vitepress'
 import { isActive } from '../../utils'
-
 import type { Link } from '../../types'
+import { BASE_PATH } from '../../../utils/shared'
+import { computed } from '@vue/reactivity'
+import { inject, onMounted, shallowRef } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   item: Link
 }>()
 
 defineEmits(['close'])
-
 const route = useRoute()
+let linkRef = shallowRef<HTMLElement>()
+const setActiveLink = inject<any>('setActiveLink')!
+const active = computed(() => {
+  let ret = isActive(route, props.item.link.replace(BASE_PATH, '/'))
+  ret && setActiveLink(linkRef.value)
+  return ret
+})
 </script>
 
 <template>
   <a
-    :class="{ link: true, active: isActive(route, item.link) }"
+    :class="{ link: true, active }"
+    ref="linkRef"
     :href="item.link"
     @click="$emit('close')"
   >
@@ -43,7 +52,7 @@ const route = useRoute()
 }
 
 .link.active {
-  background-color: var(--link-active-bg-color);
+  background-color: rgba(64, 158, 255, 0.1);
   .link-text {
     font-weight: 600;
     color: var(--brand-color);

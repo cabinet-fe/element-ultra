@@ -1,5 +1,6 @@
 @use './base.scss';
 // component styles
+@use './action.scss';
 @use './affix.scss';
 @use './alert.scss';
 @use './aside.scss';
@@ -20,12 +21,12 @@
 @use './check-tag.scss';
 @use './checkbox-button.scss';
 @use './checkbox-group.scss';
+@use './checkbox-groups.scss';
 @use './checkbox.scss';
 @use './col.scss';
 @use './collapse-item.scss';
 @use './collapse.scss';
 @use './color-picker.scss';
-@use './config-provider.scss';
 @use './container.scss';
 @use './data-table.scss';
 @use './date-picker.scss';
@@ -37,12 +38,14 @@
 @use './dropdown-item.scss';
 @use './dropdown-menu.scss';
 @use './dropdown.scss';
+@use './edit-bar.scss';
 @use './empty.scss';
 @use './footer.scss';
 @use './form-item.scss';
 @use './form.scss';
 @use './form-dialog.scss';
 @use './grid.scss';
+@use './grid-input.scss';
 @use './header.scss';
 @use './image-viewer.scss';
 @use './image.scss';
@@ -60,6 +63,7 @@
 @use './message.scss';
 @use './notification.scss';
 @use './overlay.scss';
+@use './page.scss';
 @use './page-header.scss';
 @use './pagination.scss';
 @use './popconfirm.scss';
@@ -86,9 +90,11 @@
 @use './tab-pane.scss';
 @use './table-column.scss';
 @use './table.scss';
+@use './table-select.scss';
 @use './tabs.scss';
 @use './tag.scss';
 @use './textarea.scss';
+@use './text-editor.scss';
 @use './time-picker.scss';
 @use './time-select.scss';
 @use './timeline-item.scss';
@@ -96,6 +102,7 @@
 @use './tooltip.scss';
 @use './transfer.scss';
 @use './tree.scss';
+@use './tree-select.scss';
 @use './upload.scss';
 @use './virtual-list.scss';
 @use './popper.scss';

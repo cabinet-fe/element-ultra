@@ -7,7 +7,7 @@
     :name="label"
   >
     <template #header v-if="headerRender">
-      {{headerRender!()}}
+      <ChildRenderer :child="headerRender()" />
     </template>
 
     <template #default="scope" v-if="$slots.default">
@@ -23,7 +23,7 @@
     :name="label"
   >
     <template #header v-if="headerRender">
-      {{headerRender!()}}
+      <ChildRenderer :child="headerRender()" />
     </template>
 
     <pro-table-column
@@ -35,20 +35,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type PropType } from 'vue'
+import { computed, type PropType, isVNode, defineComponent, type VNode } from 'vue'
 import { ElTableColumn } from '@element-ultra/components/table'
 import type { ProTableColumn } from './pro-table'
 import { omit } from 'lodash'
 
 defineOptions({
-  name: 'ProTableColumn',
+  name: 'ProTableColumn'
 })
 
 const props = defineProps({
   column: {
     type: Object as PropType<ProTableColumn>,
-    required: true,
-  },
+    required: true
+  }
 })
 
 let inheritColumns = computed(() => {
@@ -63,5 +63,15 @@ const label = computed(() => {
 const headerRender = computed(() => {
   const { name } = props.column
   return typeof name === 'string' ? undefined : name
+})
+
+const ChildRenderer = defineComponent({
+  props: {
+    child: [Object, String, Number, Boolean] as PropType<VNode | string | number | boolean>
+  },
+
+  setup(props) {
+    return () => props.child
+  }
 })
 </script>

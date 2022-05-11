@@ -3,7 +3,7 @@
     <div class="el-time-range-picker__content">
       <div class="el-time-range-picker__cell">
         <div class="el-time-range-picker__header">
-          {{ t('el.datepicker.startTime') }}
+          开始时间
         </div>
         <div
           :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
@@ -27,7 +27,7 @@
       </div>
       <div class="el-time-range-picker__cell">
         <div class="el-time-range-picker__header">
-          {{ t('el.datepicker.endTime') }}
+          结束时间
         </div>
         <div
           :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
@@ -56,7 +56,7 @@
         class="el-time-panel__btn cancel"
         @click="handleCancel()"
       >
-        {{ t('el.datepicker.cancel') }}
+        取消
       </button>
       <button
         type="button"
@@ -64,7 +64,7 @@
         :disabled="btnConfirmDisabled"
         @click="handleConfirm()"
       >
-        {{ t('el.datepicker.confirm') }}
+        确定
       </button>
     </div>
   </div>
@@ -74,7 +74,6 @@
 import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
-import { useLocale } from '@element-ultra/hooks'
 import { EVENT_CODE } from '@element-ultra/constants'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
@@ -107,7 +106,7 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocale()
+
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
     const oldValue = useOldValue(props)
@@ -138,7 +137,7 @@ export default defineComponent({
     }
 
     const isValidValue = (_date: Dayjs[]) => {
-      const parsedDate = _date.map((_) => dayjs(_).locale(lang.value))
+      const parsedDate = _date.map((_) => dayjs(_).locale('zh-cn'))
       const result = getRangeAvailableTime(parsedDate)
       return parsedDate[0].isSame(result[0]) && parsedDate[1].isSame(result[1])
     }
@@ -297,9 +296,9 @@ export default defineComponent({
     const parseUserInput = (value: Dayjs[] | Dayjs) => {
       if (!value) return null
       if (Array.isArray(value)) {
-        return value.map((_) => dayjs(_, props.format).locale(lang.value))
+        return value.map((_) => dayjs(_, props.format).locale('zh-cn'))
       }
-      return dayjs(value, props.format).locale(lang.value)
+      return dayjs(value, props.format).locale('zh-cn')
     }
 
     const formatToString = (value: Dayjs[] | Dayjs) => {
@@ -312,9 +311,9 @@ export default defineComponent({
 
     const getDefaultValue = () => {
       if (Array.isArray(defaultValue)) {
-        return defaultValue.map((_) => dayjs(_).locale(lang.value))
+        return defaultValue.map((_) => dayjs(_).locale('zh-cn'))
       }
-      const defaultDay = dayjs(defaultValue).locale(lang.value)
+      const defaultDay = dayjs(defaultValue).locale('zh-cn')
       return [defaultDay, defaultDay.add(60, 'm')]
     }
 
@@ -350,7 +349,6 @@ export default defineComponent({
       btnConfirmDisabled,
       handleCancel,
       handleConfirm,
-      t,
       showSeconds,
       minDate,
       maxDate,

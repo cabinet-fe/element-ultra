@@ -8,7 +8,7 @@
       <el-button text>展开/隐藏</el-button>
     </section>
 
-    <section ref="toolsRef" v-if="$slots.tools" :class="ns.e('tools')">
+    <section ref="toolsRef" v-if="$slots.tools || showTools" :class="ns.e('tools')">
       <div :class="ns.e('tools-left')">
         <slot name="tools" />
       </div>
@@ -17,18 +17,24 @@
       </div>
     </section>
 
-    <el-table :data="computedData" v-bind="$attrs" :height="tableHeight">
-      <el-table-column
-        v-bind="column"
-        v-for="column of preColumns"
-        :key="column.key"
-      />
+    <el-table
+      :data="computedData"
+      v-if="columns && columns.length"
+      v-bind="$attrs"
+      :default-expand-all="defaultExpandAll"
+      ref="tableRef"
+      :height="tableHeight"
+      v-loading="loading"
+    >
+      <pro-table-column :column="expandColumn" v-if="$slots['row-expand']">
+        <template #default="scope">
+          <slot name="row-expand" v-bind="scope" />
+        </template>
+      </pro-table-column>
 
-      <pro-table-column
-        v-for="column of columns"
-        :column="column"
-        :key="column.key"
-      >
+      <el-table-column v-bind="column" v-for="column of preColumns" :key="column.key" />
+
+      <pro-table-column v-for="column of columns" :column="column" :key="column.key">
         <template v-if="column.slot" #default="scope">
           <slot v-bind="scope" :name="column.slot" />
         </template>
@@ -58,28 +64,29 @@ import ElPagination from '@element-ultra/components/pagination'
 import ElButton from '@element-ultra/components/button'
 import { computed, shallowReactive, watch, shallowRef, onMounted } from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
+import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 
 defineOptions({
   name: 'ElProTable',
-  inheritAttrs: false,
+  inheritAttrs: false
 })
 
 const ns = useNamespace('pro-table')
 
 const props = defineProps(proTableProps)
 
-const { proTableRequestMethod, proTableDefaultSize } = useConfig()
+const [configStore] = useConfig()
 
 const pageSizes = [20, 40, 60, 120, 200]
 
 const query = shallowReactive({
   page: 1,
-  size: proTableDefaultSize || 20,
+  size: configStore.proTableDefaultSize || 20
 })
 
 const state = shallowReactive({
   total: 0,
-  data: [] as any[],
+  data: [] as any[]
 })
 
 const computedData = computed(() => {
@@ -108,9 +115,12 @@ onMounted(() => {
   calcTableHeight()
 })
 
+let loading = shallowRef(false)
 const fetchData = async () => {
-  if (!props.api || !proTableRequestMethod || props.data) return
+  if (!props.api || !configStore.proTableRequestMethod || props.data) return
+  loading.value = true
 
+  // 还原真实的请求参数
   let realQuery = Object.keys(props.query || {}).reduce((acc, cur) => {
     let v = props.query![cur]
     if (cur.startsWith('$')) {
@@ -120,34 +130,64 @@ const fetchData = async () => {
     return acc
   }, {} as Record<string, any>)
 
-  const { total, data } = await proTableRequestMethod({
-    api: props.api,
-    query: {
-      ...(props.pagination ? query : null),
-      ...realQuery,
-    },
-  })
+  const { total, data } = await configStore
+    .proTableRequestMethod({
+      api: props.api,
+      query: {
+        ...(props.pagination ? query : null),
+        ...realQuery
+      }
+    })
+    .finally(() => {
+      loading.value = false
+    })
+
   if (total) {
     state.total = total
   }
   state.data = data
 }
 
-// hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
-let queryWatchList = Object.keys(props.query || {})
-  .filter((k) => k.startsWith('$'))
-  .map((k) => {
-    return () => props.query?.[k]
-  })
+let a = shallowRef(0)
 
-watch([query, ...queryWatchList], fetchData)
+// query发生改变时重新监听里面的属性
+let stopWatchQueryProps: () => void
+watch(
+  () => props.query,
+  query => {
+    stopWatchQueryProps?.()
+
+    const watchList = Object.keys(query || {})
+      .filter(k => k.startsWith('$'))
+      .map(k => {
+        return () => props.query?.[k]
+      })
+
+    // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
+    stopWatchQueryProps = watch(watchList, fetchData)
+  },
+  { immediate: true }
+)
+
+watch(() => props.api, fetchData)
 fetchData()
 
-const { columns } = props
+const tableRef = shallowRef()
+const [expandColumn, preColumns] = usePreColumns(props, tableRef)
 
-const preColumns = usePreColumns(props)
+const find = () => {
+  return computedData.value
+}
+
+const deleteRow = (index: number) => {
+  state.data = [...state.data.slice(0, index), ...state.data.slice(index + 1)]
+}
 
 defineExpose({
   fetchData,
+  find,
+  deleteRow,
+  toggleRowSelection: (row: any, selected: boolean) =>
+    tableRef.value?.toggleRowSelection(row, selected)
 })
 </script>

@@ -10,18 +10,15 @@
         [ns.bm('group', 'append')]: $slots.append,
         [ns.bm('group', 'prepend')]: $slots.prepend,
         [ns.m('prefix')]: $slots.prefix || prefixIcon,
-        [ns.m('suffix')]:
-          $slots.suffix || suffixIcon || clearable || showPassword,
-        [ns.m('suffix--password-clear')]: showClear && showPwdVisible,
+        [ns.m('suffix')]: $slots.suffix || suffixIcon || clearable || showPassword,
+        [ns.m('suffix--password-clear')]: showClear && showPwdVisible
       },
-      $attrs.class,
+      $attrs.class
     ]"
     :style="containerStyle"
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
   >
-    <!-- input -->
-
     <!-- prepend slot -->
     <div v-if="$slots.prepend" :class="ns.be('group', 'prepend')">
       <slot name="prepend" />
@@ -84,9 +81,7 @@
           <icon-view />
         </el-icon>
         <span v-if="isWordLimitVisible" :class="ns.e('count')">
-          <span :class="ns.e('count-inner')">
-            {{ textLength }} / {{ attrs.maxlength }}
-          </span>
+          <span :class="ns.e('count-inner')"> {{ textLength }} / {{ attrs.maxlength }} </span>
         </span>
       </span>
     </span>
@@ -98,9 +93,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {
-  defineComponent,
   computed,
   watch,
   nextTick,
@@ -108,275 +102,226 @@ import {
   ref,
   onMounted,
   onUpdated,
+  useSlots,
+  useAttrs as useRawAttrs
 } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
 import { isKorean } from '@element-ultra/utils'
-import {
-  useAttrs,
-  useDisabled,
-  useFormItem,
-  useSize,
-  useNamespace,
-} from '@element-ultra/hooks'
+import { useAttrs, useDisabled, useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { inputProps, inputEmits } from './input'
-
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
 const PENDANT_MAP = {
   suffix: 'append',
-  prefix: 'prepend',
+  prefix: 'prepend'
 } as const
 
-export default defineComponent({
+defineOptions({
   name: 'ElInput',
+  inheritAttrs: false
+})
 
-  components: { ElIcon, CircleClose, IconView },
+const props = defineProps(inputProps)
+const emit = defineEmits(inputEmits)
+const slots = useSlots()
+const attrs = useAttrs()
+const rawAttrs = useRawAttrs()
+const instance = getCurrentInstance()!
 
-  inheritAttrs: false,
+const { formItem } = useFormItem()
+const inputSize = useSize()
+const inputDisabled = useDisabled()
+const ns = useNamespace('input')
 
-  props: inputProps,
-  emits: inputEmits,
+const inputRef = ref<HTMLInputElement>()
+const focused = ref(false)
+const hovering = ref(false)
+const isComposing = ref(false)
+const passwordVisible = ref(false)
 
-  setup(props, { slots, emit, attrs: rawAttrs }) {
-    const instance = getCurrentInstance()!
-    const attrs = useAttrs()
+const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
-    const {  formItem } = useFormItem()
-    const inputSize = useSize()
-    const inputDisabled = useDisabled()
-    const ns = useNamespace('input')
+const nativeInputValue = computed(() => {
+  const { modelValue } = props
+  return [null, undefined].includes(modelValue as any) ? '' : String(modelValue)
+})
+const showClear = computed(
+  () =>
+    props.clearable &&
+    !inputDisabled.value &&
+    !props.readonly &&
+    !!nativeInputValue.value &&
+    (focused.value || hovering.value)
+)
 
-    const inputRef = ref<HTMLInputElement>()
-    const focused = ref(false)
-    const hovering = ref(false)
-    const isComposing = ref(false)
-    const passwordVisible = ref(false)
+const showPwdVisible = computed(
+  () =>
+    props.showPassword &&
+    !inputDisabled.value &&
+    !props.readonly &&
+    (!!nativeInputValue.value || focused.value)
+)
+const isWordLimitVisible = computed(
+  () =>
+    props.showWordLimit &&
+    !!attrs.value.maxlength &&
+    !inputDisabled.value &&
+    !props.readonly &&
+    !props.showPassword
+)
+const textLength = computed(() => Array.from(nativeInputValue.value).length)
+const inputExceed = computed(
+  () =>
+    // show exceed style if length of initial value greater then maxlength
+    !!isWordLimitVisible.value && textLength.value > Number(attrs.value.maxlength)
+)
 
-    const containerStyle = computed(() => rawAttrs.style as StyleValue)
+const setNativeInputValue = () => {
+  const input = inputRef.value
+  if (!input || input.value === nativeInputValue.value) return
+  input.value = nativeInputValue.value
+}
 
-    const nativeInputValue = computed(() =>
-      props.modelValue === null || props.modelValue === undefined
-        ? ''
-        : String(props.modelValue)
-    )
-    const showClear = computed(
-      () =>
-        props.clearable &&
-        !inputDisabled.value &&
-        !props.readonly &&
-        !!nativeInputValue.value &&
-        (focused.value || hovering.value)
-    )
+const calcIconOffset = (place: 'prefix' | 'suffix') => {
+  const { el } = instance.vnode
+  if (!el) return
+  const elList: HTMLSpanElement[] = Array.from(el.querySelectorAll(`.${ns.e(place)}`))
+  const target = elList.find((item) => item.parentNode === el)
 
-    const showPwdVisible = computed(
-      () =>
-        props.showPassword &&
-        !inputDisabled.value &&
-        !props.readonly &&
-        (!!nativeInputValue.value || focused.value)
-    )
-    const isWordLimitVisible = computed(
-      () =>
-        props.showWordLimit &&
-        !!attrs.value.maxlength &&
-        !inputDisabled.value &&
-        !props.readonly &&
-        !props.showPassword
-    )
-    const textLength = computed(() => Array.from(nativeInputValue.value).length)
-    const inputExceed = computed(
-      () =>
-        // show exceed style if length of initial value greater then maxlength
-        !!isWordLimitVisible.value &&
-        textLength.value > Number(attrs.value.maxlength)
-    )
+  if (!target) return
 
-    const setNativeInputValue = () => {
-      const input = inputRef.value
-      if (!input || input.value === nativeInputValue.value) return
-      input.value = nativeInputValue.value
-    }
+  const pendant = PENDANT_MAP[place]
 
-    const calcIconOffset = (place: 'prefix' | 'suffix') => {
-      const { el } = instance.vnode
-      if (!el) return
-      const elList: HTMLSpanElement[] = Array.from(
-        el.querySelectorAll(`.${ns.e(place)}`)
-      )
-      const target = elList.find((item) => item.parentNode === el)
+  if (slots[pendant]) {
+    target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
+      el.querySelector(`.${ns.be('group', pendant)}`).offsetWidth
+    }px)`
+  } else {
+    target.removeAttribute('style')
+  }
+}
 
-      if (!target) return
+const updateIconOffset = () => {
+  calcIconOffset('prefix')
+  calcIconOffset('suffix')
+}
 
-      const pendant = PENDANT_MAP[place]
+const handleInput = (event: Event) => {
+  const { value } = event.target as TargetElement
 
-      if (slots[pendant]) {
-        target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-          el.querySelector(`.${ns.be('group', pendant)}`).offsetWidth
-        }px)`
-      } else {
-        target.removeAttribute('style')
-      }
-    }
+  // should not emit input during composition
+  // see: https://github.com/ElemeFE/element/issues/10516
+  if (isComposing.value) return
 
-    const updateIconOffset = () => {
-      calcIconOffset('prefix')
-      calcIconOffset('suffix')
-    }
+  // hack for https://github.com/ElemeFE/element/issues/8548
+  // should remove the following line when we don't support IE
+  if (value === nativeInputValue.value) return
+  emit(UPDATE_MODEL_EVENT, value)
+  emit('input', value)
 
-    const handleInput = (event: Event) => {
-      const { value } = event.target as TargetElement
+  // ensure native input value is controlled
+  // see: https://github.com/ElemeFE/element/issues/12850
+  nextTick(setNativeInputValue)
+}
 
-      // should not emit input during composition
-      // see: https://github.com/ElemeFE/element/issues/10516
-      if (isComposing.value) return
+const handleChange = (event: Event) => {
+  emit('change', (event.target as TargetElement).value)
+}
 
-      // hack for https://github.com/ElemeFE/element/issues/8548
-      // should remove the following line when we don't support IE
-      if (value === nativeInputValue.value) return
+const focus = () => {
+  // see: https://github.com/ElemeFE/element/issues/18573
+  nextTick(() => {
+    inputRef.value?.focus()
+  })
+}
 
-      emit(UPDATE_MODEL_EVENT, value)
-      emit('input', value)
+const handleFocus = (event: FocusEvent) => {
+  focused.value = true
+  emit('focus', event)
+}
 
-      // ensure native input value is controlled
-      // see: https://github.com/ElemeFE/element/issues/12850
-      nextTick(setNativeInputValue)
-    }
+const handleBlur = (event: FocusEvent) => {
+  focused.value = false
+  emit('blur', event)
+  formItem?.validate()
+}
 
-    const handleChange = (event: Event) => {
-      emit('change', (event.target as TargetElement).value)
-    }
+const handleCompositionStart = (event: CompositionEvent) => {
+  emit('compositionstart', event)
+  isComposing.value = true
+}
 
-    const focus = () => {
-      // see: https://github.com/ElemeFE/element/issues/18573
-      nextTick(() => {
-        inputRef.value?.focus()
-      })
-    }
+const handleCompositionUpdate = (event: CompositionEvent) => {
+  emit('compositionupdate', event)
+  const text = (event.target as HTMLInputElement)?.value
+  const lastCharacter = text[text.length - 1] || ''
+  isComposing.value = !isKorean(lastCharacter)
+}
 
-    const blur = () => {
-      inputRef.value?.blur()
-    }
+const handleCompositionEnd = (event: CompositionEvent) => {
+  emit('compositionend', event)
+  if (isComposing.value) {
+    isComposing.value = false
+    handleInput(event)
+  }
+}
 
-    const handleFocus = (event: FocusEvent) => {
-      focused.value = true
-      emit('focus', event)
-    }
+const clear = () => {
+  emit(UPDATE_MODEL_EVENT, '')
+  emit('change', '')
+  emit('clear')
+  emit('input', '')
+}
 
-    const handleBlur = (event: FocusEvent) => {
-      focused.value = false
-      emit('blur', event)
-      formItem?.validate()
-    }
+const handlePasswordVisible = () => {
+  passwordVisible.value = !passwordVisible.value
+  focus()
+}
 
-    const select = () => {
-      inputRef.value?.select()
-    }
+const suffixVisible = computed(
+  () =>
+    !!slots.suffix ||
+    !!props.suffixIcon ||
+    showClear.value ||
+    props.showPassword ||
+    isWordLimitVisible.value
+)
 
-    const handleCompositionStart = (event: CompositionEvent) => {
-      emit('compositionstart', event)
-      isComposing.value = true
-    }
+// native input value is set explicitly
+// do not use v-model / :value in template
+// see: https://github.com/ElemeFE/element/issues/14521
+watch(nativeInputValue, (v) => {
+  setNativeInputValue()
+})
 
-    const handleCompositionUpdate = (event: CompositionEvent) => {
-      emit('compositionupdate', event)
-      const text = (event.target as HTMLInputElement)?.value
-      const lastCharacter = text[text.length - 1] || ''
-      isComposing.value = !isKorean(lastCharacter)
-    }
+onMounted(() => {
+  setNativeInputValue()
+  updateIconOffset()
+})
 
-    const handleCompositionEnd = (event: CompositionEvent) => {
-      emit('compositionend', event)
-      if (isComposing.value) {
-        isComposing.value = false
-        handleInput(event)
-      }
-    }
+onUpdated(() => {
+  nextTick(updateIconOffset)
+})
 
-    const clear = () => {
-      emit(UPDATE_MODEL_EVENT, '')
-      emit('change', '')
-      emit('clear')
-      emit('input', '')
-    }
+const onMouseLeave = (evt: MouseEvent) => {
+  hovering.value = false
+  emit('mouseleave', evt)
+}
 
-    const handlePasswordVisible = () => {
-      passwordVisible.value = !passwordVisible.value
-      focus()
-    }
+const onMouseEnter = (evt: MouseEvent) => {
+  hovering.value = true
+  emit('mouseenter', evt)
+}
 
-    const suffixVisible = computed(
-      () =>
-        !!slots.suffix ||
-        !!props.suffixIcon ||
-        showClear.value ||
-        props.showPassword ||
-        isWordLimitVisible.value
-    )
+const handleKeydown = (evt: KeyboardEvent) => {
+  emit('keydown', evt)
+}
 
-    // native input value is set explicitly
-    // do not use v-model / :value in template
-    // see: https://github.com/ElemeFE/element/issues/14521
-    watch(nativeInputValue, () => setNativeInputValue())
-
-    onMounted(() => {
-      setNativeInputValue()
-      updateIconOffset()
-    })
-
-    onUpdated(() => {
-      nextTick(updateIconOffset)
-    })
-
-    const onMouseLeave = (evt: MouseEvent) => {
-      hovering.value = false
-      emit('mouseleave', evt)
-    }
-
-    const onMouseEnter = (evt: MouseEvent) => {
-      hovering.value = true
-      emit('mouseenter', evt)
-    }
-
-    const handleKeydown = (evt: KeyboardEvent) => {
-      emit('keydown', evt)
-    }
-
-    return {
-      inputRef,
-      attrs,
-      inputSize,
-      containerStyle,
-      inputDisabled,
-      showClear,
-      showPwdVisible,
-      isWordLimitVisible,
-      textLength,
-      hovering,
-      inputExceed,
-      passwordVisible,
-      suffixVisible,
-      handleInput,
-      handleChange,
-      handleFocus,
-      handleBlur,
-      handleCompositionStart,
-      handleCompositionUpdate,
-      handleCompositionEnd,
-      handlePasswordVisible,
-      clear,
-      select,
-      focus,
-      blur,
-      onMouseLeave,
-      onMouseEnter,
-      handleKeydown,
-
-      ns,
-    }
-  },
+defineExpose({
+  inputRef
 })
 </script>

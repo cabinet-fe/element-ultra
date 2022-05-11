@@ -1,10 +1,9 @@
 import { unref } from 'vue'
-import { buildProps } from '@element-ultra/utils'
 import { useTimeout } from '../use-timeout'
 
 import type { ToRefs, ExtractPropTypes } from 'vue'
 
-export const useDelayedToggleProps = buildProps({
+export const useDelayedToggleProps = {
   showAfter: {
     type: Number,
     default: 0,
@@ -13,7 +12,7 @@ export const useDelayedToggleProps = buildProps({
     type: Number,
     default: 200,
   },
-} as const)
+} as const
 
 export type UseDelayedToggleProps = {
   open: () => void

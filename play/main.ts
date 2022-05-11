@@ -1,8 +1,9 @@
 import { createApp, h } from 'vue'
-import { setConfigStore } from 'element-ultra'
+import { useConfig } from 'element-ultra'
 import { router } from './src/router'
 import App from  './App.vue'
 
+const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
   proTableRequestMethod: () => {
@@ -12,15 +13,20 @@ setConfigStore({
         id: 1,
         age: 20,
 
-        children: [
-          { name: '李四', id: 2, age: 21 }
-        ]
+        // children: [
+        //   { name: '李四', id: 2, age: 21 }
+        // ]
       },
+      {
+        name: '李四',
+        id: 2,
+        age: 28
+      }
     ]
-    return {
+    return Promise.resolve({
       data,
       total: data.length,
-    }
+    })
   },
 })
 
@@ -29,6 +35,8 @@ const app = createApp({
     return h(App)
   },
 })
+
+app.config.globalProperties.c = console
 
 app.use(router)
 

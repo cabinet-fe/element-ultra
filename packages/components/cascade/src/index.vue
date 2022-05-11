@@ -157,7 +157,6 @@
 import {
   computed,
   defineComponent,
-  inject,
   nextTick,
   onMounted,
   onBeforeUnmount,
@@ -180,9 +179,8 @@ import ElScrollbar from '@element-ultra/components/scrollbar'
 import ElTag from '@element-ultra/components/tag'
 import ElIcon from '@element-ultra/components/icon'
 
-import { formKey, formItemKey } from '@element-ultra/tokens'
 import { ClickOutside as Clickoutside } from '@element-ultra/directives'
-import { useFormItem, useLocale, useSize } from '@element-ultra/hooks'
+import { useFormItem, useSize } from '@element-ultra/hooks'
 
 import {
   focusNode,
@@ -196,6 +194,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
+FORM_COMPONENT_PROPS,
 } from '@element-ultra/constants'
 import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
@@ -257,6 +256,7 @@ export default defineComponent({
   },
 
   props: {
+    ...FORM_COMPONENT_PROPS,
     ...CommonProps,
     size: {
       type: String as PropType<ComponentSize>,

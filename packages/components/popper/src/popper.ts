@@ -1,7 +1,7 @@
 import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-ultra/utils'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
 import type { Placement, Options } from '@popperjs/core'
 
 const effects = ['light', 'dark'] as const
@@ -76,12 +76,12 @@ export const usePopperProps = buildProps({
   },
 } as const)
 
-export const usePopperContentProps = buildProps({
+export const usePopperContentProps = {
   ...usePopperCoreConfigProps,
-  style: { type: definePropType<StyleValue>([String, Array, Object]) },
-  className: { type: definePropType<ClassType>([String, Array, Object]) },
+  style: { type: [String, Array, Object] as PropType<StyleValue> },
+  className: { type: [String, Array, Object] as PropType<ClassType> },
   effect: {
-    type: String,
+    type: String as PropType<'dark' | 'light'>,
     default: 'dark',
   },
   enterable: {
@@ -92,20 +92,20 @@ export const usePopperContentProps = buildProps({
     type: Boolean,
   },
   popperClass: {
-    type: definePropType<ClassType>([String, Array, Object]),
+    type: [String, Array, Object] as PropType<ClassType>,
   },
   popperStyle: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: [String, Array, Object] as PropType<StyleValue>,
   },
   referenceEl: {
-    type: definePropType<HTMLElement>(Object),
+    type: Object as PropType<HTMLElement>,
   },
   stopPopperMouseEvent: {
     type: Boolean,
     default: true,
   },
   zIndex: Number,
-} as const)
+} as const
 
 export const usePopperTriggerProps = buildProps({
   virtualRef: {

@@ -5,12 +5,13 @@ import {
   iconPropType,
   mutable,
 } from '@element-ultra/utils'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import type { StyleValue, ExtractPropTypes } from 'vue'
 
 type AutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const textareaProps = buildProps({
+  ...FORM_COMPONENT_PROPS,
   disabled: Boolean,
   modelValue: {
     type: definePropType<string | number | null | undefined>(undefined),
@@ -46,9 +47,6 @@ export const textareaProps = buildProps({
     default: false,
   },
 
-  label: {
-    type: String,
-  },
   tabindex: {
     type: [Number, String],
   },

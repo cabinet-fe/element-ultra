@@ -1,12 +1,13 @@
 <template>
-  <div ref="formItemRef" class="el-form-item" :class="formItemClass">
+  <div ref="formItemRef" :class="formItemClass">
     <label
       v-if="currentLabel"
       :for="field"
-      class="el-form-item__label"
+      :title="currentLabel"
+      :class="ns.e('label')"
       :style="labelStyle"
     >
-      <span style="margin-right: 2px;">
+      <span style="margin-right: 2px">
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
@@ -19,11 +20,11 @@
       </ElTooltip>
     </label>
 
-    <div class="el-form-item__content">
+    <div :class="ns.e('content')">
       <slot></slot>
 
       <transition name="el-zoom-in-top">
-        <div v-if="errorVisible" class="el-form-item__error">
+        <div v-if="errorVisible" :class="ns.e('error')">
           {{ validateMessage }}
         </div>
       </transition>
@@ -32,22 +33,14 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  nextTick,
-  provide,
-} from 'vue'
+import { computed, defineComponent, inject, ref, nextTick, provide } from 'vue'
 import { formItemKey, formKey } from '@element-ultra/tokens'
 import { addUnit } from '@element-ultra/utils'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import type { CSSProperties } from 'vue'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
+import { useNamespace } from '@element-ultra/hooks'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -56,7 +49,7 @@ export default defineComponent({
   components: {
     QuestionFilled,
     ElIcon,
-    ElTooltip,
+    ElTooltip
   },
 
   props: {
@@ -65,12 +58,12 @@ export default defineComponent({
     tips: String,
     labelWidth: {
       type: [String, Number],
-      default: '',
-    },
+      default: ''
+    }
   },
   setup(props) {
     const elForm = inject(formKey)
-
+    const ns = useNamespace('form-item')
     const validateMessage = ref('')
     const formItemRef = ref<HTMLDivElement>()
 
@@ -90,7 +83,7 @@ export default defineComponent({
 
     const isRequired = computed(() => {
       if (!elForm || !props.field) return false
-      return elForm.formRules[props.field].required
+      return elForm.formRules?.[props.field]?.required
     })
 
     const validate = async () => {
@@ -117,25 +110,20 @@ export default defineComponent({
     const formItem = {
       reset,
       clearValidate,
-      validate,
+      validate
     }
 
     provide(formItemKey, formItem)
 
-    onMounted(() => {
-      if (props.field) {
-        elForm?.addFormItem(props.field, formItem)
-      }
-    })
+    const formItemClass = computed(() => {
+      const ret = [ns.b()]
 
-    onBeforeUnmount(() => {
-      props.field && elForm?.deleteFormItem(props.field)
-    })
+      isRequired.value && ret.push('is-required')
+      errorVisible.value && ret.push('is-error')
+      elForm?.props.size && ret.push(ns.m(elForm.props.size))
 
-    const formItemClass = computed(() => ({
-      'is-required': isRequired.value,
-      'is-error': errorVisible.value,
-    }))
+      return ret
+    })
 
     const errorVisible = computed(() => !!validateMessage.value)
 
@@ -154,7 +142,8 @@ export default defineComponent({
       reset,
       clearValidate,
       currentLabel,
+      ns
     }
-  },
+  }
 })
 </script>

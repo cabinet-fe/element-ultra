@@ -9,11 +9,13 @@ import type { FormModel, FormModelItem } from './form'
 export default function useFormModel<M extends FormModel>(model: M) {
   let modelKeys = Object.keys(model)
 
+  type Model = { [key in keyof M]: M[key]['value'] }
+
   const form = shallowReactive(
     modelKeys.reduce((acc, key) => {
       acc[key] = model[key].value
       return acc
-    }, {}) as { [key in keyof M]: M[key]['value'] }
+    }, {}) as Model
   )
 
   const rules = modelKeys.reduce((acc, key) => {

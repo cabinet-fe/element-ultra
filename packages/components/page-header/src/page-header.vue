@@ -7,7 +7,7 @@
         </slot>
       </div>
       <div :class="ns.e('title')">
-        <slot name="title">{{ title || t('el.pageHeader.title') }}</slot>
+        <slot name="title">{{ title }}</slot>
       </div>
     </div>
     <div :class="ns.e('content')">
@@ -19,7 +19,7 @@
 import { defineComponent } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { pageHeaderEmits, pageHeaderProps } from './page-header'
 
 export default defineComponent({
@@ -33,7 +33,6 @@ export default defineComponent({
   emits: pageHeaderEmits,
 
   setup(_, { emit }) {
-    const { t } = useLocale()
     const ns = useNamespace('page-header')
 
     function handleClick() {
@@ -42,7 +41,6 @@ export default defineComponent({
 
     return {
       handleClick,
-      t,
       ns,
     }
   },

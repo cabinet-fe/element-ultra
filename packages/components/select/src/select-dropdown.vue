@@ -23,7 +23,7 @@ import OptionItem from './option-item.vue'
 import { selectInjectionKey } from './token'
 
 import type { ItemProps } from '@element-ultra/components/virtual-list'
-import type { OptionItemProps, Option } from './select.types'
+import type { OptionItemProps } from './select.types'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -34,7 +34,7 @@ export default defineComponent({
     width: Number,
   },
   setup(props) {
-    const select = inject(selectInjectionKey) as any
+    const select = inject(selectInjectionKey)!
     const ns = useNamespace('select')
     const cachedHeights = ref<Array<number>>([])
 
@@ -81,11 +81,12 @@ export default defineComponent({
       }
     }
 
-    const isItemSelected = (modelValue: any[] | any, target: Option) => {
+    const isItemSelected = (modelValue: any[] | any, target) => {
+      let selectedValue = select.getValue(target)
       if (select.props.multiple) {
-        return contains(modelValue, target.value)
+        return contains(modelValue,  selectedValue)
       }
-      return isEqual(modelValue, target.value)
+      return isEqual(modelValue, selectedValue)
     }
 
     const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
@@ -151,6 +152,8 @@ export default defineComponent({
 
     const Comp = isSized ? FixedSizeList : DynamicSizeList
 
+    const { getLabel } = inject(selectInjectionKey)!
+
     const {
       props: selectProps,
       onSelect,
@@ -203,7 +206,7 @@ export default defineComponent({
         {
           default: withCtx((props: OptionItemProps) => {
             return renderSlot($slots, 'default', props, () => [
-              h('span', item.label),
+              h('span', getLabel(item)),
             ])
           }),
         }

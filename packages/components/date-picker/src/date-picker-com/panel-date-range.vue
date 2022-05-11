@@ -28,7 +28,7 @@
               <el-input
                 size="small"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.startDate')"
+                placeholder="开始日期"
                 class="el-date-range-picker__editor"
                 :model-value="minVisibleDate"
                 @input="(val) => handleDateInput(val, 'min')"
@@ -43,7 +43,7 @@
                 size="small"
                 class="el-date-range-picker__editor"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.startTime')"
+                placeholder="开始时间"
                 :model-value="minVisibleTime"
                 @focus="minTimePickerVisible = true"
                 @input="(val) => handleTimeInput(val, 'min')"
@@ -68,7 +68,7 @@
                 size="small"
                 class="el-date-range-picker__editor"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.endDate')"
+                placeholder="结束日期"
                 :model-value="maxVisibleDate"
                 :readonly="!minDate"
                 @input="(val) => handleDateInput(val, 'max')"
@@ -83,7 +83,7 @@
                 size="small"
                 class="el-date-range-picker__editor"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.endTime')"
+                placeholder="结束时间"
                 :model-value="maxVisibleTime"
                 :readonly="!minDate"
                 @focus="minDate && (maxTimePickerVisible = true)"
@@ -217,7 +217,7 @@
         class="el-picker-panel__link-btn"
         @click="handleClear"
       >
-        {{ t('el.datepicker.clear') }}
+        清空
       </el-button>
       <el-button
         plain
@@ -226,7 +226,7 @@
         :disabled="btnDisabled"
         @click="handleConfirm(false)"
       >
-        {{ t('el.datepicker.confirm') }}
+        确定
       </el-button>
     </div>
   </div>
@@ -237,7 +237,6 @@ import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-ultra/components/button'
 import { ClickOutside } from '@element-ultra/directives'
-import { useLocale } from '@element-ultra/hooks'
 import ElInput from '@element-ultra/components/input'
 import {
   extractDateFormat,
@@ -288,9 +287,9 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option', 'calendar-change', 'panel-change'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocale()
-    const leftDate = ref(dayjs().locale(lang.value))
-    const rightDate = ref(dayjs().locale(lang.value).add(1, 'month'))
+    const lang = 'zh-cn'
+    const leftDate = ref(dayjs().locale(lang))
+    const rightDate = ref(dayjs().locale(lang).add(1, 'month'))
     const minDate = ref(null)
     const maxDate = ref(null)
     const dateUserInput = ref({
@@ -304,15 +303,11 @@ export default defineComponent({
     })
 
     const leftLabel = computed(() => {
-      return `${leftDate.value.year()} ${t('el.datepicker.year')} ${t(
-        `el.datepicker.month${leftDate.value.month() + 1}`
-      )}`
+      return `${leftDate.value.year()} 年 ${leftDate.value.month() + 1} 月`
     })
 
     const rightLabel = computed(() => {
-      return `${rightDate.value.year()} ${t('el.datepicker.year')} ${t(
-        `el.datepicker.month${rightDate.value.month() + 1}`
-      )}`
+      return `${rightDate.value.year()} 年 ${rightDate.value.month() + 1} 月`
     })
 
     const leftYear = computed(() => {
@@ -499,7 +494,7 @@ export default defineComponent({
       if (!emitDayjs) return
       if (defaultTime) {
         const defaultTimeD = dayjs(defaultTime[index] || defaultTime).locale(
-          lang.value
+          lang
         )
         return defaultTimeD
           .year(emitDayjs.year())
@@ -531,8 +526,8 @@ export default defineComponent({
         typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
       if (shortcutValues) {
         ctx.emit('pick', [
-          dayjs(shortcutValues[0]).locale(lang.value),
-          dayjs(shortcutValues[1]).locale(lang.value),
+          dayjs(shortcutValues[0]).locale(lang),
+          dayjs(shortcutValues[1]).locale(lang),
         ])
         return
       }
@@ -554,7 +549,7 @@ export default defineComponent({
 
     const handleDateInput = (value, type) => {
       dateUserInput.value[type] = value
-      const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
+      const parsedValueD = dayjs(value, dateFormat.value).locale(lang)
 
       if (parsedValueD.isValid()) {
         if (disabledDate && disabledDate(parsedValueD.toDate())) {
@@ -590,7 +585,7 @@ export default defineComponent({
 
     const handleTimeInput = (value, type) => {
       timeUserInput.value[type] = value
-      const parsedValueD = dayjs(value, timeFormat.value).locale(lang.value)
+      const parsedValueD = dayjs(value, timeFormat.value).locale(lang)
 
       if (parsedValueD.isValid()) {
         if (type === 'min') {
@@ -680,8 +675,8 @@ export default defineComponent({
 
     const parseUserInput = (value: Dayjs | Dayjs[]) => {
       return Array.isArray(value)
-        ? value.map((_) => dayjs(_, format).locale(lang.value))
-        : dayjs(value, format).locale(lang.value)
+        ? value.map((_) => dayjs(_, format).locale(lang))
+        : dayjs(value, format).locale(lang)
     }
 
     const getDefaultValue = () => {
@@ -699,7 +694,7 @@ export default defineComponent({
         start = dayjs()
       }
 
-      start = start.locale(lang.value)
+      start = start.locale(lang)
       return [start, start.add(1, 'month')]
     }
 
@@ -802,7 +797,6 @@ export default defineComponent({
       leftDate,
       rightDate,
       showTime,
-      t,
       minVisibleDate,
       maxVisibleDate,
       minVisibleTime,

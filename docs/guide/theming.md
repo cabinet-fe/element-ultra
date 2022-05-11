@@ -101,11 +101,11 @@ $colors: map.deep-merge(
 import Vue from 'vue'
 
 import './styles/element/index.scss'
-import ElementPlus from 'element-ultra'
+import ElementUltra from 'element-ultra'
 import App from './App.vue'
 
 const app = createApp(App)
-app.use(ElementPlus)
+app.use(ElementUltra)
 ```
 
 如果你正在使用vite，并且你想在按需导入时自定义主题。
@@ -118,10 +118,10 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 // 你同样可以使用 unplugin-vue-components
 // import Components from 'unplugin-vue-components/vite'
-// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+// import { ElementUltraResolver } from 'unplugin-vue-components/resolvers'
 
 // 或者使用 unplugin-element-plus
-import ElementPlus from 'unplugin-element-plus/vite'
+import ElementUltra from 'unplugin-element-plus/vite'
 
 // vite.config.ts
 export default defineConfig({
@@ -142,7 +142,7 @@ export default defineConfig({
     // use unplugin-vue-components
     // Components({
     //   resolvers: [
-    //     ElementPlusResolver({
+    //     ElementUltraResolver({
     //       importStyle: "sass",
     //       // directives: true,
     //       // version: "1.2.0-beta.1",
@@ -150,7 +150,7 @@ export default defineConfig({
     //   ],
     // }),
     // or use unplugin-element-plus
-    ElementPlus({
+    ElementUltra({
       useSource: true,
     }),
   ],

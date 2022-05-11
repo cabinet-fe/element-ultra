@@ -44,15 +44,12 @@ export default defineComponent({
     const onMaskClick = (e: MouseEvent) => {
       emit('click', e)
     }
-
     const { onClick, onMousedown, onMouseup } = useSameTarget(
       props.customMaskEvent ? undefined : onMaskClick
     )
 
     // init here
     return () => {
-      // when the vnode meets the same structure but with different change trigger
-      // it will not automatically update, thus we simply use h function to manage updating
       return props.mask
         ? createVNode(
             'div',

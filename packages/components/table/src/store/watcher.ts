@@ -66,7 +66,7 @@ function useWatcher<T>() {
   const selection: Ref<T[]> = ref([])
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
-  const selectable: Ref<(row: T, index: number) => boolean> = ref(null)
+  const checkable: Ref<null | ((row: T, index: number) => boolean)> = ref(null)
   const filters: Ref<StoreFilter> = ref({})
   const filteredData = ref(null)
   const sortingColumn = ref(null)
@@ -202,9 +202,9 @@ function useWatcher<T>() {
     const rowKey = instance?.store?.states?.rowKey.value
     data.value.forEach((row, index) => {
       const rowIndex = index + childrenCount
-      if (selectable.value) {
+      if (checkable.value) {
         if (
-          selectable.value.call(null, row, rowIndex) &&
+          checkable.value.call(null, row, rowIndex) &&
           toggleRowStatus(selection.value, row, value)
         ) {
           selectionChanged = true
@@ -263,9 +263,9 @@ function useWatcher<T>() {
       const rowIndex = i + childrenCount
       const item = data.value[i]
       const isRowSelectable =
-        selectable.value && selectable.value.call(null, item, rowIndex)
+      checkable.value && checkable.value.call(null, item, rowIndex)
       if (!isSelected(item)) {
-        if (!selectable.value || isRowSelectable) {
+        if (!checkable.value || isRowSelectable) {
           isAllSelected_ = false
           break
         }
@@ -422,6 +422,7 @@ function useWatcher<T>() {
     setExpandRowKeys,
     toggleRowExpansion,
     updateExpandRows,
+    toggleAllRowsExpansion,
     states: expandStates,
     isRowExpanded,
   } = useExpand({
@@ -485,6 +486,7 @@ function useWatcher<T>() {
     clearFilter,
     clearSort,
     toggleRowExpansion,
+    toggleAllRowsExpansion,
     setExpandRowKeysAdapter,
     setCurrentRowKey,
     toggleRowExpansionAdapter,
@@ -514,7 +516,7 @@ function useWatcher<T>() {
       selection,
       reserveSelection,
       selectOnIndeterminate,
-      selectable,
+      checkable,
       filters,
       filteredData,
       sortingColumn,

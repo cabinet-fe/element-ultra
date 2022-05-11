@@ -1,0 +1,21 @@
+@use 'mixins/mixins' as *;
+
+@use 'wang-editor/common.scss';
+@use 'wang-editor/textarea.scss';
+@use 'wang-editor/bar.scss';
+@use 'wang-editor/bar-item.scss';
+@use 'wang-editor/select-list.scss';
+@use 'wang-editor/drop-panel.scss';
+@use 'wang-editor/modal.scss';
+@use 'wang-editor/progress.scss';
+@use 'wang-editor/full-screen.scss';
+
+@include b(text-editor) {
+  background-color: var(--el-color-white);
+  border: 1px solid var(--el-border-color-base);
+  border-radius: var(--el-border-radius-base);
+
+  @include e(body) {
+
+  }
+}

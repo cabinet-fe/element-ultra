@@ -1,52 +1,51 @@
-import { buttonTypes } from '@element-ultra/components/button'
+import type { ButtonTypes } from '@element-ultra/components/button'
 import { QuestionFilled } from '@element-plus/icons-vue'
-import { buildProps, definePropType, iconPropType } from '@element-ultra/utils'
 import { useTooltipContentProps } from '@element-ultra/components/tooltip'
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, PropType } from 'vue'
 
-export const popconfirmProps = buildProps({
+export const popconfirmProps = {
   title: {
-    type: String,
+    type: String
   },
   confirmButtonText: {
     type: String,
+    default: '确定'
   },
   cancelButtonText: {
     type: String,
+    default: '取消'
   },
   confirmButtonType: {
-    type: String,
-    values: buttonTypes,
-    default: 'primary',
+    type: String as PropType<ButtonTypes>,
+    default: 'primary'
   },
   cancelButtonType: {
-    type: String,
-    values: buttonTypes,
-    default: 'text',
+    type: String as PropType<ButtonTypes>
   },
   icon: {
-    type: iconPropType,
-    default: QuestionFilled as Component,
+    type: [String, Function, Object] as PropType<string | Component>,
+    default: QuestionFilled as Component
   },
   iconColor: {
     type: String,
-    default: '#f90',
+    default: '#f90'
   },
   hideIcon: {
     type: Boolean,
-    default: false,
+    default: false
   },
   hideAfter: {
     type: Number,
-    default: 200,
+    default: 200
   },
   onConfirm: {
-    type: definePropType<(e: Event) => Promise<void> | void>(Function),
+    type: Function as PropType<(e: Event) => Promise<void> | void>
   },
   onCancel: {
-    type: definePropType<(e: Event) => Promise<void> | void>(Function),
+    type: Function as PropType<(e: Event) => Promise<void> | void>
   },
   teleported: useTooltipContentProps.teleported,
-  persistent: useTooltipContentProps.persistent,
-} as const)
+  persistent: useTooltipContentProps.persistent
+} as const
+
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>

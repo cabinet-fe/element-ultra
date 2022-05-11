@@ -15,12 +15,12 @@
         [ns.m('enable-row-transition')]:
           (store.states.data.value || []).length !== 0 &&
           (store.states.data.value || []).length < 100,
-        'has-footer': showSummary,
+        'has-footer': showSummary
       },
       ns.m(tableSize),
       className,
       ns.b(),
-      ns.m(`layout-${tableLayout}`),
+      ns.m(`layout-${tableLayout}`)
     ]"
     :style="style"
     :data-prefix="ns.namespace.value"
@@ -44,10 +44,7 @@
           cellpadding="0"
           cellspacing="0"
         >
-          <hColgroup
-            :columns="store.states.columns.value"
-            :table-layout="tableLayout"
-          ></hColgroup>
+          <hColgroup :columns="store.states.columns.value" :table-layout="tableLayout"></hColgroup>
           <table-header
             :border="border"
             :default-sort="defaultSort"
@@ -70,7 +67,7 @@
             border="0"
             :style="{
               width: bodyWidth,
-              tableLayout,
+              tableLayout
             }"
           >
             <hColgroup
@@ -101,14 +98,10 @@
             :class="ns.e('empty-block')"
           >
             <span :class="ns.e('empty-text')">
-              <slot name="empty">{{ computedEmptyText }}</slot>
+              <slot name="empty">{{ emptyText }}</slot>
             </span>
           </div>
-          <div
-            v-if="$slots.append"
-            ref="appendWrapper"
-            :class="ns.e('append-wrapper')"
-          >
+          <div v-if="$slots.append" ref="appendWrapper" :class="ns.e('append-wrapper')">
             <slot name="append"></slot>
           </div>
         </el-scrollbar>
@@ -127,15 +120,11 @@
         :default-sort="defaultSort"
         :store="store"
         :style="tableBodyStyles"
-        :sum-text="computedSumText"
+        :sum-text="sumText"
         :summary-method="summaryMethod"
       />
     </div>
-    <div
-      v-show="resizeProxyVisible"
-      ref="resizeProxy"
-      :class="ns.e('column-resize-proxy')"
-    ></div>
+    <div v-show="resizeProxyVisible" ref="resizeProxy" :class="ns.e('column-resize-proxy')"></div>
   </div>
 </template>
 
@@ -143,7 +132,7 @@
 import { defineComponent, getCurrentInstance, computed, provide } from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-ultra/directives'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
@@ -162,14 +151,14 @@ let tableIdSeed = 1
 export default defineComponent({
   name: 'ElTable',
   directives: {
-    Mousewheel,
+    Mousewheel
   },
   components: {
     TableHeader,
     TableBody,
     TableFooter,
     ElScrollbar,
-    hColgroup,
+    hColgroup
   },
   props: defaultProps,
   emits: [
@@ -190,11 +179,10 @@ export default defineComponent({
     'filter-change',
     'current-change',
     'header-dragend',
-    'expand-change',
+    'expand-change'
   ],
   setup(props) {
     type Row = typeof props.data[number]
-    const { t } = useLocale()
     const ns = useNamespace('table')
     const table = getCurrentInstance() as Table<Row>
     provide(TABLE_INJECTION_KEY, table)
@@ -204,7 +192,7 @@ export default defineComponent({
       store: table.store,
       table,
       fit: props.fit,
-      showHeader: props.showHeader,
+      showHeader: props.showHeader
     })
     table.layout = layout
 
@@ -220,8 +208,9 @@ export default defineComponent({
       clearFilter,
       toggleAllSelection,
       toggleRowExpansion,
+      toggleAllRowsExpansion,
       clearSort,
-      sort,
+      sort
     } = useUtils<Row>(store)
     const {
       isHidden,
@@ -242,7 +231,7 @@ export default defineComponent({
       resizeState,
       doLayout,
       tableBodyStyles,
-      tableLayout,
+      tableLayout
     } = useStyle<Row>(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
@@ -253,15 +242,8 @@ export default defineComponent({
       isGroup,
       resizeState,
       doLayout,
-      debouncedUpdateLayout,
+      debouncedUpdateLayout
     }
-    const computedSumText = computed(
-      () => props.sumText || t('el.table.sumText')
-    )
-
-    const computedEmptyText = computed(() => {
-      return props.emptyText || t('el.table.emptyText')
-    })
 
     return {
       ns,
@@ -292,16 +274,14 @@ export default defineComponent({
       clearFilter,
       toggleAllSelection,
       toggleRowExpansion,
+      toggleAllRowsExpansion,
       clearSort,
       doLayout,
       sort,
-      t,
       setDragVisible,
       context: table,
-      computedSumText,
-      computedEmptyText,
-      tableLayout,
+      tableLayout
     }
-  },
+  }
 })
 </script>

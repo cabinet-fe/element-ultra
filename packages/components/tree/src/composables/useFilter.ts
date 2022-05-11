@@ -25,6 +25,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
     const nodes = tree.value?.treeNodes || []
     const filter = props.filterMethod
     hiddenKeys.clear()
+    
     function traverse(nodes: TreeNode[]) {
       nodes.forEach((node) => {
         family.push(node)

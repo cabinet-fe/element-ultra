@@ -100,7 +100,7 @@ export default defineComponent({
         'resizable',
       ]
       const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
-      const selectProps = ['selectable', 'reserveSelection']
+      const selectProps = ['checkable', 'reserveSelection']
       const filterProps = [
         'filterMethod',
         'filters',

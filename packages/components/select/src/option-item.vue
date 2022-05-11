@@ -7,34 +7,37 @@
       ns.is('selected', selected),
       ns.is('disabled', disabled),
       ns.is('created', created),
-      { hover: hovering },
+      { hover: hovering }
     ]"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
     <slot :item="item" :index="index" :disabled="disabled">
-      <span>{{ item.label }}</span>
+      <span>{{ getLabel(item) }}11</span>
     </slot>
   </li>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { useOption } from './useOption'
 import { OptionProps } from './defaults'
+import { selectInjectionKey } from './token'
 
 export default defineComponent({
   props: OptionProps,
   emits: ['select', 'hover'],
   setup(props, { emit }) {
     const ns = useNamespace('select')
+    const { getLabel } = inject(selectInjectionKey)!
     const { hoverItem, selectOptionClick } = useOption(props, { emit })
     return {
       ns,
       hoverItem,
       selectOptionClick,
+      getLabel
     }
-  },
+  }
 })
 </script>

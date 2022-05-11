@@ -2,8 +2,8 @@
   <div>
     <div style="margin-bottom: 15px">
       direction:
-      <el-radio v-model="direction" label="horizontal">horizontal</el-radio>
-      <el-radio v-model="direction" label="vertical">vertical</el-radio>
+      <el-radio v-model="direction" value="horizontal">horizontal</el-radio>
+      <el-radio v-model="direction" value="vertical">vertical</el-radio>
     </div>
     <div style="margin-bottom: 15px">
       fillRatio:<el-slider v-model="fillRatio"></el-slider>
@@ -19,7 +19,7 @@
         <template #header>
           <div class="card-header">
             <span>Card name</span>
-            <el-button class="button" type="text">Operation button</el-button>
+            <el-button class="button" text>Operation button</el-button>
           </div>
         </template>
         <div v-for="o in 4" :key="o" class="text item">

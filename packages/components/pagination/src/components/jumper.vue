@@ -1,6 +1,6 @@
 <template>
   <span :class="ns.e('jump')" :disabled="disabled">
-    {{ t('el.pagination.goto') }}
+    前往
     <el-input
       size="small"
       :class="[ns.e('editor'), ns.is('in-pagination')]"
@@ -12,49 +12,32 @@
       @update:model-value="handleInput"
       @change="handleChange"
     />
-    {{ t('el.pagination.pageClassifier') }}
+    页
   </span>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { useLocale, useNamespace } from '@element-ultra/hooks'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useNamespace } from '@element-ultra/hooks'
 import ElInput from '@element-ultra/components/input'
 import { usePagination } from '../usePagination'
 
-export default defineComponent({
-  name: 'ElPaginationJumper',
-  components: {
-    ElInput,
-  },
-
-  setup() {
-    const { t } = useLocale()
-    const ns = useNamespace('pagination')
-    const { pageCount, disabled, currentPage, changeEvent } = usePagination()
-    const userInput = ref<number>()
-    const innerValue = computed(() => userInput.value ?? currentPage?.value)
-
-    function handleInput(val: number | string) {
-      userInput.value = +val
-    }
-
-    function handleChange(val: number | string) {
-      val = Math.trunc(+val)
-      changeEvent?.(+val)
-      userInput.value = undefined
-    }
-
-    return {
-      ns,
-      pageCount,
-      disabled,
-      innerValue,
-
-      t,
-      handleInput,
-      handleChange,
-    }
-  },
+defineOptions({
+  name: 'ElPaginationJumper'
 })
+
+const ns = useNamespace('pagination')
+const { pageCount, disabled, currentPage, changeEvent } = usePagination()
+const userInput = ref<number>()
+const innerValue = computed(() => userInput.value ?? currentPage?.value)
+
+function handleInput(val: number | string) {
+  userInput.value = +val
+}
+
+function handleChange(val: number | string) {
+  val = Math.trunc(+val)
+  changeEvent?.(+val)
+  userInput.value = undefined
+}
 </script>

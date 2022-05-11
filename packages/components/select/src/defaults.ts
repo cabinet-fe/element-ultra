@@ -3,11 +3,11 @@ import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-ultra/constants'
-import type { OptionType } from './select.types'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constants'
 import type { Options } from '@element-ultra/components/popper'
 
 export const SelectProps = {
+  ...FORM_COMPONENT_PROPS,
   allowCreate: Boolean,
   autocomplete: {
     type: String as PropType<'none' | 'both' | 'list' | 'inline'>,
@@ -42,8 +42,14 @@ export const SelectProps = {
   },
   id: String,
   loading: Boolean,
-  loadingText: String,
-  label: String,
+  loadingText: {
+    type: String,
+    default: '加载中'
+  },
+  labelKey: {
+    type: String,
+    default: 'label'
+  },
   modelValue: [Array, String, Number, Boolean, Object] as PropType<
     any[] | string | number | boolean | Record<string, any> | any
   >,
@@ -53,15 +59,21 @@ export const SelectProps = {
     default: 0,
   },
   name: String,
-  noDataText: String,
-  noMatchText: String,
+  noDataText: {
+    type: String,
+    default: '无数据'
+  },
+  noMatchText: {
+    type: String,
+    default: '无匹配数据'
+  },
   remoteMethod: Function,
   reserveKeyword: {
     type: Boolean,
     default: true,
   },
   options: {
-    type: Array as PropType<OptionType[]>,
+    type: Array as PropType<Record<string, any>[]>,
     required: true,
   },
   placeholder: {
