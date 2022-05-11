@@ -1,5 +1,6 @@
 <template>
-  <el-table-select
+  <el-card style="width: 50%;">
+    <el-table-select
     v-model="singleData"
     :columns="columns"
     :data="tableData"
@@ -23,6 +24,7 @@
       <el-button type="primary" @click="handleClick">详情</el-button>
     </template>
   </el-table-select>
+  </el-card>
 
   <!-- <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="date" label="Date" name="Date" />

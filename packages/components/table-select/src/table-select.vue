@@ -7,11 +7,13 @@
       </slot>
     </div>
     <!-- 表格 -->
-    <TableSelectDisplay :data="selected" :columns="columns">
-      <template #action>
-        <slot name="action"></slot>
-      </template>
-    </TableSelectDisplay>
+    <div :class="ns.e('table')">
+      <TableSelectDisplay :data="selected" :columns="columns">
+        <template #action>
+          <slot name="action"></slot>
+        </template>
+      </TableSelectDisplay>
+    </div>
     <!-- 弹框 -->
     <TableSelectDialog
       ref="dialogRef"
