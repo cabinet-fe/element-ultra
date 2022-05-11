@@ -94,9 +94,20 @@
         v-clickoutside:[treeSelectRef]="hideTree"
       >
         <span :class="ns.e('triangle')"></span>
-        <el-checkbox v-model="allSelect" @change="handleToggleSelect" v-if="multiple"
-          >全选</el-checkbox
+        <div
+          style="
+            padding-left: 24px;
+            position: relative;
+            z-index: 2;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+          "
         >
+          <el-checkbox v-model="allSelect" @change="handleToggleSelect" v-if="multiple">
+            全选
+          </el-checkbox>
+        </div>
+
         <el-tree
           :data="data"
           :check-strictly="checkStrictly"
@@ -205,10 +216,15 @@ const inputDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
 
 const handleToggleSelect = (v: boolean) => {
+  const tree = treeRef.value
+  if (!tree) return console.warn('tree 引用为空')
   if (v) {
-    treeRef.value?.setCheckedAll()
+    tree.setCheckedAll()
+    const { keys, nodes } = tree.getChecked()
+    emitModelValue(keys, [], [])
   } else {
-    treeRef.value?.setCheckedKeys([])
+    tree.setCheckedKeys([])
+    emitModelValue([], [], [])
   }
 }
 
@@ -227,12 +243,14 @@ const handleClear = () => {
 
   if (multiple) {
     emitModelValue([], [], [])
+    tagList.value = []
+    tree?.setCheckedKeys([])
   } else {
     emitModelValue('', '', undefined)
     selectedLabel.value = ''
     tree?.setCurrentKey('')
-    hideTree()
   }
+  hideTree()
 }
 
 /** 删除键删除 */
@@ -243,6 +261,6 @@ const handleDelete = () => {
 }
 
 const selectable = (row: Record<string, any>) => {
-  if(props.selectable) return props.selectable(row)
+  if (props.selectable) return props.selectable(row)
 }
 </script>

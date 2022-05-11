@@ -21,35 +21,6 @@
   <div>{{ data }}</div>
 
   <el-form-dialog :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
     <el-form :cols="{ cols: 3, xs: 1, s: 2 }" :data="data" :rules="rules">
       <el-radio-group field="type" label="类型">
         <el-radio value="1">名称</el-radio>
@@ -63,6 +34,10 @@
       <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
 
       <el-textarea field="name" label="副文本" span="max"></el-textarea>
+
+      <el-tree-select key="111" :data="treeData" field="node1" label="单选" />
+
+      <el-tree-select :data="treeData" field="node2" label="多选" multiple />
     </el-form>
 
     <el-form :data="data2" :rules="rules2">
@@ -89,8 +64,26 @@ const [data, rules] = useFormModel({
   },
   school: { required: true },
   type: { value: '1' },
-  age: {}
+  age: {},
+  node1: { value: '' },
+  node2: { value: [] }
 })
+
+let treeData = $shallowRef<any[]>([])
+setTimeout(() => {
+  treeData = Array.from({ length: 10 }).map((_, index) => {
+    return {
+      label: `文本${index}`,
+      value: `${index}`,
+      children: Array.from({ length: Math.round(Math.random() * 2) }).map((_, childIndex) => {
+        return {
+          label: `文本${index}-${childIndex}`,
+          value: `${index}-${childIndex}`
+        }
+      })
+    }
+  })
+}, 1000)
 
 const [data2, rules2] = useFormModel({
   test: {}

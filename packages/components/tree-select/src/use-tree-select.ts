@@ -46,7 +46,6 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const { formItem } = useFormItem()
   const emitModelValue: EmitModelValue = (value, label, model) => {
     emit('update:modelValue', value, label, model)
-    changedByEvent.value = true
     formItem?.validate()
   }
 
@@ -137,6 +136,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     const value = data[valueKey]
     const label = data[labelKey]
     selectedLabel.value = label
+    changedByEvent.value = true
     emitModelValue(value, label, data)
     hideTree()
   }
@@ -147,6 +147,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     const { labelKey } = props
     const checkedLabels = checkedNodes.map(node => node[labelKey])
     tagList.value = checkedNodes
+    changedByEvent.value = true
     emitModelValue(checkedKeys, checkedLabels, checkedNodes)
     nextTick(() => {
       calcDropdownStyle()

@@ -8,14 +8,7 @@ import {
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
-import type {
-  TreeProps,
-  TreeNodeData,
-  TreeKey,
-  TreeNode,
-  TreeData,
-  Tree
-} from '../types'
+import type { TreeProps, TreeNodeData, TreeKey, TreeNode, TreeData, Tree } from '../types'
 
 export function useTree(props: TreeProps, emit) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
@@ -24,18 +17,8 @@ export function useTree(props: TreeProps, emit) {
 
   watch(
     () => props.currentNodeKey,
-    (key) => {
+    key => {
       currentKey.value = key
-    },
-    {
-      immediate: true
-    }
-  )
-
-  watch(
-    () => props.data,
-    (data: TreeData) => {
-      setData(data)
     },
     {
       immediate: true
@@ -53,10 +36,7 @@ export function useTree(props: TreeProps, emit) {
     setCheckedAll
   } = useCheck(props, tree)
 
-  const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
-    props,
-    tree
-  )
+  const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(props, tree)
 
   const valueKey = computed(() => {
     return props.props?.value || TreeOptionsEnum.KEY
@@ -70,6 +50,14 @@ export function useTree(props: TreeProps, emit) {
   const labelKey = computed(() => {
     return props.props?.label || TreeOptionsEnum.LABEL
   })
+
+  watch(
+    () => props.data,
+    (data: TreeData) => {
+      setData(data)
+    },
+    { immediate: true }
+  )
 
   const flattenTree = computed(() => {
     const expandedKeys = expandedKeySet.value
@@ -111,11 +99,7 @@ export function useTree(props: TreeProps, emit) {
     const treeNodeMap: Map<TreeKey, TreeNode> = new Map()
     const levelTreeNodeMap: Map<number, TreeNode[]> = new Map()
     let maxLevel = 1
-    function traverse(
-      nodes: TreeData,
-      level = 1,
-      parent: TreeNode | undefined = undefined
-    ) {
+    function traverse(nodes: TreeData, level = 1, parent: TreeNode | undefined = undefined) {
       const siblings: TreeNode[] = []
       for (let index = 0; index < nodes.length; ++index) {
         const rawNode = nodes[index]
@@ -216,7 +200,7 @@ export function useTree(props: TreeProps, emit) {
     if (tree?.value && props.accordion) {
       // whether only one node among the same level can be expanded at one time
       const { treeNodeMap } = tree.value
-      keySet.forEach((key) => {
+      keySet.forEach(key => {
         const node = treeNodeMap.get(key)
         if (node && node.level === node.level) {
           keySet.delete(key)
@@ -260,8 +244,6 @@ export function useTree(props: TreeProps, emit) {
 
   function setData(data: TreeData) {
     tree.value = createTree(data)
-    // nextTick(() => {
-    // })
   }
 
   function getTreeNodes() {
