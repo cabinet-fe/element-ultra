@@ -7,7 +7,6 @@ export const tableSelectDialogProps = {
   },
   data: {
     type: Array as PropType<Record<string, any>[]>,
-    required: true
   },
   value: {
     type: Object as PropType<Record<string, any>>
@@ -19,6 +18,9 @@ export const tableSelectDialogProps = {
   query: {
     type: Object as PropType<Record<string, any>>
   },
+  title: {
+    type: String
+  }
 } as const
 
 export type TableSelectDialogProps = ExtractPropTypes<typeof tableSelectDialogProps>

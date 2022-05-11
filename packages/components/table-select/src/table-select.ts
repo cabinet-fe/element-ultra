@@ -35,6 +35,14 @@ export const tableSelectProps = {
   query: {
     type: Object as PropType<Record<string, any>>
   },
+  valueKey: {
+    type: String,
+    default: 'id'
+  },
+  dialogTitle: {
+    type: String,
+    default: ''
+  }
 } as const
 
 export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>
