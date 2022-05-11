@@ -12,7 +12,7 @@
       <TableSelectDisplay
       :data="tableData ? tableData : data"
       :columns="columns.filter(column=>column.key !== 'action')"
-      :value="value"
+      :value="props.value"
       checkable
       ref="tableRef"
     />
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, watch, inject, ref, shallowReactive } from 'vue'
+import { shallowRef, watch, inject, ref, shallowReactive, reactive } from 'vue'
 import { ElDialog } from '@element-ultra/components/dialog'
 import { ElButtonGroup, ElButton } from '@element-ultra/components/button'
 import { ElPagination } from '@element-ultra/components/pagination'
@@ -52,7 +52,7 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api, query, title, value } = $(props)
+const { data, columns, api, query, title } = props
 
 const ns = useNamespace('table-select-dialog')
 
