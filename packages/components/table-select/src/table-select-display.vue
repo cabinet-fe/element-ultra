@@ -65,7 +65,7 @@ import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectDisplayProps } from './table-select-display'
 import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { ElRadio } from '@element-ultra/components/radio'
-import { multipleKey, showIndexKey, stripeKey } from './token'
+import { multipleKey, showIndexKey, stripeKey, valueKeyKey } from './token'
 
 const props = defineProps(tableSelectDisplayProps)
 
@@ -76,6 +76,7 @@ const ns = useNamespace('table-select-display')
 const multiple = inject(multipleKey)
 const showIndex = inject(showIndexKey)
 const stripe = inject(stripeKey)
+const valueKey = inject(valueKeyKey)
 
 let radio = ref({ val: '' })
 
@@ -95,7 +96,7 @@ let allCheck = ref<boolean>(false)
 const handleAllCheck = (val: boolean) => {
   if (val) {
     tableData.value.forEach((item: Record<string, any>) => {
-      checkbox.value.add(item.id)
+      checkbox.value.add(item[valueKey])
     })
   } else {
     checkbox.value.clear()
@@ -104,8 +105,8 @@ const handleAllCheck = (val: boolean) => {
 
 const getValue = () => {
   if (multiple) {
-    return [...checkbox.value].map((id: any) => {
-      return tableData.value.find((item: any) => item.id === id)
+    return [...checkbox.value].map((valueKey: any) => {
+      return tableData.value.find((item: any) => item[valueKey] === valueKey)
     })
   } else {
     return data.find((item: any) => {
@@ -119,12 +120,12 @@ const setValue = (data: Record<string, any>) => {
     checkbox.value.clear()
     store.checkbox.clear()
     data?.forEach((item: Record<string, any>) => {
-      checkbox.value.add(item.id)
-      store.checkbox.add(item.id)
+      checkbox.value.add(item[valueKey])
+      store.checkbox.add(item[valueKey])
     })
   } else {
-    radio.value.val = data[0].id
-    store.radio = data[0].id
+    radio.value.val = data[0][valueKey]
+    store.radio = data[0][valueKey]
   }
 }
 

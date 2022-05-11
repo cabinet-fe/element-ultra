@@ -39,7 +39,7 @@ import TableSelectDisplay from './table-select-display.vue'
 import TableSelectDialog from './table-select-dialog.vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElButton } from '@element-ultra/components/button'
-import { multipleKey, paginationKey, showIndexKey, stripeKey } from './token'
+import { multipleKey, paginationKey, showIndexKey, stripeKey, valueKeyKey } from './token'
 
 defineOptions({
   name: 'ElTableSelect'
@@ -65,6 +65,7 @@ provide(multipleKey, multiple)
 provide(paginationKey, pagination)
 provide(showIndexKey, showIndex)
 provide(stripeKey, stripe)
+provide(valueKeyKey, valueKey)
 
 const ns = useNamespace('table-select')
 
