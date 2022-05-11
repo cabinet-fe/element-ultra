@@ -11,6 +11,11 @@
     display: inline-block;
     margin: 5px;
   }
+  @include e(table) {
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
   @include b(table-select-display) {
     position: relative;
     box-sizing: border-box;
@@ -75,7 +80,6 @@
   @include b(table-select-dialog) {
     @include e(searcher) {
       @include e(wrapper) {
-        // display: flex;
         div {
           max-width: 31%;
           padding: 2px;

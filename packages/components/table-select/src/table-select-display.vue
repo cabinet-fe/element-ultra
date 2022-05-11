@@ -153,7 +153,7 @@ watch(
 watch(
   () => props.value,
   (cur, pre) => {
-    cur ? setValue(cur) : void 0
+    if (cur && cur.length) setValue(cur)
   },
   {
     immediate: true
