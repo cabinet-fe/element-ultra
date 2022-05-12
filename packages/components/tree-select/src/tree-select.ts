@@ -48,6 +48,9 @@ export const treeSelectProps = {
     type: String,
     default: 'disabled'
   },
+  multipleLimit: {
+    type: Number,
+  },
   data: {
     type: Array as PropType<any[]>,
     default: () => []

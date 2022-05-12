@@ -23,16 +23,33 @@
           >
             {{ placeholder }}
           </span>
-          <el-tag
-            v-for="(tag, i) in tagList"
-            :key="tag.id"
-            :closable="inputDisabled ? false : true"
-            :class="ns.e('item')"
-            type="info"
-            @close="handleCloseTag(tag, i)"
-          >
-            {{ tag[labelKey] }}
-          </el-tag>
+          <template v-if="multipleLimit">
+            <el-tag
+              v-for="(tag, i) in tagList.slice(0, multipleLimit)"
+              :key="tag.id"
+              :closable="inputDisabled ? false : true"
+              :class="ns.e('item')"
+              type="info"
+              @close="handleCloseTag(tag, i)"
+            >
+              {{ tag[labelKey] }}
+            </el-tag>
+            <el-tag v-if="tagList.length - multipleLimit">
+              +{{ tagList.length - multipleLimit }}
+            </el-tag>
+          </template>
+          <template v-else>
+            <el-tag
+              v-for="(tag, i) in tagList"
+              :key="tag.id"
+              :closable="inputDisabled ? false : true"
+              :class="ns.e('item')"
+              type="info"
+              @close="handleCloseTag(tag, i)"
+            >
+              {{ tag[labelKey] }}
+            </el-tag>
+          </template>
           <input
             type="text"
             v-model="filterer.query"
