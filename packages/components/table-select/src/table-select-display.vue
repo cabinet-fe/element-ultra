@@ -22,7 +22,7 @@
       </tr>
     </thead>
     <tbody :class="ns.e('body')">
-      <div :class="ns.e('wrapper')">
+      <div :class="ns.e('wrapper')" :style="`height: ${theight}px`">
         <tr
           v-for="(row, index) in tableData"
           :class="{ [ns.e('row')]: true, [ns.e('row-stripe')]: index % 2 === 1 && stripe }"
@@ -69,7 +69,7 @@ import { multipleKey, showIndexKey, stripeKey, valueKeyKey } from './token'
 
 const props = defineProps(tableSelectDisplayProps)
 
-const { data, checkable } = props
+const { data, checkable, theight } = props
 
 const ns = useNamespace('table-select-display')
 

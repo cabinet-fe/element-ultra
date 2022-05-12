@@ -23,6 +23,7 @@
       :value="selected"
       :query="query"
       :title="dialogTitle"
+      :theight="theight"
       @change="handleSelect"
       @api-data="apiData"
     >
@@ -60,7 +61,8 @@ const {
   stripe,
   query,
   valueKey,
-  dialogTitle
+  dialogTitle,
+  theight
 } = props
 
 provide(multipleKey, multiple)
@@ -88,11 +90,11 @@ const emits = defineEmits<{
   (e: 'update:modelValue', data: Record<string, any>): void
 }>()
 
-const stateInit = (tableData?: Record<string, any>) => {
+const stateInit = () => {
   let arr: Array<string> = []
   multiple ? (arr = modelValue.map((item: any) => item[valueKey])) : (arr = [modelValue[valueKey]])
   if (api) {
-    selected.value = tableData?.filter((row: Record<string, any>) => {
+    selected.value = tableData.value?.filter((row: Record<string, any>) => {
       return arr.includes(row[valueKey])
     })
   } else {
@@ -107,13 +109,19 @@ const stateInit = (tableData?: Record<string, any>) => {
   }
 }
 
+let tableData = ref<Record<string, any>>([])
+
 const apiData = (data: Record<string, any>) => {
-  stateInit(data)
+  tableData.value = data
 }
 
 watch(() => modelValue, (cur, pre) => {
   nextTick(() => stateInit())
 }, { immediate: true, deep: true } )
+
+watch(() => tableData.value, (cur, pre) => {
+  nextTick(() => stateInit())
+})
 
 defineExpose({})
 </script>

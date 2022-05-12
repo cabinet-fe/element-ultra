@@ -13,7 +13,7 @@
   }
   @include e(table) {
     width: 100%;
-    min-height: 150px;
+    height: 150px;
     overflow-x: scroll;
     overflow-y: hidden;
   }

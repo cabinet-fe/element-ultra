@@ -18,6 +18,10 @@ export const tableSelectDisplayProps = {
   api: {
     type: String,
     default: ''
+  },
+  theight: {
+    type: Number,
+    default: 100
   }
 } as const
 

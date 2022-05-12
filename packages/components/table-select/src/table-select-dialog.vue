@@ -10,12 +10,13 @@
     </div>
     <div :class="ns.e('table')">
       <TableSelectDisplay
-      :data="tableData ? tableData : data"
-      :columns="columns.filter(column=>column.key !== 'action')"
-      :value="props.value"
-      checkable
-      ref="tableRef"
-    />
+        :data="tableData ? tableData : data"
+        :columns="columns.filter((column) => column.key !== 'action')"
+        :value="props.value"
+        checkable
+        ref="tableRef"
+        :theight="theight"
+      />
     </div>
     <el-pagination
       :class="ns.e('pagination')"
@@ -52,14 +53,14 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api, query, title } = props
+const { data, columns, api, query, title, theight } = props
 
 const ns = useNamespace('table-select-dialog')
 
 const tableRef = shallowRef()
 
 const emits = defineEmits<{
-  (e: 'change', data: Record<string, any>[]): void,
+  (e: 'change', data: Record<string, any>[]): void
   (e: 'apiData', data: Record<string, any>[]): void
 }>()
 
@@ -130,7 +131,7 @@ const fetchData = async (api: string) => {
       loading.value = false
     })
 
-    if (total) {
+  if (total) {
     totalSize.value = total
   }
   tableData.value = data
@@ -138,17 +139,14 @@ const fetchData = async (api: string) => {
 }
 
 let queryWatchList = Object.keys(props.query || {})
-  .filter(k => k.startsWith('$'))
-  .map(k => {
+  .filter((k) => k.startsWith('$'))
+  .map((k) => {
     return () => props.query?.[k]
   })
 
-watch(
-  [...queryWatchList],
-  (cur, pre) => {
-    fetchData(api)
-  }
-)
+watch([...queryWatchList], (cur, pre) => {
+  fetchData(api)
+})
 
 watch(
   () => props.api,
