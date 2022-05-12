@@ -308,7 +308,7 @@ export default defineComponent({
           : null
 
         const tabLabelContent =
-          pane.instance.slots.label?.() || pane.props.label
+          pane.instance.slots.label?.() || pane.props.label || pane.props.name
         const tabindex = pane.active ? 0 : -1
 
         return h(
