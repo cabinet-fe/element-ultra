@@ -44,8 +44,7 @@ export const tableSelectProps = {
     default: ''
   },
   theight: {
-    type: Number,
-    default: 300
+    type: Number
   }
 } as const
 
