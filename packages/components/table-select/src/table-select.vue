@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, onMounted, ref } from 'vue'
+import { shallowRef, provide, ref, watch, nextTick } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableSelectDisplay from './table-select-display.vue'
@@ -100,16 +100,20 @@ const stateInit = (tableData?: Record<string, any>) => {
       return arr.includes(row[valueKey])
     })
   }
-  multiple ? emits('update:modelValue', selected.value) : emits('update:modelValue', selected.value[0])
+  if (selected.value?.length) {
+    multiple
+      ? emits('update:modelValue', selected.value)
+      : emits('update:modelValue', selected.value[0])
+  }
 }
 
 const apiData = (data: Record<string, any>) => {
   stateInit(data)
 }
 
-onMounted(() => {
-  stateInit()
-})
+watch(() => modelValue, (cur, pre) => {
+  nextTick(() => stateInit())
+}, { immediate: true, deep: true } )
 
 defineExpose({})
 </script>
