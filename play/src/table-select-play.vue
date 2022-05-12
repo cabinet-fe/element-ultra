@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowReactive, shallowRef } from 'vue'
+import { shallowReactive, shallowRef, onMounted } from 'vue'
 import type { ProTableColumn } from 'element-ultra'
 import { Plus } from '@element-plus/icons-vue'
 
@@ -79,7 +79,7 @@ const columns: ProTableColumn[] = $ref([
   { key: 'action', name: '操作', slot: 'column-action' }
 ])
 
-let singleData = $ref({id: '1517846945443110913'})
+let singleData = $ref({})
 
 let multipleData = $ref([{ id: '1517846945443110913' }, { id: '1519595040521015296' }])
 
@@ -334,4 +334,10 @@ const handleClick = () => {
   }
   Object.assign(singleData, { frozenRemark: 'ttttttttttt' })
 }
+
+onMounted(() => {
+  setTimeout(() => {
+    Object.assign(singleData, { id: '1517846945443110913' })
+  }, 1000)
+})
 </script>
