@@ -133,7 +133,6 @@ const fetchData = async (api: string) => {
     if (total) {
     totalSize.value = total
   }
-  console.log(data,'data')
   tableData.value = data
   emits('apiData', data)
 }

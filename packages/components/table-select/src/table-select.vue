@@ -100,7 +100,11 @@ const stateInit = (tableData?: Record<string, any>) => {
       return arr.includes(row[valueKey])
     })
   }
-  multiple ? emits('update:modelValue', selected.value) : emits('update:modelValue', selected.value[0])
+  if (selected.value?.length) {
+    multiple
+      ? emits('update:modelValue', selected.value)
+      : emits('update:modelValue', selected.value[0])
+  }
 }
 
 const apiData = (data: Record<string, any>) => {
