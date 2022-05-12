@@ -23,6 +23,7 @@
       :value="selected"
       :query="query"
       :title="dialogTitle"
+      :theight="theight"
       @change="handleSelect"
       @api-data="apiData"
     >
@@ -60,7 +61,8 @@ const {
   stripe,
   query,
   valueKey,
-  dialogTitle
+  dialogTitle,
+  theight
 } = props
 
 provide(multipleKey, multiple)

@@ -42,6 +42,10 @@ export const tableSelectProps = {
   dialogTitle: {
     type: String,
     default: ''
+  },
+  theight: {
+    type: Number,
+    default: 300
   }
 } as const
 

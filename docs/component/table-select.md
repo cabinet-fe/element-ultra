@@ -36,7 +36,9 @@ type TableSelectProps = {
   /** 索引值，默认为id */
   readonly valueKey: String,
   /** 弹框标题 */
-  readonly dialogTitle: String
+  readonly dialogTitle: String,
+  /** 弹框内表格高度（default: 300） */
+  readonly theight: Number
 }
 ```
 

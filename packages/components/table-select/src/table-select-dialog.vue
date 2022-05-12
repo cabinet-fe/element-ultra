@@ -8,7 +8,7 @@
         <el-button type="primary" @click="handleSearch">查询</el-button>
       </div>
     </div>
-    <div :class="ns.e('table')">
+    <div :class="ns.e('table')" :style="`height: ${theight}px`">
       <TableSelectDisplay
       :data="tableData ? tableData : data"
       :columns="columns.filter(column=>column.key !== 'action')"
@@ -52,7 +52,7 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api, query, title } = props
+const { data, columns, api, query, title, theight } = props
 
 const ns = useNamespace('table-select-dialog')
 
