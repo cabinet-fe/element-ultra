@@ -1,29 +1,30 @@
 <template>
-  <el-card style="width: 50%;">
+  <el-card style="width: 50%">
     <el-table-select
-    v-model="singleData"
-    :columns="columns"
-    :data="tableData"
-    :multiple="false"
-    pagination
-    :show-index="true"
-    :query="query"
-    dialog-title="弹框标题"
-  >
-    <el-button type="primary" :icon="Plus">自定义按钮</el-button>
+      v-model="singleData"
+      :columns="columns"
+      :data="tableData"
+      :multiple="false"
+      pagination
+      :show-index="true"
+      :query="query"
+      dialog-title="弹框标题"
+      ref="tableRef"
+    >
+      <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
-    <template #searcher>
-      <el-input v-model="query.name" />
-      <el-input v-model="query.name" />
-      <el-input v-model="query.name" />
-      <el-input v-model="query.name" />
-      <el-date-picker v-model="query.$date" clearable />
-    </template>
+      <template #searcher>
+        <el-input v-model="query.name" />
+        <el-input v-model="query.name" />
+        <el-input v-model="query.name" />
+        <el-input v-model="query.name" />
+        <el-date-picker v-model="query.$date" clearable />
+      </template>
 
-    <template #action>
-      <el-button type="primary" @click="handleClick">详情</el-button>
-    </template>
-  </el-table-select>
+      <template #action>
+        <el-button type="primary" @click="handleClick">详情</el-button>
+      </template>
+    </el-table-select>
   </el-card>
 
   <!-- <el-table :data="tableData" style="width: 100%">
@@ -34,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowReactive } from 'vue'
+import { shallowReactive, shallowRef } from 'vue'
 import type { ProTableColumn } from 'element-ultra'
 import { Plus } from '@element-plus/icons-vue'
 
@@ -78,7 +79,7 @@ const columns: ProTableColumn[] = $ref([
   { key: 'action', name: '操作', slot: 'column-action' }
 ])
 
-let singleData = $ref({ id: '1517846945443110913' })
+let singleData = $ref({id: '1517846945443110913'})
 
 let multipleData = $ref([{ id: '1517846945443110913' }, { id: '1519595040521015296' }])
 
@@ -269,7 +270,68 @@ const query = shallowReactive({
   $date: ''
 })
 
+const tableRef = shallowRef()
+
 const handleClick = () => {
-  console.log('cccc')
+  let obj = {
+    amount: 123,
+    balance: 123,
+    budgetType: null,
+    capitalNature: null,
+    capitalNatureName: null,
+    capitalSource: null,
+    capitalSourceName: null,
+    classOrgCode: '123',
+    code: '123',
+    createTime: '123',
+    creator: 'cl',
+    custom1: null,
+    custom2: null,
+    custom3: null,
+    custom4: null,
+    dataSource: '123',
+    deleted: false,
+    department: '123',
+    departmentEconomics: null,
+    departmentEconomicsName: null,
+    deptId: '123',
+    deptOrgCode: '123-123',
+    expendItems: '123 123',
+    frozenAmount: 123,
+    functionalSubjects: '123',
+    functionalSubjectsName: '123',
+    fundsType: '0101 123',
+    fundsTypeName: null,
+    governmentEconomics: null,
+    governmentEconomicsName: null,
+    id: '123',
+    latestAmount: 0,
+    modifier: 'cl',
+    modifyTime: '2022-05-07 14:39:09',
+    orgCode: '817718-81771899',
+    parentId: '-1',
+    paymentMethod: '直接支付',
+    paymentMethodName: null,
+    personalContacts: null,
+    planId: '1519233722672697344',
+    planLevel: 'first',
+    project: '534535345345',
+    projectClassification: null,
+    projectClassificationName: null,
+    projectName: null,
+    quotaProject: '534535345345',
+    quotaSource: null,
+    quotaSourceName: null,
+    quotaSymbol: null,
+    remarks: 'test',
+    reviewStatus: 'checked',
+    settlementMethod: null,
+    settlementMethodName: null,
+    status: '改变',
+    summary: 'asd',
+    used: false,
+    years: null
+  }
+  Object.assign(singleData, { frozenRemark: 'ttttttttttt' })
 }
 </script>
