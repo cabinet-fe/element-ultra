@@ -7,11 +7,13 @@
       </slot>
     </div>
     <!-- 表格 -->
-    <TableSelectDisplay :data="selected" :columns="columns">
-      <template #action>
-        <slot name="action"></slot>
-      </template>
-    </TableSelectDisplay>
+    <div :class="ns.e('table')">
+      <TableSelectDisplay :data="selected" :columns="columns">
+        <template #action>
+          <slot name="action"></slot>
+        </template>
+      </TableSelectDisplay>
+    </div>
     <!-- 弹框 -->
     <TableSelectDialog
       ref="dialogRef"
@@ -21,6 +23,7 @@
       :value="selected"
       :query="query"
       :title="dialogTitle"
+      :theight="theight"
       @change="handleSelect"
       @api-data="apiData"
     >
@@ -32,14 +35,14 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, onMounted, ref } from 'vue'
+import { shallowRef, provide, ref, watch, nextTick } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableSelectDisplay from './table-select-display.vue'
 import TableSelectDialog from './table-select-dialog.vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElButton } from '@element-ultra/components/button'
-import { multipleKey, paginationKey, showIndexKey, stripeKey } from './token'
+import { multipleKey, paginationKey, showIndexKey, stripeKey, valueKeyKey } from './token'
 
 defineOptions({
   name: 'ElTableSelect'
@@ -58,13 +61,15 @@ const {
   stripe,
   query,
   valueKey,
-  dialogTitle
+  dialogTitle,
+  theight
 } = props
 
 provide(multipleKey, multiple)
 provide(paginationKey, pagination)
 provide(showIndexKey, showIndex)
 provide(stripeKey, stripe)
+provide(valueKeyKey, valueKey)
 
 const ns = useNamespace('table-select')
 
@@ -85,11 +90,11 @@ const emits = defineEmits<{
   (e: 'update:modelValue', data: Record<string, any>): void
 }>()
 
-const stateInit = (tableData?: Record<string, any>) => {
+const stateInit = () => {
   let arr: Array<string> = []
   multiple ? (arr = modelValue.map((item: any) => item[valueKey])) : (arr = [modelValue[valueKey]])
   if (api) {
-    selected.value = tableData?.filter((row: Record<string, any>) => {
+    selected.value = tableData.value?.filter((row: Record<string, any>) => {
       return arr.includes(row[valueKey])
     })
   } else {
@@ -97,14 +102,25 @@ const stateInit = (tableData?: Record<string, any>) => {
       return arr.includes(row[valueKey])
     })
   }
+  if (selected.value?.length) {
+    multiple
+      ? emits('update:modelValue', selected.value)
+      : emits('update:modelValue', selected.value[0])
+  }
 }
+
+let tableData = ref<Record<string, any>>([])
 
 const apiData = (data: Record<string, any>) => {
-  stateInit(data)
+  tableData.value = data
 }
 
-onMounted(() => {
-  stateInit()
+watch(() => modelValue, (cur, pre) => {
+  nextTick(() => stateInit())
+}, { immediate: true, deep: true } )
+
+watch(() => tableData.value, (cur, pre) => {
+  nextTick(() => stateInit())
 })
 
 defineExpose({})
