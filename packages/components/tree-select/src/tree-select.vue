@@ -6,9 +6,9 @@
   >
     <div
       ref="inputRef"
-      :class="[ns.e('input'), ns.is('disabled', inputDisabled)]"
-      @mouseover="showCloseIcon"
-      @mouseleave="hideCloseIcon"
+      :class="[ns.e('input'), ns.is('disabled', inputDisabled), ns.is('tree-visible', treeVisible)]"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
     >
       <div v-if="$slots.prefix" :class="{ [ns.e('prefix')]: $slots.prefix }">
         <slot name="prefix"></slot>
@@ -88,14 +88,9 @@
         <!-- 输入框，可以用来对列表进行查询 -->
       </div>
 
-      <el-icon :class="ns.e('icon')">
-        <arrow-down v-show="icon === 'down'" />
-        <arrow-up v-show="icon === 'up'" />
-        <CircleClose
-          :class="ns.e('close')"
-          v-show="icon === 'close' && clearable"
-          @click.stop="handleClear"
-        />
+      <el-icon :class="[ns.e('icon')]" >
+        <CircleClose :class="ns.e('close')" v-if="clearable" @click.stop="handleClear" />
+        <ArrowDown v-else />
       </el-icon>
     </div>
   </div>
@@ -153,15 +148,15 @@
   </teleport>
 </template>
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue'
-import { useNamespace, useSize, useFormItem, useDisabled } from '@element-ultra/hooks'
+import { ref, onMounted } from 'vue'
+import { useNamespace, useSize, useDisabled } from '@element-ultra/hooks'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
 import ElTag from '@element-ultra/components/tag'
 import ElIcon from '@element-ultra/components/icon'
 import ElCheckbox from '@element-ultra/components/checkbox'
 import { ClickOutside } from '@element-ultra/directives'
-import { CircleClose, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import { CircleClose, ArrowDown } from '@element-plus/icons-vue'
 import useTreeSelect from './use-tree-select'
 import useFilter from './use-filter'
 
@@ -199,12 +194,11 @@ const {
   dropdownStyle,
   treeRef,
   treeSelectRef,
-  icon,
   hasRendered,
   treeVisible,
   clearable,
-  showCloseIcon,
-  hideCloseIcon,
+  handleMouseEnter,
+  handleMouseLeave,
   emitModelValue,
   setTreeChecked,
   showTree,

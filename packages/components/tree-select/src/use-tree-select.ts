@@ -13,14 +13,24 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   /** 通过事件更改的值 */
   const changedByEvent = shallowRef(false)
 
+  const hovered = shallowRef(false)
+
+  const handleMouseEnter = () => {
+    hovered.value = true
+  }
+
+  const handleMouseLeave = () => {
+    hovered.value = false
+  }
+
   /** 是否可清除 */
   const clearable = computed(() => {
-    const { modelValue, multiple } = props
+    const { modelValue } = props
     const hasValue = Array.isArray(modelValue)
       ? modelValue.length
       : !!(modelValue || modelValue === 0)
 
-    return hasValue
+    return hasValue && hovered.value
   })
 
   // 只有通过用户事件触发的才调用
@@ -28,7 +38,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     [() => props.modelValue, () => props.data],
     () => {
       if (changedByEvent.value) {
-        return changedByEvent.value = false
+        return (changedByEvent.value = false)
       }
 
       nextTick(() => {
@@ -67,26 +77,14 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     }
   }
 
-  const icon = shallowRef<'down' | 'up' | 'close'>('down')
-
   const showTree = () => {
     hasRendered.value = true
     treeVisible.value = true
-    icon.value = 'up'
     calcDropdownStyle()
   }
 
   const hideTree = () => {
     treeVisible.value = false
-    icon.value = 'down'
-  }
-
-  // TODO应该通过类来变换
-  const hideCloseIcon = () => {
-    treeVisible.value ? (icon.value = 'up') : (icon.value = 'down')
-  }
-  const showCloseIcon = () => {
-    icon.value = 'close'
   }
 
   // 值相关操作---------------------------------------
@@ -167,9 +165,8 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
     treeVisible,
     changedByEvent,
     clearable,
-    icon,
-    hideCloseIcon,
-    showCloseIcon,
+    handleMouseLeave,
+    handleMouseEnter,
     hasRendered,
     emitModelValue,
     tagList,

@@ -65,6 +65,12 @@
       }
     }
 
+    @include when(tree-visible) {
+      .#{$namespace}-icon {
+        transform: rotate(180deg);
+      }
+    }
+
     @include e(prefix) {
       display: inline-block;
       color: var(--el-input-icon-color, var(--el-text-color-placeholder));
@@ -111,9 +117,9 @@
   }
 
   @include e(icon) {
-    flex: 1;
     min-height: inherit;
     height: inherit;
+    transition: transform .15s;
     color: var(--el-input-icon-color, var(--el-text-color-placeholder));
     justify-content: right;
     @include e(close) {
