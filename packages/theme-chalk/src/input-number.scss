@@ -7,7 +7,7 @@
 @include b(input-number) {
   position: relative;
   display: inline-block;
-  width: map.get($input-number-width, 'default');
+  width: 100%;
   line-height: #{map.get($input-height, 'default') - 2};
 
   .#{$namespace}-input {
@@ -21,7 +21,6 @@
       }
       padding-left: 15px;
       padding-right: #{map.get($input-height, 'default') + 10};
-      text-align: center;
     }
   }
 

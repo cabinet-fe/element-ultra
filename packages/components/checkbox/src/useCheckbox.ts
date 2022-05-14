@@ -6,6 +6,7 @@ import { checkboxGroupInjectionKey } from './token'
 export const useCheckbox = (props: CheckboxProps, emit: CheckboxEmit) => {
   const { isGroup, groupProps, groupCheckedSet, handleItemChange, groupDisabled } =
     inject(checkboxGroupInjectionKey, undefined) || {}
+
   const { form, formItem } = useFormItem(!isGroup)
 
   const isDisabled = computed(() => {

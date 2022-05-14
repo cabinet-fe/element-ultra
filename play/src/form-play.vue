@@ -10,7 +10,7 @@
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number size="large" label="数字" field="num"></el-input-number>
+        <el-input-number controls label="数字" :precision="2" :min="0" :max="100" field="num" />
 
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
@@ -76,7 +76,7 @@ const [data, rules] = useFormModel({
   start: { value: '' },
   end: { value: '' },
   aa: { value: [] },
-  num: { value: 1 }
+  num: { value: -1.345 }
 })
 
 const formRef = shallowRef<any>()

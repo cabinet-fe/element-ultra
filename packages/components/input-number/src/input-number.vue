@@ -4,32 +4,10 @@
       ns.b(),
       ns.m(inputNumberSize),
       ns.is('disabled', inputNumberDisabled),
-      ns.is('without-controls', !controls),
+      ns.is('without-controls', !controls)
     ]"
     @dragstart.prevent
   >
-    <span
-      v-if="controls"
-      v-repeat-click="decrease"
-      role="button"
-      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
-      @keydown.enter="decrease"
-    >
-      <el-icon>
-        <arrow-down />
-      </el-icon>
-    </span>
-    <span
-      v-if="controls"
-      v-repeat-click="increase"
-      role="button"
-      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
-      @keydown.enter="increase"
-    >
-      <el-icon>
-        <arrow-up />
-      </el-icon>
-    </span>
     <el-input
       ref="input"
       type="number"
@@ -40,270 +18,216 @@
       :size="inputNumberSize"
       :max="max"
       :min="min"
-      :name="name"
-      :label="label"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
-      @focus="handleFocus"
+      @focus="emit('focus', $event)"
       @input="handleInput"
       @change="handleInputChange"
-    />
+    >
+      <template v-if="append || $slots.append" #append>
+        <slot name="append">
+          {{ append }}
+        </slot>
+      </template>
+    </el-input>
+
+    <template v-if="controls">
+      <span
+        @click="decrease"
+        role="button"
+        :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
+        @keydown.enter="decrease"
+      >
+        <el-icon>
+          <ArrowDown />
+        </el-icon>
+      </span>
+
+      <span
+        @click="increase"
+        role="button"
+        :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
+        @keydown.enter="increase"
+      >
+        <el-icon>
+          <ArrowUp />
+        </el-icon>
+      </span>
+    </template>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import {
   computed,
-  defineComponent,
   reactive,
   ref,
   watch,
   onMounted,
   onUpdated,
+  type WatchCallback,
+  shallowRef
 } from 'vue'
 
 import { ElIcon } from '@element-ultra/components/icon'
-import { RepeatClick } from '@element-ultra/directives'
-import {
-  useDisabled,
-  useFormItem,
-  useSize,
-  useNamespace,
-} from '@element-ultra/hooks'
+import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import ElInput from '@element-ultra/components/input'
 import { isNumber, debugWarn } from '@element-ultra/utils'
-import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
+import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
-
 import type { ComponentPublicInstance } from 'vue'
 
-interface IData {
-  currentValue: number | undefined
-  userInput: null | number | string
+// 数值精度
+// 将计算的数值同时去掉所有小数点
+defineOptions({
+  name: 'ElInputNumber'
+})
+
+const props = defineProps(inputNumberProps)
+const emit = defineEmits(inputNumberEmits)
+
+const input = ref<ComponentPublicInstance<typeof ElInput>>()
+
+const userInput = shallowRef('')
+
+
+
+const { formItem, formDisabled, formSize } = useFormItem()
+const ns = useNamespace('input-number')
+
+const inputNumberDisabled = computed(() => {
+  return props.disabled ?? formDisabled.value
+})
+const inputNumberSize = computed(() => {
+  return props.size ?? formSize.value
+})
+
+/**
+ * 获取合法的值
+ * 在 min - max值之间
+ * 符合精度
+ */
+function getValidValue(value: number): number
+function getValidValue(): undefined
+function getValidValue(value?: number): number | undefined
+function getValidValue(value?: number) {
+  if (value === undefined) {
+    return value
+  }
+  // 确保在最大值最小值之间
+  const { min, max, precision } = props
+  if (value < min) {
+    value = min
+  }
+  if (value > max) {
+    value = max
+  }
+  // 确保精度
+  if (precision === undefined || ~~precision < 0) return value
+
+  let factor = Math.pow(10, precision)
+  return Math.round(value * factor) / factor
 }
 
-export default defineComponent({
-  name: 'ElInputNumber',
-  components: {
-    ElInput,
-    ElIcon,
-    ArrowUp,
-    ArrowDown,
-    Plus,
-    Minus,
-  },
-  directives: {
-    RepeatClick,
-  },
-  props: inputNumberProps,
-  emits: inputNumberEmits,
-  setup(props, { emit }) {
-    const input = ref<ComponentPublicInstance<typeof ElInput>>()
-    const data = reactive<IData>({
-      currentValue: props.modelValue,
-      userInput: null,
-    })
-    const { formItem } = useFormItem()
-    const ns = useNamespace('input-number')
+/**
+ * 输入框显示值
+ * 1. 当为money为true时, 则始终以千分位显示
+ * 2. 默认情况则和输入值一致
+ */
+const displayValue = computed(() => {
+  const { modelValue } = props
 
-    const minDisabled = computed(() => _decrease(props.modelValue) < props.min)
-    const maxDisabled = computed(() => _increase(props.modelValue) > props.max)
+  if (userInput.value) return userInput.value
 
-    const numPrecision = computed(() => {
-      const stepPrecision = getPrecision(props.step)
-      if (props.precision !== undefined) {
-        if (stepPrecision > props.precision) {
-          debugWarn(
-            'InputNumber',
-            'precision should not be less than the decimal places of step'
-          )
-        }
-        return props.precision
-      } else {
-        return Math.max(getPrecision(props.modelValue), stepPrecision)
-      }
-    })
 
-    const inputNumberSize = useSize()
-    const inputNumberDisabled = useDisabled()
+  if (modelValue === undefined) return ''
 
-    const displayValue = computed(() => {
-      if (data.userInput !== null) {
-        return data.userInput
-      }
-      let currentValue: number | string | undefined = data.currentValue
-      if (isNumber(currentValue)) {
-        if (Number.isNaN(currentValue)) return ''
-        if (props.precision !== undefined) {
-          currentValue = currentValue.toFixed(props.precision)
-        }
-      }
-      return currentValue
-    })
-    const toPrecision = (num: number, pre?: number) => {
-      if (pre === undefined) pre = numPrecision.value
-      return parseFloat(
-        `${Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre)}`
-      )
-    }
-    const getPrecision = (value: number | undefined) => {
-      if (value === undefined) return 0
-      const valueString = value.toString()
-      const dotPosition = valueString.indexOf('.')
-      let precision = 0
-      if (dotPosition !== -1) {
-        precision = valueString.length - dotPosition - 1
-      }
-      return precision
-    }
-    const _increase = (val: number) => {
-      if (!isNumber(val)) return data.currentValue
-      const precisionFactor = Math.pow(10, numPrecision.value)
-      // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      val = isNumber(val) ? val : NaN
-      return toPrecision(
-        (precisionFactor * val + precisionFactor * props.step) / precisionFactor
-      )
-    }
-    const _decrease = (val: number) => {
-      if (!isNumber(val)) return data.currentValue
-      const precisionFactor = Math.pow(10, numPrecision.value)
-      // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      val = isNumber(val) ? val : NaN
-      return toPrecision(
-        (precisionFactor * val - precisionFactor * props.step) / precisionFactor
-      )
-    }
-    const increase = () => {
-      if (inputNumberDisabled.value || maxDisabled.value) return
-      const value = props.modelValue || 0
-      const newVal = _increase(value)
-      setCurrentValue(newVal)
-    }
-    const decrease = () => {
-      if (inputNumberDisabled.value || minDisabled.value) return
-      const value = props.modelValue || 0
-      const newVal = _decrease(value)
-      setCurrentValue(newVal)
-    }
-    const setCurrentValue = (newVal: number | string) => {
-      const oldVal = data.currentValue
-      if (typeof newVal === 'number' && props.precision !== undefined) {
-        newVal = toPrecision(newVal, props.precision)
-      }
-      if (newVal !== undefined && newVal >= props.max) newVal = props.max
-      if (newVal !== undefined && newVal <= props.min) newVal = props.min
-      if (oldVal === newVal) return
-      if (!isNumber(newVal)) {
-        newVal = undefined
-      }
-      data.userInput = null
-      emit('update:modelValue', newVal)
-      emit('input', newVal)
-      emit('change', newVal, oldVal)
-      data.currentValue = newVal
-    }
-    const handleInput = (value: string) => {
-      return (data.userInput = value)
-    }
-    const handleInputChange = (value: string) => {
-      const newVal = value !== '' ? Number(value) : ''
-      if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
-        setCurrentValue(newVal)
-      }
-      data.userInput = null
-    }
+  if (props.precision !== undefined) {
+    return modelValue.toFixed(props.precision)
+  }
 
-    const focus = () => {
-      input.value?.focus?.()
-    }
-
-    const blur = () => {
-      input.value?.blur?.()
-    }
-
-    const handleFocus = (event: FocusEvent) => {
-      emit('focus', event)
-    }
-
-    const handleBlur = (event: FocusEvent) => {
-      emit('blur', event)
-      formItem?.validate()
-    }
-
-    watch(
-      () => props.modelValue,
-      (value) => {
-        let newVal = Number(value)
-        if (value === null) {
-          newVal = Number.NaN
-        }
-        if (!isNaN(newVal)) {
-          if (props.stepStrictly) {
-            const stepPrecision = getPrecision(props.step)
-            const precisionFactor = Math.pow(10, stepPrecision)
-            newVal =
-              (Math.round(newVal / props.step) * precisionFactor * props.step) /
-              precisionFactor
-          }
-          if (props.precision !== undefined) {
-            newVal = toPrecision(newVal, props.precision)
-          }
-
-          if (newVal > props.max) {
-            newVal = props.max
-            emit('update:modelValue', newVal)
-          }
-          if (newVal < props.min) {
-            newVal = props.min
-            emit('update:modelValue', newVal)
-          }
-        }
-        data.currentValue = newVal
-        data.userInput = null
-      },
-      { immediate: true }
-    )
-    onMounted(() => {
-      const innerInput = input.value?.inputRef
-      innerInput?.setAttribute('role', 'spinbutton')
-      innerInput?.setAttribute('aria-valuemax', String(props.max))
-      innerInput?.setAttribute('aria-valuemin', String(props.min))
-      innerInput?.setAttribute('aria-valuenow', String(data.currentValue))
-      innerInput?.setAttribute(
-        'aria-disabled',
-        String(inputNumberDisabled.value)
-      )
-      if (!isNumber(props.modelValue)) {
-        let val: number | undefined = Number(props.modelValue)
-        if (isNaN(val)) {
-          val = undefined
-        }
-        emit('update:modelValue', val)
-      }
-    })
-    onUpdated(() => {
-      const innerInput = input.value?.inputRef
-      innerInput?.setAttribute('aria-valuenow', data.currentValue)
-    })
-    return {
-      input,
-      displayValue,
-      handleInput,
-      handleInputChange,
-      decrease,
-      increase,
-      inputNumberSize,
-      inputNumberDisabled,
-      maxDisabled,
-      minDisabled,
-      focus,
-      blur,
-      handleFocus,
-      handleBlur,
-
-      ns,
-    }
-  },
+  return String(modelValue)
 })
+
+/**
+ * 步长操作
+ * 将数值转化成整形计算最后再反向还原
+ */
+const stepValue = (val: number, type: 'increase' | 'decrease') => {
+  let { precision } = props
+
+  const precisionFactor = Math.pow(10, precision ?? 0)
+  let intVal = precisionFactor * val
+  const intStep = precisionFactor * props.step
+  const intResult = intVal + (type === 'increase' ? intStep : -intStep)
+
+  return getValidValue(intResult / precisionFactor)
+}
+
+const increase = () => {
+  if (inputNumberDisabled.value || maxDisabled.value) return
+  emitValue(stepValue(props.modelValue ?? 0, 'increase'))
+}
+const decrease = () => {
+  if (inputNumberDisabled.value || minDisabled.value) return
+  emitValue(stepValue(props.modelValue ?? 0, 'decrease'))
+}
+
+const minDisabled = computed(() => stepValue(props.modelValue ?? 0, 'decrease') < props.min)
+const maxDisabled = computed(() => stepValue(props.modelValue ?? 0, 'increase') > props.max)
+
+const emitValue = (newVal?: number) => {
+  const oldVal = props.modelValue
+
+  if (oldVal === newVal) return
+
+  // 有值
+  if (newVal !== undefined) {
+    newVal = getValidValue(newVal)
+  }
+
+  emit('update:modelValue', newVal)
+  emit('input', newVal)
+  emit('change', newVal, oldVal)
+}
+
+/** 将字符串转化为数值 */
+const setStringValue = (str: string) => {
+  let numberValue = str ? +str : undefined
+
+  // 不是一个数字
+  if (Number.isNaN(numberValue)) {
+    // userInput.value = props.modelValue === undefined ? '' : '' + props.modelValue
+    return
+  }
+  emitValue(numberValue)
+}
+
+const handleInput = (value: string) => {
+  userInput.value = value
+}
+
+const handleInputChange = (value: string) => {
+  changedByEvent.value = true
+  setStringValue(value)
+  changedByEvent.value = false
+}
+
+const handleBlur = (event: FocusEvent) => {
+  emit('blur', event)
+  formItem?.validate()
+}
+
+/** 非事件(用户操作)改变的值的变化 */
+const changedByEvent = shallowRef(false)
+watch(
+  () => props.modelValue,
+  v => {
+    if (changedByEvent.value) return
+    // 进行合法性纠正
+    emit('update:modelValue', getValidValue(v))
+
+  },
+  { immediate: true }
+)
 </script>
