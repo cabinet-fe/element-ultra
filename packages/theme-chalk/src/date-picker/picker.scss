@@ -137,6 +137,10 @@
     display: inline-flex;
     align-items: center;
     padding: 3px 10px;
+
+    &:hover {
+      box-shadow: 0 0 0 1px #c0c4cc inset;
+    }
   }
 
   .#{$namespace}-range-input {
