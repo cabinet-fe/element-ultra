@@ -10,7 +10,7 @@
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number controls label="数字" :precision="2" :min="0" :max="100" field="num" />
+        <el-input-number  label="数字" money :min="0" :max="10000" field="num" />
 
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />

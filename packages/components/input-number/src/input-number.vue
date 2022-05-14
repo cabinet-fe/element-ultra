@@ -12,7 +12,7 @@
       ref="input"
       type="number"
       :step="step"
-      :model-value="displayValue"
+      v-model="userInput"
       :placeholder="placeholder"
       :disabled="inputNumberDisabled"
       :size="inputNumberSize"
@@ -22,12 +22,11 @@
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
       @focus="emit('focus', $event)"
-      @input="handleInput"
       @change="handleInputChange"
     >
-      <template v-if="append || $slots.append" #append>
+      <template v-if="append || $slots.append || money" #append>
         <slot name="append">
-          {{ append }}
+          {{ append || '元' }}
         </slot>
       </template>
     </el-input>
@@ -37,7 +36,6 @@
         @click="decrease"
         role="button"
         :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
-        @keydown.enter="decrease"
       >
         <el-icon>
           <ArrowDown />
@@ -48,7 +46,6 @@
         @click="increase"
         role="button"
         :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
-        @keydown.enter="increase"
       >
         <el-icon>
           <ArrowUp />
@@ -58,16 +55,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {
-  computed,
-  reactive,
-  ref,
-  watch,
-  onMounted,
-  onUpdated,
-  type WatchCallback,
-  shallowRef
-} from 'vue'
+import { computed, reactive, ref, watch, shallowRef, nextTick } from 'vue'
 
 import { ElIcon } from '@element-ultra/components/icon'
 import { useFormItem, useNamespace } from '@element-ultra/hooks'
@@ -88,10 +76,6 @@ const emit = defineEmits(inputNumberEmits)
 
 const input = ref<ComponentPublicInstance<typeof ElInput>>()
 
-const userInput = shallowRef('')
-
-
-
 const { formItem, formDisabled, formSize } = useFormItem()
 const ns = useNamespace('input-number')
 
@@ -101,6 +85,14 @@ const inputNumberDisabled = computed(() => {
 const inputNumberSize = computed(() => {
   return props.size ?? formSize.value
 })
+
+const exactCalc = (n1: number, n2: number, calc: (int1: number, int2: number) => number) => {
+  let str1 = n1 + ''
+  let str2 = n2 + ''
+  let dotLength = Math.max((str1.split('.')[1] || '').length, (str2.split('.')[1] || '').length)
+  let factor = Math.pow(10, dotLength)
+  return calc(n1 * factor, n2 * factor) / factor
+}
 
 /**
  * 获取合法的值
@@ -129,52 +121,63 @@ function getValidValue(value?: number) {
   return Math.round(value * factor) / factor
 }
 
-/**
- * 输入框显示值
- * 1. 当为money为true时, 则始终以千分位显示
- * 2. 默认情况则和输入值一致
- */
-const displayValue = computed(() => {
-  const { modelValue } = props
+const _increase = () => {
+  return exactCalc(props.modelValue ?? 0, props.step, (n1, n2) => n1 + n2)
+}
 
-  if (userInput.value) return userInput.value
-
-
-  if (modelValue === undefined) return ''
-
-  if (props.precision !== undefined) {
-    return modelValue.toFixed(props.precision)
-  }
-
-  return String(modelValue)
-})
-
-/**
- * 步长操作
- * 将数值转化成整形计算最后再反向还原
- */
-const stepValue = (val: number, type: 'increase' | 'decrease') => {
-  let { precision } = props
-
-  const precisionFactor = Math.pow(10, precision ?? 0)
-  let intVal = precisionFactor * val
-  const intStep = precisionFactor * props.step
-  const intResult = intVal + (type === 'increase' ? intStep : -intStep)
-
-  return getValidValue(intResult / precisionFactor)
+const _decrease = () => {
+  return exactCalc(props.modelValue ?? 0, props.step, (n1, n2) => n1 - n2)
 }
 
 const increase = () => {
   if (inputNumberDisabled.value || maxDisabled.value) return
-  emitValue(stepValue(props.modelValue ?? 0, 'increase'))
+  changedByEvent.value = true
+  emitValue(_increase())
+  nextTick(() => setUserInput())
+  changedByEvent.value = true
 }
 const decrease = () => {
   if (inputNumberDisabled.value || minDisabled.value) return
-  emitValue(stepValue(props.modelValue ?? 0, 'decrease'))
+  changedByEvent.value = true
+  emitValue(_decrease())
+  nextTick(() => setUserInput())
+  changedByEvent.value = true
 }
 
-const minDisabled = computed(() => stepValue(props.modelValue ?? 0, 'decrease') < props.min)
-const maxDisabled = computed(() => stepValue(props.modelValue ?? 0, 'increase') > props.max)
+const minDisabled = computed(() => _decrease() < props.min)
+const maxDisabled = computed(() => _increase() > props.max)
+
+const userInput = shallowRef('')
+const setUserInput = () => {
+  const { modelValue, money } = props
+
+  if (modelValue === undefined) {
+    userInput.value = ''
+    return
+  }
+
+  if (money) {
+    let valStr = modelValue + ''
+    let [valIntStr, valDotStr] = valStr.split('.')
+
+    let group: string[] = []
+    let i = 0
+    while (i < valIntStr.length) {
+      group.push(valIntStr.slice(i, i + 3) + '')
+      i += 3
+    }
+    valStr = group.join(',')
+
+    if (valDotStr) {
+       valStr +=  `.${valDotStr}`
+    }
+    userInput.value = valStr
+  } else {
+    userInput.value = modelValue + ''
+  }
+
+
+}
 
 const emitValue = (newVal?: number) => {
   const oldVal = props.modelValue
@@ -191,25 +194,14 @@ const emitValue = (newVal?: number) => {
   emit('change', newVal, oldVal)
 }
 
-/** 将字符串转化为数值 */
-const setStringValue = (str: string) => {
-  let numberValue = str ? +str : undefined
-
-  // 不是一个数字
-  if (Number.isNaN(numberValue)) {
-    // userInput.value = props.modelValue === undefined ? '' : '' + props.modelValue
-    return
-  }
-  emitValue(numberValue)
-}
-
-const handleInput = (value: string) => {
-  userInput.value = value
-}
-
 const handleInputChange = (value: string) => {
   changedByEvent.value = true
-  setStringValue(value)
+  value = value.replace(/,/g, '')
+  let numberValue = value ? +value : undefined
+  if (!Number.isNaN(numberValue)) {
+    emitValue(numberValue)
+  }
+  setUserInput()
   changedByEvent.value = false
 }
 
@@ -226,7 +218,7 @@ watch(
     if (changedByEvent.value) return
     // 进行合法性纠正
     emit('update:modelValue', getValidValue(v))
-
+    setUserInput()
   },
   { immediate: true }
 )
