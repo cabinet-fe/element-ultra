@@ -4,6 +4,11 @@
     <div style="background-color: #fff">222</div>
     <div style="background-color: #fff">333</div>
   </el-grid>
+
+  <el-grid :cols="4">
+    <el-grid-item :span="{ cols: 2, s: 1,  }"></el-grid-item>
+    <el-grid-item></el-grid-item>
+  </el-grid>
 </template>
 
 <script setup lang="tsx">

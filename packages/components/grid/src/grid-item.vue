@@ -42,6 +42,4 @@ const style = computed(() => {
     gridColumn: getSpan(props.span)
   }
 })
-
-
 </script>
