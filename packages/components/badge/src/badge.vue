@@ -1,7 +1,7 @@
 <template>
   <div :class="ns.b()">
     <slot></slot>
-    <transition :name="`${ns.namespace.value}-zoom-in-center`">
+    <transition :name="`${ns.namespace}-zoom-in-center`">
       <sup
         v-show="!hidden && (content || content === '0' || isDot)"
         :class="[

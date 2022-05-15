@@ -23,7 +23,7 @@
       ns.m(`layout-${tableLayout}`)
     ]"
     :style="style"
-    :data-prefix="ns.namespace.value"
+    :data-prefix="ns.namespace"
     @mouseleave="handleMouseLeave()"
   >
     <div :class="ns.e('inner-wrapper')">

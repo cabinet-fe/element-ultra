@@ -11,7 +11,7 @@
     manual-mode
     effect="light"
     trigger="click"
-    :transition="`${ns.namespace.value}-zoom-in-top`"
+    :transition="`${ns.namespace}-zoom-in-top`"
     persistent
     @show="onSuggestionShow"
   >

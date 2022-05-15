@@ -62,8 +62,8 @@
       <span
         v-click-outside:[popperPaneRef]="hideFilterPanel"
         :class="[
-          `${ns.namespace.value}-table__column-filter-trigger`,
-          `${ns.namespace.value}-none-outline`
+          `${ns.namespace}-table__column-filter-trigger`,
+          `${ns.namespace}-none-outline`
         ]"
         @click="showFilterPanel"
       >

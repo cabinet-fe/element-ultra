@@ -350,7 +350,7 @@ export default defineComponent({
     }
 
     const pickerDisabled = computed(() => {
-      return props.disabled || elForm?.disabled
+      return props.disabled || elForm?.props.disabled
     })
 
     const parsedValue = computed(() => {

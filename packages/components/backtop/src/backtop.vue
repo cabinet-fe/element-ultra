@@ -1,5 +1,5 @@
 <template>
-  <transition :name="`${ns.namespace.value}-fade-in`">
+  <transition :name="`${ns.namespace}-fade-in`">
     <div
       v-if="visible"
       :style="{

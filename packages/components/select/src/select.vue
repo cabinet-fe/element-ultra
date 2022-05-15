@@ -19,7 +19,7 @@
       :effect="effect"
       placement="bottom-start"
       pure
-      :transition="`${ns.namespace.value}-zoom-in-top`"
+      :transition="`${ns.namespace}-zoom-in-top`"
       trigger="click"
       persistent
       @show="handleMenuEnter"
@@ -33,7 +33,7 @@
             ns.is('focused', states.isComposing),
             ns.is('hovering', states.comboBoxHovering),
             ns.is('filterable', filterable),
-            ns.is('disabled', disabled)
+            ns.is('disabled', selectDisabled)
           ]"
         >
           <div v-if="$slots.prefix">
@@ -43,9 +43,7 @@
             <template v-if="collapseTags && modelValue.length > 0">
               <div :class="ns.e('selected-item')">
                 <el-tag
-                  :closable="
-                    !selectDisabled && !states.cachedOptions[0]?.disable
-                  "
+                  :closable="!selectDisabled && !states.cachedOptions[0]?.disable"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
@@ -101,10 +99,7 @@
                 </el-tag>
               </div>
             </template>
-            <div
-              :class="[ns.e('selected-item'), ns.e('input-wrapper')]"
-              :style="inputWrapperStyle"
-            >
+            <div :class="[ns.e('selected-item'), ns.e('input-wrapper')]" :style="inputWrapperStyle">
               <input
                 :id="id"
                 ref="inputRef"
@@ -115,7 +110,7 @@
                 autocapitalize="off"
                 :aria-expanded="expanded"
                 :class="[ns.is(selectSize), ns.e('combobox-input')]"
-                :disabled="disabled"
+                :disabled="selectDisabled"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
@@ -156,7 +151,7 @@
                 autocapitalize="off"
                 :autocomplete="autocomplete"
                 :class="ns.e('combobox-input')"
-                :disabled="disabled"
+                :disabled="selectDisabled"
                 :name="name"
                 role="combobox"
                 :readonly="!filterable"
@@ -191,9 +186,7 @@
               ns.is(
                 'transparent',
                 states.isComposing ||
-                  (placeholder && multiple
-                    ? modelValue.length === 0
-                    : !hasModelValue)
+                  (placeholder && multiple ? modelValue.length === 0 : !hasModelValue)
               )
             ]"
           >
@@ -258,6 +251,7 @@ import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
 import { selectInjectionKey } from './token'
 import { SelectProps } from './defaults'
+
 export default defineComponent({
   name: 'ElSelect',
   components: {
@@ -292,7 +286,7 @@ export default defineComponent({
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect
-    })
+    } as any)
 
     return API
   }

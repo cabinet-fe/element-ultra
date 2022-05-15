@@ -4,7 +4,7 @@
     v-bind="$attrs"
     trigger="click"
     effect="light"
-    :popper-class="`${ns.namespace.value}-popover`"
+    :popper-class="`${ns.namespace}-popover`"
     :teleported="compatTeleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
