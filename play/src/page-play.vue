@@ -5,7 +5,9 @@
       <el-tab-pane name="测试" label="test"> 111 </el-tab-pane>
     </template>
 
-    <template #footer> 底部可以放一些操作按钮</template>
+    <template #footer="{ extraRefs }">
+      <el-button @click="c.log(extraRefs)">获取实例</el-button>
+    </template>
 
     <el-card header="你好">
       <el-form>

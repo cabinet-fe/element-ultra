@@ -8,8 +8,8 @@
       <el-form-item ref="formItemRefs" v-if="isFormComponent(slot)" v-bind="slot.formItemProps">
         <component
           :is="slot.node"
-          :modelValue="data[slot.field]"
-          @update:model-value="data[slot.field] = $event"
+          :modelValue="data?.[slot.field]"
+          @update:model-value="handleUpdateValue(slot.field, $event)"
         />
       </el-form-item>
       <component v-else :is="slot.node" />
@@ -100,6 +100,12 @@ const getFormItemSpan = (span?: 'max' | number) => {
   } else {
     return ''
   }
+}
+
+const handleUpdateValue = (field: string, val: any) => {
+  const { data } = props
+  if (!data) return
+  data[field] = val
 }
 
 type FormComponentSlot = {
@@ -222,8 +228,8 @@ const validate = async (fields?: string | string[]) => {
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
       Array.isArray(fields)
-        ? fields.map(field => formItemRefsMap[field].validate())
-        : formItemRefs.value.map(formItem => formItem.validate())
+        ? fields.map(field => formItemRefsMap[field]?.validate())
+        : formItemRefs.value.map(formItem => formItem?.validate())
     )
     return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
   }

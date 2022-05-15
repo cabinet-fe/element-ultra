@@ -1,7 +1,13 @@
-import { createApp, h } from 'vue'
+import { createApp, defineComponent, h } from 'vue'
 import { useConfig } from 'element-ultra'
 import { router } from './src/router'
 import App from  './App.vue'
+
+const MyComponent = defineComponent({
+  render() {
+    return h('div', ['哈哈'])
+  }
+})
 
 const [, setConfigStore] = useConfig()
 setConfigStore({
@@ -28,6 +34,9 @@ setConfigStore({
       total: data.length,
     })
   },
+  pageExtraComponents: [
+    MyComponent
+  ]
 })
 
 const app = createApp({

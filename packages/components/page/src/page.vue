@@ -1,5 +1,5 @@
 <template>
-  <el-grid :class="ns.b()" rows="100%" gap="0" cols="minmax(0, 1fr) 200px">
+  <el-grid v-bind="$attrs" :class="ns.b()" rows="100%" gap="0" cols="minmax(0, 1fr) 200px">
     <div :class="ns.e('main')">
       <section :class="ns.e('content')">
         <component
@@ -13,7 +13,7 @@
       <section :class="ns.e('footer')">
         <el-button @click="handleBack">返回</el-button>
         <div>
-          <slot name="footer" />
+          <slot v-bind="{ extraRefs }" name="footer" />
         </div>
       </section>
     </div>
@@ -35,12 +35,16 @@
       <slot name="panes" />
     </el-tabs>
   </el-grid>
+
+  <template v-if="conf.pageExtraComponents">
+    <component v-for="c of conf.pageExtraComponents" :is="c" ref="extraRefs" />
+  </template>
 </template>
 <script lang="ts" setup>
 import { ElGrid } from '@element-ultra/components/grid'
 import { ElButton } from '@element-ultra/components/button'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
-import { useNamespace } from '@element-ultra/hooks'
+import { useConfig, useNamespace } from '@element-ultra/hooks'
 import {
   getCurrentInstance,
   isVNode,
@@ -62,6 +66,8 @@ defineOptions({
 const ns = useNamespace('page')
 const active = shallowRef('page-nav')
 const slots = useSlots()
+
+const [conf] = useConfig()
 
 const navList = shallowRef<string[]>([])
 const currentNavIndex = shallowRef(0)
@@ -122,6 +128,8 @@ const observer = new IntersectionObserver(function (entries) {
     }
   }
 })
+
+let extraRefs = shallowRef<any[]>([])
 
 provide(pageContextKey, {
   observer

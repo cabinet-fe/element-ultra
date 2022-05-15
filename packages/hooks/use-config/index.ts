@@ -1,5 +1,5 @@
 //  使用全局的配置
-import { reactive, readonly } from 'vue'
+import { shallowReactive, shallowReadonly, type Component } from 'vue'
 
 interface RequestOptions {
   api: string
@@ -8,13 +8,9 @@ interface RequestOptions {
 
 type RequestResponse = { data: any[]; total?: number }
 
-export type ProTableRequestMethod = (
-  option: RequestOptions
-) => Promise<RequestResponse>
+export type ProTableRequestMethod = (option: RequestOptions) => Promise<RequestResponse>
 
-export type TableSelectRequestMethod = (
-  option: RequestOptions
- ) => Promise<RequestResponse>
+export type TableSelectRequestMethod = (option: RequestOptions) => Promise<RequestResponse>
 
 export interface ConfigStore {
   /** 全局组件尺寸 */
@@ -35,9 +31,11 @@ export interface ConfigStore {
   zIndex: number
   /** 命名空间 */
   namespace: string
+  /** page页面额外组件 */
+  pageExtraComponents?: Component[]
 }
 
-const configStore = reactive<ConfigStore>({
+const configStore = shallowReactive<ConfigStore>({
   size: 'default',
   proTableDefaultSize: 20,
   breakpoint: { xs: 540, s: 768, m: 1280, l: 1536, xl: 1920 },
@@ -50,5 +48,5 @@ const setConfigStore = (config: Partial<ConfigStore>) => {
 }
 
 export const useConfig = () => {
-  return [readonly(configStore), setConfigStore] as const
+  return [shallowReadonly(configStore), setConfigStore] as const
 }
