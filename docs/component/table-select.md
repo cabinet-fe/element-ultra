@@ -39,6 +39,8 @@ type TableSelectProps = {
   readonly dialogTitle: String,
   /** 弹框内表格高度（default: 300） */
   readonly theight: Number
+  /** 选择按钮显示、隐藏 */
+  readonly editable: Boolean
 }
 ```
 
