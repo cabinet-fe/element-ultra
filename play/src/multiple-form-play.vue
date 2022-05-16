@@ -17,6 +17,10 @@
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
     </template>
 
+    <template #name:view="{ row }">
+      <el-input v-model="row.name" placeholder="名称" />
+    </template>
+
     <template #name="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
     </template>

@@ -4,11 +4,8 @@
 
     <!-- 行内编辑 -->
     <template v-if="showInline">
-      <td
-        v-for="column of visibleColumns"
-        :key="column.key"
-        :style="{ textAlign: column.align }"
-      >
+      <td v-for="column of visibleColumns" :key="column.key" :style="{ textAlign: column.align }">
+        <!-- 插槽穿透 -->
         <RenderNodes :children="slots[column.key]?.({ row, index: rowIndex })" />
       </td>
 
@@ -20,12 +17,15 @@
 
     <!-- 正常的行 -->
     <template v-else>
-      <td
-        v-for="column of visibleColumns"
-        :key="column.key"
-        :style="{ textAlign: column.align }"
-      >
-        {{ column.render?.(row[column.key], row, rowIndex) || row[column.key] }}
+      <td v-for="column of visibleColumns" :key="column.key" :style="{ textAlign: column.align }">
+        <!-- 插槽穿透 -->
+        <RenderNodes
+          v-if="slots[column.key + ':view']"
+          :children="slots[column.key + ':view']?.({ row, index: rowIndex })"
+        />
+        <template v-else>
+          {{ column.render?.(row[column.key], row, rowIndex) || row[column.key] }}
+        </template>
       </td>
 
       <td :class="ns.e('action')">
