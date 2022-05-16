@@ -10,6 +10,7 @@
       :query="query"
       dialog-title="弹框标题"
       ref="tableRef"
+      :editable="true"
     >
       <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 

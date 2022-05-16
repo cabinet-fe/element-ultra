@@ -2,7 +2,7 @@
   <div :class="ns.b()">
     <!-- 按钮 -->
     <div @click="handleClick" :class="ns.e('btn')">
-      <slot>
+      <slot v-if="editable">
         <el-button type="primary" :icon="Plus">选择</el-button>
       </slot>
     </div>
@@ -62,7 +62,8 @@ const {
   query,
   valueKey,
   dialogTitle,
-  theight
+  theight,
+  editable
 } = props
 
 provide(multipleKey, multiple)

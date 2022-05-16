@@ -45,6 +45,10 @@ export const tableSelectProps = {
   },
   theight: {
     type: Number
+  },
+  editable: {
+    type: Boolean,
+    default: true
   }
 } as const
 
