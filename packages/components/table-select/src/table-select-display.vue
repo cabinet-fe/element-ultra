@@ -28,13 +28,13 @@
           :class="{ [ns.e('row')]: true, [ns.e('row-stripe')]: index % 2 === 1 && stripe }"
         >
           <td v-if="checkable && !multiple" :class="ns.e('radio')">
-            <el-radio v-model="radio.val" :value="row.id">{{}}</el-radio>
+            <el-radio v-model="radio.val" :value="row[valueKey]">{{}}</el-radio>
           </td>
           <td v-else-if="checkable && multiple" :class="ns.e('checkbox')">
             <el-checkbox
               :value="row.id"
               :checked="checkbox.has(row.id)"
-              @update:model-value="$event ? checkbox.add(row.id) : checkbox.delete(row.id)"
+              @update:model-value="$event ? checkbox.add(row[valueKey]) : checkbox.delete(row[valueKey])"
               >{{}}</el-checkbox
             >
           </td>
@@ -76,7 +76,7 @@ const ns = useNamespace('table-select-display')
 const multiple = inject(multipleKey)
 const showIndex = inject(showIndexKey)
 const stripe = inject(stripeKey)
-const valueKey = inject(valueKeyKey)
+const valueKey: any = inject(valueKeyKey)
 
 let radio = ref({ val: '' })
 
@@ -110,7 +110,7 @@ const getValue = () => {
     })
   } else {
     return data.find((item: any) => {
-      return item.id === radio.value.val
+      return item[valueKey] === radio.value.val
     })
   }
 }

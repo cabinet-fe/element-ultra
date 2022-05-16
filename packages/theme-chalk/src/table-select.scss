@@ -44,7 +44,9 @@
           flex: 1;
         }
       }
-
+      td {
+        margin: 0 2px;
+      }
     }
     @include e(header) {
       color: #909399;
@@ -96,4 +98,8 @@
       overflow-x: scroll;
     }
   }
+}
+
+.el-table-select__notable {
+  display: inline-block;
 }

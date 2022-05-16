@@ -49,6 +49,13 @@ export const tableSelectProps = {
   editable: {
     type: Boolean,
     default: true
+  },
+  table: {
+    type: Boolean,
+    default: true
+  },
+  path: {
+    type: String
   }
 } as const
 
