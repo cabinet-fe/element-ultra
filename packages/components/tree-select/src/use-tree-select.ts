@@ -6,6 +6,7 @@ import { useFormItem } from '@element-ultra/hooks'
 export default function useTreeSelect(props: TreeSelectProps, emit) {
   /** 树的引用 */
   const treeRef = shallowRef<InstanceType<typeof ElTree>>()
+  const dropdownRef = shallowRef<HTMLDivElement>()
   /** 下拉框显隐 */
   const treeVisible = shallowRef(false)
   /** 是否已渲染 */
@@ -64,14 +65,24 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const dropdownStyle = shallowRef({
     width: '',
     top: '',
-    left: ''
+    left: '',
   })
+  const position = shallowRef('bottom')
   const calcDropdownStyle = () => {
     const rect = treeSelectRef?.value?.getBoundingClientRect()
+
+
     if (rect) {
+      let top = rect.bottom + 16 + 'px'
+      position.value = 'bottom'
+      let dropdownHeight = props.multiple ? 232 : 200
+      if (rect.bottom + 16 + dropdownHeight > window.innerHeight) {
+        top = rect.top - 16 - dropdownHeight + 'px'
+        position.value = 'top'
+      }
       dropdownStyle.value = {
         width: rect.width + 'px',
-        top: rect.bottom + 16 + 'px',
+        top,
         left: rect.left + 'px'
       }
     }
@@ -162,9 +173,11 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   return {
     treeRef,
     treeSelectRef,
+    dropdownRef,
     treeVisible,
     changedByEvent,
     clearable,
+    position,
     handleMouseLeave,
     handleMouseEnter,
     hasRendered,

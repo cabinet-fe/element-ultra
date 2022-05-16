@@ -71,7 +71,7 @@ export const treeSelectProps = {
     default: true
   },
   selectable: {
-    type: Function
+    type: Function as PropType<(node: any) => boolean>
   }
 } as const
 

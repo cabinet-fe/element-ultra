@@ -103,9 +103,10 @@
         :class="ns.e('dropdown')"
         v-show="treeVisible"
         :style="dropdownStyle"
+        ref="dropdownRef"
         v-clickoutside:[treeSelectRef]="hideTree"
       >
-        <span :class="ns.e('triangle')"></span>
+        <span :class="[ns.e('triangle'), ns.is('top', position === 'top')]"></span>
         <div
           style="
             padding-left: 24px;
@@ -192,6 +193,8 @@ const {
   selectedLabel,
   dropdownStyle,
   treeRef,
+  dropdownRef,
+  position,
   treeSelectRef,
   hasRendered,
   treeVisible,

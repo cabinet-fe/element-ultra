@@ -159,9 +159,13 @@
 
       background: #fff;
       box-shadow: var(--el-box-shadow-light);
+
+      @include when(top) {
+        bottom: -11px;
+        top: unset;
+      }
     }
     @include e(tree) {
-      padding: 2px 0;
       border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
     }
   }
