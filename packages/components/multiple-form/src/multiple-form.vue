@@ -131,7 +131,7 @@ defineOptions({
   name: 'ElMultipleForm'
 })
 
-// TODO考虑用JSX的形式重构该组件, 主要是渲染方法的优化, 减少计算次数
+// TODO考虑用JSX的形式重构该组件, 主要是渲染行方法的优化, 减少计算次数
 
 const props = defineProps(multipleFormProps)
 const emit = defineEmits(multipleFormEmits)
