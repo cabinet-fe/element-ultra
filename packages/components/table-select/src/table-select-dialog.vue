@@ -48,15 +48,12 @@ import { useNamespace, useConfig } from '@element-ultra/hooks'
 import { tableSelectDialogProps } from './table-select-dialog'
 import TableSelectDisplay from './table-select-display.vue'
 import { paginationKey } from './token'
-import { useRouter } from 'vue-router'
 
 let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
 const { data, columns, api, query, title, theight, table } = props
-
-const { path } = toRefs(props)
 
 const ns = useNamespace('table-select-dialog')
 
@@ -94,17 +91,10 @@ const handleCancel = () => {
   close()
 }
 
-const router = useRouter()
-
 const submit = () => {
   const data = tableRef.value.getValue()
   if(!data) return
   emits('change', data)
-  nextTick(() => {
-    if (!table && path?.value) {
-      router.push({ path: path?.value || '' })
-    }
-  })
   close()
 }
 

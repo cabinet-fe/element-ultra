@@ -90,10 +90,12 @@ const handleClick = () => {
 const handleSelect = (data: Record<string, any>) => {
   multiple ? (selected.value = data) : (selected.value = [data])
   emits('update:modelValue', data)
+  emits('change', data)
 }
 
 const emits = defineEmits<{
   (e: 'update:modelValue', data: Record<string, any>): void
+  (e: 'change', data: Record<string, any>): void
 }>()
 
 const stateInit = () => {
