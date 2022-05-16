@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b()">
+  <div :class="[ns.b(), {[ns.e('notable')]: !table}]">
     <!-- 按钮 -->
     <div @click="handleClick" :class="ns.e('btn')">
       <slot v-if="editable">
@@ -7,7 +7,7 @@
       </slot>
     </div>
     <!-- 表格 -->
-    <div :class="ns.e('table')">
+    <div :class="ns.e('table')" v-if="table">
       <TableSelectDisplay :data="selected" :columns="columns">
         <template #action>
           <slot name="action"></slot>
@@ -24,6 +24,8 @@
       :query="query"
       :title="dialogTitle"
       :theight="theight"
+      :table="table"
+      :path="path"
       @change="handleSelect"
       @api-data="apiData"
     >
@@ -35,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, ref, watch, nextTick } from 'vue'
+import { shallowRef, provide, ref, watch, nextTick, toRefs } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableSelectDisplay from './table-select-display.vue'
@@ -63,8 +65,11 @@ const {
   valueKey,
   dialogTitle,
   theight,
-  editable
+  editable,
+  table
 } = props
+
+const { path } = toRefs(props)
 
 provide(multipleKey, multiple)
 provide(paginationKey, pagination)
@@ -117,7 +122,7 @@ const apiData = (data: Record<string, any>) => {
 }
 
 watch(() => modelValue, (cur, pre) => {
-  nextTick(() => stateInit())
+  modelValue && nextTick(() => stateInit())
 }, { immediate: true, deep: true } )
 
 watch(() => tableData.value, (cur, pre) => {

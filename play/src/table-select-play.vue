@@ -11,6 +11,10 @@
       dialog-title="弹框标题"
       ref="tableRef"
       :editable="true"
+      :table="false"
+      value-key="project"
+      :path="path"
+      @update:model-value="handleChange"
     >
       <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
@@ -55,6 +59,7 @@ const columns: ProTableColumn[] = $ref([
     }
   },
   { key: 'summary', name: '摘要' },
+  { key: 'project', name: '项目' },
   {
     key: 'status',
     name: '状态'
@@ -601,7 +606,7 @@ const tableData = $ref([
     personalContacts: null,
     planId: '1519233722672697344',
     planLevel: 'first',
-    project: '534535345345',
+    project: '5345353453452',
     projectClassification: null,
     projectClassificationName: null,
     projectName: null,
@@ -660,7 +665,7 @@ const tableData = $ref([
     personalContacts: null,
     planId: '1519233722672697344',
     planLevel: 'first',
-    project: '534535345345',
+    project: '5345353453451',
     projectClassification: null,
     projectClassificationName: null,
     projectName: null,
@@ -749,9 +754,12 @@ const handleClick = () => {
   Object.assign(singleData, { frozenRemark: 'ttttttttttt' })
 }
 
-onMounted(() => {
-  setTimeout(() => {
-    Object.assign(singleData, { id: '1517846945443110913' })
-  }, 1000)
-})
+let path = $ref('')
+
+const handleChange = (data: any) =>  {
+  path = '/page-play'
+}
+
+
+
 </script>
