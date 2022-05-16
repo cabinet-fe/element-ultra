@@ -25,7 +25,6 @@
       :title="dialogTitle"
       :theight="theight"
       :table="table"
-      :path="path"
       @change="handleSelect"
       @api-data="apiData"
     >
@@ -69,7 +68,6 @@ const {
   table
 } = props
 
-const { path } = toRefs(props)
 
 provide(multipleKey, multiple)
 provide(paginationKey, pagination)

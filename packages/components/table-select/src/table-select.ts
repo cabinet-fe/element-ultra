@@ -53,9 +53,6 @@ export const tableSelectProps = {
   table: {
     type: Boolean,
     default: true
-  },
-  path: {
-    type: String
   }
 } as const
 

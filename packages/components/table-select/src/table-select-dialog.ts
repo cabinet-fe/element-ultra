@@ -27,9 +27,6 @@ export const tableSelectDialogProps = {
   },
   table: {
     type: Boolean
-  },
-  path: {
-    type: String
   }
 } as const
 

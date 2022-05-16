@@ -109,7 +109,7 @@ const getValue = () => {
       return tableData.value.find((item: any) => item[valueKey] === valueKey)
     })
   } else {
-    return data.find((item: any) => {
+    return data?.find((item: any) => {
       return item[valueKey] === radio.value.val
     })
   }
