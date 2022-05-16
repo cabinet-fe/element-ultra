@@ -34,7 +34,7 @@
             >
               {{ tag[labelKey] }}
             </el-tag>
-            <el-tag v-if="tagList.length - multipleLimit">
+            <el-tag v-if="tagList.length - multipleLimit > 0">
               +{{ tagList.length - multipleLimit }}
             </el-tag>
           </template>
