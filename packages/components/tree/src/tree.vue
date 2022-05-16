@@ -1,9 +1,10 @@
 <template>
   <div
-    :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]"
+    :class="[ns.b(), ns.is('multiple', showCheckbox), { [ns.m('highlight-current')]: highlightCurrent }]"
     role="tree"
     :style="containerStyle"
     ref="treeContainer"
+
   >
     <fixed-size-list
       v-if="isNotEmpty && listHeight"
@@ -24,7 +25,7 @@
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"
           :indeterminate="isIndeterminate(data[index])"
-          :disabled="props.selectable ? props.selectable(data[index]) : isDisabled(data[index])"
+          :disabled="selectable ? !selectable(data[index]) : false"
           :current="isCurrent(data[index])"
           :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
           @click="handleNodeClick"
@@ -48,8 +49,7 @@ import {
   provide,
   shallowRef,
   useAttrs,
-  useSlots,
-watch
+  useSlots
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { FixedSizeList } from '@element-ultra/components/virtual-list'

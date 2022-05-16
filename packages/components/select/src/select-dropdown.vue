@@ -35,6 +35,7 @@ export default defineComponent({
   },
   setup(props) {
     const select = inject(selectInjectionKey)!
+
     const ns = useNamespace('select')
     const cachedHeights = ref<Array<number>>([])
 
@@ -196,7 +197,7 @@ export default defineComponent({
         {
           ...scoped,
           selected,
-          disabled: item.disabled || itemDisabled,
+          disabled: selectProps.selectable ?  !selectProps.selectable(item) : itemDisabled,
           created: !!item.created,
           hovering: isItemHovering(index),
           item,

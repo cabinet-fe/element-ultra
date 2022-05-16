@@ -106,6 +106,9 @@ export const SelectProps = {
     type: Boolean,
     default: false,
   },
+  selectable: {
+    type: Function as PropType<(node: any) => boolean>
+  }
 }
 
 export const OptionProps = {

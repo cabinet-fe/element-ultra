@@ -33,8 +33,6 @@ type TreeSelectProps = {
   readonly labelKey: string
   /** children的key, 指定后表示以哪个字段作为子节点数据， 默认children */
   readonly childrenKey: string
-  /** disabled的key, 指定后表示以哪个字段控制树的可选？， 默认disabled */
-  readonly disabledKey: string
   /** 数据 */
   readonly data: any[]
   /** 树严格选中？ */
@@ -49,8 +47,8 @@ type TreeSelectProps = {
   readonly treeIcon?: string | undefined
   /** 数据为空时展现的内容 */
   readonly emptyText?: string | undefined
-  /** 禁选某些子节点 */
-  readonly selectable?: Function
+  /** 设置哪些节点可以单选或者多选 */
+  readonly selectable?: (node) => boolean
 }
 ```
 

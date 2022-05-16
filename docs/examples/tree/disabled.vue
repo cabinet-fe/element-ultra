@@ -3,10 +3,12 @@
     :data="data"
     :props="props"
     show-checkbox
+    :selectable="selectable"
     :height="208"
   ></el-tree>
 </template>
 <script lang="ts" setup>
+
 interface Tree {
   id: string
   label: string
@@ -26,15 +28,14 @@ const createData = (
 ): Tree[] => {
   let id = 0
   return new Array(minNodesNumber).fill(deep).map(() => {
-    const childrenNumber =
-      deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
+    const childrenNumber = deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
     const nodeKey = getKey(key, ++id)
     return {
       id: nodeKey,
       label: nodeKey,
       children: childrenNumber
         ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
-        : undefined,
+        : undefined
     }
   })
 }
@@ -42,8 +43,10 @@ const createData = (
 const props = {
   value: 'id',
   label: 'label',
-  children: 'children',
-  disabled: 'disabled',
+  children: 'children'
+}
+const selectable = (node) => {
+  return node.isLeaf
 }
 const data = createData(4, 30, 40)
 </script>

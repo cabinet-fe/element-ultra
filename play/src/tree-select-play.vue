@@ -13,9 +13,21 @@
       class="demo-ruleForm"
       :cols="1"
     >
-      <el-tree-select key="111" :data="treeData" field="node1" label="单选" :selectable="selectable" />
+      <el-tree-select
+        key="111"
+        :data="treeData"
+        field="node1"
+        label="单选"
+        :selectable="selectable"
+      />
 
-      <el-tree-select :data="treeData" field="node2" label="多选" multiple />
+      <el-tree-select
+        :data="treeData"
+        :selectable="selectable"
+        field="node2"
+        label="多选"
+        multiple
+      />
 
       <el-form-item label="操作">
         <el-button type="primary" @click="submit">提交</el-button>
@@ -39,8 +51,7 @@ setTimeout(() => {
           label: `文本${index}-${childIndex}`,
           value: `${index}-${childIndex}`
         }
-      }),
-      disabled: true
+      })
     }
   })
 }, 1000)

@@ -44,10 +44,7 @@ export const treeSelectProps = {
     type: String,
     default: 'children'
   },
-  disabledKey: {
-    type: String,
-    default: 'disabled'
-  },
+
   multipleLimit: {
     type: Number,
   },

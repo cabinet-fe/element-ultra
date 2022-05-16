@@ -54,7 +54,7 @@ select/filterable
 
 :::
 
-## ~~禁用选择器本身或选项~~（将会改进 2022/3/29）
+## 禁用选择器本身或选项
 
 你可以选择禁用 Select 或者 Select 的 某个选项
 
@@ -129,6 +129,7 @@ select/remote-search
 | model-value / v-model                          | 绑定值                                                                                 | string / number / boolean / object | —                   | —           |
 | multiple                                       | 是否多选                                                                               | boolean                            | —                   | false       |
 | disabled                                       | 是否禁用                                                                               | boolean                            | —                   | false       |
+| selectable                                     | 指定哪些选项可选                                                                       | (node) => boolean                  | —                   |    —    |
 | value-key                                      | 作为 value 唯一标识的键名                                                              | string                             | —                   | value       |
 | label-key                                      | 作为 label 唯一标识的键名                                                              | string                             | —                   | value       |
 | size                                           | 输入框尺寸                                                                             | string                             | large/default/small | default     |

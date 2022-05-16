@@ -39,7 +39,7 @@
           <div v-if="$slots.prefix">
             <slot name="prefix"></slot>
           </div>
-          <div v-if="multiple" :class="ns.e('selection')">
+          <div v-if="multiple && modelValue" :class="ns.e('selection')">
             <template v-if="collapseTags && modelValue.length > 0">
               <div :class="ns.e('selected-item')">
                 <el-tag
@@ -186,7 +186,7 @@
               ns.is(
                 'transparent',
                 states.isComposing ||
-                  (placeholder && multiple ? modelValue.length === 0 : !hasModelValue)
+                  (placeholder && multiple ? (modelValue || []).length === 0 : !hasModelValue)
               )
             ]"
           >

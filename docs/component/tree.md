@@ -27,11 +27,11 @@ tree/selectable
 
 :::
 
-## 禁用复选框
+## 禁用节点选框
 
 节点的复选框可以设置为禁用。
 
-:::demo 在示例中，属性在 defaultProps 中声明了 `disabled`，一些节点被设置为 `disable：true`。 相应的复选框已禁用，不能点击。
+:::demo 被禁用的节点, 选框将不会显示.
 
 tree/disabled
 
@@ -85,7 +85,7 @@ tree/filter
 | filter-method         | 对树节点进行筛选时执行的方法，返回 true 表示这个节点可以显示， 返回 `false` 则表示这个节点会被隐藏             | Function(value, data) | —      |
 | indent                | 相邻级节点间的水平缩进，单位为像素                                                                             | number                | 16     |
 | icon                  | 自定义树节点的图标                                                                                             | string / Component    | -      |
-| selectable            | 禁选某些子节点                                                                                            | Function(row)              | -       |
+| selectable            | 禁选某些子节点                                                                                            | Function(node)              | -       |
 
 ## props
 
@@ -94,7 +94,6 @@ tree/filter
 | value    | 每个树节点用来作为唯一标识的属性，在整棵树中应该是唯一的 | string, number | id       |
 | label    | 指定节点标签为节点对象的某个属性值                       | string         | label    |
 | children | 指定子树为节点对象的某个属性值                           | string         | children |
-| disabled | 指定节点选择框是否禁用为节点对象的某个属性值             | string         | disabled |
 
 ## 方法
 

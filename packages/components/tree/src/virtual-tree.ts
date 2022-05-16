@@ -1,5 +1,4 @@
-import { buildProps, definePropType, mutable } from '@element-ultra/utils'
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, PropType } from 'vue'
 import type { TreeNodeData } from './types'
 import type {
   TreeNode,
@@ -33,10 +32,10 @@ export const enum SetOperationEnum {
 }
 
 // props
-export const treeProps = buildProps({
+export const treeProps = {
   data: {
-    type: definePropType<TreeData>(Array),
-    default: () => mutable([] as const)
+    type: Array as PropType<TreeData>,
+    default: () => []
   },
   itemClass: {
     type: [String, Object],
@@ -51,14 +50,13 @@ export const treeProps = buildProps({
     default: 200
   },
   props: {
-    type: definePropType<TreeOptionProps>(Object),
-    default: () =>
-      mutable({
-        children: TreeOptionsEnum.CHILDREN,
-        label: TreeOptionsEnum.LABEL,
-        disabled: TreeOptionsEnum.DISABLED,
-        value: TreeOptionsEnum.KEY
-      } as const)
+    type: Object as PropType<TreeOptionProps>,
+    default: () => ({
+      children: TreeOptionsEnum.CHILDREN,
+      label: TreeOptionsEnum.LABEL,
+      disabled: TreeOptionsEnum.DISABLED,
+      value: TreeOptionsEnum.KEY
+    })
   },
   highlightCurrent: {
     type: Boolean,
@@ -69,8 +67,8 @@ export const treeProps = buildProps({
     default: false
   },
   defaultCheckedKeys: {
-    type: definePropType<TreeKey[]>(Array),
-    default: () => mutable([] as const)
+    type: Array as PropType<TreeKey[]>,
+    default: () => []
   },
   // Whether checked state of a node not affects its father and
   // child nodes when show-checkbox is true
@@ -79,8 +77,8 @@ export const treeProps = buildProps({
     default: false
   },
   defaultExpandedKeys: {
-    type: definePropType<TreeKey[]>(Array),
-    default: () => mutable([] as const)
+    type: Array as PropType<TreeKey[]>,
+    default: () => []
   },
   indent: {
     type: Number,
@@ -98,7 +96,7 @@ export const treeProps = buildProps({
     default: false
   },
   currentNodeKey: {
-    type: definePropType<TreeKey>([String, Number])
+    type: [String, Number] as PropType<TreeKey>
   },
   // TODO need to optimization
   accordion: {
@@ -106,7 +104,7 @@ export const treeProps = buildProps({
     default: false
   },
   filterMethod: {
-    type: definePropType<FilterMethod>(Function)
+    type: Function as PropType<FilterMethod>
   },
   // Performance mode will increase memory usage, but scrolling will be smoother
   perfMode: {
@@ -114,14 +112,14 @@ export const treeProps = buildProps({
     default: true
   },
   selectable: {
-    type: Function
+    type: Function as PropType<(node: any) => boolean>
   }
-} as const)
+}
 
-export const treeNodeProps = buildProps({
+export const treeNodeProps = {
   node: {
-    type: definePropType<TreeNode>(Object),
-    default: () => mutable(EMPTY_NODE)
+    type: Object as PropType<TreeNode>,
+    default: () => EMPTY_NODE
   },
   expanded: {
     type: Boolean,
@@ -151,14 +149,14 @@ export const treeNodeProps = buildProps({
     type: Boolean,
     default: false
   }
-} as const)
+} as const
 
-export const treeNodeContentProps = buildProps({
+export const treeNodeContentProps = {
   node: {
-    type: definePropType<TreeNode>(Object),
+    type: Object as PropType<TreeNode>,
     required: true
   }
-} as const)
+} as const
 
 // emits
 export const NODE_CLICK = 'node-click'

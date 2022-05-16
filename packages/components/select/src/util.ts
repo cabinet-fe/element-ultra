@@ -4,19 +4,19 @@ import type { Option, OptionGroup } from './select.types'
 
 export const flattenOptions = (options: Array<Option | OptionGroup>) => {
   const flattened = []
-  options.map((option) => {
+  options.map(option => {
     if (isArray(option.options)) {
       flattened.push({
         label: option.label,
         isTitle: true,
-        type: 'Group',
+        type: 'Group'
       })
 
       option.options.forEach((o: Option) => {
         flattened.push(o)
       })
       flattened.push({
-        type: 'Group',
+        type: 'Group'
       })
     } else {
       flattened.push(option)

@@ -128,8 +128,7 @@
           :props="{
             value: valueKey,
             label: labelKey,
-            children: childrenKey,
-            disabled: disabledKey
+            children: childrenKey
           }"
           :show-checkbox="multiple"
           :class="ns.e('tree')"
@@ -141,7 +140,7 @@
           @current-change="handleSelectChange"
           @check="handleCheck"
           :expand-on-click-node="false"
-          :selectable="props.selectable ? selectable : undefined"
+          :selectable="selectable"
         />
       </div>
     </transition>
@@ -271,7 +270,5 @@ const handleDelete = () => {
   handleCloseTag(tagList.value[lastIndex], lastIndex)
 }
 
-const selectable = (row: Record<string, any>) => {
-  if (props.selectable) return props.selectable(row)
-}
+
 </script>
