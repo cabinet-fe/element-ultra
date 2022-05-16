@@ -65,12 +65,11 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   const dropdownStyle = shallowRef({
     width: '',
     top: '',
-    left: '',
+    left: ''
   })
   const position = shallowRef('bottom')
   const calcDropdownStyle = () => {
     const rect = treeSelectRef?.value?.getBoundingClientRect()
-
 
     if (rect) {
       let top = rect.bottom + 16 + 'px'
