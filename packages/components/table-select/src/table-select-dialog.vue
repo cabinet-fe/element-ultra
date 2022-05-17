@@ -1,5 +1,5 @@
-<template :class="ns.b()">
-  <el-dialog v-model="visible" :title="title">
+<template >
+  <el-dialog :width="width" :class="ns.b()" v-model="visible" :title="title">
     <div :class="ns.e('searcher')">
       <div :class="ns.e('wrapper')">
         <slot name="searcher"></slot>

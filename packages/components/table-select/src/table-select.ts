@@ -52,6 +52,9 @@ export const tableSelectProps = {
   table: {
     type: Boolean,
     default: true
+  },
+  dialogWidth: {
+    type: [String, Number] as PropType<string | number>
   }
 } as const
 
