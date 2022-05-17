@@ -19,6 +19,7 @@
       ref="dialogRef"
       :api="api"
       :data="data"
+      :width="dialogWidth"
       :columns="columns"
       :value="selected"
       :query="query"
