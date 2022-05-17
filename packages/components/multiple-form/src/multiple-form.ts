@@ -44,7 +44,7 @@ export type MultipleFormColumn = {
   width?: number
 
   /** 编辑时的默认值 */
-  defaultValue?: string | number | boolean
+  defaultValue?: string | number | boolean | any[]
 
   /** 提示消息 */
   tips?: string
