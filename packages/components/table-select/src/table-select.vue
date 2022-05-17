@@ -1,5 +1,5 @@
 <template>
-  <div :class="[ns.b(), {[ns.e('notable')]: !table}]">
+  <div :class="[ns.b(), { [ns.e('notable')]: !table }]">
     <!-- 按钮 -->
     <div @click="handleClick" :class="ns.e('btn')">
       <slot v-if="editable">
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, ref, watch, nextTick, toRefs } from 'vue'
+import { shallowRef, provide, ref, watch, nextTick } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableSelectDisplay from './table-select-display.vue'
@@ -68,7 +68,6 @@ const {
   table
 } = props
 
-
 provide(multipleKey, multiple)
 provide(paginationKey, pagination)
 provide(showIndexKey, showIndex)
@@ -98,7 +97,14 @@ const emits = defineEmits<{
 
 const stateInit = () => {
   let arr: Array<string> = []
-  multiple ? (arr = modelValue.map((item: any) => item[valueKey])) : (arr = [modelValue[valueKey]])
+  if (modelValue) {
+    if (multiple) {
+      arr = modelValue.map((item: any) => item[valueKey])
+    } else {
+      arr = [modelValue[valueKey]]
+    }
+  }
+
   if (api) {
     selected.value = tableData.value?.filter((row: Record<string, any>) => {
       return arr.includes(row[valueKey])
@@ -121,13 +127,20 @@ const apiData = (data: Record<string, any>) => {
   tableData.value = data
 }
 
-watch(() => modelValue, (cur, pre) => {
-  modelValue && nextTick(() => stateInit())
-}, { immediate: true, deep: true } )
+watch(
+  () => modelValue,
+  (cur, pre) => {
+    modelValue && nextTick(() => stateInit())
+  },
+  { immediate: true, deep: true }
+)
 
-watch(() => tableData.value, (cur, pre) => {
-  nextTick(() => stateInit())
-})
+watch(
+  () => tableData.value,
+  (cur, pre) => {
+    nextTick(() => stateInit())
+  }
+)
 
 defineExpose({})
 </script>

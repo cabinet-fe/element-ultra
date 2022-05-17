@@ -2,15 +2,14 @@ import type { ExtractPropTypes, PropType } from 'vue'
 
 export const tableSelectProps = {
   modelValue: {
-    type: Object as PropType<Record<string, any>>,
-    required: true
+    type: Object as PropType<Record<string, any>>
   },
   columns: {
     type: Array as PropType<Record<string, any>[]>,
     required: true
   },
   data: {
-    type: Array as PropType<Record<string, any>[]>,
+    type: Array as PropType<Record<string, any>[]>
   },
   multiple: {
     type: Boolean,
