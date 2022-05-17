@@ -146,8 +146,8 @@ const slots = useSlots()
 
 /** 弹框模式下应用显示列 */
 const visibleColumns = computed(() => {
-  const { columns, mode } = props
-  return mode === 'dialog' ? columns.filter(column => column.visible !== false) : columns
+  const { columns } = props
+  return columns.filter(column => column.visible !== false)
 })
 
 const { formData, rules, dialog, open, submit } = useDialog({
