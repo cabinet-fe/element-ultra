@@ -11,7 +11,7 @@
       dialog-title="弹框标题"
       ref="tableRef"
       :editable="true"
-      :table="false"
+      :table="true"
       value-key="project"
       :path="path"
       @update:model-value="handleChange"
@@ -85,7 +85,7 @@ const columns: ProTableColumn[] = $ref([
   { key: 'action', name: '操作', slot: 'column-action' }
 ])
 
-let singleData = $ref({})
+let singleData = $ref({ project: '5345353453453', summary: '去去去去去去去去去' })
 
 let multipleData = $ref([{ id: '1517846945443110913' }, { id: '1519595040521015296' }])
 

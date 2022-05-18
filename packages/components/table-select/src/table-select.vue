@@ -96,7 +96,7 @@ const emits = defineEmits<{
   (e: 'change', data: Record<string, any>): void
 }>()
 
-const stateInit = () => {
+const stateInit = (echo: boolean = false) => {
   let arr: Array<string> = []
   if (modelValue) {
     if (multiple) {
@@ -105,7 +105,6 @@ const stateInit = () => {
       arr = [modelValue[valueKey]]
     }
   }
-
   if (api) {
     selected.value = tableData.value?.filter((row: Record<string, any>) => {
       return arr.includes(row[valueKey])
@@ -119,6 +118,8 @@ const stateInit = () => {
     multiple
       ? emits('update:modelValue', selected.value)
       : emits('update:modelValue', selected.value[0])
+  }else if (echo) {
+    multiple ? selected.value = modelValue : selected.value = [modelValue]
   }
 }
 
@@ -131,7 +132,7 @@ const apiData = (data: Record<string, any>) => {
 watch(
   () => modelValue,
   (cur, pre) => {
-    modelValue && nextTick(() => stateInit())
+    modelValue && nextTick(() => stateInit(true))
   },
   { immediate: true, deep: true }
 )
@@ -139,6 +140,7 @@ watch(
 watch(
   () => tableData.value,
   (cur, pre) => {
+    console.log('tableData', tableData);
     nextTick(() => stateInit())
   }
 )
