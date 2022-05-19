@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, watch, inject, ref, nextTick, toRefs, computed } from 'vue'
+import { shallowRef, watch, inject, ref } from 'vue'
 import { ElDialog } from '@element-ultra/components/dialog'
 import { ElButtonGroup, ElButton } from '@element-ultra/components/button'
 import { ElPagination } from '@element-ultra/components/pagination'
@@ -53,7 +53,7 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api, query, title, theight, table } = props
+const { data, columns, api, query, title, theight } = props
 
 const ns = useNamespace('table-select-dialog')
 
@@ -145,13 +145,13 @@ let queryWatchList = Object.keys(props.query || {})
     return () => props.query?.[k]
   })
 
-watch([...queryWatchList], (cur, pre) => {
+watch([...queryWatchList], () => {
   fetchData(api)
 })
 
 watch(
   () => props.api,
-  (cur, pre) => {
+  (cur) => {
     cur && fetchData(cur)
   },
   {
