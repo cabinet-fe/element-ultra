@@ -2,7 +2,7 @@
   <div
     :class="[ns.b(), ns.m(inputSize), $attrs.class]"
     ref="treeSelectRef"
-    @click="treeVisible ? hideTree() : showTree()"
+    @click="inputDisabled && (treeVisible ? hideTree() : showTree())"
   >
     <div
       ref="inputRef"
@@ -88,7 +88,7 @@
         <!-- 输入框，可以用来对列表进行查询 -->
       </div>
 
-      <el-icon :class="[ns.e('icon')]" >
+      <el-icon :class="[ns.e('icon')]">
         <CircleClose :class="ns.e('close')" v-if="clearable" @click.stop="handleClear" />
         <ArrowDown v-else />
       </el-icon>
@@ -272,6 +272,4 @@ const handleDelete = () => {
   const lastIndex = tagList.value.length - 1
   handleCloseTag(tagList.value[lastIndex], lastIndex)
 }
-
-
 </script>

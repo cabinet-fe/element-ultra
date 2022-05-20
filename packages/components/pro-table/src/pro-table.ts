@@ -52,6 +52,7 @@ export const proTableProps = {
 export interface ProTableColumn extends DataTableColumn {
   /** 定义此列的动态插槽 */
   slot?: string
+  children?: ProTableColumn[]
 }
 
 /** 专业表格属性 */
