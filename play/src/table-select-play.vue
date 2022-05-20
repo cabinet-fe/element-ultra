@@ -85,7 +85,7 @@ const columns: ProTableColumn[] = $ref([
   { key: 'action', name: '操作', slot: 'column-action' }
 ])
 
-let singleData = $ref({ project: '5345353453453', summary: '去去去去去去去去去' })
+let singleData = $ref({})
 
 let multipleData = $ref([{ id: '1517846945443110913' }, { id: '1519595040521015296' }])
 
@@ -751,7 +751,7 @@ const handleClick = () => {
     used: false,
     years: null
   }
-  Object.assign(singleData, { frozenRemark: 'ttttttttttt' })
+
 }
 
 let path = $ref('')
@@ -761,5 +761,9 @@ const handleChange = (data: any) =>  {
 }
 
 
-
+onMounted(() => {
+  setTimeout(() => {
+    Object.assign(singleData, { frozenRemark: 'ttttttttttt' })
+  }, 3000)
+},)
 </script>

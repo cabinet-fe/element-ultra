@@ -68,7 +68,7 @@ const emits = defineEmits<{
 let pagination = inject(paginationKey)
 let currentPage = ref(1)
 let pageSize = ref(20)
-let totalSize = ref(400)
+let totalSize = ref(0)
 const handleSizeChange = (size: number) => {
   pageSize.value = size
   fetchData(api)
