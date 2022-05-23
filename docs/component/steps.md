@@ -11,7 +11,7 @@ lang: zh-CN
 
 简单的步骤条。
 
-:::demo 设置 `active` 属性，接受一个 `Number`，表明步骤的 index，从 0 开始。 需要定宽的步骤条时，设置 `space` 属性即可，它接受 `Number`， 单位为 `px`， 如果不设置，则为自适应。 设置 `finish-status` 属性可以改变已经完成的步骤的状态。
+:::demo 设置 `active` 属性, 需要定宽的步骤条时，设置 `space` 属性即可，它接受 `Number`， 单位为 `px`， 如果不设置，则为自适应。 设置 `finish-status` 属性可以改变已经完成的步骤的状态。
 
 steps/basic
 
@@ -83,7 +83,7 @@ steps/simple
 | -------------- | ----------------------------- | --------------- | ----------------------------------------- | ---------- |
 | space          | 每个 step 的间距，不填写将自适应间距。 支持百分比。 | number / string | —                                         | —          |
 | direction      | 显示方向                          | string          | vertical/horizontal                       | horizontal |
-| active         | 设置当前激活步骤                      | number          | —                                         | 0          |
+| active         | 设置当前激活步骤                      | number/string          | —                                         | 0          |
 | process-status | 设置当前步骤的状态                     | string          | wait / process / finish / error / success | process    |
 | finish-status  | 设置结束步骤的状态                     | string          | wait / process / finish / error / success | finish     |
 | align-center   | 进行居中对齐                        | boolean         | —                                         | false      |
@@ -100,6 +100,7 @@ steps/simple
 | 属性          | 说明                              | 类型                 | 可选值                                       | 默认值 |
 | ----------- | ------------------------------- | ------------------ | ----------------------------------------- | --- |
 | title       | 标题                              | string             | —                                         | —   |
+| name       | 当前步骤的名字, 可以用active来定位                              | string             | —                                         | —   |
 | description | 描述文案                            | string             | —                                         | —   |
 | icon        | step custom icon. 也支持 slot 方式写入 | string / Component | —                                         | —   |
 | status      | 设置当前步骤的状态， 不设置则根据 steps 确定状态    | string             | wait / process / finish / error / success | —   |
