@@ -8,7 +8,11 @@
       <el-button text>展开/隐藏</el-button>
     </section>
 
-    <section ref="toolsRef" v-if="$slots.tools || showTools" :class="ns.e('tools')">
+    <section
+      ref="toolsRef"
+      v-if="$slots.tools || showTools"
+      :class="ns.e('tools')"
+    >
       <div :class="ns.e('tools-left')">
         <slot name="tools" />
       </div>
@@ -26,16 +30,29 @@
       :height="tableHeight"
       v-loading="loading"
     >
+      <!-- 展开 -->
       <pro-table-column :column="expandColumn" v-if="$slots['row-expand']">
         <template #default="scope">
           <slot name="row-expand" v-bind="scope" />
         </template>
       </pro-table-column>
 
-      <el-table-column v-bind="column" v-for="column of preColumns" :key="column.key" />
+      <!-- 前置的 -->
+      <el-table-column
+        v-bind="column"
+        v-for="column of preColumns"
+        :key="column.key"
+      />
 
-      <pro-table-column v-for="column of columns" :column="column" :key="column.key">
-        <template v-if="column.slot" #default="scope">
+      <pro-table-column
+        v-for="column of columns"
+        :column="column"
+        :key="column.key"
+      >
+        <template
+          v-if="!column.children?.length && column.slot"
+          #default="scope"
+        >
           <slot v-bind="scope" :name="column.slot" />
         </template>
       </pro-table-column>
@@ -62,18 +79,32 @@ import { proTableProps } from './pro-table'
 import usePreColumns from './use-pre-columns'
 import ElPagination from '@element-ultra/components/pagination'
 import ElButton from '@element-ultra/components/button'
-import { computed, shallowReactive, watch, shallowRef, onMounted } from 'vue'
+import {
+  computed,
+  shallowReactive,
+  watch,
+  shallowRef,
+  onMounted,
+  useSlots,
+  provide
+} from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
+import { proTableKey } from './token'
 
 defineOptions({
   name: 'ElProTable',
   inheritAttrs: false
 })
 
-const ns = useNamespace('pro-table')
-
 const props = defineProps(proTableProps)
+const slots = useSlots()
+
+provide(proTableKey, {
+  proTableSlots: slots
+})
+
+const ns = useNamespace('pro-table')
 
 const [configStore] = useConfig()
 

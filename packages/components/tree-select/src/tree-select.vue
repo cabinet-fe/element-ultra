@@ -2,7 +2,7 @@
   <div
     :class="[ns.b(), ns.m(inputSize), $attrs.class]"
     ref="treeSelectRef"
-    @click="inputDisabled && (treeVisible ? hideTree() : showTree())"
+    @click="!inputDisabled && (treeVisible ? hideTree() : showTree())"
   >
     <div
       ref="inputRef"

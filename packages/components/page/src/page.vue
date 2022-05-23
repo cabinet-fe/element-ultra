@@ -1,13 +1,14 @@
 <template>
-  <el-grid v-bind="$attrs" :class="ns.b()" rows="100%" gap="0" cols="minmax(0, 1fr) 200px">
+  <el-grid
+    v-bind="$attrs"
+    :class="ns.b()"
+    rows="100%"
+    gap="0"
+    cols="minmax(0, 1fr) 200px"
+  >
     <div :class="ns.e('main')">
       <section :class="ns.e('content')">
-        <component
-          :is="node"
-          :key="node.key"
-          :data-index="index"
-          v-for="(node, index) of getDefaultSlots()"
-        />
+        <ElSlotsRender :nodes="getDefaultSlots()" />
       </section>
 
       <section :class="ns.e('footer')">
@@ -44,6 +45,7 @@
 import { ElGrid } from '@element-ultra/components/grid'
 import { ElButton } from '@element-ultra/components/button'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
+import { ElSlotsRender } from '@element-ultra/components/slots-render'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import {
   getCurrentInstance,
@@ -52,6 +54,7 @@ import {
   provide,
   shallowRef,
   useSlots,
+  type PropType,
   type VNode,
   type VNodeArrayChildren
 } from 'vue'
@@ -88,15 +91,16 @@ const getDefaultSlots = () => {
       if (!isVNode(node)) return
 
       if (isFragment(node) || isTemplate(node)) {
-        if (Array.isArray(node.children)) {
-          recursive(node.children)
-        }
+        Array.isArray(node.children) && recursive(node.children)
         return
       }
 
       result.push(node)
 
-      if (typeof node.type === 'object' && (node.type as any).name === 'ElCard') {
+      if (
+        typeof node.type === 'object' &&
+        (node.type as any).name === 'ElCard'
+      ) {
         const { header } = node.props || {}
         header && nav.push(header)
       }

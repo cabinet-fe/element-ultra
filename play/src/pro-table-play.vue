@@ -74,10 +74,16 @@ setTimeout(() => {
       width: 400
     },
     {
-      name: '年龄',
-      key: 'age',
-      width: 300,
-      slot: 'age' // 建议使用column-*这样的命名, 方便在模板里面阅读
+      name: '父级',
+      key: 'parent',
+      children: [
+        {
+          name: '年龄',
+          key: 'age',
+          width: 300,
+          slot: 'age' // 建议使用column-*这样的命名, 方便在模板里面阅读
+        }
+      ]
     },
     {
       name: '操作',

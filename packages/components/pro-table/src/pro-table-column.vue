@@ -1,6 +1,7 @@
 <template>
+  <!-- 没有子级 -->
   <el-table-column
-    v-if="!column.children || !column.children.length"
+    v-if="!column.children?.length"
     v-bind="inheritColumns"
     :prop="column.key"
     :formatter="column.render"
@@ -10,11 +11,15 @@
       <ChildRenderer :child="headerRender()" />
     </template>
 
-    <template #default="scope" v-if="$slots.default">
-      <slot v-bind="scope" />
+    <template #default="scope" v-if="column.slot">
+      <component
+        :is="node"
+        v-for="node of (proTableSlots[column.slot!]?.(scope) || [])"
+      />
     </template>
   </el-table-column>
 
+  <!-- 有子级 -->
   <el-table-column
     v-else
     v-bind="inheritColumns"
@@ -35,10 +40,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type PropType, isVNode, defineComponent, type VNode } from 'vue'
+import {
+  computed,
+  type PropType,
+  isVNode,
+  defineComponent,
+  type VNode,
+  useSlots,
+  inject
+} from 'vue'
 import { ElTableColumn } from '@element-ultra/components/table'
 import type { ProTableColumn } from './pro-table'
 import { omit } from 'lodash'
+import { proTableKey } from './token'
 
 defineOptions({
   name: 'ProTableColumn'
@@ -51,8 +65,10 @@ const props = defineProps({
   }
 })
 
+const { proTableSlots } = inject(proTableKey)!
+
 let inheritColumns = computed(() => {
-  return omit(props.column, ['key', 'render', 'name'])
+  return omit(props.column, ['key', 'render', 'name', 'children'])
 })
 
 const label = computed(() => {
@@ -67,7 +83,9 @@ const headerRender = computed(() => {
 
 const ChildRenderer = defineComponent({
   props: {
-    child: [Object, String, Number, Boolean] as PropType<VNode | string | number | boolean>
+    child: [Object, String, Number, Boolean] as PropType<
+      VNode | string | number | boolean
+    >
   },
 
   setup(props) {

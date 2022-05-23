@@ -86,6 +86,7 @@ import { ElScrollbar } from '@element-ultra/components/scrollbar'
 
 import { ElSelect } from '@element-ultra/components/select'
 import { ElSkeleton, ElSkeletonItem } from '@element-ultra/components/skeleton'
+import { ElSlotsRender } from '@element-ultra/components/slots-render'
 import { ElSlider } from '@element-ultra/components/slider'
 import { ElSpace } from '@element-ultra/components/space'
 import { ElSteps, ElStep } from '@element-ultra/components/steps'

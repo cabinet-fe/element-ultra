@@ -1,5 +1,13 @@
 <template>
   <el-page>
+    <div>
+      <div  key="cc">{{active}}</div>
+      <button @click="active = 'a'">a</button>
+      <br/>
+      <button @click="active = 'b'">b</button>
+    </div>
+
+
     <!-- 额外的tab页 -->
     <template #panes>
       <el-tab-pane name="测试" label="test"> 111 </el-tab-pane>
@@ -81,6 +89,8 @@
   </el-page>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const active = $shallowRef('a')
+</script>
 
 <style lang="scss"></style>
