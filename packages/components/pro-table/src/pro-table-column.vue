@@ -12,10 +12,7 @@
     </template>
 
     <template #default="scope" v-if="column.slot">
-      <component
-        :is="node"
-        v-for="node of (proTableSlots[column.slot!]?.(scope) || [])"
-      />
+      <ElSlotsRender :nodes="proTableSlots[column.slot!]?.(scope) || []" />
     </template>
   </el-table-column>
 
@@ -43,13 +40,12 @@
 import {
   computed,
   type PropType,
-  isVNode,
   defineComponent,
   type VNode,
-  useSlots,
   inject
 } from 'vue'
 import { ElTableColumn } from '@element-ultra/components/table'
+import { ElSlotsRender } from '@element-ultra/components/slots-render'
 import type { ProTableColumn } from './pro-table'
 import { omit } from 'lodash'
 import { proTableKey } from './token'
