@@ -81,7 +81,6 @@ const state = shallowReactive({
 
 addStep(state)
 
-// 销毁前移除实例
 onBeforeUnmount(() => {
   removeStep(state)
 })

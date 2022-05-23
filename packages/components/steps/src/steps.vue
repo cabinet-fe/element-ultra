@@ -10,12 +10,15 @@ import {
   type VNode,
   watch,
   type ShallowReactive,
-  nextTick
+  nextTick,
+type VNodeArrayChildren,
+isVNode
 } from 'vue'
 import { CHANGE_EVENT } from '@element-ultra/constants'
 import { useNamespace } from '@element-ultra/hooks'
 import { stepsProps, type StepState } from './steps'
 import { stepsInjectionKey } from './token'
+import { isFragment, isTemplate } from '@element-ultra/utils'
 
 export default defineComponent({
   name: 'ElSteps',
@@ -87,10 +90,16 @@ export default defineComponent({
     )
 
     // 给step编号
-    const numberStep = async (nodeList: VNode[]) => {
+    const numberStep = async (nodeList: VNodeArrayChildren, arr: StepState[] = []) => {
       await nextTick()
-      let arr: StepState[] = []
+
+
       nodeList.forEach((child, index) => {
+        if (!isVNode(child)) return
+        if (isFragment(child) || isTemplate(child)) {
+          return  Array.isArray(child.children) && numberStep(child.children, arr)
+        }
+
         if (child.component?.uid) {
           let stepState = stepsMap[child.component.uid]
           stepState.index = arr.length
