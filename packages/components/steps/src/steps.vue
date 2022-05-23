@@ -57,24 +57,32 @@ export default defineComponent({
       activeIndex
     })
 
+    const calcStatus = (active: number) => {
+      const { finishStatus, processStatus } = props
+
+      steps.forEach(step => {
+        // 完成状态
+        if (step.index < active) {
+          step.status = finishStatus
+        }
+        // 激活状态
+        else if (step.index === active) {
+          step.status = processStatus
+        } else {
+          step.status = 'wait'
+        }
+      })
+    }
+
+    nextTick(() => {
+      calcStatus(activeIndex.value)
+    })
+
     // 变化时计算每个step的状态
     watch(
       [activeIndex, () => props.processStatus, () => props.finishStatus],
       ([active]) => {
-        const { finishStatus, processStatus } = props
-
-        steps.forEach(step => {
-          // 完成状态
-          if (step.index < active) {
-            step.status = finishStatus
-          }
-          // 激活状态
-          else if (step.index === active) {
-            step.status = processStatus
-          } else {
-            step.status = 'wait'
-          }
-        })
+        calcStatus(active)
       }
     )
 
