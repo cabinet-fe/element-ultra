@@ -2,11 +2,15 @@
   <div
     :class="[ns.b(), ns.m(inputSize), $attrs.class]"
     ref="treeSelectRef"
-    @click="!inputDisabled && (treeVisible ? hideTree() : showTree())"
+    @click="!treeSelectDisabled && (treeVisible ? hideTree() : showTree())"
   >
     <div
       ref="inputRef"
-      :class="[ns.e('input'), ns.is('disabled', inputDisabled), ns.is('tree-visible', treeVisible)]"
+      :class="[
+        ns.e('input'),
+        ns.is('disabled', treeSelectDisabled),
+        ns.is('tree-visible', treeVisible)
+      ]"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
@@ -27,7 +31,7 @@
             <el-tag
               v-for="(tag, i) in tagList.slice(0, multipleLimit)"
               :key="tag.id"
-              :closable="inputDisabled ? false : true"
+              :closable="treeSelectDisabled ? false : true"
               :class="ns.e('item')"
               type="info"
               @close="handleCloseTag(tag, i)"
@@ -42,7 +46,7 @@
             <el-tag
               v-for="(tag, i) in tagList"
               :key="tag.id"
-              :closable="inputDisabled ? false : true"
+              :closable="treeSelectDisabled ? false : true"
               :class="ns.e('item')"
               type="info"
               @close="handleCloseTag(tag, i)"
@@ -54,7 +58,7 @@
             type="text"
             v-model="filterer.query"
             :class="ns.e('query')"
-            :disabled="inputDisabled"
+            :disabled="treeSelectDisabled"
             @keydown.delete.stop="handleDelete"
             @focus="handleFiltererFocus"
             @blur="handleFiltererBlur"
@@ -67,7 +71,10 @@
         <template v-else>
           <span
             v-if="!filterer.query && !filterer.filtering"
-            :class="[ns.e('placeholder'), ns.is('transparent', filterer.focus || !selectedLabel)]"
+            :class="[
+              ns.e('placeholder'),
+              ns.is('transparent', filterer.focus || !selectedLabel)
+            ]"
           >
             {{ selectedLabel || placeholder }}
           </span>
@@ -76,7 +83,7 @@
             type="text"
             v-model="filterer.query"
             :class="ns.e('text')"
-            :disabled="inputDisabled"
+            :disabled="treeSelectDisabled"
             @input="handleFilter"
             @focus="handleFiltererFocus"
             @blur="handleFiltererBlur"
@@ -89,7 +96,11 @@
       </div>
 
       <el-icon :class="[ns.e('icon')]">
-        <CircleClose :class="ns.e('close')" v-if="clearable" @click.stop="handleClear" />
+        <CircleClose
+          :class="ns.e('close')"
+          v-if="!treeSelectDisabled && clearable"
+          @click.stop="handleClear"
+        />
         <ArrowDown v-else />
       </el-icon>
     </div>
@@ -106,7 +117,9 @@
         ref="dropdownRef"
         v-clickoutside:[treeSelectRef]="hideTree"
       >
-        <span :class="[ns.e('triangle'), ns.is('top', position === 'top')]"></span>
+        <span
+          :class="[ns.e('triangle'), ns.is('top', position === 'top')]"
+        ></span>
         <div
           style="
             padding-left: 24px;
@@ -116,7 +129,11 @@
             border-bottom: 1px solid #eee;
           "
         >
-          <el-checkbox v-model="allSelect" @change="handleToggleSelect" v-if="multiple">
+          <el-checkbox
+            v-model="allSelect"
+            @change="handleToggleSelect"
+            v-if="multiple"
+          >
             全选
           </el-checkbox>
         </div>
@@ -225,7 +242,7 @@ onMounted(() => {
 })
 
 const inputSize = useSize()
-const inputDisabled = useDisabled()
+const treeSelectDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
 
 const handleToggleSelect = (v: boolean) => {
