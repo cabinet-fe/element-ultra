@@ -9,7 +9,8 @@ import {
   shallowRef,
   type VNode,
   watch,
-  type ShallowReactive
+  type ShallowReactive,
+  nextTick
 } from 'vue'
 import { CHANGE_EVENT } from '@element-ultra/constants'
 import { useNamespace } from '@element-ultra/hooks'
@@ -75,7 +76,9 @@ export default defineComponent({
       }
     )
 
-    const numberStep = (nodeList: VNode[]) => {
+    // 给step编号
+    const numberStep = async (nodeList: VNode[]) => {
+      await nextTick()
       let arr: StepState[] = []
       nodeList.forEach((child, index) => {
         if (child.component?.uid) {
@@ -88,7 +91,6 @@ export default defineComponent({
         }
       })
       steps = arr
-      console.log(arr)
       if (props.active !== undefined) {
         activeIndex.value = namesMapToIndex[props.active]
       }

@@ -4,12 +4,6 @@
 @include b(steps) {
   display: flex;
 
-  @include m(simple) {
-    padding: 13px 8%;
-    border-radius: 4px;
-    background: var(--el-bg-color);
-  }
-
   @include m(horizontal) {
     white-space: nowrap;
   }

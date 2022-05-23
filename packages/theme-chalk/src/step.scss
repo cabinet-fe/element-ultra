@@ -39,6 +39,9 @@
     @include when(success) {
       color: var(--el-color-success);
       border-color: var(--el-color-success);
+      @include e(line) {
+        background-color: var(--el-color-success);
+      }
     }
 
     @include when(error) {
