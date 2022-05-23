@@ -18,6 +18,8 @@ import { stepsProps, type StepState } from './steps'
 import { stepsInjectionKey } from './token'
 
 export default defineComponent({
+  name: 'ElSteps',
+
   props: stepsProps,
 
   emits: {
