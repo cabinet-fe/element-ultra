@@ -12,7 +12,7 @@ export interface DataTableColumn {
   /** 是否支持排序 */
   sort?: boolean
   /** 自定义渲染 */
-  render?: (row: any, index: number, val: string) => any
+  render?: (row: any, index: number, val: any) => any
   /** 对齐方式 */
   align?: 'left' | 'center' | 'right'
   /** 是否固定 */
