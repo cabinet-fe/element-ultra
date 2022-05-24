@@ -151,9 +151,11 @@ const fetchData = async () => {
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
   loading.value = true
 
+  let _query = { ...props.query, ...(props.pagination ? query : null) }
+
   // 还原真实的请求参数
-  let realQuery = Object.keys({...props.query, ...query}).reduce((acc, cur) => {
-    let v = props.query![cur]
+  let realQuery = Object.keys(_query).reduce((acc, cur) => {
+    let v = _query[cur]
     if (cur.startsWith('$')) {
       cur = cur.slice(1)
     }
@@ -164,10 +166,7 @@ const fetchData = async () => {
   const { total, data } = await configStore
     .proTableRequestMethod({
       api: props.api,
-      query: {
-        ...(props.pagination ? query : null),
-        ...realQuery
-      }
+      query: realQuery
     })
     .finally(() => {
       loading.value = false
@@ -186,11 +185,15 @@ watch(
   propQuery => {
     stopWatchQueryProps?.()
 
-    const watchList = Object.keys({ ...propQuery, ...query })
-      .filter(k => k.startsWith('$'))
-      .map(k => {
-        return () => propQuery?.[k]
-      })
+    const getWatchList = (o: Record<string, any>) => {
+      return Object.keys(o)
+        .filter(k => k.startsWith('$'))
+        .map(k => () => o[k])
+    }
+    const watchList = [
+      ...getWatchList(propQuery || {}),
+      ...getWatchList(props.pagination ? query : {})
+    ]
 
     // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
     stopWatchQueryProps = watch(watchList, fetchData)
