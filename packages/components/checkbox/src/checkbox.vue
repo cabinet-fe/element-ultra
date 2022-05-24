@@ -30,8 +30,8 @@
         @blur="focus = false"
       />
     </span>
-    <span ref="labelRef" v-if="$slots.default || value" :class="ns.e('label')">
-      <slot> {{ value }} </slot>
+    <span ref="labelRef" v-if="$slots.default" :class="ns.e('label')">
+      <slot> </slot>
     </span>
   </label>
 </template>
@@ -48,5 +48,6 @@ const emit = defineEmits(checkboxEmit)
 
 const ns = useNamespace('checkbox')
 
-const { isChecked, focus, isDisabled, checkboxSize, handleChange } = useCheckbox(props, emit)
+const { isChecked, focus, isDisabled, checkboxSize, handleChange } =
+  useCheckbox(props, emit)
 </script>

@@ -22,8 +22,6 @@
     box-sizing: border-box;
     height: fit-content;
     overflow: scroll;
-    width: 100%;
-    max-width: 100%;
     background-color: #fff;
     font-size: 14px;
     color: #606266;
@@ -32,17 +30,14 @@
     border-bottom: 0;
     tr {
       border-bottom: 1px solid #ebeef5;
-      display: flex;
+
       th, td {
         min-width: 100px;
         padding: 8px 12px;
         text-overflow: ellipsis;
         vertical-align: middle;
-        display: flex;
         align-items: center;
-        @include e(auto) {
-          flex: 1;
-        }
+
       }
       td {
         margin: 0 2px;

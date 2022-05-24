@@ -1,15 +1,14 @@
 <template>
-  <table :class="ns.b()">
+  <table :class="ns.b()" :style="`height: ${theight}px`">
     <thead :class="ns.e('header')">
       <tr :class="ns.e('header-row')">
         <th v-if="checkable">
-          <el-radio v-if="!multiple"></el-radio>
           <el-checkbox
-            v-else
+            v-if="multiple"
             v-model="allCheck"
             @change="handleAllCheck"
             :indeterminate="isIndeterminate"
-          ></el-checkbox>
+          />
         </th>
         <th v-if="showIndex" :class="ns.e('auto')">序号</th>
         <th
@@ -22,33 +21,38 @@
       </tr>
     </thead>
     <tbody :class="ns.e('body')">
-      <div :class="ns.e('wrapper')" :style="`height: ${theight}px`">
-        <tr
-          v-for="(row, index) in tableData"
-          :class="{ [ns.e('row')]: true, [ns.e('row-stripe')]: index % 2 === 1 && stripe }"
+      <tr
+        v-for="(row, index) in tableData"
+        :class="{
+          [ns.e('row')]: true,
+          [ns.e('row-stripe')]: index % 2 === 1 && stripe
+        }"
+      >
+        <td v-if="checkable">
+          <el-checkbox
+            v-if="multiple"
+            :value="row.id"
+            :checked="checkbox.has(row.id)"
+            @update:model-value="
+              $event
+                ? checkbox.add(row[valueKey])
+                : checkbox.delete(row[valueKey])
+            "
+          />
+          <el-radio v-else v-model="radio.val" :value="row[valueKey]" />
+        </td>
+        <td v-if="showIndex" :class="ns.e('auto')">{{ index + 1 }}</td>
+        <td
+          v-for="item in columns"
+          :class="{ [ns.e('auto')]: !item.width }"
+          :style="{ width: `${item.width}px` }"
         >
-          <td v-if="checkable && !multiple" :class="ns.e('radio')">
-            <el-radio v-model="radio.val" :value="row[valueKey]">{{}}</el-radio>
-          </td>
-          <td v-else-if="checkable && multiple" :class="ns.e('checkbox')">
-            <el-checkbox
-              :value="row.id"
-              :checked="checkbox.has(row.id)"
-              @update:model-value="$event ? checkbox.add(row[valueKey]) : checkbox.delete(row[valueKey])"
-              >{{}}</el-checkbox
-            >
-          </td>
-          <td v-if="showIndex" :class="ns.e('auto')">{{ index + 1 }}</td>
-          <td
-            v-for="item in columns"
-            :class="{ [ns.e('auto')]: !item.width }"
-            :style="{ width: `${item.width}px` }"
-          >
-            {{ item.render ? item.render(row, index, row[item.key]) : row[item.key] }}
-            <div v-if="item.key === 'action'"><slot name="action"></slot></div>
-          </td>
-        </tr>
-      </div>
+          {{
+            item.render ? item.render(row, index, row[item.key]) : row[item.key]
+          }}
+          <div v-if="item.key === 'action'"><slot name="action"></slot></div>
+        </td>
+      </tr>
     </tbody>
     <!-- <tfoot>
       <tr>

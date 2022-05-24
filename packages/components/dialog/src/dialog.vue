@@ -15,7 +15,7 @@
       >
         <el-dialog-content
           v-if="rendered"
-          :custom-class="customClass"
+          v-bind="$attrs"
           :center="center"
           :close-icon="closeIcon"
           :draggable="draggable"
@@ -51,7 +51,8 @@ import type { SetupContext, Ref } from 'vue'
 import type { DialogEmits } from './dialog'
 
 defineOptions({
-  name: 'ElDialog'
+  name: 'ElDialog',
+  inheritAttrs: false
 })
 
 const props = defineProps(dialogProps)

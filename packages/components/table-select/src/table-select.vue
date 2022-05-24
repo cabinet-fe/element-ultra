@@ -6,6 +6,7 @@
         <el-button type="primary" :icon="Plus">选择</el-button>
       </slot>
     </div>
+
     <!-- 表格 -->
     <div :class="ns.e('table')" v-if="table">
       <TableSelectDisplay :data="selected" :columns="columns">
@@ -86,7 +87,7 @@ const handleClick = () => {
 }
 
 const handleSelect = (data: Record<string, any>) => {
-  multiple ? (selected.value = data) : (selected.value = [data])
+  selected.value = multiple ? data : [data]
   emits('update:modelValue', data)
   emits('change', data)
 }
@@ -140,7 +141,6 @@ watch(
 watch(
   () => tableData.value,
   (cur, pre) => {
-    console.log('tableData', tableData);
     nextTick(() => stateInit())
   }
 )

@@ -111,8 +111,8 @@ const [configStore] = useConfig()
 const pageSizes = [20, 40, 60, 120, 200]
 
 const query = shallowReactive({
-  page: 1,
-  size: configStore.proTableDefaultSize || 20
+  $page: 1,
+  $size: configStore.proTableDefaultSize || 20
 })
 
 const state = shallowReactive({
@@ -152,7 +152,7 @@ const fetchData = async () => {
   loading.value = true
 
   // 还原真实的请求参数
-  let realQuery = Object.keys(props.query || {}).reduce((acc, cur) => {
+  let realQuery = Object.keys({...props.query, ...query}).reduce((acc, cur) => {
     let v = props.query![cur]
     if (cur.startsWith('$')) {
       cur = cur.slice(1)
@@ -179,19 +179,17 @@ const fetchData = async () => {
   state.data = data
 }
 
-let a = shallowRef(0)
-
 // query发生改变时重新监听里面的属性
 let stopWatchQueryProps: () => void
 watch(
   () => props.query,
-  query => {
+  propQuery => {
     stopWatchQueryProps?.()
 
-    const watchList = Object.keys(query || {})
+    const watchList = Object.keys({ ...propQuery, ...query })
       .filter(k => k.startsWith('$'))
       .map(k => {
-        return () => props.query?.[k]
+        return () => propQuery?.[k]
       })
 
     // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据

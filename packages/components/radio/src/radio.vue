@@ -15,7 +15,11 @@
     @keydown.space.stop.prevent="modelValue = disabled ? modelValue : value"
   >
     <span
-      :class="[ns.e('input'), ns.is('disabled', disabled), ns.is('checked', modelValue === value)]"
+      :class="[
+        ns.e('input'),
+        ns.is('disabled', disabled),
+        ns.is('checked', modelValue === value)
+      ]"
     >
       <span :class="ns.e('inner')"></span>
       <input
@@ -34,9 +38,7 @@
       />
     </span>
     <span :class="ns.e('label')" @keydown.stop>
-      <slot>
-        {{ value }}
-      </slot>
+      <slot> </slot>
     </span>
   </label>
 </template>
@@ -55,7 +57,10 @@ const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
-const { radioRef, focus, size, disabled, tabIndex, modelValue } = useRadio(props, emit)
+const { radioRef, focus, size, disabled, tabIndex, modelValue } = useRadio(
+  props,
+  emit
+)
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value as any))

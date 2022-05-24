@@ -4,8 +4,7 @@
       ns.b(),
       ns.is('fullscreen', fullscreen),
       ns.is('draggable', draggable),
-      { [ns.m('center')]: center },
-      customClass
+      { [ns.m('center')]: center }
     ]"
     aria-modal="true"
     role="dialog"

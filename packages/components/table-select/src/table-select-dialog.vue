@@ -8,14 +8,13 @@
         <el-button type="primary" @click="handleSearch">查询</el-button>
       </div>
     </div>
-    <div :class="ns.e('table')">
+    <div :class="ns.e('table')" :style="{ height: theight + 'px' }">
       <TableSelectDisplay
         :data="tableData ? tableData : data"
         :columns="columns.filter((column) => column.key !== 'action')"
         :value="props.value"
         checkable
         ref="tableRef"
-        :theight="theight"
       />
     </div>
     <el-pagination
