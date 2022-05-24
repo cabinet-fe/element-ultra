@@ -9,6 +9,14 @@
     <div :class="ns.e('main')">
       <section :class="ns.e('content')">
         <ElSlotsRender :nodes="getDefaultSlots()" />
+
+        <template v-if="showExtra && conf.pageExtraComponents">
+          <component
+            v-for="c of conf.pageExtraComponents"
+            :is="c"
+            ref="extraRefs"
+          />
+        </template>
       </section>
 
       <section :class="ns.e('footer')">
@@ -36,10 +44,6 @@
       <slot name="panes" />
     </el-tabs>
   </el-grid>
-
-  <template v-if="conf.pageExtraComponents">
-    <component v-for="c of conf.pageExtraComponents" :is="c" ref="extraRefs" />
-  </template>
 </template>
 <script lang="ts" setup>
 import { ElGrid } from '@element-ultra/components/grid'
@@ -71,6 +75,13 @@ const active = shallowRef('page-nav')
 const slots = useSlots()
 
 const [conf] = useConfig()
+
+defineProps({
+  showExtra: {
+    type: Boolean,
+    default: true
+  }
+})
 
 const navList = shallowRef<string[]>([])
 const currentNavIndex = shallowRef(0)

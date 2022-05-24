@@ -17,37 +17,9 @@
 }
 
 @include b(date-editor) {
-  @include set-component-css-var('date-editor', $date-editor);
-
   position: relative;
   display: inline-block;
   text-align: left;
-
-  &.#{$namespace}-input,
-  &.#{$namespace}-input__inner {
-    width: var(--el-date-editor-width);
-  }
-
-  @include m((monthrange)) {
-    &.#{$namespace}-input,
-    &.#{$namespace}-input__inner {
-      width: var(--el-date-editor-monthrange-width);
-    }
-  }
-
-  @include m((daterange, timerange)) {
-    &.#{$namespace}-input,
-    &.#{$namespace}-input__inner {
-      width: var(--el-date-editor-daterange-width);
-    }
-  }
-
-  @include m(datetimerange) {
-    &.#{$namespace}-input,
-    &.#{$namespace}-input__inner {
-      width: var(--el-date-editor-datetimerange-width);
-    }
-  }
 
   @include m(dates) {
     .#{$namespace}-input__inner {
