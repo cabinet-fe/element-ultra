@@ -19,7 +19,7 @@
           aria-modal="true"
           :aria-labelledby="ns.e('title')"
           :aria-label="title"
-          :class="[ns.b(), direction, visible && 'open', customClass]"
+          :class="[ns.b(), direction, visible && 'open']"
           :style="
             isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
           "

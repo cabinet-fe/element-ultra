@@ -62,8 +62,8 @@
       :class="ns.e('pagination')"
       v-if="pagination"
       style="justify-content: flex-end"
-      v-model:current-page="query.page"
-      v-model:page-size="query.size"
+      v-model:current-page="query.$page"
+      v-model:page-size="query.$size"
       small
       layout="total, prev, pager, next,  sizes, jumper"
       :total="state.total"
@@ -182,7 +182,7 @@ const fetchData = async () => {
 let stopWatchQueryProps: () => void
 watch(
   () => props.query,
-  propQuery => {
+  () => {
     stopWatchQueryProps?.()
 
     const getWatchList = (o: Record<string, any>) => {
@@ -191,7 +191,7 @@ watch(
         .map(k => () => o[k])
     }
     const watchList = [
-      ...getWatchList(propQuery || {}),
+      ...getWatchList(props.query || {}),
       ...getWatchList(props.pagination ? query : {})
     ]
 
