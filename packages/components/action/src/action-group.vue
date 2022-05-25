@@ -1,5 +1,12 @@
 <script lang="tsx">
-import { defineComponent, provide, shallowRef, render, type VNode } from 'vue'
+import {
+  defineComponent,
+  provide,
+  shallowRef,
+  type VNode,
+  isVNode,
+  type VNodeNormalizedChildren
+} from 'vue'
 import { actionGroupProps } from './type'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElButton from '@element-ultra/components/button'
@@ -7,6 +14,7 @@ import ElIcon from '@element-ultra/components/icon'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { closeDrop } from './token'
+import { isFragment, isTemplate } from '@element-ultra/utils'
 
 export default defineComponent({
   name: 'ElActionGroup',
@@ -17,37 +25,38 @@ export default defineComponent({
   setup(props, { slots }) {
     const ns = useNamespace('action-group')
 
-    const visible = shallowRef(false)
+    const getActions = (
+      children: VNodeNormalizedChildren,
+      result: VNode[] = []
+    ) => {
+      if (!Array.isArray(children)) {
+        return result
+      }
+      children.forEach(child => {
+        if (!isVNode(child)) return
 
-    provide(closeDrop, () => {
-      visible.value = false
-    })
+        if (
+          typeof child.type === 'object' &&
+          (child.type as any).name === 'ElAction'
+        ) {
+          return result.push(child)
+        }
 
-    const onClickMore = (e) => {
-      visible.value = !visible.value
-    }
-
-    const getSlots = () => {
-      const children = slots.default?.() || []
-      let result: VNode[] = []
-      children.forEach((item: Record<string, any>) => {
-        if (item.type.name !== 'ElAction') {
-          if (item.type.render) {
-            let node = item.type.render(item.props)
-            result = result.concat(node.children)
-          } else if (item.type.setup) {
-            let node = item.type.setup(item.props)()
-
-            result = result.concat(node.children)
-          }
-        } else {
-          result.push(item as VNode)
+        if (isFragment(child) || isTemplate(child)) {
+          getActions(child.children, result)
         }
       })
+      return result
+    }
 
+    const getChildren = () => {
+      const children = getActions(slots.default?.() || [])
       const { max } = props
-      const normalChildren = max >= result.length ? result : result.slice(0, max - 1)
-      const restChildren = (max >= result.length ? [] : result.slice(max - 1)).map((node) => {
+      const normalChildren =
+        max >= children.length ? children : children.slice(0, max - 1)
+      const restChildren = (
+        max >= children.length ? [] : children.slice(max - 1)
+      ).map(node => {
         if (node.props) {
           node.props.isDrop = true
         }
@@ -57,13 +66,11 @@ export default defineComponent({
       const dropdownChildren = restChildren.length ? (
         <ElTooltip
           effect='light'
-          v-model:visible={visible.value}
           popperClass={ns.e('dropdown')}
-          onMouseleave={() => (visible.value = false)}
           v-slots={{
             content: () => <ul>{restChildren}</ul>,
             default: () => (
-              <ElButton onClick={onClickMore} text>
+              <ElButton text>
                 更多
                 <ElIcon class='el-icon--right'>
                   <ArrowDown />
@@ -80,7 +87,7 @@ export default defineComponent({
     }
 
     return () => {
-      const { normalChildren, dropdownChildren } = getSlots()
+      const { normalChildren, dropdownChildren } = getChildren()
       return (
         <>
           {normalChildren}

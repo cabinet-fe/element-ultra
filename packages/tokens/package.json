@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "license": "MIT",
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": "^3.2.36"
   },
   "main": "index.ts",
   "module": "index.ts",

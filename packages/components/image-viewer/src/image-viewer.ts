@@ -1,35 +1,40 @@
-import { buildProps, definePropType, mutable } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
-export const imageViewerProps = buildProps({
+export const imageViewerProps = {
   urlList: {
-    type: definePropType<string[]>(Array),
-    default: () => mutable([] as const),
+    type: Array as PropType<string[]>,
+    default: () => []
   },
   zIndex: {
-    type: Number,
+    type: Number
   },
   initialIndex: {
     type: Number,
-    default: 0,
+    default: 0
   },
   infinite: {
     type: Boolean,
-    default: true,
+    default: true
   },
   hideOnClickModal: {
     type: Boolean,
-    default: false,
+    default: false
   },
   teleported: {
     type: Boolean,
-    default: false,
-  },
-} as const)
+    default: false
+  }
+} as const
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
 export const imageViewerEmits = {
   close: () => true,
-  switch: (index: number) => typeof index === 'number',
+  switch: (index: number) => typeof index === 'number'
 }
 export type ImageViewerEmits = typeof imageViewerEmits
+
+export type ImageViewerAction =
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'clockwise'
+  | 'anticlockwise'

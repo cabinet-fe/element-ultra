@@ -4,7 +4,7 @@
   list-style: none;
   cursor: pointer;
   min-width: 80px;
-  padding: 0 4px;
+  padding: 0 16px;
   height: 28px;
   line-height: 28px;
 
@@ -18,7 +18,9 @@
 
 @include b('action-group') {
   @include e('dropdown') {
-    padding: 5px 0;
+    &.el-popper {
+      padding: 4px 0;
+    }
 
     ul {
       padding: 0;

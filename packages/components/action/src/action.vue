@@ -1,8 +1,8 @@
 <template>
   <el-popconfirm
+    v-if="needConfirm"
     append-to="body"
     teleported
-    v-if="needConfirm"
     title="确认执行此操作吗？"
     @confirm="run"
     placement="right-start"

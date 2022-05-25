@@ -5,8 +5,8 @@ import { Project } from 'ts-morph'
 import glob from 'fast-glob'
 import { bold } from 'chalk'
 
-import { errorAndExit, green, yellow } from './utils/log'
-import { buildOutput, epOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
+import { errorAndExit } from './utils/log'
+import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
 
 import type { SourceFile } from 'ts-morph'
 
@@ -84,7 +84,9 @@ export default async function genDefinitions() {
     }),
     ...epPaths.map(async file => {
       const content = await fs.readFile(path.resolve(epRoot, file), 'utf-8')
-      sourceFiles.push(project.createSourceFile(path.resolve(pkgRoot, file), content))
+      sourceFiles.push(
+        project.createSourceFile(path.resolve(pkgRoot, file), content)
+      )
     })
   ])
 
@@ -103,7 +105,8 @@ export default async function genDefinitions() {
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
     if (emitFiles.length === 0) {
-      errorAndExit(new Error(`Emit no file: ${bold(relativePath)}`))
+      console.log(`Emit no file: ${bold(relativePath)}`)
+      // errorAndExit(new Error(`Emit no file: ${bold(relativePath)}`))
     }
 
     const tasks = emitFiles.map(async outputFile => {
@@ -113,7 +116,10 @@ export default async function genDefinitions() {
       })
 
       let content = outputFile.getText()
-      content = content.replaceAll(`@element-ultra/theme-chalk`, 'element-ultra/theme-chalk')
+      content = content.replaceAll(
+        `@element-ultra/theme-chalk`,
+        'element-ultra/theme-chalk'
+      )
       content = content.replaceAll(`@element-ultra/`, `element-ultra/`)
 
       await fs.writeFile(filepath, content, 'utf8')
