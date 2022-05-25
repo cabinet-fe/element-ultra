@@ -20,17 +20,17 @@
     <li :class="ns.b()" v-if="isDrop" @click="run">
       <slot />
     </li>
-    <el-button :icon="icon" v-else :size="size" text @click="run"> <slot /> </el-button>
+    <el-button :icon="icon" v-else :size="size" text @click="run">
+      <slot />
+    </el-button>
   </template>
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
 import { actionProps } from './type'
 import ElButton from '@element-ultra/components/button'
 import ElPopconfirm from '@element-ultra/components/popconfirm'
 import { useNamespace } from '@element-ultra/hooks'
-import { closeDrop } from './token'
 
 const ns = useNamespace('action')
 
@@ -38,18 +38,13 @@ defineOptions({
   name: 'ElAction'
 })
 
-const props = defineProps(actionProps)
+defineProps(actionProps)
 
 const emit = defineEmits<{
   (e: 'run'): void
 }>()
 
-const close = inject(closeDrop)
-
 const run = () => {
   emit('run')
-  if (props.isDrop) {
-    close?.()
-  }
 }
 </script>

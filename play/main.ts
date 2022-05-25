@@ -31,7 +31,7 @@ setConfigStore({
     ]
     return Promise.resolve({
       data,
-      total: data.length,
+      total: 100,
     })
   },
   pageExtraComponents: [

@@ -5,7 +5,7 @@
         <slot name="searcher" />
       </div>
 
-      <el-button text>展开/隐藏</el-button>
+      <!-- <el-button text>展开/隐藏</el-button> -->
     </section>
 
     <section
@@ -17,7 +17,7 @@
         <slot name="tools" />
       </div>
       <div :class="ns.e('tools-right')">
-        <el-button type="primary" @click="fetchData">查询</el-button>
+        <el-button type="primary" @click="fetchData()">查询</el-button>
       </div>
     </section>
 
@@ -62,8 +62,9 @@
       :class="ns.e('pagination')"
       v-if="pagination"
       style="justify-content: flex-end"
-      v-model:current-page="query['$page']"
-      v-model:page-size="query['$size']"
+      v-model:current-page="query.page"
+      v-model:page-size="query.size"
+      @change="fetchData(false)"
       small
       layout="total, prev, pager, next,  sizes, jumper"
       :total="state.total"
@@ -111,8 +112,8 @@ const [configStore] = useConfig()
 const pageSizes = [20, 40, 60, 120, 200]
 
 const query = shallowReactive({
-  $page: 1,
-  $size: configStore.proTableDefaultSize || 20
+  page: 1,
+  size: configStore.proTableDefaultSize || 20
 })
 
 const state = shallowReactive({
@@ -147,9 +148,18 @@ onMounted(() => {
 })
 
 let loading = shallowRef(false)
-const fetchData = async () => {
+
+/**
+ * 查询数据
+ * @param resetPage 是否重置分页, 只有在 分页相关的组件改变时无需重置
+ */
+const fetchData = async (resetPage = true) => {
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
   loading.value = true
+  console.log(resetPage)
+  if (resetPage) {
+    query.page = 1
+  }
 
   let _query = { ...props.query, ...(props.pagination ? query : null) }
 
@@ -182,26 +192,25 @@ const fetchData = async () => {
 let stopWatchQueryProps: () => void
 watch(
   () => props.query,
-  () => {
+  propQuery => {
     stopWatchQueryProps?.()
 
-    const getWatchList = (o: Record<string, any>) => {
-      return Object.keys(o)
-        .filter(k => k.startsWith('$'))
-        .map(k => () => o[k])
-    }
-    const watchList = [
-      ...getWatchList(props.query || {}),
-      ...getWatchList(props.pagination ? query : {})
-    ]
+    if (!propQuery) return
+
+    const watchList = Object.keys(propQuery)
+      .filter(k => k.startsWith('$'))
+      .map(k => () => propQuery[k])
 
     // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
-    stopWatchQueryProps = watch(watchList, fetchData)
+    stopWatchQueryProps = watch(watchList, () => fetchData())
   },
   { immediate: true }
 )
 
-watch(() => props.api, fetchData)
+watch(
+  () => props.api,
+  () => fetchData()
+)
 fetchData()
 
 const tableRef = shallowRef()

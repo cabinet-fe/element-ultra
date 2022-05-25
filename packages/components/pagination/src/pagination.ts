@@ -71,8 +71,7 @@ export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 export const paginationEmits = {
   'update:current-page': (val: number) => typeof val === 'number',
   'update:page-size': (val: number) => typeof val === 'number',
-  'size-change': (val: number) => typeof val === 'number',
-  'current-change': (val: number) => typeof val === 'number',
+  'change': (page: number, size: number) => true,
   'prev-click': (val: number) => typeof val === 'number',
   'next-click': (val: number) => typeof val === 'number'
 }
@@ -91,12 +90,10 @@ export default defineComponent({
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =
       'onUpdate:currentPage' in vnodeProps ||
-      'onUpdate:current-page' in vnodeProps ||
-      'onCurrentChange' in vnodeProps
+      'onUpdate:current-page' in vnodeProps
     const hasPageSizeListener =
       'onUpdate:pageSize' in vnodeProps ||
-      'onUpdate:page-size' in vnodeProps ||
-      'onSizeChange' in vnodeProps
+      'onUpdate:page-size' in vnodeProps
     const assertValidUsage = computed(() => {
       // Users have to set either one, otherwise count of pages cannot be determined
       if (isAbsent(props.total) && isAbsent(props.pageCount)) return false
@@ -145,7 +142,7 @@ export default defineComponent({
         }
         if (hasPageSizeListener) {
           emit('update:page-size', v)
-          emit('size-change', v)
+          emit('change', pageCountBridge.value, v)
         }
       }
     })
@@ -176,7 +173,7 @@ export default defineComponent({
         }
         if (hasCurrentPageListener) {
           emit('update:current-page', newCurrentPage)
-          emit('current-change', newCurrentPage)
+          emit('change', newCurrentPage, pageCountBridge.value)
         }
       }
     })

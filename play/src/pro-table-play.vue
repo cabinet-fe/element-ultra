@@ -90,7 +90,6 @@ setTimeout(() => {
       align: 'center',
       key: 'action',
       fixed: 'right',
-      width: 300,
       render(row, index) {
         return (
           <>

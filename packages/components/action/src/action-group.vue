@@ -1,8 +1,6 @@
 <script lang="tsx">
 import {
   defineComponent,
-  provide,
-  shallowRef,
   type VNode,
   isVNode,
   type VNodeNormalizedChildren
@@ -13,7 +11,6 @@ import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { closeDrop } from './token'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 
 export default defineComponent({
