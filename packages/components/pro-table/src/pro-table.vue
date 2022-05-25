@@ -156,7 +156,6 @@ let loading = shallowRef(false)
 const fetchData = async (resetPage = true) => {
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
   loading.value = true
-  console.log(resetPage)
   if (resetPage) {
     query.page = 1
   }
