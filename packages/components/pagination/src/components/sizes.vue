@@ -12,33 +12,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from 'vue'
+import { defineComponent, watch, ref, type PropType } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElSelect } from '@element-ultra/components/select'
 import { useNamespace } from '@element-ultra/hooks'
-import { buildProps, definePropType, mutable } from '@element-ultra/utils'
 import { usePagination } from '../usePagination'
+import type { ComponentSize } from '@element-ultra/constants'
 
-const paginationSizesProps = buildProps({
+const paginationSizesProps = {
   pageSize: {
     type: Number,
-    required: true,
+    required: true
   },
   pageSizes: {
-    type: definePropType<number[]>(Array),
-    default: () => mutable([10, 20, 30, 40, 50, 100] as const),
+    type: Array as PropType<number[]>,
+    default: () => [10, 20, 30, 40, 50, 100]
   },
   popperClass: {
     type: String,
-    default: '',
+    default: ''
   },
   disabled: Boolean,
   size: {
-    type: String,
-    values: ['large', 'default' , 'small'],
-    default: 'default',
-  },
-} as const)
+    type: String as PropType<ComponentSize>,
+    default: 'default'
+  }
+} as const
 
 export default defineComponent({
   name: 'ElPaginationSizes',
@@ -53,7 +52,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const ns = useNamespace('pagination')
     const pagination = usePagination()
-    const innerPageSize = ref<number |  null>(props.pageSize)
+    const innerPageSize = ref<number | null>(props.pageSize)
 
     watch(
       () => props.pageSizes,
@@ -71,7 +70,7 @@ export default defineComponent({
 
     watch(
       () => props.pageSize,
-      (newVal) => {
+      newVal => {
         innerPageSize.value = newVal
       }
     )
@@ -83,17 +82,17 @@ export default defineComponent({
       }
     }
 
-    const pageOptions = props.pageSizes.map((size) => ({
+    const pageOptions = props.pageSizes.map(size => ({
       label: size + '条/页',
-      value: size,
+      value: size
     }))
 
     return {
       ns,
       pageOptions,
       innerPageSize,
-      handleChange,
+      handleChange
     }
-  },
+  }
 })
 </script>

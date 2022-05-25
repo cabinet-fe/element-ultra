@@ -62,8 +62,8 @@
       :class="ns.e('pagination')"
       v-if="pagination"
       style="justify-content: flex-end"
-      v-model:current-page="query.$page"
-      v-model:page-size="query.$size"
+      v-model:current-page="query['$page']"
+      v-model:page-size="query['$size']"
       small
       layout="total, prev, pager, next,  sizes, jumper"
       :total="state.total"

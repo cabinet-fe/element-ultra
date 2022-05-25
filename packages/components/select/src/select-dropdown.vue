@@ -4,17 +4,16 @@ import {
   computed,
   inject,
   ref,
-  renderSlot,
   h,
   withCtx,
   withKeys,
-  withModifiers,
+  withModifiers
 } from 'vue'
 import { get } from 'lodash-unified'
 import { isUndefined, isObject } from '@element-ultra/utils'
 import {
   FixedSizeList,
-  DynamicSizeList,
+  DynamicSizeList
 } from '@element-ultra/components/virtual-list'
 import { useNamespace } from '@element-ultra/hooks'
 import GroupItem from './group-item.vue'
@@ -24,6 +23,7 @@ import { selectInjectionKey } from './token'
 
 import type { ItemProps } from '@element-ultra/components/virtual-list'
 import type { OptionItemProps } from './select.types'
+import { propsToAttrMap } from '@vue/shared'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -31,7 +31,7 @@ export default defineComponent({
   props: {
     data: Array,
     hoveringIndex: Number,
-    width: Number,
+    width: Number
   },
   setup(props) {
     const select = inject(selectInjectionKey)!
@@ -47,19 +47,19 @@ export default defineComponent({
     const listProps = computed(() => {
       if (isSized.value) {
         return {
-          itemSize: select.props.itemHeight,
+          itemSize: select.props.itemHeight
         }
       }
 
       return {
         estimatedSize: select.props.estimatedOptionHeight,
-        itemSize: (idx: number) => cachedHeights.value[idx],
+        itemSize: (idx: number) => cachedHeights.value[idx]
       }
     })
 
     const contains = (arr: Array<any> = [], target: any) => {
       const {
-        props: { valueKey },
+        props: { valueKey }
       } = select
 
       if (!isObject(target)) {
@@ -68,7 +68,7 @@ export default defineComponent({
 
       return (
         arr &&
-        arr.some((item) => {
+        arr.some(item => {
           return get(item, valueKey) === get(target, valueKey)
         })
       )
@@ -85,7 +85,7 @@ export default defineComponent({
     const isItemSelected = (modelValue: any[] | any, target) => {
       let selectedValue = select.getValue(target)
       if (select.props.multiple) {
-        return contains(modelValue,  selectedValue)
+        return contains(modelValue, selectedValue)
       }
       return isEqual(modelValue, selectedValue)
     }
@@ -130,12 +130,11 @@ export default defineComponent({
       isItemSelected,
 
       scrollToItem,
-      resetScrollTop,
+      resetScrollTop
     }
   },
 
   render(_ctx, _cache) {
-
     const {
       $slots,
 
@@ -148,7 +147,7 @@ export default defineComponent({
       // methods
       isItemDisabled,
       isItemHovering,
-      isItemSelected,
+      isItemSelected
     } = _ctx
 
     const Comp = isSized ? FixedSizeList : DynamicSizeList
@@ -160,7 +159,7 @@ export default defineComponent({
       onSelect,
       onHover,
       onKeyboardNavigate,
-      onKeyboardSelect,
+      onKeyboardSelect
     } = select
     const { height, modelValue, multiple } = selectProps
 
@@ -170,8 +169,8 @@ export default defineComponent({
         {
           class: ns.b('dropdown'),
           style: {
-            width: `${width}px`,
-          },
+            width: `${width}px`
+          }
         },
         $slots.empty?.()
       )
@@ -185,7 +184,7 @@ export default defineComponent({
         return h(GroupItem, {
           item,
           style: scoped.style,
-          height: isSized ? listProps.itemSize : listProps.estimatedSize,
+          height: isSized ? listProps.itemSize : listProps.estimatedSize
         })
       }
 
@@ -197,19 +196,19 @@ export default defineComponent({
         {
           ...scoped,
           selected,
-          disabled: selectProps.selectable ?  !selectProps.selectable(item) : itemDisabled,
+          disabled: selectProps.selectable
+            ? !selectProps.selectable(item)
+            : itemDisabled,
           created: !!item.created,
           hovering: isItemHovering(index),
           item,
           onSelect,
-          onHover,
+          onHover
         },
         {
           default: withCtx((props: OptionItemProps) => {
-            return renderSlot($slots, 'default', props, () => [
-              h('span', getLabel(item)),
-            ])
-          }),
+            return $slots.default?.(props) || [h('span', getLabel(item))]
+          })
         }
       )
     })
@@ -256,24 +255,24 @@ export default defineComponent({
               ['esc']
             )),
           _cache[5] ||
-            (_cache[5] = withKeys(() => (select.expanded = false), ['tab'])),
+            (_cache[5] = withKeys(() => (select.expanded = false), ['tab']))
           // _cache[6] || (_cache[6] = () => {
           //   console.log(11)
           // }),
         ],
-        ...listProps,
+        ...listProps
       },
       {
-        default: ListItem,
+        default: ListItem
       }
     )
     return h(
       'div',
       {
-        class: [ns.b('dropdown'), ns.is('multiple', multiple)],
+        class: [ns.b('dropdown'), ns.is('multiple', multiple)]
       },
       [List]
     )
-  },
+  }
 })
 </script>

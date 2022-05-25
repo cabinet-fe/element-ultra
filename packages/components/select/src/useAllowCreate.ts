@@ -10,7 +10,7 @@ export function useAllowCreate(props: ISelectProps, states) {
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = (option) => option[props.valueKey] === query
+    const hasValue = option => option[props.valueKey] === query
     return (
       (props.options && props.options.some(hasValue)) ||
       states.createdOptions.some(hasValue)
@@ -35,7 +35,7 @@ export function useAllowCreate(props: ISelectProps, states) {
           [props.valueKey]: query,
           [props.labelKey]: query,
           created: true,
-          disabled: false,
+          disabled: false
         }
         if (states.createdOptions.length >= createOptionCount.value) {
           states.createdOptions[createOptionCount.value] = newOption
@@ -68,7 +68,7 @@ export function useAllowCreate(props: ISelectProps, states) {
       return
     }
     const idx = states.createdOptions.findIndex(
-      (it) => it.value === option[props.valueKey]
+      it => it.value === option[props.valueKey]
     )
     if (~idx) {
       states.createdOptions.splice(idx, 1)
@@ -87,6 +87,6 @@ export function useAllowCreate(props: ISelectProps, states) {
     createNewOption,
     removeNewOption,
     selectNewOption,
-    clearAllNewOption,
+    clearAllNewOption
   }
 }

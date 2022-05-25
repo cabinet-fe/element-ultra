@@ -1,6 +1,5 @@
 <template>
   <li
-    :aria-selected="selected"
     :style="style"
     :class="[
       ns.be('dropdown', 'option-item'),
@@ -13,7 +12,7 @@
     @click.stop="selectOptionClick"
   >
     <slot :item="item" :index="index" :disabled="disabled">
-      <span>{{ getLabel(item) }}11</span>
+      <span>{{ getLabel(item) }}</span>
     </slot>
   </li>
 </template>
