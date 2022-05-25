@@ -19,6 +19,9 @@
       <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
       <template #searcher>
+        <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
+        <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
+        <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
         <el-input v-model="query.name" />
         <el-date-picker v-model="query.$date" clearable />
       </template>

@@ -6,6 +6,7 @@
 
 @include b(tree-select) {
   width: 100%;
+  display: inline-block;
   line-height: map.get($input-height, 'default');
   min-height: map.get($input-height, 'default');
   position: relative;

@@ -76,11 +76,9 @@
 
   @include b(table-select-dialog) {
     @include e(searcher) {
-      @include e(wrapper) {
-        div {
-          max-width: 31%;
-          padding: 2px;
-        }
+      .el-table-select-dialog__wrapper>div {
+        max-width: 31%;
+        padding: 2px;
       }
       @include e(btn) {
         text-align: right;
