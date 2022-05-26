@@ -18,6 +18,7 @@
     overflow-y: hidden;
   }
   @include b(table-select-display) {
+    width: 100%;
     position: relative;
     box-sizing: border-box;
     height: fit-content;
