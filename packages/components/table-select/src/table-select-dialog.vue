@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, watch, inject, ref } from 'vue'
+import { shallowRef, watch, inject, ref, toRefs } from 'vue'
 import { ElDialog } from '@element-ultra/components/dialog'
 import { ElButtonGroup, ElButton } from '@element-ultra/components/button'
 import { ElPagination } from '@element-ultra/components/pagination'
@@ -52,7 +52,9 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, columns, api, query, title, theight } = props
+const { data, query } = props
+
+const { columns, api, title, theight } = toRefs(props)
 
 const ns = useNamespace('table-select-dialog')
 
@@ -70,11 +72,11 @@ let pageSize = ref(20)
 let totalSize = ref(0)
 const handleSizeChange = (size: number) => {
   pageSize.value = size
-  fetchData(api)
+  fetchData(api as any)
 }
 const handleCurrentChange = (current: number) => {
   currentPage.value = current
-  fetchData(api)
+  fetchData(api as any)
 }
 
 const open = () => {
@@ -101,7 +103,7 @@ let tableData = ref<any>(null)
 
 // api
 const handleSearch = () => {
-  fetchData(api)
+  fetchData(api as any)
 }
 
 const [configStore] = useConfig()
@@ -145,7 +147,7 @@ let queryWatchList = Object.keys(props.query || {})
   })
 
 watch([...queryWatchList], () => {
-  fetchData(api)
+  fetchData(api as any)
 })
 
 watch(

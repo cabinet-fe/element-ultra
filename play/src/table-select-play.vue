@@ -8,7 +8,7 @@
       pagination
       :show-index="true"
       :query="query"
-      dialog-title="弹框标题"
+      :dialog-title="dialogTitle"
       ref="tableRef"
       :editable="true"
       :table="true"
@@ -25,8 +25,6 @@
         <el-input v-model="query.name" />
         <el-date-picker v-model="query.$date" clearable />
       </template>
-
-
     </el-table-select>
   </el-card>
 </template>
@@ -36,13 +34,12 @@ import { shallowReactive, onMounted } from 'vue'
 import type { ProTableColumn } from 'element-ultra'
 import { Plus } from '@element-plus/icons-vue'
 
-
 const query = shallowReactive({
   name: '',
   $date: ''
 })
 
-const columns: ProTableColumn[] = $ref([
+const fixed_columns: ProTableColumn[] = $ref([
   {
     key: 'code',
     name: '明细指标编码',
@@ -59,31 +56,18 @@ const columns: ProTableColumn[] = $ref([
   },
   { key: 'remarks', name: '备注' },
   { key: 'department', name: '部门', width: 160 },
-  {
-    key: 'frozenAmount',
-    name: '当前已冻结金额(元)',
-    width: 150
-  },
-  {
-    key: 'balance',
-    name: '可冻结金额(元)',
-    width: 130
-  },
-  {
-    key: 'newForzenAmount',
-    name: '本次冻结金额(元)',
-    width: 140
-  },
-  { key: 'frozenRemark', name: '冻结备注' },
   { key: 'action', name: '操作', slot: 'column-action' }
 ])
 
+let extra_columns: ProTableColumn[] = $ref([])
+
+let columns = $computed<ProTableColumn[]>(() => {
+  return [...fixed_columns, ...extra_columns]
+})
+
 let singleData = $ref({})
 
-let multipleData = $ref([
-  { id: '1517846945443110913' },
-  { id: '1519595040521015296' }
-])
+let multipleData = $ref([{ id: '1517846945443110913' }, { id: '1519595040521015296' }])
 
 let multiple = $ref<boolean>(true)
 
@@ -153,9 +137,29 @@ const handleChange = (data: any) => {
   path = '/page-play'
 }
 
+let dialogTitle = 'tankuasdkaj'
+
 onMounted(() => {
   setTimeout(() => {
-    Object.assign(singleData, { frozenRemark: 'ttttttttttt' })
+    dialogTitle = 'aaaaaaaaaa'
+    extra_columns = [
+      {
+        key: 'frozenAmount',
+        name: '当前已冻结金额(元)',
+        width: 150
+      },
+      {
+        key: 'balance',
+        name: '可冻结金额(元)',
+        width: 130
+      },
+      {
+        key: 'newForzenAmount',
+        name: '本次冻结金额(元)',
+        width: 140
+      },
+      { key: 'frozenRemark', name: '冻结备注' }
+    ]
   }, 3000)
 })
 </script>

@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, ref, watch, nextTick } from 'vue'
+import { shallowRef, provide, ref, watch, nextTick, toRefs } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectProps } from './table-select'
 import TableSelectDisplay from './table-select-display.vue'
@@ -55,20 +55,16 @@ const props = defineProps(tableSelectProps)
 
 const {
   modelValue,
-  columns,
   data,
   multiple,
-  api,
   pagination,
   showIndex,
   stripe,
   query,
-  valueKey,
-  dialogTitle,
-  theight,
-  editable,
-  table
+  valueKey
 } = props
+
+const { columns, api, dialogTitle, theight, editable, table } = toRefs(props)
 
 provide(multipleKey, multiple)
 provide(paginationKey, pagination)
