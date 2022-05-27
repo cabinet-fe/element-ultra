@@ -1,5 +1,6 @@
-<template >
+<template>
   <el-dialog :width="width" :class="ns.b()" v-model="visible" :title="title">
+    {{ currentPage }}
     <div :class="ns.e('searcher')">
       <div :class="ns.e('wrapper')">
         <slot name="searcher"></slot>
@@ -19,14 +20,12 @@
     </div>
     <el-pagination
       :class="ns.e('pagination')"
-      v-if="api && pagination"
+      v-if="props.api && pagination"
       v-model:currentPage="currentPage"
       v-model:page-size="pageSize"
       :page-sizes="[20, 40, 80, 100, 150, 200]"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalSize"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
     >
     </el-pagination>
     <template #footer>
@@ -54,7 +53,7 @@ const props = defineProps(tableSelectDialogProps)
 
 const { data, query } = props
 
-const { columns, api, title, theight } = toRefs(props)
+const { columns, title, theight } = toRefs(props)
 
 const ns = useNamespace('table-select-dialog')
 
@@ -70,14 +69,20 @@ let pagination = inject(paginationKey)
 let currentPage = ref(1)
 let pageSize = ref(20)
 let totalSize = ref(0)
-const handleSizeChange = (size: number) => {
-  pageSize.value = size
-  fetchData(api as any)
-}
-const handleCurrentChange = (current: number) => {
-  currentPage.value = current
-  fetchData(api as any)
-}
+
+watch(
+  () => currentPage.value,
+  (cur, pre) => {
+    fetchData(props.api)
+  }
+)
+
+watch(
+  () => pageSize.value,
+  (cur, pre) => {
+    fetchData(props.api)
+  }
+)
 
 const open = () => {
   visible.value = true
@@ -94,7 +99,7 @@ const handleCancel = () => {
 
 const submit = () => {
   const data = tableRef.value.getValue()
-  if(!data) return
+  if (!data) return
   emits('change', data)
   close()
 }
@@ -103,7 +108,7 @@ let tableData = ref<any>(null)
 
 // api
 const handleSearch = () => {
-  fetchData(api as any)
+  fetchData(props.api)
 }
 
 const [configStore] = useConfig()
@@ -147,7 +152,7 @@ let queryWatchList = Object.keys(props.query || {})
   })
 
 watch([...queryWatchList], () => {
-  fetchData(api as any)
+  fetchData(props.api)
 })
 
 watch(
