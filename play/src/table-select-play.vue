@@ -1,10 +1,10 @@
 <template>
   <el-card style="width: 50%">
     <el-table-select
-      v-model="singleData"
+      v-model="multipleData"
       :columns="columns"
-      api="/admin/dept/tree"
-      :multiple="false"
+      :data="tableData"
+      :multiple="true"
       pagination
       :show-index="true"
       :query="query"
@@ -12,7 +12,6 @@
       ref="tableRef"
       :editable="true"
       :table="true"
-      value-key="code"
       :path="path"
       @update:model-value="handleChange"
     >
@@ -67,7 +66,7 @@ let columns = $computed<ProTableColumn[]>(() => {
 
 let singleData = $ref({})
 
-let multipleData = $ref([{ id: '1517846945443110913' }, { id: '1519595040521015296' }])
+let multipleData = $ref([])
 
 let multiple = $ref<boolean>(true)
 

@@ -109,8 +109,8 @@ const handleAllCheck = (val: boolean) => {
 
 const getValue = () => {
   if (multiple) {
-    return [...checkbox.value].map((valueKey: any) => {
-      return tableData.value.find((item: any) => item[valueKey] === valueKey)
+    return [...checkbox.value].map((key: any) => {
+      return tableData.value.find((item: any) => item[valueKey] === key)
     })
   } else {
     return data?.find((item: any) => {
