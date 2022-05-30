@@ -1,6 +1,5 @@
 <template>
   <el-dialog :width="width" :class="ns.b()" v-model="visible" :title="title">
-    {{ currentPage }}
     <div :class="ns.e('searcher')">
       <div :class="ns.e('wrapper')">
         <slot name="searcher"></slot>
@@ -131,7 +130,9 @@ const fetchData = async (api: string) => {
     .tableSelectRequestMethod({
       api,
       query: {
-        ...realQuery
+        ...realQuery,
+        page: currentPage.value,
+        size: pageSize.value
       }
     })
     .finally(() => {
