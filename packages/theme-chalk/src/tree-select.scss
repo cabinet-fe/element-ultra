@@ -84,7 +84,11 @@
     border: none;
     padding: 0;
     &::placeholder {
-      color: var(--el-input-placeholder-color, map.get($input, 'placeholder-color'));
+      color: var(
+        --el-input-placeholder-color,
+        map.get($input, 'placeholder-color')
+      );
+      font-size: 14px;
     }
   }
 
@@ -113,14 +117,17 @@
     padding: 0;
     width: 100px;
     &::placeholder {
-      color: var(--el-input-placeholder-color, map.get($input, 'placeholder-color'));
+      color: var(
+        --el-input-placeholder-color,
+        map.get($input, 'placeholder-color')
+      );
     }
   }
 
   @include e(icon) {
     min-height: inherit;
     height: inherit;
-    transition: transform .15s;
+    transition: transform 0.15s;
     color: var(--el-input-icon-color, var(--el-text-color-placeholder));
     justify-content: right;
     @include e(close) {
@@ -167,7 +174,10 @@
       }
     }
     @include e(tree) {
-      border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+      border-radius: var(
+        --el-input-border-radius,
+        var(--el-border-radius-base)
+      );
     }
   }
 }

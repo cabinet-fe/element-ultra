@@ -68,7 +68,7 @@
         </template>
 
         <!-- 单选 -->
-        <template v-else>
+      <template v-else>
           <span
             v-if="!filterer.query && !filterer.filtering"
             :class="[
