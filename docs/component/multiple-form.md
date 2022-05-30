@@ -106,6 +106,11 @@ type multipleFormProps = {
     type: String
   },
 
+  /** 不可编辑状态, 为true则不会显示操作栏 */
+  disabled: {
+    type: Boolean
+  },
+
   /** 新增按钮 */
   actionCreate: {
     type: Boolean,

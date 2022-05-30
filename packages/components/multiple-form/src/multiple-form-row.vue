@@ -15,7 +15,7 @@
         />
       </td>
 
-      <td :class="ns.e('action')">
+      <td :class="ns.e('action')" v-if="!multipleFormProps.disabled">
         <el-button type="primary" :icon="Select" text @click="emit('save')" />
         <el-button
           type="primary"
@@ -45,7 +45,7 @@
         </template>
       </td>
 
-      <td :class="ns.e('action')">
+      <td :class="ns.e('action')" v-if="!multipleFormProps.disabled">
         <el-button
           type="primary"
           v-if="multipleFormProps.actionEdit"

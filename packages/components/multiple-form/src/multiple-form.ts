@@ -100,6 +100,10 @@ export const multipleFormProps = {
     default: true
   },
 
+  disabled: {
+    type: Boolean
+  },
+
   title: {
     type: String
   },
