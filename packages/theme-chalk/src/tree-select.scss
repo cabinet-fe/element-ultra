@@ -11,6 +11,8 @@
   min-height: map.get($input-height, 'default');
   position: relative;
   color: var(--el-text-color-regular);
+  vertical-align: middle;
+
   @each $size in (large, small) {
     @include m($size) {
       font-size: map.get($input-font-size, $size);
@@ -27,7 +29,7 @@
     width: 100%;
     outline: none;
     background-color: var(--el-input-bg-color, var(--el-color-white));
-    border: 1px solid var(--el-border-color-base);
+    box-shadow: 0 0 1px 1px inset var(--el-border-color-base);
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
     &:focus {
       border: 1px solid var(--el-color-primary);
@@ -38,9 +40,7 @@
     @include when(disabled) {
       cursor: not-allowed;
       background-color: map.get($input-disabled, 'fill');
-      &:hover {
-        border: 1px solid var(--el-border-color-base);
-      }
+
       @include e(content) {
         cursor: not-allowed;
         @include e(text) {
