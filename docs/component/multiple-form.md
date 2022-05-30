@@ -61,7 +61,7 @@ type MultipleFormColumn = {
   width?: number
 
   /** 默认值 */
-  defaultValue: string | number | boolean;
+  defaultValue: string | number | boolean
 
   /** 自定义渲染*/
   render?: (val: string | number, row: any, index: number) => string
@@ -105,6 +105,22 @@ type multipleFormProps = {
   title: {
     type: String
   },
+
+  /** 新增按钮 */
+  actionCreate: {
+    type: Boolean,
+    default: true
+  },
+  /** 删除按钮 */
+  actionDelete: {
+    type: Boolean,
+    default: true
+  },
+  /** 编辑按钮 */
+  actionEdit: {
+    type: Boolean,
+    default: true
+  }
 
   /** 操作栏宽度 */
   actionWidth: {
