@@ -36,6 +36,8 @@
   display: inline-flex;
   width: 100%;
   line-height: map.get($input-height, 'default');
+  vertical-align: middle;
+
   @include scroll-bar;
 
   & .#{$namespace}-input__clear {
