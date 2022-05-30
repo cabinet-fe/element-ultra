@@ -3,7 +3,7 @@
     <el-table-select
       v-model="singleData"
       :columns="columns"
-      :data="tableData"
+      api="/admin/dept/tree"
       :multiple="false"
       pagination
       :show-index="true"
@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { shallowReactive, onMounted } from 'vue'
-import type { ProTableColumn } from 'element-ultra'
+import { type ProTableColumn, useConfig } from 'element-ultra'
 import { Plus } from '@element-plus/icons-vue'
 
 const query = shallowReactive({
@@ -137,7 +137,18 @@ const handleChange = (data: any) => {
   path = '/page-play'
 }
 
-let dialogTitle = 'tankuasdkaj'
+let dialogTitle = 'title'
+
+const [, setConfigStore] = useConfig()
+setConfigStore({
+  tableSelectRequestMethod: () => {
+    let data: any[] = []
+    return Promise.resolve({
+      data,
+      total: 100,
+    })
+  }
+})
 
 onMounted(() => {
   setTimeout(() => {
