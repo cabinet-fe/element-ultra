@@ -34,9 +34,6 @@
     &:focus {
       border: 1px solid var(--el-color-primary);
     }
-    &:hover {
-      border: 1px solid var(--el-border-color-hover);
-    }
     @include when(disabled) {
       cursor: not-allowed;
       background-color: map.get($input-disabled, 'fill');
