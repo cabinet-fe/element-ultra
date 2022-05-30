@@ -85,6 +85,21 @@ export const multipleFormProps = {
     default: 'inline'
   },
 
+  actionEdit: {
+    type: Boolean,
+    default: true
+  },
+
+  actionDelete: {
+    type: Boolean,
+    default: true
+  },
+
+  actionCreate: {
+    type: Boolean,
+    default: true
+  },
+
   title: {
     type: String
   },
