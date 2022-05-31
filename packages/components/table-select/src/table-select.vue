@@ -102,7 +102,7 @@ const stateInit = (echo: boolean = false) => {
       arr = [modelValue[valueKey]]
     }
   }
-  if (api) {
+  if (api.value) {
     selected.value = tableData.value?.filter((row: Record<string, any>) => {
       return arr.includes(row[valueKey])
     })
