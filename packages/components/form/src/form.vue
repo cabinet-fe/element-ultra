@@ -5,7 +5,11 @@
     :class="[ns.b(), labelPosition ? 'el-form--label-' + labelPosition : '']"
   >
     <template :key="slot.node.key || undefined" v-for="slot of getSlots()">
-      <el-form-item ref="formItemRefs" v-if="isFormComponent(slot)" v-bind="slot.formItemProps">
+      <el-form-item
+        ref="formItemRefs"
+        v-if="isFormComponent(slot)"
+        v-bind="slot.formItemProps"
+      >
         <component
           :is="slot.node"
           :modelValue="data?.[slot.field]"
@@ -32,7 +36,7 @@ import {
   type VNodeArrayChildren
 } from 'vue'
 import ElFormItem from './form-item.vue'
-import ElGrid from '@element-ultra/components/grid'
+import { ElGrid } from '@element-ultra/components/grid'
 import { formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
@@ -131,7 +135,10 @@ const getSlots = () => {
       if (!isVNode(node)) return
 
       // 如果是模板或者片段则渲染children
-      if ((isFragment(node) || isTemplate(node)) && Array.isArray(node.children)) {
+      if (
+        (isFragment(node) || isTemplate(node)) &&
+        Array.isArray(node.children)
+      ) {
         return recursive(node.children)
       }
 
@@ -215,7 +222,9 @@ const validateField = async (field: string) => {
       if (errMsg) return errMsg
     } else {
       // 预置校验
-      const errMsg = validators[ruleType](value, rule[ruleType]) as string | null
+      const errMsg = validators[ruleType](value, rule[ruleType]) as
+        | string
+        | null
       if (errMsg) return errMsg
     }
   }
@@ -231,7 +240,9 @@ const validate = async (fields?: string | string[]) => {
         ? fields.map(field => formItemRefsMap[field]?.validate())
         : formItemRefs.value.map(formItem => formItem?.validate())
     )
-    return allValidation.every(valid => valid) ? Promise.resolve(true) : Promise.reject(false)
+    return allValidation.every(valid => valid)
+      ? Promise.resolve(true)
+      : Promise.reject(false)
   }
   if (typeof fields === 'string') {
     const valid = await formItemRefsMap[fields]?.validate()
@@ -241,22 +252,21 @@ const validate = async (fields?: string | string[]) => {
   return true
 }
 
-const elForm = {
+provide(formKey, {
   props,
 
   formRules: props.rules,
   resetField,
   emit,
   validateField
-}
-
-provide(formKey, elForm)
+})
 
 const exposed = {
   validate,
   resetFields,
   clearValidate
 }
+
 // 尝试往formDialog组件中注册自己
 const formDialogContext = inject(formDialogContextKey, null)
 
