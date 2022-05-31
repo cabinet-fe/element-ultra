@@ -1,10 +1,10 @@
 <template>
   <el-card style="width: 50%">
     <el-table-select
-      v-model="multipleData"
+      v-model="singleData"
       :columns="columns"
       :data="tableData"
-      :multiple="true"
+      :multiple="false"
       pagination
       :show-index="true"
       :query="query"
