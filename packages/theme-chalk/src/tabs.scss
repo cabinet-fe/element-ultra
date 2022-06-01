@@ -5,7 +5,7 @@
   @include e(header) {
     padding: 0;
     position: relative;
-    margin: 0 0 15px;
+    margin: 0;
   }
   @include e(active-bar) {
     position: absolute;
@@ -154,6 +154,7 @@
     }
   }
   @include e(content) {
+    margin-top: 10px;
     overflow: hidden;
     position: relative;
   }

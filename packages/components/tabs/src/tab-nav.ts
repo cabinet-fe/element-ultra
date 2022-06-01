@@ -7,18 +7,19 @@ import {
   onUpdated,
   onMounted,
   watch,
+  type PropType
 } from 'vue'
 import { NOOP, capitalize } from '@vue/shared'
 import {
   useResizeObserver,
   useDocumentVisibility,
-  useWindowFocus,
+  useWindowFocus
 } from '@vueuse/core'
 import {
   buildProps,
   definePropType,
   mutable,
-  throwError,
+  throwError
 } from '@element-ultra/utils'
 import { EVENT_CODE } from '@element-ultra/constants'
 import { ElIcon } from '@element-ultra/components/icon'
@@ -32,40 +33,35 @@ export interface Scrollable {
   prev?: number
 }
 
-export const tabNavProps = buildProps({
-  panes: {
-    type: definePropType<TabsPaneContext[]>(Array),
-    default: () => mutable([] as const),
-  },
-  currentName: {
-    type: [String, Number],
-    default: '',
-  },
-  editable: Boolean,
-  onTabClick: {
-    type: definePropType<
-      (tab: TabsPaneContext, tabName: string | number, ev: Event) => void
-    >(Function),
-    default: NOOP,
-  },
-  onTabRemove: {
-    type: definePropType<(tab: TabsPaneContext, ev: Event) => void>(Function),
-    default: NOOP,
-  },
-  type: {
-    type: String,
-    values: ['card', 'border-card', ''],
-    default: '',
-  },
-  stretch: Boolean,
-} as const)
-
-export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
-
 const COMPONENT_NAME = 'ElTabNav'
 export default defineComponent({
   name: COMPONENT_NAME,
-  props: tabNavProps,
+  props: {
+    panes: {
+      type: Array as PropType<TabsPaneContext[]>,
+      default: () => []
+    },
+    currentName: {
+      type: [String, Number],
+      default: ''
+    },
+    editable: Boolean,
+    onTabClick: {
+      type: Function as PropType<
+        (tab: TabsPaneContext, tabName: string | number, ev: Event) => void
+      >,
+      default: NOOP
+    },
+    onTabRemove: {
+      type: Function as PropType<(tab: TabsPaneContext, ev: Event) => void>,
+      default: NOOP
+    },
+    type: {
+      type: String as PropType<'card' | 'border-card' | ''>,
+      default: ''
+    },
+    stretch: Boolean
+  },
 
   setup(props, { expose }) {
     const visibility = useDocumentVisibility()
@@ -92,7 +88,7 @@ export default defineComponent({
     const navStyle = computed<CSSProperties>(() => {
       const dir = sizeName.value === 'width' ? 'X' : 'Y'
       return {
-        transform: `translate${dir}(-${navOffset.value}px)`,
+        transform: `translate${dir}(-${navOffset.value}px)`
       }
     })
 
@@ -238,14 +234,14 @@ export default defineComponent({
     }
     const removeFocus = () => (isFocus.value = false)
 
-    watch(visibility, (visibility) => {
+    watch(visibility, visibility => {
       if (visibility === 'hidden') {
         focusable.value = false
       } else if (visibility === 'visible') {
         setTimeout(() => (focusable.value = true), 50)
       }
     })
-    watch(focused, (focused) => {
+    watch(focused, focused => {
       if (focused) {
         setTimeout(() => (focusable.value = true), 50)
       } else {
@@ -260,7 +256,7 @@ export default defineComponent({
 
     expose({
       scrollToActiveTab,
-      removeFocus,
+      removeFocus
     })
 
     return () => {
@@ -271,9 +267,9 @@ export default defineComponent({
               {
                 class: [
                   'el-tabs__nav-prev',
-                  scrollable.value.prev ? '' : 'is-disabled',
+                  scrollable.value.prev ? '' : 'is-disabled'
                 ],
-                onClick: scrollPrev,
+                onClick: scrollPrev
               },
               [h(ElIcon, {}, { default: () => h(ArrowLeft) })]
             ),
@@ -282,12 +278,12 @@ export default defineComponent({
               {
                 class: [
                   'el-tabs__nav-next',
-                  scrollable.value.next ? '' : 'is-disabled',
+                  scrollable.value.next ? '' : 'is-disabled'
                 ],
-                onClick: scrollNext,
+                onClick: scrollNext
               },
               [h(ElIcon, {}, { default: () => h(ArrowRight) })]
-            ),
+            )
           ]
         : null
 
@@ -301,14 +297,14 @@ export default defineComponent({
               ElIcon,
               {
                 class: 'is-icon-close',
-                onClick: (ev: MouseEvent) => props.onTabRemove(pane, ev),
+                onClick: (ev: MouseEvent) => props.onTabRemove(pane, ev)
               },
               { default: () => h(Close) }
             )
           : null
 
         const tabLabelContent =
-          pane.instance.slots.label?.() || pane.props.label || pane.props.name
+          pane.instance.slots.label?.() || pane.props.label || tabName
         const tabindex = pane.active ? 0 : -1
 
         return h(
@@ -320,7 +316,7 @@ export default defineComponent({
               'is-active': pane.active,
               'is-disabled': pane.props.disabled,
               'is-closable': closable,
-              'is-focus': isFocus,
+              'is-focus': isFocus
             },
             id: `tab-${tabName}`,
             key: `tab-${tabName}`,
@@ -343,7 +339,7 @@ export default defineComponent({
               ) {
                 props.onTabRemove(pane, ev)
               }
-            },
+            }
           },
           [tabLabelContent, btnClose]
         )
@@ -356,8 +352,8 @@ export default defineComponent({
           class: [
             'el-tabs__nav-wrap',
             scrollable.value ? 'is-scrollable' : '',
-            `is-${rootTabs.props.tabPosition}`,
-          ],
+            `is-${rootTabs.props.tabPosition}`
+          ]
         },
         [
           scrollBtn,
@@ -365,7 +361,7 @@ export default defineComponent({
             'div',
             {
               class: 'el-tabs__nav-scroll',
-              ref: navScroll$,
+              ref: navScroll$
             },
             [
               h(
@@ -377,26 +373,26 @@ export default defineComponent({
                     props.stretch &&
                     ['top', 'bottom'].includes(rootTabs.props.tabPosition)
                       ? 'is-stretch'
-                      : '',
+                      : ''
                   ],
                   ref: nav$,
                   style: navStyle.value,
                   role: 'tablist',
-                  onKeydown: changeTab,
+                  onKeydown: changeTab
                 },
                 [
                   !props.type
                     ? h(TabBar, {
-                        tabs: [...props.panes],
+                        tabs: [...props.panes]
                       })
                     : null,
-                  tabs,
+                  tabs
                 ]
-              ),
+              )
             ]
-          ),
+          )
         ]
       )
     }
-  },
+  }
 })

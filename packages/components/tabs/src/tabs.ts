@@ -10,9 +10,9 @@ import {
   ref,
   renderSlot,
   watch,
+  type PropType,
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
-import { buildProps, definePropType } from '@element-ultra/utils'
 import {
   EVENT_CODE,
   INPUT_EVENT,
@@ -28,58 +28,9 @@ import type {
   Component,
   ComponentInternalInstance,
   VNode,
-  ExtractPropTypes,
   Ref,
 } from 'vue'
 
-export const tabsProps = buildProps({
-  type: {
-    type: String,
-    values: ['card', 'border-card', ''],
-    default: '',
-  },
-  activeName: {
-    type: String,
-    default: '',
-  },
-  closable: Boolean,
-  addable: Boolean,
-  modelValue: {
-    type: [String, Number],
-    default: '',
-  },
-  editable: Boolean,
-  tabPosition: {
-    type: String,
-    values: ['top', 'right', 'bottom', 'left'],
-    default: 'top',
-  },
-  beforeLeave: {
-    type: definePropType<
-      (
-        newTabName: string | number,
-        oldTabName: string | number
-      ) => void | boolean | Promise<void | boolean>
-    >(Function),
-    default: () => true,
-  },
-  stretch: Boolean,
-} as const)
-export type TabsProps = ExtractPropTypes<typeof tabsProps>
-
-export const tabsEmits = {
-  [UPDATE_MODEL_EVENT]: (tabName: string | number) =>
-    typeof tabName === 'string' || typeof tabName === 'number',
-  [INPUT_EVENT]: (tabName: string | number) =>
-    typeof tabName === 'string' || typeof tabName === 'number',
-  'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  edit: (paneName: string | number | null, action: 'remove' | 'add') =>
-    action === 'remove' || action === 'add',
-  'tab-remove': (paneName: string | number) =>
-    typeof paneName === 'string' || typeof paneName === 'number',
-  'tab-add': () => true,
-}
-export type TabsEmits = typeof tabsEmits
 
 const getPaneInstanceFromSlot = (
   vnode: VNode,
@@ -101,8 +52,51 @@ const getPaneInstanceFromSlot = (
 export default defineComponent({
   name: 'ElTabs',
 
-  props: tabsProps,
-  emits: tabsEmits,
+  props: {
+    type: {
+      type: String as PropType<'card' | 'border-card' | ''>,
+      default: '',
+    },
+    hideContent: Boolean,
+    activeName: {
+      type: String,
+      default: '',
+    },
+    closable: Boolean,
+    addable: Boolean,
+    modelValue: {
+      type: [String, Number],
+      default: '',
+    },
+    bars: Array as PropType<string[]>,
+    editable: Boolean,
+    tabPosition: {
+      type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
+      default: 'top',
+    },
+    beforeLeave: {
+      type: Function as PropType<
+        (
+          newTabName: string | number,
+          oldTabName: string | number
+        ) => void | boolean | Promise<void | boolean>
+      >,
+      default: () => true,
+    },
+    stretch: Boolean,
+  },
+  emits: {
+    [UPDATE_MODEL_EVENT]: (tabName: string | number) =>
+      typeof tabName === 'string' || typeof tabName === 'number',
+    [INPUT_EVENT]: (tabName: string | number) =>
+      typeof tabName === 'string' || typeof tabName === 'number',
+    'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
+    edit: (paneName: string | number | null, action: 'remove' | 'add') =>
+      action === 'remove' || action === 'add',
+    'tab-remove': (paneName: string | number) =>
+      typeof paneName === 'string' || typeof paneName === 'number',
+    'tab-add': () => true,
+  },
 
   setup(props, { emit, slots, expose }) {
     const instance = getCurrentInstance()!
@@ -226,6 +220,8 @@ export default defineComponent({
     })
 
     return () => {
+      const { hideContent } = props
+
       const newButton =
         props.editable || props.addable
           ? h(
@@ -274,7 +270,7 @@ export default defineComponent({
             'el-tabs--border-card': props.type === 'border-card',
           },
         },
-        props.tabPosition !== 'bottom' ? [header, panels] : [panels, header]
+        hideContent ? [header] : props.tabPosition !== 'bottom' ? [header, panels] : [panels, header]
       )
     }
   },
