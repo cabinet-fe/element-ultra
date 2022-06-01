@@ -10,13 +10,13 @@ import {
   ref,
   renderSlot,
   watch,
-  type PropType,
+  type PropType
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
 import {
   EVENT_CODE,
   INPUT_EVENT,
-  UPDATE_MODEL_EVENT,
+  UPDATE_MODEL_EVENT
 } from '@element-ultra/constants'
 import ElIcon from '@element-ultra/components/icon'
 import { Plus } from '@element-plus/icons-vue'
@@ -24,20 +24,14 @@ import { tabsRootContextKey } from '@element-ultra/tokens'
 import TabNav from './tab-nav'
 import type { TabsPaneContext } from '@element-ultra/tokens'
 
-import type {
-  Component,
-  ComponentInternalInstance,
-  VNode,
-  Ref,
-} from 'vue'
-
+import type { Component, ComponentInternalInstance, VNode, Ref } from 'vue'
 
 const getPaneInstanceFromSlot = (
   vnode: VNode,
   paneInstanceList: ComponentInternalInstance[] = []
 ) => {
   const children = (vnode.children || []) as ArrayLike<VNode>
-  Array.from(children).forEach((node) => {
+  Array.from(children).forEach(node => {
     let type = node.type
     type = (type as Component).name || type
     if (type === 'ElTabPane' && node.component) {
@@ -55,24 +49,24 @@ export default defineComponent({
   props: {
     type: {
       type: String as PropType<'card' | 'border-card' | ''>,
-      default: '',
+      default: ''
     },
     hideContent: Boolean,
     activeName: {
       type: String,
-      default: '',
+      default: ''
     },
     closable: Boolean,
     addable: Boolean,
     modelValue: {
       type: [String, Number],
-      default: '',
+      default: ''
     },
     bars: Array as PropType<string[]>,
     editable: Boolean,
     tabPosition: {
       type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
-      default: 'top',
+      default: 'top'
     },
     beforeLeave: {
       type: Function as PropType<
@@ -81,9 +75,9 @@ export default defineComponent({
           oldTabName: string | number
         ) => void | boolean | Promise<void | boolean>
       >,
-      default: () => true,
+      default: () => true
     },
-    stretch: Boolean,
+    stretch: Boolean
   },
   emits: {
     [UPDATE_MODEL_EVENT]: (tabName: string | number) =>
@@ -95,7 +89,7 @@ export default defineComponent({
       action === 'remove' || action === 'add',
     'tab-remove': (paneName: string | number) =>
       typeof paneName === 'string' || typeof paneName === 'number',
-    'tab-add': () => true,
+    'tab-add': () => true
   },
 
   setup(props, { emit, slots, expose }) {
@@ -117,7 +111,7 @@ export default defineComponent({
 
         const paneInstanceList: TabsPaneContext[] = getPaneInstanceFromSlot(
           content
-        ).map((paneComponent) => paneStatesMap[paneComponent.uid])
+        ).map(paneComponent => paneStatesMap[paneComponent.uid])
 
         const panesChanged = !(
           paneInstanceList.length === panes.value.length &&
@@ -190,12 +184,12 @@ export default defineComponent({
 
     watch(
       () => props.activeName,
-      (modelValue) => setCurrentName(modelValue)
+      modelValue => setCurrentName(modelValue)
     )
 
     watch(
       () => props.modelValue,
-      (modelValue) => setCurrentName(modelValue)
+      modelValue => setCurrentName(modelValue)
     )
 
     watch(currentName, async () => {
@@ -212,11 +206,11 @@ export default defineComponent({
     provide(tabsRootContextKey, {
       props,
       currentName,
-      updatePaneState: (pane) => (paneStatesMap[pane.uid] = pane),
+      updatePaneState: pane => (paneStatesMap[pane.uid] = pane)
     })
 
     expose({
-      currentName,
+      currentName
     })
 
     return () => {
@@ -232,7 +226,7 @@ export default defineComponent({
                 onClick: handleTabAdd,
                 onKeydown: (ev: KeyboardEvent) => {
                   if (ev.code === EVENT_CODE.enter) handleTabAdd()
-                },
+                }
               },
               [h(ElIcon, { class: 'is-icon-plus' }, { default: () => h(Plus) })]
             )
@@ -251,15 +245,23 @@ export default defineComponent({
             stretch: props.stretch,
             ref: nav$,
             onTabClick: handleTabClick,
-            onTabRemove: handleTabRemove,
-          }),
+            onTabRemove: handleTabRemove
+          })
         ]
       )
 
-      const panels = h('div', { class: 'el-tabs__content' }, [
-        renderSlot(slots, 'default'),
-      ])
-
+      const panels = h(
+        'div',
+        {
+          class: 'el-tabs__content'
+        },
+        [renderSlot(slots, 'default')]
+      )
+      if (hideContent) {
+        nextTick(() => {
+          panels.el?.parentNode?.removeChild(panels.el)
+        })
+      }
       return h(
         'div',
         {
@@ -267,11 +269,11 @@ export default defineComponent({
             'el-tabs': true,
             'el-tabs--card': props.type === 'card',
             [`el-tabs--${props.tabPosition}`]: true,
-            'el-tabs--border-card': props.type === 'border-card',
-          },
+            'el-tabs--border-card': props.type === 'border-card'
+          }
         },
-        hideContent ? [header] : props.tabPosition !== 'bottom' ? [header, panels] : [panels, header]
+        props.tabPosition !== 'bottom' ? [header, panels] : [panels, header]
       )
     }
-  },
+  }
 })
