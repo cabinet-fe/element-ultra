@@ -5,83 +5,75 @@
         <slot name="searcher"></slot>
       </div>
       <div :class="ns.e('btn')" v-if="query && Object.keys(query).length">
-        <el-button type="primary" @click="handleSearch">查询</el-button>
+        <el-button type="primary" @click="fetchData">查询</el-button>
       </div>
     </div>
-    <div :class="ns.e('table')" :style="{ height: theight + 'px' }">
-      <TableSelectDisplay
-        :data="tableData ? tableData : data"
-        :columns="columns.filter((column) => column.key !== 'action')"
-        :value="props.value"
-        checkable
-        ref="tableRef"
-      />
-    </div>
+    <TableSelectDisplay
+      :theight="theight"
+      :data="data || tableData"
+      :value="props.value"
+      editable
+      ref="tableRef"
+    />
     <el-pagination
       :class="ns.e('pagination')"
-      v-if="props.api && pagination"
-      v-model:currentPage="currentPage"
-      v-model:page-size="pageSize"
+      v-if="api && rootProps.pagination"
+      v-model:currentPage="pageQuery.page"
+      v-model:page-size="pageQuery.size"
+      @change="fetchData"
       :page-sizes="[20, 40, 80, 100, 150, 200]"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalSize"
     >
     </el-pagination>
     <template #footer>
-      <el-button-group>
-        <el-button @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="submit">提交</el-button>
-      </el-button-group>
+      <el-button @click="handleCancel">取消</el-button>
+      <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, watch, inject, ref, toRefs } from 'vue'
+import {
+  shallowRef,
+  watch,
+  inject,
+  ref,
+  toRefs,
+  shallowReactive,
+  computed
+} from 'vue'
 import { ElDialog } from '@element-ultra/components/dialog'
-import { ElButtonGroup, ElButton } from '@element-ultra/components/button'
+import { ElButton } from '@element-ultra/components/button'
 import { ElPagination } from '@element-ultra/components/pagination'
 import { useNamespace, useConfig } from '@element-ultra/hooks'
 import { tableSelectDialogProps } from './table-select-dialog'
 import TableSelectDisplay from './table-select-display.vue'
-import { paginationKey } from './token'
+import { tableSelectKey } from './token'
 
 let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { data, query } = props
-
-const { columns, title, theight } = toRefs(props)
+const { title, theight } = toRefs(props)
 
 const ns = useNamespace('table-select-dialog')
 
-const tableRef = shallowRef()
+const tableRef = shallowRef<InstanceType<typeof TableSelectDisplay>>()
 
-const emits = defineEmits<{
-  (e: 'change', data: Record<string, any>[]): void
+const emit = defineEmits<{
+  (e: 'change', data: Record<string, any>[] | Record<string, any>): void
   (e: 'apiData', data: Record<string, any>[]): void
 }>()
 
-// pagination
-let pagination = inject(paginationKey)
-let currentPage = ref(1)
-let pageSize = ref(20)
-let totalSize = ref(0)
+const { rootEmit, rootProps } = inject(tableSelectKey)!
 
-watch(
-  () => currentPage.value,
-  (cur, pre) => {
-    fetchData(props.api)
-  }
-)
+const pageQuery = shallowReactive({
+  page: 1,
+  size: 20
+})
 
-watch(
-  () => pageSize.value,
-  (cur, pre) => {
-    fetchData(props.api)
-  }
-)
+let totalSize = shallowRef(0)
 
 const open = () => {
   visible.value = true
@@ -92,33 +84,31 @@ const close = () => {
 }
 
 const handleCancel = () => {
-  tableRef.value.clear()
+  tableRef.value?.clear()
   close()
 }
 
-const submit = () => {
-  const data = tableRef.value.getValue()
-  if (!data) return
-  emits('change', data)
+const handleSubmit = () => {
+  const data = tableRef.value?.getValue()
+  if (!data) {
+    return console.warn('没有选择数据')
+  }
+  emit('change', data)
   close()
 }
 
-let tableData = ref<any>(null)
-
-// api
-const handleSearch = () => {
-  fetchData(props.api)
-}
+let tableData = ref<any[]>()
 
 const [configStore] = useConfig()
 
 let loading = shallowRef(false)
 
-const fetchData = async (api: string) => {
-  if (!configStore.tableSelectRequestMethod) return
-
-  let realQuery = Object.keys(props.query || {}).reduce((acc, cur) => {
-    let v = props.query![cur]
+const fetchData = async () => {
+  const { api } = rootProps
+  if (!configStore.tableSelectRequestMethod || !api) return
+  const { query } = props
+  let realQuery = Object.keys(query || {}).reduce((acc, cur) => {
+    let v = query![cur]
     if (cur.startsWith('$')) {
       cur = cur.slice(1)
     }
@@ -131,8 +121,7 @@ const fetchData = async (api: string) => {
       api,
       query: {
         ...realQuery,
-        page: currentPage.value,
-        size: pageSize.value
+        ...pageQuery
       }
     })
     .finally(() => {
@@ -143,28 +132,20 @@ const fetchData = async (api: string) => {
     totalSize.value = total
   }
   tableData.value = data
-  emits('apiData', data)
+  emit('apiData', data)
 }
 
-let queryWatchList = Object.keys(props.query || {})
-  .filter((k) => k.startsWith('$'))
-  .map((k) => {
-    return () => props.query?.[k]
-  })
-
-watch([...queryWatchList], () => {
-  fetchData(props.api)
+let queryWatchList = computed(() => {
+  return Object.keys(props.query || {})
+    .filter(k => k.startsWith('$'))
+    .map(k => {
+      return () => props.query?.[k]
+    })
 })
 
-watch(
-  () => props.api,
-  (cur) => {
-    cur && fetchData(cur)
-  },
-  {
-    immediate: true
-  }
-)
+watch(queryWatchList, fetchData)
+
+watch(() => rootProps.api, fetchData, { immediate: true })
 
 defineExpose({
   open

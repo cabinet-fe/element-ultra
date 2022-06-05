@@ -1,3 +1,4 @@
+import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const tableSelectProps = {
@@ -59,3 +60,12 @@ export const tableSelectProps = {
 } as const
 
 export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>
+
+type EmitValue = Record<string, any> |  Record<string, any>[]
+
+export const tableSelectEmits = {
+  'update:modelValue': (v: EmitValue) => true,
+  'change': (v: EmitValue) => true
+}
+
+export type TableSelectEmits = EmitFn<typeof tableSelectEmits>

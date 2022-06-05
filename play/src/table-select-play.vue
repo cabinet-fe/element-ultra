@@ -1,31 +1,32 @@
 <template>
-  <el-card style="width: 50%">
-    <el-table-select
-      v-model="multipleData"
-      :columns="columns"
-      :data="tableData"
-      :multiple="true"
-      pagination
-      :show-index="true"
-      :query="query"
-      :dialog-title="dialogTitle"
-      ref="tableRef"
-      :editable="true"
-      :table="true"
-      :path="path"
-      @update:model-value="handleChange"
-    >
-      <el-button type="primary" :icon="Plus">自定义按钮</el-button>
+  <el-checkbox v-model="multiple">多选</el-checkbox>
 
-      <template #searcher>
-        <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-        <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-        <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-        <el-input v-model="query.name" />
-        <el-date-picker v-model="query.$date" clearable />
-      </template>
-    </el-table-select>
-  </el-card>
+  <el-table-select
+    v-model="multipleData"
+    :columns="columns"
+    :data="tableData"
+    :multiple="multiple"
+    pagination
+    :show-index="true"
+    :query="query"
+    :dialog-title="dialogTitle"
+    ref="tableRef"
+    :editable="true"
+    :table="true"
+    :path="path"
+    value-key="code"
+    @update:model-value="handleChange"
+  >
+    <el-button type="primary" :icon="Plus">自定义按钮</el-button>
+
+    <template #searcher>
+      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
+      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
+      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
+      <el-input v-model="query.name" />
+      <el-date-picker v-model="query.$date" clearable />
+    </template>
+  </el-table-select>
 </template>
 
 <script lang="ts" setup>
@@ -54,8 +55,7 @@ const fixed_columns: ProTableColumn[] = $ref([
     name: '状态'
   },
   { key: 'remarks', name: '备注' },
-  { key: 'department', name: '部门', width: 160 },
-  { key: 'action', name: '操作', slot: 'column-action' }
+  { key: 'department', name: '部门', width: 160 }
 ])
 
 let extra_columns: ProTableColumn[] = $ref([])
@@ -66,7 +66,7 @@ let columns = $computed<ProTableColumn[]>(() => {
 
 let singleData = $ref({})
 
-let multipleData = $ref([{id: '1519595040521015296'}])
+let multipleData = $ref([{ id: '1519595040521015296' }])
 
 let multiple = $ref<boolean>(true)
 
@@ -144,7 +144,7 @@ setConfigStore({
     let data: any[] = []
     return Promise.resolve({
       data,
-      total: 100,
+      total: 100
     })
   }
 })

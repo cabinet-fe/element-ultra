@@ -1,10 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const tableSelectDialogProps = {
-  columns: {
-    type: Array as PropType<Record<string, any>[]>,
-    required: true
-  },
   data: {
     type: Array as PropType<Record<string, any>[]>,
   },
