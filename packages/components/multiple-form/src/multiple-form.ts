@@ -26,6 +26,8 @@ export type MultipleFormRules = {
   ) => Promise<string> | string
 }
 
+
+
 /** 列配置 */
 export type MultipleFormColumn = {
   /** 列的名称, 在表头中显示 */
@@ -43,8 +45,8 @@ export type MultipleFormColumn = {
   /** 列的宽度 */
   width?: number
 
-  /** 编辑时的默认值 */
-  defaultValue?: string | number | boolean | any[]
+  /** 编辑时的默认值, 可以传入一个函数异步也可以 */
+  defaultValue?: any
 
   /** 提示消息 */
   tips?: string
@@ -53,7 +55,7 @@ export type MultipleFormColumn = {
   visible?: boolean
 
   /** 自定义渲染 */
-  render?: (val: string | number, row: any, index: number) => string
+  render?: (val: any, row: any, index: number) => string
 }
 
 export const multipleFormProps = {

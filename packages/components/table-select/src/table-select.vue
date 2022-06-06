@@ -50,9 +50,8 @@ const handleClick = () => {
 let displayData = shallowRef<any[]>([])
 
 let handleChange = (data: any) => {
-  let v =  Array.isArray(data) ? data : [data]
-  displayData.value = v
-  emit('update:modelValue', v)
-  emit('change', v)
+  displayData.value = Array.isArray(data) ? data : [data]
+  emit('update:modelValue', data)
+  emit('change', data)
 }
 </script>

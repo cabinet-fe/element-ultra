@@ -60,11 +60,11 @@ type MultipleFormColumn = {
   /** 列的宽度 */
   width?: number
 
-  /** 默认值 */
-  defaultValue: string | number | boolean
+  /** 默认值, 可以传入一个函数或者异步函数来取里面的值 */
+  defaultValue: any | (() => any | Promise<any>)
 
   /** 自定义渲染*/
-  render?: (val: string | number, row: any, index: number) => string
+  render?: (val: any, row: any, index: number) => string
 }
 ```
 

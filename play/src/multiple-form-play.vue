@@ -45,7 +45,7 @@
 <script lang="ts" setup>
 import type { MultipleFormColumn } from 'element-ultra'
 
-const mode = $ref('inline')
+const mode = $shallowRef<'inline' | 'dialog'>('inline')
 
 const columns: MultipleFormColumn[] = [
   {
@@ -63,7 +63,7 @@ const columns: MultipleFormColumn[] = [
       required: true,
       min: 2
     },
-    defaultValue: 12,
+    defaultValue: () => new Promise((rs) => setTimeout(() => {rs(20)}, 2000)),
     align: 'left'
   },
   {
