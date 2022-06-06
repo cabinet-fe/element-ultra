@@ -1,16 +1,9 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const tableSelectDisplayProps = {
-  columns: {
-    type: Array as PropType<Record<string, any>[]>,
-    required: true
-  },
   data: {
     type: Array as PropType<Record<string, any>[]>,
-  },
-  checkable: {
-    type: Boolean,
-    default: false
+    default: () => []
   },
   value: {
     type: Object,
@@ -20,9 +13,9 @@ export const tableSelectDisplayProps = {
     default: ''
   },
   theight: {
-    type: Number,
-    default: 100
-  }
+    type: Number
+  },
+  editable: Boolean
 } as const
 
 export type TableSelectDisplayProps = ExtractPropTypes<typeof tableSelectDisplayProps>

@@ -5,7 +5,7 @@ import App from  './App.vue'
 
 const MyComponent = defineComponent({
   render() {
-    return h('div', ['哈哈'])
+    return h('div', ['哈哈13'])
   }
 })
 

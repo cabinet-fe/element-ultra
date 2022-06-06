@@ -60,11 +60,11 @@ type MultipleFormColumn = {
   /** 列的宽度 */
   width?: number
 
-  /** 默认值 */
-  defaultValue: string | number | boolean;
+  /** 默认值, 可以传入一个函数或者异步函数来取里面的值 */
+  defaultValue: any | (() => any | Promise<any>)
 
   /** 自定义渲染*/
-  render?: (val: string | number, row: any, index: number) => string
+  render?: (val: any, row: any, index: number) => string
 }
 ```
 
@@ -105,6 +105,27 @@ type multipleFormProps = {
   title: {
     type: String
   },
+
+  /** 不可编辑状态, 为true则不会显示操作栏 */
+  disabled: {
+    type: Boolean
+  },
+
+  /** 新增按钮 */
+  actionCreate: {
+    type: Boolean,
+    default: true
+  },
+  /** 删除按钮 */
+  actionDelete: {
+    type: Boolean,
+    default: true
+  },
+  /** 编辑按钮 */
+  actionEdit: {
+    type: Boolean,
+    default: true
+  }
 
   /** 操作栏宽度 */
   actionWidth: {

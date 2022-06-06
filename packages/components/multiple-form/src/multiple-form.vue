@@ -18,7 +18,7 @@
             :key="column.key"
             :style="{ width: column.width + 'px' }"
           />
-          <col :style="{ width: actionWidth + 'px' }" />
+          <col v-if="!disabled" :style="{ width: actionWidth + 'px' }" />
         </colgroup>
 
         <thead>
@@ -47,11 +47,11 @@
               </el-tooltip>
             </th>
 
-            <th :class="ns.e('action')">
+            <th :class="ns.e('action')" v-if="!disabled">
               <span>操作</span>
 
               <el-button
-                v-if="mode !== 'custom'"
+                v-if="actionCreate && mode !== 'custom'"
                 style="margin-left: 8px"
                 :icon="Plus"
                 @click="handleCreate(rows.length)"

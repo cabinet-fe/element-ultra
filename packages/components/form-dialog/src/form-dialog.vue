@@ -10,10 +10,17 @@
 
     <template #footer>
       <el-button @click="cancel">取消</el-button>
-      <el-button :loading="loading" type="info" v-if="props.continue" @click="submitAndContinue"
-        >提交并继续</el-button
+      <el-button
+        :loading="loading"
+        type="info"
+        v-if="props.continue"
+        @click="submitAndContinue"
       >
-      <el-button :loading="loading" type="primary" @click="submit">提交</el-button>
+        提交并继续
+      </el-button>
+      <el-button :loading="loading" type="primary" @click="submit">
+        提交
+      </el-button>
     </template>
   </el-dialog>
 </template>
@@ -71,7 +78,7 @@ const loading = shallowRef(false)
 /** 提交 */
 const submit = async () => {
   await validateForm()
- 
+
   loading.value = true
 
   if (props.confirm) {

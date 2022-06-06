@@ -4,36 +4,68 @@
 
     <!-- 行内编辑 -->
     <template v-if="showInline">
-      <td v-for="column of visibleColumns" :key="column.key" :style="{ textAlign: column.align }">
+      <td
+        v-for="column of visibleColumns"
+        :key="column.key"
+        :style="{ textAlign: column.align }"
+      >
         <!-- 插槽穿透 -->
-        <RenderNodes :children="slots[column.key]?.({ row, index: rowIndex })" />
+        <RenderNodes
+          :children="slots[column.key]?.({ row, index: rowIndex })"
+        />
       </td>
 
-      <td :class="ns.e('action')">
+      <td :class="ns.e('action')" v-if="!multipleFormProps.disabled">
         <el-button type="primary" :icon="Select" text @click="emit('save')" />
-        <el-button type="primary" :icon="Close" text @click="emit('exit-edit')" />
+        <el-button
+          type="primary"
+          :icon="Close"
+          text
+          @click="emit('exit-edit')"
+        />
       </td>
     </template>
 
     <!-- 正常的行 -->
     <template v-else>
-      <td v-for="column of visibleColumns" :key="column.key" :style="{ textAlign: column.align }">
+      <td
+        v-for="column of visibleColumns"
+        :key="column.key"
+        :style="{ textAlign: column.align }"
+      >
         <!-- 插槽穿透 -->
         <RenderNodes
           v-if="slots[column.key + ':view']"
           :children="slots[column.key + ':view']?.({ row, index: rowIndex })"
         />
         <template v-else>
-          {{ column.render?.(row[column.key], row, rowIndex) || row[column.key] }}
+          {{
+            column.render?.(row[column.key], row, rowIndex) || row[column.key]
+          }}
         </template>
       </td>
 
-      <td :class="ns.e('action')">
-        <el-button type="primary" :icon="Edit" text @click="emit('edit')" />
-        <el-button type="primary" :icon="Delete" text @click="emit('delete')" />
+      <td :class="ns.e('action')" v-if="!multipleFormProps.disabled">
         <el-button
           type="primary"
-          v-if="multipleFormProps.mode !== 'custom'"
+          v-if="multipleFormProps.actionEdit"
+          :icon="Edit"
+          text
+          @click="emit('edit')"
+        />
+        <el-button
+          type="primary"
+          v-if="multipleFormProps.actionDelete"
+          :icon="Delete"
+          text
+          @click="emit('delete')"
+        />
+        <el-button
+          type="primary"
+          v-if="
+            multipleFormProps.actionCreate &&
+            multipleFormProps.mode !== 'custom'
+          "
           :icon="Plus"
           text
           @click="emit('create')"
@@ -55,7 +87,8 @@ defineProps<{
   showInline: boolean
 }>()
 
-const { multipleFormProps, ns, slots, visibleColumns } = inject(multipleFormKey)!
+const { multipleFormProps, ns, slots, visibleColumns } =
+  inject(multipleFormKey)!
 
 const emit = defineEmits<{
   (e: 'save'): void

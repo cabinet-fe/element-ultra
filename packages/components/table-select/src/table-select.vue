@@ -1,145 +1,57 @@
 <template>
-  <div :class="[ns.b(), { [ns.e('notable')]: !table }]">
-    <!-- 按钮 -->
-    <div @click="handleClick" :class="ns.e('btn')">
-      <slot v-if="editable">
-        <el-button type="primary" :icon="Plus">选择</el-button>
-      </slot>
-    </div>
-
-    <!-- 表格 -->
-    <div :class="ns.e('table')" v-if="table">
-      <TableSelectDisplay :data="selected" :columns="columns">
-        <template #action>
-          <slot name="action"></slot>
-        </template>
-      </TableSelectDisplay>
-    </div>
-    <!-- 弹框 -->
-    <TableSelectDialog
-      ref="dialogRef"
-      :api="api"
-      :data="data"
-      :width="dialogWidth"
-      :columns="columns"
-      :value="selected"
-      :query="query"
-      :title="dialogTitle"
-      :theight="theight"
-      :table="table"
-      @change="handleSelect"
-      @api-data="apiData"
-    >
-      <template #searcher>
-        <slot name="searcher"></slot>
-      </template>
-    </TableSelectDialog>
+  <div @click="handleClick" :class="ns.e('btn')">
+    <slot>
+      <el-button @click="handleClick" type="primary" :icon="Plus">
+        选择
+      </el-button>
+    </slot>
   </div>
+
+  <TableSelectDisplay v-if="table" :data="displayData">
+    <template #action>
+      <slot name="action"></slot>
+    </template>
+  </TableSelectDisplay>
+
+  <TableSelectDialog :data="data" @change="handleChange" ref="dialogRef" />
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, provide, ref, watch, nextTick, toRefs } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
-import { tableSelectProps } from './table-select'
-import TableSelectDisplay from './table-select-display.vue'
+import { provide, shallowRef } from 'vue'
+import { tableSelectEmits, tableSelectProps } from './table-select'
 import TableSelectDialog from './table-select-dialog.vue'
+import TableSelectDisplay from './table-select-display.vue'
 import { Plus } from '@element-plus/icons-vue'
+import { tableSelectKey } from './token'
 import { ElButton } from '@element-ultra/components/button'
-import { multipleKey, paginationKey, showIndexKey, stripeKey, valueKeyKey } from './token'
+import { useNamespace } from '@element-ultra/hooks'
 
 defineOptions({
-  name: 'ElTableSelect'
+  name: 'ElTableSelect',
+  inheritAttrs: false
 })
 
 const props = defineProps(tableSelectProps)
 
-const {
-  modelValue,
-  data,
-  multiple,
-  pagination,
-  showIndex,
-  stripe,
-  query,
-  valueKey
-} = props
-
-const { columns, api, dialogTitle, theight, editable, table } = toRefs(props)
-
-provide(multipleKey, multiple)
-provide(paginationKey, pagination)
-provide(showIndexKey, showIndex)
-provide(stripeKey, stripe)
-provide(valueKeyKey, valueKey)
+const emit = defineEmits(tableSelectEmits)
 
 const ns = useNamespace('table-select')
 
-let selected = ref<any>([])
+provide(tableSelectKey, {
+  rootProps: props
+})
 
-const dialogRef = shallowRef()
+const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()
 
 const handleClick = () => {
-  dialogRef.value.open()
+  dialogRef?.value?.open()
 }
 
-const handleSelect = (data: Record<string, any>) => {
-  selected.value = multiple ? data : [data]
-  emits('update:modelValue', data)
-  emits('change', data)
+let displayData = shallowRef<any[]>([])
+
+let handleChange = (data: any) => {
+  displayData.value = Array.isArray(data) ? data : [data]
+  emit('update:modelValue', data)
+  emit('change', data)
 }
-
-const emits = defineEmits<{
-  (e: 'update:modelValue', data: Record<string, any>): void
-  (e: 'change', data: Record<string, any>): void
-}>()
-
-const stateInit = (echo: boolean = false) => {
-  let arr: Array<string> = []
-  if (modelValue) {
-    if (multiple) {
-      arr = modelValue.map((item: any) => item[valueKey])
-    } else {
-      arr = [modelValue[valueKey]]
-    }
-  }
-  if (api.value) {
-    selected.value = tableData.value?.filter((row: Record<string, any>) => {
-      return arr.includes(row[valueKey])
-    })
-  } else {
-    selected.value = data?.filter((row: Record<string, any>) => {
-      return arr.includes(row[valueKey])
-    })
-  }
-  if (selected.value?.length) {
-    multiple
-      ? emits('update:modelValue', selected.value)
-      : emits('update:modelValue', selected.value[0])
-  }else if (echo) {
-    multiple ? selected.value = modelValue : selected.value = [modelValue]
-  }
-}
-
-let tableData = ref<Record<string, any>>([])
-
-const apiData = (data: Record<string, any>) => {
-  tableData.value = data
-}
-
-watch(
-  () => modelValue,
-  (cur, pre) => {
-    modelValue && nextTick(() => stateInit(true))
-  },
-  { immediate: true, deep: true }
-)
-
-watch(
-  () => tableData.value,
-  (cur, pre) => {
-    nextTick(() => stateInit())
-  }
-)
-
-defineExpose({})
 </script>

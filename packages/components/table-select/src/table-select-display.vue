@@ -1,184 +1,133 @@
 <template>
-  <table :class="ns.b()" :style="`height: ${theight}px`">
-    <thead :class="ns.e('header')">
-      <tr :class="ns.e('header-row')">
-        <th v-if="checkable">
-          <el-checkbox
-            v-if="multiple"
-            v-model="allCheck"
-            @change="handleAllCheck"
-            :indeterminate="isIndeterminate"
-          />
-        </th>
-        <th v-if="showIndex" :class="ns.e('auto')">序号</th>
-        <th
-          v-for="item in columns"
-          :class="{ [ns.e('auto')]: !item.width }"
-          :style="{ width: `${item.width}px` }"
+  <div :class="ns.b()" :style="`height: ${theight}px`">
+    <table>
+      <thead :class="ns.e('header')">
+        <tr :class="ns.e('header-row')">
+          <th v-if="editable">
+            <el-checkbox
+              v-if="multiple"
+              :model-value="allChecked"
+              @change="toggleAllChecked"
+              :indeterminate="indeterminate"
+            />
+          </th>
+          <th v-if="showIndex" :class="ns.e('auto')">序号</th>
+          <th
+            v-for="item in columns"
+            :class="{ [ns.e('auto')]: !item.width }"
+            :style="{ width: `${item.width}px` }"
+          >
+            {{ item.name }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody :class="ns.e('body')">
+        <tr
+          v-for="(row, index) in data"
+          :class="ns.e('row')"
+          @click="handleClickRow(row)"
         >
-          {{ item.name }}
-        </th>
-      </tr>
-    </thead>
-    <tbody :class="ns.e('body')">
-      <tr
-        v-for="(row, index) in tableData"
-        :class="{
-          [ns.e('row')]: true,
-          [ns.e('row-stripe')]: index % 2 === 1 && stripe
-        }"
-      >
-        <td v-if="checkable">
-          <el-checkbox
-            v-if="multiple"
-            :value="row.id"
-            :checked="checkbox.has(row.id)"
-            @update:model-value="
-              $event
-                ? checkbox.add(row[valueKey])
-                : checkbox.delete(row[valueKey])
-            "
-          />
-          <el-radio v-else v-model="radio.val" :value="row[valueKey]" />
-        </td>
-        <td v-if="showIndex" :class="ns.e('auto')">{{ index + 1 }}</td>
-        <td
-          v-for="item in columns"
-          :class="{ [ns.e('auto')]: !item.width }"
-          :style="{ width: `${item.width}px` }"
-        >
-          {{
-            item.render ? item.render(row, index, row[item.key]) : row[item.key]
-          }}
-          <div v-if="item.key === 'action'"><slot name="action"></slot></div>
-        </td>
-      </tr>
-    </tbody>
-    <!-- <tfoot>
-      <tr>
-        <td>Sum</td>
-        <td>$180</td>
-      </tr>
-    </tfoot> -->
-  </table>
+          <td v-if="editable">
+            <el-checkbox
+              v-if="multiple"
+              :value="row[valueKey]"
+              :checked="checkedKeys.has(row[valueKey])"
+              @change="toggleChecked($event, row)"
+            />
+            <el-radio v-else :value="row[valueKey]" :model-value="selectedKey" />
+          </td>
+          <td v-if="showIndex" :class="ns.e('auto')">
+            {{ index + 1 }}
+          </td>
+          <td
+            v-for="item in columns"
+            :class="{ [ns.e('auto')]: !item.width }"
+            :style="{ width: `${item.width}px` }"
+          >
+            {{
+              item.render
+                ? item.render(row, index, row[item.key])
+                : row[item.key]
+            }}
+            <div v-if="item.key === 'action'"><slot name="action"></slot></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { watch, inject, computed, ref, reactive } from 'vue'
+<script lang="tsx" setup>
+import { inject, computed, toRefs, shallowRef, shallowReactive } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectDisplayProps } from './table-select-display'
 import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { ElRadio } from '@element-ultra/components/radio'
-import { multipleKey, showIndexKey, stripeKey, valueKeyKey } from './token'
+import { tableSelectKey } from './token'
 
 const props = defineProps(tableSelectDisplayProps)
 
-const { data, checkable, theight } = props
-
 const ns = useNamespace('table-select-display')
 
-const multiple = inject(multipleKey)
-const showIndex = inject(showIndexKey)
-const stripe = inject(stripeKey)
-const valueKey: any = inject(valueKeyKey)
+const { rootProps } = inject(tableSelectKey)!
+const { multiple, showIndex, columns, valueKey } = toRefs(rootProps)
 
-let radio = ref({ val: '' })
+// 多选相关逻辑---------
+// 选择的数据的value值, 该数据用以在初始化时回显用(因为对象之间不可以判断直接相等)
+let checkedKeys = shallowReactive(new Set<string | number>())
 
-let checkbox = ref(new Set())
-
-let store = reactive({
-  radio: '',
-  checkbox: new Set()
+const allChecked = computed(() => {
+  return checkedKeys.size === props.data.length
 })
-
-let tableData = ref<any>(null)
-
-let isIndeterminate = ref<boolean>(false)
-
-let allCheck = ref<boolean>(false)
-
-const handleAllCheck = (val: boolean) => {
-  if (val) {
-    tableData.value.forEach((item: Record<string, any>) => {
-      checkbox.value.add(item[valueKey])
-    })
+const indeterminate = computed(() => {
+  return checkedKeys.size > 0 && !allChecked.value
+})
+const toggleAllChecked = (checked: boolean) => {
+  const { data } = props
+  const { valueKey } = rootProps
+  if (checked) {
+    data.forEach(item => checkedKeys.add(item[valueKey]))
   } else {
-    checkbox.value.clear()
+    checkedKeys.clear()
   }
 }
 
-const getValue = () => {
-  if (multiple) {
-    return [...checkbox.value].map((key: any) => {
-      return tableData.value.find((item: any) => item[valueKey] === key)
-    })
+const toggleChecked = (checked: boolean, row: any) => {
+  const { valueKey } = rootProps
+  if (checked) {
+    checkedKeys.add(row[valueKey])
   } else {
-    return data?.find((item: any) => {
-      return item[valueKey] === radio.value.val
-    })
+    checkedKeys.delete(row[valueKey])
   }
 }
 
-const setValue = (data: Record<string, any>) => {
-  if (multiple) {
-    checkbox.value.clear()
-    store.checkbox.clear()
-    data?.forEach((item: Record<string, any>) => {
-      checkbox.value.add(item[valueKey])
-      store.checkbox.add(item[valueKey])
-    })
-  } else {
-    radio.value.val = data[0][valueKey]
-    store.radio = data[0][valueKey]
-  }
+// 单选相关逻辑
+let selectedKey = shallowRef<string>()
+
+const handleClickRow = (row: any) => {
+  const { editable } = props
+  if (!editable) return
+  selectedKey.value = row[valueKey.value]
+}
+
+// 通用
+const getValue = ():
+  | Record<string, any>[]
+  | Record<string, any>
+  | undefined => {
+  const { valueKey, multiple } = rootProps
+  const { data } = props
+
+  return multiple
+    ? data.filter(item => checkedKeys.has(item[valueKey]))
+    : data.find(item => selectedKey.value === item[valueKey])
 }
 
 const clear = () => {
-  if (multiple) {
-    checkbox.value.clear()
-    store.checkbox.forEach((item: any) => {
-      checkbox.value.add(item)
-    })
-  } else {
-    radio.value.val = store.radio || ''
-  }
+  checkedKeys.clear()
+  selectedKey.value = undefined
 }
-
-watch(
-  () => props.data,
-  (cur, pre) => {
-    tableData.value = cur
-  },
-  {
-    immediate: true
-  }
-)
-
-watch(
-  () => props.value,
-  (cur, pre) => {
-    if (cur && cur.length) setValue(cur)
-  },
-  {
-    immediate: true
-  }
-)
-
-let checkboxsize = computed(() => {
-  return checkbox.value.size
-})
-
-watch(
-  () => checkboxsize.value,
-  (cur, pre) => {
-    cur && cur !== tableData.value.length
-      ? (isIndeterminate.value = true)
-      : (isIndeterminate.value = false)
-  },
-  {
-    immediate: true
-  }
-)
 
 defineExpose({
   getValue,

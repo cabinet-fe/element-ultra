@@ -4,7 +4,7 @@
       {{ data }}
     </div>
     <el-card title="表单数据">
-      <el-form disabled ref="formRef" :cols="{ cols: 2 }" :data="data" label-width="80px" :rules="rules">
+      <el-form disabled ref="formRef"  :data="data" label-width="80px" :rules="rules">
         <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
@@ -22,7 +22,7 @@
           <el-input label="住址" field="address" />
         </template>
 
-        <el-select label="选择框" :options="[{ label: 'aa', value: '1' }]" multiple field="aa" />
+        <!-- <el-select label="选择框" :options="[{ label: 'aa', value: '1' }]" multiple field="aa" /> -->
 
         <el-date-picker
           type="daterange"

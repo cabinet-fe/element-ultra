@@ -13,7 +13,17 @@ export default function useDialog(options: Options) {
   const { props, rows, emit } = options
 
   const model = props.columns.reduce((acc, cur) => {
-    acc[cur.key] = { value: cur.defaultValue, ...cur.rules } as any
+    if (cur.defaultValue instanceof Function) {
+      let v = cur.defaultValue()
+      if (v instanceof Promise) {
+        v.then(result => model[cur.key] = result)
+      } else {
+        acc[cur.key] = v
+      }
+    } else {
+      acc[cur.key] = { value: cur.defaultValue, ...cur.rules } as any
+    }
+
     return acc
   }, {} as Record<string, FormModelItem>)
 

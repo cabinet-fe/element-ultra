@@ -32,15 +32,27 @@ export default function useInline(options: Options) {
 
   /** 创建一个空行 */
   const createInlineRow = () => {
-    return shallowReactive(
+
+    let row = shallowReactive(
       props.columns.reduce(
         (acc, cur) => {
-          acc[cur.key] = cur.defaultValue
+          if (cur.defaultValue instanceof Function) {
+            let v = cur.defaultValue()
+            if (v instanceof Promise) {
+              v.then(result => row[cur.key] = result)
+            } else {
+              acc[cur.key] = v
+            }
+          } else {
+            acc[cur.key] = cur.defaultValue
+          }
           return acc
         },
         { __new__: true } as Record<string, any>
       )
     )
+
+    return row
   }
 
   /** 校验器 */

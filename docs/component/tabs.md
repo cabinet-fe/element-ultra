@@ -87,6 +87,7 @@ tabs/customized-trigger
 | tab-position          | 选项卡所在位置                                                     | string                              | top/right/bottom/left | top          |
 | stretch               | 标签的宽度是否自撑开                                                  | boolean                             | -                     | false        |
 | before-leave          | 切换标签之前的钩子函数， 若返回 `false ` 或者返回被 reject 的 ` Promise `，则阻止切换。 | Function(activeName, oldActiveName) | —                     | —            |
+| hide-content          | 隐藏content, tab仅仅作为一个radio来使用 | —                     | —            |
 
 ## Tabs 事件
 

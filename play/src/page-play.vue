@@ -14,6 +14,7 @@
     </template>
 
     <template #footer="{ extraRefs }">
+    111
       <el-button @click="c.log(extraRefs)">获取实例</el-button>
     </template>
 

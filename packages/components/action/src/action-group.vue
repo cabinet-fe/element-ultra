@@ -19,6 +19,8 @@ export default defineComponent({
 
   components: { ElTooltip, ElButton },
 
+  inheritAttrs: false,
+
   setup(props, { slots }) {
     const ns = useNamespace('action-group')
 
