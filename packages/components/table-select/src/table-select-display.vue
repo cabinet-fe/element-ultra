@@ -3,7 +3,7 @@
     <table>
       <thead :class="ns.e('header')">
         <tr :class="ns.e('header-row')">
-          <th v-if="editable">
+          <th v-if="editable" style="z-index: 2;">
             <el-checkbox
               v-if="multiple"
               :model-value="allChecked"
