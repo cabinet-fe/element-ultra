@@ -38,8 +38,7 @@ const emit = defineEmits(tableSelectEmits)
 const ns = useNamespace('table-select')
 
 provide(tableSelectKey, {
-  rootProps: props,
-  rootEmit: emit
+  rootProps: props
 })
 
 const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()
@@ -51,6 +50,9 @@ const handleClick = () => {
 let displayData = shallowRef<any[]>([])
 
 let handleChange = (data: any) => {
-  displayData.value = Array.isArray(data) ? data : [data]
+  let v =  Array.isArray(data) ? data : [data]
+  displayData.value = v
+  emit('update:modelValue', v)
+  emit('change', v)
 }
 </script>

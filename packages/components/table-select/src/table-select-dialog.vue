@@ -66,7 +66,7 @@ const emit = defineEmits<{
   (e: 'apiData', data: Record<string, any>[]): void
 }>()
 
-const { rootEmit, rootProps } = inject(tableSelectKey)!
+const { rootProps } = inject(tableSelectKey)!
 
 const pageQuery = shallowReactive({
   page: 1,
