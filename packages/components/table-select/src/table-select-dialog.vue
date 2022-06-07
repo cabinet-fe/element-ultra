@@ -1,12 +1,14 @@
 <template>
-  <el-dialog append-to-body :width="width" :class="ns.b()" v-model="visible" :title="title">
-    <div :class="ns.e('searcher')">
-      <div :class="ns.e('wrapper')">
-        <slot name="searcher"></slot>
-      </div>
-      <div :class="ns.e('btn')" v-if="query && Object.keys(query).length">
-        <el-button type="primary" @click="fetchData">查询</el-button>
-      </div>
+  <el-dialog
+    append-to-body
+    :width="width"
+    :class="ns.b()"
+    v-model="visible"
+    :title="title"
+  >
+    <div :class="ns.e('searcher')" v-if="$slots.searcher" @keyup.enter="fetchData()">
+      <slot name="searcher"></slot>
+      <el-button type="primary" @click="fetchData()">查询</el-button>
     </div>
     <TableSelectDisplay
       :theight="theight"
@@ -17,10 +19,11 @@
     />
     <el-pagination
       :class="ns.e('pagination')"
-      v-if="api && rootProps.pagination"
+      v-if="rootProps.api && rootProps.pagination"
       v-model:currentPage="pageQuery.page"
       v-model:page-size="pageQuery.size"
-      @change="fetchData"
+      @change="fetchData(false)"
+      small
       :page-sizes="[20, 40, 80, 100, 150, 200]"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalSize"
@@ -103,9 +106,17 @@ const [configStore] = useConfig()
 
 let loading = shallowRef(false)
 
-const fetchData = async () => {
+/**
+ * 查询数据
+ * @param reset 重置分页 默认 true
+ */
+const fetchData = async (reset = true) => {
+
   const { api } = rootProps
   if (!configStore.tableSelectRequestMethod || !api) return
+  if (reset) {
+    pageQuery.page = 1
+  }
   const { query } = props
   let realQuery = Object.keys(query || {}).reduce((acc, cur) => {
     let v = query![cur]
@@ -143,9 +154,9 @@ let queryWatchList = computed(() => {
     })
 })
 
-watch(queryWatchList, fetchData)
+watch(queryWatchList, () => fetchData())
 
-watch(() => rootProps.api, fetchData, { immediate: true })
+watch(() => rootProps.api, () => fetchData(), { immediate: true })
 
 defineExpose({
   open

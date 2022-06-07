@@ -1,9 +1,9 @@
 <template>
   <div :class="ns.b()" :style="`height: ${theight}px`">
-    <table>
+    <table >
       <thead :class="ns.e('header')">
         <tr :class="ns.e('header-row')">
-          <th v-if="editable" style="z-index: 2;">
+          <th v-if="editable" style="z-index: 2">
             <el-checkbox
               v-if="multiple"
               :model-value="allChecked"
@@ -34,8 +34,13 @@
               :value="row[valueKey]"
               :checked="checkedKeys.has(row[valueKey])"
               @change="toggleChecked($event, row)"
+              @click.stop
             />
-            <el-radio v-else :value="row[valueKey]" :model-value="selectedKey" />
+            <el-radio
+              v-else
+              :value="row[valueKey]"
+              :model-value="selectedKey"
+            />
           </td>
           <td v-if="showIndex" :class="ns.e('auto')">
             {{ index + 1 }}
@@ -108,7 +113,11 @@ let selectedKey = shallowRef<string>()
 const handleClickRow = (row: any) => {
   const { editable } = props
   if (!editable) return
-  selectedKey.value = row[valueKey.value]
+  if (multiple.value) {
+    toggleChecked(!checkedKeys.has(row[valueKey.value]), row)
+  } else {
+    selectedKey.value = row[valueKey.value]
+  }
 }
 
 // 通用

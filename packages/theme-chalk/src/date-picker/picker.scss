@@ -20,6 +20,10 @@
   position: relative;
   display: inline-block;
   text-align: left;
+  .#{$namespace}-input__inner {
+    vertical-align: middle;
+  }
+
 
   @include m(dates) {
     .#{$namespace}-input__inner {
@@ -109,6 +113,7 @@
     display: inline-flex;
     align-items: center;
     padding: 3px 10px;
+    vertical-align: middle;
 
     &:hover {
       box-shadow: 0 0 0 1px #c0c4cc inset;

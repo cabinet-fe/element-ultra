@@ -9,6 +9,7 @@
     pagination
     :show-index="true"
     :query="query"
+    api="aa"
     :dialog-title="dialogTitle"
     ref="tableRef"
     :editable="true"
@@ -23,7 +24,7 @@
       <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
       <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
       <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-      <el-input v-model="query.name" />
+      <!-- <el-input v-model="query.name" /> -->
       <el-date-picker v-model="query.$date" clearable />
     </template>
   </el-table-select>

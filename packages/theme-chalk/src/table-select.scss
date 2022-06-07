@@ -26,10 +26,11 @@
 
   table {
     width: 100%;
+    border-spacing: 0;
   }
   tr {
     border-bottom: 1px solid #ebeef5;
-
+    cursor: pointer;
     th {
       position: sticky;
       top: 0;
@@ -80,9 +81,15 @@
 
 @include b(table-select-dialog) {
   @include e(searcher) {
-    .el-table-select-dialog__wrapper > div {
-      max-width: 31%;
-      padding: 2px;
+    padding: 6px 0;
+
+    & > :not(.el-button) {
+      width: 180px;
+      margin-right: 6px;
+    }
+
+    & > * {
+      vertical-align: middle;
     }
     @include e(btn) {
       text-align: right;
@@ -91,6 +98,10 @@
     @include e(table) {
       overflow-x: scroll;
     }
+  }
+
+  @include e(pagination) {
+    justify-content: flex-end;
   }
 }
 
