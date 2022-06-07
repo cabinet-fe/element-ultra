@@ -1,7 +1,7 @@
 <template>
   <div :class="[ns.b(), $attrs.class]" :style="{ height }">
     <section ref="searcherRef" v-if="$slots.searcher" :class="ns.e('searcher')">
-      <div :class="ns.e('searcher-box')">
+      <div :class="ns.e('searcher-box')" @keyup.enter="fetchData()">
         <slot name="searcher" />
       </div>
 
