@@ -1,18 +1,15 @@
-<!--
-  根据activeName查询对应的activeIndex
- -->
+
 <script lang="tsx">
 import {
   provide,
   defineComponent,
   useSlots,
   shallowRef,
-  type VNode,
   watch,
   type ShallowReactive,
   nextTick,
-type VNodeArrayChildren,
-isVNode
+  type VNodeArrayChildren,
+  isVNode
 } from 'vue'
 import { CHANGE_EVENT } from '@element-ultra/constants'
 import { useNamespace } from '@element-ultra/hooks'
@@ -26,7 +23,8 @@ export default defineComponent({
   props: stepsProps,
 
   emits: {
-    [CHANGE_EVENT]: () => true
+    [CHANGE_EVENT]: () => true,
+
   },
 
   setup(props) {
@@ -90,14 +88,18 @@ export default defineComponent({
     )
 
     // 给step编号
-    const numberStep = async (nodeList: VNodeArrayChildren, arr: StepState[] = []) => {
+    const numberStep = async (
+      nodeList: VNodeArrayChildren,
+      arr: StepState[] = []
+    ) => {
       await nextTick()
-
 
       nodeList.forEach((child, index) => {
         if (!isVNode(child)) return
         if (isFragment(child) || isTemplate(child)) {
-          return  Array.isArray(child.children) && numberStep(child.children, arr)
+          return (
+            Array.isArray(child.children) && numberStep(child.children, arr)
+          )
         }
 
         if (child.component?.uid) {

@@ -7,6 +7,7 @@
       ns.is('flex', state.isLast && !stepsProps.space && !isCenter),
       ns.is('center', isCenter && !isVertical)
     ]"
+    @click="emit('click',state.status)"
   >
     <!-- icon & line -->
     <div :class="[ns.e('head'), ns.is(state.status)]">
@@ -64,6 +65,10 @@ defineOptions({
 
 defineProps(stepProps)
 
+const emit = defineEmits({
+  click: (status: StepStatus) => true
+})
+
 const ns = useNamespace('step')
 const { stepsProps, stepsCount, addStep, removeStep } = inject(stepsInjectionKey)!
 const currentInstance = getCurrentInstance()!
@@ -95,7 +100,7 @@ const isVertical = computed(() => {
 const style = computed(() => {
   const { space } = stepsProps
 
-  const style: Record<string, unknown> = {
+  const style: Record<string, any> = {
     flexBasis:
       typeof space === 'number'
         ? `${space}px`
