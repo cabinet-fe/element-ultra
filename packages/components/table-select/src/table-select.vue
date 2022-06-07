@@ -13,7 +13,9 @@
     </template>
   </TableSelectDisplay>
 
-  <TableSelectDialog :data="data" @change="handleChange" ref="dialogRef" />
+  <TableSelectDialog :data="data" @change="handleChange" ref="dialogRef">
+    <template #searcher><slot name="searcher" /></template>
+  </TableSelectDialog>
 </template>
 
 <script lang="ts" setup>
