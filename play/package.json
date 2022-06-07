@@ -11,9 +11,9 @@
     "element-ultra": "workspace:*"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.2.2",
-    "unplugin-vue-components": "^0.17.18",
-    "vite": "^2.9.0",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "unplugin-vue-components": "^0.19.6",
+    "vite": "^2.9.10",
     "vite-plugin-inspect": "^0.3.14",
     "vite-plugin-mkcert": "^1.5.2"
   }
