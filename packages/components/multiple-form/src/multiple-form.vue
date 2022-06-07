@@ -209,7 +209,9 @@ const handleCreate = (index: number) => {
     splitRowByIndex(index, createInlineRow())
     createInlineRow()
     nextTick(() => {
-      rowRefs.value[index]?.el.scrollIntoView()
+      rowRefs.value[index]?.el?.scrollIntoView({
+        block: 'nearest'
+      })
     })
   } else if (mode === 'dialog') {
     open('create', { title: '新增', ctx: { index } })

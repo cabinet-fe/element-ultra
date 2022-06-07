@@ -1,5 +1,6 @@
 import { computed, shallowReactive, shallowRef, type ShallowRef } from 'vue'
 import type { MultipleFormEmits, MultipleFormProps, MultipleFormRules } from './multiple-form'
+import type MultipleFormRow from './multiple-form-row.vue'
 
 interface Options {
   props: MultipleFormProps
@@ -28,7 +29,7 @@ export default function useInline(options: Options) {
   const showGuide = shallowRef(false)
 
   /** 行引用 */
-  const rowRefs = shallowRef<any[]>([])
+  const rowRefs = shallowRef<InstanceType<typeof MultipleFormRow>[]>([])
 
   /** 创建一个空行 */
   const createInlineRow = () => {
