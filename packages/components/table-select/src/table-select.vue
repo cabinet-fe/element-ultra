@@ -13,13 +13,18 @@
     </template>
   </TableSelectDisplay>
 
-  <TableSelectDialog :data="data" @change="handleChange" :query="query" ref="dialogRef">
+  <TableSelectDialog
+    :data="data"
+    @change="handleChange"
+    :query="query"
+    ref="dialogRef"
+  >
     <template #searcher><slot name="searcher" /></template>
   </TableSelectDialog>
 </template>
 
 <script lang="ts" setup>
-import { provide, shallowRef } from 'vue'
+import { provide, shallowRef, watch } from 'vue'
 import { tableSelectEmits, tableSelectProps } from './table-select'
 import TableSelectDialog from './table-select-dialog.vue'
 import TableSelectDisplay from './table-select-display.vue'
@@ -56,4 +61,12 @@ let handleChange = (data: any) => {
   emit('update:modelValue', data)
   emit('change', data)
 }
+
+watch(
+  () => props.modelValue,
+  data => {
+    displayData.value = Array.isArray(data) ? data : [data]
+  },
+  { immediate: true }
+)
 </script>

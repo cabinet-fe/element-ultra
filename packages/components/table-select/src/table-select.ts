@@ -3,7 +3,7 @@ import type { ExtractPropTypes, PropType } from 'vue'
 
 export const tableSelectProps = {
   modelValue: {
-    type: Object as PropType<Record<string, any>>
+    type: [Object, Array] as PropType<Record<string, any> | Record<string, any>[]>
   },
   columns: {
     type: Array as PropType<Record<string, any>[]>,
