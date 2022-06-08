@@ -9,6 +9,8 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"
+    @before-show="emit('change', true)"
+    @before-hide="emit('change', false)"
   >
     <template #content>
       <div :class="ns.b()">
@@ -35,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, unref } from 'vue'
+import { ref, computed, unref, getCurrentInstance } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
@@ -48,6 +50,10 @@ defineOptions({
 })
 
 const props = defineProps(popconfirmProps)
+
+const emit = defineEmits({
+  change: (visible: boolean) => true
+})
 
 const { compatTeleported } = useDeprecateAppendToBody('ElPopconfirm', 'appendToBody')
 

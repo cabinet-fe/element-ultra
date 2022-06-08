@@ -1,4 +1,6 @@
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, ShallowRef } from 'vue'
 
-/** 关闭下拉框 */
-export const closeDrop: InjectionKey<() => void> = Symbol()
+export const actionGroupToken: InjectionKey<{
+  dropdownRef?: ShallowRef<any>
+  setConfirmVisible: (visible: boolean) => void
+}> = Symbol('actionGroupToken')

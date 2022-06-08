@@ -161,10 +161,10 @@ const setUserInput = () => {
     let [valIntStr, valDotStr] = valStr.split('.')
 
     let group: string[] = []
-    let i = 0
-    while (i < valIntStr.length) {
-      group.push(valIntStr.slice(i, i + 3) + '')
-      i += 3
+    let i = valIntStr.length
+    while (i > 0) {
+      group.unshift(valIntStr.slice(i - 3 > 0 ? i - 3 : 0, i) + '')
+      i -= 3
     }
     valStr = group.join(',')
 

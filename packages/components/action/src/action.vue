@@ -1,15 +1,17 @@
 <template>
   <el-popconfirm
     v-if="needConfirm"
-    append-to="body"
-    teleported
+    trigger="click"
     title="确认执行此操作吗？"
     @confirm="run"
+    @change="handleVisibleChange"
     placement="right-start"
   >
     <template #reference>
       <li :class="ns.b()" v-if="isDrop">
-        <slot />
+        <div>
+          <slot />
+        </div>
       </li>
 
       <el-button v-else :icon="icon" :size="size" text> <slot /> </el-button>
@@ -27,10 +29,12 @@
 </template>
 
 <script lang="ts" setup>
+import { inject } from 'vue'
 import { actionProps } from './type'
 import ElButton from '@element-ultra/components/button'
 import ElPopconfirm from '@element-ultra/components/popconfirm'
 import { useNamespace } from '@element-ultra/hooks'
+import { actionGroupToken } from './token'
 
 const ns = useNamespace('action')
 
@@ -46,5 +50,11 @@ const emit = defineEmits<{
 
 const run = () => {
   emit('run')
+}
+
+const { setConfirmVisible } = inject(actionGroupToken)!
+
+const handleVisibleChange = (visible: boolean) => {
+  setConfirmVisible(visible)
 }
 </script>

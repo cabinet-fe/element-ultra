@@ -3,9 +3,13 @@ import {
   defineComponent,
   type VNode,
   isVNode,
-  type VNodeNormalizedChildren
+  type VNodeNormalizedChildren,
+  shallowRef,
+  provide,
+nextTick
 } from 'vue'
 import { actionGroupProps } from './type'
+import { actionGroupToken } from './token'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
@@ -21,7 +25,7 @@ export default defineComponent({
 
   inheritAttrs: false,
 
-  setup(props, { slots }) {
+  setup(props, { slots, expose }) {
     const ns = useNamespace('action-group')
 
     const getActions = (
@@ -66,6 +70,7 @@ export default defineComponent({
         <ElTooltip
           effect='light'
           popperClass={ns.e('dropdown')}
+          visible={confirmVisible.value}
           v-slots={{
             content: () => <ul>{restChildren}</ul>,
             default: () => (
@@ -84,6 +89,23 @@ export default defineComponent({
         dropdownChildren
       }
     }
+
+    let confirmVisible = shallowRef<boolean | undefined>(undefined)
+
+    const setConfirmVisible = (visible: boolean) => {
+      if (visible) {
+        confirmVisible.value = true
+      } else {
+        confirmVisible.value = false
+        nextTick(() => {
+          confirmVisible.value = undefined
+        })
+      }
+    }
+
+    provide(actionGroupToken, {
+      setConfirmVisible
+    })
 
     return () => {
       const { normalChildren, dropdownChildren } = getChildren()
