@@ -1,5 +1,4 @@
 import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
-import { debugWarn } from '@element-ultra/utils'
 import { useNamespace } from '@element-ultra/hooks'
 import { cellForced, defaultRenderCell, treeCellPrefix, getDefaultClassName } from '../config'
 import { parseWidth, parseMinWidth } from '../util'

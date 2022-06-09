@@ -86,7 +86,10 @@ const getRowColumns = (row: any, index: number) => {
   return rootProps.columns.map(column => {
     let value = ''
     if (!column.slot) {
-      let cellVal = row[column.key]
+      let cellVal = column.key.split('.').reduce((acc: any, cur: string) => {
+        acc = acc?.[cur]
+        return acc
+      }, row)
       value = column.render?.(row, index, cellVal) ?? cellVal
     }
     return {
