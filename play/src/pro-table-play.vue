@@ -1,48 +1,44 @@
 <template>
-  <el-grid :cols="['200px', '1fr']">
-    <div>111</div>
+  <el-pro-table
+    height="100%"
+    pagination
+    row-key="id"
+    api="/some/text"
+    :query="query"
+    :columns="columns"
+    show-index
+    :checkable="
+      (row, index) => {
+        return index % 2 === 0
+      }
+    "
+    ref="tableRef"
+  >
+    <template #searcher>
+      <el-input v-model="query.$name" />
+    </template>
 
-    <el-pro-table
-      height="100%"
-      pagination
-      row-key="id"
-      api="/some/text"
-      :query="query"
-      :columns="columns"
-      show-index
-      :checkable="
-        (row, index) => {
-          return index % 2 === 0
-        }
-      "
-      ref="tableRef"
-    >
-      <template #searcher>
-        <el-input v-model="query.$name" />
-      </template>
+    <template #age="{ row }">
+      {{ row }}
+    </template>
 
-      <template #age="{ row }">
-        {{ row }}
-      </template>
-
-      <template #tools>
-        <el-button type="primary">新增</el-button>
-        <el-button
-          @click="
-            tableRef.tableRef.toggleRowSelection(
-              {
-                name: '张三',
-                id: 1,
-                age: 20
-              },
-              true
-            )
-          "
-          >切换选中</el-button
-        >
-      </template>
-    </el-pro-table>
-  </el-grid>
+    <template #tools>
+      <el-button type="primary">新增</el-button>
+      <el-button
+        @click="
+          tableRef.toggleRowSelection(
+            {
+              name: '张三',
+              id: 1,
+              age: 20
+            },
+            true
+          )
+        "
+        >切换选中</el-button
+      >
+    </template>
+  </el-pro-table>
 </template>
 
 <script setup lang="tsx">
@@ -70,8 +66,47 @@ setTimeout(() => {
   columns = [
     {
       name: '姓名',
-      key: 'name',
-      width: 400
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
     },
     {
       name: '父级',
@@ -80,7 +115,6 @@ setTimeout(() => {
         {
           name: '年龄',
           key: 'age',
-          width: 300,
           slot: 'age' // 建议使用column-*这样的命名, 方便在模板里面阅读
         }
       ]
@@ -90,6 +124,7 @@ setTimeout(() => {
       align: 'center',
       key: 'action',
       fixed: 'right',
+      minWidth: 150,
       render(row, index) {
         return (
           <>

@@ -45,6 +45,11 @@ export const proTableProps = {
   defaultExpandAll: {
     type: Boolean,
     default: false
+  },
+
+  cellMinWidth: {
+    type: Number,
+    default: 100
   }
 }
 

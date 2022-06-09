@@ -55,25 +55,33 @@ pro-table/basic
 ## ProTable 属性
 
 ```ts
+
+
 type PropTableProps = {
   /** 列配置 */
-  readonly columns: ProTableColumn[];
+  columns: ProTableColumn[];
   /** 展现分页 */
-  readonly pagination?: boolean;
+  pagination?: boolean;
   /** 数据请求接口, 如果传了data属性, 该属性将失效 */
-  readonly api?: string | undefined;
+  api?: string;
   /** 数据 */
-  readonly data?: any[] | undefined;
+  data?: any[];
   /** 在左侧展现索引 */
-  readonly showIndex?: BuildPropType<BooleanConstructor, unknown, unknown> | undefined;
+  showIndex?: boolean;
   /** 显示复选框与selectable属性互斥, 只有一个生效 */
-  readonly checkable?: BuildPropType<...> | undefined;
+  checkable?: boolean | ((row: any, index: number) => boolean);
   /** 显示单选框与checkable属性互斥, 只有一个生效 */
-  readonly selectable?: BuildPropType<...> | undefined;
+  selectable?: boolean | ((row: any, index: number) => boolean);
   /** 检索对象, 传入table来让table自动帮你筛选数据 */
-  readonly query?: Record<...> | undefined;
+  query?: Record<string, any>;
   /** 表格高度, 一旦指定表头就会固定了 */
-  readonly height?: BuildPropType<...> | undefined;
+  height?: number | string;
+  /** 是否显示工具栏, 默认为true */
+  showTools?: boolean;
+  /** 是否默认展开全部 */
+  defaultExpandAll?: boolean;
+  /** 单元格最小宽度, 默认 100 */
+  cellMinWidth?: number;
 }
 ```
 
@@ -83,6 +91,8 @@ type PropTableProps = {
 interface ProTableColumn {
   /** 列的默认宽度 */
   width?: number
+  /** 列的最低宽度, 如果同时设置了width, 则以width为优先 */
+  minWidth?: number;
   /** 列的名称, 在表头中显示 */
   name: string | (() => VNode)
   /** 从值中取的字段, 支持链式 */

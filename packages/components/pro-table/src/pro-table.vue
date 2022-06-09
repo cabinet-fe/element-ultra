@@ -102,7 +102,8 @@ const props = defineProps(proTableProps)
 const slots = useSlots()
 
 provide(proTableKey, {
-  proTableSlots: slots
+  proTableSlots: slots,
+  rootProps: props
 })
 
 const ns = useNamespace('pro-table')

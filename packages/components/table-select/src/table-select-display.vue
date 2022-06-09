@@ -1,9 +1,22 @@
 <template>
   <div :class="ns.b()" :style="`height: ${theight}px`">
-    <table >
+    <table>
+      <colgroup v-if="editable">
+        <col style="width: 60px; text-align: center" />
+        <col v-if="showIndex" style="width: 60px; text-align: center" />
+        <col
+          v-for="column in columns"
+          :style="{
+            width: column.width + 'px',
+            minWidth:
+              (column.width ? column.width : column.minWidth || 100) + 'px'
+          }"
+        />
+      </colgroup>
+
       <thead :class="ns.e('header')">
         <tr :class="ns.e('header-row')">
-          <th v-if="editable" style="z-index: 2">
+          <th v-if="editable" style="z-index: 2; text-align: center">
             <el-checkbox
               v-if="multiple"
               :model-value="allChecked"
@@ -11,12 +24,8 @@
               :indeterminate="indeterminate"
             />
           </th>
-          <th v-if="showIndex" :class="ns.e('auto')">序号</th>
-          <th
-            v-for="item in columns"
-            :class="{ [ns.e('auto')]: !item.width }"
-            :style="{ width: `${item.width}px` }"
-          >
+          <th v-if="showIndex" style="text-align: center">序号</th>
+          <th v-for="item in columns">
             {{ item.name }}
           </th>
         </tr>
@@ -28,7 +37,7 @@
           :class="ns.e('row')"
           @click="handleClickRow(row)"
         >
-          <td v-if="editable">
+          <td v-if="editable" style="text-align: center">
             <el-checkbox
               v-if="multiple"
               :value="row[valueKey]"
@@ -42,20 +51,15 @@
               :model-value="selectedKey"
             />
           </td>
-          <td v-if="showIndex" :class="ns.e('auto')">
+          <td v-if="showIndex" style="text-align: center">
             {{ index + 1 }}
           </td>
-          <td
-            v-for="item in columns"
-            :class="{ [ns.e('auto')]: !item.width }"
-            :style="{ width: `${item.width}px` }"
-          >
-            {{
-              item.render
-                ? item.render(row, index, row[item.key])
-                : row[item.key]
-            }}
-            <div v-if="item.key === 'action'"><slot name="action"></slot></div>
+          <td v-for="item in getRowColumns(row, index)" :title="item.value">
+            <slot v-if="item.slot" :name="item.key" v-bind="{ row, index }" />
+
+            <template v-else>
+              {{ item.value }}
+            </template>
           </td>
         </tr>
       </tbody>
@@ -63,7 +67,7 @@
   </div>
 </template>
 
-<script lang="tsx" setup>
+<script lang="ts" setup>
 import { inject, computed, toRefs, shallowRef, shallowReactive } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectDisplayProps } from './table-select-display'
@@ -76,7 +80,21 @@ const props = defineProps(tableSelectDisplayProps)
 const ns = useNamespace('table-select-display')
 
 const { rootProps } = inject(tableSelectKey)!
-const { multiple, showIndex, columns, valueKey } = toRefs(rootProps)
+const { multiple, showIndex, valueKey, columns } = toRefs(rootProps)
+
+const getRowColumns = (row: any, index: number) => {
+  return rootProps.columns.map(column => {
+    let value = ''
+    if (!column.slot) {
+      let cellVal = row[column.key]
+      value = column.render?.(row, index, cellVal) ?? cellVal
+    }
+    return {
+      value,
+      ...column
+    } as any
+  })
+}
 
 // 多选相关逻辑---------
 // 选择的数据的value值, 该数据用以在初始化时回显用(因为对象之间不可以判断直接相等)

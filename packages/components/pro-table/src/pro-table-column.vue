@@ -4,11 +4,12 @@
     v-if="!column.children?.length"
     v-bind="inheritColumns"
     :prop="column.key"
+    :min-width="column.width ? column.width : (column.minWidth || rootProps.cellMinWidth)"
     :formatter="column.render"
     :name="label"
   >
     <template #header v-if="headerRender">
-      <ChildRenderer :child="headerRender()" />
+      <ChildRenderer :child="headerRender!()" />
     </template>
 
     <template #default="scope" v-if="column.slot">
@@ -21,11 +22,12 @@
     v-else
     v-bind="inheritColumns"
     :prop="column.key"
+    :min-width="column.width ? column.width : (column.minWidth || rootProps.cellMinWidth)"
     :formatter="column.render"
     :name="label"
   >
     <template #header v-if="headerRender">
-      <ChildRenderer :child="headerRender()" />
+      <ChildRenderer :child="headerRender!()" />
     </template>
 
     <pro-table-column
@@ -61,10 +63,10 @@ const props = defineProps({
   }
 })
 
-const { proTableSlots } = inject(proTableKey)!
+const { proTableSlots, rootProps } = inject(proTableKey)!
 
 let inheritColumns = computed(() => {
-  return omit(props.column, ['key', 'render', 'name', 'children'])
+  return omit(props.column, ['key', 'render', 'name', 'children', 'minWidth'])
 })
 
 const label = computed(() => {

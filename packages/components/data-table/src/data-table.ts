@@ -5,6 +5,8 @@ import type { ExtractPropTypes, PropType, VNode } from 'vue'
 export interface DataTableColumn {
   /** 列的默认宽度 */
   width?: number;
+  /** 列的最小宽度 */
+  minWidth?: number;
   /** 列的名称, 在表头中显示 */
   name: string | (() => VNode)
   /** 从值中取的字段, 支持链式 */
