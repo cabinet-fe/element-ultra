@@ -54,7 +54,9 @@ const fixed_columns: TableSelectColumn[] = [
       return v?.substring(0, 8) || null
     }
   },
-  { key: 'summary', name: '摘要' },
+  { key: 'summary', name: '摘要', width: 90 },
+  { key: 'summary', name: '摘要', align: 'center', width: 90 },
+  { key: 'summary', name: '摘要', align: 'right', width: 90 },
   { key: 'project', name: '项目' },
   {
     key: 'status',
