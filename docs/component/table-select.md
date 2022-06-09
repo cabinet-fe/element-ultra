@@ -16,31 +16,42 @@ table-select/basic
 ## TableSelect 属性
 
 ```ts
+/** 弹框选择器的列配置和pro-table的列配置一致详情请查看pro-table文档 */
+interface TableSelectColumn extends ProTableColumn {}
+```
+
+```ts
 type TableSelectProps = {
-  /** 值 {id: 1} || [{id: 1}, {id: 2}]*/
-  readonly modelValue: Object as PropType<Record<string, any>>,
-  /** 表头（参照pro-table） */
-  readonly columns: Array as PropType<Record<string, any>[]>,
-  /** 表格数据 */
-  readonly data: Array as PropType<Record<string, any>[]>,
-  /** 是否多选 */
-  readonly multiple: type: Boolean,
-  /** 分页api */
-  readonly api: String,
-  /** 分页 */
-  readonly pagination: Boolean,
-  /** 是否显示序号 */
-  readonly showIndex: Boolean,
-  /** 表格斑马纹（默认开启） */
-  readonly stripe: Boolean,
-  /** 索引值，默认为id */
-  readonly valueKey: String,
+  /** 选择的值 */
+  modelValue?: Record<string, any> | Record<string, any>[];
+  /** 列, 属性可以查看pro-table的属性 */
+  columns: TableSelectColumn[];
+  /** 弹框中可选择的数据 */
+  data?: Record<string, any>[];
+  /** 是否多选 默认false */
+  multiple?: boolean;
+  /** 弹框中可选择的数据的请求接口, 可以在全局配置中设置请求方法 */
+  api?: string;
+  /** 应用分页, 默认false */
+  pagination?: boolean;
+  /** 显示序号, 默认false */
+  showIndex?: boolean;
+  /** 查询对象, 从外部传进来 */
+  query?: Record<string, any>;
+  /** 值的key, 可用于回显时对对象的标记, 默认id */
+  valueKey?: string;
   /** 弹框标题 */
-  readonly dialogTitle: String,
-  /** 弹框内表格高度（default: 300） */
-  readonly theight: Number
-  /** 选择按钮显示、隐藏 */
-  readonly editable: Boolean
+  dialogTitle?: string;
+  /** 弹框高度 */
+  theight?: number;
+  /** 是否可编辑, 默认true */
+  editable?: boolean;
+  /** 是否显示展示的表格, 默认true */
+  table: boolean;
+  /** 弹框宽度 */
+  dialogWidth?: string | number;
+  /** 过滤列, (仅过滤弹框中的列) */
+  columnFilter?: (column: TableSelectColumn) => boolean
 }
 ```
 
