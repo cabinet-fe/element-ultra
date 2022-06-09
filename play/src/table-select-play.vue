@@ -17,6 +17,7 @@
     :path="path"
     value-key="code"
     @update:model-value="handleChange"
+    :column-filter="columnFilter"
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
@@ -32,7 +33,7 @@
 
 <script lang="ts" setup>
 import { shallowReactive, onMounted } from 'vue'
-import { type ProTableColumn, useConfig } from 'element-ultra'
+import { type TableSelectColumn, useConfig } from 'element-ultra'
 import { Plus } from '@element-plus/icons-vue'
 
 const query = shallowReactive({
@@ -40,7 +41,11 @@ const query = shallowReactive({
   $date: ''
 })
 
-const fixed_columns: ProTableColumn[] = $ref([
+const columnFilter = (column: TableSelectColumn) => {
+ return !['remarks', 'department', 'status'].includes(column.key)
+}
+
+const fixed_columns: TableSelectColumn[] = [
   {
     key: 'code',
     name: '明细指标编码',
@@ -57,11 +62,11 @@ const fixed_columns: ProTableColumn[] = $ref([
   },
   { key: 'remarks', name: '备注' },
   { key: 'department', name: '部门', width: 160 }
-])
+]
 
-let extra_columns: ProTableColumn[] = $ref([])
+let extra_columns: TableSelectColumn[] = $ref([])
 
-let columns = $computed<ProTableColumn[]>(() => {
+let columns = $computed<TableSelectColumn[]>(() => {
   return [...fixed_columns, ...extra_columns]
 })
 

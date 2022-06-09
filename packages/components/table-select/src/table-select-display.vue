@@ -5,7 +5,7 @@
         <col style="width: 60px; text-align: center" />
         <col v-if="showIndex" style="width: 60px; text-align: center" />
         <col
-          v-for="column in columns"
+          v-for="column in filteredColumns"
           :style="{
             width: column.width + 'px',
             minWidth:
@@ -25,7 +25,7 @@
             />
           </th>
           <th v-if="showIndex" style="text-align: center">序号</th>
-          <th v-for="item in columns">
+          <th v-for="item in filteredColumns">
             {{ item.name }}
           </th>
         </tr>
@@ -80,10 +80,18 @@ const props = defineProps(tableSelectDisplayProps)
 const ns = useNamespace('table-select-display')
 
 const { rootProps } = inject(tableSelectKey)!
+const { columnFilter } = rootProps
 const { multiple, showIndex, valueKey, columns } = toRefs(rootProps)
 
+// 弹框下的表格应用过滤
+const filteredColumns = computed(() => {
+  return columnFilter && props.editable
+    ? columns.value.filter(columnFilter)
+    : columns.value
+})
+
 const getRowColumns = (row: any, index: number) => {
-  return rootProps.columns.map(column => {
+  return filteredColumns.value.map(column => {
     let value = ''
     if (!column.slot) {
       let cellVal = column.key.split('.').reduce((acc: any, cur: string) => {
