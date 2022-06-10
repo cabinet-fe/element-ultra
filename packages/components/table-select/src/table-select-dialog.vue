@@ -58,6 +58,7 @@ import { useNamespace, useConfig } from '@element-ultra/hooks'
 import { tableSelectDialogProps } from './table-select-dialog'
 import TableSelectDisplay from './table-select-display.vue'
 import { tableSelectKey } from './token'
+import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 
 let visible = ref<boolean>(false)
 
