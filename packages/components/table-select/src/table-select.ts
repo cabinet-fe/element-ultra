@@ -56,11 +56,7 @@ export const tableSelectProps = {
   theight: {
     type: Number
   },
-  /** 是否可编辑 */
-  editable: {
-    type: Boolean,
-    default: true
-  },
+
   /** 是否显示展示的表格 */
   table: {
     type: Boolean,
@@ -73,7 +69,10 @@ export const tableSelectProps = {
   /** 过滤列, (仅过滤弹框中的列) */
   columnFilter: {
     type: Function as PropType<(column: TableSelectColumn) => boolean>
-  }
+  },
+
+  /** 是否可选择 */
+  disabled: Boolean
 } as const
 
 export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>

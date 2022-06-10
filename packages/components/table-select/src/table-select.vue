@@ -1,9 +1,7 @@
 <template>
-  <div @click="handleClick" :class="ns.e('btn')">
+  <div @click="handleClick" v-if="!disabled" :class="ns.e('btn')">
     <slot>
-      <el-button @click="handleClick" type="primary" :icon="Plus">
-        选择
-      </el-button>
+      <el-button type="primary" :icon="Plus"> 选择 </el-button>
     </slot>
   </div>
 
