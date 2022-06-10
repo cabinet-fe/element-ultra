@@ -6,12 +6,17 @@
     v-model="visible"
     :title="title"
   >
-    <div :class="ns.e('searcher')" v-if="$slots.searcher" @keyup.enter="fetchData()">
+    <div
+      :class="ns.e('searcher')"
+      v-if="$slots.searcher"
+      @keyup.enter="fetchData()"
+    >
       <slot name="searcher"></slot>
       <el-button type="primary" @click="fetchData()">查询</el-button>
     </div>
     <TableSelectDisplay
       :theight="theight"
+      v-loading="loading"
       :data="data || tableData"
       :value="props.value"
       editable
@@ -111,7 +116,6 @@ let loading = shallowRef(false)
  * @param reset 重置分页 默认 true
  */
 const fetchData = async (reset = true) => {
-
   const { api } = rootProps
   if (!configStore.tableSelectRequestMethod || !api) return
   if (reset) {
@@ -127,6 +131,7 @@ const fetchData = async (reset = true) => {
     return acc
   }, {} as Record<string, any>)
 
+  loading.value = true
   const { total, data } = await configStore
     .tableSelectRequestMethod({
       api,
@@ -156,7 +161,11 @@ let queryWatchList = computed(() => {
 
 watch(queryWatchList, () => fetchData())
 
-watch(() => rootProps.api, () => fetchData(), { immediate: true })
+watch(
+  () => rootProps.api,
+  () => fetchData(),
+  { immediate: true }
+)
 
 defineExpose({
   open
