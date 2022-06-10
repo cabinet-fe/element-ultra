@@ -5,6 +5,6 @@ import '@element-ultra/components/radio/style'
 import '@element-ultra/components/dialog/style'
 import '@element-ultra/components/button/style'
 import '@element-ultra/components/pagination/style'
-import '@element-ultra/components/loading/style/css'
+import '@element-ultra/components/loading/style'
 
 import '@element-ultra/theme-chalk/src/table-select.scss'
