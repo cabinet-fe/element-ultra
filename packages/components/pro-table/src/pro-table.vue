@@ -150,19 +150,8 @@ onMounted(() => {
 
 let loading = shallowRef(false)
 
-/**
- * 查询数据
- * @param resetPage 是否重置分页, 只有在 分页相关的组件改变时无需重置
- */
-const fetchData = async (resetPage = true) => {
-  if (!props.api || !configStore.proTableRequestMethod || props.data) return
-  loading.value = true
-  if (resetPage) {
-    query.page = 1
-  }
-
+const getQueryParams = () => {
   let _query = { ...props.query, ...(props.pagination ? query : null) }
-
   // 还原真实的请求参数
   let realQuery = Object.keys(_query).reduce((acc, cur) => {
     let v = _query[cur]
@@ -173,11 +162,27 @@ const fetchData = async (resetPage = true) => {
     return acc
   }, {} as Record<string, any>)
 
+  return {
+    api: props.api!,
+    query: realQuery
+  }
+}
+
+/**
+ * 查询数据
+ * @param resetPage 是否重置分页, 只有在 分页相关的组件改变时无需重置
+ */
+const fetchData = async (resetPage = true) => {
+  if (!props.api || !configStore.proTableRequestMethod || props.data) return
+
+  loading.value = true
+
+  if (resetPage) {
+    query.page = 1
+  }
+
   const { total, data } = await configStore
-    .proTableRequestMethod({
-      api: props.api,
-      query: realQuery
-    })
+    .proTableRequestMethod(getQueryParams())
     .finally(() => {
       loading.value = false
     })
@@ -225,7 +230,10 @@ const deleteRow = (index: number) => {
 }
 
 defineExpose({
+  state,
   fetchData,
+  /** 获取查询参数 */
+  getQueryParams,
   find,
   deleteRow,
   toggleRowSelection: (row: any, selected: boolean) =>
