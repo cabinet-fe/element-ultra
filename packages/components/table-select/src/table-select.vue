@@ -11,12 +11,7 @@
     </template>
   </TableSelectDisplay>
 
-  <TableSelectDialog
-    :data="data"
-    @change="handleChange"
-    :query="query"
-    ref="dialogRef"
-  >
+  <TableSelectDialog :data="data" @change="handleChange" :query="query" ref="dialogRef">
     <template #searcher><slot name="searcher" /></template>
   </TableSelectDialog>
 </template>
@@ -55,14 +50,17 @@ const handleClick = () => {
 let displayData = shallowRef<any[]>([])
 
 let handleChange = (data: any) => {
-  displayData.value = Array.isArray(data) ? data : [data]
-  emit('update:modelValue', data)
+  if (!props.dialogColumns) {
+    displayData.value = Array.isArray(data) ? data : [data]
+    emit('update:modelValue', data)
+  }
+
   emit('change', data)
 }
 
 watch(
   () => props.modelValue,
-  data => {
+  (data) => {
     displayData.value = Array.isArray(data) ? data : [data]
   },
   { immediate: true }

@@ -1,11 +1,9 @@
 <template>
-  <el-checkbox v-model="multiple">多选</el-checkbox>
-
   <el-table-select
-    v-model="multipleData"
+    v-model="singleData"
     :columns="columns"
     :data="tableData"
-    :multiple="multiple"
+    :multiple="false"
     pagination
     :show-index="true"
     :query="query"
@@ -16,8 +14,9 @@
     :table="true"
     :path="path"
     value-key="code"
-    @update:model-value="handleChange"
+    @change="handleChange"
     :column-filter="columnFilter"
+    :dialog-columns="[{key: 'aaa', name: 'aaa'},{key: 'bbb', name: 'bbb'}]"
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
@@ -42,7 +41,7 @@ const query = shallowReactive({
 })
 
 const columnFilter = (column: TableSelectColumn) => {
- return !['remarks', 'department', 'status'].includes(column.key)
+ return !['remarks', 'department', 'status', 'summary'].includes(column.key)
 }
 
 const fixed_columns: TableSelectColumn[] = [
@@ -134,8 +133,6 @@ let multipleData = $ref([{
   years: null
 }])
 
-let multiple = $ref<boolean>(true)
-
 const tableData = Array.from({ length: 20 }).map((item, index) => ({
   amount: 100,
   balance: 0,
@@ -199,7 +196,13 @@ const tableData = Array.from({ length: 20 }).map((item, index) => ({
 let path = $ref('')
 
 const handleChange = (data: any) => {
-  path = '/page-play'
+  // path = '/page-play'
+  setTimeout(() => {
+    singleData = {
+    code: 'aaa',
+    summary: 'test'
+  }
+  }, 3000)
 }
 
 let dialogTitle = 'title'
