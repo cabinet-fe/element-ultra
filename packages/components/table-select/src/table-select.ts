@@ -14,6 +14,9 @@ export const tableSelectProps = {
     type: Array as PropType<TableSelectColumn[]>,
     required: true
   },
+  dialogColumns: {
+    type: Array as PropType<TableSelectColumn[]>
+  },
   /** 弹框中可选择的数据 */
   data: {
     type: Array as PropType<Record<string, any>[]>
