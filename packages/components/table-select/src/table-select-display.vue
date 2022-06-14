@@ -8,8 +8,7 @@
           v-for="column in filteredColumns"
           :style="{
             width: column.width + 'px',
-            minWidth:
-              (column.width ? column.width : column.minWidth || 100) + 'px'
+            minWidth: (column.width ? column.width : column.minWidth || 100) + 'px'
           }"
         />
       </colgroup>
@@ -25,21 +24,14 @@
             />
           </th>
           <th v-if="showIndex" style="text-align: center">序号</th>
-          <th
-            v-for="item in filteredColumns"
-            :style="{ textAlign: item.align }"
-          >
+          <th v-for="item in filteredColumns" :style="{ textAlign: item.align }">
             {{ item.name }}
           </th>
         </tr>
       </thead>
 
       <tbody :class="ns.e('body')">
-        <tr
-          v-for="(row, index) in data"
-          :class="ns.e('row')"
-          @click="handleClickRow(row)"
-        >
+        <tr v-for="(row, index) in data" :class="ns.e('row')" @click="handleClickRow(row)">
           <td v-if="editable" style="text-align: center">
             <el-checkbox
               v-if="multiple"
@@ -48,11 +40,7 @@
               @change="toggleChecked($event, row)"
               @click.stop
             />
-            <el-radio
-              v-else
-              :value="row[valueKey]"
-              :model-value="selectedKey"
-            />
+            <el-radio v-else :value="row[valueKey]" :model-value="selectedKey" />
           </td>
           <td v-if="showIndex" style="text-align: center">
             {{ index + 1 }}
@@ -87,18 +75,20 @@ const props = defineProps(tableSelectDisplayProps)
 const ns = useNamespace('table-select-display')
 
 const { rootProps } = inject(tableSelectKey)!
-const { columnFilter } = rootProps
+const { columnFilter, dialogColumns } = rootProps
 const { multiple, showIndex, valueKey, columns } = toRefs(rootProps)
 
 // 弹框下的表格应用过滤
 const filteredColumns = computed(() => {
-  return columnFilter && props.editable
-    ? columns.value.filter(columnFilter)
-    : columns.value
+  if (dialogColumns && props.editable) {
+    return dialogColumns
+  }else {
+    return columnFilter && props.editable ? columns.value.filter(columnFilter) : columns.value
+  }
 })
 
 const getRowColumns = (row: any, index: number) => {
-  return filteredColumns.value.map(column => {
+  return filteredColumns.value?.map((column) => {
     let value = ''
     if (!column.slot) {
       let cellVal = column.key.split('.').reduce((acc: any, cur: string) => {
@@ -128,7 +118,7 @@ const toggleAllChecked = (checked: boolean) => {
   const { data } = props
   const { valueKey } = rootProps
   if (checked) {
-    data.forEach(item => checkedKeys.add(item[valueKey]))
+    data.forEach((item) => checkedKeys.add(item[valueKey]))
   } else {
     checkedKeys.clear()
   }
@@ -157,16 +147,13 @@ const handleClickRow = (row: any) => {
 }
 
 // 通用
-const getValue = ():
-  | Record<string, any>[]
-  | Record<string, any>
-  | undefined => {
+const getValue = (): Record<string, any>[] | Record<string, any> | undefined => {
   const { valueKey, multiple } = rootProps
   const { data } = props
 
   return multiple
-    ? data.filter(item => checkedKeys.has(item[valueKey]))
-    : data.find(item => selectedKey.value === item[valueKey])
+    ? data.filter((item) => checkedKeys.has(item[valueKey]))
+    : data.find((item) => selectedKey.value === item[valueKey])
 }
 
 const clear = () => {
