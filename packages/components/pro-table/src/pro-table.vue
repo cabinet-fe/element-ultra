@@ -17,7 +17,7 @@
         <slot name="tools" />
       </div>
       <div :class="ns.e('tools-right')">
-        <el-button type="primary" @click="fetchData()">查询</el-button>
+        <el-button type="primary" @click="fetchData()" v-if="api">查询</el-button>
       </div>
     </section>
 
