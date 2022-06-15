@@ -18,7 +18,7 @@ export const useSize = (
   const size = ignore.prop ? emptyRef : useProp<ComponentSize>('size')
   const globalConfig = ignore.global ? undefined : useConfig()[0]
   const form = ignore.form ? undefined : inject(formKey, undefined)
-  console.log(size.value)
+
   return computed(() => {
     return (
       size.value ||
