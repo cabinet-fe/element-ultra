@@ -16,9 +16,13 @@
     value-key="code"
     @change="handleChange"
     :column-filter="columnFilter"
-    :dialog-columns="[{key: 'aaa', name: 'aaa'},{key: 'bbb', name: 'bbb'}]"
+    :dialog-columns="[{key: 'project', name: 'aaa', slot: 'project'},{key: 'bbb', name: 'bbb'}]"
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
+
+    <template #project="{row}">
+      <span>AAAAAAAAAAAA</span>
+    </template>
 
     <template #searcher>
       <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
@@ -31,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowReactive, onMounted } from 'vue'
+import { shallowReactive, onMounted, shallowRef } from 'vue'
 import { type TableSelectColumn, useConfig } from 'element-ultra'
 import { Plus } from '@element-plus/icons-vue'
 
@@ -43,6 +47,8 @@ const query = shallowReactive({
 const columnFilter = (column: TableSelectColumn) => {
  return !['remarks', 'department', 'status', 'summary'].includes(column.key)
 }
+
+const tableRef = shallowRef()
 
 const fixed_columns: TableSelectColumn[] = [
   {
@@ -205,7 +211,7 @@ const handleChange = (data: any) => {
   }, 3000)
 }
 
-let dialogTitle = 'title'
+let dialogTitle = '弹框头'
 
 const [, setConfigStore] = useConfig()
 setConfigStore({
@@ -220,6 +226,7 @@ setConfigStore({
 
 onMounted(() => {
   setTimeout(() => {
+    tableRef.value.open()
     dialogTitle = 'aaaaaaaaaa'
     extra_columns = [
       {

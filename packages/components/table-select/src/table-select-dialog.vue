@@ -4,7 +4,7 @@
     :width="width"
     :class="ns.b()"
     v-model="visible"
-    :title="title"
+    :title="dialogTitle"
   >
     <div
       :class="ns.e('searcher')"
@@ -64,8 +64,6 @@ let visible = ref<boolean>(false)
 
 const props = defineProps(tableSelectDialogProps)
 
-const { title, theight } = toRefs(props)
-
 const ns = useNamespace('table-select-dialog')
 
 const tableRef = shallowRef<InstanceType<typeof TableSelectDisplay>>()
@@ -76,6 +74,8 @@ const emit = defineEmits<{
 }>()
 
 const { rootProps } = inject(tableSelectKey)!
+
+const { dialogTitle, theight } = toRefs(rootProps)
 
 const pageQuery = shallowReactive({
   page: 1,
@@ -156,7 +156,7 @@ let queryWatchList = computed(() => {
   return Object.keys(props.query || {})
     .filter(k => k.startsWith('$'))
     .map(k => {
-      return () => props.query?.[k]
+      return props.query?.[k]
     })
 })
 

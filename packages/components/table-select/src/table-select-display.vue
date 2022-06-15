@@ -51,7 +51,6 @@
             :style="`text-align: ${item.align ? item.align : 'left'}`"
           >
             <slot v-if="item.slot" :name="item.key" v-bind="{ row, index }" />
-
             <template v-else>
               {{ item.value }}
             </template>
