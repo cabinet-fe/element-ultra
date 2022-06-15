@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleClick" v-if="!disabled" :class="ns.e('btn')">
+  <div @click="open" v-if="!disabled" :class="ns.e('btn')">
     <slot>
       <el-button type="primary" :icon="Plus"> 选择 </el-button>
     </slot>
@@ -43,7 +43,7 @@ provide(tableSelectKey, {
 
 const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()
 
-const handleClick = () => {
+const open = () => {
   dialogRef?.value?.open()
 }
 
@@ -65,4 +65,6 @@ watch(
   },
   { immediate: true }
 )
+
+defineExpose({ open })
 </script>
