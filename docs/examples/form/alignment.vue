@@ -24,9 +24,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, shallowRef } from 'vue'
 
-const labelPosition = ref('right')
+const labelPosition = shallowRef<'right' | 'left' | 'top'>('right')
 
 const formLabelAlign = reactive({
   name: '',

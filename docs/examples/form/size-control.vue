@@ -77,10 +77,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, shallowRef } from 'vue'
+import { ComponentSize } from '@element-ultra/constants'
 
-const size = ref('default')
-const labelPosition = ref('right')
+const size = shallowRef<ComponentSize>('default')
+const labelPosition = shallowRef<'left' | 'top' | 'right'>('right')
 
 const sizeForm = reactive({
   name: '',

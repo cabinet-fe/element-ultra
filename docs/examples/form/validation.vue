@@ -1,44 +1,50 @@
 <template>
-  <el-radio-group v-model="labelPosition">
-    <el-radio-button value="left">左</el-radio-button>
-    <el-radio-button value="right">右</el-radio-button>
-    <el-radio-button value="top">上</el-radio-button>
-  </el-radio-group>
+  <el-form :data="conf" :rules="confRules" :cols="3">
+    <el-radio-group label="label对齐" field="labelPosition">
+      <el-radio-button value="left">左</el-radio-button>
+      <el-radio-button value="right">右</el-radio-button>
+      <el-radio-button value="top">上</el-radio-button>
+    </el-radio-group>
 
-  <el-radio-group v-model="formSize">
-    <el-radio-button value="large">大</el-radio-button>
-    <el-radio-button value="default">中</el-radio-button>
-    <el-radio-button value="small">小</el-radio-button>
-  </el-radio-group>
+    <el-checkbox label="自适应label" field="response" />
 
-  <el-radio-group v-model="disabled">
-    <el-radio-button :value="true">禁止编辑</el-radio-button>
-    <el-radio-button :value="false">可编辑</el-radio-button>
-  </el-radio-group>
+    <el-slider v-if="!conf.response" label="label宽度" :max="300" :min="40" field="labelWidth" />
 
-  <el-radio-group v-model="cols">
-    <el-radio-button :value="1">单列</el-radio-button>
-    <el-radio-button :value="2">两列</el-radio-button>
-    <el-radio-button :value="3">三列</el-radio-button>
-    <el-radio-button :value="4">自适应</el-radio-button>
-  </el-radio-group>
+    <el-checkbox label="禁止编辑" field="disabled" />
 
-  <br /><br />
-  <hr />
-  <br />
+    <el-radio-group label="表单尺寸" field="formSize">
+      <el-radio-button value="large">大</el-radio-button>
+      <el-radio-button value="default">中</el-radio-button>
+      <el-radio-button value="small">小</el-radio-button>
+    </el-radio-group>
+
+    <el-radio-group label="布局" field="cols" :span="2">
+      <el-radio-button :value="1">单列</el-radio-button>
+      <el-radio-button :value="2">两列</el-radio-button>
+      <el-radio-button :value="3">三列</el-radio-button>
+      <el-radio-button :value="4">自适应</el-radio-button>
+    </el-radio-group>
+  </el-form>
+
+  <hr style="margin-bottom: 20px" />
 
   <el-form
     ref="ruleFormRef"
     :data="data"
     :rules="rules"
-    :cols="cols !== 4 ? cols : undefined"
-    label-width="120px"
+    :cols="conf.cols !== 4 ? conf.cols : undefined"
+    :label-width="conf.response ? undefined : conf.labelWidth"
     class="demo-ruleForm"
-    :size="formSize"
-    :disabled="disabled"
-    :label-position="labelPosition"
+    :size="conf.formSize"
+    :disabled="conf.disabled"
+    :label-position="conf.labelPosition"
   >
-    <el-input tips="给你的活动起一个帅气的名字" clearable label="活动名称" field="name" />
+    <el-input
+      tips="给你的活动起一个帅气的名字"
+      clearable
+      label="活动名称"
+      field="name"
+    />
 
     <el-select
       label="活动地点"
@@ -52,13 +58,13 @@
     <el-date-picker label="活动时间" type="datetime" field="date" />
 
     <el-checkbox-group label="活动类型" field="type">
-      <el-checkbox value="线上" name="type"></el-checkbox>
-      <el-checkbox value="线下" name="type"></el-checkbox>
+      <el-checkbox value="线上">线上</el-checkbox>
+      <el-checkbox value="线下">线下</el-checkbox>
     </el-checkbox-group>
 
-    <el-radio-group value="资源" field="resource">
-      <el-radio value="赞助"></el-radio>
-      <el-radio value="场地"></el-radio>
+    <el-radio-group label="资源" field="resource">
+      <el-radio value="赞助">赞助</el-radio>
+      <el-radio value="场地">场地</el-radio>
     </el-radio-group>
 
     <el-input v-if="data.resource === '赞助'" label="赞助商" field="sponsor" />
@@ -73,7 +79,7 @@
   </el-form>
 
   <div>
-    <strong>编辑赞助商或者场地地址， 然后切换资源， 查看值的变化</strong> <br/>
+    <strong>编辑赞助商或者场地地址， 然后切换资源， 查看值的变化</strong> <br />
     <strong>是的，现在被销毁的组件， 其绑定的字段值也会随之被重置!</strong>
     <div>{{ data }}</div>
   </div>
@@ -84,10 +90,16 @@ import { ref } from 'vue'
 import { FormInstance, useFormModel } from 'element-ultra'
 import { ComponentSize } from '@element-ultra/constants'
 
-const formSize = ref<ComponentSize>('default')
-const disabled = ref(false)
+const [conf, confRules] = useFormModel({
+  formSize: { value: 'default' as ComponentSize },
+  disabled: { value: false },
+  cols: { value: 1 },
+  labelWidth: { value: 120 },
+  response: { value: false },
+  labelPosition: { value: 'left' as const }
+})
+
 const ruleFormRef = ref<FormInstance>()
-const cols = ref(1)
 
 // 除此之外, 你也可以按照经典方式去使用form-item进行双向绑定, 可以但是没有必要
 const [data, rules] = useFormModel({
@@ -137,6 +149,4 @@ const submitForm = () => {
 const resetForm = () => {
   ruleFormRef.value?.resetFields()
 }
-
-const labelPosition = ref('left' as const)
 </script>
