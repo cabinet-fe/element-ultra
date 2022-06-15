@@ -1,8 +1,9 @@
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Slots } from 'vue'
 import type { TableSelectProps } from './table-select'
 
 export const tableSelectKey: InjectionKey<{
-  rootProps: TableSelectProps
+  rootProps: TableSelectProps,
+  slots: Slots
 }> = Symbol('tableSelectKey')
 
 

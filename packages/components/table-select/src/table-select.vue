@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, shallowRef, watch } from 'vue'
+import { provide, shallowRef, useSlots, watch } from 'vue'
 import { tableSelectEmits, tableSelectProps } from './table-select'
 import TableSelectDialog from './table-select-dialog.vue'
 import TableSelectDisplay from './table-select-display.vue'
@@ -36,9 +36,11 @@ const props = defineProps(tableSelectProps)
 const emit = defineEmits(tableSelectEmits)
 
 const ns = useNamespace('table-select')
+const slots = useSlots()
 
 provide(tableSelectKey, {
-  rootProps: props
+  rootProps: props,
+  slots
 })
 
 const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()

@@ -50,7 +50,7 @@
             :title="item.value"
             :style="`text-align: ${item.align ? item.align : 'left'}`"
           >
-            <slot v-if="item.slot" :name="item.key" v-bind="{ row, index }" />
+            <ElSlotsRender v-if="item.slot" :nodes="slots[item.slot]?.({ row, index }) || []"  />
             <template v-else>
               {{ item.value }}
             </template>
@@ -68,12 +68,13 @@ import { tableSelectDisplayProps } from './table-select-display'
 import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { ElRadio } from '@element-ultra/components/radio'
 import { tableSelectKey } from './token'
+import {ElSlotsRender} from '@element-ultra/components/slots-render'
 
 const props = defineProps(tableSelectDisplayProps)
 
 const ns = useNamespace('table-select-display')
 
-const { rootProps } = inject(tableSelectKey)!
+const { rootProps, slots } = inject(tableSelectKey)!
 const { columnFilter } = rootProps
 const { multiple, showIndex, valueKey, columns, dialogColumns } = toRefs(rootProps)
 
