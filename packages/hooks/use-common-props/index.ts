@@ -1,13 +1,12 @@
 import { ref, unref, inject, computed, type PropType } from 'vue'
-import {  formKey } from '@element-ultra/tokens'
+import { formKey } from '@element-ultra/tokens'
 import { useProp } from '../use-prop'
 import type { ComponentSize } from '@element-ultra/constants'
 import type { MaybeRef } from '@vueuse/core'
 import { useConfig } from '../use-config'
 
 export const useSizeProp = {
-  type: String as PropType<'default' | 'small' | 'large'>,
-  default: 'default'
+  type: String as PropType<'default' | 'small' | 'large'>
 }
 
 export const useSize = (
@@ -19,13 +18,15 @@ export const useSize = (
   const size = ignore.prop ? emptyRef : useProp<ComponentSize>('size')
   const globalConfig = ignore.global ? undefined : useConfig()[0]
   const form = ignore.form ? undefined : inject(formKey, undefined)
-
+  console.log(size.value)
   return computed(() => {
-    return size.value ||
-    unref(fallback) ||
-    form?.props.size ||
-    globalConfig?.size ||
-    'default'
+    return (
+      size.value ||
+      unref(fallback) ||
+      form?.props.size ||
+      globalConfig?.size ||
+      'default'
+    )
   })
 }
 

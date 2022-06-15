@@ -12,7 +12,7 @@
     </template>
 
     <el-card header="你好">
-      <el-form>
+      <el-form size="large">
         <el-input></el-input>
         <el-input></el-input>
         <el-input></el-input>

@@ -123,13 +123,14 @@ export default defineComponent({
 
     return () => {
       const { children, navList } = getDefaultSlots()
+      let hasNav = !!navList.length
       return (
         <ElGrid
           {...attrs}
           class={ns.b()}
           rows='100%'
           gap='0'
-          cols='minmax(0, 1fr) 100px'
+          cols={`minmax(0, 1fr) ${hasNav? '100px' : '0'}`}
         >
           <div class={ns.e('main')}>
             <section class={ns.e('content')}>
@@ -144,19 +145,21 @@ export default defineComponent({
             </section>
           </div>
 
-          <ul class={[ns.e('aside'), ns.e('nav')]}>
-            {navList.map((nav, index) => {
-              return (
-                <li
-                  class={ns.is('active', currentNavIndex.value === index)}
-                  key='nav'
-                  onClick={() => handleClickNavItem(index)}
-                >
-                  <a href={'#' + nav}>{nav}</a>
-                </li>
-              )
-            })}
-          </ul>
+          {hasNav ? (
+            <ul class={[ns.e('aside'), ns.e('nav')]}>
+              {navList.map((nav, index) => {
+                return (
+                  <li
+                    class={ns.is('active', currentNavIndex.value === index)}
+                    key='nav'
+                    onClick={() => handleClickNavItem(index)}
+                  >
+                    <a href={'#' + nav}>{nav}</a>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : null}
         </ElGrid>
       )
     }

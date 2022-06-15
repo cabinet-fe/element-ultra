@@ -103,7 +103,8 @@ import {
   onMounted,
   onUpdated,
   useSlots,
-  useAttrs as useRawAttrs
+  useAttrs as useRawAttrs,
+  type StyleValue
 } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
@@ -111,7 +112,6 @@ import { isKorean } from '@element-ultra/utils'
 import { useAttrs, useDisabled, useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { inputProps, inputEmits } from './input'
-import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 

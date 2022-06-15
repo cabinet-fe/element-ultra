@@ -40,7 +40,7 @@
     "not op_mini all"
   ],
   "peerDependencies": {
-    "vue": "^3.2.36"
+    "vue": "^3.2.37"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
@@ -118,7 +118,7 @@
     "typescript": "^4.7.2",
     "unplugin-vue-define-options": "^0.6.1",
     "vitest": "^0.12.3",
-    "vue": "^3.2.36",
+    "vue": "^3.2.37",
     "vue-jest": "^5.0.0-alpha.10",
     "vue-router": "^4.0.15",
     "vue-tsc": "^0.35.2",

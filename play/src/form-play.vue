@@ -3,14 +3,21 @@
     <div style="padding: 8px">
       {{ data }}
     </div>
+    <div>
+      <el-radio-group v-model="size">
+        <el-radio value="large">大</el-radio>
+        <el-radio value="default">中</el-radio>
+        <el-radio value="small">小</el-radio>
+      </el-radio-group>
+    </div>
     <el-card title="表单数据">
-      <el-form  ref="formRef"  :data="data" label-width="80px" :rules="rules">
-        <el-radio-group label="审批流程" field="type">
+      <el-form  ref="formRef" :size="size" :data="data" label-width="80px" :rules="rules">
+        <!-- <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number :precision="2" label="数字" money :min="0" :max="1000000" field="num" />
+        <el-input-number :precision="2" label="数字" money :min="0" :max="1000000" field="num" /> -->
 
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
@@ -24,7 +31,7 @@
 
         <!-- <el-select label="选择框" :options="[{ label: 'aa', value: '1' }]" multiple field="aa" /> -->
 
-        <el-date-picker
+        <!-- <el-date-picker
           type="daterange"
           label="范围日期"
           v-model:start="data.start"
@@ -34,7 +41,7 @@
          <el-date-picker
           label="日期"
           v-model="data.start"
-        />
+        /> -->
       </el-form>
       <el-button @click="formRef.validate()">校验</el-button>
     </el-card>
@@ -53,6 +60,8 @@ let checked = $shallowRef(false)
 
 let options = $shallowRef<any[]>([])
 let options2 = $shallowRef<any[]>([])
+
+let size = $shallowRef('default')
 
 setTimeout(() => {
   options = [
