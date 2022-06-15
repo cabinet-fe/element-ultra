@@ -16,12 +16,12 @@
     value-key="code"
     @change="handleChange"
     :column-filter="columnFilter"
-    :dialog-columns="[{key: 'project', name: 'aaa', slot: 'project'},{key: 'bbb', name: 'bbb'}]"
+
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
-    <template #project="{row}">
-      <span>AAAAAAAAAAAA</span>
+    <template #column-remarks="{row}">
+      {{row}}
     </template>
 
     <template #searcher>
@@ -67,7 +67,7 @@ const fixed_columns: TableSelectColumn[] = [
     key: 'status',
     name: '状态'
   },
-  { key: 'remarks', name: '备注' },
+  { key: 'remarks', name: '备注', slot: 'column-remarks' },
   { key: 'department', name: '部门', width: 160 }
 ]
 
