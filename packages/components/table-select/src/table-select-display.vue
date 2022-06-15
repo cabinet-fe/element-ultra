@@ -74,13 +74,13 @@ const props = defineProps(tableSelectDisplayProps)
 const ns = useNamespace('table-select-display')
 
 const { rootProps } = inject(tableSelectKey)!
-const { columnFilter, dialogColumns } = rootProps
-const { multiple, showIndex, valueKey, columns } = toRefs(rootProps)
+const { columnFilter } = rootProps
+const { multiple, showIndex, valueKey, columns, dialogColumns } = toRefs(rootProps)
 
 // 弹框下的表格应用过滤
 const filteredColumns = computed(() => {
-  if (dialogColumns && props.editable) {
-    return dialogColumns
+  if (dialogColumns?.value && props.editable) {
+    return dialogColumns.value
   }else {
     return columnFilter && props.editable ? columns.value.filter(columnFilter) : columns.value
   }
