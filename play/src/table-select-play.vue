@@ -16,13 +16,8 @@
     value-key="code"
     @change="handleChange"
     :column-filter="columnFilter"
-
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
-
-    <template #column-remarks="{row}">
-      {{row}}
-    </template>
 
     <template #searcher>
       <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
@@ -54,7 +49,7 @@ const fixed_columns: TableSelectColumn[] = [
   {
     key: 'code',
     name: '明细指标编码',
-    width: 160,
+    width: 60,
     render: (_, __, v) => {
       return v?.substring(0, 8) || null
     }
@@ -62,7 +57,7 @@ const fixed_columns: TableSelectColumn[] = [
   { key: 'summary', name: '摘要', width: 90 },
   { key: 'summary', name: '摘要', align: 'center', width: 90 },
   { key: 'summary', name: '摘要', align: 'right', width: 90 },
-  { key: 'project', name: '项目' },
+  { key: 'project', name: '项目', width: 300 },
   {
     key: 'status',
     name: '状态'
@@ -226,8 +221,6 @@ setConfigStore({
 
 onMounted(() => {
   setTimeout(() => {
-    tableRef.value.open()
-    dialogTitle = 'aaaaaaaaaa'
     extra_columns = [
       {
         key: 'frozenAmount',
