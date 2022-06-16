@@ -24,7 +24,14 @@
             />
           </th>
           <th v-if="showIndex" style="text-align: center">序号</th>
-          <th v-for="item in filteredColumns" :style="{ textAlign: item.align }">
+          <th
+            v-for="item in filteredColumns"
+            :style="{
+              textAlign: item.align,
+              width: item.width + 'px',
+              minWidth: (item.width ? item.width : item.minWidth || 100) + 'px'
+            }"
+          >
             {{ item.name }}
           </th>
         </tr>
@@ -50,7 +57,7 @@
             :title="item.value"
             :style="`text-align: ${item.align ? item.align : 'left'}`"
           >
-            <ElSlotsRender v-if="item.slot" :nodes="slots[item.slot]?.({ row, index }) || []"  />
+            <ElSlotsRender v-if="item.slot" :nodes="slots[item.slot]?.({ row, index }) || []" />
             <template v-else>
               {{ item.value }}
             </template>
@@ -68,7 +75,7 @@ import { tableSelectDisplayProps } from './table-select-display'
 import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { ElRadio } from '@element-ultra/components/radio'
 import { tableSelectKey } from './token'
-import {ElSlotsRender} from '@element-ultra/components/slots-render'
+import { ElSlotsRender } from '@element-ultra/components/slots-render'
 
 const props = defineProps(tableSelectDisplayProps)
 
@@ -82,7 +89,7 @@ const { multiple, showIndex, valueKey, columns, dialogColumns } = toRefs(rootPro
 const filteredColumns = computed(() => {
   if (dialogColumns?.value && props.editable) {
     return dialogColumns.value
-  }else {
+  } else {
     return columnFilter && props.editable ? columns.value.filter(columnFilter) : columns.value
   }
 })
