@@ -23,9 +23,6 @@ export const tableSelectDialogProps = {
   },
   table: {
     type: Boolean
-  },
-  width: {
-    type: [String, Number] as PropType<string | number>
   }
 } as const
 

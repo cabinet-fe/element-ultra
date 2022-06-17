@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     append-to-body
-    :width="width"
+    :width="dialogWidth"
     :class="ns.b()"
     v-model="visible"
     :title="dialogTitle"
@@ -75,7 +75,7 @@ const emit = defineEmits<{
 
 const { rootProps } = inject(tableSelectKey)!
 
-const { dialogTitle, theight } = toRefs(rootProps)
+const { dialogTitle, theight, dialogWidth } = toRefs(rootProps)
 
 const pageQuery = shallowReactive({
   page: 1,
