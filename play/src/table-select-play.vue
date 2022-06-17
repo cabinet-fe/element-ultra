@@ -16,6 +16,7 @@
     value-key="code"
     @change="handleChange"
     :column-filter="columnFilter"
+    :dialog-width="500"
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
@@ -206,7 +207,7 @@ const handleChange = (data: any) => {
   }, 3000)
 }
 
-let dialogTitle = '弹框头'
+let dialogTitle = '弹框头111'
 
 const [, setConfigStore] = useConfig()
 setConfigStore({
