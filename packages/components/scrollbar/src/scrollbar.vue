@@ -2,17 +2,22 @@
   <div ref="scrollbar$" :class="ns.b()">
     <div
       ref="wrap$"
-      :class="[wrapClass, ns.e('wrap'), { [ns.em('wrap', 'hidden-default')]: !native }]"
+      :class="[wrapClass, ns.e('wrap'), ns.em('wrap', 'hidden-default')]"
       :style="style"
       @scroll="handleScroll"
     >
-      <component :is="tag" ref="resize$" :class="[ns.e('view'), viewClass]" :style="viewStyle">
+      <component
+        :is="tag"
+        ref="resize$"
+        :class="[ns.e('view'), viewClass]"
+        :style="viewStyle"
+      >
         <slot />
       </component>
     </div>
 
     <Bar
-      v-if="!native"
+      v-if="barVisible"
       ref="barRef"
       :height="sizeHeight"
       :width="sizeWidth"
@@ -24,7 +29,16 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, provide, ref, watch, reactive } from 'vue'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onMounted,
+  provide,
+  ref,
+  watch,
+  reactive
+} from 'vue'
 import { useResizeObserver, useEventListener } from '@vueuse/core'
 import { isNumber, debugWarn, addUnit } from '@element-ultra/utils'
 import { scrollbarContextKey } from '@element-ultra/tokens'
@@ -107,8 +121,13 @@ export default defineComponent({
       const width = Math.max(originalWidth, props.minSize)
 
       ratioY.value =
-        originalHeight / (offsetHeight - originalHeight) / (height / (offsetHeight - height))
-      ratioX.value = originalWidth / (offsetWidth - originalWidth) / (width / (offsetWidth - width))
+        originalHeight /
+        (offsetHeight - originalHeight) /
+        (height / (offsetHeight - height))
+      ratioX.value =
+        originalWidth /
+        (offsetWidth - originalWidth) /
+        (width / (offsetWidth - width))
 
       sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
       sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
@@ -131,13 +150,12 @@ export default defineComponent({
     watch(
       () => [props.maxHeight, props.height],
       () => {
-        if (!props.native)
-          nextTick(() => {
-            update()
-            if (wrap$.value) {
-              barRef.value?.handleScroll(wrap$.value)
-            }
-          })
+        nextTick(() => {
+          update()
+          if (wrap$.value) {
+            barRef.value?.handleScroll(wrap$.value)
+          }
+        })
       }
     )
 
@@ -150,7 +168,7 @@ export default defineComponent({
     )
 
     onMounted(() => {
-      if (!props.native) nextTick(() => update())
+      nextTick(() => update())
     })
 
     return {

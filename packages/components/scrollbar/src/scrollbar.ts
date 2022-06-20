@@ -45,7 +45,8 @@ export const scrollbarProps = buildProps({
   },
   barZIndex: {
     type: Number
-  }
+  },
+  barVisible: Boolean
 } as const)
 
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
