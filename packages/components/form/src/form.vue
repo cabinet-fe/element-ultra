@@ -207,29 +207,29 @@ const validateField = async (field: string) => {
   if (!data || !rules) return null
 
   const value = data[field]
-  const rule = rules[field]
-  const ruleTypes = Object.keys(rule)
+  const { validator, required, ...rule } = rules[field]
 
-  let i = -1,
-    len = ruleTypes.length
 
-  while (++i < len) {
-    const ruleType = ruleTypes[i] as RuleType
+  let errMsg: null | undefined | string = null
 
-    // 自定义校验器
-    if (ruleType === 'validator') {
-      const errMsg = await rule.validator?.(value, data, rule)
-      if (errMsg) return errMsg
-    } else {
-      // 预置校验
-      const errMsg = validators[ruleType](value, rule[ruleType]) as
-        | string
-        | null
-      if (errMsg) return errMsg
+  // 优先校验必填
+  errMsg = validators.required(value, required)
+  if (errMsg) return errMsg
+
+  if (!value && value !== 0) return errMsg
+
+  errMsg = await validator?.(value, data, rule)
+  if (errMsg) return errMsg
+
+  Object.keys(rule).some(type => {
+    let result = validators[type](value, rule[type])
+    if (result) {
+      errMsg = result
+      return true
     }
-  }
+  })
 
-  return null
+  return errMsg
 }
 
 /** 校验 */

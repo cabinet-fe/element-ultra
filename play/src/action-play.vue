@@ -13,10 +13,11 @@ const Comp = defineComponent({
     return () => (
       <el-action-group>
         <el-action onRun={() => console.log('查看')}>查看</el-action>
-        <el-action onRun={() => console.log('审核')}>审核</el-action>
         <el-action onRun={() => console.log('删除')} need-confirm>
           删除
         </el-action>
+        <el-action onRun={() => console.log('审核')}>审核</el-action>
+
         {slots.default?.()}
       </el-action-group>
     )

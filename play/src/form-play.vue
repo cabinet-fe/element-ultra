@@ -78,7 +78,7 @@ setTimeout(() => {
 }, 200)
 
 const [data, rules] = useFormModel({
-  name: { required: true, value: '' },
+  name: { match: [/^[^\d]+$/, '不能有数字'], value: '' },
   phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
   type: { value: '2' },
   address: { required: true },

@@ -9,7 +9,7 @@ interface Options {
   emit: MultipleFormEmits
 }
 
-export default function useDialog(options: Options) {
+export default function (options: Options) {
   const { props, rows, emit } = options
 
   const model = props.columns.reduce((acc, cur) => {
@@ -27,14 +27,14 @@ export default function useDialog(options: Options) {
     return acc
   }, {} as Record<string, FormModelItem>)
 
-  const [formData, rules] = useFormModel(model)
+  const [form, rules] = useFormModel(model)
 
-  const [dialog, open] = useFormDialog(formData)
+  const [dialog, open] = useFormDialog(form)
 
-  // TODO? 如果需要切换模式, 则formData还应该是响应式的
+  // TODO? 如果需要切换模式, 则form还应该是响应式的
   const submit = () => {
     const { ctx } = dialog
-    let data = { ...formData }
+    let data = { ...form }
     if (dialog.type === 'create') {
 
       rows.value.splice(ctx.index + 1, 0, data)
@@ -49,7 +49,7 @@ export default function useDialog(options: Options) {
     open,
     dialog,
     rules,
-    formData,
+    form,
 
     submit
   }

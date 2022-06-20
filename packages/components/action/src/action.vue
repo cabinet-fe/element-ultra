@@ -42,7 +42,7 @@ defineOptions({
   name: 'ElAction'
 })
 
-defineProps(actionProps)
+const props = defineProps(actionProps)
 
 const emit = defineEmits<{
   (e: 'run'): void
@@ -52,9 +52,10 @@ const run = () => {
   emit('run')
 }
 
-const { setConfirmVisible } = inject(actionGroupToken)!
+const { setDropdownVisible } = inject(actionGroupToken)!
 
+/** 当 当前的的action处于下拉框中时要在确认框显示或隐藏时联动更多下拉框 */
 const handleVisibleChange = (visible: boolean) => {
-  setConfirmVisible(visible)
+  props.isDrop && setDropdownVisible(visible)
 }
 </script>

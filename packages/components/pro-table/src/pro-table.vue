@@ -3,9 +3,8 @@
     <section ref="searcherRef" v-if="$slots.searcher" :class="ns.e('searcher')">
       <div :class="ns.e('searcher-box')" @keyup.enter="fetchData()">
         <slot name="searcher" />
+        <el-button :icon="ZoomIn"></el-button>
       </div>
-
-      <!-- <el-button text>展开/隐藏</el-button> -->
     </section>
 
     <section
@@ -17,7 +16,9 @@
         <slot name="tools" />
       </div>
       <div :class="ns.e('tools-right')">
-        <el-button type="primary" @click="fetchData()" v-if="api">查询</el-button>
+        <el-button type="primary" @click="fetchData()" v-if="api">
+          查询
+        </el-button>
       </div>
     </section>
 
@@ -92,6 +93,7 @@ import {
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import { proTableKey } from './token'
+import { ZoomIn } from '@element-plus/icons-vue'
 
 defineOptions({
   name: 'ElProTable',

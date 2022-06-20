@@ -9,7 +9,12 @@
     </div>
 
     <!-- FIXME :noresize="!!height" -->
-    <el-scrollbar :style="{ height: bodyHeight }" always :bar-z-index="3" :class="ns.e('source')">
+    <el-scrollbar
+      :style="{ height: bodyHeight }"
+      always
+      :bar-z-index="3"
+      :class="ns.e('source')"
+    >
       <table cellpadding="0" border="0" cellspacing="0" :class="ns.e('table')">
         <colgroup>
           <col style="width: 60px" />
@@ -42,7 +47,11 @@
 
               <template v-else> {{ column.name }} </template>
 
-              <el-tooltip v-if="column.tips" effect="dark" :content="column.tips">
+              <el-tooltip
+                v-if="column.tips"
+                effect="dark"
+                :content="column.tips"
+              >
                 <el-icon><QuestionFilled /></el-icon>
               </el-tooltip>
             </th>
@@ -81,7 +90,9 @@
           </MultipleFormRow>
 
           <tr v-if="!rows.length">
-            <td :colspan="visibleColumns.length + 2" style="text-align: center">暂无数据</td>
+            <td :colspan="visibleColumns.length + 2" style="text-align: center">
+              暂无数据
+            </td>
           </tr>
         </tbody>
       </table>
@@ -96,8 +107,8 @@
     :confirm="submit"
     :continue="dialog.type === 'create'"
   >
-    <el-form :data="formData" :rules="rules" label-width="100px">
-      <slot v-bind="formData" />
+    <el-form :data="form" :rules="rules" label-width="100px">
+      <slot v-bind="{ form }" />
     </el-form>
   </el-form-dialog>
 </template>
@@ -114,7 +125,7 @@ import {
   provide
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { multipleFormEmits, multipleFormProps, type MultipleFormRules } from './multiple-form'
+import { multipleFormEmits, multipleFormProps } from './multiple-form'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
@@ -150,7 +161,7 @@ const visibleColumns = computed(() => {
   return columns.filter(column => column.visible !== false)
 })
 
-const { formData, rules, dialog, open, submit } = useDialog({
+const { form, rules, dialog, open, submit } = useDialog({
   props,
   rows,
   emit

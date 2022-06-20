@@ -1,5 +1,9 @@
 import { computed, shallowReactive, shallowRef, type ShallowRef } from 'vue'
-import type { MultipleFormEmits, MultipleFormProps, MultipleFormRules } from './multiple-form'
+import type {
+  MultipleFormEmits,
+  MultipleFormProps,
+  MultipleFormRules
+} from './multiple-form'
 import type MultipleFormRow from './multiple-form-row.vue'
 
 interface Options {
@@ -33,14 +37,13 @@ export default function useInline(options: Options) {
 
   /** 创建一个空行 */
   const createInlineRow = () => {
-
     let row = shallowReactive(
       props.columns.reduce(
         (acc, cur) => {
           if (cur.defaultValue instanceof Function) {
             let v = cur.defaultValue()
             if (v instanceof Promise) {
-              v.then(result => row[cur.key] = result)
+              v.then(result => (row[cur.key] = result))
             } else {
               acc[cur.key] = v
             }
@@ -115,29 +118,55 @@ export default function useInline(options: Options) {
   }
 
   /** 验证 */
-  function validate(item: any, rules: Record<string, Partial<MultipleFormRules>>) {
+  function validate(
+    item: any,
+    rules: Record<string, Partial<MultipleFormRules>>
+  ) {
     let isValid = true
+
+    // 单个规则校验
+    let singleRuleValidate = (
+      type: keyof MultipleFormRules,
+      value: any,
+      ruleValue: any
+    ) => {
+      let rulesIsArray = Array.isArray(ruleValue)
+      return validators[type](
+        value,
+        rulesIsArray ? ruleValue[0] : ruleValue,
+        rulesIsArray ? ruleValue[1] : undefined
+      )
+    }
+
     Object.keys(rules).forEach(async fieldKey => {
       const rule = rules[fieldKey]
+      let itemValue = item[fieldKey]
 
-      const { validator, ...restRule } = rule
+      const { validator, required, ...restRule } = rule
+
+      // 首先校验必填项
+      let errorMsg = singleRuleValidate('required', itemValue, required)
+      errorTip[fieldKey] = errorMsg
+      if (errorMsg) {
+        isValid = false
+        return
+      }
+
+      // 值为空时不再对require规则之外的进行校验
+      if (!itemValue && itemValue !== 0) return
+
       // validator独立校验
       if (validator) {
-        let errorMsg = await validator(item[fieldKey], item, rows.value)
+        let errorMsg = await validator(itemValue, item, rows.value)
         errorTip[fieldKey] = errorMsg
         if (errorMsg) {
           isValid = false
           return
         }
       }
-      for (const key in restRule) {
-        let rulesIsArray = Array.isArray(restRule[key])
 
-        const errorMsg = validators[key](
-          item[fieldKey],
-          rulesIsArray ? restRule[key][0] : restRule[key],
-          rulesIsArray ? restRule[key][1] : undefined
-        )
+      for (const key in restRule) {
+        const errorMsg = singleRuleValidate(key as keyof typeof restRule, itemValue, restRule[key])
 
         errorTip[fieldKey] = errorMsg
         if (errorMsg) {
@@ -163,9 +192,16 @@ export default function useInline(options: Options) {
   /** 删除rows或插入row */
   const splitRowByIndex = (index: number, row?: any) => {
     if (row) {
-      rows.value = [...rows.value.slice(0, index), row, ...rows.value.slice(index)]
+      rows.value = [
+        ...rows.value.slice(0, index),
+        row,
+        ...rows.value.slice(index)
+      ]
     } else {
-      rows.value = [...rows.value.slice(0, index), ...rows.value.slice(index + 1)]
+      rows.value = [
+        ...rows.value.slice(0, index),
+        ...rows.value.slice(index + 1)
+      ]
     }
   }
 

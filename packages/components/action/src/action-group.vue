@@ -70,7 +70,7 @@ export default defineComponent({
         <ElTooltip
           effect='light'
           popperClass={ns.e('dropdown')}
-          visible={confirmVisible.value}
+          visible={dropdownVisible.value}
           v-slots={{
             content: () => <ul>{restChildren}</ul>,
             default: () => (
@@ -90,21 +90,21 @@ export default defineComponent({
       }
     }
 
-    let confirmVisible = shallowRef<boolean | undefined>(undefined)
+    let dropdownVisible = shallowRef<boolean | undefined>(undefined)
 
-    const setConfirmVisible = (visible: boolean) => {
+    const setDropdownVisible = (visible: boolean) => {
       if (visible) {
-        confirmVisible.value = true
+        dropdownVisible.value = true
       } else {
-        confirmVisible.value = false
+        dropdownVisible.value = false
         nextTick(() => {
-          confirmVisible.value = undefined
+          dropdownVisible.value = undefined
         })
       }
     }
 
     provide(actionGroupToken, {
-      setConfirmVisible
+      setDropdownVisible
     })
 
     return () => {

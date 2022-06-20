@@ -33,8 +33,8 @@
       <el-input v-model="row.school"></el-input>
     </template>
 
-    <template #default="{ name }">
-      <el-form-item label="名称">{{ name }}</el-form-item>
+    <template #default="{ form }">
+      <el-form-item label="名称">{{ form.name }}</el-form-item>
       <el-input label="名称" field="name"></el-input>
       <el-input label="年龄" field="age"></el-input>
       <el-input label="学校" field="school"></el-input>
@@ -52,7 +52,7 @@ const columns: MultipleFormColumn[] = [
     name: '名称',
     key: 'name',
     rules: {
-      required: true
+      match: /^\d+$/
     },
     align: 'center'
   },
