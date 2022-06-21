@@ -55,12 +55,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, reactive, ref, watch, shallowRef, nextTick } from 'vue'
+import { computed, ref, watch, shallowRef, nextTick } from 'vue'
 
 import { ElIcon } from '@element-ultra/components/icon'
 import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import ElInput from '@element-ultra/components/input'
-import { isNumber, debugWarn } from '@element-ultra/utils'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 import type { ComponentPublicInstance } from 'vue'
@@ -151,7 +150,7 @@ const userInput = shallowRef('')
 const setUserInput = () => {
   const { modelValue, money } = props
 
-  if (modelValue === undefined) {
+  if (!modelValue && modelValue !== 0) {
     userInput.value = ''
     return
   }

@@ -12,12 +12,12 @@
     </div>
     <el-card title="表单数据">
       <el-form  ref="formRef" :size="size" :data="data" label-width="80px" :rules="rules">
-        <!-- <el-radio-group label="审批流程" field="type">
+        <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number :precision="2" label="数字" money :min="0" :max="1000000" field="num" /> -->
+        <el-input-number label="数字" money  field="num" />
 
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
@@ -85,7 +85,7 @@ const [data, rules] = useFormModel({
   start: { value: '' },
   end: { value: '' },
   aa: { value: [] },
-  num: { value: -1.345 }
+  num: { value: null }
 })
 
 const formRef = shallowRef<any>()
