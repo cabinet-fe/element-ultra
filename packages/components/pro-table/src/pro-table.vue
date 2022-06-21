@@ -29,6 +29,7 @@
       :default-expand-all="defaultExpandAll"
       ref="tableRef"
       :height="tableHeight"
+      border
       v-loading="loading"
     >
       <!-- 展开 -->

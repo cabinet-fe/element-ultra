@@ -17,8 +17,12 @@ const Comp = defineComponent({
           删除
         </el-action>
         <el-action onRun={() => console.log('审核')}>审核</el-action>
-
+        <el-action onRun={() => console.log('审核')}>审核</el-action>
+        <el-action onRun={() => console.log('审核')}>审核</el-action>
         {slots.default?.()}
+        <el-action onRun={() => console.log('审核')}>审核</el-action>
+        <el-action onRun={() => console.log('审核')}>打印</el-action>
+
       </el-action-group>
     )
   }

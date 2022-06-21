@@ -2,7 +2,6 @@
   <el-edit-bar
     sortable
     @create="onCreate"
-    tree
     @delete="onDelete"
     style="background-color: #fff"
     :data="data"

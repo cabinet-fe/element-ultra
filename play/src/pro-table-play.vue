@@ -22,6 +22,13 @@
       {{ row }}
     </template>
 
+    <template #action>
+      <el-action-group>
+        <el-action>编辑</el-action>
+        <el-action>删除</el-action>
+      </el-action-group>
+    </template>
+
     <template #tools>
       <el-button type="primary">新增</el-button>
       <el-button
@@ -84,55 +91,48 @@ setTimeout(() => {
       name: '姓名',
       key: 'name'
     },
-    {
-      name: '姓名',
-      key: 'name'
-    },
-    {
-      name: '姓名',
-      key: 'name'
-    },
-    {
-      name: '姓名',
-      key: 'name'
-    },
-    {
-      name: '姓名',
-      key: 'name'
-    },
-    {
-      name: '姓名',
-      key: 'name'
-    },
-    {
-      name: '姓名',
-      key: 'name'
-    },
-    {
-      name: '父级',
-      key: 'parent',
-      children: [
-        {
-          name: '年龄',
-          key: 'age',
-          slot: 'age' // 建议使用column-*这样的命名, 方便在模板里面阅读
-        }
-      ]
-    },
+    // {
+    //   name: '姓名',
+    //   key: 'name'
+    // },
+    // {
+    //   name: '姓名',
+    //   key: 'name'
+    // },
+    // {
+    //   name: '姓名',
+    //   key: 'name'
+    // },
+    // {
+    //   name: '姓名',
+    //   key: 'name'
+    // },
+    // {
+    //   name: '姓名',
+    //   key: 'name'
+    // },
+    // {
+    //   name: '姓名',
+    //   key: 'name'
+    // },
+    // {
+    //   name: '父级',
+    //   key: 'parent',
+    //   children: [
+    //     {
+    //       name: '年龄',
+    //       key: 'age',
+    //       slot: 'age' // 建议使用column-*这样的命名, 方便在模板里面阅读
+    //     }
+    //   ]
+    // },
     {
       name: '操作',
       align: 'center',
       key: 'action',
       fixed: 'right',
       minWidth: 150,
-      render(row, index) {
-        return (
-          <>
-            <ElButton>新增</ElButton>
-            <ElButton>编辑</ElButton>
-          </>
-        )
-      }
+      slot: 'action'
     }
   ]
 }, 1000)

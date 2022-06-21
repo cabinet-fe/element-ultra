@@ -58,6 +58,7 @@
           ref="scrollWrapper"
           :height="maxHeight ? undefined : height"
           :max-height="maxHeight ? height : undefined"
+          :bar-z-index="3"
         >
           <table
             ref="tableBody"

@@ -13,22 +13,10 @@ const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
   proTableRequestMethod: () => {
-    let data = [
-      {
-        name: '张三',
-        id: 1,
-        age: 20,
-
-        // children: [
-        //   { name: '李四', id: 2, age: 21 }
-        // ]
-      },
-      {
-        name: '李四',
-        id: 2,
-        age: 28
-      }
-    ]
+    let data = Array.from({ length: 100 }).map((_, i) => ({
+      name: '张三' + i,
+      id: i
+    }))
     return Promise.resolve({
       data,
       total: 100,
