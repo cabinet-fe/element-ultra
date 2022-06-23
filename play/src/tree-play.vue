@@ -6,6 +6,7 @@
         show-checkbox
         style="width: 300px"
         :height="208"
+        :item-size="32"
         :default-expanded-keys="['0']"
       >
       </el-tree>

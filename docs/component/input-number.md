@@ -88,6 +88,8 @@ input-number/size
 | name                  | 原生 `name` 属性      | string             | —           | —           |
 | label                 | 输入框关联的 label 文字   | string             | —           | —           |
 | placeholder           | 输入框默认 placeholder | string             | -           | -           |
+| money           |  以金额的形式输入, 展示千分位和append默认一个元 | boolean             | -           | -           |
+| append           | 输入框的追加元素, 指定false可以让其再也不显示 | string  | number | false           | -           | -           |
 
 ## 事件
 

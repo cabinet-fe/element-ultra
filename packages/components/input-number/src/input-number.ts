@@ -30,18 +30,25 @@ export const inputNumberProps = {
     type: String as PropType<typeof componentSizes[number]>,
     default: 'default'
   },
+  /** 以金额显示 */
   money: Boolean,
+  /** 是否显示控制按钮 */
   controls: {
     type: Boolean,
     default: false
   },
   placeholder: String,
+  /** 精度 */
   precision: {
     type: Number,
     validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10)
   },
+  /** 是否可清除 */
+  clearable: Boolean,
+  /** 外部后插入值 */
   append: {
-    type: [String, Number] as PropType<string | number>
+    type: [String, Number, Boolean] as PropType<string | number | false>,
+    default: ''
   }
 } as const
 

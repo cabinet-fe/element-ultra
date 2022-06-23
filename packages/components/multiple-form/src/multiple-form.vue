@@ -90,7 +90,8 @@
           </MultipleFormRow>
 
           <tr v-if="!rows.length">
-            <td :colspan="visibleColumns.length + 2" style="text-align: center">
+            <!-- 额外的列为序号和操作栏 -->
+            <td :colspan="visibleColumns.length + (disabled ? 1 : 2)" style="text-align: center">
               暂无数据
             </td>
           </tr>

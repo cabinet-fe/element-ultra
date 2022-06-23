@@ -117,7 +117,7 @@
     top: 0;
     text-align: center;
     color: var(--el-input-icon-color, map.get($input, 'icon-color'));
-    transition: all var(--el-transition-duration);
+    transition: color var(--el-transition-duration);
     pointer-events: none;
   }
 
@@ -128,7 +128,6 @@
 
   @include e(prefix) {
     display: inline-flex;
-
     position: absolute;
     height: 100%;
     left: map.get($input-padding-horizontal, 'default');
@@ -259,7 +258,6 @@
 }
 
 @include b(input-group) {
-  line-height: normal;
   display: inline-table;
   width: 100%;
   border-collapse: separate;

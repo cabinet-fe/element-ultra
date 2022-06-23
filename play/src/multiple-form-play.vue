@@ -5,9 +5,10 @@
   </el-radio-group>
 
   <el-multiple-form
-    :data="data"
+    :data="[]"
     :mode="mode"
     :columns="columns"
+    disabled
     title="标题"
     height="400px"
     @change="onChange"

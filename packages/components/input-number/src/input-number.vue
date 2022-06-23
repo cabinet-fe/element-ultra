@@ -18,13 +18,17 @@
       :size="inputNumberSize"
       :max="max"
       :min="min"
+      :clearable="clearable"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
       @focus="emit('focus', $event)"
       @change="handleInputChange"
     >
-      <template v-if="append || $slots.append || money" #append>
+      <template
+        v-if="append !== false && (append || $slots.append || money)"
+        #append
+      >
         <slot name="append">
           {{ append || '元' }}
         </slot>
@@ -56,7 +60,6 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref, watch, shallowRef, nextTick } from 'vue'
-
 import { ElIcon } from '@element-ultra/components/icon'
 import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import ElInput from '@element-ultra/components/input'
@@ -85,10 +88,17 @@ const inputNumberSize = computed(() => {
   return props.size ?? formSize.value
 })
 
-const exactCalc = (n1: number, n2: number, calc: (int1: number, int2: number) => number) => {
+const exactCalc = (
+  n1: number,
+  n2: number,
+  calc: (int1: number, int2: number) => number
+) => {
   let str1 = n1 + ''
   let str2 = n2 + ''
-  let dotLength = Math.max((str1.split('.')[1] || '').length, (str2.split('.')[1] || '').length)
+  let dotLength = Math.max(
+    (str1.split('.')[1] || '').length,
+    (str2.split('.')[1] || '').length
+  )
   let factor = Math.pow(10, dotLength)
   return calc(n1 * factor, n2 * factor) / factor
 }
@@ -168,14 +178,12 @@ const setUserInput = () => {
     valStr = group.join(',')
 
     if (valDotStr) {
-       valStr +=  `.${valDotStr}`
+      valStr += `.${valDotStr}`
     }
     userInput.value = valStr
   } else {
     userInput.value = modelValue + ''
   }
-
-
 }
 
 const emitValue = (newVal?: number) => {

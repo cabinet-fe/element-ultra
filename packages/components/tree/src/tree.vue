@@ -1,10 +1,13 @@
 <template>
   <div
-    :class="[ns.b(), ns.is('multiple', showCheckbox), { [ns.m('highlight-current')]: highlightCurrent }]"
+    :class="[
+      ns.b(),
+      ns.is('multiple', showCheckbox),
+      { [ns.m('highlight-current')]: highlightCurrent }
+    ]"
     role="tree"
     :style="containerStyle"
     ref="treeContainer"
-
   >
     <fixed-size-list
       v-if="isNotEmpty && listHeight"
@@ -93,7 +96,7 @@ let observer: ResizeObserver | undefined = undefined
 onMounted(() => {
   if (!treeContainer.value) return
 
-  observer = new ResizeObserver((entries) => {
+  observer = new ResizeObserver(entries => {
     for (let entry of entries) {
       listHeight.value = (entry.target as any).offsetHeight
     }
@@ -133,8 +136,6 @@ const {
   setData,
   getTreeNodes
 } = useTree(props, emit)
-
-const itemSize = 26
 
 defineExpose({
   getCurrentNode,

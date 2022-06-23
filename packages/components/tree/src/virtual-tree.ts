@@ -41,6 +41,10 @@ export const treeProps = {
     type: [String, Object],
     default: ''
   },
+  itemSize: {
+    type: Number,
+    default: 26
+  },
   emptyText: {
     type: String,
     default: '暂无数据'

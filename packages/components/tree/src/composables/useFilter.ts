@@ -10,22 +10,20 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
   const hiddenNodeKeySet = ref<Set<TreeKey>>(new Set([]))
   const hiddenExpandIconKeySet = ref<Set<TreeKey>>(new Set([]))
 
-  const filterable = computed(() => {
-    return isFunction(props.filterMethod)
-  })
+
+  let labelKey = props.props?.label ?? 'label'
 
   function doFilter(query: string) {
-    if (!filterable.value) {
-      return
-    }
     const expandKeySet = new Set<TreeKey>()
     const hiddenExpandIconKeys = hiddenExpandIconKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
     const family: TreeNode[] = []
     const nodes = tree.value?.treeNodes || []
-    const filter = props.filterMethod
+    const filter = props.filterMethod || ((query, data) => {
+      return data[labelKey]?.includes(query)
+    })
     hiddenKeys.clear()
-    
+
     function traverse(nodes: TreeNode[]) {
       nodes.forEach((node) => {
         family.push(node)

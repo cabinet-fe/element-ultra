@@ -59,7 +59,7 @@
     <!-- suffix slot -->
     <span v-if="suffixVisible" :class="ns.e('suffix')">
       <span :class="ns.e('suffix-inner')">
-        <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
+        <template v-if="!showClear && !showPwdVisible && !isWordLimitVisible">
           <slot name="suffix"></slot>
           <el-icon v-if="suffixIcon" :class="ns.e('icon')">
             <component :is="suffixIcon" />
@@ -68,7 +68,7 @@
         <el-icon
           v-if="showClear"
           :class="[ns.e('icon'), ns.e('clear')]"
-          @mousedown.prevent
+          @mousedown.prevent=""
           @click="clear"
         >
           <circle-close />

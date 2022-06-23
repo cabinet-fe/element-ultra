@@ -11,22 +11,27 @@
       </el-radio-group>
     </div>
     <el-card title="表单数据">
-      <el-form  ref="formRef" :size="size" :data="data" label-width="80px" :rules="rules">
+      <el-form
+        ref="formRef"
+        :size="size"
+        :data="data"
+        label-width="80px"
+        :rules="rules"
+      >
         <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number label="数字" money  field="num" />
+        <el-input-number label="数字" money clearable field="num" />
 
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
         </template>
 
-
         <template v-else>
-          <el-input label="姓名" field="name" />
-          <el-input label="住址" field="address" />
+          <el-input :suffix-icon="Search" label="姓名" clearable field="name" />
+          <el-input label="住址" clearable field="address" />
         </template>
 
         <!-- <el-select label="选择框" :options="[{ label: 'aa', value: '1' }]" multiple field="aa" /> -->
@@ -54,6 +59,8 @@
 <script setup lang="ts">
 import { useFormModel } from 'element-ultra'
 import { shallowRef } from 'vue'
+import { Search } from '@element-plus/icons-vue'
+
 document.title = '表单测试'
 
 let checked = $shallowRef(false)
@@ -61,7 +68,7 @@ let checked = $shallowRef(false)
 let options = $shallowRef<any[]>([])
 let options2 = $shallowRef<any[]>([])
 
-let size = $shallowRef('default')
+let size = $shallowRef('default' as const)
 
 setTimeout(() => {
   options = [
