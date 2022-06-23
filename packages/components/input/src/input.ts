@@ -1,12 +1,12 @@
 import { isString } from '@vue/shared'
 import { mutable } from '@element-ultra/utils'
 import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
-import { useSizeProp } from '@element-ultra/hooks'
+import { SizeProp } from '@element-ultra/constants'
 import type { StyleValue, ExtractPropTypes, PropType, Component } from 'vue'
 
 export const inputProps = {
   ...FORM_COMPONENT_PROPS,
-  size: useSizeProp,
+  size: SizeProp,
   disabled: {
     type: Boolean
   },

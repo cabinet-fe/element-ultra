@@ -1,4 +1,6 @@
-export const datePickTypes = [
+import type { IterableElement } from 'type-fest'
+
+export const datePickTypes = new Set([
   'year',
   'month',
   'date',
@@ -7,6 +9,7 @@ export const datePickTypes = [
   'datetime',
   'datetimerange',
   'daterange',
-  'monthrange',
-] as const
-export type DatePickType = typeof datePickTypes[number]
+  'monthrange'
+] as const)
+
+export type DatePickType = IterableElement<ReturnType<typeof datePickTypes.keys>>

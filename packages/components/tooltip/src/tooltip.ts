@@ -1,11 +1,10 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
 import {
   usePopperTriggerProps,
-  usePopperContentProps,
+  usePopperContentProps
 } from '@element-ultra/components/popper'
 import {
   useDelayedToggleProps,
-  POPPER_CONTAINER_SELECTOR,
+  POPPER_CONTAINER_SELECTOR
 } from '@element-ultra/hooks'
 
 import type { ExtractPropTypes, PropType } from 'vue'
@@ -19,15 +18,15 @@ export const useTooltipContentProps = {
   ...usePopperContentProps,
   appendTo: {
     type: [String, Object] as PropType<string | HTMLElement>,
-    default: POPPER_CONTAINER_SELECTOR,
+    default: POPPER_CONTAINER_SELECTOR
   },
   content: {
     type: String,
-    default: '',
+    default: ''
   },
   rawContent: {
     type: Boolean,
-    default: false,
+    default: false
   },
   persistent: Boolean,
   ariaLabel: String,
@@ -37,47 +36,47 @@ export const useTooltipContentProps = {
   // so we need to declare that again for type checking.
   visible: {
     type: Boolean as PropType<boolean | null>,
-    default: null,
+    default: null
   },
   transition: {
     type: String,
-    default: 'el-fade-in-linear',
+    default: 'el-fade-in-linear'
   },
   teleported: {
     type: Boolean,
-    default: true,
+    default: true
   },
   disabled: {
-    type: Boolean,
-  },
+    type: Boolean
+  }
 } as const
 
-export const useTooltipTriggerProps = buildProps({
+export const useTooltipTriggerProps = {
   ...usePopperTriggerProps,
   disabled: Boolean,
   trigger: {
-    type: definePropType<Trigger | Trigger[]>([String, Array]),
-    default: 'hover',
-  },
-} as const)
+    type: [String, Array] as PropType<Trigger | Trigger[]>,
+    default: 'hover'
+  }
+} as const
 
-export const useTooltipProps = buildProps({
+export const useTooltipProps = {
   openDelay: {
-    type: Number,
+    type: Number
   },
   visibleArrow: {
     type: Boolean,
-    default: undefined,
+    default: undefined
   },
   hideAfter: {
     type: Number,
-    default: 200,
+    default: 200
   },
   showArrow: {
     type: Boolean,
-    default: true,
-  },
-})
+    default: true
+  }
+}
 
 export type ElTooltipContentProps = ExtractPropTypes<
   typeof useTooltipContentProps

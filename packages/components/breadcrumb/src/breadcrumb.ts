@@ -1,16 +1,16 @@
-import { buildProps, iconPropType } from '@element-ultra/utils'
+import { iconPropType } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Breadcrumb from './breadcrumb.vue'
 
-export const breadcrumbProps = buildProps({
+export const breadcrumbProps = {
   separator: {
     type: String,
-    default: '/',
+    default: '/'
   },
   separatorIcon: {
     type: iconPropType,
-    default: '',
-  },
-} as const)
+    default: ''
+  }
+}
 export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>
 export type BreadcrumbInstance = InstanceType<typeof Breadcrumb>

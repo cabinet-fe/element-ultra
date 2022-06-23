@@ -1,8 +1,8 @@
-import { buildProps } from '@element-ultra/utils'
+
 import type Skeleton from './skeleton.vue'
 import type { ExtractPropTypes } from 'vue'
 
-export const skeletonProps = buildProps({
+export const skeletonProps = {
   animated: {
     type: Boolean,
     default: false,
@@ -22,7 +22,7 @@ export const skeletonProps = buildProps({
   throttle: {
     type: Number,
   },
-} as const)
+}
 export type SkeletonProps = ExtractPropTypes<typeof skeletonProps>
 
 export type SkeletonInstance = InstanceType<typeof Skeleton>

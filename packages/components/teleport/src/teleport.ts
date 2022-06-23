@@ -1,23 +1,21 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
+import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
-
-export const elTeleportProps = buildProps({
+export const elTeleportProps = {
   container: {
-    type: definePropType<string>(String),
-    default: 'body',
+    type: String as PropType<string>,
+    default: 'body'
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: false
   },
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: [String, Array, Object] as PropType<StyleValue>
   },
   zIndex: {
     type: String,
-    default: '2000',
-  },
-})
+    default: '2000'
+  }
+}
 
 export type ElTeleportProps = ExtractPropTypes<typeof elTeleportProps>

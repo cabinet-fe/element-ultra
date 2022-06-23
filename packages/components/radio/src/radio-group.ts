@@ -1,11 +1,11 @@
-import { useSizeProp } from '@element-ultra/hooks'
+import { SizeProp } from '@element-ultra/constants'
 import type { ExtractPropTypes } from '@vue/runtime-core'
 import { FORM_COMPONENT_PROPS } from '@element-ultra/constants'
 import type { PropType } from 'vue'
 
 export const radioGroupProps = {
   ...FORM_COMPONENT_PROPS,
-  size: useSizeProp,
+  size: SizeProp,
   disabled: Boolean,
   modelValue: {
     type: [String, Number, Boolean] as PropType<string | number | boolean>,

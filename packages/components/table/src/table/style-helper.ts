@@ -198,7 +198,7 @@ function useStyle<T>(
       doLayout()
     }
   }
-  const tableSize = useSize()
+  const tableSize = useSize({ props })
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
     return bodyWidth_.value

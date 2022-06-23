@@ -81,7 +81,7 @@ import {
   provide,
   ref,
   toRef,
-  unref,
+  unref
 } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
@@ -110,7 +110,7 @@ export default defineComponent({
     ElTooltip,
     ElRovingFocusGroup,
     ElIcon,
-    ArrowDown,
+    ArrowDown
   },
   props: dropdownProps,
   emits: ['visible-change', 'click', 'command'],
@@ -127,7 +127,7 @@ export default defineComponent({
     const isUsingKeyboard = ref(false)
 
     const wrapStyle = computed<CSSProperties>(() => ({
-      maxHeight: addUnit(props.maxHeight),
+      maxHeight: addUnit(props.maxHeight)
     }))
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
 
@@ -143,7 +143,7 @@ export default defineComponent({
       popperRef.value?.onOpen()
     }
 
-    const dropdownSize = useSize()
+    const dropdownSize = useSize({ props })
 
     function commandHandler(...args: any[]) {
       emit('command', ...args)
@@ -175,7 +175,7 @@ export default defineComponent({
       contentRef,
       isUsingKeyboard,
       onItemEnter,
-      onItemLeave,
+      onItemLeave
     })
 
     provide('elDropdown', {
@@ -184,13 +184,13 @@ export default defineComponent({
       handleClick,
       commandHandler,
       trigger: toRef(props, 'trigger'),
-      hideOnClick: toRef(props, 'hideOnClick'),
+      hideOnClick: toRef(props, 'hideOnClick')
     })
 
     const onMountOnFocus = (e: Event) => {
       e.preventDefault()
       contentRef.value?.focus?.({
-        preventScroll: true,
+        preventScroll: true
       })
     }
 
@@ -213,8 +213,8 @@ export default defineComponent({
       onMountOnFocus,
       popperRef,
       triggeringElementRef,
-      referenceElementRef,
+      referenceElementRef
     }
-  },
+  }
 })
 </script>

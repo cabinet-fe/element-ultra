@@ -1,64 +1,63 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { dialogContentProps } from './dialog-content'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
-export const dialogProps = buildProps({
+export const dialogProps = {
   ...dialogContentProps,
   appendToBody: {
     type: Boolean,
-    default: false,
+    default: false
   },
   beforeClose: {
-    type: definePropType<(...args: any[]) => void>(Function),
+    type: Function as PropType<(...args: any[]) => void>
   },
   destroyOnClose: {
     type: Boolean,
-    default: false,
+    default: false
   },
   closeOnClickModal: {
     type: Boolean,
-    default: true,
+    default: true
   },
   closeOnPressEscape: {
     type: Boolean,
-    default: true,
+    default: true
   },
   lockScroll: {
     type: Boolean,
-    default: true,
+    default: true
   },
   modal: {
     type: Boolean,
-    default: true,
+    default: true
   },
   openDelay: {
     type: Number,
-    default: 0,
+    default: 0
   },
   closeDelay: {
     type: Number,
-    default: 0,
+    default: 0
   },
   top: {
-    type: String,
+    type: String
   },
   modelValue: {
     type: Boolean,
-    required: true,
+    required: true
   },
   modalClass: String,
   width: {
-    type: [String, Number],
+    type: [String, Number]
   },
   zIndex: {
-    type: Number,
-  },
-} as const)
+    type: Number
+  }
+}
 
 export const dialogContentEmits = {
-  close: () => true,
+  close: () => true
 }
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
@@ -70,6 +69,6 @@ export const dialogEmits = {
   closed: () => true,
   [UPDATE_MODEL_EVENT]: (value: boolean) => typeof value === 'boolean',
   openAutoFocus: () => true,
-  closeAutoFocus: () => true,
+  closeAutoFocus: () => true
 }
 export type DialogEmits = typeof dialogEmits

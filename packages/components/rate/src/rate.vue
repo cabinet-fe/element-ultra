@@ -52,7 +52,7 @@ import { hasClass } from '@element-ultra/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { ElIcon } from '@element-ultra/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
-import { useNamespace, useSize } from '@element-ultra/hooks'
+import { useFormItem, useNamespace, useSize } from '@element-ultra/hooks'
 import { rateProps, rateEmits } from './rate'
 import type { FormContext } from '@element-ultra/tokens'
 
@@ -65,8 +65,8 @@ function getValueFromMap<T>(
   ): val is { excluded?: boolean } & Record<any, unknown> => isObject(val)
 
   const matchedKeys = Object.keys(map)
-    .map((key) => +key)
-    .filter((key) => {
+    .map(key => +key)
+    .filter(key => {
       const val = map[key]
       const excluded = isExcludedObject(val) ? val.excluded : false
       return excluded ? value < key : value <= key
@@ -81,15 +81,15 @@ export default defineComponent({
   components: {
     ElIcon,
     StarFilled,
-    Star,
+    Star
   },
   props: rateProps,
   emits: rateEmits,
 
   setup(props, { emit }) {
-    const elForm = inject(formKey, {} as FormContext)
-    const rateSize = useSize()
+    const rateSize = useSize({ props })
     const ns = useNamespace('rate')
+    const { form } = useFormItem()
 
     const currentValue = ref(props.modelValue)
     const hoverIndex = ref(-1)
@@ -97,7 +97,7 @@ export default defineComponent({
 
     const rateKls = computed(() => [ns.b(), ns.m(rateSize.value)])
 
-    const rateDisabled = computed(() => props.disabled || elForm.disabled)
+    const rateDisabled = computed(() => props.disabled || form?.props.disabled)
     const text = computed(() => {
       let result = ''
       if (props.showScore) {
@@ -118,7 +118,7 @@ export default defineComponent({
         ? {
             [props.lowThreshold]: props.colors[0],
             [props.highThreshold]: { value: props.colors[1], excluded: true },
-            [props.max]: props.colors[2],
+            [props.max]: props.colors[2]
           }
         : props.colors
     )
@@ -134,7 +134,7 @@ export default defineComponent({
       }
       return {
         color: activeColor.value,
-        width,
+        width
       }
     })
     const componentMap = computed(() =>
@@ -143,9 +143,9 @@ export default defineComponent({
             [props.lowThreshold]: props.icons[0],
             [props.highThreshold]: {
               value: props.icons[1],
-              excluded: true,
+              excluded: true
             },
-            [props.max]: props.icons[2],
+            [props.max]: props.icons[2]
           }
         : props.icons
     )
@@ -185,7 +185,7 @@ export default defineComponent({
         ? props.disabledVoidColor
         : props.voidColor
       return {
-        color: item <= currentValue.value ? activeColor.value : voidColor,
+        color: item <= currentValue.value ? activeColor.value : voidColor
       }
     }
 
@@ -271,7 +271,7 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      (val) => {
+      val => {
         currentValue.value = val
         pointerAtLeftHalf.value =
           props.modelValue !== Math.floor(props.modelValue)
@@ -298,8 +298,8 @@ export default defineComponent({
       selectValue,
       handleKey,
       setCurrentValue,
-      resetCurrentValue,
+      resetCurrentValue
     }
-  },
+  }
 })
 </script>

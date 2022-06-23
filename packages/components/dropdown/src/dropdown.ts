@@ -1,15 +1,15 @@
-import { buildProps, definePropType, iconPropType } from '@element-ultra/utils'
+import { iconPropType } from '@element-ultra/utils'
 import { EVENT_CODE } from '@element-ultra/constants'
 import { createCollectionWithScope } from '@element-ultra/components/collection'
 import {
   useTooltipTriggerProps,
-  useTooltipContentProps,
+  useTooltipContentProps
 } from '@element-ultra/components/tooltip'
 import type { Options } from '@popperjs/core'
 
-import type { ButtonType } from '@element-ultra/components/button'
+import type { ButtonTypes } from '@element-ultra/components/button'
 import type { Placement } from '@element-ultra/components/popper'
-import type { ComponentInternalInstance, ComputedRef } from 'vue'
+import type { ComponentInternalInstance, ComputedRef, PropType } from 'vue'
 import type { Nullable } from '@element-ultra/utils'
 
 export interface IElDropdownInstance {
@@ -24,78 +24,78 @@ export interface IElDropdownInstance {
   triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>
 }
 
-export const dropdownProps = buildProps({
+export const dropdownProps = {
   trigger: useTooltipTriggerProps.trigger,
   effect: {
     ...useTooltipContentProps.effect,
-    default: 'light',
+    default: 'light'
   },
   type: {
-    type: definePropType<ButtonType>(String),
+    type: String as PropType<ButtonTypes>
   },
   placement: {
-    type: definePropType<Placement>(String),
-    default: 'bottom',
+    type: String as PropType<Placement>,
+    default: 'bottom'
   },
   popperOptions: {
-    type: definePropType<Partial<Options>>(Object),
-    default: () => ({}),
+    type: Object as PropType<Partial<Options>>,
+    default: () => ({})
   },
   size: {
     type: String,
-    default: '',
+    default: ''
   },
   splitButton: Boolean,
   hideOnClick: {
     type: Boolean,
-    default: true,
+    default: true
   },
   loop: {
-    type: Boolean,
+    type: Boolean
   },
   showTimeout: {
     type: Number,
-    default: 150,
+    default: 150
   },
   hideTimeout: {
     type: Number,
-    default: 150,
+    default: 150
   },
   tabindex: {
-    type: definePropType<number | string>([Number, String]),
-    default: 0,
+    type: [Number, String] as PropType<number | string>,
+    default: 0
   },
   maxHeight: {
-    type: definePropType<number | string>([Number, String]),
-    default: '',
+    type: [Number, String] as PropType<number | string>,
+    default: ''
   },
   popperClass: {
     type: String,
-    default: '',
-  },
-} as const)
+    default: ''
+  }
+}
 
-export const dropdownItemProps = buildProps({
+export const dropdownItemProps = {
   command: {
     type: [Object, String, Number],
-    default: () => ({}),
+    default: () => ({})
   },
   disabled: Boolean,
   divided: Boolean,
   textValue: String,
   icon: {
-    type: iconPropType,
-  },
-} as const)
+    type: iconPropType
+  }
+}
 
-export const dropdownMenuProps = buildProps({
-  onKeydown: { type: definePropType<(e: KeyboardEvent) => void>(Function) },
-})
+export const dropdownMenuProps = {
+  onKeydown: { type: Function as PropType<(e: KeyboardEvent) => void> }
+}
 
 export const FIRST_KEYS = [
   EVENT_CODE.down,
   EVENT_CODE.pageDown,
-  EVENT_CODE.home,
+  EVENT_CODE.home
 ]
 
 export const LAST_KEYS = [EVENT_CODE.up, EVENT_CODE.pageUp, EVENT_CODE.end]
@@ -106,12 +106,12 @@ const {
   ElCollection,
   ElCollectionItem,
   COLLECTION_INJECTION_KEY,
-  COLLECTION_ITEM_INJECTION_KEY,
+  COLLECTION_ITEM_INJECTION_KEY
 } = createCollectionWithScope('Dropdown')
 
 export {
   ElCollection,
   ElCollectionItem,
   COLLECTION_INJECTION_KEY as DROPDOWN_COLLECTION_INJECTION_KEY,
-  COLLECTION_ITEM_INJECTION_KEY as DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
+  COLLECTION_ITEM_INJECTION_KEY as DROPDOWN_COLLECTION_ITEM_INJECTION_KEY
 }

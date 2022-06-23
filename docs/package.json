@@ -23,9 +23,6 @@
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
     "unplugin-icons": "^0.14.1",
-    "unplugin-vue-components": "^0.19.6",
-    "vite": "^2.9.12",
-    "vite-plugin-inspect": "^0.4.3",
     "unocss": "^0.31.0",
     "vitepress": "^0.22.3"
   }

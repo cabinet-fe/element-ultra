@@ -1,38 +1,37 @@
-import { buildProps, definePropType, iconPropType } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import { iconPropType } from '@element-ultra/utils'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 import type Avatar from './avatar.vue'
 
-export const avatarProps = buildProps({
+export const avatarProps = {
   size: {
-    type: [Number, String],
-    values: ['large', 'default', 'small'],
+    type: [Number, String] as PropType<'large' | 'default' | 'small'>,
     default: 'default',
-    validator: (val: unknown): val is number => typeof val === 'number',
+    validator: (val: unknown): val is number => typeof val === 'number'
   },
   shape: {
-    type: String,
-    values: ['circle', 'square'],
-    default: 'circle',
+    type: String as PropType<'circle' | 'square'>,
+
+    default: 'circle'
   },
   icon: {
-    type: iconPropType,
+    type: iconPropType
   },
   src: {
     type: String,
-    default: '',
+    default: ''
   },
   alt: String,
   srcSet: String,
   fit: {
-    type: definePropType<ObjectFitProperty>(String),
-    default: 'cover',
-  },
-} as const)
+    type: String as PropType<ObjectFitProperty>,
+    default: 'cover'
+  }
+}
 export type AvatarProps = ExtractPropTypes<typeof avatarProps>
 
 export const avatarEmits = {
-  error: (evt: Event) => evt instanceof Event,
+  error: (evt: Event) => evt instanceof Event
 }
 export type AvatarEmits = typeof avatarEmits
 

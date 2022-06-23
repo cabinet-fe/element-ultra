@@ -16,9 +16,6 @@ import {
   useWindowFocus
 } from '@vueuse/core'
 import {
-  buildProps,
-  definePropType,
-  mutable,
   throwError
 } from '@element-ultra/utils'
 import { EVENT_CODE } from '@element-ultra/constants'
@@ -26,7 +23,7 @@ import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-ultra/tokens'
 import TabBar from './tab-bar.vue'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type {  CSSProperties } from 'vue'
 import type { TabsPaneContext } from '@element-ultra/tokens'
 export interface Scrollable {
   next?: boolean
@@ -195,8 +192,11 @@ export default defineComponent({
     const changeTab = (e: KeyboardEvent) => {
       const code = e.code
 
-      const { up, down, left, right } = EVENT_CODE
-      if (![up, down, left, right].includes(code)) return
+      const up = EVENT_CODE.up
+      const down = EVENT_CODE.down
+      const left = EVENT_CODE.left
+      const right = EVENT_CODE.right
+      if (![up, down, left, right].includes(code as any)) return
 
       // 左右上下键更换tab
       const tabList = Array.from(

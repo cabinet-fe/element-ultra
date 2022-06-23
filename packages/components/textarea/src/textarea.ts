@@ -1,60 +1,58 @@
 import { isString } from '@vue/shared'
+
 import {
-  buildProps,
-  definePropType,
-  iconPropType,
-  mutable,
-} from '@element-ultra/utils'
-import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/constants'
-import type { StyleValue, ExtractPropTypes } from 'vue'
+  FORM_COMPONENT_PROPS,
+  UPDATE_MODEL_EVENT
+} from '@element-ultra/constants'
+import type { StyleValue, ExtractPropTypes, PropType } from 'vue'
 
 type AutoSize = { minRows?: number; maxRows?: number } | boolean
 
-export const textareaProps = buildProps({
+export const textareaProps = {
   ...FORM_COMPONENT_PROPS,
   disabled: Boolean,
   modelValue: {
-    type: definePropType<string | number | null | undefined>(undefined),
-    default: '',
+    type: [String, Number] as PropType<string | number | null | undefined>,
+    default: ''
   },
   resize: {
     type: String,
-    values: ['none', 'both', 'horizontal', 'vertical'],
+    values: ['none', 'both', 'horizontal', 'vertical']
   },
   autosize: {
-    type: definePropType<AutoSize>([Boolean, Object]),
-    default: false,
+    type: [Boolean, Object] as PropType<AutoSize>,
+    default: false
   },
   autocomplete: {
     type: String,
-    default: 'off',
+    default: 'off'
   },
   placeholder: {
     type: String,
-    default: '请输入',
+    default: '请输入'
   },
   form: {
     type: String,
-    default: '',
+    default: ''
   },
   readonly: {
     type: Boolean,
-    default: false,
+    default: false
   },
 
   showWordLimit: {
     type: Boolean,
-    default: false,
+    default: false
   },
 
   tabindex: {
-    type: [Number, String],
+    type: [Number, String]
   },
   innerStyle: {
-    type: definePropType<StyleValue>([Object, Array, String]),
-    default: () => mutable({} as const),
-  },
-} as const)
+    type: [Object, Array, String] as PropType<StyleValue>,
+    default: () => ({})
+  }
+}
 export type TextareaProps = ExtractPropTypes<typeof textareaProps>
 
 export const textareaEmits = {
@@ -68,6 +66,6 @@ export const textareaEmits = {
   keydown: (evt: KeyboardEvent) => evt instanceof KeyboardEvent,
   compositionstart: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionupdate: (evt: CompositionEvent) => evt instanceof CompositionEvent,
-  compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
+  compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent
 }
 export type TextareaEmits = typeof textareaEmits

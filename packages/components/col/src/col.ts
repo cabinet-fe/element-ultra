@@ -1,5 +1,11 @@
-import { defineComponent, computed, inject, h, renderSlot } from 'vue'
-import { buildProps, definePropType, mutable } from '@element-ultra/utils'
+import {
+  defineComponent,
+  computed,
+  inject,
+  h,
+  renderSlot,
+  type PropType
+} from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
@@ -9,48 +15,48 @@ type SizeObject = {
 }
 type Size = number | SizeObject
 
-export const colProps = buildProps({
+export const colProps = {
   tag: {
     type: String,
-    default: 'div',
+    default: 'div'
   },
   span: {
     type: Number,
-    default: 24,
+    default: 24
   },
   offset: {
     type: Number,
-    default: 0,
+    default: 0
   },
   pull: {
     type: Number,
-    default: 0,
+    default: 0
   },
   push: {
     type: Number,
-    default: 0,
+    default: 0
   },
   xs: {
-    type: definePropType<Size>([Number, Object]),
-    default: () => mutable({} as const),
+    type: [Number, Object] as PropType<Size>,
+    default: () => ({})
   },
   sm: {
-    type: definePropType<Size>([Number, Object]),
-    default: () => mutable({} as const),
+    type: [Number, Object] as PropType<Size>,
+    default: () => ({})
   },
   md: {
-    type: definePropType<Size>([Number, Object]),
-    default: () => mutable({} as const),
+    type: [Number, Object] as PropType<Size>,
+    default: () => ({})
   },
   lg: {
-    type: definePropType<Size>([Number, Object]),
-    default: () => mutable({} as const),
+    type: [Number, Object] as PropType<Size>,
+    default: () => ({})
   },
   xl: {
-    type: definePropType<Size>([Number, Object]),
-    default: () => mutable({} as const),
-  },
-} as const)
+    type: [Number, Object] as PropType<Size>,
+    default: () => ({})
+  }
+}
 export type ColProps = ExtractPropTypes<typeof colProps>
 
 export default defineComponent({
@@ -65,7 +71,7 @@ export default defineComponent({
       if (gutter.value) {
         return {
           paddingLeft: `${gutter.value / 2}px`,
-          paddingRight: `${gutter.value / 2}px`,
+          paddingRight: `${gutter.value / 2}px`
         }
       }
       return {}
@@ -75,7 +81,7 @@ export default defineComponent({
       const classes: string[] = []
 
       const pos = ['span', 'offset', 'pull', 'push'] as const
-      pos.forEach((prop) => {
+      pos.forEach(prop => {
         const size = props[prop]
         if (typeof size === 'number') {
           if (prop === 'span') classes.push(ns.b(`${props[prop]}`))
@@ -84,12 +90,12 @@ export default defineComponent({
       })
 
       const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
-      sizes.forEach((size) => {
+      sizes.forEach(size => {
         if (typeof props[size] === 'number') {
           classes.push(ns.b(`${size}-${props[size]}`))
         } else if (typeof props[size] === 'object') {
           const sizeProps = props[size]
-          Object.keys(sizeProps).forEach((prop) => {
+          Object.keys(sizeProps).forEach(prop => {
             classes.push(
               prop !== 'span'
                 ? ns.b(`${size}-${prop}-${sizeProps[prop]}`)
@@ -111,9 +117,9 @@ export default defineComponent({
         props.tag,
         {
           class: [ns.b(), classList.value],
-          style: style.value,
+          style: style.value
         },
         [renderSlot(slots, 'default')]
       )
-  },
+  }
 })

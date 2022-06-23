@@ -1,6 +1,3 @@
-import { placements } from '@popperjs/core'
-import { buildProps, definePropType } from '@element-ultra/utils'
-
 import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
 import type { Placement, Options } from '@popperjs/core'
 
@@ -9,7 +6,7 @@ const triggers = ['click', 'contextmenu', 'hover', 'focus'] as const
 
 export const Effect = {
   LIGHT: 'light',
-  DARK: 'dark',
+  DARK: 'dark'
 }
 
 export type PopperEffect = typeof effects[number]
@@ -21,60 +18,59 @@ export type Measurable = {
 type ClassObjectType = Record<string, any>
 type ClassType = string | ClassObjectType | ClassType[]
 
-export const usePopperArrowProps = buildProps({
+export const usePopperArrowProps = {
   arrowOffset: {
     type: Number,
-    default: 5,
-  },
-} as const)
+    default: 5
+  }
+}
 
-export const usePopperCoreConfigProps = buildProps({
+export const usePopperCoreConfigProps = {
   boundariesPadding: {
     type: Number,
-    default: 0,
+    default: 0
   },
   fallbackPlacements: {
-    type: definePropType<Placement[]>(Array),
-    default: () => [],
+    type: Array as PropType<Placement[]>,
+    default: () => []
   },
   gpuAcceleration: {
     type: Boolean,
-    default: true,
+    default: true
   },
   offset: {
     type: Number,
-    default: 12,
+    default: 12
   },
   placement: {
-    type: String,
-    values: placements,
-    default: 'bottom',
+    type: String as PropType<Placement>,
+    default: 'bottom'
   },
   popperOptions: {
-    type: definePropType<Partial<Options>>(Object),
-    default: () => ({}),
+    type: Object as PropType<Partial<Options>>,
+    default: () => ({})
   },
   strategy: {
-    type: String,
-    values: ['fixed', 'absolute'] as const,
-    default: 'absolute',
-  },
-} as const)
+    type: String as PropType<'fixed' | 'absolute'>,
 
-export const usePopperProps = buildProps({
+    default: 'absolute'
+  }
+}
+
+export const usePopperProps = {
   autoClose: {
     type: Number,
-    default: 0,
+    default: 0
   },
   cutoff: {
     type: Boolean,
-    default: false,
+    default: false
   },
   disabled: {
     type: Boolean,
-    default: false,
-  },
-} as const)
+    default: false
+  }
+}
 
 export const usePopperContentProps = {
   ...usePopperCoreConfigProps,
@@ -82,39 +78,39 @@ export const usePopperContentProps = {
   className: { type: [String, Array, Object] as PropType<ClassType> },
   effect: {
     type: String as PropType<'dark' | 'light'>,
-    default: 'dark',
+    default: 'dark'
   },
   enterable: {
     type: Boolean,
-    default: true,
+    default: true
   },
   pure: {
-    type: Boolean,
+    type: Boolean
   },
   popperClass: {
-    type: [String, Array, Object] as PropType<ClassType>,
+    type: [String, Array, Object] as PropType<ClassType>
   },
   popperStyle: {
-    type: [String, Array, Object] as PropType<StyleValue>,
+    type: [String, Array, Object] as PropType<StyleValue>
   },
   referenceEl: {
-    type: Object as PropType<HTMLElement>,
+    type: Object as PropType<HTMLElement>
   },
   stopPopperMouseEvent: {
     type: Boolean,
-    default: true,
+    default: true
   },
-  zIndex: Number,
+  zIndex: Number
 } as const
 
-export const usePopperTriggerProps = buildProps({
+export const usePopperTriggerProps = {
   virtualRef: {
-    type: definePropType<Measurable>(Object),
+    type: Object as PropType<Measurable>
   },
   virtualTriggering: {
-    type: Boolean,
-  },
-} as const)
+    type: Boolean
+  }
+} as const
 
 export type UsePopperProps = ExtractPropTypes<typeof usePopperProps>
 export type UsePopperCoreConfigProps = ExtractPropTypes<

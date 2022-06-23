@@ -1,28 +1,30 @@
-import { buildProps, iconPropType } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import { iconPropType } from '@element-ultra/utils'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Link from './link.vue'
 
-export const linkProps = buildProps({
+export const linkProps = {
   type: {
-    type: String,
-    values: ['primary', 'success', 'warning', 'info', 'danger', 'default'],
-    default: 'default',
+    type: String as PropType<
+      'primary' | 'success' | 'warning' | 'info' | 'danger' | 'default'
+    >,
+
+    default: 'default'
   },
   underline: {
     type: Boolean,
-    default: true,
+    default: true
   },
   disabled: { type: Boolean, default: false },
   href: { type: String, default: '' },
   icon: {
     type: iconPropType,
-    default: '',
-  },
-} as const)
+    default: ''
+  }
+}
 export type LinkProps = ExtractPropTypes<typeof linkProps>
 
 export const linkEmits = {
-  click: (evt: MouseEvent) => evt instanceof MouseEvent,
+  click: (evt: MouseEvent) => evt instanceof MouseEvent
 }
 export type LinkEmits = typeof linkEmits
 

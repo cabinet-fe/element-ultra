@@ -1,8 +1,8 @@
-import { buildProps, iconPropType } from '@element-ultra/utils'
+import {  iconPropType } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 import type TimelineItem from './timeline-item.vue'
 
-export const timelineItemProps = buildProps({
+export const timelineItemProps = {
   timestamp: {
     type: String,
     default: '',
@@ -39,7 +39,7 @@ export const timelineItemProps = buildProps({
     type: Boolean,
     default: false,
   },
-} as const)
+}
 export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
 
 export type TimelineItemInstance = InstanceType<typeof TimelineItem>

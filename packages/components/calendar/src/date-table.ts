@@ -1,22 +1,22 @@
-import { buildProps, definePropType, isObject } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import {  isObject } from '@element-ultra/utils'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
-export const dateTableProps = buildProps({
+export const dateTableProps = ({
   selectedDay: {
-    type: definePropType<Dayjs>(Object),
+    type: Object as PropType<Dayjs>,
   },
   range: {
-    type: definePropType<[Dayjs, Dayjs]>(Array),
+    type: Array as unknown as PropType<[Dayjs, Dayjs]>,
   },
   date: {
-    type: definePropType<Dayjs>(Object),
+    type: Object as PropType<Dayjs>,
     required: true,
   },
   hideHeader: {
     type: Boolean,
   },
-} as const)
+} )
 export type DateTableProps = ExtractPropTypes<typeof dateTableProps>
 
 export const dateTableEmits = {

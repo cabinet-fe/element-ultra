@@ -121,7 +121,7 @@ export default defineComponent({
     const switchDisabled = useDisabled(computed(() => props.loading))
     const ns = useNamespace('switch')
 
-    const switchSize = useSize()
+    const switchSize = useSize({ props })
     const isModelValue = ref(props.modelValue !== false)
     const input = ref<HTMLInputElement>()
     const core = ref<HTMLSpanElement>()

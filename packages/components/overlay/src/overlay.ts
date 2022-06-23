@@ -1,11 +1,11 @@
-import { createVNode, defineComponent, renderSlot, h } from 'vue'
-import { PatchFlags, buildProps, definePropType } from '@element-ultra/utils'
+import { createVNode, defineComponent, renderSlot, h, type PropType } from 'vue'
+import { PatchFlags } from '@element-ultra/utils'
 import { useNamespace, useSameTarget } from '@element-ultra/hooks'
 
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 
-export const overlayProps = buildProps({
+export const overlayProps = {
   mask: {
     type: Boolean,
     default: true,
@@ -15,16 +15,16 @@ export const overlayProps = buildProps({
     default: false,
   },
   overlayClass: {
-    type: definePropType<string | string[] | Record<string, boolean>>([
+    type: [
       String,
       Array,
       Object,
-    ]),
+    ] as PropType<string | string[] | Record<string, boolean>>,
   },
   zIndex: {
-    type: definePropType<ZIndexProperty>([String, Number]),
+    type: [String, Number] as PropType<ZIndexProperty>,
   },
-} as const)
+}
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
 
 export const overlayEmits = {

@@ -1,14 +1,13 @@
-import { buildProps } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 
-export const thumbProps = buildProps({
+export const thumbProps = {
   vertical: Boolean,
   size: String,
   move: Number,
   ratio: {
     type: Number,
-    required: true,
+    required: true
   },
-  always: Boolean,
-} as const)
+  always: Boolean
+}
 export type ThumbProps = ExtractPropTypes<typeof thumbProps>

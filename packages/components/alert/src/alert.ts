@@ -1,43 +1,39 @@
-import { TypeComponentsMap, buildProps, keysOf } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { TypeComponentsMap } from '@element-ultra/utils'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Alert from './alert.vue'
 
-export const alertEffects = ['light', 'dark'] as const
-
-export const alertProps = buildProps({
+export const alertProps = {
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   description: {
     type: String,
-    default: '',
+    default: ''
   },
   type: {
-    type: String,
-    values: keysOf(TypeComponentsMap),
-    default: 'info',
+    type: String as PropType<keyof typeof TypeComponentsMap>,
+    default: 'info'
   },
   closable: {
     type: Boolean,
-    default: true,
+    default: true
   },
   closeText: {
     type: String,
-    default: '',
+    default: ''
   },
   showIcon: Boolean,
   center: Boolean,
   effect: {
-    type: String,
-    values: alertEffects,
-    default: 'light',
-  },
-} as const)
+    type: String as PropType<'light' | 'dark'>,
+    default: 'light'
+  }
+}
 export type AlertProps = ExtractPropTypes<typeof alertProps>
 
 export const alertEmits = {
-  close: (evt: MouseEvent) => evt instanceof MouseEvent,
+  close: (evt: MouseEvent) => evt instanceof MouseEvent
 }
 export type AlertEmits = typeof alertEmits
 

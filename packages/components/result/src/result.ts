@@ -1,9 +1,8 @@
-import { buildProps } from '@element-ultra/utils'
 import {
   WarningFilled,
   CircleCheckFilled,
   CircleCloseFilled,
-  InfoFilled,
+  InfoFilled
 } from '@element-plus/icons-vue'
 import type { Component, ExtractPropTypes } from 'vue'
 import type Result from './result.vue'
@@ -12,7 +11,7 @@ export const IconMap = {
   success: 'icon-success',
   warning: 'icon-warning',
   error: 'icon-error',
-  info: 'icon-info',
+  info: 'icon-info'
 } as const
 
 export const IconComponentMap: Record<
@@ -22,23 +21,23 @@ export const IconComponentMap: Record<
   [IconMap.success]: CircleCheckFilled,
   [IconMap.warning]: WarningFilled,
   [IconMap.error]: CircleCloseFilled,
-  [IconMap.info]: InfoFilled,
+  [IconMap.info]: InfoFilled
 }
 
-export const resultProps = buildProps({
+export const resultProps = {
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   subTitle: {
     type: String,
-    default: '',
+    default: ''
   },
   icon: {
     values: ['success', 'warning', 'info', 'error'],
-    default: 'info',
-  },
-} as const)
+    default: 'info'
+  }
+}
 
 export type ResultProps = ExtractPropTypes<typeof resultProps>
 

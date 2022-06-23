@@ -1,20 +1,19 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
 import type Card from './card.vue'
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
 
-export const cardProps = buildProps({
+export const cardProps = {
   header: {
     type: String,
-    default: '',
+    default: ''
   },
   bodyStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
-    default: '',
+    type: [String, Object, Array] as PropType<StyleValue>,
+    default: ''
   },
   shadow: {
     type: String,
-    default: 'always',
-  },
-} as const)
+    default: 'always'
+  }
+}
 export type CardProps = ExtractPropTypes<typeof cardProps>
 export type CardInstance = InstanceType<typeof Card>

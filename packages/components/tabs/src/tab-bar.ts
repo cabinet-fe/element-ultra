@@ -1,12 +1,11 @@
-import { buildProps, definePropType, mutable } from '@element-ultra/utils'
 import type { TabsPaneContext } from '@element-ultra/tokens'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
-export const tabBar = buildProps({
+export const tabBar = {
   tabs: {
-    type: definePropType<TabsPaneContext[]>(Array),
-    default: () => mutable([] as const),
-  },
-} as const)
+    type: Array as PropType<TabsPaneContext[]>,
+    default: () => []
+  }
+}
 
 export type TabBar = ExtractPropTypes<typeof tabBar>

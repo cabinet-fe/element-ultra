@@ -1,7 +1,8 @@
-import type { InjectionKey, ToRefs } from "vue"
-import type { DataTableColumn, DataTableProps } from "./data-table"
+import type { InjectionKey, Ref } from 'vue'
+import type { DataTableColumn, DataTableProps } from './data-table'
 
-export const dataTableToken: InjectionKey<ToRefs<{
-  headers: DataTableColumn[][];
-  leafColumns: DataTableColumn[]
-} & DataTableProps>> = Symbol()
+export const dataTableToken: InjectionKey<{
+  headers: Ref<DataTableColumn[][]>
+  leafColumns: Ref<DataTableColumn[]>
+  rootProps: DataTableProps
+}> = Symbol()

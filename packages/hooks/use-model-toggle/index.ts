@@ -1,18 +1,24 @@
-import { computed, getCurrentInstance, watch, onMounted } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  watch,
+  onMounted,
+  type PropType
+} from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { isBoolean, definePropType, buildProp } from '@element-ultra/utils'
+import { isBoolean } from '@element-ultra/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'
 
-const _prop = buildProp({
-  type: definePropType<boolean | null>(Boolean),
-  default: null,
-} as const)
-const _event = buildProp({
-  type: definePropType<(val: boolean) => void>(Function),
-} as const)
+const _prop = {
+  type: Boolean as PropType<boolean | null>,
+  default: null
+}
+const _event = {
+  type: Function as PropType<(val: boolean) => void>
+}
 
 type _UseModelToggleProps<T extends string> = {
   [K in T]: typeof _prop
@@ -23,7 +29,7 @@ type _UseModelToggleProps<T extends string> = {
 export const createModelToggleComposable = <T extends string>(name: T) => {
   const useModelToggleProps = {
     [name]: _prop,
-    [`onUpdate:${name}`]: _event,
+    [`onUpdate:${name}`]: _event
   } as _UseModelToggleProps<T>
 
   const useModelToggleEmits = [`update:${name}`]
@@ -33,7 +39,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     shouldHideWhenRouteChanges,
     shouldProceed,
     onShow,
-    onHide,
+    onHide
   }: ModelToggleParams) => {
     const instance = getCurrentInstance()!
     const props = instance.props as _UseModelToggleProps<T> & {
@@ -141,7 +147,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
             instance.proxy as ComponentPublicInstance<{
               $route: RouteLocationNormalizedLoaded
             }>
-          ).$route,
+          ).$route
         }),
         () => {
           if (shouldHideWhenRouteChanges.value && indicator.value) {
@@ -158,14 +164,14 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     return {
       hide,
       show,
-      toggle,
+      toggle
     }
   }
 
   return {
     useModelToggle,
     useModelToggleProps,
-    useModelToggleEmits,
+    useModelToggleEmits
   }
 }
 

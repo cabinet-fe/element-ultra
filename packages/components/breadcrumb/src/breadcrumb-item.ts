@@ -1,18 +1,17 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import type BreadcrumbItem from './breadcrumb-item.vue'
 
-export const breadcrumbItemProps = buildProps({
+export const breadcrumbItemProps = {
   to: {
-    type: definePropType<RouteLocationRaw>([String, Object]),
-    default: '',
+    type: [String, Object] as PropType<RouteLocationRaw>,
+    default: ''
   },
   replace: {
     type: Boolean,
-    default: false,
-  },
-} as const)
+    default: false
+  }
+}
 export type BreadcrumbItemProps = ExtractPropTypes<typeof breadcrumbItemProps>
 
 export type BreadcrumbItemInstance = InstanceType<typeof BreadcrumbItem>

@@ -140,7 +140,6 @@ import {
   useLockscreen,
   useRestoreActive,
   usePreventGlobal,
-  useSize,
   useDraggable,
   useSameTarget,
   useZIndex
@@ -267,10 +266,7 @@ export default defineComponent({
       return type && TypeComponentsMap[type] ? `el-message-box-icon--${type}` : ''
     })
 
-    const btnSize = useSize(
-      computed(() => props.buttonSize),
-      { prop: true, form: true, formItem: true }
-    )
+    const btnSize = computed(() => props.buttonSize)
 
     const iconComponent = computed(() => state.icon || TypeComponentsMap[state.type] || '')
     const hasMessage = computed(() => !!state.message)

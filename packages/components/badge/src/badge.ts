@@ -1,24 +1,25 @@
-import { buildProps } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Badge from './badge.vue'
 
-export const badgeProps = buildProps({
+export const badgeProps = {
   value: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   max: {
     type: Number,
-    default: 99,
+    default: 99
   },
   isDot: Boolean,
   hidden: Boolean,
   type: {
-    type: String,
-    values: ['primary', 'success', 'warning', 'info', 'danger'],
-    default: 'danger',
-  },
-} as const)
+    type: String as PropType<
+      'primary' | 'success' | 'warning' | 'info' | 'danger'
+    >,
+
+    default: 'danger'
+  }
+}
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>
 
 export type BadgeInstance = InstanceType<typeof Badge>

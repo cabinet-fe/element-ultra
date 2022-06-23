@@ -9,6 +9,7 @@ import type { Nullable } from '@element-ultra/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
+import { SizeProp, type ComponentSize } from '@element-ultra/constants'
 
 export type DefaultRow = any
 
@@ -80,7 +81,7 @@ type CellStyle<T> =
 type Layout = 'fixed' | 'auto'
 interface TableProps<T> {
   data: T[]
-  size?: string
+  size?: ComponentSize
   width?: string | number
   height?: string | number
   maxHeight?: string | number
@@ -170,7 +171,7 @@ export default {
       return []
     },
   },
-  size: String,
+  size: SizeProp,
   width: [String, Number],
   height: [String, Number],
   maxHeight: [String, Number],

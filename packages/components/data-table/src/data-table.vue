@@ -1,7 +1,15 @@
 <template>
   <div :class="ns.b()">
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+
     <DataTableHeader />
+
     <DataTableBody />
+
     <DataTableFooter />
   </div>
 </template>
@@ -12,7 +20,7 @@ import DataTableHeader from './data-table-header.vue'
 import DataTableBody from './data-table-body.vue'
 import DataTableFooter from './data-table-footer.vue'
 import { dataTableProps } from './data-table'
-import { provide, toRefs } from 'vue'
+import { provide } from 'vue'
 import { dataTableToken } from './token'
 import { useColumns } from './hooks/useColumns'
 
@@ -28,6 +36,6 @@ const result = useColumns(props)
 // 依赖提供
 provide(dataTableToken, {
   ...result,
-  ...toRefs(props)
+  rootProps: props
 })
 </script>

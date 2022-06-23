@@ -108,7 +108,6 @@ import {
 } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import { isKorean } from '@element-ultra/utils'
 import { useAttrs, useDisabled, useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { inputProps, inputEmits } from './input'
@@ -133,7 +132,7 @@ const rawAttrs = useRawAttrs()
 const instance = getCurrentInstance()!
 
 const { formItem } = useFormItem()
-const inputSize = useSize()
+const inputSize = useSize({ props })
 const inputDisabled = useDisabled()
 const ns = useNamespace('input')
 
@@ -258,8 +257,7 @@ const handleCompositionStart = (event: CompositionEvent) => {
 const handleCompositionUpdate = (event: CompositionEvent) => {
   emit('compositionupdate', event)
   const text = (event.target as HTMLInputElement)?.value
-  const lastCharacter = text[text.length - 1] || ''
-  isComposing.value = !isKorean(lastCharacter)
+  isComposing.value = true
 }
 
 const handleCompositionEnd = (event: CompositionEvent) => {

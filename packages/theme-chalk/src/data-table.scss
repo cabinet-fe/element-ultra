@@ -1,6 +1,12 @@
 @use 'mixins/mixins' as *;
 
 @include b(data-table) {
+  background-color: #fff;
+
+  table {
+    width: 100%;
+  }
+
   @include e(header) {
     height: 40px;
     width: 100%;
@@ -13,17 +19,18 @@
   }
 
   @include e(header-cell) {
-    display: inline-block;
+
   }
+
 
   @include e(row) {
   }
 
   @include e(cell) {
-    display: inline-block;
     white-space: nowrap;
   }
 
   @include e(footer) {
+
   }
 }

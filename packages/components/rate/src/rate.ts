@@ -1,9 +1,6 @@
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import {
-  buildProps,
-  definePropType,
-  mutable,
   isValidComponentSize,
   iconPropType,
 } from '@element-ultra/utils'
@@ -11,7 +8,7 @@ import type { ComponentSize } from '@element-ultra/constants'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 import type Rate from './rate.vue'
 
-export const rateProps = buildProps({
+export const rateProps = {
   modelValue: {
     type: Number,
     default: 0,
@@ -29,13 +26,13 @@ export const rateProps = buildProps({
     default: 5,
   },
   colors: {
-    type: definePropType<string[] | Record<number, string>>([Array, Object]),
+    type: [Array, Object] as PropType<string[] | Record<number, string>>,
     default: () =>
-      mutable([
-        'var(--el-rate-star-color)',
-        'var(--el-rate-star-color)',
-        'var(--el-rate-star-color)',
-      ] as const),
+    [
+      'var(--el-rate-star-color)',
+      'var(--el-rate-star-color)',
+      'var(--el-rate-star-color)',
+    ],
   },
   voidColor: {
     type: String,
@@ -46,9 +43,9 @@ export const rateProps = buildProps({
     default: 'var(--el-rate-disable-void-color)',
   },
   icons: {
-    type: definePropType<
+    type: [Array, Object] as PropType<
       Array<string | Component> | Record<number, string | Component>
-    >([Array, Object]),
+    >,
     default: () => [StarFilled, StarFilled, StarFilled],
   },
   voidIcon: {
@@ -80,15 +77,15 @@ export const rateProps = buildProps({
     default: 'var(--el-rate-text-color)',
   },
   texts: {
-    type: definePropType<string[]>(Array),
+    type: Array as PropType<string[]>,
     default: () =>
-      mutable([
-        'Extremely bad',
-        'Disappointed',
-        'Fair',
-        'Satisfied',
-        'Surprise',
-      ] as const),
+    [
+      'Extremely bad',
+      'Disappointed',
+      'Fair',
+      'Satisfied',
+      'Surprise',
+    ],
   },
   scoreTemplate: {
     type: String,
@@ -98,7 +95,7 @@ export const rateProps = buildProps({
     type: String as PropType<ComponentSize>,
     validator: isValidComponentSize,
   },
-} as const)
+}
 
 export type RateProps = ExtractPropTypes<typeof rateProps>
 

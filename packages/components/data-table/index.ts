@@ -6,5 +6,7 @@ import DataTable from './src/data-table.vue'
   app.component(DataTable.name, DataTable)
 }
 
+export * from './src/data-table'
+
 export default DataTable
 export const ElDataTable = DataTable

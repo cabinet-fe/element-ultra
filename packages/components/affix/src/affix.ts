@@ -1,33 +1,32 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 import type Affix from './affix.vue'
 
-export const affixProps = buildProps({
+export const affixProps = {
   zIndex: {
-    type: definePropType<ZIndexProperty>([Number, String]),
-    default: 100,
+    type: [Number, String] as PropType<ZIndexProperty>,
+    default: 100
   },
   target: {
     type: String,
-    default: '',
+    default: ''
   },
   offset: {
     type: Number,
-    default: 0,
+    default: 0
   },
   position: {
     type: String,
     values: ['top', 'bottom'],
-    default: 'top',
-  },
-} as const)
+    default: 'top'
+  }
+}
 export type AffixProps = ExtractPropTypes<typeof affixProps>
 
 export const affixEmits = {
   scroll: ({ scrollTop, fixed }: { scrollTop: number; fixed: boolean }) =>
     typeof scrollTop === 'number' && typeof fixed === 'boolean',
-  change: (fixed: boolean) => typeof fixed === 'boolean',
+  change: (fixed: boolean) => typeof fixed === 'boolean'
 }
 export type AffixEmits = typeof affixEmits
 

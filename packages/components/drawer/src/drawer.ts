@@ -1,27 +1,26 @@
-import { buildProps } from '@element-ultra/utils'
 import { dialogProps, dialogEmits } from '@element-ultra/components/dialog'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
-export const drawerProps = buildProps({
+export const drawerProps = {
   ...dialogProps,
   direction: {
-    type: String,
-    default: 'rtl',
-    values: ['ltr', 'rtl', 'ttb', 'btt'],
+    type: String as PropType<'ltr' | 'rtl' | 'ttb' | 'btt'>,
+
+    default: 'rtl'
   },
   size: {
     type: [String, Number],
-    default: '30%',
+    default: '30%'
   },
   withHeader: {
     type: Boolean,
-    default: true,
+    default: true
   },
   modalFade: {
     type: Boolean,
-    default: true,
-  },
-} as const)
+    default: true
+  }
+}
 
 export type DrawerProps = ExtractPropTypes<typeof drawerProps>
 

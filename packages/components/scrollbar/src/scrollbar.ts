@@ -1,47 +1,47 @@
-import { buildProps, definePropType, isNumber } from '@element-ultra/utils'
-import type { StyleValue, ExtractPropTypes } from 'vue'
+import { isNumber } from '@element-ultra/utils'
+import type { StyleValue, ExtractPropTypes, PropType } from 'vue'
 
-export const scrollbarProps = buildProps({
+export const scrollbarProps = {
   height: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   maxHeight: {
     type: [String, Number],
-    default: '',
+    default: ''
   },
   native: {
     type: Boolean,
-    default: false,
+    default: false
   },
   wrapStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
-    default: '',
+    type: [String, Object, Array] as PropType<StyleValue>,
+    default: ''
   },
   wrapClass: {
     type: [String, Array],
-    default: '',
+    default: ''
   },
   viewClass: {
     type: [String, Array],
-    default: '',
+    default: ''
   },
   viewStyle: {
     type: [String, Array],
-    default: '',
+    default: ''
   },
   noresize: Boolean, // 如果 container 尺寸不会发生变化，最好设置它可以优化性能
   tag: {
     type: String,
-    default: 'div',
+    default: 'div'
   },
   always: {
     type: Boolean,
-    default: false,
+    default: false
   },
   minSize: {
     type: Number,
-    default: 20,
+    default: 20
   },
   barZIndex: {
     type: Number
@@ -50,17 +50,17 @@ export const scrollbarProps = buildProps({
     type: Boolean,
     default: true
   }
-} as const)
+}
 
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 
 export const scrollbarEmits = {
   scroll: ({
     scrollTop,
-    scrollLeft,
+    scrollLeft
   }: {
     scrollTop: number
     scrollLeft: number
-  }) => isNumber(scrollTop) && isNumber(scrollLeft),
+  }) => isNumber(scrollTop) && isNumber(scrollLeft)
 }
 export type ScrollbarEmits = typeof scrollbarEmits

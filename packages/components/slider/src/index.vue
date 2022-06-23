@@ -195,7 +195,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT],
 
   setup(props, { emit }) {
-    
+
     const ns = useNamespace('slider')
     const initData = reactive({
       firstValue: 0,
@@ -229,7 +229,7 @@ export default defineComponent({
       maxValue
     )
 
-    const sliderWrapperSize = useSize()
+    const sliderWrapperSize = useSize({ props })
     const sliderInputSize = computed(
       () => props.inputSize || sliderWrapperSize.value
     )

@@ -159,7 +159,7 @@ export default defineComponent({
       }
       return displayedRgb(color, props.showAlpha)
     })
-    const colorSize = useSize()
+    const colorSize = useSize({ props })
     const colorDisabled = computed(() => {
       return !!(props.disabled || form?.props.disabled)
     })

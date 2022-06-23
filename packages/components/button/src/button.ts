@@ -1,4 +1,4 @@
-import { useSizeProp } from '@element-ultra/hooks'
+import { SizeProp } from '@element-ultra/constants'
 import { Loading } from '@element-plus/icons-vue'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 import type button from './button.vue'
@@ -6,11 +6,10 @@ import type button from './button.vue'
 export type ButtonTypes = 'default' | 'primary' | 'success' | 'warning' | 'info' | 'danger'
 
 export const buttonProps = {
-  size: useSizeProp,
+  size: SizeProp,
   disabled: Boolean,
   type: {
     type: String as PropType<ButtonTypes>,
-    default: 'default'
   },
   text: Boolean,
   icon: {
@@ -27,7 +26,7 @@ export const buttonProps = {
   round: Boolean,
   circle: Boolean,
   color: String
-} as const
+}
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent
 }

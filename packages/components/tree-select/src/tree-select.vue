@@ -213,7 +213,6 @@ const {
   dropdownRef,
   position,
   treeSelectRef,
-  hasRendered,
   treeVisible,
   clearable,
   handleMouseEnter,
@@ -241,7 +240,7 @@ onMounted(() => {
   setTreeChecked()
 })
 
-const inputSize = useSize()
+const inputSize = useSize({ props })
 const treeSelectDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
 

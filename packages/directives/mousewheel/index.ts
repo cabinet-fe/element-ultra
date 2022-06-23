@@ -2,16 +2,17 @@ import normalizeWheel from 'normalize-wheel-es'
 import { isFirefox } from '@element-ultra/utils'
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 
-const mousewheel = function (element, callback) {
+const mousewheel = function (element: HTMLElement, callback) {
   if (element && element.addEventListener) {
     const fn = function (this: any, event) {
       const normalized = normalizeWheel(event)
+      console.log(normalized)
       callback && callback.apply(this, [event, normalized])
     }
     if (isFirefox()) {
       element.addEventListener('DOMMouseScroll', fn)
     } else {
-      element.onmousewheel = fn
+      element.addEventListener('wheel', fn)
     }
   }
 }

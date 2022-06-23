@@ -1,6 +1,6 @@
-import { iconPropType, buildProps } from '@element-ultra/utils'
+import { iconPropType } from '@element-ultra/utils'
 
-export const dialogContentProps = buildProps({
+export const dialogContentProps = {
   center: {
     type: Boolean,
     default: false
@@ -25,4 +25,4 @@ export const dialogContentProps = buildProps({
     type: String,
     default: ''
   }
-} as const)
+}

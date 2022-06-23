@@ -6,7 +6,7 @@ import {
   type VNodeNormalizedChildren,
   shallowRef,
   provide,
-nextTick
+  nextTick
 } from 'vue'
 import { actionGroupProps } from './type'
 import { actionGroupToken } from './token'

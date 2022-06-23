@@ -447,7 +447,7 @@ export default defineComponent({
       return props.type.indexOf('range') > -1
     })
 
-    const pickerSize = useSize()
+    const pickerSize = useSize({ props })
 
     const popperPaneRef = computed(() => {
       return refPopper.value?.popperRef?.contentRef

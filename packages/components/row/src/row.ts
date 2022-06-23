@@ -1,9 +1,8 @@
 import { defineComponent, computed, h, provide } from 'vue'
-import { buildProps } from '@element-ultra/utils'
 import { useNamespace } from '@element-ultra/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
-export const rowProps = buildProps({
+export const rowProps = {
   tag: {
     type: String,
     default: 'div',
@@ -22,7 +21,7 @@ export const rowProps = buildProps({
     values: ['top', 'middle', 'bottom'],
     default: 'top',
   },
-} as const)
+}
 export type RowProps = ExtractPropTypes<typeof rowProps>
 
 const Row = defineComponent({

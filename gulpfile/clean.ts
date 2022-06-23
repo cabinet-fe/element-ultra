@@ -1,5 +1,5 @@
 import del from 'del'
-import { existsSync, mkdirSync } from 'fs'
+import { existsSync, mkdirSync,  } from 'fs'
 import { resolve } from 'path'
 import { cwd } from 'process'
 

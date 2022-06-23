@@ -1,5 +1,5 @@
-import { h, ref, provide, computed, defineComponent, getCurrentInstance, watch } from 'vue'
-import { debugWarn, buildProps, definePropType, mutable } from '@element-ultra/utils'
+import { h, ref, provide, computed, defineComponent, getCurrentInstance, watch, type PropType } from 'vue'
+import { debugWarn,  mutable } from '@element-ultra/utils'
 import { useNamespace } from '@element-ultra/hooks'
 import { elPaginationKey } from '@element-ultra/tokens'
 
@@ -21,7 +21,7 @@ const isAbsent = (v: unknown): v is undefined => typeof v !== 'number'
 
 type LayoutKey = 'prev' | 'pager' | 'next' | 'jumper' | '->' | 'total' | 'sizes' | 'slot'
 
-export const paginationProps = buildProps({
+export const paginationProps = {
   total: Number,
   pageSize: Number,
   defaultPageSize: Number,
@@ -46,8 +46,8 @@ export const paginationProps = buildProps({
     default: (['prev', 'pager', 'next', 'jumper', '->', 'total'] as LayoutKey[]).join(', ')
   },
   pageSizes: {
-    type: definePropType<number[]>(Array),
-    default: () => mutable([10, 20, 30, 40, 50, 100] as const)
+    type: Array as PropType<number[]>,
+    default: () => [10, 20, 30, 40, 50, 100]
   },
   popperClass: {
     type: String,
@@ -65,7 +65,7 @@ export const paginationProps = buildProps({
   background: Boolean,
   disabled: Boolean,
   hideOnSinglePage: Boolean
-} as const)
+}
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
 export const paginationEmits = {

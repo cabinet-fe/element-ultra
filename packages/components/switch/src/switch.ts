@@ -1,101 +1,99 @@
 import {
-  buildProps,
-  definePropType,
   iconPropType,
   isBoolean,
   isNumber,
   isString,
-  isValidComponentSize,
+  isValidComponentSize
 } from '@element-ultra/utils'
 import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
-  FORM_COMPONENT_PROPS,
+  FORM_COMPONENT_PROPS
 } from '@element-ultra/constants'
 import type { ComponentSize } from '@element-ultra/constants'
 import type Switch from './switch.vue'
 import type { ExtractPropTypes, PropType } from 'vue'
 
-export const switchProps = buildProps({
+export const switchProps = {
   ...FORM_COMPONENT_PROPS,
   modelValue: {
     type: [Boolean, String, Number],
-    default: false,
+    default: false
   },
   value: {
     type: [Boolean, String, Number],
-    default: false,
+    default: false
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: false
   },
   width: {
     type: Number,
-    default: 40,
+    default: 40
   },
   inlinePrompt: {
     type: Boolean,
-    default: false,
+    default: false
   },
   activeIcon: {
     type: iconPropType,
-    default: '',
+    default: ''
   },
   inactiveIcon: {
     type: iconPropType,
-    default: '',
+    default: ''
   },
   activeText: {
     type: String,
-    default: '',
+    default: ''
   },
   inactiveText: {
     type: String,
-    default: '',
+    default: ''
   },
   activeColor: {
     type: String,
-    default: '',
+    default: ''
   },
   inactiveColor: {
     type: String,
-    default: '',
+    default: ''
   },
   borderColor: {
     type: String,
-    default: '',
+    default: ''
   },
   activeValue: {
     type: [Boolean, String, Number],
-    default: true,
+    default: true
   },
   inactiveValue: {
     type: [Boolean, String, Number],
-    default: false,
+    default: false
   },
   name: {
     type: String,
-    default: '',
+    default: ''
   },
   validateEvent: {
     type: Boolean,
-    default: true,
+    default: true
   },
   id: String,
   loading: {
     type: Boolean,
-    default: false,
+    default: false
   },
   beforeChange: {
-    type: definePropType<() => Promise<boolean> | boolean>(Function),
+    type: Function as PropType<() => Promise<boolean> | boolean>
   },
   size: {
     type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
-} as const)
+    validator: isValidComponentSize
+  }
+}
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
 
@@ -105,7 +103,7 @@ export const switchEmits = {
   [CHANGE_EVENT]: (val: boolean | string | number) =>
     isBoolean(val) || isString(val) || isNumber(val),
   [INPUT_EVENT]: (val: boolean | string | number) =>
-    isBoolean(val) || isString(val) || isNumber(val),
+    isBoolean(val) || isString(val) || isNumber(val)
 }
 export type SwitchEmits = typeof switchEmits
 

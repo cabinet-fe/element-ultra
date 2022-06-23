@@ -166,7 +166,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const optionsAllDisabled = computed(() => filteredOptions.value.every(option => option.disabled))
 
-  const selectSize = useSize()
+  const selectSize = useSize({ props })
 
   const collapseTagSize = computed(() => ('small' === selectSize.value ? 'small' : 'default'))
 

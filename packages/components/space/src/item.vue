@@ -6,15 +6,14 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { buildProps } from '@element-ultra/utils'
 import { useNamespace } from '@element-ultra/hooks'
 
-const spaceItem = buildProps({
+const spaceItem = {
   prefixCls: {
     type: String,
-    default: '',
-  },
-} as const)
+    default: ''
+  }
+}
 
 export default defineComponent({
   props: spaceItem,
@@ -25,8 +24,8 @@ export default defineComponent({
     const classes = computed(() => `${props.prefixCls || ns.b()}__item`)
 
     return {
-      classes,
+      classes
     }
-  },
+  }
 })
 </script>

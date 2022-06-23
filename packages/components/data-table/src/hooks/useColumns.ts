@@ -36,6 +36,7 @@ export function useColumns(props: DataTableProps) {
       }
     }
 
+    console.log(result)
     return result
   })
 

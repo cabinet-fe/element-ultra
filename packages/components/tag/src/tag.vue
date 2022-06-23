@@ -45,7 +45,7 @@ export default defineComponent({
   emits: tagEmits,
 
   setup(props, { emit }) {
-    const tagSize = useSize()
+    const tagSize = useSize({ props })
     const ns = useNamespace('tag')
     const classes = computed(() => {
       const { type, hit, effect, closable } = props

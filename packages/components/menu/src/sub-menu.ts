@@ -17,7 +17,7 @@ import {
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-ultra/components/collapse-transition'
 import ElTooltip from '@element-ultra/components/tooltip'
-import { buildProps, throwError } from '@element-ultra/utils'
+import { throwError } from '@element-ultra/utils'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import useMenu from './use-menu'
@@ -27,7 +27,7 @@ import type { Placement } from '@element-ultra/components/popper'
 import type { ExtractPropTypes, VNodeArrayChildren, CSSProperties } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
-export const subMenuProps = buildProps({
+export const subMenuProps = {
   index: {
     type: String,
     required: true,
@@ -50,7 +50,7 @@ export const subMenuProps = buildProps({
     type: Number,
     default: 6,
   },
-} as const)
+}
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 
 const COMPONENT_NAME = 'ElSubMenu'

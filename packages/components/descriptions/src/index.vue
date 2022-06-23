@@ -68,7 +68,7 @@ export default defineComponent({
   setup(props, { slots }) {
     provide(elDescriptionsKey, props)
 
-    const descriptionsSize = useSize()
+    const descriptionsSize = useSize({ props })
     const ns = useNamespace('descriptions')
 
     const descriptionKls = computed(() => [

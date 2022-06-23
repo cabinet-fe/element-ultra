@@ -1,11 +1,11 @@
-import { buildProps } from '@element-ultra/utils'
+
 import {
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-ultra/components/tooltip'
 import { dropdownProps } from '@element-ultra/components/dropdown'
 
-export const usePopoverProps = buildProps({
+export const usePopoverProps = {
   trigger: useTooltipTriggerProps.trigger,
   placement: dropdownProps.placement,
   disabled: useTooltipTriggerProps.disabled,
@@ -56,4 +56,4 @@ export const usePopoverProps = buildProps({
     type: Boolean,
     default: true,
   },
-} as const)
+}

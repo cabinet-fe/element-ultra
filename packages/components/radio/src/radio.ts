@@ -1,14 +1,15 @@
 import { ref, computed, inject, type PropType } from 'vue'
-import { UPDATE_MODEL_EVENT, FORM_COMPONENT_PROPS } from '@element-ultra/constants'
+import { UPDATE_MODEL_EVENT, FORM_COMPONENT_PROPS, SizeProp } from '@element-ultra/constants'
 import { radioGroupKey } from '@element-ultra/tokens'
-import { useDisabled, useSize, useSizeProp } from '@element-ultra/hooks'
+import { useDisabled, useSize,  } from '@element-ultra/hooks'
+
 import type { ExtractPropTypes, SetupContext } from 'vue'
 import type { EmitFn } from '@element-ultra/utils'
 
 export const radioPropsBase = {
   ...FORM_COMPONENT_PROPS,
 
-  size: useSizeProp,
+  size: SizeProp,
 
   disabled: {
     type: Boolean
@@ -17,7 +18,7 @@ export const radioPropsBase = {
     type: [String, Number, Boolean] as PropType<string | number | boolean>,
     default: ''
   },
- 
+
 }
 
 export const radioProps = {
@@ -61,7 +62,10 @@ export const useRadio = (props: Pick<Partial<RadioProps>, 'value' | 'modelValue'
     }
   })
 
-  const size = useSize(computed(() => radioGroup?.size))
+  const size = useSize({
+    props,
+    fallback: computed(() => radioGroup?.size)
+  })
   const disabled = useDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
 

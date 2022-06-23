@@ -9,11 +9,9 @@ import {
   h,
   reactive,
   nextTick,
+  type PropType,
 } from 'vue'
 import {
-  buildProps,
-  definePropType,
-  mutable,
   isString,
   isObject,
 } from '@element-ultra/utils'
@@ -24,14 +22,14 @@ import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
 
-export const menuProps = buildProps({
+export const menuProps = {
   defaultActive: {
     type: String,
     default: '',
   },
   defaultOpeneds: {
-    type: definePropType<string[]>(Array),
-    default: () => mutable([] as const),
+    type: Array as PropType<string[]>,
+    default: () => [],
   },
   uniqueOpened: Boolean,
   router: Boolean,
@@ -47,7 +45,7 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
-} as const)
+}
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>

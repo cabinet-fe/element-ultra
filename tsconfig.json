@@ -13,9 +13,7 @@
     // "noErrorTruncation": true
   },
   "references": [
-    { "path": "./tsconfig.vite-config.json" },
-    { "path": "./tsconfig.jest.json" },
-    { "path": "./tsconfig.vitest.json" }
+    { "path": "./tsconfig.vite-config.json" }
   ],
   "include": ["packages", "typings"],
   "exclude": ["node_modules", "**/dist", "**/__tests__/**/*"]

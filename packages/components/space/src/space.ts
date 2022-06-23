@@ -4,16 +4,15 @@ import {
   createVNode,
   createTextVNode,
   isVNode,
+  type PropType
 } from 'vue'
 import { isString } from '@vue/shared'
 import {
   PatchFlags,
   isFragment,
   isValidElementNode,
-  buildProps,
-  definePropType,
   isArray,
-  isNumber,
+  isNumber
 } from '@element-ultra/utils'
 import { componentSizes } from '@element-ultra/constants'
 import Item from './item.vue'
@@ -22,55 +21,52 @@ import { useSpace } from './use-space'
 import type { VNode, StyleValue, ExtractPropTypes, VNodeChild } from 'vue'
 import type { AlignItemsProperty } from 'csstype'
 
-export const spaceProps = buildProps({
+export const spaceProps = {
   direction: {
-    type: String,
-    values: ['horizontal', 'vertical'],
-    default: 'horizontal',
+    type: String as PropType<'horizontal' | 'vertical'>,
+    default: 'horizontal'
   },
 
   class: {
-    type: definePropType<string | string[] | Record<string, boolean>>([
-      String,
-      Object,
-      Array,
-    ]),
-    default: '',
+    type: [String, Object, Array] as PropType<
+      string | string[] | Record<string, boolean>
+    >,
+    default: ''
   },
 
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
-    default: '',
+    type: [String, Array, Object] as PropType<StyleValue>,
+    default: ''
   },
 
   alignment: {
-    type: definePropType<AlignItemsProperty>(String),
-    default: 'center',
+    type: String as PropType<AlignItemsProperty>,
+    default: 'center'
   },
 
   prefixCls: {
-    type: String,
+    type: String
   },
 
   spacer: {
-    type: definePropType<VNodeChild>([Object, String, Number, Array]),
+    type: [Object, String, Number, Array] as PropType<VNodeChild>,
     default: null,
-    validator: (val: unknown) => isVNode(val) || isNumber(val) || isString(val),
+    validator: (val: unknown) => isVNode(val) || isNumber(val) || isString(val)
   },
 
   wrap: {
     type: Boolean,
-    default: false,
+    default: false
   },
 
   fill: {
     type: Boolean,
-    default: false,
+    default: false
   },
 
   fillRatio: {
     type: Number,
-    default: 100,
+    default: 100
   },
 
   size: {
@@ -79,11 +75,11 @@ export const spaceProps = buildProps({
     validator: (val: unknown): val is [number, number] | number => {
       return (
         isNumber(val) ||
-        (isArray(val) && val.length === 2 && val.every((i) => isNumber(i)))
+        (isArray(val) && val.length === 2 && val.every(i => isNumber(i)))
       )
-    },
-  },
-} as const)
+    }
+  }
+}
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 
 export default defineComponent({
@@ -117,10 +113,10 @@ export default defineComponent({
                     {
                       style: itemStyle.value,
                       prefixCls,
-                      key: `nested-${key}`,
+                      key: `nested-${key}`
                     },
                     {
-                      default: () => [nested],
+                      default: () => [nested]
                     },
                     PatchFlags.PROPS | PatchFlags.STYLE,
                     ['style', 'prefixCls']
@@ -137,10 +133,10 @@ export default defineComponent({
                 {
                   style: itemStyle.value,
                   prefixCls,
-                  key: `LoopKey${loopKey}`,
+                  key: `LoopKey${loopKey}`
                 },
                 {
-                  default: () => [child],
+                  default: () => [child]
                 },
                 PatchFlags.PROPS | PatchFlags.STYLE,
                 ['style', 'prefixCls']
@@ -167,9 +163,9 @@ export default defineComponent({
                     {
                       style: [
                         itemStyle.value,
-                        direction === 'vertical' ? 'width: 100%' : null,
+                        direction === 'vertical' ? 'width: 100%' : null
                       ],
-                      key: idx,
+                      key: idx
                     },
                     [
                       // if spacer is already a valid vnode, then append it to the current
@@ -177,7 +173,7 @@ export default defineComponent({
                       // otherwise, treat it as string.
                       isVNode(spacer)
                         ? spacer
-                        : createTextVNode(spacer as string, PatchFlags.TEXT),
+                        : createTextVNode(spacer as string, PatchFlags.TEXT)
                     ],
                     PatchFlags.STYLE
                   )
@@ -194,7 +190,7 @@ export default defineComponent({
           'div',
           {
             class: classes.value,
-            style: containerStyle.value,
+            style: containerStyle.value
           },
           extractedChildren,
           PatchFlags.STYLE | PatchFlags.CLASS
@@ -203,5 +199,5 @@ export default defineComponent({
 
       return children.children
     }
-  },
+  }
 })

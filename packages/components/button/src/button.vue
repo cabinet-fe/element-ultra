@@ -32,11 +32,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, inject, ref, toRef } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import {
   useDisabled,
-  useFormItem,
   useNamespace,
   useSize,
 } from '@element-ultra/hooks'
@@ -52,8 +51,11 @@ const emit = defineEmits(buttonEmits)
 
 const buttonGroupContext = inject(buttonGroupContextKey, undefined)
 const ns = useNamespace('button')
-const { form } = useFormItem()
-const _size = useSize(computed(() => buttonGroupContext?.size))
+
+const _size = useSize({
+  props,
+  fallback: buttonGroupContext ? toRef(buttonGroupContext, 'size') : undefined
+})
 
 const _disabled = useDisabled()
 const _ref = ref<HTMLButtonElement>()

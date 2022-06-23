@@ -1,58 +1,54 @@
-import {
-  buildProps,
-  definePropType,
-  mutable,
-  isNumber,
-} from '@element-ultra/utils'
+import { isNumber } from '@element-ultra/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
-export const imageProps = buildProps({
+export const imageProps = {
   appendToBody: {
     type: Boolean,
-    default: undefined,
+    default: undefined
   },
   hideOnClickModal: {
     type: Boolean,
-    default: false,
+    default: false
   },
   src: {
     type: String,
-    default: '',
+    default: ''
   },
   fit: {
-    type: String,
-    values: ['', 'contain', 'cover', 'fill', 'none', 'scale-down'],
-    default: '',
+    type: String as PropType<
+      '' | 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
+    >,
+    default: ''
   },
   lazy: {
     type: Boolean,
-    default: false,
+    default: false
   },
   scrollContainer: {
-    type: definePropType<string | HTMLElement | undefined>([String, Object]),
+    type: [String, Object] as PropType<string | HTMLElement | undefined>
   },
   previewSrcList: {
-    type: definePropType<string[]>(Array),
-    default: () => mutable([] as const),
+    type: Array as PropType<string[]>,
+    default: () => []
   },
   previewTeleported: {
     type: Boolean,
-    default: false,
+    default: false
   },
   zIndex: {
-    type: Number,
+    type: Number
   },
   initialIndex: {
     type: Number,
-    default: 0,
-  },
-} as const)
+    default: 0
+  }
+}
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 
 export const imageEmits = {
   error: (evt: Event) => evt instanceof Event,
   switch: (val: number) => isNumber(val),
-  close: () => true,
+  close: () => true
 }
 export type ImageEmits = typeof imageEmits

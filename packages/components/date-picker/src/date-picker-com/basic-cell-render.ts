@@ -1,13 +1,12 @@
-import { h, defineComponent, inject } from 'vue'
-import { buildProps, definePropType } from '@element-ultra/utils'
+import { h, defineComponent, inject, type PropType } from 'vue'
 import { ROOT_PICKER_INJECTION_KEY } from '../date-picker.type'
 import type { DateCell } from '../date-picker.type'
 
 export default defineComponent({
   name: 'ElDatePickerCell',
-  props: buildProps({
+  props: ({
     cell: {
-      type: definePropType<DateCell>(Object),
+      type:Object as  PropType<DateCell>,
     },
   }),
   setup(props) {

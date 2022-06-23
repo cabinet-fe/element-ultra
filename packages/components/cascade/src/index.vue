@@ -188,7 +188,6 @@ import {
   addResizeListener,
   removeResizeListener,
   isValidComponentSize,
-  isKorean,
 } from '@element-ultra/utils'
 import {
   EVENT_CODE,
@@ -338,9 +337,11 @@ export default defineComponent({
     const suggestions: Ref<CascadeNode[]> = ref([])
     const isOnComposition = ref(false)
 
-    const isDisabled = computed(() => props.disabled || form?.disabled)
+    const isDisabled = computed(() => props.disabled || form?.props.disabled)
 
-    const realSize = useSize()
+    const realSize = useSize({
+      props
+    })
     const tagSize = computed(() =>
       ['small'].includes(realSize.value) ? 'small' : 'default'
     )
@@ -546,8 +547,7 @@ export default defineComponent({
         isOnComposition.value = false
         nextTick(() => handleInput(text))
       } else {
-        const lastCharacter = text[text.length - 1] || ''
-        isOnComposition.value = !isKorean(lastCharacter)
+        isOnComposition.value = true
       }
     }
 

@@ -1,5 +1,5 @@
-import { buildProps, definePropType, iconPropType } from '@element-ultra/utils'
-import type { VNode, ExtractPropTypes } from 'vue'
+import { iconPropType } from '@element-ultra/utils'
+import type { VNode, ExtractPropTypes, PropType } from 'vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
 
@@ -7,69 +7,69 @@ export interface MessageConfigContext {
   max?: number
 }
 
-export const messageProps = buildProps({
+export const messageProps = {
   customClass: {
     type: String,
-    default: '',
+    default: ''
   },
   center: {
     type: Boolean,
-    default: false,
+    default: false
   },
   dangerouslyUseHTMLString: {
     type: Boolean,
-    default: false,
+    default: false
   },
   duration: {
     type: Number,
-    default: 3000,
+    default: 3000
   },
   icon: {
     type: iconPropType,
-    default: '',
+    default: ''
   },
   id: {
     type: String,
-    default: '',
+    default: ''
   },
   message: {
-    type: definePropType<string | VNode>([String, Object]),
-    default: '',
+    type: [String, Object] as PropType<string | VNode>,
+    default: ''
   },
   onClose: {
-    type: definePropType<() => void>(Function),
-    required: false,
+    type: Function as PropType<() => void>,
+    required: false
   },
   showClose: {
     type: Boolean,
-    default: false,
+    default: false
   },
   type: {
     type: String,
     values: messageTypes,
-    default: 'info',
+    default: 'info'
   },
   offset: {
     type: Number,
-    default: 20,
+    default: 20
   },
   zIndex: {
     type: Number,
-    default: 0,
+    default: 0
   },
   grouping: {
     type: Boolean,
-    default: false,
+    default: false
   },
   repeatNum: {
     type: Number,
-    default: 1,
-  },
-} as const)
+    default: 1
+  }
+}
 export type MessageProps = ExtractPropTypes<typeof messageProps>
 
 export const messageEmits = {
-  destroy: () => true,
+  destroy: () => true
 }
 export type MessageEmits = typeof messageEmits
 

@@ -1,6 +1,5 @@
 import { ref } from 'vue'
 import { isFunction } from '@vue/shared'
-import { isKorean } from '@element-ultra/utils'
 
 export function useInput(handleInput: (event: InputEvent) => void) {
   const isComposing = ref(false)
@@ -11,8 +10,7 @@ export function useInput(handleInput: (event: InputEvent) => void) {
 
   const handleCompositionUpdate = (event) => {
     const text = event.target.value
-    const lastCharacter = text[text.length - 1] || ''
-    isComposing.value = !isKorean(lastCharacter)
+    isComposing.value = true
   }
 
   const handleCompositionEnd = (event) => {

@@ -45,15 +45,12 @@
     "lodash-unified": "^1.0.1",
     "memoize-one": "^6.0.0",
     "sortablejs": "^1.15.0",
-    "normalize-wheel-es": "^1.1.1",
-    "@wangeditor/editor": "^5.0.0"
+    "normalize-wheel-es": "^1.1.2",
+    "@wangeditor/editor": "^5.1.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",
-    "@types/lodash-es": "^4.17.6",
-    "@types/node": "*",
-    "csstype": "^2.6.19",
-    "vue-router": "^4.0.14"
+    "@types/lodash-es": "^4.17.6"
   },
   "vetur": {
     "tags": "tags.json",

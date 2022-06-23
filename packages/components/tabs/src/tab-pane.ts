@@ -1,7 +1,6 @@
-import { buildProps } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 
-export const tabPaneProps = buildProps({
+export const tabPaneProps = {
   label: {
     type: String,
     default: '',
@@ -13,6 +12,6 @@ export const tabPaneProps = buildProps({
   closable: Boolean,
   disabled: Boolean,
   lazy: Boolean,
-} as const)
+}
 
 export type TabPaneProps = ExtractPropTypes<typeof tabPaneProps>

@@ -1,78 +1,76 @@
-import { buildProps, definePropType } from '@element-ultra/utils'
-
-import type { VNode, ExtractPropTypes } from 'vue'
+import type { VNode, ExtractPropTypes, PropType } from 'vue'
 
 export const notificationTypes = [
   'success',
   'info',
   'warning',
-  'error',
+  'error'
 ] as const
 
-export const notificationProps = buildProps({
+export const notificationProps = {
   customClass: {
     type: String,
-    default: '',
+    default: ''
   },
   dangerouslyUseHTMLString: {
     type: Boolean,
-    default: false,
+    default: false
   },
   duration: {
     type: Number,
-    default: 4500,
+    default: 4500
   },
   icon: {
-    type: definePropType<string | Comment>([String, Object]),
-    default: '',
+    type: [String, Object] as PropType<string | Comment>,
+    default: ''
   },
   id: {
     type: String,
-    default: '',
+    default: ''
   },
   message: {
-    type: definePropType<string | VNode>([String, Object]),
-    default: '',
+    type: [String, Object] as PropType<string | VNode>,
+    default: ''
   },
   offset: {
     type: Number,
-    default: 0,
+    default: 0
   },
   onClick: {
-    type: definePropType<() => void>(Function),
-    default: () => undefined,
+    type: Function as PropType<() => void>,
+    default: () => undefined
   },
   onClose: {
-    type: definePropType<() => void>(Function),
-    required: true,
+    type: Function as PropType<() => void>,
+    required: true
   },
   position: {
     type: String,
     values: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
-    default: 'top-right',
+    default: 'top-right'
   },
   showClose: {
     type: Boolean,
-    default: true,
+    default: true
   },
   title: {
     type: String,
-    default: '',
+    default: ''
   },
   type: {
     type: String,
     values: [...notificationTypes, ''],
-    default: '',
+    default: ''
   },
   zIndex: {
     type: Number,
-    default: 0,
-  },
-} as const)
+    default: 0
+  }
+}
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
 
 export const notificationEmits = {
-  destroy: () => true,
+  destroy: () => true
 }
 export type NotificationEmits = typeof notificationEmits
 

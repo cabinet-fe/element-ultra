@@ -52,7 +52,7 @@ import {
 import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-ultra/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import { isObject, isKorean } from '@element-ultra/utils'
+import { isObject } from '@element-ultra/utils'
 import {
   useAttrs,
   useDisabled,
@@ -197,9 +197,7 @@ export default defineComponent({
 
     const handleCompositionUpdate = (event: CompositionEvent) => {
       emit('compositionupdate', event)
-      const text = (event.target as HTMLInputElement)?.value
-      const lastCharacter = text[text.length - 1] || ''
-      isComposing.value = !isKorean(lastCharacter)
+      isComposing.value = true
     }
 
     const handleCompositionEnd = (event: CompositionEvent) => {
