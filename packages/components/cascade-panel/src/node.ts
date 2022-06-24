@@ -11,7 +11,7 @@ export type CascadeValue =
 export type CascadeConfig = Required<CascadeProps>
 export enum ExpandTrigger {
   CLICK = 'click',
-  HOVER = 'hover',
+  HOVER = 'hover'
 }
 export type isDisabled = (data: CascadeOption, node: Node) => boolean
 export type isLeaf = (data: CascadeOption, node: Node) => boolean
@@ -19,7 +19,7 @@ export type Resolve = (dataList?: CascadeOption[]) => void
 export type LazyLoad = (node: Node, resolve: Resolve) => void
 export type RenderLabel = ({
   node: Node,
-  data: CascadeOption,
+  data: CascadeOption
 }) => VNode | VNode[]
 export interface CascadeOption extends Record<string, unknown> {
   label?: string
@@ -94,11 +94,11 @@ class Node {
     this.value = data[valueKey] as CascadeNodeValue
     this.label = data[labelKey] as string
     this.pathNodes = pathNodes
-    this.pathValues = pathNodes.map((node) => node.value)
-    this.pathLabels = pathNodes.map((node) => node.label)
+    this.pathValues = pathNodes.map(node => node.value)
+    this.pathLabels = pathNodes.map(node => node.label)
     this.childrenData = childrenData
     this.children = (childrenData || []).map(
-      (child) => new Node(child, config, this)
+      child => new Node(child, config, this)
     )
     this.loaded = !config.lazy || this.isLeaf || !isEmpty(childrenData)
   }
@@ -127,6 +127,14 @@ class Node {
   get valueByOption() {
     return this.config.emitPath ? this.pathValues : this.value
   }
+  get labelByOption() {
+    return this.config.emitPath ? this.pathLabels : this.label
+  }
+  get nodeByOption() {
+    return this.config.emitPath
+      ? this.pathNodes.map(node => node.data)
+      : this.data
+  }
 
   appendChild(childData: CascadeOption) {
     const { childrenData, children } = this
@@ -151,7 +159,7 @@ class Node {
 
   broadcast(event: string, ...args: unknown[]) {
     const handlerName = `onParent${capitalize(event)}`
-    this.children.forEach((child) => {
+    this.children.forEach(child => {
       if (child) {
         // bottom up
         child.broadcast(event, ...args)
@@ -177,9 +185,9 @@ class Node {
 
   onChildCheck() {
     const { children } = this
-    const validChildren = children.filter((child) => !child.isDisabled)
+    const validChildren = children.filter(child => !child.isDisabled)
     const checked = validChildren.length
-      ? validChildren.every((child) => child.checked)
+      ? validChildren.every(child => child.checked)
       : false
 
     this.setCheckState(checked)
@@ -194,7 +202,7 @@ class Node {
 
     this.checked =
       this.loaded &&
-      this.children.every((child) => child.loaded && child.checked) &&
+      this.children.every(child => child.loaded && child.checked) &&
       checked
     this.indeterminate =
       this.loaded && checkedNum !== totalNum && checkedNum > 0
@@ -204,7 +212,6 @@ class Node {
     if (this.checked === checked) return
 
     const { checkStrictly, multiple } = this.config
-
     if (checkStrictly || !multiple) {
       this.checked = checked
     } else {

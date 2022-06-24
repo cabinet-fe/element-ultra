@@ -188,6 +188,9 @@ export function useTree(props: TreeProps, emit) {
     if (!isCurrent(node)) {
       currentKey.value = node.key
       emit(CURRENT_CHANGE, node.data, node)
+    } else {
+      currentKey.value = undefined
+      emit(CURRENT_CHANGE, undefined, undefined)
     }
   }
 

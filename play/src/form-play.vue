@@ -25,6 +25,21 @@
 
         <el-input-number label="数字" money clearable field="num" />
 
+        <el-cascade
+          :props="{ label: 'name', checkStrictly: true }"
+          clearable
+          @change="c.log"
+          :options="[
+            {
+              name: '哈哈',
+              value: 'aa',
+              children: [{ name: '呵呵', value: 'bb' }]
+            }
+          ]"
+
+        >
+        </el-cascade>
+
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
         </template>

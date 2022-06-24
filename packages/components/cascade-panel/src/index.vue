@@ -6,7 +6,7 @@
     <el-cascade-menu
       v-for="(menu, index) in menus"
       :key="index"
-      :ref="(item) => (menuList[index] = item)"
+      :ref="item => (menuList[index] = item)"
       :index="index"
       :nodes="menu"
     />
@@ -23,7 +23,8 @@ import {
   provide,
   reactive,
   ref,
-  watch,
+  shallowRef,
+  watch
 } from 'vue'
 import { isEqual, flattenDeep } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
@@ -33,12 +34,12 @@ import {
   isEmpty,
   unique,
   castArray,
-  scrollIntoView,
+  scrollIntoView
 } from '@element-ultra/utils'
 import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
+  CHANGE_EVENT
 } from '@element-ultra/constants'
 
 import ElCascadeMenu from './menu.vue'
@@ -55,7 +56,7 @@ import type {
   CascadeNodeValue,
   CascadeOption,
   RenderLabel,
-  default as CascadeNode,
+  default as CascadeNode
 } from './node'
 
 import type { ElCascadePanelContext } from './types'
@@ -64,16 +65,16 @@ export default defineComponent({
   name: 'ElCascadePanel',
 
   components: {
-    ElCascadeMenu,
+    ElCascadeMenu
   },
 
   props: {
     ...CommonProps,
     border: {
       type: Boolean,
-      default: true,
+      default: true
     },
-    renderLabel: Function as PropType<RenderLabel>,
+    renderLabel: Function as PropType<RenderLabel>
   },
 
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expand-change'],
@@ -87,10 +88,10 @@ export default defineComponent({
     let store: Nullable<Store> = null
     const initialLoaded = ref(true)
     const menuList = ref<any[]>([])
-    const checkedValue = ref<Nullable<CascadeValue>>(null)
-    const menus = ref<CascadeNode[][]>([])
-    const expandingNode = ref<Nullable<CascadeNode>>(null)
-    const checkedNodes = ref<CascadeNode[]>([])
+    const checkedValue = shallowRef<Nullable<CascadeValue>>(null)
+    const menus = shallowRef<CascadeNode[][]>([])
+    const expandingNode = shallowRef<Nullable<CascadeNode>>(null)
+    const checkedNodes = shallowRef<CascadeNode[]>([])
 
     const isHoverMenu = computed(
       () => config.value.expandTrigger === ExpandTrigger.HOVER
@@ -107,7 +108,7 @@ export default defineComponent({
 
       if (cfg.lazy && isEmpty(props.options)) {
         initialLoaded.value = false
-        lazyLoad(undefined, (list) => {
+        lazyLoad(undefined, list => {
           if (list) {
             store = new Store(list, cfg)
             menus.value = [store.getNodes()]
@@ -173,7 +174,7 @@ export default defineComponent({
       !emitClose && !multiple && !checkStrictly && expandParentNode(node)
     }
 
-    const expandParentNode = (node) => {
+    const expandParentNode = node => {
       if (!node) return
       node = node.parent
       expandParentNode(node)
@@ -185,11 +186,11 @@ export default defineComponent({
     }
 
     const getCheckedNodes = (leafOnly: boolean) => {
-      return getFlattedNodes(leafOnly)?.filter((node) => node.checked !== false)
+      return getFlattedNodes(leafOnly)?.filter(node => node.checked !== false)
     }
 
     const clearCheckedNodes = () => {
-      checkedNodes.value.forEach((node) => node.doCheck(false))
+      checkedNodes.value.forEach(node => node.doCheck(false))
       calculateCheckedValue()
     }
 
@@ -199,7 +200,8 @@ export default defineComponent({
       const newNodes = getCheckedNodes(!checkStrictly)!
       // ensure the original order
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
-      const values = nodes.map((node) => node.valueByOption)
+
+      const values = nodes.map(node => node.valueByOption)
       checkedNodes.value = nodes
       checkedValue.value = multiple ? values : values[0] ?? null
     }
@@ -221,11 +223,11 @@ export default defineComponent({
           flattenDeep(castArray(modelValue))
         )
         const nodes = values
-          .map((val) => store?.getNodeByValue(val))
-          .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
+          .map(val => store?.getNodeByValue(val))
+          .filter(node => !!node && !node.loaded && !node.loading) as Node[]
 
         if (nodes.length) {
-          nodes.forEach((node) => {
+          nodes.forEach(node => {
             lazyLoad(node, () => syncCheckedValue(false, forced))
           })
         } else {
@@ -234,7 +236,7 @@ export default defineComponent({
       } else {
         const values = multiple ? castArray(modelValue) : [modelValue]
         const nodes = unique(
-          values.map((val) => store?.getNodeByValue(val, leafOnly))
+          values.map(val => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, false)
         checkedValue.value = modelValue!
@@ -248,20 +250,20 @@ export default defineComponent({
       const { checkStrictly } = config.value
       const oldNodes = checkedNodes.value
       const newNodes = newCheckedNodes.filter(
-        (node) => !!node && (checkStrictly || node.isLeaf)
+        node => !!node && (checkStrictly || node.isLeaf)
       )
       const oldExpandingNode = store?.getSameNode(expandingNode.value!)
       const newExpandingNode =
         (reserveExpandingState && oldExpandingNode) || newNodes[0]
 
       if (newExpandingNode) {
-        newExpandingNode.pathNodes.forEach((node) => expandNode(node, true))
+        newExpandingNode.pathNodes.forEach(node => expandNode(node, true))
       } else {
         expandingNode.value = null
       }
 
-      oldNodes.forEach((node) => node.doCheck(false))
-      newNodes.forEach((node) => node.doCheck(true))
+      oldNodes.forEach(node => node.doCheck(false))
+      newNodes.forEach(node => node.doCheck(true))
 
       checkedNodes.value = newNodes
       nextTick(scrollToExpandingNode)
@@ -270,7 +272,7 @@ export default defineComponent({
     const scrollToExpandingNode = () => {
       if (!isClient) return
 
-      menuList.value.forEach((menu) => {
+      menuList.value.forEach(menu => {
         const menuElement = menu?.$el
         if (menuElement) {
           const container = (menuElement as HTMLElement).querySelector(
@@ -337,13 +339,13 @@ export default defineComponent({
         renderLabelFn,
         lazyLoad,
         expandNode,
-        handleCheckChange,
+        handleCheckChange
       })
     )
 
     watch([config, () => props.options], initStore, {
       deep: true,
-      immediate: true,
+      immediate: true
     })
 
     watch(
@@ -354,10 +356,25 @@ export default defineComponent({
       }
     )
 
-    watch(checkedValue, (val) => {
+    watch(checkedValue, val => {
       if (!isEqual(val, props.modelValue)) {
         emit(UPDATE_MODEL_EVENT, val)
-        emit(CHANGE_EVENT, val)
+        const { multiple } = config.value
+        const _checkedNodes = checkedNodes.value
+        if (multiple) {
+          const { label, item } = _checkedNodes.reduce(
+            (acc, cur) => {
+              acc.item.push(cur.nodeByOption)
+              acc.label.push(cur.labelByOption)
+              return acc
+            },
+            { label: [] as any[], item: [] as any[] }
+          )
+          emit(CHANGE_EVENT, val, label, item)
+        } else {
+          const checkedNode = _checkedNodes[0]
+          emit(CHANGE_EVENT, val, checkedNode?.labelByOption, checkedNode?.nodeByOption)
+        }
       }
     })
 
@@ -375,8 +392,8 @@ export default defineComponent({
       getCheckedNodes,
       clearCheckedNodes,
       calculateCheckedValue,
-      scrollToExpandingNode,
+      scrollToExpandingNode
     }
-  },
+  }
 })
 </script>

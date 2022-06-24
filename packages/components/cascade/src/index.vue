@@ -11,7 +11,7 @@
       'top-start',
       'top',
       'right',
-      'left',
+      'left'
     ]"
     :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
@@ -29,7 +29,7 @@
           'el-cascade',
           realSize && `el-cascade--${realSize}`,
           { 'is-disabled': isDisabled },
-          $attrs.class,
+          $attrs.class
         ]"
         :style="$attrs.style"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
@@ -49,8 +49,8 @@
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
-          @focus="(e) => $emit('focus', e)"
-          @blur="(e) => $emit('blur', e)"
+          @focus="e => $emit('focus', e)"
+          @blur="e => $emit('blur', e)"
           @input="handleInput"
         >
           <template #suffix>
@@ -68,7 +68,7 @@
               :class="[
                 'el-input__icon',
                 'icon-arrow-down',
-                popperVisible && 'is-reverse',
+                popperVisible && 'is-reverse'
               ]"
               @click.stop="togglePopperVisible()"
             >
@@ -96,7 +96,7 @@
             text
             class="el-cascade__search-input"
             :placeholder="presentText ? '' : placeholder"
-            @input="(e) => handleInput(searchInputValue, e)"
+            @input="e => handleInput(searchInputValue, e)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
@@ -117,6 +117,7 @@
         :border="false"
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
+        @change="handlePanelValueChange"
         @close="$nextTick(() => togglePopperVisible(false))"
       />
       <el-scrollbar
@@ -134,7 +135,7 @@
             :key="item.uid"
             :class="[
               'el-cascade__suggestion-item',
-              item.checked && 'is-checked',
+              item.checked && 'is-checked'
             ]"
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
@@ -144,9 +145,7 @@
           </li>
         </template>
         <slot v-else name="empty">
-          <li class="el-cascade__empty-text">
-            没有数据
-          </li>
+          <li class="el-cascade__empty-text">没有数据</li>
         </slot>
       </el-scrollbar>
     </template>
@@ -161,18 +160,18 @@ import {
   onMounted,
   onBeforeUnmount,
   ref,
-  watch,
+  watch
 } from 'vue'
 import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 
 import { isClient } from '@vueuse/core'
 import ElCascadePanel, {
-  CommonProps,
+  CommonProps
 } from '@element-ultra/components/cascade-panel'
 import ElInput from '@element-ultra/components/input'
 import ElTooltip, {
-  useTooltipContentProps,
+  useTooltipContentProps
 } from '@element-ultra/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
 import ElScrollbar from '@element-ultra/components/scrollbar'
@@ -187,13 +186,13 @@ import {
   getSibling,
   addResizeListener,
   removeResizeListener,
-  isValidComponentSize,
+  isValidComponentSize
 } from '@element-ultra/utils'
 import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
-FORM_COMPONENT_PROPS,
+  FORM_COMPONENT_PROPS
 } from '@element-ultra/constants'
 import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
@@ -202,7 +201,7 @@ import type { ComputedRef, PropType, Ref } from 'vue'
 import type {
   CascadeValue,
   CascadeNode,
-  Tag,
+  Tag
 } from '@element-ultra/components/cascade-panel'
 import type { ComponentSize } from '@element-ultra/constants'
 
@@ -216,7 +215,7 @@ const DEFAULT_INPUT_HEIGHT = 40
 const INPUT_HEIGHT_MAP = {
   large: 36,
   default: 32,
-  small: 28,
+  small: 28
 }
 
 const popperOptions: Partial<Options> = {
@@ -230,9 +229,9 @@ const popperOptions: Partial<Options> = {
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
         modifiersData.arrow.x = 35
       },
-      requires: ['arrow'],
-    },
-  ],
+      requires: ['arrow']
+    }
+  ]
 }
 const COMPONENT_NAME = 'ElCascade'
 export default defineComponent({
@@ -247,11 +246,11 @@ export default defineComponent({
     ElIcon,
     CircleClose,
     Check,
-    ArrowDown,
+    ArrowDown
   },
 
   directives: {
-    Clickoutside,
+    Clickoutside
   },
 
   props: {
@@ -259,11 +258,11 @@ export default defineComponent({
     ...CommonProps,
     size: {
       type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
+      validator: isValidComponentSize
     },
     placeholder: {
       type: String,
-      default: '请选择',
+      default: '请选择'
     },
     disabled: Boolean,
     clearable: Boolean,
@@ -273,34 +272,34 @@ export default defineComponent({
         (node: CascadeNode, keyword: string) => boolean
       >,
       default: (node: CascadeNode, keyword: string) =>
-        node.text.includes(keyword),
+        node.text.includes(keyword)
     },
     separator: {
       type: String,
-      default: ' / ',
+      default: ' / '
     },
     showAllLevels: {
       type: Boolean,
-      default: true,
+      default: true
     },
     collapseTags: Boolean,
     debounce: {
       type: Number,
-      default: 300,
+      default: 300
     },
     beforeFilter: {
       type: Function as PropType<(value: string) => boolean | Promise<any>>,
-      default: () => true,
+      default: () => true
     },
     popperClass: {
       type: String,
-      default: '',
+      default: ''
     },
     popperAppendToBody: {
       type: Boolean,
-      default: undefined,
+      default: undefined
     },
-    teleported: useTooltipContentProps.teleported,
+    teleported: useTooltipContentProps.teleported
   },
 
   emits: [
@@ -310,7 +309,7 @@ export default defineComponent({
     'blur',
     'visible-change',
     'expand-change',
-    'remove-tag',
+    'remove-tag'
   ],
 
   setup(props, { emit }) {
@@ -374,15 +373,14 @@ export default defineComponent({
         : ''
     })
 
-    const checkedValue = computed<CascadeValue>({
+    const checkedValue = computed<CascadeValue | undefined>({
       get() {
         return props.modelValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
-        emit(CHANGE_EVENT, val)
         formItem?.validate()
-      },
+      }
     })
 
     const popperPaneRef = computed(() => {
@@ -428,7 +426,7 @@ export default defineComponent({
         key: node.uid,
         text: node.calcText(showAllLevels, separator),
         hitState: false,
-        closable: !isDisabled.value && !node.isDisabled,
+        closable: !isDisabled.value && !node.isDisabled
       }
     }
 
@@ -456,10 +454,10 @@ export default defineComponent({
             tags.push({
               key: -1,
               text: `+ ${restCount}`,
-              closable: false,
+              closable: false
             })
           } else {
-            rest.forEach((node) => tags.push(genTag(node)))
+            rest.forEach(node => tags.push(genTag(node)))
           }
         }
       }
@@ -471,14 +469,14 @@ export default defineComponent({
       const { filterMethod, showAllLevels, separator } = props
       const res = panel.value
         ?.getFlattedNodes(!props.props.checkStrictly)
-        ?.filter((node) => {
+        ?.filter(node => {
           if (node.isDisabled) return false
           node.calcText(showAllLevels, separator)
           return filterMethod(node, searchKeyword.value)
         })
 
       if (multiple.value) {
-        presentTags.value.forEach((tag) => {
+        presentTags.value.forEach(tag => {
           tag.hitState = false
         })
       }
@@ -539,6 +537,10 @@ export default defineComponent({
     const handleExpandChange = (value: CascadeValue) => {
       updatePopperPosition()
       emit('expand-change', value)
+    }
+
+    const handlePanelValueChange = (val: any, label: any, data: any) => {
+      emit(CHANGE_EVENT, val, label, data)
     }
 
     const handleComposition = (event: CompositionEvent) => {
@@ -661,7 +663,7 @@ export default defineComponent({
       nextTick(() => updateStyle())
     })
 
-    watch(presentText, (val) => (inputValue.value = val), { immediate: true })
+    watch(presentText, val => (inputValue.value = val), { immediate: true })
 
     onMounted(() => {
       const inputEl = input.value?.$el
@@ -709,14 +711,15 @@ export default defineComponent({
       focusFirstNode,
       getCheckedNodes,
       handleExpandChange,
+      handlePanelValueChange,
       handleKeyDown,
       handleComposition,
       handleClear,
       handleSuggestionClick,
       handleSuggestionKeyDown,
       handleDelete,
-      handleInput,
+      handleInput
     }
-  },
+  }
 })
 </script>

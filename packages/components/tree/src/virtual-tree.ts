@@ -175,7 +175,7 @@ export const treeEmits = {
   [NODE_CLICK]: (data: TreeNodeData, node: TreeNode, e: MouseEvent) => data && node && e,
   [NODE_EXPAND]: (data: TreeNodeData, node: TreeNode) => data && node,
   [NODE_COLLAPSE]: (data: TreeNodeData, node: TreeNode) => data && node,
-  [CURRENT_CHANGE]: (data: TreeNodeData, node: TreeNode) => data && node,
+  [CURRENT_CHANGE]: (data?: TreeNodeData, node?: TreeNode) => true,
   [NODE_CHECK]: (data: TreeNodeData, checkedInfo: CheckedInfo) => data && checkedInfo,
   [NODE_CHECK_CHANGE]: (data: TreeNodeData, checked: boolean) =>
     data && typeof checked === 'boolean',
