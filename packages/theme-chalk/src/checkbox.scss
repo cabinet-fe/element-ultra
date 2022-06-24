@@ -48,6 +48,7 @@ $checkbox-bordered-input-width: map.merge(
   align-items: center;
   white-space: nowrap;
   user-select: none;
+  vertical-align: middle;
   margin-right: 30px;
   height: map.get($checkbox-height, 'default');
 

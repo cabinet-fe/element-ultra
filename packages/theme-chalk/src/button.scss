@@ -229,8 +229,8 @@ $button-icon-span-gap: map.merge(
     border-color: transparent;
     color: var(--el-color-primary);
     background: transparent;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
+    height: unset;
 
     &:hover,
     &:focus {

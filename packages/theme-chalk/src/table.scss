@@ -166,8 +166,7 @@
     text-overflow: ellipsis;
     white-space: normal;
     word-break: break-all;
-    line-height: 23px;
-    padding: 0 12px;
+    padding: 0 8px;
 
     &.#{$namespace}-tooltip {
       white-space: nowrap;
@@ -214,6 +213,7 @@
       position: relative;
       vertical-align: middle;
       width: 100%;
+
 
       &.highlight {
         color: var(--el-color-primary);
