@@ -241,7 +241,6 @@ onMounted(() => {
 })
 
 const inputSize = useSize({ props })
-watch(inputSize, v => console.log(v))
 const treeSelectDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
 

@@ -89,7 +89,8 @@ import {
   shallowRef,
   onMounted,
   useSlots,
-  provide
+  provide,
+  onUnmounted
 } from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
@@ -147,9 +148,28 @@ const calcTableHeight = () => {
   }
   tableHeight.value = `calc(${props.height} - ${subtilized}px)`
 }
+
+// let ob: MutationObserver | null = null
 onMounted(() => {
   calcTableHeight()
+
+  // ob = new MutationObserver((mutations, observer) => {
+  //   console.log(mutations)
+  //   calcTableHeight()
+  // })
+  // let dom = searcherRef.value || toolsRef.value
+
+  // dom &&
+  //   ob.observe(dom, {
+  //     attributes: true,
+  //     subtree: true,
+  //     childList: true
+  //   })
 })
+
+// onUnmounted(() => {
+//   ob?.disconnect()
+// })
 
 let loading = shallowRef(false)
 
