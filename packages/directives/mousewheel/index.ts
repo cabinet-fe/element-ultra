@@ -6,7 +6,6 @@ const mousewheel = function (element: HTMLElement, callback) {
   if (element && element.addEventListener) {
     const fn = function (this: any, event) {
       const normalized = normalizeWheel(event)
-      console.log(normalized)
       callback && callback.apply(this, [event, normalized])
     }
     if (isFirefox()) {
@@ -20,7 +19,7 @@ const mousewheel = function (element: HTMLElement, callback) {
 const Mousewheel: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     mousewheel(el, binding.value)
-  },
+  }
 }
 
 export default Mousewheel
