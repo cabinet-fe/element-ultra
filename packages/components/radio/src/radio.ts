@@ -1,7 +1,11 @@
-import { ref, computed, inject, type PropType } from 'vue'
-import { UPDATE_MODEL_EVENT, FORM_COMPONENT_PROPS, SizeProp } from '@element-ultra/constants'
+import { ref, computed, inject, type PropType, watch } from 'vue'
+import {
+  UPDATE_MODEL_EVENT,
+  FORM_COMPONENT_PROPS,
+  SizeProp
+} from '@element-ultra/constants'
 import { radioGroupKey } from '@element-ultra/tokens'
-import { useDisabled, useSize,  } from '@element-ultra/hooks'
+import { useDisabled, useSize } from '@element-ultra/hooks'
 
 import type { ExtractPropTypes, SetupContext } from 'vue'
 import type { EmitFn } from '@element-ultra/utils'
@@ -17,8 +21,7 @@ export const radioPropsBase = {
   value: {
     type: [String, Number, Boolean] as PropType<string | number | boolean>,
     default: ''
-  },
-
+  }
 }
 
 export const radioProps = {
@@ -43,7 +46,10 @@ export const radioEmits = {
   change: (value: string | number | boolean) => true
 }
 
-export const useRadio = (props: Pick<Partial<RadioProps>, 'value' | 'modelValue'>, emit: EmitFn<typeof radioEmits>) => {
+export const useRadio = (
+  props: Pick<Partial<RadioProps>, 'value' | 'modelValue'>,
+  emit: EmitFn<typeof radioEmits>
+) => {
   const radioRef = ref<HTMLInputElement>()
   const radioGroup = inject(radioGroupKey, undefined)
   const isGroup = computed(() => !!radioGroup)
@@ -66,11 +72,14 @@ export const useRadio = (props: Pick<Partial<RadioProps>, 'value' | 'modelValue'
     props,
     fallback: computed(() => radioGroup?.size)
   })
+
   const disabled = useDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
 
   const tabIndex = computed(() => {
-    return disabled.value || (isGroup.value && modelValue.value !== props.value) ? -1 : 0
+    return disabled.value || (isGroup.value && modelValue.value !== props.value)
+      ? -1
+      : 0
   })
 
   return {

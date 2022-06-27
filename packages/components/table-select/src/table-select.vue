@@ -11,7 +11,12 @@
     </template>
   </TableSelectDisplay>
 
-  <TableSelectDialog :data="data" @change="handleChange" :query="query" ref="dialogRef">
+  <TableSelectDialog
+    :data="data"
+    @change="handleChange"
+    :query="query"
+    ref="dialogRef"
+  >
     <template #searcher><slot name="searcher" /></template>
   </TableSelectDialog>
 </template>
@@ -24,7 +29,7 @@ import TableSelectDisplay from './table-select-display.vue'
 import { Plus } from '@element-plus/icons-vue'
 import { tableSelectKey } from './token'
 import { ElButton } from '@element-ultra/components/button'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 
 defineOptions({
   name: 'ElTableSelect',
@@ -33,6 +38,8 @@ defineOptions({
 
 const props = defineProps(tableSelectProps)
 
+const size = useSize({ props })
+
 const emit = defineEmits(tableSelectEmits)
 
 const ns = useNamespace('table-select')
@@ -40,7 +47,8 @@ const slots = useSlots()
 
 provide(tableSelectKey, {
   rootProps: props,
-  slots
+  slots,
+  size
 })
 
 const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()
@@ -62,7 +70,7 @@ let handleChange = (data: any) => {
 
 watch(
   () => props.modelValue,
-  (data) => {
+  data => {
     displayData.value = Array.isArray(data) ? data : [data]
   },
   { immediate: true }

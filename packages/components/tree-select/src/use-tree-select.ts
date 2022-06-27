@@ -1,5 +1,9 @@
 import { shallowRef, watch, nextTick, computed } from 'vue'
-import type { ElTree, CheckedInfo, TreeNodeData } from '@element-ultra/components/tree'
+import type {
+  ElTree,
+  CheckedInfo,
+  TreeNodeData
+} from '@element-ultra/components/tree'
 import type { TreeSelectProps } from './tree-select'
 import { useFormItem } from '@element-ultra/hooks'
 
@@ -50,8 +54,16 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
   )
 
   type EmitModelValue = {
-    (v: string | number, label: string, model: Record<string, any> | undefined): void
-    (v: (string | number)[], label: string[], model: Record<string, any>[]): void
+    (
+      v: string | number,
+      label: string,
+      model: Record<string, any> | undefined
+    ): void
+    (
+      v: (string | number)[],
+      label: string[],
+      model: Record<string, any>[]
+    ): void
   }
 
   const { formItem } = useFormItem()
@@ -131,18 +143,20 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
       tree.setCheckedKeys(modelValue)
       tagList.value = tree.getChecked().nodes
     } else {
-      if (!modelValue && modelValue !== 0) return
+      if (!modelValue && modelValue !== 0) {
+        return (selectedLabel.value = '')
+      }
       tree.setCurrentKey(modelValue)
       selectedLabel.value = tree.getCurrentNode()?.[labelKey] ?? ''
     }
   }
 
   /** 单选 */
-  const handleSelectChange = (data: Record<string, any>) => {
+  const handleSelectChange = (data?: TreeNodeData) => {
     const { labelKey, valueKey, multiple } = props
     if (multiple) return
-    const value = data[valueKey]
-    const label = data[labelKey]
+    const value = data?.[valueKey]
+    const label = data?.[labelKey]
     selectedLabel.value = label
     changedByEvent.value = true
     emitModelValue(value, label, data)

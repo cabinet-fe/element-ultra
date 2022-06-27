@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b()" :style="`height: ${theight}px`">
+  <div :class="[ns.b(), ns.m(size)]" :style="`height: ${theight}px`">
     <table>
       <colgroup v-if="editable">
         <col style="width: 60px; text-align: center" />
@@ -8,7 +8,8 @@
           v-for="column in filteredColumns"
           :style="{
             width: column.width + 'px',
-            minWidth: (column.width ? column.width : column.minWidth || 100) + 'px'
+            minWidth:
+              (column.width ? column.width : column.minWidth || 100) + 'px'
           }"
         />
       </colgroup>
@@ -38,7 +39,11 @@
       </thead>
 
       <tbody :class="ns.e('body')">
-        <tr v-for="(row, index) in data" :class="ns.e('row')" @click="handleClickRow(row)">
+        <tr
+          v-for="(row, index) in data"
+          :class="ns.e('row')"
+          @click="handleClickRow(row)"
+        >
           <td v-if="editable" style="text-align: center">
             <el-checkbox
               v-if="multiple"
@@ -47,7 +52,11 @@
               @change="toggleChecked($event, row)"
               @click.stop
             />
-            <el-radio v-else :value="row[valueKey]" :model-value="selectedKey" />
+            <el-radio
+              v-else
+              :value="row[valueKey]"
+              :model-value="selectedKey"
+            />
           </td>
           <td v-if="showIndex" style="text-align: center">
             {{ index + 1 }}
@@ -57,7 +66,10 @@
             :title="item.value"
             :style="`text-align: ${item.align ? item.align : 'left'}`"
           >
-            <ElSlotsRender v-if="item.slot" :nodes="slots[item.slot]?.({ row, index }) || []" />
+            <ElSlotsRender
+              v-if="item.slot"
+              :nodes="slots[item.slot]?.({ row, index }) || []"
+            />
             <template v-else>
               {{ item.value }}
             </template>
@@ -81,21 +93,24 @@ const props = defineProps(tableSelectDisplayProps)
 
 const ns = useNamespace('table-select-display')
 
-const { rootProps, slots } = inject(tableSelectKey)!
+const { rootProps, slots, size } = inject(tableSelectKey)!
 const { columnFilter } = rootProps
-const { multiple, showIndex, valueKey, columns, dialogColumns } = toRefs(rootProps)
+const { multiple, showIndex, valueKey, columns, dialogColumns } =
+  toRefs(rootProps)
 
 // 弹框下的表格应用过滤
 const filteredColumns = computed(() => {
   if (dialogColumns?.value && props.editable) {
     return dialogColumns.value
   } else {
-    return columnFilter && props.editable ? columns.value.filter(columnFilter) : columns.value
+    return columnFilter && props.editable
+      ? columns.value.filter(columnFilter)
+      : columns.value
   }
 })
 
 const getRowColumns = (row: any, index: number) => {
-  return filteredColumns.value?.map((column) => {
+  return filteredColumns.value?.map(column => {
     let value = ''
     if (!column.slot) {
       let cellVal = column.key.split('.').reduce((acc: any, cur: string) => {
@@ -125,7 +140,7 @@ const toggleAllChecked = (checked: boolean) => {
   const { data } = props
   const { valueKey } = rootProps
   if (checked) {
-    data.forEach((item) => checkedKeys.add(item[valueKey]))
+    data.forEach(item => checkedKeys.add(item[valueKey]))
   } else {
     checkedKeys.clear()
   }
@@ -154,13 +169,16 @@ const handleClickRow = (row: any) => {
 }
 
 // 通用
-const getValue = (): Record<string, any>[] | Record<string, any> | undefined => {
+const getValue = ():
+  | Record<string, any>[]
+  | Record<string, any>
+  | undefined => {
   const { valueKey, multiple } = rootProps
   const { data } = props
 
   return multiple
-    ? data.filter((item) => checkedKeys.has(item[valueKey]))
-    : data.find((item) => selectedKey.value === item[valueKey])
+    ? data.filter(item => checkedKeys.has(item[valueKey]))
+    : data.find(item => selectedKey.value === item[valueKey])
 }
 
 const clear = () => {

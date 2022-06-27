@@ -86,6 +86,7 @@ $form-item-label-top-margin-bottom: map.merge(
           }
         }
       }
+
     }
   }
 }
@@ -104,19 +105,20 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @each $size in (large, default, small) {
+
     @include m($size) {
       --font-size: #{map.get($input-font-size, $size)};
       --el-form-label-font-size: var(--font-size);
       margin-bottom: #{map.get($form-item-margin-bottom, $size)};
 
       @include e(label) {
-        line-height: #{map.get($form-item-line-height, $size)};
+        line-height: map.get($form-item-line-height, $size);
       }
       @include e(content) {
-        line-height: #{map.get($form-item-line-height, $size)};
+        line-height: map.get($form-item-line-height, $size);
       }
       @include e(error) {
-        padding-top: #{map.get($form-item-error-padding-top, $size)};
+        padding-top: map.get($form-item-error-padding-top, $size);
       }
     }
   }
@@ -134,7 +136,6 @@ $form-item-label-top-margin-bottom: map.merge(
     text-align: right;
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
-    line-height: #{map.get($form-item-line-height, 'default')};
     padding: 0 12px 0 0;
     box-sizing: border-box;
     overflow: hidden;
@@ -143,6 +144,7 @@ $form-item-label-top-margin-bottom: map.merge(
 
     & > * {
       vertical-align: middle;
+      line-height: 1;
     }
   }
   @include e(content) {
@@ -150,7 +152,7 @@ $form-item-label-top-margin-bottom: map.merge(
     flex-wrap: wrap;
     align-items: center;
     flex: 1;
-    line-height: #{map.get($form-item-line-height, 'default')};
+
     position: relative;
     font-size: var(--font-size);
     min-width: 0;

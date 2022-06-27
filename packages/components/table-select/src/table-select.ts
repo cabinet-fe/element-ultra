@@ -1,6 +1,7 @@
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { ProTableColumn } from '@element-ultra/components/pro-table'
+import { SizeProp } from '@element-ultra/constants'
 
 export interface TableSelectColumn extends ProTableColumn {}
 
@@ -73,6 +74,8 @@ export const tableSelectProps = {
   columnFilter: {
     type: Function as PropType<(column: TableSelectColumn) => boolean>
   },
+
+  size: SizeProp,
 
   /** 是否可选择 */
   disabled: Boolean

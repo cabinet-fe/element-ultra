@@ -9,27 +9,26 @@ import {
   h,
   reactive,
   nextTick,
-  type PropType,
+  type PropType
 } from 'vue'
-import {
-  isString,
-  isObject,
-} from '@element-ultra/utils'
+import { isString, isObject } from '@element-ultra/utils'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
+import { SizeProp } from '@element-ultra/constants'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 
 export const menuProps = {
   defaultActive: {
     type: String,
-    default: '',
+    default: ''
   },
   defaultOpeneds: {
     type: Array as PropType<string[]>,
-    default: () => [],
+    default: () => []
   },
   uniqueOpened: Boolean,
   router: Boolean,
@@ -39,17 +38,18 @@ export const menuProps = {
   activeTextColor: String,
   collapseTransition: {
     type: Boolean,
-    default: true,
+    default: true
   },
   ellipsis: {
     type: Boolean,
-    default: true,
+    default: true
   },
+  size: SizeProp
 }
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
-  Array.isArray(indexPath) && indexPath.every((path) => isString(path))
+  Array.isArray(indexPath) && indexPath.every(path => isString(path))
 
 export const menuEmits = {
   close: (index: string, indexPath: string[]) =>
@@ -67,7 +67,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (routerResult === undefined || routerResult instanceof Promise),
+    (routerResult === undefined || routerResult instanceof Promise)
 }
 export type MenuEmits = typeof menuEmits
 
@@ -106,7 +106,7 @@ export default defineComponent({
 
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
-      indexPath.forEach((index) => {
+      indexPath.forEach(index => {
         const subMenu = subMenus.value[index]
         subMenu && openMenu(index, subMenu.indexPath)
       })
@@ -135,7 +135,7 @@ export default defineComponent({
 
     const handleSubMenuClick: MenuProvider['handleSubMenuClick'] = ({
       index,
-      indexPath,
+      indexPath
     }) => {
       const isOpened = openedMenus.value.includes(index)
 
@@ -146,34 +146,33 @@ export default defineComponent({
       }
     }
 
-    const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (
-      menuItem
-    ) => {
-      if (props.collapse) {
-        openedMenus.value = []
-      }
+    const handleMenuItemClick: MenuProvider['handleMenuItemClick'] =
+      menuItem => {
+        if (props.collapse) {
+          openedMenus.value = []
+        }
 
-      const { index, indexPath } = menuItem
-      if (index === undefined || indexPath === undefined) return
+        const { index, indexPath } = menuItem
+        if (index === undefined || indexPath === undefined) return
 
-      if (props.router && router) {
-        const route = menuItem.route || index
-        const routerResult = router.push(route).then((res) => {
-          if (!res) activeIndex.value = index
-          return res
-        })
-        emit(
-          'select',
-          index,
-          indexPath,
-          { index, indexPath, route },
-          routerResult
-        )
-      } else {
-        activeIndex.value = index
-        emit('select', index, indexPath, { index, indexPath })
+        if (props.router && router) {
+          const route = menuItem.route || index
+          const routerResult = router.push(route).then(res => {
+            if (!res) activeIndex.value = index
+            return res
+          })
+          emit(
+            'select',
+            index,
+            indexPath,
+            { index, indexPath, route },
+            routerResult
+          )
+        } else {
+          activeIndex.value = index
+          emit('select', index, indexPath, { index, indexPath })
+        }
       }
-    }
 
     const updateActiveIndex = (val: string) => {
       const itemsInData = items.value
@@ -195,7 +194,7 @@ export default defineComponent({
 
     watch(
       () => props.defaultActive,
-      (currentActive) => {
+      currentActive => {
         if (!items.value[currentActive]) {
           activeIndex.value = ''
         }
@@ -207,26 +206,26 @@ export default defineComponent({
 
     watch(
       () => props.collapse,
-      (value) => {
+      value => {
         if (value) openedMenus.value = []
       }
     )
 
     // provide
     {
-      const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
+      const addSubMenu: MenuProvider['addSubMenu'] = item => {
         subMenus.value[item.index] = item
       }
 
-      const removeSubMenu: MenuProvider['removeSubMenu'] = (item) => {
+      const removeSubMenu: MenuProvider['removeSubMenu'] = item => {
         delete subMenus.value[item.index]
       }
 
-      const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
+      const addMenuItem: MenuProvider['addMenuItem'] = item => {
         items.value[item.index] = item
       }
 
-      const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
+      const removeMenuItem: MenuProvider['removeMenuItem'] = item => {
         delete items.value[item.index]
       }
       provide<MenuProvider>(
@@ -246,13 +245,13 @@ export default defineComponent({
           openMenu,
           closeMenu,
           handleMenuItemClick,
-          handleSubMenuClick,
+          handleSubMenuClick
         })
       )
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
-        mouseInChild: ref(false),
+        mouseInChild: ref(false)
       })
     }
 
@@ -264,12 +263,12 @@ export default defineComponent({
     {
       const open = (index: string) => {
         const { indexPath } = subMenus.value[index]
-        indexPath.forEach((i) => openMenu(i, indexPath))
+        indexPath.forEach(i => openMenu(i, indexPath))
       }
       expose({
         open,
         close: closeMenu,
-        handleResize,
+        handleResize
       })
     }
 
@@ -287,6 +286,11 @@ export default defineComponent({
     }
 
     const useVNodeResize = (vnode: VNode) => vnode
+
+    const ns = useNamespace('menu')
+
+    const size = useSize({ props })
+
     return () => {
       const slot = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -305,11 +309,12 @@ export default defineComponent({
             ref: menu,
             style: ulStyle.value,
             class: {
-              'el-menu': true,
-              'el-menu--collapse': props.collapse,
-            },
+              [ns.b()]: true,
+              [ns.m(size.value)]: true,
+              [ns.m('collapse')]: props.collapse
+            }
           },
-          [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]
+          [...slot.map(vnode => resizeMenu(vnode)), ...vShowMore]
         )
       )
 
@@ -319,5 +324,5 @@ export default defineComponent({
 
       return vMenu
     }
-  },
+  }
 })

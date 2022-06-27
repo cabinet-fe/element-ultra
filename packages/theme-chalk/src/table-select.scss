@@ -24,6 +24,7 @@
   border: 1px solid #ebeef5;
   border-bottom: 0;
 
+
   table {
     width: 100%;
     border-spacing: 0;
@@ -32,24 +33,37 @@
   tr {
     border-bottom: 1px solid #ebeef5;
     cursor: pointer;
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      background-color: #fff;
-    }
 
+  }
+
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #fff;
+  }
+
+  th,
+  td {
+    padding: 6px 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  @include m(small) {
+    th,
+    td {
+      padding: 4px 6px;
+    }
+  }
+  @include m(large) {
     th,
     td {
       padding: 8px 12px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    td {
-      margin: 0 2px;
     }
   }
+
   @include e('header') {
     color: #909399;
     font-weight: 500;

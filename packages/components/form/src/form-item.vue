@@ -40,7 +40,7 @@ import { QuestionFilled } from '@element-plus/icons-vue'
 import type { CSSProperties } from 'vue'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -115,12 +115,13 @@ export default defineComponent({
 
     provide(formItemKey, formItem)
 
+    const formItemSize = useSize({ props })
+
     const formItemClass = computed(() => {
-      const ret = [ns.b()]
+      const ret = [ns.b(), ns.m(formItemSize.value)]
 
       isRequired.value && ret.push('is-required')
       errorVisible.value && ret.push('is-error')
-      elForm?.props.size && ret.push(ns.m(elForm.props.size))
 
       return ret
     })

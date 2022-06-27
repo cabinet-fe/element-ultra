@@ -2,6 +2,7 @@
   <el-grid
     tag="form"
     :cols="cols"
+    gap="0"
     :class="[ns.b(), labelPosition ? 'el-form--label-' + labelPosition : '']"
   >
     <template :key="slot.node.key || undefined" v-for="slot of getSlots()">

@@ -3,21 +3,9 @@
     <div style="padding: 8px">
       {{ data }}
     </div>
-    <div>
-      <el-radio-group v-model="size">
-        <el-radio value="large">大</el-radio>
-        <el-radio value="default">中</el-radio>
-        <el-radio value="small">小</el-radio>
-      </el-radio-group>
-    </div>
+
     <el-card title="表单数据">
-      <el-form
-        ref="formRef"
-        :size="size"
-        :data="data"
-        label-width="80px"
-        :rules="rules"
-      >
+      <el-form ref="formRef" :data="data" label-width="80px" :rules="rules">
         <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
@@ -26,9 +14,10 @@
         <el-input-number label="数字" money clearable field="num" />
 
         <el-cascade
+          label="级联"
           :props="{ label: 'name', checkStrictly: true }"
           clearable
-          @change="c.log"
+          field="cascade"
           :options="[
             {
               name: '哈哈',
@@ -36,7 +25,6 @@
               children: [{ name: '呵呵', value: 'bb' }]
             }
           ]"
-
         >
         </el-cascade>
 
@@ -83,8 +71,6 @@ let checked = $shallowRef(false)
 let options = $shallowRef<any[]>([])
 let options2 = $shallowRef<any[]>([])
 
-let size = $shallowRef('default' as const)
-
 setTimeout(() => {
   options = [
     { modelKey: '1', name: '文本1' },
@@ -107,7 +93,8 @@ const [data, rules] = useFormModel({
   start: { value: '' },
   end: { value: '' },
   aa: { value: [] },
-  num: { value: null }
+  num: { value: null },
+  cascade: { value: [] }
 })
 
 const formRef = shallowRef<any>()

@@ -22,7 +22,7 @@
         <!-- 多选 -->
         <template v-if="multiple">
           <span
-            v-if="!modelValue?.length && !filterer.query && !filterer.filtering"
+            v-if="!(modelValue as any[])?.length && !filterer.query && !filterer.filtering"
             :class="[ns.e('placeholder'), ns.is('transparent')]"
           >
             {{ placeholder }}
@@ -165,7 +165,7 @@
   </teleport>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useNamespace, useSize, useDisabled } from '@element-ultra/hooks'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
@@ -241,6 +241,7 @@ onMounted(() => {
 })
 
 const inputSize = useSize({ props })
+watch(inputSize, v => console.log(v))
 const treeSelectDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
 

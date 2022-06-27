@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'mixins/utils' as *;
@@ -7,9 +9,7 @@
 @mixin menu-item {
   display: flex;
   align-items: center;
-  height: var(--el-menu-item-height);
-  line-height: var(--el-menu-item-height);
-  font-size: var(--el-menu-item-font-size);
+
   color: var(--el-menu-text-color);
   padding: 0 20px;
   list-style: none;
@@ -55,6 +55,21 @@
   padding-left: 0;
   background-color: var(--el-menu-bg-color);
   box-sizing: border-box;
+
+  @each $size in (large, default, small) {
+    &--#{$size} {
+      .#{$namespace}-menu-item {
+        height: map.get($menu-item-height, $size);
+        line-height: map.get($menu-item-height, $size);
+        font-size: map.get($menu-font-size, $size);
+      }
+      .#{$namespace}-sub-menu__title {
+        height: map.get($menu-item-height, $size);
+        line-height: map.get($menu-item-height, $size);
+        font-size: map.get($menu-font-size, $size);
+      }
+    }
+  }
 
   @include m(horizontal) {
     display: flex;
@@ -247,8 +262,6 @@
     border: none;
   }
   & .#{$namespace}-menu-item {
-    height: 50px;
-    line-height: 50px;
     padding: 0 45px;
     min-width: 200px;
   }

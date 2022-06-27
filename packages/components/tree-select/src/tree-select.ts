@@ -15,7 +15,6 @@ export const treeSelectProps = {
   // input
   size: {
     type: String as PropType<'large' | 'default' | 'small'>,
-    default: 'default'
   },
   placeholder: {
     type: String,

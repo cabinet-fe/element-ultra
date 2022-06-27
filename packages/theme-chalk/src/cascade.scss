@@ -7,11 +7,12 @@
 @include b(cascade) {
   @include set-component-css-var('cascade', $cascade);
 
+  vertical-align: middle;
   display: inline-block;
   position: relative;
-  font-size: var(--el-font-size-base);
   line-height: map.get($input-height, 'default');
   outline: none;
+  font-size: 0;
 
   &:not(.is-disabled):hover {
     .#{$namespace}-input__inner {

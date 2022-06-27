@@ -304,8 +304,8 @@ $radio-checked: map.merge(
 $radio-bordered-input-height: () !default;
 $radio-bordered-input-height: map.merge(
   (
-    'large': 14px,
-    'default': 12px,
+    'large': 16px,
+    'default': 14px,
     'small': 12px
   ),
   $radio-bordered-input-height
@@ -933,6 +933,17 @@ $menu: map.merge(
   ),
   $menu
 );
+$menu-item-height: (
+  'large': 50px,
+  'default': 44px,
+  'small': 38px
+);
+$menu-font-size: (
+  'large': 16px,
+  'default': 14px,
+  'small': 14px
+);
+
 
 // Rate
 $rate: () !default;

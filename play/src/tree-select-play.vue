@@ -1,56 +1,16 @@
 <template>
   <div style="width: 600px; margin: 100px auto">
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
+
     <section>
       <div>node1: {{ data.node1 }}</div>
       <div>node2: {{ data.node2 }}</div>
     </section>
+
+    <el-radio-group v-model="size">
+      <el-radio value="large">大</el-radio>
+      <el-radio value="default">中</el-radio>
+      <el-radio value="small">小</el-radio>
+    </el-radio-group>
 
     <el-form
       ref="formRef"
@@ -59,6 +19,7 @@
       label-width="80px"
       class="demo-ruleForm"
       :cols="1"
+      :size="size"
     >
       <el-tree-select
         key="111"
@@ -103,13 +64,14 @@ setTimeout(() => {
   })
 }, 1000)
 
+const size = shallowRef('default' as const)
+
 const [data, rules] = useFormModel({
   node1: {
-    value: '0',
     required: true
   },
   node2: {
-    value: ['0'],
+    value: [],
     required: true
   }
 })

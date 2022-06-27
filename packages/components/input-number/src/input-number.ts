@@ -1,4 +1,4 @@
-import { componentSizes, FORM_COMPONENT_PROPS } from '@element-ultra/constants'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constants'
 import type { PropType } from 'vue'
 
 export const inputNumberProps = {
@@ -27,8 +27,7 @@ export const inputNumberProps = {
     default: false
   },
   size: {
-    type: String as PropType<typeof componentSizes[number]>,
-    default: 'default'
+    type: String as PropType<ComponentSize>
   },
   /** 以金额显示 */
   money: Boolean,
