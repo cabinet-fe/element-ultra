@@ -144,7 +144,9 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
       tagList.value = tree.getChecked().nodes
     } else {
       if (!modelValue && modelValue !== 0) {
-        return (selectedLabel.value = '')
+        tree?.setCurrentKey('')
+        selectedLabel.value = ''
+        return
       }
       tree.setCurrentKey(modelValue)
       selectedLabel.value = tree.getCurrentNode()?.[labelKey] ?? ''

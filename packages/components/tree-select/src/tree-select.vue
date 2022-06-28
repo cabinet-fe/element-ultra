@@ -165,7 +165,7 @@
   </teleport>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useNamespace, useSize, useDisabled } from '@element-ultra/hooks'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
@@ -218,7 +218,6 @@ const {
   handleMouseEnter,
   handleMouseLeave,
   emitModelValue,
-  setTreeChecked,
   showTree,
   hideTree,
   handleCheck,
@@ -235,10 +234,6 @@ const {
   handleFiltererFocus,
   handleFilter
 } = useFilter(props, treeRef)
-
-onMounted(() => {
-  setTreeChecked()
-})
 
 const inputSize = useSize({ props })
 const treeSelectDisabled = useDisabled()

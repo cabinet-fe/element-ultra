@@ -12,6 +12,8 @@
       <el-radio value="small">小</el-radio>
     </el-radio-group>
 
+
+
     <el-form
       ref="formRef"
       :data="data"
@@ -68,7 +70,8 @@ const size = shallowRef('default' as const)
 
 const [data, rules] = useFormModel({
   node1: {
-    required: true
+    required: true,
+    value: '0'
   },
   node2: {
     value: [],
