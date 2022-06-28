@@ -1,11 +1,5 @@
 <template>
   <div :class="ns.b()">
-    <colgroup>
-      <col />
-      <col />
-      <col />
-    </colgroup>
-
     <DataTableHeader />
 
     <DataTableBody />
@@ -25,7 +19,7 @@ import { dataTableToken } from './token'
 import { useColumns } from './hooks/useColumns'
 
 defineOptions({
-  name: 'ElDataTable',
+  name: 'ElDataTable'
 })
 
 const ns = useNamespace('data-table')
