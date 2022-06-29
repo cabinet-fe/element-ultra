@@ -13,7 +13,7 @@
   display: inline-block;
   width: 100%;
   vertical-align: bottom;
-  font-size: var(--el-font-size-base);
+  font-size: getCssVar('font-size', 'base');
 
   @include e(inner) {
     position: relative;
@@ -25,39 +25,48 @@
     width: 100%;
     font-size: inherit;
     font-family: inherit;
-    color: var(--el-input-text-color, map.get($input, 'text-color'));
-    background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
+    color: var(
+      #{getCssVarName('input-text-color')},
+      map.get($input, 'text-color')
+    );
+    background-color: var(
+      #{getCssVarName('input-bg-color')},
+      map.get($input, 'bg-color')
+    );
     background-image: none;
     border: none;
     @include inset-input-border(
-      var(--el-input-border-color, map.get($input, 'border-color'))
+      var(
+        #{getCssVarName('input-border-color')},
+        map.get($input, 'border-color')
+      )
     );
-    border-radius: var(
-      --el-input-border-radius,
+    border-radius: getCssVarWithDefault(
+      'input-border-radius',
       map.get($input, 'border-radius')
     );
-    transition: var(--el-transition-box-shadow);
+    transition: getCssVar('transition-box-shadow');
 
     &::placeholder {
-      color: var(
-        --el-input-placeholder-color,
+      color: getCssVarWithDefault(
+        'input-placeholder-color',
         map.get($input, 'placeholder-color')
       );
     }
 
     &:hover {
-      @include inset-input-border(var(--el-input-hover-border-color));
+      @include inset-input-border(#{getCssVar('input', 'hover-border-color')});
     }
 
     &:focus {
       outline: none;
-      @include inset-input-border(var(--el-input-focus-border-color));
+      @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     }
   }
 
   @include e(count) {
-    color: var(--el-color-info);
-    background: var(--el-color-white);
+    color: getCssVar('color-info');
+    background: getCssVar('fill-color', 'blank');
     position: absolute;
     font-size: 12px;
     line-height: 14px;
@@ -80,11 +89,11 @@
 
   @include when(exceed) {
     .#{$namespace}-textarea__inner {
-      border-color: var(--el-color-danger);
+      border-color: getCssVar('color-danger');
     }
 
     .#{$namespace}-input__count {
-      color: var(--el-color-danger);
+      color: getCssVar('color-danger');
     }
   }
 }

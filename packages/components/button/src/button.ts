@@ -1,32 +1,40 @@
-import { SizeProp } from '@element-ultra/constants'
+import { iconPropType } from '@element-ultra/utils'
 import { Loading } from '@element-plus/icons-vue'
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type button from './button.vue'
+import { SizeProp } from '@element-ultra/constants'
 
-export type ButtonTypes = 'default' | 'primary' | 'success' | 'warning' | 'info' | 'danger'
+export const buttonNativeTypes = ['button', 'submit', 'reset'] as const
 
 export const buttonProps = {
   size: SizeProp,
   disabled: Boolean,
   type: {
-    type: String as PropType<ButtonTypes>,
-  },
-  text: Boolean,
-  icon: {
-    type: [String, Object, Function] as PropType<string | Component>,
+    type: String as PropType<ButtonType>,
     default: ''
+  },
+  icon: {
+    type: iconPropType,
+    default: ''
+  },
+  nativeType: {
+    type: String as PropType<'button' | 'submit' | 'reset'>,
+    default: 'button'
   },
   loading: Boolean,
   loadingIcon: {
-    type: [String, Object, Function] as PropType<string | Component>,
+    type: iconPropType,
     default: () => Loading
   },
   plain: Boolean,
+  text: Boolean,
+  link: Boolean,
+  bg: Boolean,
   autofocus: Boolean,
   round: Boolean,
   circle: Boolean,
-  color: String
-}
+  dark: Boolean
+} as const
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent
 }
@@ -34,8 +42,14 @@ export const buttonEmits = {
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>
 export type ButtonEmits = typeof buttonEmits
 
-export type ButtonInstance = InstanceType<typeof button>
+export type ButtonType =
+  | 'default'
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'info'
+  | 'danger'
+  | ''
+export type ButtonNativeType = ButtonProps['nativeType']
 
-export interface ButtonConfigContext {
-  autoInsertSpace?: boolean
-}
+export type ButtonInstance = InstanceType<typeof button>

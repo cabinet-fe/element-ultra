@@ -13,7 +13,8 @@
           v-for="column of leafColumns"
           :key="column.key"
         >
-          {{ column.key ? row[column.key] : '-' }}
+          <div style="height: 100px; width: 100px">11</div>
+          <!-- {{ column.key ? row[column.key] : '-' }} -->
         </td>
       </tr>
     </template>

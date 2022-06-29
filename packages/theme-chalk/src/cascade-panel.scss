@@ -8,20 +8,20 @@
 
 @include b(cascade-panel) {
   display: flex;
-  border-radius: var(--el-cascade-menu-radius);
-  font-size: var(--el-cascade-menu-font-size);
+  border-radius: getCssVar('cascade-menu', 'radius');
+  font-size: getCssVar('cascade-menu', 'font-size');
 
   @include when(bordered) {
-    border: var(--el-cascade-menu-border);
-    border-radius: var(--el-cascade-menu-radius);
+    border: getCssVar('cascade-menu', 'border');
+    border-radius: getCssVar('cascade-menu', 'radius');
   }
 }
 
 @include b(cascade-menu) {
   min-width: 180px;
   box-sizing: border-box;
-  color: var(--el-cascade-menu-text-color);
-  border-right: var(--el-cascade-menu-border);
+  color: getCssVar('cascade-menu', 'text-color');
+  border-right: getCssVar('cascade-menu', 'border');
 
   &:last-child {
     border-right: none;
@@ -33,7 +33,7 @@
 
   @include e(wrap) {
     // Raise the priority
-    &.el-scrollbar__wrap {
+    &.#{$namespace}-scrollbar__wrap {
       height: 204px;
     }
   }
@@ -61,8 +61,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
-    color: var(--el-cascade-color-empty);
+    display: flex;
+    align-items: center;
+    color: getCssVar('cascade', 'color-empty');
+
+    .is-loading {
+      margin-right: 2px;
+    }
   }
 }
 
@@ -76,13 +81,13 @@
   outline: none;
 
   &.is-selectable.in-active-path {
-    color: var(--el-cascade-menu-text-color);
+    color: getCssVar('cascade-menu', 'text-color');
   }
 
   &.in-active-path,
   &.is-selectable.in-checked-path,
   &.is-active {
-    color: var(--el-cascade-menu-selected-text-color);
+    color: getCssVar('cascade-menu', 'selected-text-color');
     font-weight: bold;
   }
 
@@ -91,12 +96,12 @@
 
     &:hover,
     &:focus {
-      background: var(--el-cascade-node-background-hover);
+      background: getCssVar('cascade-node', 'background-hover');
     }
   }
 
   @include when(disabled) {
-    color: var(--el-cascade-node-color-disabled);
+    color: getCssVar('cascade-node', 'color-disabled');
     cursor: not-allowed;
   }
 

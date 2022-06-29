@@ -11,7 +11,7 @@
         [ns.bm('group', 'prepend')]: $slots.prepend,
         [ns.m('prefix')]: $slots.prefix || prefixIcon,
         [ns.m('suffix')]: $slots.suffix || suffixIcon || clearable || showPassword,
-        [ns.m('suffix--password-clear')]: showClear && showPwdVisible
+        [ns.bm('suffix', 'password-clear')]: showClear && showPwdVisible
       },
       $attrs.class
     ]"

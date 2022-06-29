@@ -1,5 +1,6 @@
 import type { ComponentSize } from '@element-ultra/constants'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { ButtonType } from '@element-ultra/components/button'
 
 export const actionProps = {
   needConfirm: {
@@ -27,6 +28,11 @@ export const actionGroupProps = {
   max: {
     type: Number,
     default: 3
+  },
+
+  type: {
+    type: String as PropType<ButtonType>,
+    default: 'primary'
   }
 } as const
 

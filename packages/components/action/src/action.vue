@@ -14,7 +14,7 @@
         </div>
       </li>
 
-      <el-button v-else :icon="icon" :size="size" text> <slot /> </el-button>
+      <el-button v-else :icon="icon" :type="groupProps.type"  :size="size" link> <slot /> </el-button>
     </template>
   </el-popconfirm>
 
@@ -22,7 +22,7 @@
     <li :class="ns.b()" v-if="isDrop" @click="run">
       <slot />
     </li>
-    <el-button :icon="icon" v-else :size="size" text @click="run">
+    <el-button :icon="icon" v-else  :type="groupProps.type" :size="size" link @click="run">
       <slot />
     </el-button>
   </template>
@@ -52,7 +52,7 @@ const run = () => {
   emit('run')
 }
 
-const { setDropdownVisible } = inject(actionGroupToken)!
+const { setDropdownVisible, groupProps  } = inject(actionGroupToken)!
 
 /** 当 当前的的action处于下拉框中时要在确认框显示或隐藏时联动更多下拉框 */
 const handleVisibleChange = (visible: boolean) => {

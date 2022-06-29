@@ -104,7 +104,8 @@ export default defineComponent({
     }
 
     provide(actionGroupToken, {
-      setDropdownVisible
+      setDropdownVisible,
+      groupProps: props
     })
 
     return () => {

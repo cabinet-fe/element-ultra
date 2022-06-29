@@ -32,23 +32,23 @@
   @include set-component-css-var('input', $input);
 
   position: relative;
-  font-size: var(--el-font-size-base);
+  font-size: getCssVar('font-size', 'base');
   display: inline-flex;
   width: 100%;
-  line-height: map.get($input-height, 'default');
+  line-height: getCssVar('input-height');
   vertical-align: middle;
 
   @include scroll-bar;
 
   & .#{$namespace}-input__clear {
-    color: var(--el-input-icon-color);
+    color: getCssVar('input-icon-color');
     font-size: map.get($input-font-size, 'default');
     cursor: pointer;
-    transition: var(--el-transition-color);
+
     margin-left: 8px;
 
     &:hover {
-      color: var(--el-input-clear-hover-color);
+      color: getCssVar('input-clear-hover-color');
     }
   }
 
@@ -56,11 +56,11 @@
     height: 100%;
     display: inline-flex;
     align-items: center;
-    color: var(--el-color-info);
+    color: getCssVar('color-info');
     font-size: 12px;
 
     .#{$namespace}-input__count-inner {
-      background: $color-white;
+      background-color: getCssVar('fill-color', 'blank');
       line-height: initial;
       display: inline-block;
       padding: 0 5px;
@@ -70,41 +70,50 @@
   @include e(inner) {
     position: relative;
     -webkit-appearance: none;
-    background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
+    background-color: getCssVarWithDefault(
+      'input-bg-color',
+      map.get($input, 'bg-color')
+    );
     background-image: none;
-    border-radius: var(
-      --el-input-border-radius,
+    border-radius: getCssVarWithDefault(
+      'input-border-radius',
       map.get($input, 'border-radius')
     );
     box-sizing: border-box;
-    color: var(--el-input-text-color, map.get($input, 'text-color'));
+    color: getCssVarWithDefault(
+      'input-text-color',
+      map.get($input, 'text-color')
+    );
     display: inline-block;
     font-size: inherit;
     height: map.get($input-height, 'default');
     line-height: map.get($input-height, 'default');
     outline: none;
-    padding: 0 map.get($input-padding-horizontal, 'default')-$border-width-base;
+    padding: 0 map.get($input-padding-horizontal, 'default')-$border-width;
     transition: var(--el-transition-box-shadow);
     width: 100%;
     @include inset-input-border(
-      var(--el-input-border-color, map.get($input, 'border-color'))
+      var(
+        #{getCssVarName('input-border-color')},
+        map.get($input, 'border-color')
+      )
     );
     border: none;
 
     &::placeholder {
-      color: var(
-        --el-input-placeholder-color,
+      color: getCssVarWithDefault(
+        'input-placeholder-color',
         map.get($input, 'placeholder-color')
       );
     }
 
     &:hover {
-      @include inset-input-border(var(--el-input-hover-border-color));
+      @include inset-input-border(#{getCssVar('input', 'hover-border-color')});
     }
 
     &:focus {
       outline: none;
-      @include inset-input-border(var(--el-input-focus-border-color));
+      @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     }
   }
 
@@ -222,7 +231,7 @@
       @include e(inner) {
         height: map.get($input-height, $size);
         line-height: map.get($input-height, $size);
-        padding: 0 map.get($input-padding-horizontal, $size)-$border-width-base;
+        padding: 0 map.get($input-padding-horizontal, $size)-$border-width;
       }
 
       .#{$namespace}-input__icon {

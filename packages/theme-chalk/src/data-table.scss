@@ -5,15 +5,13 @@
 
   table {
     width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
   }
 
   @include e(header) {
-    height: 40px;
-    width: 100%;
-    border-spacing: 0;
-
     th {
-      border-bottom: 1px solid  #eee;
+      border-bottom: 1px solid #eee;
       border-right: 1px solid #eee;
     }
   }
@@ -22,12 +20,15 @@
 
   }
 
-
   @include e(row) {
+    height: 40px;
   }
 
   @include e(cell) {
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0 4px;
   }
 
   @include e(footer) {

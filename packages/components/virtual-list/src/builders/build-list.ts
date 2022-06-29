@@ -1,36 +1,38 @@
+// @ts-nocheck
 import {
   computed,
   defineComponent,
   getCurrentInstance,
-  ref,
+  h,
   nextTick,
   onMounted,
   onUpdated,
+  ref,
   resolveDynamicComponent,
-  h,
   unref,
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { hasOwn, isNumber, isString } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'
-import { getScrollDir, isHorizontal, getRTLOffsetType } from '../utils'
+import { getRTLOffsetType, getScrollDir, isHorizontal } from '../utils'
 import { virtualizedListProps } from '../props'
 import {
   AUTO_ALIGNMENT,
   BACKWARD,
   FORWARD,
-  RTL,
   HORIZONTAL,
   ITEM_RENDER_EVT,
-  SCROLL_EVT,
+  RTL,
   RTL_OFFSET_NAG,
   RTL_OFFSET_POS_DESC,
+  SCROLL_EVT,
 } from '../defaults'
 
-import type { VNode, CSSProperties, Slot, VNodeChild } from 'vue'
-import type { ListConstructorProps, Alignment } from '../types'
+import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue'
+import type { Alignment, ListConstructorProps } from '../types'
 import type { VirtualizedListProps } from '../props'
 
 const createList = ({
@@ -52,6 +54,9 @@ const createList = ({
     setup(props, { emit, expose }) {
       validateProps(props)
       const instance = getCurrentInstance()!
+
+      const ns = useNamespace('vl')
+
       const dynamicSizeCache = ref(initCache(props, instance))
 
       const getItemStyleCache = useCache()
@@ -116,7 +121,7 @@ const createList = ({
       const windowStyle = computed(() => [
         {
           position: 'relative',
-          overflow: 'hidden',
+          [`overflow-${_isHorizontal.value ? 'x' : 'y'}`]: 'scroll',
           WebkitOverflowScrolling: 'touch',
           willChange: 'transform',
         },
@@ -406,6 +411,7 @@ const createList = ({
       })
 
       const api = {
+        ns,
         clientSize,
         estimatedTotalSize,
         windowStyle,
@@ -456,6 +462,7 @@ const createList = ({
         states,
         useIsScrolling,
         windowStyle,
+        ns,
       } = ctx
 
       const [start, end] = itemsToRender
@@ -508,7 +515,7 @@ const createList = ({
       const listContainer = h(
         Container as VNode,
         {
-          class: className,
+          class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
           onWheel,
@@ -522,10 +529,7 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: [
-            'el-vl__wrapper',
-            states.scrollbarAlwaysOn ? 'always-on' : '',
-          ],
+          class: [ns.e('wrapper'), states.scrollbarAlwaysOn ? 'always-on' : ''],
         },
         [listContainer, scrollbar]
       )

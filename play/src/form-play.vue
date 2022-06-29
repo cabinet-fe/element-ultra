@@ -11,7 +11,7 @@
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number label="数字" money clearable field="num" />
+        <el-input-number money label="数字" clearable field="num" />
 
         <el-cascade
           label="级联"
@@ -37,19 +37,21 @@
           <el-input label="住址" clearable field="address" />
         </template>
 
-        <!-- <el-select label="选择框" :options="[{ label: 'aa', value: '1' }]" multiple field="aa" /> -->
+        <el-select label="选择框" :options="[{ label: 'aa', value: '1' }]" multiple field="aa" />
 
-        <!-- <el-date-picker
+        <el-date-picker
           type="daterange"
           label="范围日期"
           v-model:start="data.start"
           v-model:end="data.end"
+          field="rangedate"
         />
 
          <el-date-picker
           label="日期"
+          field="date"
           v-model="data.start"
-        /> -->
+        />
       </el-form>
       <el-button @click="formRef.validate()">校验</el-button>
     </el-card>
@@ -90,6 +92,8 @@ const [data, rules] = useFormModel({
   phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
   type: { value: '2' },
   address: { required: true },
+  date: {},
+  rangedate: {},
   start: { value: '' },
   end: { value: '' },
   aa: { value: [] },

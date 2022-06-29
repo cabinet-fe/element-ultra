@@ -1,32 +1,38 @@
 @use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
 @use 'common/var' as *;
 
 @include b(card) {
-  border-radius: var(--el-border-radius-base);
-  border: var(--el-border-base);
-  background-color: var(--el-color-white);
+  @include set-component-css-var('card', $card);
+}
+
+@include b(card) {
+  border-radius: getCssVar('card', 'border-radius');
+  border: 1px solid getCssVar('card', 'border-color');
+  background-color: getCssVar('card', 'bg-color');
   overflow: hidden;
-  color: var(--el-text-color-primary);
-  transition: var(--el-transition-duration);
+  color: getCssVar('text-color', 'primary');
+  transition: getCssVar('transition-duration');
 
   @include when(always-shadow) {
-    box-shadow: var(--el-box-shadow-light);
+    box-shadow: getCssVar('box-shadow', 'light');
   }
 
   @include when(hover-shadow) {
     &:hover,
     &:focus {
-      box-shadow: var(--el-box-shadow-light);
+      box-shadow: getCssVar('box-shadow', 'light');
     }
   }
 
   @include e(header) {
-    padding: 8px;
-    border-bottom: var(--el-border-base);
+    padding: calc(#{getCssVar('card', 'padding')} - 2px)
+      getCssVar('card', 'padding');
+    border-bottom: 1px solid getCssVar('card', 'border-color');
     box-sizing: border-box;
   }
 
   @include e(body) {
-    padding: 8px;
+    padding: getCssVar('card', 'padding');
   }
 }

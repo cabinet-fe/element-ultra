@@ -34,6 +34,19 @@ function buildThemeChalk() {
 }
 
 /**
+ * Build dark Css Vars
+ * @returns
+ */
+function buildDarkCssVars() {
+  const sass = gulpSass(dartSass)
+  return src(path.resolve(__dirname, 'src/dark/css-vars.scss'))
+    .pipe(sass.sync())
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(cleanCSS({}, details => {}))
+    .pipe(dest(`${distFolder}/dark`))
+}
+
+/**
  * copy from packages/theme-chalk/dist to dist/element-ultra/theme-chalk
  */
 export function copyThemeChalkBundle() {
@@ -45,9 +58,14 @@ export function copyThemeChalkBundle() {
  */
 
 export function copyThemeChalkSource() {
-  return src(path.resolve(__dirname, 'src/**')).pipe(dest(path.resolve(distBundle, 'src')))
+  return src(path.resolve(__dirname, 'src/**')).pipe(
+    dest(path.resolve(distBundle, 'src'))
+  )
 }
 
-export const build = parallel(copyThemeChalkSource, series(buildThemeChalk, copyThemeChalkBundle))
+export const build = parallel(
+  copyThemeChalkSource,
+  series(buildThemeChalk, buildDarkCssVars, copyThemeChalkBundle)
+)
 
 export default build

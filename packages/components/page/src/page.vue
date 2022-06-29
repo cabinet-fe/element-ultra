@@ -121,6 +121,13 @@ export default defineComponent({
       return nodes
     }
 
+    const navTo = (nav: string) => {
+      document.getElementById(nav)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+
     return () => {
       const { children, navList } = getDefaultSlots()
       let hasNav = !!navList.length
@@ -130,7 +137,7 @@ export default defineComponent({
           class={ns.b()}
           rows='100%'
           gap='0'
-          cols={`minmax(0, 1fr) ${hasNav? '100px' : '0'}`}
+          cols={`minmax(0, 1fr) ${hasNav ? '100px' : '0'}`}
         >
           <div class={ns.e('main')}>
             <section class={ns.e('content')}>
@@ -154,7 +161,7 @@ export default defineComponent({
                     key='nav'
                     onClick={() => handleClickNavItem(index)}
                   >
-                    <a href={'#' + nav}>{nav}</a>
+                    <a onClick={() => navTo(nav)}>{nav}</a>
                   </li>
                 )
               })}

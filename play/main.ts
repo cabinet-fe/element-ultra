@@ -2,6 +2,7 @@ import { createApp, defineComponent, h } from 'vue'
 import { useConfig } from 'element-ultra'
 import { router } from './src/router'
 import App from  './App.vue'
+import '@element-ultra/theme-chalk/src/dark/css-vars.scss'
 
 const MyComponent = defineComponent({
   render() {

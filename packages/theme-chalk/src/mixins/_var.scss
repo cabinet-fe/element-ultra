@@ -1,28 +1,66 @@
 @use 'sass:map';
 
+@use 'config';
+@use 'function' as *;
 @use '../common/var' as *;
 
-// 设置css颜色的浅色系列变量
-@mixin set-css-color-type-light($type, $i) {
-  --el-color-#{$type}-light-#{$i}: #{map.get($colors, $type, 'light-#{$i}')};
-}
-// 设置css颜色的深色系列变量
-@mixin set-css-color-type-dark($type, $i) {
-  --el-color-#{$type}-dark-#{$i}: #{map.get($colors, $type, 'dark-#{$i}')};
-}
-// 设置css辅助色系列变量 primary info warning success danger
-@mixin set-css-color-type($type) {
-  --el-color-#{$type}: #{map.get($colors, $type, 'base')};
+// set css var value, because we need translate value to string
+// for example:
+// @include set-css-var-value(('color', 'primary'), red);
+// --el-color-primary: red;
+@mixin set-css-var-value($name, $value) {
+  #{joinVarName($name)}: #{$value};
 }
 
+// @include set-css-var-type('color', 'primary', $map);
+// --el-color-primary: #{map.get($map, 'primary')};
 @mixin set-css-var-type($name, $type, $variables) {
-  --el-#{$name}-#{$type}: #{map.get($variables, $type)};
+  #{getCssVarName($name, $type)}: #{map.get($variables, $type)};
 }
 
-// 设置所有组件的css变量
+@mixin set-css-color-type($colors, $type) {
+  @include set-css-var-value(('color', $type), map.get($colors, $type, 'base'));
+
+  @each $i in (3, 5, 7, 8, 9) {
+    @include set-css-var-value(
+      ('color', $type, 'light', $i),
+      map.get($colors, $type, 'light-#{$i}')
+    );
+  }
+
+  @include set-css-var-value(
+    ('color', $type, 'dark-2'),
+    map.get($colors, $type, 'dark-2')
+  );
+}
+
+// set all css var for component by map
 @mixin set-component-css-var($name, $variables) {
   @each $attribute, $value in $variables {
-    --el-#{$name}-#{$attribute}: #{$value};
+    @if $attribute == 'default' {
+      #{getCssVarName($name)}: #{$value};
+    } @else {
+      #{getCssVarName($name, $attribute)}: #{$value};
+    }
   }
 }
 
+@mixin set-css-color-rgb($type) {
+  $color: map.get($colors, $type, 'base');
+  @include set-css-var-value(
+    ('color', $type, 'rgb'),
+    #{red($color),
+    green($color),
+    blue($color)}
+  );
+}
+
+// generate css var from existing css var
+// for example:
+// @include css-var-from-global(('button', 'text-color'), ('color', $type))
+// --el-button-text-color: var(--el-color-#{$type});
+@mixin css-var-from-global($var, $gVar) {
+  $varName: joinVarName($var);
+  $gVarName: joinVarName($gVar);
+  #{$varName}: var(#{$gVarName});
+}

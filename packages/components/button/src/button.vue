@@ -10,61 +10,57 @@
       ns.is('plain', plain),
       ns.is('round', round),
       ns.is('circle', circle),
+      ns.is('text', text),
+      ns.is('link', link),
+      ns.is('has-bg', bg)
     ]"
+    :aria-disabled="_disabled || loading"
     :disabled="_disabled || loading"
     :autofocus="autofocus"
-    type="button"
+    :type="nativeType"
     @click="handleClick"
   >
     <template v-if="loading">
-      <slot v-if="$slots.loading" name="loading"></slot>
+      <slot v-if="$slots.loading" name="loading" />
       <el-icon v-else :class="ns.is('loading')">
         <component :is="loadingIcon" />
       </el-icon>
     </template>
-    <el-icon v-else-if="icon">
-      <component :is="icon" />
+    <el-icon v-else-if="icon || $slots.icon">
+      <component :is="icon" v-if="icon" />
+      <slot v-else name="icon" />
     </el-icon>
     <span v-if="$slots.default">
-      <slot></slot>
+      <slot />
     </span>
   </button>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
-import {
-  useDisabled,
-  useNamespace,
-  useSize,
-} from '@element-ultra/hooks'
+import { useDisabled, useNamespace, useSize } from '@element-ultra/hooks'
 import { buttonGroupContextKey } from '@element-ultra/tokens'
 import { buttonEmits, buttonProps } from './button'
 
 defineOptions({
-  name: 'ElButton',
+  name: 'ElButton'
 })
 
 const props = defineProps(buttonProps)
 const emit = defineEmits(buttonEmits)
 
 const buttonGroupContext = inject(buttonGroupContextKey, undefined)
-const ns = useNamespace('button')
 
+const ns = useNamespace('button')
 const _size = useSize({
   props,
-  fallback: buttonGroupContext ? toRef(buttonGroupContext, 'size') : undefined
+  fallback: computed(() => buttonGroupContext?.size)
 })
-
 const _disabled = useDisabled()
 const _ref = ref<HTMLButtonElement>()
 
-const _type = computed(() => {
-  if (props.text) return 'text'
-  if (props.type !== 'default') return props.type
-  return buttonGroupContext?.type ?? 'default'
-})
+const _type = computed(() => props.type || buttonGroupContext?.type || '')
 
 const handleClick = (evt: MouseEvent) => {
   emit('click', evt)
@@ -72,12 +68,12 @@ const handleClick = (evt: MouseEvent) => {
 
 defineExpose({
   /** @description button html element */
-  $el: _ref,
+  ref: _ref,
   /** @description button size */
   size: _size,
   /** @description button type */
   type: _type,
   /** @description button disabled */
-  disabled: _disabled,
+  disabled: _disabled
 })
 </script>

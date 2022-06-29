@@ -6,6 +6,8 @@
         { value: 'default', label: '中' },
         { value: 'small', label: '小' },
       ]" @change="handleSizeChange" />
+
+      <el-switch v-model="theme" @change="toggleDark" />
       <ul>
         <li v-for="component of components">
           <router-link class="link" :to="component.path">
@@ -25,6 +27,11 @@
 import { useConfig } from 'element-ultra'
 import { shallowRef } from 'vue'
 const list = import.meta.glob('./src/*.vue')
+
+let theme = shallowRef(false)
+const toggleDark = () => {
+  document.documentElement.classList.toggle('dark')
+}
 
 const [, setConfigStore] = useConfig()
 
@@ -60,7 +67,7 @@ const handleSizeChange = (size: 'large' | 'default' | 'small') => {
   ul {
     margin: 0;
     padding: 0;
-    height: calc(100% - 32px);
+    height: calc(100% - 64px);
   }
 
   li {

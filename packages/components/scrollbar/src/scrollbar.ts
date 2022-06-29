@@ -1,5 +1,6 @@
+import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
+import type Scrollbar from './scrollbar.vue'
 import { isNumber } from '@element-ultra/utils'
-import type { StyleValue, ExtractPropTypes, PropType } from 'vue'
 
 export const scrollbarProps = {
   height: {
@@ -10,10 +11,7 @@ export const scrollbarProps = {
     type: [String, Number],
     default: ''
   },
-  native: {
-    type: Boolean,
-    default: false
-  },
+  native: Boolean,
   wrapStyle: {
     type: [String, Object, Array] as PropType<StyleValue>,
     default: ''
@@ -27,7 +25,7 @@ export const scrollbarProps = {
     default: ''
   },
   viewStyle: {
-    type: [String, Array],
+    type: [String, Array, Object],
     default: ''
   },
   noresize: Boolean, // 如果 container 尺寸不会发生变化，最好设置它可以优化性能
@@ -35,23 +33,12 @@ export const scrollbarProps = {
     type: String,
     default: 'div'
   },
-  always: {
-    type: Boolean,
-    default: false
-  },
+  always: Boolean,
   minSize: {
     type: Number,
     default: 20
-  },
-  barZIndex: {
-    type: Number
-  },
-  barVisible: {
-    type: Boolean,
-    default: true
   }
 }
-
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 
 export const scrollbarEmits = {
@@ -61,6 +48,8 @@ export const scrollbarEmits = {
   }: {
     scrollTop: number
     scrollLeft: number
-  }) => isNumber(scrollTop) && isNumber(scrollLeft)
+  }) => [scrollTop, scrollLeft].every(isNumber)
 }
 export type ScrollbarEmits = typeof scrollbarEmits
+
+export type ScrollbarInstance = InstanceType<typeof Scrollbar>

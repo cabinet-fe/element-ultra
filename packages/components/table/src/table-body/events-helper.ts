@@ -52,6 +52,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const table = parent
     const cell = getCell(event)
     const namespace = table?.vnode.el?.dataset.prefix
+
     if (cell) {
       const column = getColumnByCell(
         {

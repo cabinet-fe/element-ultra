@@ -8,10 +8,10 @@ lang: zh-CN
 常用的操作按钮。
 
 ## 改进
-1. type现在表达更加清晰, 只用来表达基础的辅助色系
-2. 增加了一个text属性, boolean类型, 用于替代原本的type='text'
-3. 移除auto-insert-space属性, 这个属性并没有什么用
-4. 移除了color属性, 大部分时候, 这个属性也没什么用, 因为颜色是可配的
+
+1. 移除 auto-insert-space 属性, 这个属性并没有什么用
+2. 移除了 color 属性, 大部分时候, 这个属性也没什么用, 因为颜色是可配的
+
 ## 基础用法
 
 :::demo 使用 `type`、`plain`、`round` 和 `circle` 来定义按钮的样式。
@@ -92,20 +92,22 @@ button/size
 
 ## Button 属性
 
-| 属性              | 说明                           | 类型               | 可选值                                                | 默认值  |
-| ----------------- | ------------------------------ | ------------------ | ----------------------------------------------------- | ------- |
-| size              | 尺寸                           | string             | large / default /small                                | —       |
-| type              | 类型                           | string             | primary / success / warning / danger / info / default | default |
-| text              | 是否为文本按钮                 | boolean            | false                                                 | —       |
-| plain             | 是否为朴素按钮                 | boolean            | —                                                     | false   |
-| round             | 是否为圆角按钮                 | boolean            | —                                                     | false   |
-| circle            | 是否为圆形按钮                 | boolean            | —                                                     | false   |
-| loading           | 是否为加载中状态               | boolean            | —                                                     | false   |
-| loading-icon      | 自定义加载中图标               | string / Component | —                                                     | Loading |
-| disabled          | 是否为禁用状态                 | boolean            | —                                                     | false   |
-| icon              | 自定义图标                     | string / Component | —                                                     | —       |
-| autofocus         | 原生 `autofocus` 属性          | boolean            | —                                                     | false   |
-| native-type       | 原生 type 属性                 | string             | button / submit / reset                               | button  |
+| 属性         | 说明                  | 类型               | 可选值                                                | 默认值  |
+| ------------ | --------------------- | ------------------ | ----------------------------------------------------- | ------- |
+| size         | 尺寸                  | string             | large / default /small                                | —       |
+| type         | 类型                  | string             | primary / success / warning / danger / info / default | default |
+| text         | 是否为文本按钮        | boolean            | -                                                 | false       |
+| bg         | 是否显示文字按钮背景色        | boolean            | -                                                 | false      |
+| link         | 是否为链接按钮        | boolean            | -                                                 | false      |
+| plain        | 是否为朴素按钮        | boolean            | —                                                     | false   |
+| round        | 是否为圆角按钮        | boolean            | —                                                     | false   |
+| circle       | 是否为圆形按钮        | boolean            | —                                                     | false   |
+| loading      | 是否为加载中状态      | boolean            | —                                                     | false   |
+| loading-icon | 自定义加载中图标      | string / Component | —                                                     | Loading |
+| disabled     | 是否为禁用状态        | boolean            | —                                                     | false   |
+| icon         | 自定义图标            | string / Component | —                                                     | —       |
+| autofocus    | 原生 `autofocus` 属性 | boolean            | —                                                     | false   |
+| native-type  | 原生 type 属性        | string             | button / submit / reset                               | button  |
 
 ## Button 插槽
 

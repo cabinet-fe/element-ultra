@@ -118,6 +118,7 @@ const getSortInstance = () => {
     animation: 150,
     ghostClass: 'el-edit-bar__ghost',
     handle: '.el-edit-bar__handle',
+
     onSort(e) {
       const { oldIndex, newIndex } = e
       const { data } = props
