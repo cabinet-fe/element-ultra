@@ -30,6 +30,10 @@
     overflow: auto;
   }
 
+  @include e(close) {
+    cursor: pointer;
+  }
+
   @include e(wrapper) {
     position: fixed;
     top: 0;
