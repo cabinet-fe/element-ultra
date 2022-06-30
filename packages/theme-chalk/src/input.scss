@@ -37,6 +37,7 @@
   width: 100%;
   line-height: getCssVar('input-height');
   vertical-align: middle;
+  overflow: hidden;
 
   @include scroll-bar;
 
@@ -70,20 +71,11 @@
   @include e(inner) {
     position: relative;
     -webkit-appearance: none;
-    background-color: getCssVarWithDefault(
-      'input-bg-color',
-      map.get($input, 'bg-color')
-    );
+    background-color: var(--el-input-bg-color);
     background-image: none;
-    border-radius: getCssVarWithDefault(
-      'input-border-radius',
-      map.get($input, 'border-radius')
-    );
+    border-radius: getCssVar('input-border-radius');
     box-sizing: border-box;
-    color: getCssVarWithDefault(
-      'input-text-color',
-      map.get($input, 'text-color')
-    );
+    color: map.get($input, 'text-color');
     display: inline-block;
     font-size: inherit;
     height: map.get($input-height, 'default');

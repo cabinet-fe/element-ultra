@@ -21,7 +21,7 @@
   <div>{{ data }}</div>
 
   <el-form-dialog :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
-    <el-form :cols="{ cols: 3, xs: 1, s: 2 }" :data="data" :rules="rules">
+    <el-form :cols="{ cols: 3, xs: 1, s: 2 }" :data="data" :rules="rules" label-width="80px">
       <el-radio-group field="type" label="类型">
         <el-radio value="1">名称</el-radio>
         <el-radio value="2">学校</el-radio>
@@ -38,6 +38,8 @@
       <el-tree-select key="111" :data="treeData" field="node1" label="单选" />
 
       <el-tree-select :data="treeData" field="node2" label="多选" multiple />
+
+      <el-select :options="treeData" />
     </el-form>
 
     <el-form :data="data2" :rules="rules2">

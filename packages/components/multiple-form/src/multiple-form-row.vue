@@ -16,11 +16,11 @@
       </td>
 
       <td :class="ns.e('action')" v-if="!multipleFormProps.disabled">
-        <el-button type="primary" :icon="Select" text @click="emit('save')" />
+        <el-button type="primary" :icon="Select" link @click="emit('save')" />
         <el-button
           type="primary"
           :icon="Close"
-          text
+          link
           @click="emit('exit-edit')"
         />
       </td>
@@ -50,14 +50,14 @@
           type="primary"
           v-if="multipleFormProps.actionEdit"
           :icon="Edit"
-          text
+          link
           @click="emit('edit')"
         />
         <el-button
           type="primary"
           v-if="multipleFormProps.actionDelete"
           :icon="Delete"
-          text
+          link
           @click="emit('delete')"
         />
         <el-button
@@ -67,7 +67,7 @@
             multipleFormProps.mode !== 'custom'
           "
           :icon="Plus"
-          text
+          link
           @click="emit('create')"
         />
       </td>

@@ -177,7 +177,7 @@ $box-shadow: map.merge(
       0px 16px 48px 16px rgba(0, 0, 0, 0.08),
       0px 12px 32px rgba(0, 0, 0, 0.12),
       0px 8px 16px -8px rgba(0, 0, 0, 0.16)
-    )
+    ),
   ),
   $box-shadow
 );
@@ -731,14 +731,16 @@ $dialog: () !default;
 $dialog: map.merge(
   (
     'width': 50%,
-    'margin-top': 15vh,
+    'margin-top': 10vh,
     'bg-color': getCssVar('bg-color'),
     'box-shadow': getCssVar('box-shadow'),
     'title-font-size': getCssVar('font-size-large'),
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
-    'padding-primary': 20px,
-    'border-radius': getCssVar('border-radius-small')
+    'header-height': 44px,
+    'padding': 10px,
+    'footer-height': 44px,
+    'border-radius': getCssVar('border-radius-base')
   ),
   $dialog
 );

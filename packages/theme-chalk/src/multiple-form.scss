@@ -5,12 +5,12 @@
     box-shadow: 0 0 0 0 rgb(255, 255, 255);
   }
   100% {
-    box-shadow: 0 0 5px 0px var(--el-color-primary);
+    box-shadow: 0 0 5px 0px var(--el-border-color);
   }
 }
 
 @include b(multiple-form) {
-  background-color: var(--el-color-white);
+  background-color: var(--el-fill-color-blank);
   width: 100%;
 
   $title-height: 36px;
@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     align-content: center;
-    background-color: var(--el-color-white);
+    background-color: var(--el-bg-color);
 
     & > * {
       vertical-align: middle;
@@ -50,7 +50,7 @@
     border-spacing: 0;
 
     td {
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--el-border-color);
     }
 
     tr:hover {
@@ -60,8 +60,6 @@
       position: sticky;
       top: 0;
       z-index: 2;
-
-      background-color: var(--el-color-white);
     }
 
     th,
@@ -72,13 +70,13 @@
       font-size: 14px;
     }
     th:not(.el-multiple-form__action) {
-      box-shadow: 0 2px 3px 0px rgb(240, 240, 240);
+      box-shadow: 0 2px 3px 0px #f0f0f0;
     }
 
     th:last-child {
       z-index: 3;
-      background-color: var(--el-color-white);
-      box-shadow: 2px 2px 3px 0px rgb(240, 240, 240);
+      background-color: var(--el-bg-color);
+      box-shadow: 2px 2px 3px 0px #f0f0f0;
     }
 
     thead .is-required {
@@ -107,12 +105,12 @@
     z-index: 2;
     text-align: left;
     width: 150px;
-    background-color: var(--el-color-white);
+    background-color: var(--el-bg-color);
   }
 
   tr {
     @include when(guide) {
-      animation: guide .8s ease-in-out alternate infinite;
+      animation: guide 0.8s ease-in-out alternate infinite;
     }
   }
 }

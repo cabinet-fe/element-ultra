@@ -345,7 +345,7 @@
         &.#{$namespace}-table-fixed-column--right {
           position: sticky !important;
           z-index: 2;
-          background-color: #fff;
+          background-color: var(--el-bg-color);
           &.is-last-column,
           &.is-first-column {
             &::before {
@@ -376,7 +376,7 @@
         &.#{$namespace}-table__fixed-right-patch {
           position: sticky !important;
           z-index: 2;
-          background: #fff;
+          background: var(--el-bg-color);
           right: 0;
         }
       }

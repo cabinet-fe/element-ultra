@@ -64,7 +64,8 @@
                 style="margin-left: 8px"
                 :icon="Plus"
                 @click="handleCreate(rows.length)"
-                text
+                link
+                type="primary"
               >
                 新增
               </el-button>

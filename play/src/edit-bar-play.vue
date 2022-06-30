@@ -3,7 +3,6 @@
     sortable
     @create="onCreate"
     @delete="onDelete"
-    style="background-color: #fff"
     :data="data"
   >
     <!-- <template #default="item">

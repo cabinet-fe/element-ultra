@@ -5,10 +5,9 @@
   </el-radio-group>
 
   <el-multiple-form
-    :data="[]"
+    :data="data"
     :mode="mode"
     :columns="columns"
-    disabled
     title="标题"
     height="400px"
     @change="onChange"
@@ -76,7 +75,7 @@ const columns: MultipleFormColumn[] = [
   }
 ]
 
-let data = $ref<any[]>([
+let data = $shallowRef<any[]>([
   { name: '6216616101002312625', age: 20, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' }

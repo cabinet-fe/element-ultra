@@ -79,7 +79,7 @@ const handleSizeChange = (size: 'large' | 'default' | 'small') => {
   height: 100%;
   overflow: auto;
   flex-grow: 1;
-  background-color: #f2f2f2;
+  background-color: var(--el-bg-color);
 }
 
 .link {

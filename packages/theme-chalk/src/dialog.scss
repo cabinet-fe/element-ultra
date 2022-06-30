@@ -48,40 +48,16 @@
   }
 
   @include e(header) {
-    padding: getCssVar('dialog', 'padding-primary');
-    padding-bottom: 10px;
-    margin-right: 16px;
+    padding: 0 getCssVar('dialog', 'padding');
+    height: getCssVar('dialog', 'header-height');
+    border-bottom: 1px solid getCssVar('border-color');
     word-break: break-all;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
   }
 
-  @include e(headerbtn) {
-    position: absolute;
-    top: 6px;
-    right: 0;
-    padding: 0;
-    width: 54px;
-    height: 54px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: var(
-      #{getCssVarName('message-close-size')},
-      map.get($message, 'close-size')
-    );
-
-    .#{$namespace}-dialog__close {
-      color: getCssVar('color', 'info');
-      font-size: inherit;
-    }
-
-    &:focus,
-    &:hover {
-      .#{$namespace}-dialog__close {
-        color: getCssVar('color', 'primary');
-      }
-    }
-  }
 
   @include e(title) {
     line-height: getCssVar('dialog-font-line-height');
@@ -90,18 +66,22 @@
   }
 
   @include e(body) {
-    padding: calc(#{getCssVar('dialog-padding-primary')} + 10px)
-      getCssVar('dialog-padding-primary');
+    padding: calc(#{getCssVar('dialog-padding')})
+      getCssVar('dialog-padding');
     color: getCssVar('text-color', 'regular');
     font-size: getCssVar('dialog-content-font-size');
     word-break: break-all;
   }
 
   @include e(footer) {
-    padding: getCssVar('dialog-padding-primary');
-    padding-top: 10px;
-    text-align: right;
+    padding: 0 getCssVar('dialog', 'padding');
+    height: getCssVar('dialog', 'footer-height');
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
     box-sizing: border-box;
+    border-top: 1px solid getCssVar('border-color');
   }
 
   // 内容居中布局

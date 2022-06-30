@@ -147,7 +147,7 @@ $form-item-label-top-margin-bottom: map.merge(
   @include e(label) {
     display: inline-flex;
     justify-content: flex-end;
-    align-items: flex-start;
+    align-items: center;
 
     flex: 0 0 auto;
     font-size: getCssVar('form-label-font-size');

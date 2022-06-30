@@ -28,8 +28,8 @@
     min-height: inherit;
     width: 100%;
     outline: none;
-    background-color: var(--el-input-bg-color, var(--el-color-white));
-    box-shadow: 0 0 1px 1px inset var(--el-border-color-base);
+    background-color: var(--el-input-bg-color);
+    box-shadow: 0 0 1px 1px inset var(--el-border-color);
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
     &:focus {
       border: 1px solid var(--el-color-primary);
@@ -38,28 +38,30 @@
       cursor: not-allowed;
       background-color: map.get($input-disabled, 'fill');
 
+      @include e(text) {
+        cursor: not-allowed;
+        color: map.get($input-disabled, 'text-color');
+        &::placeholder {
+          color: map.get($input-disabled, 'text-color');
+        }
+      }
+
+      @include e(tag) {
+        cursor: not-allowed;
+      }
+      @include e(item) {
+        cursor: not-allowed;
+      }
+      @include e(query) {
+        cursor: not-allowed;
+        color: map.get($input-disabled, 'text-color');
+        &::placeholder {
+          color: map.get($input-disabled, 'text-color');
+        }
+      }
+
       @include e(content) {
         cursor: not-allowed;
-        @include e(text) {
-          cursor: not-allowed;
-          color: map.get($input-disabled, 'text-color');
-          &::placeholder {
-            color: map.get($input-disabled, 'text-color');
-          }
-        }
-        @include e(tag) {
-          cursor: not-allowed;
-          @include e(item) {
-            cursor: not-allowed;
-          }
-          @include e(query) {
-            cursor: not-allowed;
-            color: map.get($input-disabled, 'text-color');
-            &::placeholder {
-              color: map.get($input-disabled, 'text-color');
-            }
-          }
-        }
       }
     }
 
@@ -80,6 +82,8 @@
     outline: none;
     border: none;
     padding: 0;
+    background-color: getCssVar('fill-color', 'blank');
+
     &::placeholder {
       color: var(
         --el-input-placeholder-color,
@@ -108,11 +112,21 @@
     }
   }
 
+  @include e(tools) {
+    position: relative;
+    z-index: 2;
+    padding: 2px 4px;
+    background-color: getCssVar('fill-color', 'blank');
+    border-bottom: 1px solid getCssVar('border-color');
+  }
+
   @include e(query) {
     outline: none;
     border: none;
     padding: 0;
     width: 100px;
+    background-color: getCssVar('fill-color', 'blank');
+
     &::placeholder {
       color: var(
         --el-input-placeholder-color,
@@ -150,11 +164,11 @@
   }
 
   @include e(dropdown) {
-    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    border-radius: var(--el-border-radius-base);
     box-shadow: var(--el-box-shadow-light);
     position: absolute;
     z-index: 2022;
-    background-color: var(--el-color-white);
+    background-color: var(--el-bg-color-overlay);
     @include e(triangle) {
       position: absolute;
       transform: rotate(45deg) translateY(-8px);
@@ -163,7 +177,6 @@
       width: 12px;
       height: 12px;
 
-      background: #fff;
       box-shadow: var(--el-box-shadow-light);
 
       @include when(top) {
@@ -172,10 +185,7 @@
       }
     }
     @include e(tree) {
-      border-radius: var(
-        --el-input-border-radius,
-        var(--el-border-radius-base)
-      );
+      border-radius: var(--el-input-border-radius);
     }
   }
 }

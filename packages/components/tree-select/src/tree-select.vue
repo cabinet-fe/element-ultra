@@ -117,25 +117,26 @@
         ref="dropdownRef"
         v-clickoutside:[treeSelectRef]="hideTree"
       >
-        <span
-          :class="[ns.e('triangle'), ns.is('top', position === 'top')]"
-        ></span>
-        <div
-          style="
-            padding-left: 24px;
-            position: relative;
-            z-index: 2;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
-          "
-        >
-          <el-checkbox
-            v-model="allSelect"
-            @change="handleToggleSelect"
-            v-if="multiple"
+        <span :class="[ns.e('triangle'), ns.is('top', position === 'top')]">
+        </span>
+        <div :class="ns.e('tools')">
+          <el-button
+            type="primary"
+            text
+            size="small"
+            @click="handleToggleSelect(true)"
           >
             全选
-          </el-checkbox>
+          </el-button>
+          <el-button
+            type="info"
+            text
+            size="small"
+            @click="handleToggleSelect(false)"
+          >
+            全不选
+          </el-button>
+
         </div>
 
         <el-tree
@@ -171,7 +172,7 @@ import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
 import ElTag from '@element-ultra/components/tag'
 import ElIcon from '@element-ultra/components/icon'
-import ElCheckbox from '@element-ultra/components/checkbox'
+import ElButton from '@element-ultra/components/button'
 import { ClickOutside } from '@element-ultra/directives'
 import { CircleClose, ArrowDown } from '@element-plus/icons-vue'
 import useTreeSelect from './use-tree-select'
@@ -186,7 +187,6 @@ defineOptions({
   }
 })
 
-const allSelect = ref(false)
 
 const props = defineProps(treeSelectProps)
 

@@ -9,7 +9,7 @@
     display: flex;
     justify-content: space-between;
     padding: 6px;
-    background-color: var(--el-color-white);
+    background-color: var(--el-bg-color);
 
     &-box {
       flex-grow: 1;
@@ -26,7 +26,7 @@
     display: flex;
     justify-content: space-between;
     padding: 6px;
-    background-color: var(--el-color-white);
+    background-color: var(--el-bg-color);
 
     &-left {
       flex-grow: 1;
@@ -35,6 +35,6 @@
   }
 
   @include e('pagination') {
-    background-color: var(--el-color-white);
+    background-color: var(--el-bg-color);
   }
 }

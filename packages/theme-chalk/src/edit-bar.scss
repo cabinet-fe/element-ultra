@@ -2,7 +2,7 @@
 
 @include b(edit-bar) {
   height: 100%;
-  background-color: var(--theme-color);
+  background-color: var(--el-bg-color);
   width: 200px;
 
   .el-scrollbar__view {
@@ -22,9 +22,9 @@
     line-height: 48px;
     padding: 0 8px 0 0;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
-    color: var(--text-color);
-    font-size: var(--text-font-size);
+    border-bottom: 1px solid getCssVar('border-color');
+    color: var(--el-text-color-regular);
+    font-size: var(--el-font-size-base);
     position: relative;
     transition: color 0.15s;
     list-style: none;
