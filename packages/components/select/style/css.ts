@@ -1,6 +1,6 @@
 import '@element-ultra/components/base/style/css'
 import '@element-ultra/components/input/style/css'
 import '@element-ultra/components/tag/style/css'
-import '@element-ultra/components/scrollbar/style/css'
+import '@element-ultra/components/virtual-list/style/css'
 import '@element-ultra/components/popper/style/css'
 import '@element-ultra/theme-chalk/el-select.css'

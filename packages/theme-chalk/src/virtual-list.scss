@@ -1,23 +1,25 @@
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
 
-@mixin showScrollbar {
-  @include b(virtual-scrollbar) {
-    opacity: 1;
-  }
-}
+// @mixin showScrollbar {
+//   @include b(virtual-scrollbar) {
+//     opacity: 1;
+//   }
+// }
 
-@include b(vl) {
-  @include e(wrapper) {
-    position: relative;
-    &:hover {
-      @include showScrollbar();
-    }
-    &.always-on {
-      @include showScrollbar();
-    }
-  }
-}
+// @include b(vl) {
+//   @include e(wrapper) {
+//     position: relative;
+//     &:hover {
+//       @include showScrollbar();
+//     }
+//     &.always-on {
+//       @include showScrollbar();
+//     }
+//   }
+// }
+
+@debug #{$namespace}-vl__window;
 
 .#{$namespace}-vl__window {
   scrollbar-width: none;
@@ -25,16 +27,16 @@
     display: none;
   }
 }
-@include b(virtual-scrollbar) {
-  opacity: 0;
-  transition: opacity 340ms ease-out;
-  &.always-on {
-    opacity: 1;
-  }
-}
+// @include b(virtual-scrollbar) {
+//   opacity: 0;
+//   transition: opacity 340ms ease-out;
+//   &.always-on {
+//     opacity: 1;
+//   }
+// }
 
-@include b(vg) {
-  @include e(wrapper) {
-    position: relative;
-  }
-}
+// @include b(vg) {
+//   @include e(wrapper) {
+//     position: relative;
+//   }
+// }

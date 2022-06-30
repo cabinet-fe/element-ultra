@@ -1,6 +1,6 @@
 import '@element-ultra/components/base/style'
 import '@element-ultra/components/input/style/index'
 import '@element-ultra/components/tag/style/index'
-import '@element-ultra/components/scrollbar/style/index'
+import '@element-ultra/components/virtual-list/style/index'
 import '@element-ultra/components/popper/style/index'
 import '@element-ultra/theme-chalk/src/select.scss'
