@@ -1,4 +1,5 @@
 @use 'mixins/mixins' as *;
+@use 'mixins/config';
 
 @include b('pro-table') {
   width: 100%;
@@ -9,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     padding: 6px;
-    background-color: var(--el-bg-color);
+    background-color: var(--el-bg-color-overlay);
 
     &-box {
       flex-grow: 1;
@@ -26,7 +27,7 @@
     display: flex;
     justify-content: space-between;
     padding: 6px;
-    background-color: var(--el-bg-color);
+    background-color: var(--el-bg-color-overlay);
 
     &-left {
       flex-grow: 1;
@@ -37,4 +38,8 @@
   @include e('pagination') {
     background-color: var(--el-bg-color);
   }
+
+  // .#{$namespace}-table {
+  //   background-color: var(--el-bg-color-overlay);
+  // }
 }
