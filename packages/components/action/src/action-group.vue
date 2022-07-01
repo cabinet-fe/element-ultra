@@ -57,11 +57,15 @@ export default defineComponent({
       const { max } = props
       const normalChildren =
         max >= children.length ? children : children.slice(0, max - 1)
+
+
       const restChildren = (
         max >= children.length ? [] : children.slice(max - 1)
       ).map(node => {
         if (node.props) {
           node.props.isDrop = true
+        } else {
+          node.props =  { isDrop: true }
         }
         return node
       })
@@ -74,7 +78,7 @@ export default defineComponent({
           v-slots={{
             content: () => <ul>{restChildren}</ul>,
             default: () => (
-              <ElButton text>
+              <ElButton link type="primary">
                 更多
                 <ElIcon class='el-icon--right'>
                   <ArrowDown />
