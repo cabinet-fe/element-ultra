@@ -1,5 +1,11 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
+export type ImageViewerAction =
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'clockwise'
+  | 'anticlockwise'
+
 export const imageViewerProps = {
   urlList: {
     type: Array as PropType<string[]>,
@@ -24,7 +30,7 @@ export const imageViewerProps = {
     type: Boolean,
     default: false
   }
-} as const
+}
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
 export const imageViewerEmits = {
@@ -33,8 +39,4 @@ export const imageViewerEmits = {
 }
 export type ImageViewerEmits = typeof imageViewerEmits
 
-export type ImageViewerAction =
-  | 'zoomIn'
-  | 'zoomOut'
-  | 'clockwise'
-  | 'anticlockwise'
+

@@ -26,8 +26,6 @@ export type MultipleFormRules = {
   ) => Promise<string> | string
 }
 
-
-
 /** 列配置 */
 export type MultipleFormColumn = {
   /** 列的名称, 在表头中显示 */
@@ -114,7 +112,7 @@ export const multipleFormProps = {
     type: Number,
     default: 120
   }
-} as const
+}
 
 export const multipleFormEmits = {
   save: (row: any, rows: any[]) => true,

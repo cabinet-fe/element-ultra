@@ -10,6 +10,7 @@ import {
   ref,
   renderSlot,
   watch,
+  type ExtractPropTypes,
   type PropType
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
@@ -43,42 +44,46 @@ const getPaneInstanceFromSlot = (
   return paneInstanceList
 }
 
+const tabsProps = {
+  type: {
+    type: String as PropType<'card' | 'border-card' | ''>,
+    default: ''
+  },
+  hideContent: Boolean,
+  activeName: {
+    type: String,
+    default: ''
+  },
+  closable: Boolean,
+  addable: Boolean,
+  modelValue: {
+    type: [String, Number],
+    default: ''
+  },
+  bars: Array as PropType<string[]>,
+  editable: Boolean,
+  tabPosition: {
+    type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
+    default: 'top'
+  },
+  beforeLeave: {
+    type: Function as PropType<
+      (
+        newTabName: string | number,
+        oldTabName: string | number
+      ) => void | boolean | Promise<void | boolean>
+    >,
+    default: () => true
+  },
+  stretch: Boolean
+}
+
+export type TabsProps = ExtractPropTypes<typeof tabsProps>
+
 export default defineComponent({
   name: 'ElTabs',
 
-  props: {
-    type: {
-      type: String as PropType<'card' | 'border-card' | ''>,
-      default: ''
-    },
-    hideContent: Boolean,
-    activeName: {
-      type: String,
-      default: ''
-    },
-    closable: Boolean,
-    addable: Boolean,
-    modelValue: {
-      type: [String, Number],
-      default: ''
-    },
-    bars: Array as PropType<string[]>,
-    editable: Boolean,
-    tabPosition: {
-      type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
-      default: 'top'
-    },
-    beforeLeave: {
-      type: Function as PropType<
-        (
-          newTabName: string | number,
-          oldTabName: string | number
-        ) => void | boolean | Promise<void | boolean>
-      >,
-      default: () => true
-    },
-    stretch: Boolean
-  },
+  props: tabsProps,
   emits: {
     [UPDATE_MODEL_EVENT]: (tabName: string | number) =>
       typeof tabName === 'string' || typeof tabName === 'number',

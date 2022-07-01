@@ -19,8 +19,6 @@
 //   }
 // }
 
-@debug #{$namespace}-vl__window;
-
 .#{$namespace}-vl__window {
   scrollbar-width: none;
   &::-webkit-scrollbar {

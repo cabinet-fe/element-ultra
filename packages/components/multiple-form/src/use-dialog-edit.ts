@@ -9,10 +9,10 @@ interface Options {
   emit: MultipleFormEmits
 }
 
-export default function (options: Options) {
+export default function useDialogEdit (options: Options) {
   const { props, rows, emit } = options
 
-  const model = props.columns.reduce((acc, cur) => {
+  const model = props.columns!.reduce((acc, cur) => {
     if (cur.defaultValue instanceof Function) {
       let v = cur.defaultValue()
       if (v instanceof Promise) {
@@ -29,9 +29,9 @@ export default function (options: Options) {
 
   const [form, rules] = useFormModel(model)
 
-  const [dialog, open] = useFormDialog(form)
+  const [dialog, open] = useFormDialog(form) as any
 
-  // TODO? 如果需要切换模式, 则form还应该是响应式的
+
   const submit = () => {
     const { ctx } = dialog
     let data = { ...form }

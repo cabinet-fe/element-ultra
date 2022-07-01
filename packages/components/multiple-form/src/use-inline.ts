@@ -18,7 +18,7 @@ export default function useInline(options: Options) {
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
-    return props.columns.reduce((acc, column) => {
+    return (props.columns ?? []).reduce((acc, column) => {
       if (column.rules) {
         acc[column.key] = column.rules
       }
@@ -38,7 +38,7 @@ export default function useInline(options: Options) {
   /** 创建一个空行 */
   const createInlineRow = () => {
     let row = shallowReactive(
-      props.columns.reduce(
+      (props.columns ?? []).reduce(
         (acc, cur) => {
           if (cur.defaultValue instanceof Function) {
             let v = cur.defaultValue()
@@ -166,7 +166,11 @@ export default function useInline(options: Options) {
       }
 
       for (const key in restRule) {
-        const errorMsg = singleRuleValidate(key as keyof typeof restRule, itemValue, restRule[key])
+        const errorMsg = singleRuleValidate(
+          key as keyof typeof restRule,
+          itemValue,
+          restRule[key]
+        )
 
         errorTip[fieldKey] = errorMsg
         if (errorMsg) {

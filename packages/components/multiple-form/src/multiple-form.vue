@@ -92,7 +92,7 @@
 
           <tr v-if="!rows.length">
             <!-- 额外的列为序号和操作栏 -->
-            <td :colspan="visibleColumns.length + (disabled ? 1 : 2)" style="text-align: center">
+            <td :colspan="visibleColumns!.length + (disabled ? 1 : 2)" style="text-align: center">
               暂无数据
             </td>
           </tr>
@@ -124,7 +124,7 @@ import {
   nextTick,
   shallowReactive,
   type ShallowReactive,
-  provide
+  provide,
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './multiple-form'
@@ -135,7 +135,7 @@ import { ElFormDialog } from '@element-ultra/components/form-dialog'
 import { ElForm } from '@element-ultra/components/form'
 import { ElIcon } from '@element-ultra/components/icon'
 import { Plus, QuestionFilled } from '@element-plus/icons-vue'
-import useDialog from './use-dialog'
+import useDialogEdit from './use-dialog-edit'
 import useInline from './use-inline'
 import { multipleFormKey } from './token'
 import MultipleFormRow from './multiple-form-row.vue'
@@ -144,8 +144,6 @@ defineOptions({
   name: 'ElMultipleForm'
 })
 
-// TODO考虑用JSX的形式重构该组件, 主要是渲染行方法的优化, 减少计算次数
-
 const props = defineProps(multipleFormProps)
 const emit = defineEmits(multipleFormEmits)
 
@@ -153,17 +151,17 @@ const ns = useNamespace('multiple-form')
 
 let targetIndex = shallowRef(-1)
 
-const rows = shallowRef<ShallowReactive<Record<string, any>>[]>([])
+const rows = shallowRef<any[]>([])
 
 const slots = useSlots()
 
 /** 弹框模式下应用显示列 */
 const visibleColumns = computed(() => {
   const { columns } = props
-  return columns.filter(column => column.visible !== false)
+  return columns?.filter(column => column.visible !== false)
 })
 
-const { form, rules, dialog, open, submit } = useDialog({
+const { form, rules, dialog, open, submit } = useDialogEdit({
   props,
   rows,
   emit
@@ -198,7 +196,7 @@ const bodyHeight = computed(() => {
 })
 
 const initRows = () => {
-  rows.value = props.data.map(item => shallowReactive(item))
+  rows.value = props.data!.map(item => shallowReactive(item))
 }
 
 // 回显

@@ -75,6 +75,7 @@ export default defineComponent({
           effect='light'
           popperClass={ns.e('dropdown')}
           visible={dropdownVisible.value}
+          placement='auto'
           v-slots={{
             content: () => <ul>{restChildren}</ul>,
             default: () => (

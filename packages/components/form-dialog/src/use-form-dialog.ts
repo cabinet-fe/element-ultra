@@ -1,10 +1,4 @@
-import {
-  shallowReactive,
-  nextTick,
-  type ShallowReactive,
-  watch,
-  reactive
-} from 'vue'
+import { nextTick, watch, shallowReactive } from 'vue'
 
 type OpenOptions<T> = {
   /** 标题 */
@@ -25,15 +19,17 @@ type Open<T, F> = (type: T, options?: OpenOptions<F>) => void
  * @returns
  */
 export default function useFormDialog<
-  T extends string = 'create' | 'update',
+  Type extends string = 'create' | 'update',
   F = any
 >(formData: F) {
+  type Data = (F & Record<string, any>) | null
+
   // 弹框对象
   const dialog = shallowReactive({
     visible: false,
-    type: '' as T,
-    title: '' as string,
-    data: null as (F & Record<string, any>) | null,
+    type: '' as Type | '',
+    title: '',
+    data: null as Data,
     ctx: null as any
   })
 
@@ -44,12 +40,12 @@ export default function useFormDialog<
         dialog.data = null
         dialog.ctx = null
         dialog.title = ''
-        dialog.type = '' as T
+        dialog.type = ''
       }
     }
   )
 
-  const open: Open<T, F extends any[] ? Partial<F[number]>[] : Partial<F>> = (
+  const open: Open<Type, F extends any[] ? Partial<F[number]>[] : Partial<F>> = (
     type,
     options
   ) => {
