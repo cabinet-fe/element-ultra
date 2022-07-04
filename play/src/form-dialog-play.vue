@@ -30,7 +30,36 @@
       <el-input-number field="age" label="年龄"></el-input-number>
 
       <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
 
+      <el-input v-if="data.type === '1'" key="1" field="name" label="名称" />
       <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
 
       <el-textarea field="name" label="副文本" span="max"></el-textarea>

@@ -62,7 +62,6 @@
     align-content: center;
   }
 
-
   @include e(title) {
     line-height: getCssVar('dialog-font-line-height');
     font-size: getCssVar('dialog-title-font-size');
@@ -70,11 +69,11 @@
   }
 
   @include e(body) {
-    padding: calc(#{getCssVar('dialog-padding')})
-      getCssVar('dialog-padding');
+    padding: calc(#{getCssVar('dialog-padding')}) getCssVar('dialog-padding');
     color: getCssVar('text-color', 'regular');
     font-size: getCssVar('dialog-content-font-size');
     word-break: break-all;
+    overflow: auto;
   }
 
   @include e(footer) {

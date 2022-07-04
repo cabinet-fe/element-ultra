@@ -1,4 +1,4 @@
-import type { ComputedRef, CSSProperties, InjectionKey, Ref } from 'vue'
+import type { ComputedRef, CSSProperties, InjectionKey, Ref, Slots } from 'vue'
 import type { useNamespace } from '@element-ultra/hooks'
 
 export type DialogContext = {
@@ -7,8 +7,9 @@ export type DialogContext = {
   ns: ReturnType<typeof useNamespace>
   rendered: Ref<boolean>
   style: ComputedRef<CSSProperties>
+  slots: Slots
 }
 
-export const elDialogInjectionKey: InjectionKey<DialogContext> = Symbol(
+export const dialogInjectionKey: InjectionKey<DialogContext> = Symbol(
   'elDialogInjectionKey'
 )

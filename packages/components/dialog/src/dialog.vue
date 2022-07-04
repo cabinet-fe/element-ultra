@@ -25,13 +25,7 @@
           :title="title"
           @close="handleClose"
         >
-          <template #title>
-            <slot name="title" />
-          </template>
-          <slot />
-          <template #footer>
-            <slot name="footer" />
-          </template>
+
         </el-dialog-content>
       </el-overlay>
     </transition>
@@ -39,12 +33,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, provide } from 'vue'
+import { computed, ref, provide, useSlots, shallowRef } from 'vue'
 import { ElOverlay } from '@element-ultra/components/overlay'
-import { useNamespace, useDraggable, useSameTarget } from '@element-ultra/hooks'
+import { useNamespace, useDraggable } from '@element-ultra/hooks'
 import ElDialogContent from './dialog-content.vue'
 import { dialogProps, dialogEmits } from './dialog'
-import { elDialogInjectionKey } from './token'
+import { dialogInjectionKey } from './token'
 import { useDialog } from './use-dialog'
 
 import type { SetupContext, Ref } from 'vue'
@@ -57,27 +51,42 @@ defineOptions({
 
 const props = defineProps(dialogProps)
 const emit = defineEmits(dialogEmits)
+const slots = useSlots()
 
 const ns = useNamespace('dialog')
-const dialogRef = ref<HTMLElement | null>(null)
-const headerRef = ref<HTMLElement | null>(null)
+const dialogRef = shallowRef<HTMLElement | null>(null)
+const headerRef = shallowRef<HTMLElement | null>(null)
 
 const dialog = useDialog(
   props,
   { emit } as SetupContext<DialogEmits>,
   dialogRef as Ref<HTMLElement>
 )
-const { visible, afterEnter, afterLeave, beforeLeave, style, handleClose, rendered, onModalClick } = dialog
+const {
+  visible,
+  afterEnter,
+  afterLeave,
+  beforeLeave,
+  style,
+  handleClose,
+  rendered,
+  onModalClick
+} = dialog
 
-provide(elDialogInjectionKey, {
+provide(dialogInjectionKey, {
   dialogRef,
   headerRef,
   ns,
   rendered,
-  style
+  style,
+  slots
 })
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
 
-useDraggable(dialogRef as Ref<HTMLElement>, headerRef as Ref<HTMLElement>, draggable)
+useDraggable(
+  dialogRef as Ref<HTMLElement>,
+  headerRef as Ref<HTMLElement>,
+  draggable
+)
 </script>
