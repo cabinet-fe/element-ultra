@@ -1,5 +1,5 @@
-import { computed, inject } from 'vue'
-import { formKey, formItemKey } from '@element-ultra/tokens'
+import { computed, inject, provide } from 'vue'
+import { formKey, formItemKey, injectedKey } from '@element-ultra/tokens'
 
 /**
  * 注入formItem和form
@@ -11,10 +11,13 @@ export const useFormItem = (injectIt = true) => {
 
   const formDisabled = computed(() => form?.props.disabled || false)
   const formSize = computed(() => form?.props.size)
+  provide(injectedKey, true)
+  let parentInjected = inject(injectedKey, false)
   return {
     form: injectIt ? inject(formKey, undefined) : undefined,
     formItem: injectIt ? inject(formItemKey, undefined) : undefined,
     formDisabled,
-    formSize
+    formSize,
+    parentInjected
   }
 }

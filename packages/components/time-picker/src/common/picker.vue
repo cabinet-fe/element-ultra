@@ -140,7 +140,7 @@ import { defineComponent, ref, computed, nextTick, inject, watch, provide, unref
 import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useSize } from '@element-ultra/hooks'
+import { useFormItem, useSize } from '@element-ultra/hooks'
 import { formKey, formItemKey } from '@element-ultra/tokens'
 import ElInput from '@element-ultra/components/input'
 import ElIcon from '@element-ultra/components/icon'
@@ -225,8 +225,7 @@ export default defineComponent({
     'visible-change'
   ],
   setup(props, ctx) {
-    const elForm = inject(formKey, undefined)
-    const elFormItem = inject(formItemKey, undefined)
+    const { formItem, form } = useFormItem()
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref<InstanceType<typeof ElTooltip>>()
@@ -252,7 +251,6 @@ export default defineComponent({
         })
         ctx.emit('blur')
         blurInput()
-        elFormItem?.validate()
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -261,7 +259,7 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        elFormItem?.validate()
+        formItem?.validate()
       }
     }
     const emitInput = val => {
@@ -350,7 +348,7 @@ export default defineComponent({
     }
 
     const pickerDisabled = computed(() => {
-      return props.disabled || elForm?.props.disabled
+      return props.disabled || form?.props.disabled
     })
 
     const parsedValue = computed(() => {

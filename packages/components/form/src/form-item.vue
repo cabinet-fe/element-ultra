@@ -106,7 +106,6 @@ export default defineComponent({
       nextTick(() => clearValidate())
     }
 
-    // TODO跳转到第一个报错的位置
     const formItem = {
       reset,
       clearValidate,

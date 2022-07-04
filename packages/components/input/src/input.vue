@@ -131,7 +131,7 @@ const attrs = useAttrs()
 const rawAttrs = useRawAttrs()
 const instance = getCurrentInstance()!
 
-const { formItem } = useFormItem()
+const { formItem, parentInjected } = useFormItem()
 const inputSize = useSize({ props })
 const inputDisabled = useDisabled()
 const ns = useNamespace('input')
@@ -246,7 +246,7 @@ const handleFocus = (event: FocusEvent) => {
 const handleBlur = (event: FocusEvent) => {
   focused.value = false
   emit('blur', event)
-  formItem?.validate()
+  !parentInjected && formItem?.validate()
 }
 
 const handleCompositionStart = (event: CompositionEvent) => {

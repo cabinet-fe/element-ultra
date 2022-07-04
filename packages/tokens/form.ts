@@ -18,3 +18,4 @@ export interface FormItemContext {
 
 export const formKey: InjectionKey<FormContext> = Symbol('elForm')
 export const formItemKey: InjectionKey<FormItemContext> = Symbol('elFormItem')
+export const injectedKey: InjectionKey<boolean> = Symbol('injected')

@@ -5,6 +5,7 @@
     </div>
 
     <el-card title="表单数据">
+
       <el-form ref="formRef" :data="data" label-width="80px" :rules="rules">
         <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
@@ -53,6 +54,42 @@
           v-model="data.start"
         />
       </el-form>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
       <el-button @click="formRef.validate()">校验</el-button>
     </el-card>
 
@@ -92,7 +129,7 @@ const [data, rules] = useFormModel({
   phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
   type: { value: '2' },
   address: { required: true },
-  date: {},
+  // date: {},
   rangedate: {},
   start: { value: '' },
   end: { value: '' },

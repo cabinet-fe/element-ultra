@@ -3,6 +3,7 @@
     tag="form"
     :cols="cols"
     gap="0,8"
+    ref="formRef"
     :class="[ns.b(), labelPosition ? 'el-form--label-' + labelPosition : '']"
   >
     <template :key="slot.node.key || undefined" v-for="slot of getSlots()">
@@ -59,8 +60,6 @@ const emit = defineEmits<{
 }>()
 const slots = useSlots()
 const ns = useNamespace('form')
-
-type RuleType = keyof FormRules[string]
 
 // 表单实例项
 const formItemRefs = shallowRef<FormItemType[]>([])
@@ -208,8 +207,12 @@ const validateField = async (field: string) => {
   if (!data || !rules) return null
 
   const value = data[field]
-  const { validator, required, ...rule } = rules[field]
 
+  let fieldRules = rules[field]
+  if (!fieldRules) {
+    console.warn(`表单数据中没有定义该字段: ${field}, 校验可能出现问题`)
+  }
+  const { validator, required, ...rule } = fieldRules || {}
 
   let errMsg: null | undefined | string = null
 
@@ -233,24 +236,33 @@ const validateField = async (field: string) => {
   return errMsg
 }
 
+const formRef = shallowRef<InstanceType<typeof ElGrid>>()
 /** 校验 */
 const validate = async (fields?: string | string[]) => {
+  let result = true
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
       Array.isArray(fields)
         ? fields.map(field => formItemRefsMap[field]?.validate())
         : formItemRefs.value.map(formItem => formItem?.validate())
     )
-    return allValidation.every(valid => valid)
-      ? Promise.resolve(true)
-      : Promise.reject(false)
-  }
-  if (typeof fields === 'string') {
+    result = allValidation.every(valid => valid)
+  } else if (typeof fields === 'string') {
     const valid = await formItemRefsMap[fields]?.validate()
-    return valid ? Promise.resolve(true) : Promise.reject(false)
+    result = !!valid
   }
 
-  return true
+  if (!result) {
+    await nextTick()
+    ~(formRef.value?.$el as HTMLElement)
+      ?.getElementsByClassName('el-form-item is-error')[0]
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+  }
+
+  return result
 }
 
 provide(formKey, {
