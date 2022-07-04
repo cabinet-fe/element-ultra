@@ -22,7 +22,7 @@
         <component :is="closeIcon || Close" />
       </el-icon>
     </div>
-    <div :class="ns.e('body')" :style="{ maxHeight: `calc(70vh - ${ slots.footer ? 88 : 44}px)` }">
+    <div :class="ns.e('body')" :style="{ maxHeight: `calc(80vh - ${ slots.footer ? 88 : 44}px)` }">
       <ElSlotsRender :nodes="slots.default?.()" />
     </div>
     <div v-if="slots.footer" :class="ns.e('footer')">
