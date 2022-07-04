@@ -118,9 +118,9 @@ export default function useInline(options: Options) {
   }
 
   /** 验证 */
-  function validate(
+  async function validate(
     item: any,
-    rules: Record<string, Partial<MultipleFormRules>>
+    fieldsRules: Record<string, Partial<MultipleFormRules>>
   ) {
     let isValid = true
 
@@ -138,8 +138,9 @@ export default function useInline(options: Options) {
       )
     }
 
-    Object.keys(rules).forEach(async fieldKey => {
-      const rule = rules[fieldKey]
+    // 用所有的校验规则进行校验
+    for (const fieldKey in fieldsRules) {
+      const rule = fieldsRules[fieldKey]
       let itemValue = item[fieldKey]
 
       const { validator, required, ...restRule } = rule
@@ -149,11 +150,11 @@ export default function useInline(options: Options) {
       errorTip[fieldKey] = errorMsg
       if (errorMsg) {
         isValid = false
-        return
+        continue
       }
 
       // 值为空时不再对require规则之外的进行校验
-      if (!itemValue && itemValue !== 0) return
+      if (!itemValue && itemValue !== 0) continue
 
       // validator独立校验
       if (validator) {
@@ -161,7 +162,7 @@ export default function useInline(options: Options) {
         errorTip[fieldKey] = errorMsg
         if (errorMsg) {
           isValid = false
-          return
+          continue
         }
       }
 
@@ -178,8 +179,7 @@ export default function useInline(options: Options) {
           break
         }
       }
-    })
-
+    }
     return isValid
   }
 
@@ -210,8 +210,8 @@ export default function useInline(options: Options) {
   }
 
   /** 保存行 */
-  const handleSaveRow = (item: any, i: number) => {
-    let valid = validate(item, columnRules.value)
+  const handleSaveRow = async (item: any, i: number) => {
+    let valid = await validate(item, columnRules.value)
     if (!valid) return
     delete item['__new__']
     resetTargetIndex()

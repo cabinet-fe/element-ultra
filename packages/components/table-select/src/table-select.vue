@@ -17,7 +17,9 @@
     :query="query"
     ref="dialogRef"
   >
-    <template #searcher><slot name="searcher" /></template>
+    <template #searcher>
+      <slot name="searcher" />
+    </template>
   </TableSelectDialog>
 </template>
 

@@ -52,17 +52,15 @@ const columns: MultipleFormColumn[] = [
     name: '名称',
     key: 'name',
     rules: {
-      match: /^\d+$/
+      validator(v) {
+        return /^\d+$/.test(v) ? '' : '应该是数字'
+      }
     },
     align: 'center'
   },
   {
     name: '年龄',
     key: 'age',
-    rules: {
-      required: true,
-      min: 2
-    },
     defaultValue: () => new Promise((rs) => setTimeout(() => {rs(20)}, 2000)),
     align: 'left'
   },
@@ -83,15 +81,13 @@ let data = $shallowRef<any[]>([
 
 /** 保存 */
 const onSave = (row: any) => {
-  console.log('保存成功, 数据是：', row)
+
 }
 
 const onChange = (rows: any) => {
-  console.log(`rows`, rows)
 }
 
 /** 增加下一行 */
 const addNextLine = (row: any) => {
-  console.log(row, 'row_增加')
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div :class="[ns.b(), ns.m(size)]" :style="`height: ${theight}px`">
     <table>
-      <colgroup v-if="editable">
-        <col style="width: 60px; text-align: center" />
+      <colgroup >
+        <col v-if="editable" style="width: 60px; text-align: center" />
         <col v-if="showIndex" style="width: 60px; text-align: center" />
         <col
           v-for="column in filteredColumns"
