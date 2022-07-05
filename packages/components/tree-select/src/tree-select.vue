@@ -124,7 +124,7 @@
             type="primary"
             text
             size="small"
-            @click="handleToggleSelect(true)"
+            @click="handleToggleCheck(true)"
           >
             全选
           </el-button>
@@ -132,7 +132,7 @@
             type="info"
             text
             size="small"
-            @click="handleToggleSelect(false)"
+            @click="handleToggleCheck(false)"
           >
             全不选
           </el-button>
@@ -239,13 +239,13 @@ const inputSize = useSize({ props })
 const treeSelectDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()
 
-const handleToggleSelect = (v: boolean) => {
+const handleToggleCheck = (v: boolean) => {
   const tree = treeRef.value
   if (!tree) return console.warn('tree 引用为空')
   if (v) {
     tree.setCheckedAll()
-    const { keys } = tree.getChecked()
-    emitModelValue(keys, [], [])
+    const { keys, nodes } = tree.getChecked()
+    emitModelValue(keys,  nodes.map(v => v[props.labelKey]), nodes)
   } else {
     tree.setCheckedKeys([])
     emitModelValue([], [], [])

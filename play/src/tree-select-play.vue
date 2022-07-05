@@ -1,6 +1,5 @@
 <template>
   <div style="width: 600px; margin: 100px auto">
-
     <section>
       <div>node1: {{ data.node1 }}</div>
       <div>node2: {{ data.node2 }}</div>
@@ -11,8 +10,6 @@
       <el-radio value="default">中</el-radio>
       <el-radio value="small">小</el-radio>
     </el-radio-group>
-
-
 
     <el-form
       ref="formRef"
@@ -33,7 +30,7 @@
 
       <el-tree-select
         :data="treeData"
-        :selectable="selectable"
+        filterable
         field="node2"
         label="多选"
         multiple
@@ -56,12 +53,14 @@ setTimeout(() => {
     return {
       label: `文本${index}`,
       value: `${index}`,
-      children: Array.from({ length: Math.round(Math.random() * 2) }).map((_, childIndex) => {
-        return {
-          label: `文本${index}-${childIndex}`,
-          value: `${index}-${childIndex}`
+      children: Array.from({ length: Math.round(Math.random() * 2) }).map(
+        (_, childIndex) => {
+          return {
+            label: `文本${index}-${childIndex}`,
+            value: `${index}-${childIndex}`
+          }
         }
-      })
+      )
     }
   })
 }, 1000)
