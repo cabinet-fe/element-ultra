@@ -39,6 +39,17 @@
   }
 }
 
+.#{$namespace}-tree--highlight-current .#{$namespace}-tree-node.is-current {
+  > .#{$namespace}-tree-node__content {
+    background-color: getCssVar('color-primary-light-5');
+    color: #fff;
+  }
+
+  // .#{$namespace}-tree-node__expand-icon {
+  //   color: #fff;
+  // }
+}
+
 @include b(tree-node) {
   white-space: nowrap;
   outline: none;
@@ -127,16 +138,7 @@
   }
 }
 
-.#{$namespace}-tree--highlight-current .#{$namespace}-tree-node.is-current {
-  > .#{$namespace}-tree-node__content {
-    background-color: getCssVar('color-primary-light-5');
-    color: #fff;
-  }
 
-  .#{$namespace}-tree-node__expand-icon {
-    color: #fff;
-  }
-}
 
 
 

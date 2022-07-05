@@ -119,7 +119,7 @@
       >
         <span :class="[ns.e('triangle'), ns.is('top', position === 'top')]">
         </span>
-        <div :class="ns.e('tools')">
+        <div v-if="multiple" :class="ns.e('tools')">
           <el-button
             type="primary"
             text
@@ -244,7 +244,7 @@ const handleToggleSelect = (v: boolean) => {
   if (!tree) return console.warn('tree 引用为空')
   if (v) {
     tree.setCheckedAll()
-    const { keys, nodes } = tree.getChecked()
+    const { keys } = tree.getChecked()
     emitModelValue(keys, [], [])
   } else {
     tree.setCheckedKeys([])
