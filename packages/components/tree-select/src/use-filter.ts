@@ -36,10 +36,10 @@ export default function useFilter(
   const handleFiltererBlur = () => {
     filterer.focus = false
 
-    if (filterer.query) {
-      filterer.query = ''
-      tree.value?.filter('')
-    }
+    // if (filterer.query) {
+    //   filterer.query = ''
+    //   tree.value?.filter('')
+    // }
   }
 
   /** 过滤 */

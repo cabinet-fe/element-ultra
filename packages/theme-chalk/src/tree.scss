@@ -67,6 +67,14 @@
     }
   }
 
+  @include when(disabled) {
+    background-color: var(--el-disabled-bg-color);
+
+    > .#{$namespace}-tree-node__content {
+      cursor: not-allowed;
+    }
+  }
+
   @include e(content) {
     display: flex;
     align-items: center;
@@ -137,8 +145,3 @@
     display: block;
   }
 }
-
-
-
-
-

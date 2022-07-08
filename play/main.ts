@@ -15,7 +15,7 @@ setConfigStore({
   proTableDefaultSize: 60,
   proTableRequestMethod: () => {
     let data = Array.from({ length: 100 }).map((_, i) => ({
-      name: '张三' + i,
+      name: '张三说的有符合公司的的话是个' + i,
       id: i
     }))
     return Promise.resolve({

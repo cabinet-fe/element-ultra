@@ -1,24 +1,13 @@
 <template>
   <div :class="[ns.b(), $attrs.class]" :style="{ height }">
-    <section ref="searcherRef" v-if="$slots.searcher" :class="ns.e('searcher')">
-      <div :class="ns.e('searcher-box')" @keyup.enter="fetchData()">
-        <slot name="searcher" />
-        <el-button :icon="ZoomIn"></el-button>
-      </div>
-    </section>
-
     <section
       ref="toolsRef"
-      v-if="$slots.tools || showTools"
+      v-if="$slots.tools || $slots.searcher || showTools"
       :class="ns.e('tools')"
     >
-      <div :class="ns.e('tools-left')">
+      <ProTableSearcher @key-enter="fetchData" @search="fetchData" />
+      <div :class="ns.e('tools-box')">
         <slot name="tools" />
-      </div>
-      <div :class="ns.e('tools-right')">
-        <el-button type="primary" @click="fetchData()" v-if="api">
-          查询
-        </el-button>
       </div>
     </section>
 
@@ -75,13 +64,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import ElTable from '@element-ultra/components/table'
-import ProTableColumn from './pro-table-column.vue'
-import { ElTableColumn } from '@element-ultra/components/table'
-import { proTableProps } from './pro-table'
-import usePreColumns from './use-pre-columns'
-import ElPagination from '@element-ultra/components/pagination'
-import ElButton from '@element-ultra/components/button'
 import {
   computed,
   shallowReactive,
@@ -92,10 +74,20 @@ import {
   provide,
   onUnmounted
 } from 'vue'
+import ElTable from '@element-ultra/components/table'
+import ProTableColumn from './pro-table-column.vue'
+import ProTableSearcher from './pro-table-searcher'
+import { ElTableColumn } from '@element-ultra/components/table'
+import { proTableProps } from './pro-table'
+import usePreColumns from './use-pre-columns'
+import ElPagination from '@element-ultra/components/pagination'
+import ElButton from '@element-ultra/components/button'
+
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import { proTableKey } from './token'
-import { ZoomIn } from '@element-plus/icons-vue'
+import { ZoomIn, Search } from '@element-plus/icons-vue'
+import { debounce } from 'lodash'
 
 defineOptions({
   name: 'ElProTable',
@@ -104,13 +96,13 @@ defineOptions({
 
 const props = defineProps(proTableProps)
 const slots = useSlots()
+const ns = useNamespace('pro-table')
 
 provide(proTableKey, {
   proTableSlots: slots,
-  rootProps: props
+  rootProps: props,
+  ns
 })
-
-const ns = useNamespace('pro-table')
 
 const [configStore] = useConfig()
 
@@ -131,45 +123,31 @@ const computedData = computed(() => {
 })
 
 //  计算表格高度
-const searcherRef = shallowRef<HTMLDivElement | null>(null)
 const toolsRef = shallowRef<HTMLDivElement | null>(null)
 const tableHeight = shallowRef<string | undefined>(undefined)
-const calcTableHeight = () => {
+const calcTableHeight = debounce(() => {
   if (!props.height) return
-  let subtilized = [searcherRef, toolsRef].reduce((acc, cur) => {
-    if (cur.value?.offsetHeight) {
-      acc += cur.value.offsetHeight + 6 // 6是margin-bottom的值
-    }
-    return acc
-  }, 0)
-
+  let subtilized = 0
+  if (toolsRef.value) {
+    subtilized += toolsRef.value.offsetHeight + 6
+  }
   if (props.pagination) {
     subtilized += 28
   }
   tableHeight.value = `calc(${props.height} - ${subtilized}px)`
-}
+}, 200)
 
-// let ob: MutationObserver | null = null
+let observer: ResizeObserver | null = null
 onMounted(() => {
-  calcTableHeight()
-
-  // ob = new MutationObserver((mutations, observer) => {
-  //   console.log(mutations)
-  //   calcTableHeight()
-  // })
-  // let dom = searcherRef.value || toolsRef.value
-
-  // dom &&
-  //   ob.observe(dom, {
-  //     attributes: true,
-  //     subtree: true,
-  //     childList: true
-  //   })
+  observer = new ResizeObserver(entries => {
+    calcTableHeight()
+  })
+  toolsRef.value && observer.observe(toolsRef.value)
 })
 
-// onUnmounted(() => {
-//   ob?.disconnect()
-// })
+onUnmounted(() => {
+  observer?.disconnect()
+})
 
 let loading = shallowRef(false)
 

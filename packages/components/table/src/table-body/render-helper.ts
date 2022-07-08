@@ -109,6 +109,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             style: getCellStyle($index, cellIndex, row, column),
             class: getCellClass($index, cellIndex, row, column),
             key: `${patchKey}${baseKey}`,
+            // title: column.renderCell(data)
             rowspan,
             colspan,
             onMouseenter: ($event) =>

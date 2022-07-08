@@ -88,14 +88,16 @@ function useRender<T>(props: TableColumnCtx<T>, slots, owner: ComputedRef<any>) 
     // TODO: 这里的实现调整
     if (column.type === 'expand') {
       // 对于展开行，renderCell 不允许配置的。在上一步中已经设置过，这里需要简单封装一下。
-      column.renderCell = (data) =>
-        h(
+      column.renderCell = (data) => {
+        return h(
           'div',
           {
             class: 'cell'
           },
           [originRenderCell(data)]
         )
+      }
+
       owner.value.renderExpanded = (data) => {
         return slots.default ? slots.default(data) : slots.default
       }
@@ -112,7 +114,11 @@ function useRender<T>(props: TableColumnCtx<T>, slots, owner: ComputedRef<any>) 
         const prefix = treeCellPrefix(data)
         const props = {
           class: 'cell',
-          style: {}
+          style: {},
+          title: undefined
+        }
+        if (typeof children === 'string') {
+          props.title = children
         }
         if (column.showOverflowTooltip) {
           props.class = `${props.class} ${unref(ns.namespace)}-tooltip`

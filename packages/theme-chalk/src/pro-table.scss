@@ -3,7 +3,7 @@
 
 @include b('pro-table') {
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
 
   @include e('searcher') {
     margin-bottom: 6px;
@@ -14,8 +14,10 @@
 
     &-box {
       flex-grow: 1;
-      & > * {
+
+      & > :not(.#{$namespace}-button) {
         display: inline-block;
+        width: 200px;
         max-width: 300px;
         margin-right: 6px;
       }
@@ -29,10 +31,7 @@
     padding: 6px;
     background-color: var(--el-bg-color-overlay);
 
-    &-left {
-      flex-grow: 1;
-      margin-right: 6px;
-    }
+
   }
 
   @include e('pagination') {

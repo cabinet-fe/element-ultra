@@ -3,7 +3,10 @@ import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constants'
+import {
+  FORM_COMPONENT_PROPS,
+  type ComponentSize
+} from '@element-ultra/constants'
 import type { Options } from '@element-ultra/components/popper'
 
 export const SelectProps = {
@@ -11,34 +14,34 @@ export const SelectProps = {
   allowCreate: Boolean,
   autocomplete: {
     type: String as PropType<'none' | 'both' | 'list' | 'inline'>,
-    default: 'none',
+    default: 'none'
   },
   automaticDropdown: Boolean,
   clearable: Boolean,
   clearIcon: {
     type: [String, Object] as PropType<string | Component>,
-    default: CircleClose,
+    default: CircleClose
   },
   effect: {
     type: String as PropType<'light' | 'dark' | string>,
-    default: 'light',
+    default: 'light'
   },
   collapseTags: Boolean,
   defaultFirstOption: Boolean,
   disabled: Boolean,
   estimatedOptionHeight: {
     type: Number,
-    default: undefined,
+    default: undefined
   },
   filterable: Boolean,
   filterMethod: Function,
   height: {
     type: Number,
-    default: 170, // 5 items by default
+    default: 170 // 5 items by default
   },
   itemHeight: {
     type: Number,
-    default: 34,
+    default: 34
   },
   id: String,
   loading: Boolean,
@@ -50,13 +53,16 @@ export const SelectProps = {
     type: String,
     default: 'label'
   },
-  modelValue: [Array, String, Number, Boolean, Object] as PropType<
-    any[] | string | number | boolean | Record<string, any> | any
-  >,
+  modelValue: {
+    type: [Array, String, Number, Boolean, Object] as PropType<
+      any[] | string | number | boolean | Record<string, any> | any
+    >,
+    default: undefined
+  },
   multiple: Boolean,
   multipleLimit: {
     type: Number,
-    default: 0,
+    default: 0
   },
   name: String,
   noDataText: {
@@ -70,11 +76,11 @@ export const SelectProps = {
   remoteMethod: Function,
   reserveKeyword: {
     type: Boolean,
-    default: true,
+    default: true
   },
   options: {
     type: Array as PropType<Record<string, any>[]>,
-    required: true,
+    required: true
   },
   placeholder: {
     type: String,
@@ -82,29 +88,29 @@ export const SelectProps = {
   },
   popperAppendToBody: {
     type: Boolean,
-    default: undefined,
+    default: undefined
   },
   teleported: useTooltipContentProps.teleported,
   popperClass: {
     type: String,
-    default: '',
+    default: ''
   },
   popperOptions: {
     type: Object as PropType<Partial<Options>>,
-    default: () => ({} as Partial<Options>),
+    default: () => ({} as Partial<Options>)
   },
   remote: Boolean,
   size: {
     type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
+    validator: isValidComponentSize
   },
   valueKey: {
     type: String,
-    default: 'value',
+    default: 'value'
   },
   scrollbarAlwaysOn: {
     type: Boolean,
-    default: false,
+    default: false
   },
   selectable: {
     type: Function as PropType<(node: any) => boolean>
@@ -119,5 +125,5 @@ export const OptionProps = {
   index: Number,
   style: Object,
   selected: Boolean,
-  created: Boolean,
+  created: Boolean
 }

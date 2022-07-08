@@ -7,14 +7,20 @@
     :query="query"
     :columns="columns"
     show-index
-    :checkable="
-      (row, index) => {
-        return index % 2 === 0
-      }
-    "
+    :checkable="(_, index) => index % 2 === 0"
     ref="tableRef"
   >
     <template #searcher>
+      <el-input v-model="query.$name" />
+      <el-date-picker type="daterange" v-model="query.$name" />
+      <el-input v-model="query.$name" />
+      <el-input v-model="query.$name" />
+      <el-input v-model="query.$name" />
+      <el-input v-model="query.$name" />
+      <el-input v-model="query.$name" />
+      <el-input v-model="query.$name" />
+      <el-input v-model="query.$name" />
+      <el-input v-model="query.$name" />
       <el-input v-model="query.$name" />
     </template>
 
@@ -131,7 +137,7 @@ setTimeout(() => {
       align: 'center',
       key: 'action',
       fixed: 'right',
-      minWidth: 150,
+      width: 150,
       slot: 'action'
     }
   ]

@@ -22,6 +22,7 @@
   position: relative;
   display: inline-block;
   text-align: left;
+  vertical-align: middle;
 
   &.#{$namespace}-input__wrapper {
     @include inset-input-border(

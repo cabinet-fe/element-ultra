@@ -50,6 +50,12 @@ export const proTableProps = {
   cellMinWidth: {
     type: Number,
     default: 100
+  },
+
+  /** 查询项数量限制, 超出的会被隐藏 */
+  searcherLimit: {
+    type: Number,
+    default: 2
   }
 }
 

@@ -8,6 +8,7 @@ import {
   h,
   onBeforeUnmount,
   Fragment,
+  type VNodeNormalizedChildren
 } from 'vue'
 import ElCheckbox from '@element-ultra/components/checkbox'
 import { cellStarts } from '../config'
@@ -18,13 +19,14 @@ import defaultProps from './defaults'
 import type { TableColumn, TableColumnCtx } from './defaults'
 
 import type { DefaultRow } from '../table/defaults'
+import { isString } from '@element-ultra/utils'
 
 let columnIdSeed = 1
 
 export default defineComponent({
   name: 'ElTableColumn',
   components: {
-    ElCheckbox,
+    ElCheckbox
   },
   props: defaultProps,
   setup(props, { slots, attrs }) {
@@ -52,7 +54,7 @@ export default defineComponent({
       setColumnRenders,
       getPropsData,
       getColumnElIndex,
-      realAlign,
+      realAlign
     } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
@@ -85,7 +87,7 @@ export default defineComponent({
         // index 列
         index: props.index,
         // <el-table-column key="xxx" />
-        rawColumnKey: instance.vnode.key,
+        rawColumnKey: instance.vnode.key
       }
 
       const basicProps = [
@@ -97,7 +99,7 @@ export default defineComponent({
         'renderHeader',
         'formatter',
         'fixed',
-        'resizable',
+        'resizable'
       ]
       const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
       const selectProps = ['checkable', 'reserveSelection']
@@ -107,7 +109,7 @@ export default defineComponent({
         'filterMultiple',
         'filterOpened',
         'filteredValue',
-        'filterPlacement',
+        'filterPlacement'
       ]
 
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
@@ -156,32 +158,37 @@ export default defineComponent({
     return
   },
   render() {
-    let children = []
     try {
       const renderDefault = this.$slots.default?.({
         row: {},
         column: {},
-        $index: -1,
+        $index: -1
       })
-
-      if (renderDefault instanceof Array) {
+      const children: VNodeNormalizedChildren = []
+      if (Array.isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
             childNode.type?.name === 'ElTableColumn' ||
             childNode.shapeFlag & 2
           ) {
+
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
-            childNode.children instanceof Array
+            Array.isArray(childNode.children)
           ) {
-            children.push(...childNode.children)
+            childNode.children.forEach(vnode => {
+              // No rendering when vnode is dynamic slot or text
+              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+                children.push(vnode)
+              }
+            })
           }
         }
       }
+      return h('div', children)
     } catch {
-      children = []
+      return h('div', [])
     }
-    return h('div', children)
-  },
+  }
 })

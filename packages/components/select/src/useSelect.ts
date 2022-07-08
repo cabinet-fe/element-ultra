@@ -633,6 +633,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           states.selectedLabel = getLabel(options[selectedItemIndex])
           updateHoveringIndex(selectedItemIndex)
         } else {
+
           states.selectedLabel = `${modelValue}`
         }
       } else {

@@ -136,7 +136,6 @@
           >
             全不选
           </el-button>
-
         </div>
 
         <el-tree
@@ -144,11 +143,7 @@
           :check-strictly="checkStrictly"
           ref="treeRef"
           :node-key="valueKey"
-          :props="{
-            value: valueKey,
-            label: labelKey,
-            children: childrenKey
-          }"
+          :props="treeProps"
           :show-checkbox="multiple"
           :class="ns.e('tree')"
           :filter-method="filterMethod"
@@ -166,7 +161,7 @@
   </teleport>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useNamespace, useSize, useDisabled } from '@element-ultra/hooks'
 import { treeSelectProps } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
@@ -187,8 +182,13 @@ defineOptions({
   }
 })
 
-
 const props = defineProps(treeSelectProps)
+
+const treeProps = {
+  value: props.valueKey,
+  label: props.labelKey,
+  children: props.childrenKey
+}
 
 const emit = defineEmits<{
   (
@@ -205,11 +205,23 @@ const emit = defineEmits<{
   ): void
 }>()
 
+/** 树的引用 */
+const treeRef = shallowRef<InstanceType<typeof ElTree>>()
+
+const {
+  filterer,
+  filterMethod,
+  handleCompositionStart,
+  handleCompositionEnd,
+  handleFiltererBlur,
+  handleFiltererFocus,
+  handleFilter
+} = useFilter(props, treeRef)
+
 const {
   tagList,
   selectedLabel,
   dropdownStyle,
-  treeRef,
   dropdownRef,
   position,
   treeSelectRef,
@@ -223,17 +235,9 @@ const {
   handleCheck,
   handleSelectChange,
   handleCloseTag
-} = useTreeSelect(props, emit)
+} = useTreeSelect(props, emit, treeRef, filterer)
 
-const {
-  filterer,
-  filterMethod,
-  handleCompositionStart,
-  handleCompositionEnd,
-  handleFiltererBlur,
-  handleFiltererFocus,
-  handleFilter
-} = useFilter(props, treeRef)
+
 
 const inputSize = useSize({ props })
 const treeSelectDisabled = useDisabled()
@@ -245,7 +249,11 @@ const handleToggleCheck = (v: boolean) => {
   if (v) {
     tree.setCheckedAll()
     const { keys, nodes } = tree.getChecked()
-    emitModelValue(keys,  nodes.map(v => v[props.labelKey]), nodes)
+    emitModelValue(
+      keys,
+      nodes.map(v => v[props.labelKey]),
+      nodes
+    )
   } else {
     tree.setCheckedKeys([])
     emitModelValue([], [], [])

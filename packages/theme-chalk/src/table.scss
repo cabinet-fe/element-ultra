@@ -165,7 +165,7 @@
     box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: normal;
+    white-space: nowrap;
     word-break: break-all;
     padding: 0 8px;
 
@@ -356,7 +356,7 @@
               bottom: -1px;
               overflow-x: hidden;
               overflow-y: hidden;
-              box-shadow: inset -10px 0 10px -10px rgb(0 0 0 / 15%);
+              box-shadow: none;
               touch-action: none;
               pointer-events: none;
             }
@@ -369,7 +369,7 @@
           &.is-last-column {
             &::before {
               right: -10px;
-              box-shadow: inset 10px 0 10px -10px rgb(0 0 0 / 15%);
+              box-shadow: none;
             }
           }
         }
@@ -406,7 +406,7 @@
   }
 
   @include when(scrolling-left) {
-    .#{$namespace}-table-fixed-column--left.is-last-column {
+    .#{$namespace}-table-fixed-column--right.is-first-column {
       &::before {
         box-shadow: getCssVar('table-fixed-right-column');
       }
@@ -426,7 +426,7 @@
   }
 
   @include when(scrolling-right) {
-    .#{$namespace}-table-fixed-column--right.is-first-column {
+    .#{$namespace}-table-fixed-column--left.is-last-column {
       &::before {
         box-shadow: getCssVar('table-fixed-left-column');
       }

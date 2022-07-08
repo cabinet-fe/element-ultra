@@ -1,4 +1,4 @@
-import { shallowRef, watch, nextTick, computed } from 'vue'
+import { shallowRef, watch, nextTick, computed, type ShallowRef } from 'vue'
 import type {
   ElTree,
   CheckedInfo,
@@ -7,9 +7,8 @@ import type {
 import type { TreeSelectProps } from './tree-select'
 import { useFormItem } from '@element-ultra/hooks'
 
-export default function useTreeSelect(props: TreeSelectProps, emit) {
-  /** 树的引用 */
-  const treeRef = shallowRef<InstanceType<typeof ElTree>>()
+export default function useTreeSelect(props: TreeSelectProps, emit, treeRef: ShallowRef<any>, filterer: any) {
+
   const dropdownRef = shallowRef<HTMLDivElement>()
   /** 下拉框显隐 */
   const treeVisible = shallowRef(false)
@@ -107,6 +106,8 @@ export default function useTreeSelect(props: TreeSelectProps, emit) {
 
   const hideTree = () => {
     treeVisible.value = false
+    filterer.query = ''
+    treeRef.value.filter('')
   }
 
   // 值相关操作---------------------------------------
