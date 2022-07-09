@@ -37,6 +37,7 @@ export const proTableProps = {
     type: [Number, String] as PropType<string | number>
   },
 
+  /** 默认显示 */
   showTools: {
     type: Boolean,
     default: true
@@ -52,7 +53,7 @@ export const proTableProps = {
     default: 100
   },
 
-  /** 查询项数量限制, 超出的会被隐藏 */
+  /** 查询项数量限制, 超出的会被隐藏, 默认2 */
   searcherLimit: {
     type: Number,
     default: 2

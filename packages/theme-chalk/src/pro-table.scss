@@ -12,26 +12,64 @@
     padding: 6px;
     background-color: var(--el-bg-color-overlay);
 
+
+
     &-box {
       flex-grow: 1;
 
       & > :not(.#{$namespace}-button) {
-        display: inline-block;
-        width: 200px;
-        max-width: 300px;
-        margin-right: 6px;
+
+        margin-right: 12px;
+        vertical-align: middle;
       }
+
+
+    }
+
+    &-wrap {
+      display: inline-flex;
+      align-items: center;
+      align-content: center;
+    }
+
+    &-label {
+      flex-shrink: 0;
+      padding-right: 6px;
+      color: var(--el-text-color-regular);
+      font-size: var(--el-font-size-base);
+    }
+
+    &-popper {
+      margin-top: 6px;
+      padding: 4px;
+      padding-bottom: 0;
+      border: 1px solid var(--el-border-color);
+      border-radius: var(--el-border-radius-base);
+      background-color: var(--el-bg-color-page);
+
+      & > * {
+
+        margin-right: 12px;
+        margin-bottom: 4px;
+      }
+
     }
   }
 
   @include e('tools') {
     margin-bottom: 6px;
-    display: flex;
-    justify-content: space-between;
+
     padding: 6px;
     background-color: var(--el-bg-color-overlay);
 
+    &-bar {
+      display: flex;
+      justify-content: space-between;
+    }
 
+    & .#{$namespace}-pro-table__searcher-content {
+      width: 160px;
+    }
   }
 
   @include e('pagination') {

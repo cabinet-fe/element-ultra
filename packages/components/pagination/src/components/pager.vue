@@ -2,7 +2,7 @@
   <ul :class="nsPager.b()" @click="onPagerClick" @keyup.enter="onEnter">
     <li
       v-if="pageCount > 0"
-      :class="{ active: currentPage === 1, disabled }"
+      :class="{ [nsPager.is('active')]: currentPage === 1, disabled }"
       class="number"
       :aria-current="currentPage === 1"
       tabindex="0"
@@ -21,7 +21,7 @@
     <li
       v-for="pager in pagers"
       :key="pager"
-      :class="{ active: currentPage === pager, disabled }"
+      :class="{ [nsPager.is('active')]: currentPage === pager, disabled }"
       class="number"
       :aria-current="currentPage === pager"
       tabindex="0"
@@ -39,7 +39,7 @@
     </li>
     <li
       v-if="pageCount > 1"
-      :class="{ active: currentPage === pageCount, disabled }"
+      :class="{ [nsPager.is('active')]: currentPage === pageCount, disabled }"
       class="number"
       :aria-current="currentPage === pageCount"
       tabindex="0"

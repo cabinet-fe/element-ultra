@@ -9,19 +9,20 @@
     show-index
     :checkable="(_, index) => index % 2 === 0"
     ref="tableRef"
+    :searcher-limit="3"
   >
     <template #searcher>
-      <el-input v-model="query.$name" />
-      <el-date-picker type="daterange" v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
-      <el-input v-model="query.$name" />
+      <el-input placeholder="名称" v-model="query.name" />
+      <el-date-picker placeholder="起止日期" type="daterange" v-model="query.$date" />
+      <el-input placeholder="测试1" />
+      <el-input placeholder="测试2" />
+      <el-input placeholder="测试3" />
+      <el-input placeholder="测试4" />
+      <el-input placeholder="测试5" />
+      <el-input placeholder="测试6" />
+      <el-input placeholder="测试7" />
+      <el-input placeholder="测试8" />
+      <el-input placeholder="测试9" />
     </template>
 
     <template #age="{ row }">
@@ -61,13 +62,15 @@ import { shallowReactive, shallowRef } from 'vue'
 // 查询
 const query = shallowRef(
   shallowReactive({
-    $name: ''
+    name: '',
+    $date: []
   })
 )
 
 setTimeout(() => {
   query.value = shallowReactive({
-    $name: ''
+    name: '',
+    $date: []
   })
 }, 1200)
 
@@ -97,18 +100,18 @@ setTimeout(() => {
       name: '姓名',
       key: 'name'
     },
-    // {
-    //   name: '姓名',
-    //   key: 'name'
-    // },
-    // {
-    //   name: '姓名',
-    //   key: 'name'
-    // },
-    // {
-    //   name: '姓名',
-    //   key: 'name'
-    // },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
+    {
+      name: '姓名',
+      key: 'name'
+    },
     // {
     //   name: '姓名',
     //   key: 'name'
@@ -141,5 +144,5 @@ setTimeout(() => {
       slot: 'action'
     }
   ]
-}, 1000)
+}, 500)
 </script>

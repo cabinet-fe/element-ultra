@@ -1,16 +1,11 @@
 <template>
   <div :class="[ns.b(), $attrs.class]" :style="{ height }">
-    <section
-      ref="toolsRef"
+    <ProTableTools
       v-if="$slots.tools || $slots.searcher || showTools"
-      :class="ns.e('tools')"
-    >
-      <ProTableSearcher @key-enter="fetchData" @search="fetchData" />
-      <div :class="ns.e('tools-box')">
-        <slot name="tools" />
-      </div>
-    </section>
-
+      @key-enter="fetchData"
+      @search="fetchData"
+      @tools-resize="calcTableHeight"
+    />
     <el-table
       :data="computedData"
       v-if="columns && columns.length"
@@ -69,24 +64,19 @@ import {
   shallowReactive,
   watch,
   shallowRef,
-  onMounted,
   useSlots,
-  provide,
-  onUnmounted
+  provide
 } from 'vue'
 import ElTable from '@element-ultra/components/table'
 import ProTableColumn from './pro-table-column.vue'
-import ProTableSearcher from './pro-table-searcher'
+import ProTableTools from './pro-table-tools'
 import { ElTableColumn } from '@element-ultra/components/table'
 import { proTableProps } from './pro-table'
 import usePreColumns from './use-pre-columns'
 import ElPagination from '@element-ultra/components/pagination'
-import ElButton from '@element-ultra/components/button'
-
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import { proTableKey } from './token'
-import { ZoomIn, Search } from '@element-plus/icons-vue'
 import { debounce } from 'lodash'
 
 defineOptions({
@@ -98,11 +88,7 @@ const props = defineProps(proTableProps)
 const slots = useSlots()
 const ns = useNamespace('pro-table')
 
-provide(proTableKey, {
-  proTableSlots: slots,
-  rootProps: props,
-  ns
-})
+
 
 const [configStore] = useConfig()
 
@@ -123,31 +109,22 @@ const computedData = computed(() => {
 })
 
 //  计算表格高度
-const toolsRef = shallowRef<HTMLDivElement | null>(null)
 const tableHeight = shallowRef<string | undefined>(undefined)
-const calcTableHeight = debounce(() => {
-  if (!props.height) return
-  let subtilized = 0
-  if (toolsRef.value) {
-    subtilized += toolsRef.value.offsetHeight + 6
-  }
-  if (props.pagination) {
-    subtilized += 28
-  }
-  tableHeight.value = `calc(${props.height} - ${subtilized}px)`
-}, 200)
+const calcTableHeight = debounce(
+  (toolsHeight: number) => {
+    if (!props.height) return
+    // 累加值
+    let accumulation = toolsHeight + 6 // 6是margin-bottom的值
 
-let observer: ResizeObserver | null = null
-onMounted(() => {
-  observer = new ResizeObserver(entries => {
-    calcTableHeight()
-  })
-  toolsRef.value && observer.observe(toolsRef.value)
-})
-
-onUnmounted(() => {
-  observer?.disconnect()
-})
+    if (props.pagination) {
+      accumulation += 28
+    }
+    tableHeight.value = `calc(${props.height} - ${accumulation}px)`
+  }, 500,
+  {
+    leading: true
+  }
+)
 
 let loading = shallowRef(false)
 
@@ -194,6 +171,10 @@ const fetchData = async (resetPage = true) => {
   state.data = data
 }
 
+let canAutoQuery = shallowRef(true)
+const setAutoQuery = (autoQuery: boolean) => {
+  canAutoQuery.value = autoQuery
+}
 // query发生改变时重新监听里面的属性
 let stopWatchQueryProps: () => void
 watch(
@@ -208,7 +189,9 @@ watch(
       .map(k => () => propQuery[k])
 
     // hack行为, 在属性名前面加上$表示该表格自动根据该属性的变化过滤数据
-    stopWatchQueryProps = watch(watchList, () => fetchData())
+    stopWatchQueryProps = watch(watchList, () => {
+      canAutoQuery.value && fetchData()
+    })
   },
   { immediate: true }
 )
@@ -229,6 +212,15 @@ const find = () => {
 const deleteRow = (index: number) => {
   state.data = [...state.data.slice(0, index), ...state.data.slice(index + 1)]
 }
+
+provide(proTableKey, {
+  proTableSlots: slots,
+  rootProps: props,
+  ns,
+  setAutoQuery,
+  fetchData,
+  loading
+})
 
 defineExpose({
   state,
