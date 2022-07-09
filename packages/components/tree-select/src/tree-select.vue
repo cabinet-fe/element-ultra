@@ -237,8 +237,6 @@ const {
   handleCloseTag
 } = useTreeSelect(props, emit, treeRef, filterer)
 
-
-
 const inputSize = useSize({ props })
 const treeSelectDisabled = useDisabled()
 const inputRef = ref<HTMLInputElement>()

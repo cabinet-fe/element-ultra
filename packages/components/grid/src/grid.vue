@@ -12,8 +12,8 @@ import {
 import { gridProps, type GridProps, type ResponsiveCols } from './grid'
 import type { CSSProperties } from 'vue'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
-import { throttle } from 'lodash'
 import { gridInjectionKey } from './token'
+import { debounce } from 'lodash'
 
 export default defineComponent({
   name: 'ElGrid',
@@ -122,13 +122,13 @@ export default defineComponent({
       if (!gridRef || !isResponsiveCols(cols)) return
 
       const observer = new ResizeObserver(
-        throttle((entries: ResizeObserverEntry[]) => {
+        debounce((entries: ResizeObserverEntry[]) => {
           const [entry] = entries
           if (!entry) return
           const { width } = entry.contentRect
           containerWidth.value = width
           emit('resize', entry.contentRect)
-        }, 500)
+        }, 500, { leading: true })
       )
 
       observer.observe(gridRef)

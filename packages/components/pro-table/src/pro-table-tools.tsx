@@ -7,8 +7,7 @@ import {
   onUnmounted,
   ref,
   shallowRef,
-  type Component,
-  type PropType
+  type Component
 } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import { proTableKey } from './token'
@@ -41,18 +40,20 @@ export default defineComponent({
         const { props, type } = node
         let nodeName = (type as Component)?.name
         let wrapWidth = nodeName ? componentWidthMapper[nodeName] : undefined
+
+        let clonedNode = cloneVNode(node, {
+          class: contentClass,
+          style: {
+            width: wrapWidth
+          }
+        })
         return props?.placeholder ? (
           <div class={wrapClass}>
             <label class={labelClass}>{props.placeholder}:</label>
-            {cloneVNode(node, {
-              class: contentClass,
-              style: {
-                width: wrapWidth
-              }
-            })}
+            {clonedNode}
           </div>
         ) : (
-          node
+          clonedNode
         )
       })
 
@@ -117,12 +118,12 @@ export default defineComponent({
             loading={loading.value}
             icon={Search}
             onClick={handleSearch}
-            title="查询"
+            title='查询'
           />
           <ElButton
             loading={loading.value}
             icon={Refresh}
-            title="重置"
+            title='重置'
             onClick={handleReset}
           />
         </>
@@ -151,7 +152,9 @@ export default defineComponent({
           </div>
 
           {expanded.value ? (
-            <div class={ns.e('searcher-popper')} onKeyup={handleKeyUp}>{restNodes}</div>
+            <div class={ns.e('searcher-popper')} onKeyup={handleKeyUp}>
+              {restNodes}
+            </div>
           ) : null}
         </section>
       )
