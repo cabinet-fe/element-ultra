@@ -117,12 +117,14 @@ export default defineComponent({
             loading={loading.value}
             icon={Search}
             onClick={handleSearch}
-          ></ElButton>
+            title="查询"
+          />
           <ElButton
             loading={loading.value}
             icon={Refresh}
+            title="重置"
             onClick={handleReset}
-          ></ElButton>
+          />
         </>
       ) : null
 
