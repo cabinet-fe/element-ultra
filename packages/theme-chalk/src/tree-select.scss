@@ -28,7 +28,7 @@
     min-height: inherit;
     width: 100%;
     outline: none;
-    background-color: var(--el-input-bg-color);
+    background-color: var(--el-fill-color-blank);
     box-shadow: 0 0 1px 1px inset var(--el-border-color);
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
     &:focus {

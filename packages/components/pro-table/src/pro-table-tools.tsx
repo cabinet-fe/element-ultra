@@ -151,7 +151,7 @@ export default defineComponent({
           </div>
 
           {expanded.value ? (
-            <div class={ns.e('searcher-popper')}>{restNodes}</div>
+            <div class={ns.e('searcher-popper')} onKeyup={handleKeyUp}>{restNodes}</div>
           ) : null}
         </section>
       )
