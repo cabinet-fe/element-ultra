@@ -34,17 +34,11 @@
       list-style: none;
       padding: 4px 8px;
       font-size: 12px;
-
-      a {
-        cursor: pointer;
-        color: getCssVar('text-color-regular');
-        text-decoration: none;
-      }
+      cursor: pointer;
+      color: getCssVar('text-color-regular');
 
       @include when(active) {
-        a {
-          color: getCssVar('color-primary');
-        }
+        color: getCssVar('color-primary');
       }
     }
   }

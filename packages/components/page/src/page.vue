@@ -2,8 +2,10 @@
 import { ElGrid } from '@element-ultra/components/grid'
 import { ElButton } from '@element-ultra/components/button'
 import { ElSlotsRender } from '@element-ultra/components/slots-render'
+import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import {
+  cloneVNode,
   createVNode,
   defineComponent,
   getCurrentInstance,
@@ -18,6 +20,7 @@ import {
 import { pageContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
+import { debounce } from 'lodash'
 
 export default defineComponent({
   name: 'ElPage',
@@ -47,6 +50,11 @@ export default defineComponent({
       let navList: string[] = []
       let children: VNode[] = []
 
+      const isCard = (node: VNode) => {
+        const { type } = node
+        return typeof type === 'object' && (type as any).name === 'ElCard'
+      }
+
       function recursive(nodeList: VNodeArrayChildren) {
         nodeList.forEach(node => {
           if (!isVNode(node)) return
@@ -56,14 +64,14 @@ export default defineComponent({
             return
           }
 
-          children.push(node)
-
-          if (
-            typeof node.type === 'object' &&
-            (node.type as any).name === 'ElCard'
-          ) {
+          if (isCard(node)) {
             const { header } = node.props || {}
-            header && navList.push(header)
+            if (header) {
+              children.push(cloneVNode(node, { 'data-index': navList.length }))
+              navList.push(header)
+            }
+          } else {
+            children.push(node)
           }
         })
       }
@@ -78,23 +86,30 @@ export default defineComponent({
 
     // 索引的优先级应该以点击为准， 每次点击建立一个点击锁，observer触发后首先要先解锁
     let clicked = false
-    const handleClickNavItem = (n: number) => {
+    const handleClickNavItem = (nav: string, n: number) => {
+      navTo(nav)
       clicked = true
       currentNavIndex.value = n
     }
-    const observer = new IntersectionObserver(function (entries) {
-      // 解锁
+
+    // 当滚动停止时表示滚动完成
+    const onScrollStopped = debounce((rect: any) => {
       if (clicked) {
         clicked = false
-        return
       }
-      for (const entry of entries) {
-        if (entry.intersectionRatio > 0) {
-          currentNavIndex.value = Number(
-            entry.target.getAttribute('data-index')
-          )
-        }
-      }
+    }, 200)
+
+    const observer = new IntersectionObserver(entries => {
+      // 点击中的位置不进行更新
+      if (clicked) return
+      const entry = entries[0]
+
+      // intersectionRatio > 0表示在视口中开始出现
+      if (!entry || entry.intersectionRatio === 0) return
+
+      currentNavIndex.value = Number(
+        entry.target.getAttribute('data-index') || 0
+      )
     })
 
     let extraRefs: any = []
@@ -102,6 +117,7 @@ export default defineComponent({
       extraRefs = []
     })
 
+    // 注入给card使用
     provide(pageContextKey, {
       observer
     })
@@ -110,6 +126,7 @@ export default defineComponent({
       observer.disconnect()
     })
 
+    /** 渲染额外组件 */
     const renderExtra = () => {
       if (!props.showExtra || !conf.pageExtraComponents) return null
       const nodes = conf.pageExtraComponents.map(c => {
@@ -140,11 +157,11 @@ export default defineComponent({
           cols={`minmax(0, 1fr) ${hasNav ? '100px' : '0'}`}
         >
           <div class={ns.e('main')}>
-            <section class={ns.e('content')}>
+            <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
               <ElSlotsRender nodes={children} />
 
               {renderExtra()}
-            </section>
+            </ElScrollbar>
 
             <section class={ns.e('footer')}>
               <ElButton onClick={handleBack}>返回</ElButton>
@@ -159,9 +176,9 @@ export default defineComponent({
                   <li
                     class={ns.is('active', currentNavIndex.value === index)}
                     key='nav'
-                    onClick={() => handleClickNavItem(index)}
+                    onClick={() => handleClickNavItem(nav, index)}
                   >
-                    <a onClick={() => navTo(nav)}>{nav}</a>
+                    {nav}
                   </li>
                 )
               })}
