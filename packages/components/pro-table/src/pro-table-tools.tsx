@@ -11,6 +11,7 @@ import {
 } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import { proTableKey } from './token'
+import { isComment } from '@element-ultra/utils'
 
 export default defineComponent({
   emits: {
@@ -36,7 +37,7 @@ export default defineComponent({
       let labelClass = ns.e('searcher-label')
       let contentClass = ns.e('searcher-content')
 
-      const nodes = slots.map(node => {
+      const nodes = slots.filter(slot => !isComment(slot)).map(node => {
         const { props, type } = node
         let nodeName = (type as Component)?.name
         let wrapWidth = nodeName ? componentWidthMapper[nodeName] : undefined

@@ -9,10 +9,10 @@
     show-index
     :checkable="(_, index) => index % 2 === 0"
     ref="tableRef"
-    :searcher-limit="3"
   >
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
+      <!-- <span></span> -->
       <el-date-picker placeholder="起止日期" type="daterange" v-model="query.$date" />
       <el-input placeholder="测试1" />
       <el-input placeholder="测试2" />
