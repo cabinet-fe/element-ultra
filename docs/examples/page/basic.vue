@@ -7,7 +7,7 @@
     </template>
 
     <el-card v-for="i in 5" :header="`标题${i}`">
-      <el-form :data="data" :cols="1">
+      <el-form :data="data" :rules="rules" :cols="1">
         <el-input v-for="(_, f) in fieldLength" :field="'field' + f" :label="'控件'+f"></el-input>
 
       </el-form>
@@ -21,7 +21,7 @@ import { shallowRef } from 'vue'
 
 const fieldLength = 20
 const pageRef = shallowRef<InstanceType<typeof ElPage>>()
-const [data] = useFormModel(
+const [data, rules] = useFormModel(
   Array.from({ length: fieldLength }).reduce(
     (acc: Record<string, any>, _, i) => {
       acc['field' + i] = { required: true }
