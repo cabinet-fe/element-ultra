@@ -257,7 +257,7 @@ const validate = async (fields?: string | string[]): Promise<boolean> => {
       ?.getElementsByClassName('el-form-item is-error')[0]
       ?.scrollIntoView({
         behavior: 'smooth',
-        block: 'start'
+        block: 'nearest'
       })
   }
 
