@@ -1,4 +1,3 @@
-<script lang="tsx">
 import { ElGrid } from '@element-ultra/components/grid'
 import { ElButton } from '@element-ultra/components/button'
 import { ElSlotsRender } from '@element-ultra/components/slots-render'
@@ -26,6 +25,11 @@ import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
 
+export interface PageExposed {
+  /** 校验表单 */
+  validate: () => Promise<void>
+}
+
 export default defineComponent({
   name: 'ElPage',
 
@@ -49,7 +53,9 @@ export default defineComponent({
       if (router) {
         router.go(-1)
       } else {
-        console.warn('当前环境下没有使用路由,详情请查看https://router.vuejs.org/zh/')
+        console.warn(
+          '当前环境下没有使用路由,详情请查看https://router.vuejs.org/zh/'
+        )
       }
     }
 
@@ -173,7 +179,7 @@ export default defineComponent({
 
     expose({
       validate
-    })
+    } as PageExposed)
 
     return () => {
       const { children, navList } = getDefaultSlots()
@@ -219,4 +225,3 @@ export default defineComponent({
     }
   }
 })
-</script>

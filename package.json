@@ -110,5 +110,14 @@
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
     "vue-tsc": "^0.38.2"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "vite",
+        "react",
+        "react-dom"
+      ]
+    }
   }
 }

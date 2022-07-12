@@ -1,21 +1,9 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "compilerOptions": {
-    "allowJs": true,
-    "module": "ES2020",
-    "target": "ES2018",
-    "noImplicitAny": false,
-    "declaration": true,
-    "sourceMap": true,
-    "moduleResolution": "Node",
-    "lib": ["ES2018", "DOM", "DOM.Iterable"],
-    "allowSyntheticDefaultImports": true,
-    "types": ["unplugin-vue-define-options"]
-    // "noErrorTruncation": true
-  },
+  "files": [],
   "references": [
+    { "path": "./tsconfig.web.json" },
+    { "path": "./tsconfig.play.json" },
+    { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.vite-config.json" }
-  ],
-  "include": ["packages", "typings"],
-  "exclude": ["node_modules", "**/dist", "**/__tests__/**/*"]
+  ]
 }

@@ -1,5 +1,6 @@
 export * from './aria'
-export * from './date-pick'
+export * from './date'
 export * from './event'
 export * from './size'
+export * from './key'
 export * from './form-component-props'

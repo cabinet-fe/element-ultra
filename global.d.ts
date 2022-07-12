@@ -1,5 +1,5 @@
 // GlobalComponents for Volar
-declare module 'vue' {
+declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElAction: typeof import('element-ultra')['ElAction']
     ElActionGroup: typeof import('element-ultra')['ElActionGroup']
@@ -104,9 +104,7 @@ declare module 'vue' {
     ElResult: typeof import('element-ultra')['ElResult']
     ElSelectV2: typeof import('element-ultra')['ElSelectV2']
   }
-}
 
-declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $message: typeof import('element-ultra')['ElMessage']
     $notify: typeof import('element-ultra')['ElNotification']

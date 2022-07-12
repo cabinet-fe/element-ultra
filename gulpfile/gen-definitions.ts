@@ -27,7 +27,7 @@ export default async function genDefinitions() {
       noImplicitAny: false
     },
 
-    tsConfigFilePath: path.resolve(projRoot, 'tsconfig.json'),
+    tsConfigFilePath: path.resolve(projRoot, 'tsconfig.web.json'),
     skipAddingFilesFromTsConfig: true
   })
 
@@ -83,7 +83,7 @@ export default async function genDefinitions() {
 async function getSourceFiles(project: Project) {
   const excludeRE = /(test|mock|gulpfile|dist|node_modules)/
 
-  project.addSourceFileAtPath(path.resolve(projRoot, 'typings/jsx-shim.d.ts'))
+  project.addSourceFileAtPath(path.resolve(projRoot, 'typings/env.d.ts'))
 
   //  packages下除了element-ultra目录中的文件
   // '**/*.{vue,ts,js}'
