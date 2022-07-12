@@ -28,7 +28,7 @@
 import ElDialog from '@element-ultra/components/dialog'
 import ElButton from '@element-ultra/components/button'
 import { formDialogProps } from './form-dialog'
-import { formDialogContextKey } from '@element-ultra/tokens'
+import { formInjectionKey } from '@element-ultra/tokens'
 import { provide, shallowRef } from 'vue'
 
 defineOptions({
@@ -51,7 +51,7 @@ const deleteForm = (form: any) => {
   forms.delete(form)
 }
 
-provide(formDialogContextKey, {
+provide(formInjectionKey, {
   addForm,
   deleteForm
 })

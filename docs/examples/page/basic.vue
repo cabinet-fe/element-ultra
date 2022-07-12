@@ -1,12 +1,9 @@
 <template>
-  <el-page style="height: 400px">
-    <!-- 额外的tab页 -->
-    <template #panes>
-      <el-tab-pane name="测试" label="test"> 111 </el-tab-pane>
-    </template>
+  <el-page ref="pageRef" style="height: 400px">
+
 
     <template #footer="{ extraRefs }">
-      <el-button @click="c.log(extraRefs)">获取实例</el-button>
+      <el-button @click="handleValidate">校验</el-button>
     </template>
 
     <el-card v-for="i in 5" :header="`标题${i}`">
@@ -19,17 +16,25 @@
 </template>
 
 <script setup lang="ts">
-import { useFormModel } from 'element-ultra'
+import { useFormModel, type ElPage } from 'element-ultra'
+import { shallowRef } from 'vue'
 
 const fieldLength = 20
-
+const pageRef = shallowRef<InstanceType<typeof ElPage>>()
 const [data] = useFormModel(
   Array.from({ length: fieldLength }).reduce(
     (acc: Record<string, any>, _, i) => {
-      acc['field' + i] = {}
+      acc['field' + i] = { required: true }
       return acc
     },
     {}
   )
 )
+
+const handleValidate = async () => {
+  await pageRef.value?.validate()
+
+  // 校验失败控制台不会打印
+  console.log('success')
+}
 </script>

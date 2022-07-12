@@ -14,13 +14,14 @@ lang: zh-CN
 
 :::warning
 本例子中 table 的 api 属性需要你全局设置 table 的请求方法, 就像以下那样在你的入口文件中指定,
-设置一次就不用管了.
+设置一次即可.
 :::
 
 ```ts
 // 你的入口文件 main.ts
 import { useConfig } from 'element-ultra'
 
+// 该函数就是将参数别名成你的后端所需要的查询数据格式, 并且返回一个组件需要的格式的组件
 const request: ProTableRequestMethod = ({ api, query }) => {
   //  在控制台查看参数
   console.log('api: ', api)
@@ -117,4 +118,6 @@ interface ProTableColumn {
 | ------- | -------------------------- |
 | row-expand | 展开行内容 |
 | [column.slot] | 在列中自定义的插槽名称 |
+| tools | 在列中自定义的插槽名称, 请[查看](#一个使用的例子) |
+| searcher | 搜索控件插槽, 请[查看](#一个使用的例子) |
 

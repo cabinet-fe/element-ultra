@@ -17,7 +17,11 @@ import {
   type VNode,
   type VNodeArrayChildren
 } from 'vue'
-import { pageContextKey } from '@element-ultra/tokens'
+import {
+  formInjectionKey,
+  pageContextKey,
+  type FormExposed
+} from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
@@ -32,7 +36,7 @@ export default defineComponent({
     }
   },
 
-  setup(props, { attrs, slots }) {
+  setup(props, { attrs, slots, expose }) {
     const ns = useNamespace('page')
 
     const [conf] = useConfig()
@@ -42,7 +46,11 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const handleBack = () => {
-      router.go(-1)
+      if (router) {
+        router.go(-1)
+      } else {
+        console.warn('当前环境下没有使用路由,详情请查看https://router.vuejs.org/zh/')
+      }
     }
 
     const getDefaultSlots = () => {
@@ -117,6 +125,18 @@ export default defineComponent({
       extraRefs = []
     })
 
+    let exposedFormList = new Set<FormExposed>()
+
+    // 注入给form使用
+    provide(formInjectionKey, {
+      addForm(formExposed: FormExposed) {
+        exposedFormList.add(formExposed)
+      },
+      deleteForm(formExposed: FormExposed) {
+        exposedFormList.delete(formExposed)
+      }
+    })
+
     // 注入给card使用
     provide(pageContextKey, {
       observer
@@ -144,6 +164,16 @@ export default defineComponent({
         block: 'start'
       })
     }
+
+    const validate = async () => {
+      for (const form of exposedFormList) {
+        await form.validate()
+      }
+    }
+
+    expose({
+      validate
+    })
 
     return () => {
       const { children, navList } = getDefaultSlots()

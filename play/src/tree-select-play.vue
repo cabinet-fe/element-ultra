@@ -49,7 +49,7 @@ import { useFormModel, type FormInstance } from 'element-ultra'
 import { shallowRef, watch } from 'vue'
 let treeData = shallowRef<any[]>([])
 setTimeout(() => {
-  treeData.value = Array.from({ length: 10 }).map((_, index) => {
+  treeData.value = Array.from({ length: 2 }).map((_, index) => {
     return {
       label: `文本${index}`,
       value: `${index}`,

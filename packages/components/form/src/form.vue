@@ -39,12 +39,10 @@ import {
 } from 'vue'
 import ElFormItem from './form-item.vue'
 import { ElGrid } from '@element-ultra/components/grid'
-import { formKey } from '@element-ultra/tokens'
+import { formInjectionKey, formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
-import type { FormRules } from './form'
 import { useNamespace } from '@element-ultra/hooks'
-import { formDialogContextKey } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import { isObject } from 'lodash'
 
@@ -238,8 +236,9 @@ const validateField = async (field: string) => {
 
 const formRef = shallowRef<InstanceType<typeof ElGrid>>()
 /** 校验 */
-const validate = async (fields?: string | string[]) => {
+const validate = async (fields?: string | string[]): Promise<boolean> => {
   let result = true
+
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
       Array.isArray(fields)
@@ -262,7 +261,7 @@ const validate = async (fields?: string | string[]) => {
       })
   }
 
-  return result
+  return result ? result : Promise.reject(result)
 }
 
 provide(formKey, {
@@ -280,14 +279,14 @@ const exposed = {
   clearValidate
 }
 
-// 尝试往formDialog组件中注册自己
-const formDialogContext = inject(formDialogContextKey, null)
+// 尝试往formDialog, page组件中注册自己
+const formInjection = inject(formInjectionKey, null)
 
-if (formDialogContext) {
-  formDialogContext.addForm(exposed)
+if (formInjection) {
+  formInjection.addForm(exposed)
 
   onBeforeUnmount(() => {
-    formDialogContext.deleteForm(exposed)
+    formInjection.deleteForm(exposed)
   })
 }
 

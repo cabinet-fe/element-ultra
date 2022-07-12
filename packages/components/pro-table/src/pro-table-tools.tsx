@@ -3,15 +3,18 @@ import {
   cloneVNode,
   defineComponent,
   inject,
+  isVNode,
   onMounted,
   onUnmounted,
   ref,
   shallowRef,
-  type Component
+  type Component,
+  type VNode,
+  type VNodeNormalizedChildren
 } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import { proTableKey } from './token'
-import { isComment } from '@element-ultra/utils'
+import { isComment, isFragment, isTemplate } from '@element-ultra/utils'
 
 export default defineComponent({
   emits: {
@@ -31,32 +34,54 @@ export default defineComponent({
     }
 
     const getNodes = () => {
-      let slots = proTableSlots.searcher?.() || []
+      let slots = (proTableSlots.searcher?.() || []).filter(
+        slot => !isComment(slot)
+      )
 
       let wrapClass = ns.e('searcher-wrap')
       let labelClass = ns.e('searcher-label')
       let contentClass = ns.e('searcher-content')
 
-      const nodes = slots.filter(slot => !isComment(slot)).map(node => {
-        const { props, type } = node
-        let nodeName = (type as Component)?.name
-        let wrapWidth = nodeName ? componentWidthMapper[nodeName] : undefined
+      let nodes: VNode[] = []
 
-        let clonedNode = cloneVNode(node, {
-          class: contentClass,
-          style: {
-            width: wrapWidth
-          }
-        })
-        return props?.placeholder ? (
-          <div class={wrapClass}>
-            <label class={labelClass}>{props.placeholder}:</label>
-            {clonedNode}
-          </div>
-        ) : (
-          clonedNode
-        )
-      })
+      const recursive = (slots: VNodeNormalizedChildren) => {
+        if (Array.isArray(slots)) {
+          slots.forEach(node => {
+            if (!isVNode(node)) return
+
+            if (isFragment(node) || isTemplate(node)) {
+              return recursive(node.children)
+            }
+
+            const { props, type } = node
+            let nodeName = (type as Component)?.name
+            let wrapWidth = nodeName
+              ? componentWidthMapper[nodeName]
+              : undefined
+
+            let clonedNode = cloneVNode(node, {
+              class: contentClass,
+              style: {
+                width: node.props?.style?.width || wrapWidth
+              }
+            })
+
+            if (props?.placeholder) {
+              nodes.push(
+                <div class={wrapClass}>
+                  <label class={labelClass}>{props.placeholder}:</label>
+                  {clonedNode}
+                </div>
+              )
+            } else {
+              nodes.push(clonedNode)
+            }
+          })
+        } else if (isVNode(slots)) {
+          nodes.push(slots)
+        }
+      }
+      recursive(slots)
 
       const nodesCount = nodes.length
       const defaultVisibleNodes = nodes.slice(0, rootProps.searcherLimit)

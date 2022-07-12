@@ -97,9 +97,7 @@ onMounted(() => {
   if (!treeContainer.value) return
 
   observer = new ResizeObserver(entries => {
-    for (let entry of entries) {
-      listHeight.value = (entry.target as any).offsetHeight
-    }
+    listHeight.value = (entries[0]?.target as any).offsetHeight
   })
 
   observer.observe(treeContainer.value)

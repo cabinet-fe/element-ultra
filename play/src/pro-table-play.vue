@@ -14,15 +14,7 @@
       <el-input placeholder="名称" v-model="query.name" />
       <!-- <span></span> -->
       <el-date-picker placeholder="起止日期" type="daterange" v-model="query.$date" />
-      <el-input placeholder="测试1" />
-      <el-input placeholder="测试2" />
-      <el-input placeholder="测试3" />
-      <el-input placeholder="测试4" />
-      <el-input placeholder="测试5" />
-      <el-input placeholder="测试6" />
-      <el-input placeholder="测试7" />
-      <el-input placeholder="测试8" />
-      <el-input placeholder="测试9" />
+      <el-input style="width: 200px" v-for="(_, i) in 9" :placeholder="`测试${i}`" />
     </template>
 
     <template #age="{ row }">
