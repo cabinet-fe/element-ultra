@@ -14,9 +14,12 @@
   }
 
   @include e(card-item) {
-    transform: translateY(100px);
-    opacity: 0;
-    transition: all .9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2
+    transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2;
+
+    @include m(hidden) {
+      transform: translateY(100px);
+      opacity: 0;
+    }
   }
 
   @include e(content) {

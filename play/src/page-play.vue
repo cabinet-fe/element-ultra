@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { useFormModel } from 'element-ultra'
 
-const fieldLength = 20
+const fieldLength = 10
 
 const [data, rules] = useFormModel(
   Array.from({ length: fieldLength }).reduce(

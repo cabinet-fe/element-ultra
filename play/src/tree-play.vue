@@ -3,10 +3,9 @@
     <div>
       <el-tree
         :data="data"
-        show-checkbox
         style="width: 300px"
         highlight-current
-        :height="208"
+        :height="416"
         :item-size="32"
         :default-expanded-keys="['0']"
       >

@@ -69,7 +69,7 @@ export default defineComponent({
         return typeof type === 'object' && (type as any).name === 'ElCard'
       }
 
-      const cardItemClass = ns.e('card-item')
+      const cardItemClass = [ns.e('card-item'), ns.em('card-item', 'hidden')]
 
       function recursive(nodeList: VNodeArrayChildren) {
         nodeList.forEach(node => {
@@ -122,21 +122,22 @@ export default defineComponent({
       }
     }, 200)
 
+    const hiddenClass = 'el-page__card-item--hidden'
     // 用来监听el-card
     const observer = new IntersectionObserver(entries => {
-      const entry = entries[0]
+      entries.forEach(entry => {
+        const { target, intersectionRatio } = entry
+        if (intersectionRatio > 0 && target.classList.contains(hiddenClass)) {
+          target.classList.remove(hiddenClass)
+        }
+      })
 
+      // 对于点击定位, 点击中的位置不进行更新
+      if (clicked) return
+
+      const entry = entries[0]
       // intersectionRatio > 0表示在视口中开始出现
       if (!entry || entry.intersectionRatio === 0) return
-
-      // 暂时加一下
-      ~(entry.target as HTMLElement).setAttribute(
-        'style',
-        'opacity: 1; transform: none'
-      )
-
-      // 点击中的位置不进行更新
-      if (clicked) return
 
       currentNavIndex.value = Number(
         entry.target.getAttribute('data-index') || 0
