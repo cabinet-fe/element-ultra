@@ -8,7 +8,9 @@ export interface TableSelectColumn extends ProTableColumn {}
 export const tableSelectProps = {
   /** 选择的值 */
   modelValue: {
-    type: [Object, Array] as PropType<Record<string, any> | Record<string, any>[]>
+    type: [Object, Array] as PropType<
+      Record<string, any> | Record<string, any>[]
+    >
   },
   /** 列, 属性可以查看pro-table的属性 */
   columns: {
@@ -78,16 +80,19 @@ export const tableSelectProps = {
   size: SizeProp,
 
   /** 是否可选择 */
-  disabled: Boolean
+  disabled: {
+    type: Boolean,
+    default: undefined
+  }
 } as const
 
 export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>
 
-type EmitValue = Record<string, any> |  Record<string, any>[]
+type EmitValue = Record<string, any> | Record<string, any>[]
 
 export const tableSelectEmits = {
   'update:modelValue': (v: EmitValue) => true,
-  'change': (v: EmitValue) => true
+  change: (v: EmitValue) => true
 }
 
 export type TableSelectEmits = EmitFn<typeof tableSelectEmits>

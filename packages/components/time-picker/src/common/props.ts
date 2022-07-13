@@ -65,7 +65,7 @@ export const timePickerDefaultProps = {
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: undefined
   },
   placeholder: {
     type: String,

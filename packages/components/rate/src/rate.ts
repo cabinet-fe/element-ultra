@@ -58,7 +58,7 @@ export const rateProps = {
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: undefined
   },
   allowHalf: {
     type: Boolean,

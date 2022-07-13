@@ -27,7 +27,7 @@ export const switchProps = {
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: undefined
   },
   width: {
     type: Number,

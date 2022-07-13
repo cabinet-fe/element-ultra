@@ -8,7 +8,8 @@ export const inputProps = {
   ...FORM_COMPONENT_PROPS,
   size: SizeProp,
   disabled: {
-    type: Boolean
+    type: Boolean,
+    default: undefined
   },
 
   modelValue: {

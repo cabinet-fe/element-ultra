@@ -129,7 +129,7 @@ const calcTableHeight = debounce(
 let loading = shallowRef(false)
 
 const getQueryParams = () => {
-  let _query = { ...props.query, ...(props.pagination ? query : null) }
+  let _query = { ...props.query, ...(props.pagination ? query : null) } as Record<string, any>
   // 还原真实的请求参数
   let realQuery = Object.keys(_query).reduce((acc, cur) => {
     let v = _query[cur]

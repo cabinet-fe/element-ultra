@@ -101,7 +101,8 @@ export const multipleFormProps = {
   },
 
   disabled: {
-    type: Boolean
+    type: Boolean,
+    default: undefined
   },
 
   title: {

@@ -104,7 +104,7 @@ export default defineComponent({
     modelValue: String,
     disabled: {
       type: Boolean,
-      default: false,
+      default: undefined
     },
     editable: {
       type: Boolean,

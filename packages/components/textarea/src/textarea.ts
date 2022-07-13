@@ -10,7 +10,10 @@ type AutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const textareaProps = {
   ...FORM_COMPONENT_PROPS,
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined
+  },
   modelValue: {
     type: [String, Number] as PropType<string | number | null | undefined>,
     default: ''

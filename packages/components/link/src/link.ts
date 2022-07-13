@@ -14,7 +14,7 @@ export const linkProps = {
     type: Boolean,
     default: true
   },
-  disabled: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: undefined },
   href: { type: String, default: '' },
   icon: {
     type: iconPropType,

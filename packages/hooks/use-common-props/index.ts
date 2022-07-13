@@ -38,6 +38,6 @@ export const useDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
   const disabled = useProp<boolean>('disabled')
   const form = inject(formKey, undefined)
   return computed(
-    () => disabled.value || unref(fallback) || form?.props.disabled || false
+    () => disabled.value ?? unref(fallback) ??  form?.props.disabled ?? false
   )
 }

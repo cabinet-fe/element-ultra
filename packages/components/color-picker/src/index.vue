@@ -124,7 +124,10 @@ export default defineComponent({
     modelValue: String,
     showAlpha: Boolean,
     colorFormat: String,
-    disabled: Boolean,
+    disabled: {
+      type: Boolean,
+      default: undefined
+    },
     size: {
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize

@@ -25,7 +25,7 @@ const attributes = {
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
   immediate: {
     type: Boolean,

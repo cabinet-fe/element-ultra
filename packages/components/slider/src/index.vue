@@ -167,7 +167,7 @@ export default defineComponent({
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: undefined
     },
     range: {
       type: Boolean,

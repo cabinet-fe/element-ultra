@@ -128,7 +128,10 @@ export default defineComponent({
       type: Function,
       default: ajax,
     },
-    disabled: Boolean,
+    disabled: {
+      type: Boolean,
+      default: undefined
+    },
     limit: {
       type: Number as PropType<Nullable<number>>,
       default: null,

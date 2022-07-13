@@ -67,8 +67,7 @@ export const usePopperProps = {
     default: false
   },
   disabled: {
-    type: Boolean,
-    default: false
+    type: Boolean
   }
 }
 

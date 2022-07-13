@@ -69,6 +69,8 @@ export default defineComponent({
         return typeof type === 'object' && (type as any).name === 'ElCard'
       }
 
+      const cardItemClass = ns.e('card-item')
+
       function recursive(nodeList: VNodeArrayChildren) {
         nodeList.forEach(node => {
           if (!isVNode(node)) return
@@ -80,9 +82,17 @@ export default defineComponent({
 
           if (isCard(node)) {
             const { header } = node.props || {}
+
             if (header) {
-              children.push(cloneVNode(node, { 'data-index': navList.length }))
+              children.push(
+                cloneVNode(node, {
+                  'data-index': navList.length,
+                  class: cardItemClass
+                })
+              )
               navList.push(header)
+            } else {
+              children.push(node)
             }
           } else {
             children.push(node)
@@ -91,7 +101,6 @@ export default defineComponent({
       }
 
       recursive(defaultNodes)
-
       return {
         navList,
         children
@@ -113,13 +122,21 @@ export default defineComponent({
       }
     }, 200)
 
+    // 用来监听el-card
     const observer = new IntersectionObserver(entries => {
-      // 点击中的位置不进行更新
-      if (clicked) return
       const entry = entries[0]
 
       // intersectionRatio > 0表示在视口中开始出现
       if (!entry || entry.intersectionRatio === 0) return
+
+      // 暂时加一下
+      ~(entry.target as HTMLElement).setAttribute(
+        'style',
+        'opacity: 1; transform: none'
+      )
+
+      // 点击中的位置不进行更新
+      if (clicked) return
 
       currentNavIndex.value = Number(
         entry.target.getAttribute('data-index') || 0
@@ -193,7 +210,11 @@ export default defineComponent({
           cols={`minmax(0, 1fr) ${hasNav ? '100px' : '0'}`}
         >
           <div class={ns.e('main')}>
-            <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
+            <ElScrollbar
+              class={ns.e('content')}
+              always
+              onScroll={onScrollStopped}
+            >
               <ElSlotsRender nodes={children} />
 
               {renderExtra()}

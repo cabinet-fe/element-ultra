@@ -1,4 +1,4 @@
-import { ref, computed, inject, type PropType, watch } from 'vue'
+import { ref, computed, inject, type PropType } from 'vue'
 import {
   UPDATE_MODEL_EVENT,
   FORM_COMPONENT_PROPS,
@@ -7,7 +7,7 @@ import {
 import { radioGroupKey } from '@element-ultra/tokens'
 import { useDisabled, useSize } from '@element-ultra/hooks'
 
-import type { ExtractPropTypes, SetupContext } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type { EmitFn } from '@element-ultra/utils'
 
 export const radioPropsBase = {
@@ -16,7 +16,8 @@ export const radioPropsBase = {
   size: SizeProp,
 
   disabled: {
-    type: Boolean
+    type: Boolean,
+    default: undefined
   },
   value: {
     type: [String, Number, Boolean] as PropType<string | number | boolean>,

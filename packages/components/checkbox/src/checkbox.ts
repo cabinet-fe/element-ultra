@@ -13,7 +13,10 @@ export const checkboxProps = {
     type: [String, Number]
   },
   indeterminate: Boolean,
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined
+  },
   checked: Boolean,
   trueValue: {
     type: [String, Number, Boolean],

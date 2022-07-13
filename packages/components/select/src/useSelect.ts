@@ -84,7 +84,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // the controller of the expanded popup
   const expanded = ref(false)
 
-  const selectDisabled = computed(() => props.disabled || elForm?.props.disabled)
+  const selectDisabled = computed(() => props.disabled ?? elForm?.props.disabled)
 
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * 34

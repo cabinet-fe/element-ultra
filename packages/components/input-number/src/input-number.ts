@@ -24,7 +24,7 @@ export const inputNumberProps = {
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: undefined
   },
   size: {
     type: String as PropType<ComponentSize>

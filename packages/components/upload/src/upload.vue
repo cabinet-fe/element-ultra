@@ -141,7 +141,10 @@ export default defineComponent({
         | PropType<(...args: unknown[]) => Promise<unknown>>,
       default: () => ajax,
     },
-    disabled: Boolean,
+    disabled: {
+      type: Boolean,
+      default: undefined
+    },
     limit: {
       type: Number as PropType<Nullable<number>>,
       default: null,

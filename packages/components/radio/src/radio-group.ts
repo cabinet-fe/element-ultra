@@ -6,7 +6,10 @@ import type { PropType } from 'vue'
 export const radioGroupProps = {
   ...FORM_COMPONENT_PROPS,
   size: SizeProp,
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined
+  },
   modelValue: {
     type: [String, Number, Boolean] as PropType<string | number | boolean>,
     default: ''

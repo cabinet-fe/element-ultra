@@ -264,7 +264,10 @@ export default defineComponent({
       type: String,
       default: '请选择'
     },
-    disabled: Boolean,
+    disabled: {
+      type: Boolean,
+      default: undefined
+    },
     clearable: Boolean,
     filterable: Boolean,
     filterMethod: {
@@ -336,7 +339,7 @@ export default defineComponent({
     const suggestions: Ref<CascadeNode[]> = ref([])
     const isOnComposition = ref(false)
 
-    const isDisabled = computed(() => props.disabled || form?.props.disabled)
+    const isDisabled = computed(() => props.disabled ?? form?.props.disabled)
 
     const realSize = useSize({
       props
