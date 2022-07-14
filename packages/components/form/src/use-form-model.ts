@@ -59,7 +59,7 @@ export default function useFormModel<M extends FormModel>(model: M) {
   modelKeys.forEach(key => {
     let v = model[key].value
     if (typeof v === 'function') {
-
+      console.log(form)
       activeEffect = () => {
         form[key] = v(form)
       }
