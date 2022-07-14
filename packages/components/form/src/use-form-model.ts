@@ -1,5 +1,5 @@
-import { keyBy, omit } from 'lodash'
-import { shallowReactive, customRef, computed } from 'vue'
+import { omit } from 'lodash'
+import { shallowReactive } from 'vue'
 import type { FormModel, FormModelItem } from './form'
 
 /**
@@ -10,19 +10,20 @@ export default function useFormModel<M extends FormModel>(model: M) {
   let modelKeys = Object.keys(model)
 
   type Model<K extends keyof M = keyof M> = {
-    [key in K]: M[key]['value'] extends (...args: any[]) => infer P ? P : M[key]['value']
+    [key in K]: M[key]['value'] extends (...args: any[]) => infer P
+      ? P
+      : M[key]['value']
   }
 
   let keyEffects = new Map<keyof M, Set<() => any>>()
 
-  const rawModel =  modelKeys.reduce((acc, key) => {
+  const rawModel = modelKeys.reduce((acc, key) => {
     let v = model[key].value
     acc[key as keyof Model] = typeof v === 'function' ? undefined : v
     return acc
   }, {} as Model)
 
   let activeEffect: null | (() => any)
-
 
   const track = (p: string) => {
     if (!activeEffect) return
@@ -34,24 +35,21 @@ export default function useFormModel<M extends FormModel>(model: M) {
       keyEffects.set(p, new Set([activeEffect]))
     }
   }
-  let proxy = new Proxy(
-    rawModel,
-    {
-      get(t, p: string) {
-        track(p)
-        let v = t[p]
-        return v
-      },
-      set(t, p, v) {
-        t[p] = v
-        keyEffects.get(p)?.forEach(effect => {
-          // effect()
-          console.log(effect)
-        })
-        return true
-      }
+  let proxy = new Proxy(rawModel, {
+    get(t, p: string) {
+      track(p)
+      let v = t[p]
+      return v
+    },
+    set(t, p, v) {
+      t[p] = v
+      keyEffects.get(p)?.forEach(effect => {
+        // effect()
+        console.log(effect)
+      })
+      return true
     }
-  )
+  })
 
   const form = shallowReactive(proxy)
 
@@ -68,8 +66,6 @@ export default function useFormModel<M extends FormModel>(model: M) {
     }
   })
 
-
-
   const rules = modelKeys.reduce((acc, key) => {
     acc[key as keyof Model] = omit(model[key], ['value'])
     return acc
@@ -77,7 +73,6 @@ export default function useFormModel<M extends FormModel>(model: M) {
 
   return [form, rules] as const
 }
-
 
 // const [model] = useFormModel({
 //   a: {
