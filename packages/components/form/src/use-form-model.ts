@@ -1,5 +1,5 @@
-import { omit } from 'lodash'
-import { shallowReactive } from 'vue'
+import { keyBy, omit } from 'lodash'
+import { shallowReactive, customRef, computed } from 'vue'
 import type { FormModel, FormModelItem } from './form'
 
 /**
@@ -9,19 +9,81 @@ import type { FormModel, FormModelItem } from './form'
 export default function useFormModel<M extends FormModel>(model: M) {
   let modelKeys = Object.keys(model)
 
-  type Model = { [key in keyof M]: M[key]['value'] }
+  type Model<K extends keyof M = keyof M> = {
+    [key in K]: M[key]['value'] extends (...args: any[]) => infer P ? P : M[key]['value']
+  }
 
-  const form = shallowReactive(
-    modelKeys.reduce((acc, key) => {
-      acc[key] = model[key].value
-      return acc
-    }, {}) as Model
+  let keyEffects = new Map<keyof M, Set<() => any>>()
+
+  const rawModel =  modelKeys.reduce((acc, key) => {
+    let v = model[key].value
+    acc[key as keyof Model] = typeof v === 'function' ? undefined : v
+    return acc
+  }, {} as Model)
+
+  let activeEffect: null | (() => any)
+
+
+  const track = (p: string) => {
+    if (!activeEffect) return
+
+    let eSet = keyEffects.get(p)
+    if (eSet) {
+      eSet.add(activeEffect)
+    } else {
+      keyEffects.set(p, new Set([activeEffect]))
+    }
+  }
+  let proxy = new Proxy(
+    rawModel,
+    {
+      get(t, p: string) {
+        track(p)
+        let v = t[p]
+        return v
+      },
+      set(t, p, v) {
+        t[p] = v
+        keyEffects.get(p)?.forEach(effect => {
+          // effect()
+          console.log(effect)
+        })
+        return true
+      }
+    }
   )
 
+  const form = shallowReactive(proxy)
+
+  // 触发追踪
+  modelKeys.forEach(key => {
+    let v = model[key].value
+    if (typeof v === 'function') {
+
+      activeEffect = () => {
+        form[key] = v(form)
+      }
+      activeEffect()
+      activeEffect = null
+    }
+  })
+
+
+
   const rules = modelKeys.reduce((acc, key) => {
-    acc[key] = omit(model[key], ['value'])
+    acc[key as keyof Model] = omit(model[key], ['value'])
     return acc
-  }, {}) as { [K in keyof M]: Omit<FormModelItem, 'value'> }
+  }, {} as { [K in keyof M]: Omit<FormModelItem, 'value'> })
 
   return [form, rules] as const
 }
+
+
+// const [model] = useFormModel({
+//   a: {
+//     value: (): number => 1
+//   },
+//   b: {
+//     value: ''
+//   }
+// })

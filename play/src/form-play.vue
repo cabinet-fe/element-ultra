@@ -5,14 +5,19 @@
     </div>
 
     <el-card header="表单数据">
-
-      <el-form ref="formRef" :data="data"  disabled label-width="80px" :rules="rules">
+      <el-form ref="formRef" :data="data" label-width="80px" :rules="rules">
         <el-radio-group :disabled="false" label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number :disabled="false" money label="数字" clearable field="num" />
+        <el-input-number
+          :disabled="false"
+          money
+          label="数字"
+          clearable
+          field="num"
+        />
 
         <el-cascade
           label="级联"
@@ -35,11 +40,26 @@
         </template>
 
         <template v-else>
-          <el-input :disabled="false" :suffix-icon="Search" label="姓名" clearable field="name" />
           <el-input label="住址" clearable field="address" />
         </template>
 
-        <el-select label="选择框" :disabled="false" :options="[{ label: 'aa', value: '1' }]" multiple field="aa" />
+        <el-input label="姓" field="xing" />
+        <el-input label="名" field="ming" />
+        <el-input
+          :disabled="false"
+          :suffix-icon="Search"
+          label="姓名"
+          clearable
+          field="name"
+        />
+
+        <el-select
+          label="选择框"
+          :disabled="false"
+          :options="[{ label: 'aa', value: '1' }]"
+          multiple
+          field="aa"
+        />
 
         <el-date-picker
           type="daterange"
@@ -50,54 +70,19 @@
           field="rangedate"
         />
 
-         <el-date-picker
-         :disabled="false"
+        <el-date-picker
+          :disabled="false"
           label="日期"
           field="date"
           v-model="data.start"
         />
       </el-form>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <p>1</p>
-      <el-button @click="formRef.validate()">校验</el-button>
     </el-card>
 
-    <el-checkbox :checked="checked">aa</el-checkbox>
-    <el-button @click="checked = !checked">切换</el-button>
+    <template #footer>
+      <el-button @click="formRef.validate()">校验</el-button>
+      <el-button @click="checked = !checked">切换</el-button>
+    </template>
   </el-page>
 </template>
 
@@ -128,17 +113,24 @@ setTimeout(() => {
 }, 200)
 
 const [data, rules] = useFormModel({
-  name: { match: [/^[^\d]+$/, '不能有数字'], value: '' },
   phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
   type: { value: '2' },
   address: { required: true },
-  // date: {},
+  date: {},
   rangedate: {},
   start: { value: '' },
   end: { value: '' },
   aa: { value: [] },
   num: { value: null },
-  cascade: { value: [] }
+  cascade: { value: [] },
+  xing: {},
+  ming: {},
+  name: {
+    match: [/^[^\d]+$/, '不能有数字'],
+    value: model => {
+      return model.xing + model.ming
+    }
+  }
 })
 
 const formRef = shallowRef<any>()

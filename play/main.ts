@@ -1,14 +1,8 @@
-import { createApp, defineComponent, h } from 'vue'
+import { createApp, h } from 'vue'
 import { useConfig } from 'element-ultra'
 import { router } from './src/router'
 import App from './App.vue'
 import '@element-ultra/theme-chalk/src/dark/css-vars.scss'
-
-const MyComponent = defineComponent({
-  render() {
-    return h('div', ['哈哈13'])
-  }
-})
 
 const [, setConfigStore] = useConfig()
 setConfigStore({
@@ -26,8 +20,7 @@ setConfigStore({
         })
       }, 500)
     })
-  },
-  pageExtraComponents: [MyComponent]
+  }
 })
 
 const app = createApp({
