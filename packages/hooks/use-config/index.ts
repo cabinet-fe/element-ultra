@@ -6,7 +6,7 @@ interface RequestOptions {
   query: Record<string, any>
 }
 
-type RequestResponse = { data: any[]; total?: number }
+export type RequestResponse = { data: any[]; total?: number; raw: any }
 
 export type ProTableRequestMethod = (option: RequestOptions) => Promise<RequestResponse>
 

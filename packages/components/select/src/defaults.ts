@@ -28,7 +28,10 @@ export const SelectProps = {
   },
   collapseTags: Boolean,
   defaultFirstOption: Boolean,
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined
+  },
   estimatedOptionHeight: {
     type: Number,
     default: undefined

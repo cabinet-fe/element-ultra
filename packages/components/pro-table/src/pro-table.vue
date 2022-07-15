@@ -74,7 +74,7 @@ import { ElTableColumn } from '@element-ultra/components/table'
 import { proTableProps } from './pro-table'
 import usePreColumns from './use-pre-columns'
 import ElPagination from '@element-ultra/components/pagination'
-import { useConfig, useNamespace } from '@element-ultra/hooks'
+import { RequestResponse, useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import { proTableKey } from './token'
 import { debounce } from 'lodash'
@@ -90,7 +90,7 @@ const ns = useNamespace('pro-table')
 
 const emit = defineEmits({
   fetch: (query: Record<string, any>) => true,
-  loaded: (res: any) => true
+  loaded: (res: RequestResponse) => true
 })
 
 const [configStore] = useConfig()

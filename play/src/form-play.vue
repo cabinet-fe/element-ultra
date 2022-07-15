@@ -5,14 +5,13 @@
     </div>
 
     <el-card header="表单数据">
-      <el-form ref="formRef" :data="data" label-width="80px" :rules="rules">
-        <el-radio-group :disabled="false" label="审批流程" field="type">
+      <el-form ref="formRef" :disabled="true" :data="data" label-width="80px" :rules="rules">
+        <el-radio-group  label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
         <el-input-number
-          :disabled="false"
           money
           label="数字"
           clearable
@@ -21,7 +20,6 @@
 
         <el-cascade
           label="级联"
-          :disabled="false"
           :props="{ label: 'name', checkStrictly: true }"
           clearable
           field="cascade"
@@ -55,7 +53,6 @@
 
         <el-select
           label="选择框"
-          :disabled="false"
           :options="[{ label: 'aa', value: '1' }]"
           multiple
           field="aa"
@@ -64,14 +61,12 @@
         <el-date-picker
           type="daterange"
           label="范围日期"
-          :disabled="false"
           v-model:start="data.start"
           v-model:end="data.end"
           field="rangedate"
         />
 
         <el-date-picker
-          :disabled="false"
           label="日期"
           field="date"
           v-model="data.start"

@@ -22,7 +22,7 @@ export const treeSelectProps = {
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: undefined
   },
 
   tagHit: {
