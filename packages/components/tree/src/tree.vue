@@ -115,10 +115,8 @@ const {
   isExpanded,
   isIndeterminate,
   isChecked,
-  isDisabled,
   isCurrent,
   isForceHiddenExpandIcon,
-  toggleCheckbox,
   handleNodeClick,
   handleNodeCheck,
   // expose

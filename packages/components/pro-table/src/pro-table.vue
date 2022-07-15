@@ -88,7 +88,10 @@ const props = defineProps(proTableProps)
 const slots = useSlots()
 const ns = useNamespace('pro-table')
 
-
+const emit = defineEmits({
+  fetch: (query: Record<string, any>) => true,
+  loaded: (res: any) => true
+})
 
 const [configStore] = useConfig()
 
@@ -120,7 +123,8 @@ const calcTableHeight = debounce(
       accumulation += 28
     }
     tableHeight.value = `calc(${props.height} - ${accumulation}px)`
-  }, 500,
+  },
+  500,
   {
     leading: true
   }
@@ -129,7 +133,10 @@ const calcTableHeight = debounce(
 let loading = shallowRef(false)
 
 const getQueryParams = () => {
-  let _query = { ...props.query, ...(props.pagination ? query : null) } as Record<string, any>
+  let _query = {
+    ...props.query,
+    ...(props.pagination ? query : null)
+  } as Record<string, any>
   // 还原真实的请求参数
   let realQuery = Object.keys(_query).reduce((acc, cur) => {
     let v = _query[cur]
@@ -159,16 +166,19 @@ const fetchData = async (resetPage = true) => {
     query.page = 1
   }
 
-  const { total, data } = await configStore
-    .proTableRequestMethod(getQueryParams())
-    .finally(() => {
-      loading.value = false
-    })
+  let params = getQueryParams()
+  emit('fetch', params)
+  const res = await configStore.proTableRequestMethod(params).finally(() => {
+    loading.value = false
+  })
+  const { total, data } = res
 
   if (total) {
     state.total = total
   }
   state.data = data
+
+  emit('loaded', res)
 }
 
 let canAutoQuery = shallowRef(true)

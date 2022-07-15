@@ -223,8 +223,12 @@ const validateField = async (field: string) => {
   errMsg = await validator?.(value, data, rule)
   if (errMsg) return errMsg
 
+  type RuleKey = keyof typeof rule
   Object.keys(rule).some(type => {
-    let result = validators[type](value, rule[type])
+    let result = validators[type as RuleKey]?.(
+      value,
+      rule[type as RuleKey] as any
+    )
     if (result) {
       errMsg = result
       return true

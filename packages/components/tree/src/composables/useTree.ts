@@ -1,16 +1,24 @@
-import { computed, nextTick, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import {
   NODE_CLICK,
   NODE_COLLAPSE,
   NODE_EXPAND,
   CURRENT_CHANGE,
-  TreeOptionsEnum
+  TreeOptionsEnum,
+  TreeEmit
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
-import type { TreeProps, TreeNodeData, TreeKey, TreeNode, TreeData, Tree } from '../types'
+import type {
+  TreeProps,
+  TreeNodeData,
+  TreeKey,
+  TreeNode,
+  TreeData,
+  Tree
+} from '../types'
 
-export function useTree(props: TreeProps, emit) {
+export function useTree(props: TreeProps, emit: TreeEmit) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
@@ -36,7 +44,10 @@ export function useTree(props: TreeProps, emit) {
     setCheckedAll
   } = useCheck(props, tree)
 
-  const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(props, tree)
+  const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
+    props,
+    tree
+  )
 
   const valueKey = computed(() => {
     return props.props?.value || TreeOptionsEnum.KEY
@@ -99,7 +110,11 @@ export function useTree(props: TreeProps, emit) {
     const treeNodeMap: Map<TreeKey, TreeNode> = new Map()
     const levelTreeNodeMap: Map<number, TreeNode[]> = new Map()
     let maxLevel = 1
-    function traverse(nodes: TreeData, level = 1, parent: TreeNode | undefined = undefined) {
+    function traverse(
+      nodes: TreeData,
+      level = 1,
+      parent: TreeNode | undefined = undefined
+    ) {
       const siblings: TreeNode[] = []
       for (let index = 0; index < nodes.length; ++index) {
         const rawNode = nodes[index]

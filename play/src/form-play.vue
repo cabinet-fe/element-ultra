@@ -127,10 +127,10 @@ const [data, rules] = useFormModel({
   ming: {},
   name: {
     match: [/^[^\d]+$/, '不能有数字'],
-    value: model => {
-      return model.xing + model.ming
-    }
+    value: ''
   }
+}, {
+  name: (model) => model.xing + model.ming
 })
 
 const formRef = shallowRef<any>()

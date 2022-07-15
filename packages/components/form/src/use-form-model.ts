@@ -1,84 +1,105 @@
 import { omit } from 'lodash'
-import { shallowReactive } from 'vue'
+import { shallowReactive, watch } from 'vue'
 import type { FormModel, FormModelItem } from './form'
+
+type GetModel<T extends Record<string, any>> = {
+  [key in keyof T]: T[key]['value']
+}
+
+const keyEffects = new Map<string, Set<() => void>>()
+
+const getEffects = (key: string) => {
+  let effects = keyEffects.get(key)
+  if (!effects) {
+    effects = new Set()
+    keyEffects.set(key, effects)
+  }
+  return effects
+}
+
+let activeEffect: (() => void) | null
+
+const track = (key: string) => {
+  if (activeEffect) {
+    let effects = getEffects(key)
+    effects.add(activeEffect)
+  }
+}
+
+const trigger = (key: string) => {
+  let effects = getEffects(key)
+  effects.forEach(effect => effect())
+}
+
+const watchGetter = (
+  getters: Record<string, (...args: any[]) => any>,
+  model: Record<string, any>
+) => {
+  Object.keys(getters).forEach(key => {
+    let getter = getters[key]
+
+    activeEffect = () => {
+      model[key] = getter(model)
+    }
+
+    // 触发
+    getter(model)
+
+    activeEffect = null
+  })
+}
+
+const proxy = (o: { [key: string]: any }) => {
+  return new Proxy(o, {
+    get(t, p: string) {
+      track(p)
+      return t[p]
+    }
+  })
+}
 
 /**
  * 使用表单数据模型
  * @param model 表单数据模型
  */
-export default function useFormModel<M extends FormModel>(model: M) {
-  let modelKeys = Object.keys(model)
-
-  type Model<K extends keyof M = keyof M> = {
-    [key in K]: M[key]['value'] extends (...args: any[]) => infer P
-      ? P
-      : M[key]['value']
+export default function useFormModel<
+  M extends FormModel,
+  K extends keyof M,
+  Model extends GetModel<M> = GetModel<M>
+>(
+  model: M,
+  valueGetter?: {
+    [key in K]: (model: Model) => any
   }
-
-  let keyEffects = new Map<keyof M, Set<() => any>>()
+) {
+  let modelKeys = Object.keys(model) as K[]
 
   const rawModel = modelKeys.reduce((acc, key) => {
     let v = model[key].value
-    acc[key as keyof Model] = typeof v === 'function' ? undefined : v
+    acc[key as K] = typeof v === 'function' ? undefined : v
     return acc
   }, {} as Model)
 
-  let activeEffect: null | (() => any)
+  let p = proxy(rawModel)
 
-  const track = (p: string) => {
-    if (!activeEffect) return
+  const form = shallowReactive(rawModel)
 
-    let eSet = keyEffects.get(p)
-    if (eSet) {
-      eSet.add(activeEffect)
-    } else {
-      keyEffects.set(p, new Set([activeEffect]))
-    }
-  }
-  let proxy = new Proxy(rawModel, {
-    get(t, p: string) {
-      track(p)
-      let v = t[p]
-      return v
-    },
-    set(t, p, v) {
-      t[p] = v
-      keyEffects.get(p)?.forEach(effect => {
-        // effect()
-        console.log(effect)
-      })
-      return true
-    }
-  })
-
-  const form = shallowReactive(proxy)
-
-  // 触发追踪
-  modelKeys.forEach(key => {
-    let v = model[key].value
-    if (typeof v === 'function') {
-      console.log(form)
-      activeEffect = () => {
-        form[key] = v(form)
+  watch(form, (newVal, oldVal) => {
+    for (const key in newVal) {
+      if (newVal[key] !== oldVal[key]) {
+        trigger(key)
       }
-      activeEffect()
-      activeEffect = null
     }
   })
+
+  if (valueGetter) {
+    watchGetter(valueGetter, p)
+  }
 
   const rules = modelKeys.reduce((acc, key) => {
-    acc[key as keyof Model] = omit(model[key], ['value'])
+    acc[key] = omit(model[key], ['value'])
     return acc
-  }, {} as { [K in keyof M]: Omit<FormModelItem, 'value'> })
+  }, {} as { [key in K]: Omit<FormModelItem, 'value'> })
 
   return [form, rules] as const
 }
-
-// const [model] = useFormModel({
-//   a: {
-//     value: (): number => 1
-//   },
-//   b: {
-//     value: ''
-//   }
-// })

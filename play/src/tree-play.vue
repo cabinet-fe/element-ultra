@@ -7,7 +7,9 @@
         highlight-current
         :height="416"
         :item-size="32"
-        :default-expanded-keys="['0']"
+        show-checkbox
+        ref="treeRef"
+        check-strictly
       >
       </el-tree>
     </div>
@@ -17,22 +19,40 @@
 </template>
 
 <script setup lang="ts">
+import type { ElTree } from '@element-ultra/components'
+
 let data = $shallowRef<any[]>([])
+
+const treeRef = $shallowRef<InstanceType<typeof ElTree>>()
 
 setTimeout(() => {
   data = Array.from({ length: 100 }).map((_, index) => {
     return {
       label: `文本${index}`,
       value: `${index}`,
-      children: Array.from({ length: Math.round(Math.random() * 10) }).map((_, childIndex) => {
-        return {
-          label: `子文本${childIndex}`,
-          value: `${index}-${childIndex}`
+      children: Array.from({ length: Math.round(Math.random() * 10) }).map(
+        (_, childIndex) => {
+          return {
+            label: `子文本${childIndex}`,
+            value: `${index}-${childIndex}`
+          }
         }
-      })
+      )
     }
   })
-}, 1000)
-</script>
 
-<style lang="scss"></style>
+  setTimeout(() => {
+    treeRef?.setCheckedKeys([
+    '0',
+    '1',
+    // '0-0',
+    // '0-1',
+    // '0-2',
+    // '0-3',
+    // '0-4',
+    // '0-5',
+    // '1-0'
+  ])
+  })
+}, 500)
+</script>

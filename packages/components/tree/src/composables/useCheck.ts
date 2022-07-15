@@ -2,8 +2,7 @@ import { nextTick, ref, watch, getCurrentInstance } from 'vue'
 import {
   NODE_CHECK_CHANGE,
   NODE_CHECK,
-  SetOperationEnum,
-  treeProps
+  SetOperationEnum
 } from '../virtual-tree'
 import type { Ref } from 'vue'
 import type { TreeProps, TreeKey, TreeNode, Tree, TreeNodeData } from '../types'
@@ -38,7 +37,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     for (let level = maxLevel - 1; level >= 1; --level) {
       const nodes = levelTreeNodeMap.get(level)
       if (!nodes) continue
-      nodes.forEach((node) => {
+      nodes.forEach(node => {
         const children = node.children
         if (children) {
           // Whether all child nodes are selected
@@ -92,13 +91,13 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
         node.key
       )
       const children = node.children
-      if (!props.checkStrictly && children) {
-        children.forEach((childNode) => {
+      children &&
+        (nodeClick || !props.checkStrictly) &&
+        children.forEach(childNode => {
           if (!childNode.disabled) {
             toggle(childNode, checked)
           }
         })
-      }
     }
     toggle(node, isChecked)
     updateCheckedKeys()
@@ -129,7 +128,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
 
     const { treeNodeMap } = tree.value
-    checkedKeys.value.forEach((key) => {
+    checkedKeys.value.forEach(key => {
       const node = treeNodeMap.get(key)
       if (node && (!leafOnly || (leafOnly && node.isLeaf))) {
         keys.push(key)
@@ -149,7 +148,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
 
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
-      indeterminateKeys.value.forEach((key) => {
+      indeterminateKeys.value.forEach(key => {
         const node = treeNodeMap.get(key)
         if (!node) return
         keys.push(key)

@@ -1,3 +1,4 @@
+import { EmitFn } from '@element-ultra/utils'
 import type { InjectionKey, PropType } from 'vue'
 import type { TreeNodeData } from './types'
 import type {
@@ -187,3 +188,6 @@ export const treeNodeEmits = {
   toggle: (node: TreeNode) => !!node,
   check: (node: TreeNode, checked: boolean) => node && typeof checked === 'boolean'
 }
+
+
+export type TreeEmit = EmitFn<typeof treeEmits>
