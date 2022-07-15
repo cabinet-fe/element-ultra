@@ -33,7 +33,8 @@ const trigger = (key: string) => {
 
 const watchGetter = (
   getters: Record<string, (...args: any[]) => any>,
-  model: Record<string, any>
+  p: Record<string, any>,
+  model: any
 ) => {
   Object.keys(getters).forEach(key => {
     let getter = getters[key]
@@ -43,7 +44,7 @@ const watchGetter = (
     }
 
     // 触发
-    getter(model)
+    getter(p)
 
     activeEffect = null
   })
@@ -85,15 +86,15 @@ export default function useFormModel<
   const form = shallowReactive(rawModel)
 
   watch(form, (newVal, oldVal) => {
-    for (const key in newVal) {
-      if (newVal[key] !== oldVal[key]) {
-        trigger(key)
-      }
+
+  }, {
+    onTrigger(e) {
+      trigger(e.key)
     }
   })
 
   if (valueGetter) {
-    watchGetter(valueGetter, p)
+    watchGetter(valueGetter, p, form)
   }
 
   const rules = modelKeys.reduce((acc, key) => {

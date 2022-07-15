@@ -5,7 +5,7 @@
     </div>
 
     <el-card header="表单数据">
-      <el-form ref="formRef" :disabled="true" :data="data" label-width="80px" :rules="rules">
+      <el-form ref="formRef" :disabled="false" :data="data" label-width="80px" :rules="rules">
         <el-radio-group  label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
