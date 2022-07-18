@@ -58,17 +58,18 @@ function proxyHelper() {
   }
 
   const watchGetter = (
-    getters: Record<string, (...args: any[]) => any>,
+    getters: Record<string, undefined | ((...args: any[]) => any)>,
     model: Record<string, any>
   ) => {
     Object.keys(getters).forEach(key => {
       let getter = getters[key]
+      if (!getter) return
 
       keyDeps.set(key, new Set())
       activeKey = key
 
       activeEffect = () => {
-        model[key] = getter(model)
+        model[key] = getter!(model)
       }
 
       // 触发副作用收集
@@ -83,15 +84,15 @@ function proxyHelper() {
     })
   }
 
-  const proxy = (o: { [key: string]: any }) => {
-    return new Proxy(o, {
+  const proxy = <T extends { [key: string]: any }>(o: T): T => {
+    return new Proxy<T>(o, {
       get(t, p: string) {
         track(p)
         return t[p]
       },
-      set(t, p: string, val) {
-        trigger(p)
+      set(t: { [key: string]: any }, p: string, val) {
         t[p] = val
+        trigger(p)
         return true
       }
     })
@@ -114,7 +115,7 @@ export default function useFormModel<
 >(
   model: M,
   valueGetter?: {
-    [key in K]: (model: Model) => any
+    [key in K]?: (model: Model) => any
   }
 ) {
   let modelKeys = Object.keys(model) as K[]
@@ -122,7 +123,7 @@ export default function useFormModel<
   const rawModel = modelKeys.reduce((acc, key) => {
     acc[key] = model[key].value
     return acc
-  }, {} as { [key in K]: any })
+  }, {} as Model)
 
   const rules = modelKeys.reduce((acc, key) => {
     acc[key] = omit(model[key], ['value'])
@@ -134,7 +135,7 @@ export default function useFormModel<
   // 设置一个代理层
   if (valueGetter) {
     const { proxy, watchGetter } = proxyHelper()
-    let proxyForm = proxy(form)
+    let proxyForm = proxy<Model>(form)
     // 访问proxyForm的属性来触发依赖收集
     watchGetter(valueGetter, proxyForm)
 
