@@ -121,7 +121,7 @@ const [data, rules] = useFormModel({
     required: true
   },
   date: {
-    value: date().format(),
+    value: date().format('yyyy-MM-dd hh:mm:ss'),
     required: true
   },
   delivery: { value: [] },
