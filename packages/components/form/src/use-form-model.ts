@@ -6,27 +6,7 @@ type GetModel<T extends Record<string, any>> = {
   [key in keyof T]: T[key]['value']
 }
 
-/**
- * 使用表单数据模型
- * @param model 表单数据模型
- */
-export default function useFormModel<
-  M extends FormModel,
-  K extends keyof M,
-  Model extends GetModel<M> = GetModel<M>
->(
-  model: M,
-  valueGetter?: {
-    [key in K]: (model: Model) => any
-  }
-) {
-  let modelKeys = Object.keys(model) as K[]
-
-  const rawModel = modelKeys.reduce((acc, key) => {
-    acc[key] = model[key].value
-    return acc
-  }, {} as { [key in K]: any })
-
+function proxyHelper() {
   // 副作用收集
   const keyEffects = new Map<string, Set<() => void>>()
   // 依赖收集
@@ -55,7 +35,9 @@ export default function useFormModel<
       let trackKeyDeps = keyDeps.get(key)
 
       if (trackKeyDeps?.has(activeKey)) {
-        return console.error(`无法被追踪, 存在循环依赖: [${key}]  <=> [${activeKey}]`)
+        return console.error(
+          `无法被追踪, 存在循环依赖: [${key}]  <=> [${activeKey}]`
+        )
       }
 
       let deps = keyDeps.get(activeKey)
@@ -114,20 +96,50 @@ export default function useFormModel<
       }
     })
   }
-  // -------------------
 
-  const form = shallowReactive(rawModel)
-  let proxyForm = proxy(form)
-
-  if (valueGetter) {
-    // 访问proxyForm的属性来触发依赖收集
-    watchGetter(valueGetter, proxyForm)
+  return {
+    proxy,
+    watchGetter
   }
+}
+
+/**
+ * 使用表单数据模型
+ * @param model 表单数据模型
+ */
+export default function useFormModel<
+  M extends FormModel,
+  K extends keyof M,
+  Model extends GetModel<M> = GetModel<M>
+>(
+  model: M,
+  valueGetter?: {
+    [key in K]: (model: Model) => any
+  }
+) {
+  let modelKeys = Object.keys(model) as K[]
+
+  const rawModel = modelKeys.reduce((acc, key) => {
+    acc[key] = model[key].value
+    return acc
+  }, {} as { [key in K]: any })
 
   const rules = modelKeys.reduce((acc, key) => {
     acc[key] = omit(model[key], ['value'])
     return acc
   }, {} as { [key in K]: Omit<FormModelItem, 'value'> })
 
-  return [proxyForm, rules] as const
+  const form = shallowReactive(rawModel)
+
+  // 设置一个代理层
+  if (valueGetter) {
+    const { proxy, watchGetter } = proxyHelper()
+    let proxyForm = proxy(form)
+    // 访问proxyForm的属性来触发依赖收集
+    watchGetter(valueGetter, proxyForm)
+
+    return [proxyForm, rules] as const
+  }
+
+  return [form, rules] as const
 }
