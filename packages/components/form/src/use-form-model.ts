@@ -55,10 +55,7 @@ export default function useFormModel<
       let trackKeyDeps = keyDeps.get(key)
 
       if (trackKeyDeps?.has(activeKey)) {
-        return
-        console.error(
-          `无法被追踪, 存在循环依赖: [${key}]  <=> [${activeKey}]`
-        )
+        return console.error(`无法被追踪, 存在循环依赖: [${key}]  <=> [${activeKey}]`)
       }
 
       let deps = keyDeps.get(activeKey)
@@ -83,7 +80,6 @@ export default function useFormModel<
     model: Record<string, any>
   ) => {
     Object.keys(getters).forEach(key => {
-
       let getter = getters[key]
 
       keyDeps.set(key, new Set())
@@ -96,11 +92,11 @@ export default function useFormModel<
       // 触发副作用收集
       let v = getter(model)
 
-
       activeKey = null
       activeEffect = null
 
-      // 避免无限触发getter(循环引用时)
+      // 因为赋值会立马执行副作用, 并触发新的getter
+      // 因此, 清空全局变量之后再赋值, 避免无限触发getter(循环引用时)
       model[key] = v
     })
   }
