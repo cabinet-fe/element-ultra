@@ -1,5 +1,5 @@
 
-import type { ExtractPropTypes, PropType, VNode } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 数据表格列 */
 export interface DataTableColumn {

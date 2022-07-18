@@ -12,18 +12,13 @@
     padding: 6px;
     background-color: var(--el-bg-color-overlay);
 
-
-
     &-box {
       flex-grow: 1;
 
       & > :not(.#{$namespace}-button) {
-
         margin-right: 12px;
         vertical-align: middle;
       }
-
-
     }
 
     &-wrap {
@@ -48,11 +43,9 @@
       background-color: var(--el-bg-color-page);
 
       & > * {
-
         margin-right: 12px;
         margin-bottom: 4px;
       }
-
     }
   }
 

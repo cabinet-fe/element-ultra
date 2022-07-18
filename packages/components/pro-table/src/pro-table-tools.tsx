@@ -29,7 +29,7 @@ export default defineComponent({
 
     const defaultQuery = { ...rootProps.query }
 
-    const componentWidthMapper = {
+    const componentWidthMapper: Record<string, any> = {
       ElDatePicker: '240px'
     }
 
