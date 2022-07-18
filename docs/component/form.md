@@ -15,6 +15,7 @@ element-ultra的表单在原来element-plus的基础上做了大量的改动.
 4. 校验方法移到了form中, 这意味着内存的节省
 5. 不再依赖async-validator的校验
 6. 现在组件在被销毁时（通过v-if, v-else），会自动清空绑定的值
+7. useFormModel方法支持第二个参数传入一个getters来自动收集副作用, 详情查看[示例](#比较完整的表单示例)
 
 
 ## 比较完整的表单示例

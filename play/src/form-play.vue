@@ -118,14 +118,15 @@ const [data, rules] = useFormModel({
   aa: { value: [] },
   num: { value: null },
   cascade: { value: [] },
-  xing: {},
-  ming: {},
+  xing: { value: '1' },
+  ming: { value: '2' },
   name: {
     match: [/^[^\d]+$/, '不能有数字'],
     value: ''
   }
 }, {
-  name: (model) => model.xing + model.ming
+  name: (model) => model.xing + model.ming,
+  ming: model => model.name + 'a'
 })
 
 const formRef = shallowRef<any>()

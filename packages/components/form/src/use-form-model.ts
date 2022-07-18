@@ -1,62 +1,9 @@
 import { omit } from 'lodash'
-import { shallowReactive, watch } from 'vue'
+import { shallowReactive } from 'vue'
 import type { FormModel, FormModelItem } from './form'
 
 type GetModel<T extends Record<string, any>> = {
   [key in keyof T]: T[key]['value']
-}
-
-const keyEffects = new Map<string, Set<() => void>>()
-
-const getEffects = (key: string) => {
-  let effects = keyEffects.get(key)
-  if (!effects) {
-    effects = new Set()
-    keyEffects.set(key, effects)
-  }
-  return effects
-}
-
-let activeEffect: (() => void) | null
-
-const track = (key: string) => {
-  if (activeEffect) {
-    let effects = getEffects(key)
-    effects.add(activeEffect)
-  }
-}
-
-const trigger = (key: string) => {
-  let effects = getEffects(key)
-  effects.forEach(effect => effect())
-}
-
-const watchGetter = (
-  getters: Record<string, (...args: any[]) => any>,
-  p: Record<string, any>,
-  model: any
-) => {
-  Object.keys(getters).forEach(key => {
-    let getter = getters[key]
-
-    activeEffect = () => {
-      model[key] = getter(model)
-    }
-
-    // 触发
-    getter(p)
-
-    activeEffect = null
-  })
-}
-
-const proxy = (o: { [key: string]: any }) => {
-  return new Proxy(o, {
-    get(t, p: string) {
-      track(p)
-      return t[p]
-    }
-  })
 }
 
 /**
@@ -76,25 +23,109 @@ export default function useFormModel<
   let modelKeys = Object.keys(model) as K[]
 
   const rawModel = modelKeys.reduce((acc, key) => {
-    let v = model[key].value
-    acc[key as K] = typeof v === 'function' ? undefined : v
+    acc[key] = model[key].value
     return acc
-  }, {} as Model)
+  }, {} as { [key in K]: any })
 
-  let p = proxy(rawModel)
+  // 副作用收集
+  const keyEffects = new Map<string, Set<() => void>>()
+  // 依赖收集
+  const keyDeps = new Map<string, Set<string>>()
+
+  const getEffects = (key: string) => {
+    let effects = keyEffects.get(key)
+    // 不能有相互依赖
+    if (!effects) {
+      effects = new Set()
+      keyEffects.set(key, effects)
+    }
+    return effects
+  }
+
+  // 当前激活的副作用
+  let activeEffect: (() => void) | null
+  // 当前激活的key
+  let activeKey: string | null
+
+  /**
+   * 依赖追踪
+   */
+  const track = (key: string) => {
+    if (activeKey) {
+      let trackKeyDeps = keyDeps.get(key)
+
+      if (trackKeyDeps?.has(activeKey)) {
+        return
+        console.error(
+          `无法被追踪, 存在循环依赖: [${key}]  <=> [${activeKey}]`
+        )
+      }
+
+      let deps = keyDeps.get(activeKey)
+      deps?.add(key)
+    }
+
+    if (activeEffect) {
+      let effects = getEffects(key)
+      effects.add(activeEffect)
+    }
+  }
+
+  const trigger = (key: string) => {
+    if (keyEffects.get(key)) {
+      let effects = getEffects(key)
+      effects.forEach(effect => effect())
+    }
+  }
+
+  const watchGetter = (
+    getters: Record<string, (...args: any[]) => any>,
+    model: Record<string, any>
+  ) => {
+    Object.keys(getters).forEach(key => {
+
+      let getter = getters[key]
+
+      keyDeps.set(key, new Set())
+      activeKey = key
+
+      activeEffect = () => {
+        model[key] = getter(model)
+      }
+
+      // 触发副作用收集
+      let v = getter(model)
+
+
+      activeKey = null
+      activeEffect = null
+
+      // 避免无限触发getter(循环引用时)
+      model[key] = v
+    })
+  }
+
+  const proxy = (o: { [key: string]: any }) => {
+    return new Proxy(o, {
+      get(t, p: string) {
+        track(p)
+        return t[p]
+      },
+      set(t, p: string, val) {
+        trigger(p)
+        t[p] = val
+        return true
+      }
+    })
+  }
+  // -------------------
 
   const form = shallowReactive(rawModel)
-
-  watch(form, (newVal, oldVal) => {
-
-  }, {
-    onTrigger(e) {
-      trigger(e.key)
-    }
-  })
+  let proxyForm = proxy(form)
 
   if (valueGetter) {
-    watchGetter(valueGetter, p, form)
+    // 访问proxyForm的属性来触发依赖收集
+    watchGetter(valueGetter, proxyForm)
   }
 
   const rules = modelKeys.reduce((acc, key) => {
@@ -102,5 +133,5 @@ export default function useFormModel<
     return acc
   }, {} as { [key in K]: Omit<FormModelItem, 'value'> })
 
-  return [form, rules] as const
+  return [proxyForm, rules] as const
 }

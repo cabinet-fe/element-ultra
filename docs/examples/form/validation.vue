@@ -8,7 +8,13 @@
 
     <el-checkbox label="自适应label" field="response" />
 
-    <el-slider v-if="!conf.response" label="label宽度" :max="300" :min="40" field="labelWidth" />
+    <el-slider
+      v-if="!conf.response"
+      label="label宽度"
+      :max="300"
+      :min="40"
+      field="labelWidth"
+    />
 
     <el-checkbox label="禁止编辑" field="disabled" />
 
@@ -89,6 +95,7 @@
 import { ref } from 'vue'
 import { FormInstance, useFormModel } from 'element-ultra'
 import { ComponentSize } from '@element-ultra/constants'
+import { date } from 'fe-dk'
 
 const [conf, confRules] = useFormModel({
   formSize: { value: 'default' as ComponentSize },
@@ -110,11 +117,11 @@ const [data, rules] = useFormModel({
     max: 5
   },
   region: {
-    value: '',
+    value: '上海',
     required: true
   },
   date: {
-    value: '',
+    value: date().format(),
     required: true
   },
   delivery: { value: [] },
@@ -139,6 +146,10 @@ const [data, rules] = useFormModel({
       }
       return ''
     }
+  }
+},  {
+  desc: ({ date, region, name }) => {
+    return `${date}, 在${region}进行${name}的活动`
   }
 })
 
