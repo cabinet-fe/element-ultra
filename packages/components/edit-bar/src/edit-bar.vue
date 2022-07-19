@@ -25,11 +25,19 @@
             <span :class="ns.e('item-label')">{{ data[labelKey] }}</span>
           </slot>
 
-          <span @click.prevent :class="ns.e('action')">
-            <el-icon @click="emit('create', data)" :size="16" style="margin-right: 4px">
+          <span @click.stop :class="ns.e('action')">
+            <el-icon
+              @click="emit('create', data)"
+              :size="16"
+              style="margin-right: 4px"
+            >
               <Plus />
             </el-icon>
-            <el-icon @click="emit('update', data)" :size="16" style="margin-right: 4px">
+            <el-icon
+              @click="emit('update', data)"
+              :size="16"
+              style="margin-right: 4px"
+            >
               <Edit />
             </el-icon>
             <el-popconfirm title="确定删除吗?" @confirm="onDelete(data)">
@@ -51,15 +59,22 @@
           [ns.em('item', 'active')]: item[valueKey] === itemId
         }"
         @click="onSelect(item)"
+        tabindex="0"
       >
-        <span v-if="sortable" :class="ns.e('handle')"></span>
+        <div :class="ns.e('item-content')">
+          <span v-if="sortable" :class="ns.e('handle')"></span>
 
-        <slot v-bind="item">
-          <span :class="ns.e('item-label')">{{ item[labelKey] }}</span>
-        </slot>
+          <slot v-bind="item">
+            <span :class="ns.e('item-label')">{{ item[labelKey] }}</span>
+          </slot>
+        </div>
 
-        <span @click.prevent :class="ns.e('action')">
-          <el-icon @click="emit('update', item)" :size="16" style="margin-right: 4px">
+        <span @click.stop :class="ns.e('action')">
+          <el-icon
+            @click="emit('update', item)"
+            :size="16"
+            style="margin-right: 4px"
+          >
             <Edit />
           </el-icon>
           <el-popconfirm title="确定删除吗?" @confirm="onDelete(item)">
@@ -134,7 +149,7 @@ onMounted(() => {
 })
 watch(
   () => props.sortable,
-  (v) => {
+  v => {
     if (v) {
       listRef.value && getSortInstance()
     } else {
@@ -154,7 +169,7 @@ const onDelete = (item: any) => {
 
 watch(
   () => props.data,
-  (data) => {
+  data => {
     if (data && data.length) {
       onSelect(data[0])
     }

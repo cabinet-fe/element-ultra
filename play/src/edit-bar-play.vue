@@ -3,6 +3,7 @@
     sortable
     @create="onCreate"
     @delete="onDelete"
+    @update="c.log"
     :data="data"
   >
     <!-- <template #default="item">

@@ -39,23 +39,19 @@
       display: flex;
       align-items: center;
       align-content: center;
+      justify-content: space-between;
 
-      &:hover {
+
+      &:hover, &:focus {
         color: var(--el-color-primary);
 
         .el-edit-bar__action {
-          visibility: visible;
+          opacity: 1;
         }
       }
 
       &.el-edit-bar__item--active {
         color: var(--el-color-primary);
-      }
-
-      & > * {
-        vertical-align: middle;
-        display: inline-block;
-        margin-right: 6px;
       }
 
       & > .el-edit-bar__item-label {
@@ -65,8 +61,18 @@
     }
   }
 
+  @include e(item-content) {
+    height: 100%;
+    & > * {
+      vertical-align: middle;
+      display: inline-block;
+      margin-right: 6px;
+    }
+  }
+
   @include e(action) {
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity .15s;
 
     & > * {
       vertical-align: middle;
@@ -92,6 +98,7 @@
     width: 12px;
     cursor: move;
     background-color: #ddd;
+    display: inline-block;
   }
 
   @include e(ghost) {

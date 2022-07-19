@@ -185,7 +185,7 @@ export default defineComponent({
     const navTo = (nav: string) => {
       document.getElementById(nav)?.scrollIntoView({
         behavior: 'smooth',
-        block: 'start'
+        block: 'nearest'
       })
     }
 
