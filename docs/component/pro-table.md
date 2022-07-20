@@ -9,6 +9,7 @@ lang: zh-CN
 
 - 提供了 api 属性, 方便直接传 api 进行数据请求
 - 提供列的配置
+- 提供了[装饰器](#表格装饰器)模式
 
 ## 一个使用的例子
 
@@ -52,6 +53,39 @@ setConfigStore({
 :::demo
 pro-table/basic
 :::
+
+## 表格装饰器
+pro-table的装饰器通俗点说就是动态改变原有组件功能的一种模式, 你不需要去修改组件, 就能够对组件产生影响.
+
+目前支持的有
+- tools装饰器
+
+```tsx
+import { useConfig } from 'element-ultra'
+const [, setConfigStore] = useConfig()
+
+const MyComponent = defineComponent({
+  setup(props) {
+    return () => {
+      return (
+        <div>
+          我的组件
+        </div>
+      )
+    }
+  }
+})
+
+// 使用全局配置函数来装饰
+setConfigStore({
+  proTableExtraTools: [
+    MyComponent
+  ]
+})
+
+// 一旦在入口文件设置了全局插入的组件
+// 将会在全局生命周期内生效
+```
 
 ## ProTable 属性
 
