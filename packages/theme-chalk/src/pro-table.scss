@@ -51,7 +51,6 @@
 
   @include e('tools') {
     margin-bottom: 6px;
-
     padding: 6px;
     background-color: var(--el-bg-color-overlay);
 
@@ -62,6 +61,12 @@
 
     & .#{$namespace}-pro-table__searcher-content {
       width: 160px;
+    }
+
+    &-box {
+      & > *:not(:first-child) {
+        margin-left: 12px;
+      }
     }
   }
 

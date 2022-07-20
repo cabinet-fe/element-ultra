@@ -51,6 +51,16 @@
         "
         >切换选中</el-button
       >
+
+      <el-dropdown split-button type="primary" >
+      Dropdown List
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>Action 1</el-dropdown-item>
+          <el-dropdown-item>Action 2</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
     </template>
   </el-pro-table>
 </template>
