@@ -13,6 +13,7 @@
       :default-expand-all="defaultExpandAll"
       ref="tableRef"
       :height="tableHeight"
+      @selection-change="handleSelectionChange"
       border
       v-loading="loading"
     >
@@ -76,7 +77,7 @@ import usePreColumns from './use-pre-columns'
 import ElPagination from '@element-ultra/components/pagination'
 import { RequestResponse, useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
-import { proTableKey } from './token'
+import { proTableContextKey, proTableKey } from './token'
 import { debounce } from 'lodash'
 
 defineOptions({
@@ -104,8 +105,13 @@ const query = shallowReactive({
 
 const state = shallowReactive({
   total: 0,
-  data: [] as any[]
+  data: [] as any[],
+  selection: [] as any[]
 })
+
+const handleSelectionChange = (selection: any[]) => {
+  state.selection = selection
+}
 
 const computedData = computed(() => {
   return props.data || state.data
@@ -232,7 +238,8 @@ provide(proTableKey, {
   loading
 })
 
-defineExpose({
+
+const exposed = {
   state,
   fetchData,
   /** 获取查询参数 */
@@ -241,5 +248,9 @@ defineExpose({
   deleteRow,
   toggleRowSelection: (row: any, selected: boolean) =>
     tableRef.value?.toggleRowSelection(row, selected)
-})
+}
+
+provide(proTableContextKey, exposed)
+
+defineExpose(exposed)
 </script>

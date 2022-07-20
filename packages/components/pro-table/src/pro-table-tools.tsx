@@ -1,6 +1,7 @@
 import { Search, Plus, Minus, Refresh } from '@element-plus/icons-vue'
 import {
   cloneVNode,
+  createVNode,
   defineComponent,
   inject,
   isVNode,
@@ -15,6 +16,7 @@ import {
 import ElButton from '@element-ultra/components/button'
 import { proTableKey } from './token'
 import { isComment, isFragment, isTemplate } from '@element-ultra/utils'
+import { useConfig } from '@element-ultra/hooks'
 
 export default defineComponent({
   emits: {
@@ -121,6 +123,19 @@ export default defineComponent({
 
     const toolsRef = shallowRef<HTMLDivElement | null>(null)
 
+
+    const [conf] = useConfig()
+    /** 渲染额外的工具栏组件 */
+    const renderExtraTools = () => {
+      if (!conf.proTableExtraTools) return null
+        const nodes = conf.proTableExtraTools.map(component => {
+          return createVNode(component)
+        })
+
+        return nodes
+    }
+
+
     let observer: ResizeObserver | null = null
     onMounted(() => {
       observer = new ResizeObserver(entries => {
@@ -165,6 +180,7 @@ export default defineComponent({
           </ElButton>
         ) : null
 
+
       return (
         <section class={ns.e('tools')} ref={toolsRef}>
           <div class={ns.e('tools-bar')}>
@@ -174,7 +190,10 @@ export default defineComponent({
               {expandButton}
             </div>
 
-            <div class={ns.e('tools-box')}>{proTableSlots.tools?.()}</div>
+            <div class={ns.e('tools-box')}>
+              {proTableSlots.tools?.()}
+              {renderExtraTools()}
+            </div>
           </div>
 
           {expanded.value ? (

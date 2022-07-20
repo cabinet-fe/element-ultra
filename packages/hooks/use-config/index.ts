@@ -33,6 +33,8 @@ export interface ConfigStore {
   namespace: string
   /** page页面额外组件 */
   pageExtraComponents?: Component[]
+  /** table工具栏额外工具 */
+  proTableExtraTools?: Component[]
 }
 
 const configStore = shallowReactive<ConfigStore>({

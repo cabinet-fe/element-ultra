@@ -13,8 +13,16 @@
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
       <!-- <span></span> -->
-      <el-date-picker placeholder="起止日期" type="daterange" v-model="query.$date" />
-      <el-input style="width: 200px" v-for="(_, i) in 9" :placeholder="`测试${i}`" />
+      <el-date-picker
+        placeholder="起止日期"
+        type="daterange"
+        v-model="query.$date"
+      />
+      <el-input
+        style="width: 200px"
+        v-for="(_, i) in 9"
+        :placeholder="`测试${i}`"
+      />
     </template>
 
     <template #age="{ row }">
@@ -49,7 +57,9 @@
 
 <script setup lang="tsx">
 import { type ProTableColumn, ElButton } from 'element-ultra'
-import { shallowReactive, shallowRef } from 'vue'
+import {  provide, shallowReactive, shallowRef } from 'vue'
+
+provide('aa', { name: 'aa' })
 
 // 查询
 const query = shallowRef(
