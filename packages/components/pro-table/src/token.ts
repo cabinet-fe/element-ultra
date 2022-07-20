@@ -16,7 +16,8 @@ export const proTableContextKey: InjectionKey<{
     total: number
     data: any[]
     selection: any[]
-  }>
+  }>;
+  props: ProTableProps;
   fetchData: (resetPage?: boolean) => Promise<void>
   getQueryParams: () => {
     api: string

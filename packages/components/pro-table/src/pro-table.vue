@@ -242,6 +242,7 @@ provide(proTableKey, {
 const exposed = {
   state,
   fetchData,
+  props,
   /** 获取查询参数 */
   getQueryParams,
   find,
