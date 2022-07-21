@@ -1,5 +1,5 @@
 import { iconPropType } from '@element-ultra/utils'
-import { EVENT_CODE } from '@element-ultra/constants'
+import { ComponentSize, EVENT_CODE } from '@element-ultra/constants'
 import { createCollectionWithScope } from '@element-ultra/components/collection'
 import {
   useTooltipTriggerProps,
@@ -7,7 +7,7 @@ import {
 } from '@element-ultra/components/tooltip'
 import type { Options } from '@popperjs/core'
 
-import type { ButtonTypes } from '@element-ultra/components/button'
+import type { ButtonType } from '@element-ultra/components/button'
 import type { Placement } from '@element-ultra/components/popper'
 import type { ComponentInternalInstance, ComputedRef, PropType } from 'vue'
 import type { Nullable } from '@element-ultra/utils'
@@ -16,7 +16,7 @@ export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
   dropdownSize?: ComputedRef<string>
   handleClick?: () => void
-  commandHandler?: (...arg) => void
+  commandHandler?: (...arg: any[]) => void
   show?: () => void
   hide?: () => void
   trigger?: ComputedRef<string>
@@ -31,7 +31,7 @@ export const dropdownProps = {
     default: 'light'
   },
   type: {
-    type: String as PropType<ButtonTypes>
+    type: String as PropType<ButtonType>
   },
   placement: {
     type: String as PropType<Placement>,
@@ -42,8 +42,8 @@ export const dropdownProps = {
     default: () => ({})
   },
   size: {
-    type: String,
-    default: ''
+    type: String as PropType<ComponentSize>,
+    default: 'default'
   },
   splitButton: Boolean,
   hideOnClick: {

@@ -1,4 +1,4 @@
-import type { ButtonTypes } from '@element-ultra/components/button'
+import type { ButtonType } from '@element-ultra/components/button'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
@@ -16,11 +16,11 @@ export const popconfirmProps = {
     default: '取消'
   },
   confirmButtonType: {
-    type: String as PropType<ButtonTypes>,
+    type: String as PropType<ButtonType>,
     default: 'primary'
   },
   cancelButtonType: {
-    type: String as PropType<ButtonTypes>
+    type: String as PropType<ButtonType>
   },
   icon: {
     type: [String, Function, Object] as PropType<string | Component>,

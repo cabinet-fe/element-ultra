@@ -53,13 +53,13 @@
       >
 
       <el-dropdown split-button type="primary" >
-      Dropdown List
-      <template #dropdown>
+      按钮
+      <!-- <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>Action 1</el-dropdown-item>
           <el-dropdown-item>Action 2</el-dropdown-item>
         </el-dropdown-menu>
-      </template>
+      </template> -->
     </el-dropdown>
     </template>
   </el-pro-table>

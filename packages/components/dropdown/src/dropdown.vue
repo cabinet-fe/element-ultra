@@ -61,7 +61,9 @@
         >
           <slot name="default" />
         </el-button>
+
         <el-button
+          v-if="$slots.dropdown"
           ref="triggeringElementRef"
           :size="dropdownSize"
           :type="type"
