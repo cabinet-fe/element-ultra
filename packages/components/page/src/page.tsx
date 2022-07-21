@@ -211,11 +211,7 @@ export default defineComponent({
           cols={`minmax(0, 1fr) ${hasNav ? '100px' : '0'}`}
         >
           <div class={ns.e('main')}>
-            <ElScrollbar
-              class={ns.e('content')}
-              always
-              onScroll={onScrollStopped}
-            >
+            <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
               <ElSlotsRender nodes={children} />
 
               {renderExtra()}
