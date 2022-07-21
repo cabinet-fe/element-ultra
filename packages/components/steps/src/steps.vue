@@ -48,7 +48,7 @@ export default defineComponent({
       stepsCount.value--
     }
 
-    let namesMapToIndex: Record<string, number> = {}
+
 
     provide(stepsInjectionKey, {
       stepsProps: props,
@@ -87,6 +87,8 @@ export default defineComponent({
       }
     )
 
+
+    let namesMapToIndex: Record<string, number> = {}
     // 给step编号
     const numberStep = async (
       nodeList: VNodeArrayChildren,

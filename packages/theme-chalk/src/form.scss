@@ -145,11 +145,10 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include e(label) {
-    display: inline-flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    flex: 0 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
     font-size: getCssVar('form-label-font-size');
     color: getCssVar('text-color', 'regular');
 
@@ -162,7 +161,6 @@ $form-item-label-top-margin-bottom: map.merge(
   @include e(content) {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     flex: 1;
     line-height: #{map.get($form-item-line-height, 'default')};
     position: relative;
