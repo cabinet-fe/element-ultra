@@ -4,7 +4,6 @@ import { copy } from 'fs-extra'
 
 /** 复制文件到目标文件夹 */
 export default async function copyFiles() {
-  console.log(resolve(buildOutput, 'types'), epOutput)
   await Promise.all([
     // 类型文件
     copy(resolve(buildOutput, 'types/packages'), epOutput, { recursive: true }),

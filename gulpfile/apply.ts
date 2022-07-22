@@ -3,7 +3,7 @@ import { copy } from 'fs-extra'
 import del from 'del'
 
 /** 复制文件到目标文件夹 */
-export default async function copyFiles() {
+export default async function apply() {
   await del(`${icTarget}/**`, {
     force: true
   })
