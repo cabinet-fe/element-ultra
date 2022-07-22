@@ -62,7 +62,10 @@ export const proTableProps = {
   searcherLimit: {
     type: Number,
     default: 2
-  }
+  },
+
+  /** 显示合计 */
+  showSummary: Boolean
 }
 
 /** 专业数据表格类配置 */

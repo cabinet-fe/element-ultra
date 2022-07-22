@@ -66,7 +66,8 @@ import {
   watch,
   shallowRef,
   useSlots,
-  provide
+  provide,
+onMounted
 } from 'vue'
 import ElTable from '@element-ultra/components/table'
 import ProTableColumn from './pro-table-column.vue'
@@ -123,7 +124,7 @@ const calcTableHeight = debounce(
   (toolsHeight: number) => {
     if (!props.height) return
     // 累加值
-    let accumulation = toolsHeight + 6 // 6是margin-bottom的值
+    let accumulation = toolsHeight ? toolsHeight + 6 : 0 // 6是margin-bottom的值
 
     if (props.pagination) {
       accumulation += 28
@@ -135,6 +136,10 @@ const calcTableHeight = debounce(
     leading: true
   }
 )
+
+onMounted(() => {
+  !props.showTools && calcTableHeight(0)
+})
 
 let loading = shallowRef(false)
 
