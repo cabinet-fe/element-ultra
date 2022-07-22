@@ -1,7 +1,7 @@
 <template>
   <div :class="[ns.b(), $attrs.class]" :style="{ height }">
     <ProTableTools
-      v-if="($slots.tools || $slots.searcher) && showTools"
+      v-if="toolsVisible"
       @key-enter="fetchData"
       @search="fetchData"
       @tools-resize="calcTableHeight"
@@ -12,6 +12,7 @@
       v-bind="$attrs"
       :default-expand-all="defaultExpandAll"
       ref="tableRef"
+      :show-summary="showSummary"
       :height="tableHeight"
       @selection-change="handleSelectionChange"
       border
@@ -90,6 +91,10 @@ const props = defineProps(proTableProps)
 const slots = useSlots()
 const ns = useNamespace('pro-table')
 
+const toolsVisible = computed(() => {
+  return (slots.tools || slots.searcher) && props.showTools
+})
+
 const emit = defineEmits({
   fetch: (query: Record<string, any>) => true,
   loaded: (res: RequestResponse) => true
@@ -138,7 +143,7 @@ const calcTableHeight = debounce(
 )
 
 onMounted(() => {
-  !props.showTools && calcTableHeight(0)
+  !toolsVisible.value && calcTableHeight(0)
 })
 
 let loading = shallowRef(false)
