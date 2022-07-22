@@ -23,3 +23,10 @@ export const directivePackage = resolve(directiveRoot, 'package.json')
 export const epPackage = resolve(epRoot, 'package.json')
 export const utilPackage = resolve(utilRoot, 'package.json')
 export const docPackage = resolve(docRoot, 'package.json')
+
+// 应用文件夹
+export const icPath = resolve(projRoot, '../ic2')
+/** ic vite缓存 */
+export const viteCache = resolve(icPath, 'node_modules/.vite')
+/** ic 待替换的文件夹 */
+export const icTarget = resolve(icPath, 'packages/element-ultra')

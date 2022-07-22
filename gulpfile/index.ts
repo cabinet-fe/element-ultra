@@ -5,6 +5,7 @@ import genDefinitions from './gen-definitions'
 import buildHelper from './helper'
 import buildTheme from './build-theme'
 import copyFiles from './copy-files'
+import apply from './apply'
 
 export default series(
   clean, // 清空
@@ -16,5 +17,7 @@ export default series(
     buildTheme // 样式主题构建
   ),
 
-  copyFiles // 拷贝常用文件
+  copyFiles, // 拷贝常用文件
+
+  apply // 应用到目标项目
 )
