@@ -1,7 +1,7 @@
 <template>
   <div :class="[ns.b(), $attrs.class]" :style="{ height }">
     <ProTableTools
-      v-if="$slots.tools || $slots.searcher || showTools"
+      v-if="($slots.tools || $slots.searcher) && showTools"
       @key-enter="fetchData"
       @search="fetchData"
       @tools-resize="calcTableHeight"

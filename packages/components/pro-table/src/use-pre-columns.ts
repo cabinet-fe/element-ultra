@@ -14,6 +14,7 @@ export default function usePreColumns(props: ProTableProps, tableRef: ShallowRef
         width: 60,
         key: '$index',
         name: '序号',
+        fixed: 'left',
         align: 'center'
       })
     }
