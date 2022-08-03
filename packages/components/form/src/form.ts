@@ -4,9 +4,9 @@ import type { ResponsiveCols } from '@element-ultra/components/grid'
 import type Form from './form.vue'
 export type ModelValue = string | number | any[] | boolean
 
-export interface FormModelItem {
+export interface FormModelItem<V = any> {
   /** 表单默认值 */
-  value?: any
+  value?: V
   /** 必填 */
   required?: boolean | [boolean, string]
   /** 指定长度 */
