@@ -56,6 +56,7 @@
           </template>
           <input
             type="text"
+            v-if="!treeSelectDisabled && filterer.focus"
             v-model="filterer.query"
             :class="ns.e('query')"
             :disabled="treeSelectDisabled"
@@ -181,6 +182,7 @@ defineOptions({
     clickoutside: ClickOutside
   }
 })
+
 
 const props = defineProps(treeSelectProps)
 

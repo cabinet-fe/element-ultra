@@ -5,18 +5,13 @@
     </div>
 
     <el-card header="表单数据">
-      <el-form ref="formRef" :disabled="false" :data="data" label-width="80px" :rules="rules">
+      <el-form disabled ref="formRef" :disabled="false" :data="data" label-width="80px" :rules="rules">
         <el-radio-group  label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
-        <el-input-number
-          money
-          label="数字"
-          clearable
-          field="num"
-        />
+
 
         <el-cascade
           label="级联"
@@ -32,6 +27,22 @@
           ]"
         >
         </el-cascade>
+
+        <el-input-number
+          money
+          label="数字"
+          clearable
+          field="num"
+        />
+
+        <el-tree-select
+          :data="options"
+          label="多选"
+          field="multi"
+          multiple
+          value-key="name"
+          label-key="name"
+        />
 
         <template v-if="data.type === '1'">
           <el-input label="手机号" field="phone" />
@@ -96,7 +107,9 @@ let options2 = $shallowRef<any[]>([])
 setTimeout(() => {
   options = [
     { modelKey: '1', name: '文本1' },
-    { modelKey: '2', name: '文本2' }
+    { modelKey: '2', name: '文本2' },
+    { modelKey: '3', name: '文本3' },
+    { modelKey: '4', name: '文本4' }
   ]
 }, 500)
 
@@ -120,13 +133,13 @@ const [data, rules] = useFormModel({
   cascade: { value: [] },
   xing: { value: '1' },
   ming: { value: '2' },
+  multi: { value: ['文本1', '文本2', '文本3', '文本4'] },
   name: {
     match: [/^[^\d]+$/, '不能有数字'],
     value: ''
   }
 }, {
-  name: (model) => model.xing + model.ming,
-  ming: model => model.name + 'a'
+  name: (model) => model.xing + model.ming
 })
 
 const formRef = shallowRef<any>()
