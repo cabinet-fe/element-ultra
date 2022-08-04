@@ -52,6 +52,8 @@
         >切换选中</el-button
       >
 
+      <el-button @click="handleClick">改变query</el-button>
+
       <el-dropdown split-button type="primary" >
       按钮
       <!-- <template #dropdown>
@@ -75,16 +77,9 @@ provide('aa', { name: 'aa' })
 const query = shallowRef(
   shallowReactive({
     name: '',
-    $date: []
+    $date: ['2022-02-14', '2022-08-03']
   })
 )
-
-setTimeout(() => {
-  query.value = shallowReactive({
-    name: '',
-    $date: []
-  })
-}, 1200)
 
 let columns: ProTableColumn[] = $shallowRef([])
 
@@ -157,4 +152,11 @@ setTimeout(() => {
     }
   ]
 }, 500)
+
+const handleClick = () => {
+  query.value = shallowReactive({
+    name: '',
+    $date: []
+  })
+}
 </script>

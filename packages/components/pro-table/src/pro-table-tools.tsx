@@ -9,6 +9,7 @@ import {
   onUnmounted,
   ref,
   shallowRef,
+  watch,
   type Component,
   type VNode,
   type VNodeNormalizedChildren
@@ -29,7 +30,12 @@ export default defineComponent({
     const { proTableSlots, ns, rootProps, setAutoQuery, loading } =
       inject(proTableKey)!
 
-    const defaultQuery = { ...rootProps.query }
+    // query发生变化时应当重置
+    let defaultQuery = { ...rootProps.query }
+
+    watch(() => rootProps.query, (v) => {
+      defaultQuery = { ...v }
+    })
 
     const componentWidthMapper: Record<string, any> = {
       ElDatePicker: '240px'

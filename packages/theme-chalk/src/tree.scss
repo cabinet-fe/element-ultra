@@ -68,10 +68,10 @@
   }
 
   @include when(disabled) {
-    background-color: var(--el-disabled-bg-color);
-
     > .#{$namespace}-tree-node__content {
+      background-color: var(--el-disabled-bg-color);
       cursor: not-allowed;
+      color: var(--el-text-color-disabled);
     }
   }
 
@@ -89,7 +89,7 @@
       margin-right: 8px;
     }
     &:hover {
-      background-color: getCssVar('tree-node-hover-bg-color');
+      background-color: getCssVar('color-primary-light-9');
     }
 
     .#{$namespace}-tree.is-dragging & {
