@@ -1,21 +1,26 @@
 @use 'mixins/mixins' as *;
-
-@use 'wang-editor/common.scss';
-@use 'wang-editor/textarea.scss';
-@use 'wang-editor/bar.scss';
-@use 'wang-editor/bar-item.scss';
-@use 'wang-editor/select-list.scss';
-@use 'wang-editor/drop-panel.scss';
-@use 'wang-editor/modal.scss';
-@use 'wang-editor/progress.scss';
-@use 'wang-editor/full-screen.scss';
+@use 'wang-editor';
 
 @include b(text-editor) {
-  background-color: var(--el-color-white);
-  border: 1px solid var(--el-border-color-base);
+  background-color: var(--el-bg-color);
+  border: 1px solid var(--el-border-color);
   border-radius: var(--el-border-radius-base);
+  overflow: hidden;
+  transition: border-color var(--el-transition-duration-fast);
 
   @include e(body) {
+    .w-e-scroll,
+    .w-e-scroll > [data-slate-editor] {
+      min-height: 300px;
+      max-height: 600px;
+    }
+  }
 
+  &:hover {
+    border-color: var(--el-border-color-hover);
+  }
+
+  @include m(focused) {
+    border-color: var(--el-color-primary) !important;
   }
 }

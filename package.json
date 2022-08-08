@@ -54,7 +54,7 @@
     "@element-ultra/utils": "workspace:*",
     "@popperjs/core": "^2.11.5",
     "@vueuse/core": "^8.7.5",
-    "@wangeditor/editor": "5.1.1",
+    "@wangeditor/editor": "5.1.14",
     "dayjs": "^1.11.3",
     "fe-dk": "^1.0.12",
     "lodash": "^4.17.21",

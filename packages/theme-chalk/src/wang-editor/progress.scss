@@ -1,9 +1,0 @@
-@use 'vars' as *;
-
-.w-e-progress-bar {
-  position: absolute;
-  width: 0;
-  height: 1px;
-  background-color: $textarea-handler-bg-color;
-  transition: width 0.3s;
-}
