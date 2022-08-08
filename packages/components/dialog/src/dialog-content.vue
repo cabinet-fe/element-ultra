@@ -11,8 +11,9 @@
     :aria-label="title || 'dialog'"
     :style="style"
     @click.stop
+    ref="contentRef"
   >
-    <div ref="headerRef" :class="ns.e('header')">
+    <div ref="headerRef" :class="ns.e('header')" @mousedown="handleMouseDown">
       <ElSlotsRender v-if="slots.title" :nodes="slots.title()" />
       <span v-else :class="ns.e('title')">
         {{ title }}
@@ -22,7 +23,10 @@
         <component :is="closeIcon || Close" />
       </el-icon>
     </div>
-    <div :class="ns.e('body')" :style="{ maxHeight: `calc(80vh - ${ slots.footer ? 88 : 44}px)` }">
+    <div
+      :class="ns.e('body')"
+      :style="{ maxHeight: `calc(80vh - ${slots.footer ? 88 : 44}px)` }"
+    >
       <ElSlotsRender :nodes="slots.default?.()" />
     </div>
     <div v-if="slots.footer" :class="ns.e('footer')">
@@ -32,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
+import { inject, shallowRef } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ElSlotsRender } from '@element-ultra/components/slots-render'
 import { CloseComponents } from '@element-ultra/utils'
@@ -45,4 +49,30 @@ const { Close } = CloseComponents
 defineProps(dialogContentProps)
 
 const { headerRef, ns, style, slots } = inject(dialogInjectionKey)!
+
+const contentRef = shallowRef<HTMLElement>()
+let originX = 0,
+  originY = 0
+
+let lastX = 0
+let lastY = 0
+const handleMouseDown = (e: MouseEvent) => {
+  originX = e.pageX
+  originY = e.pageY
+  document.addEventListener('mousemove', handleMousemove)
+  document.addEventListener('mouseup', handleMouseUp)
+}
+
+const handleMousemove = (e: MouseEvent) => {
+  contentRef.value!.style.transform = `translate(${e.pageX - originX + lastX}px, ${
+    e.pageY - originY + lastY
+  }px)`
+}
+
+const handleMouseUp = (e: MouseEvent) => {
+   lastX = e.pageX - originX + lastX
+   lastY =  e.pageY - originY + lastY
+  document.removeEventListener('mousemove', handleMousemove)
+  document.removeEventListener('mouseup', handleMouseUp)
+}
 </script>
