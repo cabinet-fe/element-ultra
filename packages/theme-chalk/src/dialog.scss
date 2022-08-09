@@ -10,11 +10,6 @@
   @include set-component-css-var('dialog', $dialog);
 
   transition: opacity var(--el-transition-duration-fast) ease-in-out;
-  &:active {
-    opacity: 0.4;
-    cursor: move;
-  }
-
   position: relative;
   margin: var(#{getCssVarName('dialog-margin-top')}, 15vh) auto 50px;
   background: getCssVar('dialog', 'bg-color');
@@ -55,6 +50,11 @@
       cursor: move;
       user-select: none;
     }
+  }
+
+  @include when(mousedown) {
+    opacity: 0.4;
+    cursor: move;
   }
 
   @include e(header) {
