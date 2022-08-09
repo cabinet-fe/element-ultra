@@ -44,6 +44,7 @@ import { dialogContentProps } from './dialog-content'
 
 import { dialogInjectionKey } from './token'
 
+
 const { Close } = CloseComponents
 
 defineProps(dialogContentProps)
@@ -51,11 +52,16 @@ defineProps(dialogContentProps)
 const { headerRef, ns, style, slots } = inject(dialogInjectionKey)!
 
 const contentRef = shallowRef<HTMLElement>()
+
 let originX = 0,
   originY = 0
 
 let lastX = 0
 let lastY = 0
+
+let translateX = 0,
+  translateY = 0
+
 const handleMouseDown = (e: MouseEvent) => {
   originX = e.pageX
   originY = e.pageY
@@ -64,15 +70,15 @@ const handleMouseDown = (e: MouseEvent) => {
 }
 
 const handleMousemove = (e: MouseEvent) => {
-  contentRef.value!.style.transform = `translate(${e.pageX - originX + lastX}px, ${
-    e.pageY - originY + lastY
-  }px)`
+  translateX = e.pageX - originX + lastX
+  translateY = e.pageY - originY + lastY
+  contentRef.value!.style.transform = `translate(${translateX}px, ${translateY}px)`
 }
 
 const handleMouseUp = (e: MouseEvent) => {
-   lastX = e.pageX - originX + lastX
-   lastY =  e.pageY - originY + lastY
   document.removeEventListener('mousemove', handleMousemove)
   document.removeEventListener('mouseup', handleMouseUp)
+  lastX = e.pageX - originX + lastX
+  lastY = e.pageY - originY + lastY
 }
 </script>
