@@ -198,6 +198,7 @@
   th.#{$namespace}-table__cell.is-leaf,
   td.#{$namespace}-table__cell {
     border-bottom: getCssVar('table-border');
+
   }
 
   th.#{$namespace}-table__cell.is-sortable {
@@ -329,6 +330,7 @@
 
     & th.#{$namespace}-table__cell {
       border-bottom: getCssVar('table-border');
+
     }
   }
 
@@ -345,7 +347,6 @@
         &.#{$namespace}-table-fixed-column--right {
           position: sticky !important;
           z-index: 2;
-          background-color: var(--el-bg-color-overlay);
           &.is-last-column,
           &.is-first-column {
             &::before {
@@ -379,6 +380,14 @@
           background: var(--el-bg-color);
           right: 0;
         }
+      }
+
+      td {
+        background-color: var(--el-bg-color);
+      }
+
+      th {
+        background-color: getCssVar('table-header-bg-color');
       }
     }
   }
