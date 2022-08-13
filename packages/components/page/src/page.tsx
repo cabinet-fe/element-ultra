@@ -2,6 +2,7 @@ import { ElGrid } from '@element-ultra/components/grid'
 import { ElButton } from '@element-ultra/components/button'
 import { ElSlotsRender } from '@element-ultra/components/slots-render'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
+import { ElPopconfirm } from '@element-ultra/components/popconfirm'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import {
   cloneVNode,
@@ -22,7 +23,7 @@ import {
   type FormExposed
 } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
-import type { Router } from 'vue-router'
+import { Router } from 'vue-router'
 import { debounce } from 'lodash'
 
 export interface PageExposed {
@@ -218,7 +219,15 @@ export default defineComponent({
             </ElScrollbar>
 
             <section class={ns.e('footer')}>
-              <ElButton onClick={handleBack}>返回</ElButton>
+              <ElPopconfirm
+                title='确定返回吗?'
+                content="你的页面可能有未保存的数据"
+                onConfirm={handleBack}
+                v-slots={{
+                  reference: () => <ElButton>返回</ElButton>
+                }}
+              >
+              </ElPopconfirm>
               <div>{slots.footer?.({ extraRefs })}</div>
             </section>
           </div>

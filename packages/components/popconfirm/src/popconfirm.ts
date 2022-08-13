@@ -7,6 +7,9 @@ export const popconfirmProps = {
   title: {
     type: String
   },
+  content: {
+    type: String
+  },
   confirmButtonText: {
     type: String,
     default: '确定'

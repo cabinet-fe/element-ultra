@@ -14,11 +14,16 @@
   >
     <template #content>
       <div :class="ns.b()">
-        <div :class="ns.e('main')">
+        <div :class="ns.e('title')">
           <el-icon v-if="!hideIcon && icon" :class="ns.e('icon')" :style="{ color: iconColor }">
             <component :is="icon" />
           </el-icon>
           {{ title }}
+        </div>
+        <div :class="ns.e('content')">
+          <slot>
+            {{content}}
+          </slot>
         </div>
         <div :class="ns.e('action')">
           <el-button size="small" :type="cancelButtonType" @click="cancel">
@@ -37,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, unref, getCurrentInstance } from 'vue'
+import { ref, computed, unref } from 'vue'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
