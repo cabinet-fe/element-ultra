@@ -164,8 +164,12 @@ watch(queryWatchList, () => fetchData())
 
 watch(
   () => rootProps.api,
-  () => fetchData(),
-  { immediate: true }
+  () => fetchData()
+)
+
+watch(
+  () => visible.value,
+  visible => visible && fetchData()
 )
 
 defineExpose({
