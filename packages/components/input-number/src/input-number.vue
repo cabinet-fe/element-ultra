@@ -223,8 +223,6 @@ watch(
   () => props.modelValue,
   v => {
     if (changedByEvent.value) return
-    // 进行合法性纠正
-    emit('update:modelValue', getValidValue(v))
     setUserInput()
   },
   { immediate: true }

@@ -5,13 +5,16 @@
     </div>
 
     <el-card header="表单数据">
-      <el-form disabled ref="formRef" :disabled="false" :data="data" label-width="80px" :rules="rules">
-        <el-radio-group  label="审批流程" field="type">
+      <el-form
+        ref="formRef"
+        :data="data"
+        label-width="80px"
+        :rules="rules"
+      >
+        <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
-
-
 
         <el-cascade
           label="级联"
@@ -28,12 +31,7 @@
         >
         </el-cascade>
 
-        <el-input-number
-          money
-          label="数字"
-          clearable
-          field="num"
-        />
+        <el-input-number money label="数字" clearable field="num" />
 
         <el-tree-select
           :data="options"
@@ -77,11 +75,7 @@
           field="rangedate"
         />
 
-        <el-date-picker
-          label="日期"
-          field="date"
-          v-model="data.start"
-        />
+        <el-date-picker label="日期" field="date" v-model="data.start" />
       </el-form>
     </el-card>
 
@@ -94,7 +88,7 @@
 
 <script setup lang="ts">
 import { useFormModel } from 'element-ultra'
-import { shallowRef } from 'vue'
+import { shallowRef, } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 
 document.title = '表单测试'
@@ -102,7 +96,6 @@ document.title = '表单测试'
 let checked = $shallowRef(false)
 
 let options = $shallowRef<any[]>([])
-let options2 = $shallowRef<any[]>([])
 
 setTimeout(() => {
   options = [
@@ -114,33 +107,37 @@ setTimeout(() => {
 }, 500)
 
 setTimeout(() => {
-  options2 = [
-    { modelKey: '1', name: '文本1' },
-    { modelKey: '2', name: '文本2' }
-  ]
+  // options2 = [
+  //   { modelKey: '1', name: '文本1' },
+  //   { modelKey: '2', name: '文本2' }
+  // ]
 }, 200)
 
-const [data, rules] = useFormModel({
-  phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
-  type: { value: '2' },
-  address: { required: true },
-  date: {},
-  rangedate: {},
-  start: { value: '' },
-  end: { value: '' },
-  aa: { value: [] },
-  num: { value: null },
-  cascade: { value: [] },
-  xing: { value: '1' },
-  ming: { value: '2' },
-  multi: { value: ['文本1', '文本2', '文本3', '文本4'] },
-  name: {
-    match: [/^[^\d]+$/, '不能有数字'],
-    value: ''
+const [data, rules] = useFormModel(
+  {
+    phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
+    type: { value: '2' },
+    address: { required: true },
+    date: {},
+    rangedate: {},
+    start: { value: '' },
+    end: { value: '' },
+    aa: { value: [] },
+    num: { value: null },
+    cascade: { value: [] },
+    xing: { value: '1' },
+    ming: { value: '2' },
+    multi: { value: ['文本1', '文本2', '文本3', '文本4'] },
+    name: {
+      match: [/^[^\d]+$/, '不能有数字'],
+      value: ''
+    }
+  },
+  {
+    name: model => model.xing + model.ming
   }
-}, {
-  name: (model) => model.xing + model.ming
-})
+)
+
 
 const formRef = shallowRef<any>()
 </script>

@@ -1,11 +1,16 @@
 <template>
   <el-grid class="play-container" :cols="['200px', '1fr']" gap="0">
     <div class="play-aside">
-      <el-select style="width: 100%" v-model="size" :options="[
-        { value: 'large', label: '大' },
-        { value: 'default', label: '中' },
-        { value: 'small', label: '小' },
-      ]" @change="handleSizeChange" />
+      <el-select
+        style="width: 100%"
+        v-model="size"
+        :options="[
+          { value: 'large', label: '大' },
+          { value: 'default', label: '中' },
+          { value: 'small', label: '小' }
+        ]"
+        @change="handleSizeChange"
+      />
 
       <el-switch v-model="theme" @change="toggleDark" />
       <ul>
@@ -18,20 +23,37 @@
     </div>
 
     <main class="play-main">
-      <router-view />
+      <router-view v-if="!reloading" />
     </main>
   </el-grid>
 </template>
 
 <script lang="ts" setup>
 import { useConfig } from 'element-ultra'
-import { shallowRef } from 'vue'
+import { nextTick, onUnmounted, shallowRef } from 'vue'
 const list = import.meta.glob('./src/*.vue')
 
 let theme = shallowRef(false)
 const toggleDark = () => {
   document.documentElement.classList.toggle('dark')
 }
+
+let reloading = shallowRef(false)
+
+const keydown = (e: KeyboardEvent) => {
+  if (e.key === 'F5') {
+    e.preventDefault()
+    reloading.value = true
+    nextTick(() => {
+      reloading.value = false
+    })
+  }
+}
+document.addEventListener('keydown', keydown)
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', keydown)
+})
 
 const [, setConfigStore] = useConfig()
 
@@ -51,7 +73,6 @@ const handleSizeChange = (size: 'large' | 'default' | 'small') => {
     size
   })
 }
-
 </script>
 
 <style lang="scss" scoped>
