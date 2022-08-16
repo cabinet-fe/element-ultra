@@ -21,6 +21,11 @@
     }
   }
 
+  @include b(circle) {
+    height: 126px;
+    width: 126px;
+  }
+
   @include m((circle, dashboard)) {
     display: inline-block;
 

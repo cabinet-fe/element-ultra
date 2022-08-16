@@ -12,6 +12,8 @@
       </el-card>
     </template>
 
+    <el-progress :width="50" :percentage="50" class="progress" type="circle" />
+
     <template #footer="{ extraRefs }">
       <el-button @click="c.log(extraRefs)">获取实例</el-button>
       <el-button @click="handleHide">随机隐藏某个表单</el-button>
@@ -48,3 +50,10 @@ const handleHide = () => {
   hideIndex = Math.ceil(Math.random() * 5)
 }
 </script>
+
+<style>
+.progress .el-progress-circle {
+  width: 60px;
+  height: 60px;
+}
+</style>

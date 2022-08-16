@@ -39,9 +39,12 @@ export const progressProps = {
     type: Boolean,
     default: false
   },
-  width: {
+  textSize: {
     type: Number,
-    default: 126
+    default: 12
+  },
+  width: {
+    type: Number
   },
   showText: {
     type: Boolean,

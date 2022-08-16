@@ -6,8 +6,8 @@
       ns.is(status),
       {
         [ns.m('without-text')]: !showText,
-        [ns.m('text-inside')]: textInside,
-      },
+        [ns.m('text-inside')]: textInside
+      }
     ]"
     role="progressbar"
     :aria-valuenow="percentage"
@@ -22,7 +22,7 @@
         <div
           :class="[
             ns.be('bar', 'inner'),
-            { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
+            { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate }
           ]"
           :style="barStyle"
         >
@@ -40,14 +40,14 @@
     <div
       v-else
       :class="ns.b('circle')"
-      :style="{ height: `${width}px`, width: `${width}px` }"
+      :style="width ? `height: ${width}px; width: ${width}px` : undefined"
     >
       <svg viewBox="0 0 100 100">
         <path
           :class="ns.be('circle', 'track')"
           :d="trackPath"
           stroke="#e5e9f2"
-          :stroke-width="relativeStrokeWidth"
+          :stroke-width="strokeWidth"
           fill="none"
           :style="trailPathStyle"
         />
@@ -57,7 +57,7 @@
           :stroke="stroke"
           fill="none"
           :stroke-linecap="strokeLinecap"
-          :stroke-width="percentage ? relativeStrokeWidth : 0"
+          :stroke-width="percentage ? strokeWidth : 0"
           :style="circlePathStyle"
         />
       </svg>
@@ -65,7 +65,7 @@
     <div
       v-if="(showText || $slots.default) && !textInside"
       :class="ns.e('text')"
-      :style="{ fontSize: `${progressTextSize}px` }"
+      :style="{ fontSize: `${textSize}px` }"
     >
       <slot v-bind="slotData">
         <span v-if="!status">{{ content }}</span>
@@ -83,7 +83,7 @@ import {
   CircleCheck,
   CircleClose,
   Check,
-  Close,
+  Close
 } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { progressProps } from './progress'
@@ -97,28 +97,22 @@ export default defineComponent({
     CircleClose,
     Check,
     Close,
-    WarningFilled,
+    WarningFilled
   },
   props: progressProps,
 
   setup(props) {
     const ns = useNamespace('progress')
 
-    const barStyle = computed(
-      (): CSSProperties => ({
-        width: `${props.percentage}%`,
-        animationDuration: `${props.duration}s`,
-        backgroundColor: getCurrentColor(props.percentage),
-      })
-    )
-
-    const relativeStrokeWidth = computed(() =>
-      ((props.strokeWidth / props.width) * 100).toFixed(1)
-    )
+    const barStyle = computed(() => ({
+      width: `${props.percentage}%`,
+      animationDuration: `${props.duration}s`,
+      backgroundColor: getCurrentColor(props.percentage)
+    }))
 
     const radius = computed(() => {
       if (props.type === 'circle' || props.type === 'dashboard') {
-        return parseInt(`${50 - parseFloat(relativeStrokeWidth.value) / 2}`, 10)
+        return parseInt(`${50 - props.strokeWidth / 2}`, 10)
       } else {
         return 0
       }
@@ -149,7 +143,7 @@ export default defineComponent({
         strokeDasharray: `${perimeter.value * rate.value}px, ${
           perimeter.value
         }px`,
-        strokeDashoffset: strokeDashoffset.value,
+        strokeDashoffset: strokeDashoffset.value
       })
     )
 
@@ -159,7 +153,7 @@ export default defineComponent({
           perimeter.value * rate.value * (props.percentage / 100)
         }px, ${perimeter.value}px`,
         strokeDashoffset: strokeDashoffset.value,
-        transition: 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease',
+        transition: 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease'
       })
     )
 
@@ -196,12 +190,6 @@ export default defineComponent({
       }
     })
 
-    const progressTextSize = computed(() => {
-      return props.type === 'line'
-        ? 12 + props.strokeWidth * 0.4
-        : props.width * 0.111111 + 2
-    })
-
     const content = computed(() => props.format(props.percentage))
 
     const getCurrentColor = (percentage: number) => {
@@ -216,7 +204,7 @@ export default defineComponent({
           if (typeof seriesColor === 'string') {
             return {
               color: seriesColor,
-              percentage: (index + 1) * span,
+              percentage: (index + 1) * span
             }
           }
           return seriesColor
@@ -232,14 +220,13 @@ export default defineComponent({
 
     const slotData = computed(() => {
       return {
-        percentage: props.percentage,
+        percentage: props.percentage
       }
     })
 
     return {
       ns,
       barStyle,
-      relativeStrokeWidth,
       radius,
       trackPath,
       perimeter,
@@ -249,10 +236,9 @@ export default defineComponent({
       circlePathStyle,
       stroke,
       statusIcon,
-      progressTextSize,
       content,
-      slotData,
+      slotData
     }
-  },
+  }
 })
 </script>
