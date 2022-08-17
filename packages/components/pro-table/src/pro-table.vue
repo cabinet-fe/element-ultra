@@ -185,9 +185,9 @@ const computedSummaryMethod = computed(() => {
     props.summaryMethod ||
     (s
       ? (ctx: { columns: any[]; data: any[] }) => {
-          return ctx.columns.map(column =>
+          return ['合计'].concat(ctx.columns.slice(1).map(column =>
             String(s?.[column.property] ?? 'N/A')
-          )
+          ))
         }
       : undefined)
   )
