@@ -1,12 +1,25 @@
 <template>
-  <table class="el-month-table" @click="handleMonthTableClick" @mousemove="handleMouseMove">
-    <tbody>
+  <table
+    role="grid"
+    :class="ns.b()"
+    @click="handleMonthTableClick"
+    @mousemove="handleMouseMove"
+  >
+    <tbody ref="tbodyRef">
       <tr v-for="(row, key) in rows" :key="key">
-        <td v-for="(cell, key_) in row" :key="key_" :class="getCellStyle(cell)">
+        <td
+          v-for="(cell, key_) in row"
+          :key="key_"
+          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :class="getCellStyle(cell)"
+          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          @keydown.space.prevent.stop="handleMonthTableClick"
+          @keydown.enter.prevent.stop="handleMonthTableClick"
+        >
           <div>
-            <a class="cell">
-              {{ months[cell.index] }}
-            </a>
+            <span class="cell">
+              {{ months[cell.text] }}
+            </span>
           </div>
         </td>
       </tr>
@@ -14,14 +27,24 @@
   </table>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
+import { useNamespace } from '@element-ultra/hooks'
 import { rangeArr } from '@element-ultra/components/time-picker'
-import { hasClass, castArray } from '@element-ultra/utils'
+import { castArray, hasClass } from '@element-ultra/utils'
+import { basicMonthTableProps } from '../props/basic-month-table'
 
-import type { PropType } from 'vue'
-import type { Dayjs } from 'dayjs'
+type MonthCell = {
+  column: number
+  row: number
+  disabled: boolean
+  start: boolean
+  end: boolean
+  text: number
+  type: 'normal' | 'today'
+  inRange: boolean
+}
 
 const datesInMonth = (year: number, month: number, lang: string) => {
   const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
@@ -29,198 +52,211 @@ const datesInMonth = (year: number, month: number, lang: string) => {
   return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
 }
 
-export default defineComponent({
-  props: {
-    disabledDate: {
-      type: Function as PropType<(_: Date) => boolean>
-    },
-    selectionMode: {
-      type: String,
-      default: 'month'
-    },
-    minDate: {
-      type: Object as PropType<Dayjs>
-    },
-    maxDate: {
-      type: Object as PropType<Dayjs>
-    },
-    date: {
-      type: Object as PropType<Dayjs>,
-      required: true
-    },
-    parsedValue: {
-      type: Object as PropType<Dayjs>
-    },
-    rangeState: {
-      type: Object,
-      default: () => ({
-        endDate: null,
-        selecting: false
-      })
-    }
-  },
+const props = defineProps(basicMonthTableProps)
+const emit = defineEmits(['changerange', 'pick', 'select'])
 
-  emits: ['changerange', 'pick', 'select'],
+const ns = useNamespace('month-table')
 
-  setup(props, ctx) {
-    let months = [
-      '一月',
-      '二月',
-      '三月',
-      '四月',
-      '五月',
-      '六月',
-      '七月',
-      '八月',
-      '九月',
-      '十月',
-      '十一月',
-      '十二月'
-    ]
+const tbodyRef = ref<HTMLElement>()
+const currentCellRef = ref<HTMLElement>()
+const months = [
+  '一月',
+  '二月',
+  '三月',
+  '四月',
+  '五月',
+  '六月',
+  '七月',
+  '八月',
+  '九月',
+  '十月',
+  '十一月',
+  '十二月'
+]
+const tableRows = ref<MonthCell[][]>([
+  [] as MonthCell[],
+  [] as MonthCell[],
+  [] as MonthCell[]
+])
+const lastRow = ref<number>()
+const lastColumn = ref<number>()
+const rows = computed<MonthCell[][]>(() => {
+  const rows = tableRows.value
 
-    const lastRow = ref(null)
-    const lastColumn = ref(null)
-    const rows = computed(() => {
-      // TODO: refactory rows / getCellClasses
+  const now = dayjs().locale('zh-cn').startOf('month')
 
-      const now = dayjs().locale('zh-cn').startOf('month')
-
-      let cells = Array.from({ length: 12 }).map((_, i) => {
-        const calTime = props.date.startOf('year').month(i)
-        const cellDate = calTime.toDate()
-        const calEndDate =
-          props.rangeState.endDate || props.maxDate || (props.rangeState.selecting && props.minDate)
-
-        // 日期范围内
-        let inRange =
-          (props.minDate &&
-            calTime.isSameOrAfter(props.minDate, 'month') &&
-            calEndDate &&
-            calTime.isSameOrBefore(calEndDate, 'month')) ||
-          (props.minDate &&
-            calTime.isSameOrBefore(props.minDate, 'month') &&
-            calEndDate &&
-            calTime.isSameOrAfter(calEndDate, 'month'))
-
-        let cell = {
-          index: i,
-          // 单元格索引 / 一行的数量 向下取整即为行号
-          row: Math.floor(i / 4),
-          column: i % 4,
-          isToday: now.isSame(calTime),
-          inRange,
-          start: false,
-          end: false,
-          disabled: props.disabledDate?.(cellDate) || false
-        }
-
-        if (props.minDate?.isSameOrAfter(calEndDate)) {
-          cell.start = calEndDate && calTime.isSame(calEndDate, 'month')
-          cell.end = props.minDate && calTime.isSame(props.minDate, 'month')
-        } else {
-          cell.start = props.minDate ? calTime.isSame(props.minDate, 'month') : false
-          cell.end = calEndDate && calTime.isSame(calEndDate, 'month')
-        }
-
-        return cell
+  for (let i = 0; i < 3; i++) {
+    const row = rows[i]
+    for (let j = 0; j < 4; j++) {
+      const cell = (row[j] ||= {
+        row: i,
+        column: j,
+        type: 'normal',
+        inRange: false,
+        start: false,
+        end: false,
+        text: -1,
+        disabled: false
       })
 
-      return [cells.slice(0, 4), cells.slice(4, 8), cells.slice(8)]
-    })
-    const getCellStyle = cell => {
-      const style = {} as any
-      const year = props.date.year()
-      const month = cell.index
+      cell.type = 'normal'
 
-      style.disabled = props.disabledDate
-        ? datesInMonth(year, month, 'zh-cn').every(props.disabledDate)
-        : false
-      style.current =
-        castArray(props.parsedValue).findIndex(
-          date => date.year() === year && date.month() === month
-        ) >= 0
-      style.today =  cell.isToday
+      const index = i * 4 + j
+      const calTime = props.date!.startOf('year').month(index)
 
-      if (cell.inRange) {
-        style['in-range'] = true
+      const calEndDate =
+        props.rangeState.endDate ||
+        props.maxDate ||
+        (props.rangeState.selecting && props.minDate) ||
+        null
 
-        if (cell.start) {
-          style['start-date'] = true
-        }
+      cell.inRange =
+        !!(
+          props.minDate &&
+          calTime.isSameOrAfter(props.minDate, 'month') &&
+          calEndDate &&
+          calTime.isSameOrBefore(calEndDate, 'month')
+        ) ||
+        !!(
+          props.minDate &&
+          calTime.isSameOrBefore(props.minDate, 'month') &&
+          calEndDate &&
+          calTime.isSameOrAfter(calEndDate, 'month')
+        )
 
-        if (cell.end) {
-          style['end-date'] = true
-        }
-      }
-      return style
-    }
-
-    const handleMouseMove = event => {
-      if (!props.rangeState.selecting) return
-
-      let target = event.target
-      if (target.tagName === 'A') {
-        target = target.parentNode.parentNode
-      }
-      if (target.tagName === 'DIV') {
-        target = target.parentNode
-      }
-      if (target.tagName !== 'TD') return
-
-      const row = target.parentNode.rowIndex
-      const column = target.cellIndex
-      // can not select disabled date
-      if (rows.value[row][column].disabled) return
-
-      // only update rangeState when mouse moves to a new cell
-      // this avoids frequent Date object creation and improves performance
-      if (row !== lastRow.value || column !== lastColumn.value) {
-        lastRow.value = row
-        lastColumn.value = column
-        ctx.emit('changerange', {
-          selecting: true,
-          endDate: props.date.startOf('year').month(row * 4 + column)
-        })
-      }
-    }
-    const handleMonthTableClick = event => {
-      let target = event.target
-      if (target.tagName === 'A') {
-        target = target.parentNode.parentNode
-      }
-      if (target.tagName === 'DIV') {
-        target = target.parentNode
-      }
-      if (target.tagName !== 'TD') return
-      if (hasClass(target, 'disabled')) return
-      const column = target.cellIndex
-      const row = target.parentNode.rowIndex
-      const month = row * 4 + column
-      const newDate = props.date.startOf('year').month(month)
-      if (props.selectionMode === 'range') {
-        if (!props.rangeState.selecting) {
-          ctx.emit('pick', { minDate: newDate, maxDate: null })
-          ctx.emit('select', true)
-        } else {
-          if (newDate >= props.minDate) {
-            ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
-          } else {
-            ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
-          }
-          ctx.emit('select', false)
-        }
+      if (props.minDate?.isSameOrAfter(calEndDate)) {
+        cell.start = !!(calEndDate && calTime.isSame(calEndDate, 'month'))
+        cell.end = props.minDate && calTime.isSame(props.minDate, 'month')
       } else {
-        ctx.emit('pick', month)
+        cell.start = !!(props.minDate && calTime.isSame(props.minDate, 'month'))
+        cell.end = !!(calEndDate && calTime.isSame(calEndDate, 'month'))
       }
-    }
 
-    return {
-      handleMouseMove,
-      handleMonthTableClick,
-      rows,
-      getCellStyle,
-      months
+      const isToday = now.isSame(calTime)
+      if (isToday) {
+        cell.type = 'today'
+      }
+
+      cell.text = index
+      cell.disabled = props.disabledDate?.(calTime.toDate()) || false
     }
   }
+  return rows
+})
+
+const focus = () => {
+  currentCellRef.value?.focus()
+}
+
+const getCellStyle = (cell: MonthCell) => {
+  const style = {} as any
+  const year = props.date!.year()
+  const today = new Date()
+  const month = cell.text
+
+  style.disabled = props.disabledDate
+    ? datesInMonth(year, month, 'zh-cn').every(props.disabledDate)
+    : false
+  style.current =
+    castArray(props.parsedValue).findIndex(
+      date =>
+        dayjs.isDayjs(date) && date.year() === year && date.month() === month
+    ) >= 0
+  style.today = today.getFullYear() === year && today.getMonth() === month
+
+  if (cell.inRange) {
+    style['in-range'] = true
+
+    if (cell.start) {
+      style['start-date'] = true
+    }
+
+    if (cell.end) {
+      style['end-date'] = true
+    }
+  }
+  return style
+}
+
+const isSelectedCell = (cell: MonthCell) => {
+  const year = props.date!.year()
+  const month = cell.text
+  return (
+    castArray(props.date).findIndex(
+      date => date.year() === year && date.month() === month
+    ) >= 0
+  )
+}
+
+const handleMouseMove = (event: MouseEvent) => {
+  if (!props.rangeState.selecting) return
+
+  let target = event.target as HTMLElement
+  if (target.tagName === 'A') {
+    target = target.parentNode?.parentNode as HTMLElement
+  }
+  if (target.tagName === 'DIV') {
+    target = target.parentNode as HTMLElement
+  }
+  if (target.tagName !== 'TD') return
+
+  const row = (target.parentNode as HTMLTableRowElement).rowIndex
+  const column = (target as HTMLTableCellElement).cellIndex
+  // can not select disabled date
+  if (rows.value[row][column].disabled) return
+
+  // only update rangeState when mouse moves to a new cell
+  // this avoids frequent Date object creation and improves performance
+  if (row !== lastRow.value || column !== lastColumn.value) {
+    lastRow.value = row
+    lastColumn.value = column
+    emit('changerange', {
+      selecting: true,
+      endDate: props.date!.startOf('year').month(row * 4 + column)
+    })
+  }
+}
+const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
+  const target = (event.target as HTMLElement)?.closest(
+    'td'
+  ) as HTMLTableCellElement
+  if (target?.tagName !== 'TD') return
+  if (hasClass(target, 'disabled')) return
+  const column = target.cellIndex
+  const row = (target.parentNode as HTMLTableRowElement).rowIndex
+  const month = row * 4 + column
+  const newDate = props.date!.startOf('year').month(month)
+  if (props.selectionMode === 'range') {
+    if (!props.rangeState.selecting) {
+      emit('pick', { minDate: newDate, maxDate: null })
+      emit('select', true)
+    } else {
+      if (props.minDate && newDate >= props.minDate) {
+        emit('pick', { minDate: props.minDate, maxDate: newDate })
+      } else {
+        emit('pick', { minDate: newDate, maxDate: props.minDate })
+      }
+      emit('select', false)
+    }
+  } else {
+    emit('pick', month)
+  }
+}
+
+watch(
+  () => props.date,
+  async () => {
+    if (tbodyRef.value?.contains(document.activeElement)) {
+      await nextTick()
+      currentCellRef.value?.focus()
+    }
+  }
+)
+
+defineExpose({
+  /**
+   * @description focus current cell
+   */
+  focus
 })
 </script>

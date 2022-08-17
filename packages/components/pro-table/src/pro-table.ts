@@ -42,6 +42,14 @@ export const proTableProps = {
     type: [Number, String] as PropType<string | number>
   },
 
+  /** 汇总方法 */
+  summaryMethod: {
+    type: Function as PropType<(data: {
+      columns: ProTableColumn[]
+      data: any[]
+    }) => string[]>
+  },
+
   /** 默认显示 */
   showTools: {
     type: Boolean,

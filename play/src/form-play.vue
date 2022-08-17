@@ -75,7 +75,7 @@
           field="rangedate"
         />
 
-        <el-date-picker label="日期" field="date" v-model="data.start" />
+        <el-date-picker label="日期" type="week" field="date" />
       </el-form>
     </el-card>
 

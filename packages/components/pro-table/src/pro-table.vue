@@ -12,7 +12,8 @@
       v-bind="$attrs"
       :default-expand-all="defaultExpandAll"
       ref="tableRef"
-      :show-summary="showSummary"
+      :show-summary="summaryVisible"
+      :summary-method="computedSummaryMethod"
       :height="tableHeight"
       @selection-change="handleSelectionChange"
       border
@@ -68,12 +69,12 @@ import {
   shallowRef,
   useSlots,
   provide,
-onMounted
+  onMounted
 } from 'vue'
 import ElTable from '@element-ultra/components/table'
-import ProTableColumn from './pro-table-column.vue'
 import ProTableTools from './pro-table-tools'
 import { ElTableColumn } from '@element-ultra/components/table'
+import ProTableColumn from './pro-table-column.vue'
 import { proTableProps } from './pro-table'
 import usePreColumns from './use-pre-columns'
 import ElPagination from '@element-ultra/components/pagination'
@@ -169,6 +170,29 @@ const getQueryParams = () => {
   }
 }
 
+// 后端是否有统计字段
+let statistics = shallowRef<Record<string, number>>()
+/** 显示合计 */
+const summaryVisible = computed(() => {
+  return props.showSummary || !!statistics.value
+})
+
+/** 合计方法 */
+const computedSummaryMethod = computed(() => {
+  let s = statistics.value
+
+  return (
+    props.summaryMethod ||
+    (s
+      ? (ctx: { columns: any[]; data: any[] }) => {
+          return ctx.columns.map(column =>
+            String(s?.[column.property] ?? 'N/A')
+          )
+        }
+      : undefined)
+  )
+})
+
 /**
  * 查询数据
  * @param resetPage 是否重置分页, 只有在 分页相关的组件改变时无需重置
@@ -187,7 +211,11 @@ const fetchData = async (resetPage = true) => {
   const res = await configStore.proTableRequestMethod(params).finally(() => {
     loading.value = false
   })
-  const { total, data } = res
+  const { total, data, statistics: _statistics } = res
+
+  if (_statistics) {
+    statistics.value = _statistics
+  }
 
   if (total) {
     state.total = total
@@ -247,7 +275,6 @@ provide(proTableKey, {
   fetchData,
   loading
 })
-
 
 const exposed = {
   state,

@@ -122,12 +122,6 @@
   thead {
     color: getCssVar('table-header-text-color');
     font-weight: 500;
-
-    &.is-group {
-      th.#{$namespace}-table__cell {
-        background: getCssVar('fill-color', 'light');
-      }
-    }
   }
 
   .#{$namespace}-table__cell {
@@ -198,7 +192,6 @@
   th.#{$namespace}-table__cell.is-leaf,
   td.#{$namespace}-table__cell {
     border-bottom: getCssVar('table-border');
-
   }
 
   th.#{$namespace}-table__cell.is-sortable {
@@ -330,7 +323,6 @@
 
     & th.#{$namespace}-table__cell {
       border-bottom: getCssVar('table-border');
-
     }
   }
 

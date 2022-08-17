@@ -41,7 +41,11 @@
         @click.stop
       >
         <template #prefix>
-          <el-icon v-if="triggerIcon" class="el-input__icon" @click="handleFocus">
+          <el-icon
+            v-if="triggerIcon"
+            class="el-input__icon"
+            @click="handleFocus"
+          >
             <component :is="triggerIcon"></component>
           </el-icon>
         </template>
@@ -72,7 +76,11 @@
         @mouseleave="onMouseLeave"
         @keydown="handleKeydown"
       >
-        <el-icon v-if="triggerIcon" class="el-input__icon el-range__icon" @click="handleFocus">
+        <el-icon
+          v-if="triggerIcon"
+          class="el-input__icon el-range__icon"
+          @click="handleFocus"
+        >
           <component :is="triggerIcon"></component>
         </el-icon>
         <input
@@ -121,7 +129,7 @@
         :visible="pickerVisible"
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
-        :format="format"
+        :format="computedValueFormat"
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
@@ -136,12 +144,20 @@
   </el-tooltip>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, nextTick, inject, watch, provide, unref } from 'vue'
+import {
+  defineComponent,
+  ref,
+  computed,
+  nextTick,
+  inject,
+  watch,
+  provide,
+  unref
+} from 'vue'
 import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useFormItem, useSize } from '@element-ultra/hooks'
-import { formKey, formItemKey } from '@element-ultra/tokens'
 import ElInput from '@element-ultra/components/input'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
@@ -152,7 +168,6 @@ import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
-import type { FormContext, FormItemContext } from '@element-ultra/tokens'
 import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
@@ -194,13 +209,24 @@ const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
   return false
 }
 
-const parser = function (date: string | number | Date, format: string | undefined, lang: string) {
+const parser = function (
+  date: string | number | Date,
+  format: string | undefined,
+  lang: string
+) {
+
   const day =
-    isEmpty(format) || format === 'x' ? dayjs(date).locale(lang) : dayjs(date, format).locale(lang)
+    isEmpty(format) || format === 'x'
+      ? dayjs(date).locale(lang)
+      : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
 
-const formatter = function (date: string | number | Date | null, format: string, lang: string) {
+const formatter = function (
+  date: string | number | Date | null,
+  format: string,
+  lang: string
+) {
   if (!date) return ''
   if (isEmpty(format)) return date
   if (format === 'x') return +date
@@ -236,11 +262,18 @@ export default defineComponent({
 
     const lang = 'zh-cn'
 
-    const valueFormat = computed(() => {
+    const computedValueFormat = computed(() => {
       if (props.valueFormat) return props.valueFormat
-      if (['date', 'daterange'].includes(props.type)) return 'YYYY-MM-DD'
-      if (['datetimerange', 'datetime'].includes(props.type)) return 'YYYY-MM-DD HH:mm:ss'
-      return ''
+      if (props.type === 'year') {
+        return 'YYYY'
+      }
+      if (props.type === 'month') {
+        return 'YYYY-MM'
+      }
+      if (props.type.includes('time')) {
+        return 'YYYY-MM-DD HH:mm:ss'
+      }
+      return 'YYYY-MM-DD'
     })
 
     watch(pickerVisible, val => {
@@ -255,14 +288,14 @@ export default defineComponent({
         valueOnOpen.value = props.modelValue
       }
     })
-    const emitChange = (val, isClear?: boolean) => {
+    const emitChange = (val: any, isClear?: boolean) => {
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
         formItem?.validate()
       }
     }
-    const emitInput = val => {
+    const emitInput = (val: any) => {
       if (!val && props.type.endsWith('range')) {
         val = [null, null]
       }
@@ -270,9 +303,9 @@ export default defineComponent({
         let formatValue
 
         if (Array.isArray(val)) {
-          formatValue = val.map(_ => formatter(_, valueFormat.value, lang))
+          formatValue = val.map(_ => formatter(_, computedValueFormat.value, lang))
         } else if (val) {
-          formatValue = formatter(val, valueFormat.value, lang)
+          formatValue = formatter(val, computedValueFormat.value, lang)
         }
         ctx.emit('update:modelValue', val ? formatValue : val, lang)
       }
@@ -359,45 +392,56 @@ export default defineComponent({
         }
       } else {
         if (Array.isArray(props.modelValue)) {
-          result = props.modelValue.map(_ => parser(_, valueFormat.value, lang))
+          result = props.modelValue.map(_ => parser(_, computedValueFormat.value, lang))
         } else if (props.start && props.end) {
           result = [
-            parser(props.start, valueFormat.value, lang),
-            parser(props.end, valueFormat.value, lang)
+            parser(props.start, computedValueFormat.value, lang),
+            parser(props.end, computedValueFormat.value, lang)
           ]
         } else {
-          result = parser(props.modelValue, valueFormat.value, lang)
+          result = parser(props.modelValue, computedValueFormat.value, lang)
         }
       }
 
       if (pickerOptions.value.getRangeAvailableTime) {
-        const availableResult = pickerOptions.value.getRangeAvailableTime(result)
+        const availableResult =
+          pickerOptions.value.getRangeAvailableTime(result)
         if (!isEqual(availableResult, result)) {
           result = availableResult
-          emitInput(Array.isArray(result) ? result.map(_ => _.toDate()) : result.toDate())
+          emitInput(
+            Array.isArray(result)
+              ? result.map(_ => _.toDate())
+              : result.toDate()
+          )
         }
       }
       if (Array.isArray(result) && result.some(_ => !_)) {
         result = []
       }
       return result
+
     })
 
     const displayValue = computed(() => {
       if (!pickerOptions.value.panelReady) return
       const formattedValue = formatDayjsToString(parsedValue.value)
-      if (Array.isArray(userInput.value)) {
+
+     if (Array.isArray(userInput.value)) {
+
         return [
           userInput.value[0] || (formattedValue && formattedValue[0]) || '',
           userInput.value[1] || (formattedValue && formattedValue[1]) || ''
         ]
       } else if (userInput.value !== null) {
+
         return userInput.value
       }
       if (!isTimePicker.value && valueIsEmpty.value) return
       if (!pickerVisible.value && valueIsEmpty.value) return
       if (formattedValue) {
-        return isDatesPicker.value ? (formattedValue as Array<string>).join(', ') : formattedValue
+        return isDatesPicker.value
+          ? (formattedValue as Array<string>).join(', ')
+          : formattedValue
       }
       return ''
     })
@@ -427,7 +471,8 @@ export default defineComponent({
     }
     const valueIsEmpty = computed(() => {
       return (
-        (!props.modelValue || (Array.isArray(props.modelValue) && !props.modelValue.length)) &&
+        (!props.modelValue ||
+          (Array.isArray(props.modelValue) && !props.modelValue.length)) &&
         !props.start &&
         !props.end
       )
@@ -465,7 +510,8 @@ export default defineComponent({
       const inputEl = unref(actualInputRef)
       if (
         (unrefedPopperEl &&
-          (e.target === unrefedPopperEl || e.composedPath().includes(unrefedPopperEl))) ||
+          (e.target === unrefedPopperEl ||
+            e.composedPath().includes(unrefedPopperEl))) ||
         e.target === inputEl ||
         e.composedPath().includes(inputEl)
       )
@@ -480,7 +526,9 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(Array.isArray(value) ? value.map(_ => _.toDate()) : value.toDate())
+            emitInput(
+              Array.isArray(value) ? value.map(_ => _.toDate()) : value.toDate()
+            )
             userInput.value = null
           }
         }
@@ -498,12 +546,12 @@ export default defineComponent({
 
     const parseUserInputToDayjs = value => {
       if (!value) return null
-      return pickerOptions.value.parseUserInput(value)
+      return pickerOptions.value.parseUserInput?.(value)
     }
 
     const formatDayjsToString = value => {
       if (!value) return null
-      return pickerOptions.value.formatToString(value)
+      return pickerOptions.value.formatToString?.(value)
     }
 
     const isValidValue = value => {
@@ -604,7 +652,9 @@ export default defineComponent({
     }
 
     const pickerOptions = ref<Partial<PickerOptions>>({})
-    const onSetPickerOption = <T extends keyof PickerOptions>(e: [T, PickerOptions[T]]) => {
+    const onSetPickerOption = <T extends keyof PickerOptions>(
+      e: [T, PickerOptions[T]]
+    ) => {
       pickerOptions.value[e[0]] = e[1]
       pickerOptions.value.panelReady = true
     }
@@ -624,7 +674,7 @@ export default defineComponent({
     return {
       // injected popper options
       elPopperOptions,
-
+      computedValueFormat,
       isDatesPicker,
       handleEndChange,
       handleStartChange,

@@ -6,11 +6,20 @@ interface RequestOptions {
   query: Record<string, any>
 }
 
-export type RequestResponse = { data: any[]; total?: number; raw?: any }
+export type RequestResponse = {
+  data: any[]
+  total?: number;
+  raw?: any;
+  statistics?: Record<string, any>
+}
 
-export type ProTableRequestMethod = (option: RequestOptions) => Promise<RequestResponse>
+export type ProTableRequestMethod = (
+  option: RequestOptions
+) => Promise<RequestResponse>
 
-export type TableSelectRequestMethod = (option: RequestOptions) => Promise<RequestResponse>
+export type TableSelectRequestMethod = (
+  option: RequestOptions
+) => Promise<RequestResponse>
 
 export interface ConfigStore {
   /** 全局组件尺寸 */

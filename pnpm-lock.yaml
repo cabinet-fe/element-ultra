@@ -39,7 +39,7 @@ importers:
       components-helper: ^2.0.0
       csstype: ^3.1.0
       cz-conventional-changelog: ^3.3.0
-      dayjs: ^1.11.3
+      dayjs: ^1.11.5
       del: ^6.1.1
       esbuild: ^0.14.47
       expect-type: ^0.13.0
@@ -82,7 +82,7 @@ importers:
       '@popperjs/core': 2.11.5
       '@vueuse/core': 8.7.5_vue@3.2.37
       '@wangeditor/editor': 5.1.14
-      dayjs: 1.11.3
+      dayjs: 1.11.5
       fe-dk: 1.0.12
       lodash: 4.17.21
       lodash-es: 4.17.21
@@ -3347,6 +3347,10 @@ packages:
 
   /dayjs/1.11.3:
     resolution: {integrity: sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==}
+    dev: false
+
+  /dayjs/1.11.5:
+    resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
     dev: false
 
   /debug/2.6.9:

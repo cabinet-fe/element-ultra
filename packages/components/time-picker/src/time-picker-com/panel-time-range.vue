@@ -306,6 +306,7 @@ export default defineComponent({
       if (Array.isArray(value)) {
         return value.map((_) => _.format(props.format))
       }
+
       return value.format(props.format)
     }
 

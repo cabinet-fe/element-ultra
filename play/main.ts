@@ -13,11 +13,15 @@ setConfigStore({
       setTimeout(() => {
         let data = Array.from({ length: 100 }).map((_, i) => ({
           name: '张三说的有符合公司的的话是个' + i,
+          money: 100 + i,
           id: i
         }))
         rs({
           data,
-          total: 100
+          total: 100,
+          statistics: {
+            money: 188888888
+          }
         })
       }, 500)
     })

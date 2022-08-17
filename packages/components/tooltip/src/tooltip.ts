@@ -89,3 +89,4 @@ export type ElTooltipTriggerProps = ExtractPropTypes<
 export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps> &
   ElTooltipContentProps &
   ElTooltipTriggerProps
+

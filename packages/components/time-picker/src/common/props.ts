@@ -8,10 +8,10 @@ import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constan
 export const timePickerDefaultProps = {
   ...FORM_COMPONENT_PROPS,
   id: {
-    type: [Array, String],
+    type: [Array, String] as PropType<string[] | string>,
   },
   name: {
-    type: [Array, String],
+    type: [Array, String] as PropType<string[] | string>,
     default: '',
   },
   popperClass: {

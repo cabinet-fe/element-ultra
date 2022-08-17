@@ -92,6 +92,10 @@ setTimeout(() => {
       key: 'name'
     },
     {
+      name: '钱',
+      key: 'money'
+    },
+    {
       name: '姓名',
       key: 'name'
     },
