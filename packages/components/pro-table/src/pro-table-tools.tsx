@@ -77,7 +77,7 @@ export default defineComponent({
             if (props?.placeholder) {
               nodes.push(
                 <div class={wrapClass}>
-                  <label class={labelClass}>{props.placeholder}:</label>
+                  <label class={labelClass}>{props.label || props.placeholder}:</label>
                   {clonedNode}
                 </div>
               )
