@@ -181,16 +181,17 @@ const summaryVisible = computed(() => {
 const computedSummaryMethod = computed(() => {
   let s = statistics.value
 
+  // TODO 这里的类型断言需要去掉
   return (
     props.summaryMethod ||
     (s
       ? (ctx: { columns: any[]; data: any[] }) => {
           return ['合计'].concat(ctx.columns.slice(1).map(column => {
-            return String(s?.[column.property] ?? 'N/A')
+            return String(s?.[column.property] ?? '')
           }))
         }
       : undefined)
-  )
+  ) as any
 })
 
 /**
