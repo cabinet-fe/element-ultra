@@ -13,6 +13,9 @@ export const cardProps = {
   shadow: {
     type: String,
     default: 'always'
+  },
+  tips: {
+    type: String
   }
 }
 export type CardProps = ExtractPropTypes<typeof cardProps>

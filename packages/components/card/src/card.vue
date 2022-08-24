@@ -2,6 +2,12 @@
   <div ref="cardRef" :class="[ns.b(), ns.is(`${shadow}-shadow`)]">
     <div v-if="$slots.header || header" :id="header" :class="ns.e('header')">
       <slot name="header">{{ header }}</slot>
+
+      <el-tooltip v-if="tips" :content="tips" raw-content>
+        <el-icon>
+          <QuestionFilled />
+        </el-icon>
+      </el-tooltip>
     </div>
     <div :class="ns.e('body')" :style="bodyStyle">
       <slot></slot>
@@ -13,6 +19,9 @@ import { useNamespace } from '@element-ultra/hooks'
 import { pageContextKey } from '@element-ultra/tokens'
 import { inject, onMounted, onUnmounted, shallowRef } from 'vue'
 import { cardProps } from './card'
+import ElIcon from '@element-ultra/components/icon'
+import ElTooltip from '@element-ultra/components/tooltip'
+import { QuestionFilled } from '@element-plus/icons-vue'
 
 defineOptions({
   name: 'ElCard'
