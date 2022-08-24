@@ -92,7 +92,7 @@ export default function useInline(options: Options) {
       }
     },
 
-    max(value: any, max: number, msg = ''): any {
+    max(value: any, max: number, msg = '') {
       if (Array.isArray(value)) {
         return value.length > max ? msg || `该项最大长度应为 ${max}` : undefined
       }
@@ -117,26 +117,35 @@ export default function useInline(options: Options) {
     }
   }
 
+  /**
+   * 单规则校验(一个字段可能会有多个校验规则)
+   * @param type 校验的规则类型
+   * @param value 校验的值
+   * @param ruleValue 校验的规则
+   */
+  const singleRuleValidate = <
+    T extends keyof Omit<MultipleFormRules, 'validator'>
+  >(
+    type: T,
+    value: any,
+    ruleValue: any
+  ) => {
+    let rulesIsArray = Array.isArray(ruleValue)
+    const validator = validators[type]
+    return validator(
+      value,
+      // @ts-ignore
+      rulesIsArray ? ruleValue[0] : ruleValue,
+      rulesIsArray ? ruleValue[1] : undefined
+    )
+  }
+
   /** 验证 */
   async function validate(
     item: any,
     fieldsRules: Record<string, Partial<MultipleFormRules>>
   ) {
     let isValid = true
-
-    // 单个规则校验
-    let singleRuleValidate = (
-      type: keyof MultipleFormRules,
-      value: any,
-      ruleValue: any
-    ) => {
-      let rulesIsArray = Array.isArray(ruleValue)
-      return validators[type](
-        value,
-        rulesIsArray ? ruleValue[0] : ruleValue,
-        rulesIsArray ? ruleValue[1] : undefined
-      )
-    }
 
     // 用所有的校验规则进行校验
     for (const fieldKey in fieldsRules) {
@@ -167,10 +176,11 @@ export default function useInline(options: Options) {
       }
 
       for (const key in restRule) {
+        type Key = keyof typeof restRule
         const errorMsg = singleRuleValidate(
-          key as keyof typeof restRule,
+          key as Key,
           itemValue,
-          restRule[key]
+          restRule[key as Key]
         )
 
         errorTip[fieldKey] = errorMsg

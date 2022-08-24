@@ -16,62 +16,7 @@
       :class="ns.e('source')"
     >
       <table cellpadding="0" border="0" cellspacing="0" :class="ns.e('table')">
-        <colgroup>
-          <col style="width: 60px" />
-          <col
-            v-for="column of visibleColumns"
-            :key="column.key"
-            :style="{ width: column.width + 'px' }"
-          />
-          <col v-if="!disabled" :style="{ width: actionWidth + 'px' }" />
-        </colgroup>
-
-        <thead>
-          <tr>
-            <th style="text-align: center">序号</th>
-
-            <th
-              v-for="column of visibleColumns"
-              :class="{ 'is-required': columnRules[column.key]?.required }"
-              :style="{ textAlign: column.align }"
-            >
-              <el-tooltip
-                v-if="errorTip[column.key]"
-                placement="top"
-                :visible="true"
-                effect="dark"
-                :content="errorTip[column.key]"
-              >
-                <span style="color: #f00">{{ column.name }}</span>
-              </el-tooltip>
-
-              <template v-else> {{ column.name }} </template>
-
-              <el-tooltip
-                v-if="column.tips"
-                effect="dark"
-                :content="column.tips"
-              >
-                <el-icon><QuestionFilled /></el-icon>
-              </el-tooltip>
-            </th>
-
-            <th :class="ns.e('action')" v-if="!disabled">
-              <span>操作</span>
-
-              <el-button
-                v-if="actionCreate && mode !== 'custom'"
-                style="margin-left: 8px"
-                :icon="Plus"
-                @click="handleCreate(rows.length)"
-                link
-                type="primary"
-              >
-                新增
-              </el-button>
-            </th>
-          </tr>
-        </thead>
+        <MultipleFormHeader />
 
         <tbody>
           <MultipleFormRow
@@ -123,22 +68,19 @@ import {
   shallowRef,
   nextTick,
   shallowReactive,
-  type ShallowReactive,
   provide,
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './multiple-form'
-import ElButton from '@element-ultra/components/button'
-import ElTooltip from '@element-ultra/components/tooltip'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 import { ElForm } from '@element-ultra/components/form'
-import { ElIcon } from '@element-ultra/components/icon'
-import { Plus, QuestionFilled } from '@element-plus/icons-vue'
 import useDialogEdit from './use-dialog-edit'
 import useInline from './use-inline'
 import { multipleFormKey } from './token'
 import MultipleFormRow from './multiple-form-row.vue'
+import MultipleFormHeader from './multiple-form-header.vue'
+
 
 defineOptions({
   name: 'ElMultipleForm'
@@ -182,12 +124,7 @@ const {
   handleMouseEnter
 } = useInline({ props, emit, targetIndex, rows })
 
-provide(multipleFormKey, {
-  multipleFormProps: props,
-  visibleColumns,
-  ns,
-  slots
-})
+
 
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0
@@ -238,6 +175,18 @@ const handleEdit = (row: any, index: number) => {
     open('update', { title: '编辑', data: row, ctx: { index } })
   }
 }
+
+
+provide(multipleFormKey, {
+  multipleFormProps: props,
+  visibleColumns,
+  columnRules,
+  errorTip,
+  ns,
+  slots,
+  rows,
+  handleCreate
+})
 
 defineExpose({
   clearValidate

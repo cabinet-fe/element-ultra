@@ -43,6 +43,9 @@ export type MultipleFormColumn = {
   /** 列的宽度 */
   width?: number
 
+  /** 列的最小宽度 */
+  minWidth?: number
+
   /** 编辑时的默认值, 可以传入一个函数异步也可以 */
   defaultValue?: any
 

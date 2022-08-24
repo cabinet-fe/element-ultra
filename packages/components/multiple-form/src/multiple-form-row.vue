@@ -10,9 +10,7 @@
         :style="{ textAlign: column.align }"
       >
         <!-- 插槽穿透 -->
-        <RenderNodes
-          :children="slots[column.key]?.({ row, index: rowIndex })"
-        />
+        <ElSlotsRender :nodes="slots[column.key]?.({ row, index: rowIndex })" />
       </td>
 
       <td :class="ns.e('action')" v-if="!multipleFormProps.disabled">
@@ -26,7 +24,7 @@
       </td>
     </template>
 
-    <!-- 正常的行 -->
+    <!-- 默认显示的行 -->
     <template v-else>
       <td
         v-for="column of visibleColumns"
@@ -34,10 +32,13 @@
         :style="{ textAlign: column.align }"
       >
         <!-- 插槽穿透 -->
-        <RenderNodes
+        <!-- 查看模式 -->
+        <ElSlotsRender
           v-if="slots[column.key + ':view']"
-          :children="slots[column.key + ':view']?.({ row, index: rowIndex })"
+          :nodes="slots[column.key + ':view']?.({ row, index: rowIndex })"
         />
+
+        <!-- 默认模式 -->
         <template v-else>
           {{
             column.render?.(row[column.key], row, rowIndex) || row[column.key]
@@ -77,8 +78,9 @@
 
 <script lang="ts" setup>
 import { Select, Close, Plus, Edit, Delete } from '@element-plus/icons-vue'
-import { defineComponent, inject, shallowRef } from 'vue'
+import { inject, shallowRef } from 'vue'
 import ElButton from '@element-ultra/components/button'
+import ElSlotsRender from '@element-ultra/components/slots-render'
 import { multipleFormKey } from './token'
 
 defineProps<{
@@ -100,13 +102,6 @@ const emit = defineEmits<{
 }>()
 
 const el = shallowRef<HTMLTableRowElement>()
-
-const RenderNodes = defineComponent({
-  props: { children: { type: Array } },
-  setup(props) {
-    return () => props.children
-  }
-})
 
 defineExpose({ el })
 </script>

@@ -51,9 +51,10 @@ const columns: MultipleFormColumn[] = [
   {
     name: '名称',
     key: 'name',
+    tips: '这是一个tip<br>aa<br>bbb',
     rules: {
       validator(v) {
-        return /^\d+$/.test(v) ? '' : '应该是数字'
+        return /^\d+$/.test(v) ? '' : '应该是数字\n嘿嘿黑黑黑黑黑黑'
       }
     },
     align: 'center'
