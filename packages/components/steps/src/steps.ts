@@ -26,7 +26,7 @@ export const stepsProps = {
   },
   finishStatus: {
     type: String as PropType<StepStatus>,
-    default: 'finish'
+    default: 'success'
   },
   processStatus: {
     type: String as PropType<StepStatus>,

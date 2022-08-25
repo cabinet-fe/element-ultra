@@ -1,4 +1,3 @@
-
 <script lang="tsx">
 import {
   provide,
@@ -23,8 +22,7 @@ export default defineComponent({
   props: stepsProps,
 
   emits: {
-    [CHANGE_EVENT]: () => true,
-
+    [CHANGE_EVENT]: () => true
   },
 
   setup(props) {
@@ -47,8 +45,6 @@ export default defineComponent({
       delete stepsMap[step.uid]
       stepsCount.value--
     }
-
-
 
     provide(stepsInjectionKey, {
       stepsProps: props,
@@ -86,7 +82,6 @@ export default defineComponent({
         calcStatus(active)
       }
     )
-
 
     let namesMapToIndex: Record<string, number> = {}
     // 给step编号
