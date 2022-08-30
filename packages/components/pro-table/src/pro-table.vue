@@ -196,7 +196,7 @@ const computedSummaryMethod = computed(() => {
             columns.slice(slots['row-expand'] ? 0 : 1).map(column => {
               return column.preset === 'money'
                 ? formatter.format(s![column.key])
-                : String(s![column.key])
+                : String(s![column.key] || '')
             })
           )
         }
