@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     ElAvatar: typeof import('element-ultra')['ElAvatar']
     ElBacktop: typeof import('element-ultra')['ElBacktop']
     ElBadge: typeof import('element-ultra')['ElBadge']
+    ElBatchInput: typeof import('element-ultra')['ElBatchInput']
     ElBreadcrumb: typeof import('element-ultra')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-ultra')['ElBreadcrumbItem']
     ElButton: typeof import('element-ultra')['ElButton']

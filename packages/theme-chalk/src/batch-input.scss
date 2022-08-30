@@ -1,0 +1,23 @@
+@use 'mixins/mixins' as *;
+
+@include b(batch-input) {
+  padding: 0;
+  margin: 0;
+
+  @include e(item) {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+
+    &:nth-child(n + 2) {
+      margin-top: 4px;
+    }
+  }
+
+  @include e(operation) {
+    flex-shrink: 0;
+    margin-left: 6px;
+  }
+}

@@ -180,18 +180,27 @@ const summaryVisible = computed(() => {
 /** 合计方法 */
 const computedSummaryMethod = computed(() => {
   let s = statistics.value
+  let { columns = [] } = props
+  columns = [...preColumns.value, ...columns]
 
+  const formatter = new Intl.NumberFormat('zh-CN', {
+    currency: 'RMB',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2
+  })
   // TODO 这里的类型断言需要去掉
-  return (
-    props.summaryMethod ||
+  return (props.summaryMethod ||
     (s
-      ? (ctx: { columns: any[]; data: any[] }) => {
-          return ['合计'].concat(ctx.columns.slice(1).map(column => {
-            return String(s?.[column.property] ?? '')
-          }))
+      ? (item: any) => {
+          return ['合计'].concat(
+            columns.slice(slots['row-expand'] ? 0 : 1).map(column => {
+              return column.preset === 'money'
+                ? formatter.format(s![column.key])
+                : String(s![column.key])
+            })
+          )
         }
-      : undefined)
-  ) as any
+      : undefined)) as any
 })
 
 /**

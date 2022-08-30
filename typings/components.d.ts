@@ -12,6 +12,7 @@ declare module 'vue' {
     ElAvatar: typeof import('../packages/element-ultra')['ElAvatar']
     ElBacktop: typeof import('../packages/element-ultra')['ElBacktop']
     ElBadge: typeof import('../packages/element-ultra')['ElBadge']
+    ElBatchInput: typeof import('../packages/element-ultra')['ElBatchInput']
     ElBreadcrumb: typeof import('../packages/element-ultra')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('../packages/element-ultra')['ElBreadcrumbItem']
     ElButton: typeof import('../packages/element-ultra')['ElButton']

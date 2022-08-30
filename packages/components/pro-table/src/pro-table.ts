@@ -80,6 +80,7 @@ export const proTableProps = {
 export interface ProTableColumn extends DataTableColumn {
   /** 定义此列的动态插槽 */
   slot?: string
+  preset?: 'money'
   children?: ProTableColumn[]
 }
 

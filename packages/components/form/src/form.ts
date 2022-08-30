@@ -70,7 +70,8 @@ export const formComponents = new Set([
   'ElRadio',
   'ElRadioGroup',
   'ElTreeSelect',
-  'ElTextEditor'
+  'ElTextEditor',
+  'ElBatchInput'
 ])
 
 export type FormInstance = InstanceType<typeof Form>

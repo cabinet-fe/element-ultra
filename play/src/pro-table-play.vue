@@ -93,7 +93,8 @@ setTimeout(() => {
     },
     {
       name: '钱',
-      key: 'money'
+      key: 'money',
+      preset: 'money'
     },
     {
       name: '姓名',
