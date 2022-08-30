@@ -137,10 +137,17 @@ type multipleFormProps = {
 
 ### MultipleForm 事件
 
-```ts
 | 事件名称          | 说明                         | 回调参数                                                   |
 | --------------- | ---------------------------- | ---------------------------------------------------------- |
 | save            | 保存                         | Function(value:any) |
 | delete          | 删除                         | Function(value:any) |
 | add-next-line   | 添加至下一行                   | Function(value:any) |
-```
+
+### MultipleForm 插槽
+
+| 插槽名称          | 说明                         | 作用域参数                                                   |
+| --------------- | ---------------------------- | ---------------------------------------------------------- |
+| default            | 默认插槽, 在 multiple-form的mode为dialog时很有用                         | #default="{ form }" |
+| column.key          |                          | #column.key="{ row }" |
+| column.key:view          |                          | #column.key:view="{ row }" |
+
