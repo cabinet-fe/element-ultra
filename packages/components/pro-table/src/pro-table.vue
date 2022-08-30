@@ -194,12 +194,11 @@ const computedSummaryMethod = computed(() => {
       ? (item: any) => {
           return ['合计'].concat(
             columns.slice(slots['row-expand'] ? 0 : 1).map(column => {
-              let money = s![column.key]
-              return money
-                ? column.preset === 'money'
-                  ? formatter.format(money)
-                  : String(money)
-                : String(money)
+              let number = s![column.key]
+              if (number) {
+                return column.preset === 'money' ? formatter.format(number) : String(number)
+              }
+              return ''
             })
           )
         }
