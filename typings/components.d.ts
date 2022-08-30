@@ -104,7 +104,7 @@ declare module 'vue' {
     ElDescriptions: typeof import('../packages/element-ultra')['ElDescriptions']
     ElDescriptionsItem: typeof import('../packages/element-ultra')['ElDescriptionsItem']
     ElResult: typeof import('../packages/element-ultra')['ElResult']
-    ElSelectV2: typeof import('../packages/element-ultra')['ElSelectV2']
+    ElSelect: typeof import('../packages/element-ultra')['ElSelect']
   }
 }
 

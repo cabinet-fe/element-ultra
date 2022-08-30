@@ -13,7 +13,7 @@
         </slot>
       </span>
 
-      <ElTooltip v-if="tips" :content="tips">
+      <ElTooltip v-if="tips" :content="tips" raw-content>
         <ElIcon>
           <QuestionFilled />
         </ElIcon>
