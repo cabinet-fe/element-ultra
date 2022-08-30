@@ -26,7 +26,8 @@
     </template>
 
     <!-- 弹框编辑时 -->
-    <template>
+    <template #default="{ form }">
+      <el-form-item label="行数据">{{ form }}</el-form-item>
       <el-input label="名称" field="name"></el-input>
       <el-input label="年龄" field="age"></el-input>
       <el-input label="学校" field="school"></el-input>
