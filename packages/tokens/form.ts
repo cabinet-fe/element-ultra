@@ -5,8 +5,9 @@ import type {
 } from '@element-ultra/components/form/src/form'
 
 export interface FormContext {
+  /** 表单根属性 */
   props: FormProps
-
+  /** 表单规则 */
   formRules: FormRules
   emit: (evt: 'validate', ...args: any[]) => void
   resetField: (field: string) => void

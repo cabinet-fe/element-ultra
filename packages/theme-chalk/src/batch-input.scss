@@ -3,11 +3,16 @@
 @include b(batch-input) {
   padding: 0;
   margin: 0;
+  width: 100%;
 
-  @include e(item) {
+  li {
     padding: 0;
     margin: 0;
     list-style: none;
+    width: 100%;
+  }
+
+  @include e(item) {
     display: flex;
     justify-content: space-between;
 
