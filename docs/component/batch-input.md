@@ -37,4 +37,4 @@ interface BatchInputProps {
 
 |     名称    |   作用域参数  |    备注    |
 |   :---:    |  :---: |   :---:   |
-| default | { item } |  -   |
+| default | \{ item \} |  -   |

@@ -5,11 +5,12 @@
       placeholder="新增一个"
       label="批量输入测试"
       field="arr"
-      v-slot="{ item }"
     >
-      <el-input v-model="item.value1" />
-      &nbsp;
-      <el-input v-model="item.value2" />
+      <template #default="{ item }">
+        <el-input v-model="item.value1" />
+        &nbsp;
+        <el-input v-model="item.value2" />
+      </template>
     </el-batch-input>
   </el-form>
 
