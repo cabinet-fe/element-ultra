@@ -67,6 +67,7 @@ declare module 'vue' {
     ElPagination: typeof import('../packages/element-ultra')['ElPagination']
     ElPopconfirm: typeof import('../packages/element-ultra')['ElPopconfirm']
     ElPopper: typeof import('../packages/element-ultra')['ElPopper']
+    ElPopover: typeof import('../packages/element-ultra')['ElPopover']
     ElProgress: typeof import('../packages/element-ultra')['ElProgress']
     ElRadio: typeof import('../packages/element-ultra')['ElRadio']
     ElRadioButton: typeof import('../packages/element-ultra')['ElRadioButton']

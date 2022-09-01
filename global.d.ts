@@ -64,6 +64,7 @@ declare module '@vue/runtime-core' {
     ElPagination: typeof import('element-ultra')['ElPagination']
     ElPopconfirm: typeof import('element-ultra')['ElPopconfirm']
     ElPopper: typeof import('element-ultra')['ElPopper']
+    ElPopover: typeof import('element-ultra')['ElPopover']
     ElProgress: typeof import('element-ultra')['ElProgress']
     ElRadio: typeof import('element-ultra')['ElRadio']
     ElRadioButton: typeof import('element-ultra')['ElRadioButton']
