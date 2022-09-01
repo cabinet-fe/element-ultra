@@ -16,7 +16,9 @@ export const batchInputProps = {
   modelValue: {
     type: Array as PropType<any[]>
   },
-
+  max: {
+    type: Number,
+  }
 } as const
 export const batchInputEmits = {
   'update:modelValue': (value: any[]) => true

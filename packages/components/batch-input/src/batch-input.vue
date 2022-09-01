@@ -1,7 +1,9 @@
 <template>
   <ul :class="ns.b()" @blur.capture="handleEmitValue" tabindex="0">
     <li v-if="isEmpty">
-      <el-button style="width: 100%" :icon="Plus" @click="handleAdd(0)">{{ placeholder }}</el-button>
+      <el-button style="width: 100%" :icon="Plus" @click="handleAdd(0)">{{
+        placeholder
+      }}</el-button>
     </li>
 
     <li
@@ -48,7 +50,7 @@ import {
   watch
 } from 'vue'
 import { ElButton, ElButtonGroup } from '@element-ultra/components/button'
-import {  formKey } from '@element-ultra/tokens'
+import { formKey } from '@element-ultra/tokens'
 
 defineOptions({
   name: 'ElBatchInput'
@@ -60,8 +62,6 @@ const props = defineProps(batchInputProps)
 const emit = defineEmits(batchInputEmits)
 
 const ns = useNamespace('batch-input')
-
-
 
 const list = shallowRef<any[]>([])
 
@@ -94,11 +94,14 @@ const provideObj = {
   props: shallowReactive<Record<string, any>>({})
 }
 
-watch([() => batchInputDisabled.value, () => inputSize.value, form?.props] as const, ([disabled, size, props]) => {
-  Object.assign(provideObj.props, props)
-  provideObj.props.disabled = disabled
-  provideObj.props.size = size
-})
+watch(
+  [() => batchInputDisabled.value, () => inputSize.value, () => form?.props] as const,
+  ([disabled, size, props]) => {
+    Object.assign(provideObj.props, props)
+    provideObj.props.disabled = disabled
+    provideObj.props.size = size
+  }
+)
 // TODO 修复此处的类型忽略
 // @ts-ignore
 provide(formKey, provideObj)
