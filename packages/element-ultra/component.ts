@@ -5,6 +5,7 @@ import { ElAutocomplete } from '@element-ultra/components/autocomplete'
 import { ElAvatar } from '@element-ultra/components/avatar'
 import { ElBacktop } from '@element-ultra/components/backtop'
 import { ElBadge } from '@element-ultra/components/badge'
+import { ElBatchInput } from '@element-ultra/components/batch-input'
 import {
   ElBreadcrumb,
   ElBreadcrumbItem,
@@ -116,6 +117,7 @@ export default [
   ElAvatar,
   ElBacktop,
   ElBadge,
+  ElBatchInput,
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElButton,
@@ -188,6 +190,7 @@ export default [
   ElSkeleton,
   ElSkeletonItem,
   ElSlider,
+  ElSlotsRender,
   ElSpace,
   ElSteps,
   ElStep,

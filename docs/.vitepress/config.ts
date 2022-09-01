@@ -43,7 +43,7 @@ export const config: UserConfig = {
   base: BASE_PATH,
 
   themeConfig: {
-    repo: 'cabinet-fe/element-pro',
+    repo: 'cabinet-fe/element-ultra',
     docsDir: 'docs',
 
     editLinks: true,
