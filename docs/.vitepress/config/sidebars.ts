@@ -134,6 +134,10 @@ export const sidebars = {
           text: 'Input 输入框'
         },
         {
+          link: '/component/batch-input',
+          text: 'BatchInput 批量输入'
+        },
+        {
           link: '/component/input-number',
           text: 'Input Number 数字输入框'
         },
