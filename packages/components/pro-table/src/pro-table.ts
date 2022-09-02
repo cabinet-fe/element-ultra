@@ -25,6 +25,11 @@ export const proTableProps = {
       boolean | ((row: any, index: number) => boolean)
     >
   },
+  /** 显示查询按钮, 默认会根据api属性和是否查询条件来判断 */
+  showSearchButton: {
+    type: Boolean,
+    default: undefined
+  },
   /** 显示单选框与checkable属性互斥, 只有一个生效 */
   selectable: {
     type: [Boolean, Function] as PropType<

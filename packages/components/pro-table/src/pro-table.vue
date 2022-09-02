@@ -210,6 +210,9 @@ const computedSummaryMethod = computed(() => {
  * @param resetPage 是否重置分页, 只有在 分页相关的组件改变时无需重置
  */
 const fetchData = async (resetPage = true) => {
+  let params = getQueryParams()
+  emit('fetch', params)
+
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
 
   loading.value = true
@@ -218,8 +221,7 @@ const fetchData = async (resetPage = true) => {
     query.page = 1
   }
 
-  let params = getQueryParams()
-  emit('fetch', params)
+
   const res = await configStore.proTableRequestMethod(params).finally(() => {
     loading.value = false
   })

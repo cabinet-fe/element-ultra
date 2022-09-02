@@ -33,9 +33,12 @@ export default defineComponent({
     // query发生变化时应当重置
     let defaultQuery = { ...rootProps.query }
 
-    watch(() => rootProps.query, (v) => {
-      defaultQuery = { ...v }
-    })
+    watch(
+      () => rootProps.query,
+      v => {
+        defaultQuery = { ...v }
+      }
+    )
 
     const componentWidthMapper: Record<string, any> = {
       ElDatePicker: '240px'
@@ -77,7 +80,9 @@ export default defineComponent({
             if (props?.placeholder) {
               nodes.push(
                 <div class={wrapClass}>
-                  <label class={labelClass}>{props.label || props.placeholder}:</label>
+                  <label class={labelClass}>
+                    {props.label || props.placeholder}:
+                  </label>
                   {clonedNode}
                 </div>
               )
@@ -129,18 +134,16 @@ export default defineComponent({
 
     const toolsRef = shallowRef<HTMLDivElement | null>(null)
 
-
     const [conf] = useConfig()
     /** 渲染额外的工具栏组件 */
     const renderExtraTools = () => {
       if (!conf.proTableExtraTools) return null
-        const nodes = conf.proTableExtraTools.map(component => {
-          return createVNode(component)
-        })
+      const nodes = conf.proTableExtraTools.map(component => {
+        return createVNode(component)
+      })
 
-        return nodes
+      return nodes
     }
-
 
     let observer: ResizeObserver | null = null
     onMounted(() => {
@@ -157,7 +160,11 @@ export default defineComponent({
     return () => {
       const { defaultVisibleNodes, nodesCount, restNodes } = getNodes()
 
-      const showSearchButton = Boolean(rootProps.api && nodesCount)
+      const showSearchButton = Boolean(
+        rootProps.showSearchButton === undefined
+          ? rootProps.api || nodesCount
+          : rootProps.showSearchButton
+      )
 
       const searchButton = showSearchButton ? (
         <>
@@ -185,7 +192,6 @@ export default defineComponent({
             {expanded.value ? '收起' : '展开'}
           </ElButton>
         ) : null
-
 
       return (
         <section class={ns.e('tools')} ref={toolsRef}>
