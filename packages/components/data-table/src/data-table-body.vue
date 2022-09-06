@@ -1,22 +1,22 @@
 <template>
   <VirtualList
-    tag="table"
+    tag="ul"
     :data="rootProps.data"
-    height="500px"
+    height="800px"
     :total="rootProps.data?.length || 0"
-    :item-size="40"
+    :item-size="80"
+    idle
   >
-    <template #default="{ index, row, ...rest }">
-      <tr :class="ns.e('row')" v-bind="rest">
-        <td
+    <template #default="{ index, item, ...rest }">
+      <li v-bind="rest" :class="ns.e('row')">
+        <span
           :class="ns.e('cell')"
           v-for="column of leafColumns"
           :key="column.key"
         >
-          <div style="height: 100px; width: 100px">11</div>
-          <!-- {{ column.key ? row[column.key] : '-' }} -->
-        </td>
-      </tr>
+          {{ column.key ? item[column.key] : '-' }}
+        </span>
+      </li>
     </template>
   </VirtualList>
 </template>

@@ -8,7 +8,7 @@
         { [ns.em('wrap', 'hidden-default')]: !native },
       ]"
       :style="style"
-      @scroll="handleScroll"
+      @scroll.passive="handleScroll"
     >
       <component
         :is="tag"

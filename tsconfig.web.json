@@ -5,7 +5,8 @@
     "jsx": "preserve",
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
     "types": ["unplugin-vue-define-options"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "importsNotUsedAsValues": "error"
   },
   "include": ["packages", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [

@@ -42,6 +42,11 @@ export const proTableProps = {
   query: {
     type: Object as PropType<Record<string, any>>
   },
+  fetch: {
+    type: Function as PropType<
+      (ctx: { api?: string; query: Record<string, any> }) => Promise<any>
+    >
+  },
   /** 表格高度, 一旦指定表头就会固定了 */
   height: {
     type: [Number, String] as PropType<string | number>
@@ -49,10 +54,9 @@ export const proTableProps = {
 
   /** 汇总方法 */
   summaryMethod: {
-    type: Function as PropType<(data: {
-      columns: ProTableColumn[]
-      data: any[]
-    }) => string[]>
+    type: Function as PropType<
+      (data: { columns: ProTableColumn[]; data: any[] }) => string[]
+    >
   },
 
   /** 默认显示 */

@@ -212,6 +212,7 @@ const computedSummaryMethod = computed(() => {
 const fetchData = async (resetPage = true) => {
   let params = getQueryParams()
   emit('fetch', params)
+  if(props.fetch) return props.fetch(params)
 
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
 

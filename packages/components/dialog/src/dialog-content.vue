@@ -13,12 +13,12 @@
     :style="style"
     ref="contentRef"
   >
-    <div ref="headerRef" :class="ns.e('header')" @mousedown="handleMouseDown">
+    <div ref="headerRef" :class="ns.e('header')" @mousedown.self="handleMouseDown">
       <ElSlotsRender v-if="slots.title" :nodes="slots.title()" />
       <span v-else :class="ns.e('title')">
         {{ title }}
       </span>
-
+      <!-- @ts-ignore -->
       <el-icon @click="$emit('close')" v-if="showClose" :class="ns.e('close')">
         <component :is="closeIcon || Close" />
       </el-icon>
