@@ -27,7 +27,13 @@ const columns: DataTableColumn[] = [
           { name: '测试2-1-3', key: 'test2-1-3' }
         ]
       },
-      { name: '测试2-2', key: 'test2-2' },
+      { name: '测试2-2', key: 'test2-2',
+        children: [
+          { name: '测试3-1-1', key: 'test3-1-1' },
+          { name: '测试3-1-2', key: 'test3-1-2' },
+          { name: '测试3-1-3', key: 'test3-1-3' }
+        ]
+      },
       { name: '测试2-3', key: 'test2-3' }
     ]
   },

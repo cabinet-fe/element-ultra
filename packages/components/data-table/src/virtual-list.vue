@@ -1,26 +1,36 @@
 <template>
   <ElScrollbar ref="containerRef" :height="height" @scroll="handleScroll">
-    <component
-      :is="tag"
-      :style="listStyle"
-      class="list-container"
-    >
-      <slot
-        v-for="(item, index) of renderedRange"
-        :key="item[uniqueKey]"
-        class="list-item"
-        v-bind="{ item, index }"
+    <div :style="listStyle">
+      <component
+        :is="tag"
+        v-bind="$attrs"
         :style="{
-          transform: `translateY(${(position + index) * itemSize}px)`,
-          height: itemSize + 'px'
+          'will-change': 'transform',
+          transform: `translateY(${position * itemSize}px)`
         }"
-      />
-    </component>
+      >
+        <slot
+          v-for="(item, index) of renderedRange"
+          :key="item[uniqueKey]"
+          v-bind="{ item, index }"
+          :style="{
+            height: itemSize + 'px'
+          }"
+        />
+      </component>
+    </div>
   </ElScrollbar>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, shallowRef, watch, type PropType } from 'vue'
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  shallowRef,
+  watch,
+  type PropType
+} from 'vue'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import { useResizeObserver } from '@vueuse/core'
 
@@ -81,7 +91,6 @@ let totalHeight = computed(() => {
   return props.itemSize * props.data.length
 })
 
-
 const listStyle = computed(() => {
   return {
     minHeight: totalHeight.value + 'px'
@@ -104,35 +113,37 @@ const computedData = computed(() => {
       })
 })
 
-
 /** 容器高度 */
 const containerHeight = shallowRef(0)
 
 /** 列表渲染范围 */
 const renderedRange = computed(() => {
   const { itemSize, bufferHeight } = props
+
+  /** 这里的缓冲区要乘以2对冲掉上侧的缓冲 */
   let end =
-    position.value +
-    Math.ceil((containerHeight.value + bufferHeight) / itemSize)
+    position.value + ~~((containerHeight.value + bufferHeight * 2) / itemSize)
 
   return computedData.value.slice(position.value, end)
 })
 
-/** 空闲handle的id, 用来cancelIdleCallback */
+/** 用来cancelIdleCallback */
 let idleId: number
 /** 空闲时滚动, 防止cpu阻止渲染 */
 const handleScrollWhenIdle = (s: Scroll) => {
   // 计算当前渲染位置
   cancelIdleCallback(idleId)
   idleId = requestIdleCallback(() => {
-    position.value = ~~(s.scrollTop / props.itemSize)
+    position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
+    position.value < 0 && (position.value = 0)
   })
 }
 
 /** 正常滚动 */
 const handleScrollNormal = (s: Scroll) => {
   requestAnimationFrame(() => {
-    position.value = ~~(s.scrollTop / props.itemSize)
+    position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
+    position.value < 0 && (position.value = 0)
   })
 }
 const handleScroll = computed(() => {
@@ -141,13 +152,17 @@ const handleScroll = computed(() => {
 
 const containerRef = shallowRef<InstanceType<typeof ElScrollbar>>()
 
-watch(() => props.itemSize, (size) => {
-  const scrollTop = containerRef.value?.wrap$?.scrollTop
-  scrollTop && handleScroll.value({
-    scrollTop,
-    scrollLeft: 0
-  })
-})
+watch(
+  () => props.itemSize,
+  size => {
+    const scrollTop = containerRef.value?.wrap$?.scrollTop
+    scrollTop &&
+      handleScroll.value({
+        scrollTop,
+        scrollLeft: 0
+      })
+  }
+)
 
 /** 唯一标识符的key, 用于优化性能 */
 const uniqueKey = computed(() => {
@@ -165,20 +180,10 @@ onMounted(() => {
 onUnmounted(() => {
   stop?.()
 })
-
-
 </script>
 
-<style lang="scss">
-.list-container {
-  padding: 0;
-  margin: 0;
-  position: relative;
+<script lang="ts">
+export default {
+  inheritAttrs: false
 }
-.list-item {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-</style>
+</script>

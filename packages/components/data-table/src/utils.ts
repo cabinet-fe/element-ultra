@@ -1,13 +1,24 @@
+import { last } from 'lodash'
+
 interface TreeData {
   children?: TreeData[]
   [key: string]: any
 }
 
-export interface TreeNode extends TreeData {
-  _parent: TreeNode | null
-  _depth: number
-  _isLeaf: boolean
-  _leafSize: number
+export interface TreeNode {
+  /** 节点数据 */
+  data: TreeData
+  /** 子节点 */
+  children?: TreeNode[]
+  /** 父节点 */
+  parent: TreeNode | null
+  /** 深度 */
+  depth: number
+  /** 是否是叶子节点 */
+  isLeaf: boolean
+  /** 以当前节点为根的子树的size */
+  size: number
+
 }
 
 /**
@@ -16,50 +27,52 @@ export interface TreeNode extends TreeData {
  * @param cb 回调
  * @returns
  */
-export function bfs<T extends TreeData>(treeData: T[], cb?: (node: TreeNode) => void) {
-  const dataToNode = (
-    data: T,
+export function bfs<T extends TreeData>(
+  treeData: T[],
+  cb?: (node: TreeNode) => void
+) {
+  const dataToNodes = (
+    data: TreeData[],
     depth: number,
     parent: TreeNode | null = null
-  ): TreeNode => {
-    let childrenLen = data.children?.length ?? 0
-    return {
-      ...data,
-      _parent: parent,
-      _depth: depth,
-      _isLeaf: !childrenLen,
-      _leafSize: 0
-    }
-  }
-
-  let result: TreeNode[][] = []
-  let currentDepthNodes = treeData.map(item => dataToNode(item, 0))
-  let nextDepthNodes: any[] = []
-
-  while (currentDepthNodes.length) {
-    nextDepthNodes = []
-
-    currentDepthNodes.forEach(node => {
-      cb?.(node)
-      if (node.children) {
-        nextDepthNodes = nextDepthNodes.concat(
-          node.children.map(item =>
-            dataToNode(item as T, node._depth + 1, node)
-          )
-        )
+  ): TreeNode[] => {
+    return data.map(item => {
+      return {
+        data: item,
+        parent: parent,
+        depth: depth,
+        isLeaf: !item.children?.length,
+        size: 0
       }
     })
-    result.push(currentDepthNodes)
-    currentDepthNodes = nextDepthNodes
+  }
+
+  let result: TreeNode[][] = [dataToNodes(treeData, 0)]
+  let ending = false
+  while (!ending) {
+    ending = true
+    // 往下层遍历
+    let nextNodes: TreeNode[] = []
+    last(result)?.forEach(node => {
+      cb?.(node)
+      let { children } = node.data
+      if (children?.length) {
+        let childrenNodes = dataToNodes(children, node.depth + 1, node)
+        node.children = childrenNodes
+        nextNodes = nextNodes.concat(childrenNodes)
+        ending = false
+      }
+    })
+
+    nextNodes.length && result.push(nextNodes)
   }
 
   // 从最后一层开始从下往上获取所有子树的leafSize
-  let levelStart = result.length - 1
-  while (levelStart > 0) {
-    result[levelStart].forEach(node => {
-      node._parent!._leafSize += node._leafSize || 1
+  let len = result.length
+  while (--len > 0) {
+    result[len].forEach(node => {
+      node.parent!.size += node.size || 1
     })
-    levelStart--
   }
 
   return result

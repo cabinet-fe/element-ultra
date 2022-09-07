@@ -3,32 +3,27 @@
 @include b(data-table) {
   background-color: #fff;
 
-  table {
-    width: 100%;
+  @include e(header) {
+    min-width: 100%;
     table-layout: fixed;
     border-spacing: 0;
-  }
+    background-color: #fff;
+    border-collapse: collapse;
 
-  @include e(header) {
-    th {
-      border-bottom: 1px solid #eee;
-      border-right: 1px solid #eee;
+    &-wrap {
+      width: 100%;
+      overflow: hidden;
     }
   }
 
   @include e(header-cell) {
-
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+    padding: 0;
+    word-break: break-all;
   }
 
   @include e(row) {
-    height: 40px;
-    justify-content: flex-start;
-    display: flex;
-    list-style: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    will-change: transform;
   }
 
   @include e(cell) {
@@ -36,9 +31,9 @@
     text-overflow: ellipsis;
     overflow: hidden;
     padding: 0 4px;
+    box-sizing: border-box;
   }
 
   @include e(footer) {
-
   }
 }
