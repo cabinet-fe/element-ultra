@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, ref, toRef } from 'vue'
+import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import { isClient, useEventListener } from '@vueuse/core'
 import { scrollbarContextKey } from '@element-ultra/tokens'
 import { throwError } from '@element-ultra/utils'
@@ -28,10 +28,12 @@ import { thumbProps } from './thumb'
 const COMPONENT_NAME = 'Thumb'
 const props = defineProps(thumbProps)
 
-const scrollbar = inject(scrollbarContextKey)
+const scrollbar = inject(scrollbarContextKey)!
 const ns = useNamespace('scrollbar')
 
 if (!scrollbar) throwError(COMPONENT_NAME, 'can not inject scrollbar context')
+
+const { scrollbarElement, wrapElement } = scrollbar
 
 const instance = ref<HTMLDivElement>()
 const thumb = ref<HTMLDivElement>()
@@ -61,8 +63,8 @@ const offsetRatio = computed(
     // offsetRatioY = original height of thumb / current height of thumb / ratioY
     // instance height = wrap height - GAP
     instance.value![bar.value.offset] ** 2 /
-    scrollbar.wrapElement![bar.value.scrollSize] /
-    props.ratio /
+    wrapElement.value![bar.value.scrollSize] /
+    props.ratio! /
     thumb.value![bar.value.offset]
 )
 
@@ -93,8 +95,8 @@ const clickTrackHandler = (e: MouseEvent) => {
     ((offset - thumbHalf) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
 
-  scrollbar.wrapElement[bar.value.scroll] =
-    (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
+  wrapElement.value[bar.value.scroll] =
+    (thumbPositionPercentage * wrapElement.value[bar.value.scrollSize]) /
     100
 }
 
@@ -122,8 +124,8 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
   const thumbPositionPercentage =
     ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
-  scrollbar.wrapElement[bar.value.scroll] =
-    (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
+  scrollbar.wrapElement.value[bar.value.scroll] =
+    (thumbPositionPercentage * scrollbar.wrapElement.value[bar.value.scrollSize]) /
     100
 }
 
@@ -157,12 +159,12 @@ const restoreOnselectstart = () => {
 }
 
 useEventListener(
-  toRef(scrollbar, 'scrollbarElement'),
+  scrollbarElement,
   'mousemove',
   mouseMoveScrollbarHandler
 )
 useEventListener(
-  toRef(scrollbar, 'scrollbarElement'),
+  scrollbarElement,
   'mouseleave',
   mouseLeaveScrollbarHandler
 )

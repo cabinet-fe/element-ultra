@@ -1,14 +1,14 @@
 <template>
   <div :class="ns.b()">
-    <GroupsItem v-for="group of groups" :group="group" />
+    <ElCheckGroupsItem v-for="group of groups" :group="group" />
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useNamespace } from '@element-ultra/hooks'
 import { provide, ref, watch } from 'vue'
 import { checkboxGroupsProps, checkboxGroupsEmits } from './checkbox-groups'
-import GroupsItem from './checkbox-groups-item.vue'
+import ElCheckGroupsItem from './checkbox-groups-item.vue'
 import { checkboxGroupsKey } from './token'
 
 defineOptions({

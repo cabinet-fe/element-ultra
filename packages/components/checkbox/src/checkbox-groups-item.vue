@@ -25,6 +25,10 @@ import { computed, inject } from 'vue'
 import type { CheckboxGroupsProps } from './checkbox-groups'
 import { checkboxGroupsKey } from './token'
 
+defineOptions({
+  name: 'ElCheckboxGroupsItem'
+})
+
 const props = defineProps<{
   group: CheckboxGroupsProps['groups'][number]
 }>()

@@ -5,7 +5,7 @@
       :class="[
         wrapClass,
         ns.e('wrap'),
-        { [ns.em('wrap', 'hidden-default')]: !native },
+        { [ns.em('wrap', 'hidden-default')]: !native }
       ]"
       :style="style"
       @scroll.passive="handleScroll"
@@ -20,14 +20,7 @@
       </component>
     </div>
     <template v-if="!native">
-      <Bar
-        ref="barRef"
-        :height="sizeHeight"
-        :width="sizeWidth"
-        :always="always"
-        :ratio-x="ratioX"
-        :ratio-y="ratioY"
-      />
+      <Bar ref="barRef" :always="always" />
     </template>
   </div>
 </template>
@@ -36,11 +29,10 @@ import {
   computed,
   nextTick,
   onMounted,
-  onUpdated,
+  onUnmounted,
   provide,
-  reactive,
-  ref,
-  watch,
+  shallowRef,
+  watch
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { addUnit, debugWarn, isNumber, isObject } from '@element-ultra/utils'
@@ -53,7 +45,7 @@ import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
 defineOptions({
-  name: 'ElScrollbar',
+  name: 'ElScrollbar'
 })
 
 const props = defineProps(scrollbarProps)
@@ -64,16 +56,26 @@ const ns = useNamespace('scrollbar')
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
 
-const scrollbar$ = ref<HTMLDivElement>()
-const wrap$ = ref<HTMLDivElement>()
-const resize$ = ref<HTMLElement>()
+const scrollbar$ = shallowRef<HTMLDivElement>()
+const wrap$ = shallowRef<HTMLDivElement>()
+const resize$ = shallowRef<HTMLElement>()
 
-const sizeWidth = ref('0')
-const sizeHeight = ref('0')
-const barRef = ref<BarInstance>()
-const ratioY = ref(1)
-const ratioX = ref(1)
+const barRef = shallowRef<BarInstance>()
+
 const SCOPE = 'ElScrollbar'
+
+/** 容器高度 */
+const wrapHeight = shallowRef(0)
+/** 容器宽度 */
+const wrapWidth = shallowRef(0)
+
+const { stop } = useResizeObserver(wrap$, ([entry]) => {
+  wrapHeight.value = entry.contentRect.height
+  wrapWidth.value = entry.contentRect.width
+})
+onUnmounted(() => {
+  stop()
+})
 
 const style = computed<StyleValue>(() => {
   const style: CSSProperties = {}
@@ -82,15 +84,17 @@ const style = computed<StyleValue>(() => {
   return [props.wrapStyle, style]
 })
 
-const handleScroll = () => {
-  if (wrap$.value) {
-    barRef.value?.handleScroll(wrap$.value)
+let _scrollTop = 0,
+  _scrollLeft = 0,
+  _scrollHeight = 0
 
-    emit('scroll', {
-      scrollTop: wrap$.value.scrollTop,
-      scrollLeft: wrap$.value.scrollLeft,
-    })
-  }
+const handleScroll = (event: UIEvent) => {
+  const { scrollTop, scrollLeft, scrollHeight } = event.target as HTMLElement
+  _scrollTop = scrollTop
+  _scrollLeft = scrollLeft
+  _scrollHeight = scrollHeight
+  update()
+  emit('scroll', { scrollTop, scrollLeft })
 }
 
 // TODO: refactor method overrides, due to script setup dts
@@ -122,31 +126,40 @@ const setScrollLeft = (value: number) => {
 }
 
 const update = () => {
-  if (!wrap$.value) return
-  const offsetHeight = wrap$.value.offsetHeight - GAP
-  const offsetWidth = wrap$.value.offsetWidth - GAP
+  const offsetHeight = wrapHeight.value - GAP // wrap$.value.offsetHeight - GAP
+  const offsetWidth = wrapWidth.value - GAP // wrap$.value.offsetWidth - GAP
 
-  const originalHeight = offsetHeight ** 2 / wrap$.value.scrollHeight
-  const originalWidth = offsetWidth ** 2 / wrap$.value.scrollWidth
+  const originalHeight = offsetHeight ** 2 / _scrollHeight // wrap$.value.scrollHeight
+  const originalWidth = offsetWidth ** 2 / _scrollLeft // wrap$.value.scrollWidth
   const height = Math.max(originalHeight, props.minSize)
   const width = Math.max(originalWidth, props.minSize)
 
-  ratioY.value =
+  const ratioY =
     originalHeight /
     (offsetHeight - originalHeight) /
     (height / (offsetHeight - height))
-  ratioX.value =
+
+  const ratioX =
     originalWidth /
     (offsetWidth - originalWidth) /
     (width / (offsetWidth - width))
 
-  sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
-  sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
+  const moveY = ((_scrollTop * 100) / offsetHeight) * ratioY
+  const moveX = ((_scrollLeft * 100) / offsetWidth) * ratioX
+
+  barRef.value?.updateStyle({
+    moveX,
+    moveY,
+    width: width + GAP < offsetWidth ? `${width}px` : '',
+    height: height + GAP < offsetHeight ? `${height}px` : '',
+    ratioX,
+    ratioY
+  })
 }
 
 watch(
   () => props.noresize,
-  (noresize) => {
+  noresize => {
     if (noresize) {
       stopResizeObserver?.()
       stopResizeListener?.()
@@ -164,25 +177,18 @@ watch(
     if (!props.native)
       nextTick(() => {
         update()
-        if (wrap$.value) {
-          barRef.value?.handleScroll(wrap$.value)
-        }
       })
   }
 )
 
-provide(
-  scrollbarContextKey,
-  reactive({
-    scrollbarElement: scrollbar$,
-    wrapElement: wrap$,
-  })
-)
+provide(scrollbarContextKey, {
+  scrollbarElement: scrollbar$,
+  wrapElement: wrap$
+})
 
 onMounted(() => {
   if (!props.native) nextTick(() => update())
 })
-onUpdated(() => update())
 
 defineExpose({
   /** @description scrollbar wrap ref */
@@ -198,6 +204,6 @@ defineExpose({
   /** @description set distance to scroll left */
   setScrollLeft,
   /** @description handle scroll event */
-  handleScroll,
+  handleScroll
 })
 </script>

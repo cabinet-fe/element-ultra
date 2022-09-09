@@ -1,35 +1,42 @@
 <template>
-  <thumb :move="moveX" :ratio="ratioX" :size="width" :always="always" />
   <thumb
-    :move="moveY"
-    :ratio="ratioY"
-    :size="height"
+    :move="state.moveX"
+    :ratio="state.ratioX"
+    :size="state.width"
+    :always="always"
+  />
+  <thumb
+    :move="state.moveY"
+    :ratio="state.ratioY"
+    :size="state.height"
     vertical
     :always="always"
   />
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { GAP } from './util'
+import { shallowRef } from 'vue'
+
 import Thumb from './thumb.vue'
 import { barProps } from './bar'
 
-const props = defineProps(barProps)
+defineProps(barProps)
 
-const moveX = ref(0)
-const moveY = ref(0)
+let state = shallowRef({
+  moveX: 0,
+  moveY: 0,
+  width: '0',
+  height: '0',
+  ratioX: 1,
+  ratioY: 1
+})
 
-const handleScroll = (wrap: HTMLDivElement) => {
-  if (wrap) {
-    const offsetHeight = wrap.offsetHeight - GAP
-    const offsetWidth = wrap.offsetWidth - GAP
+type UpdateCtx = typeof state.value
 
-    moveY.value = ((wrap.scrollTop * 100) / offsetHeight) * props.ratioY
-    moveX.value = ((wrap.scrollLeft * 100) / offsetWidth) * props.ratioX
-  }
+const updateStyle = (ctx: UpdateCtx) => {
+  state.value = ctx
 }
 
 defineExpose({
-  handleScroll,
+  updateStyle
 })
 </script>

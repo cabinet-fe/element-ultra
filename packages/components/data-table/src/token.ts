@@ -1,9 +1,13 @@
-import type { InjectionKey, Ref } from 'vue'
-import type { DataTableColumn, DataTableProps } from './data-table'
-import type { TreeNode } from './utils'
+import type { InjectionKey } from 'vue'
+import type { DataTableProps } from './data-table'
+import type useColumns from './hooks/use-columns'
+import type useStyle from './hooks/use-style'
+import type useState from './hooks/use-state'
 
-export const dataTableToken: InjectionKey<{
-  headerRows: Ref<TreeNode[][]>
-  leafColumns: Ref<DataTableColumn[]>
-  rootProps: DataTableProps
-}> = Symbol()
+export const dataTableToken: InjectionKey<
+  {
+    rootProps: DataTableProps
+    state: ReturnType<typeof useState>
+  } & ReturnType<typeof useColumns> &
+    ReturnType<typeof useStyle>
+> = Symbol()

@@ -89,12 +89,18 @@ setTimeout(() => {
   columns = [
     {
       name: '姓名',
-      key: 'name'
+      key: 'name',
+
+      children: [
+        { name: 'child', key: 'child1',  fixed: 'left', },
+        { name: 'child2', key: 'child2' }
+      ]
     },
     {
       name: '钱',
       key: 'money',
-      preset: 'money'
+      preset: 'money',
+      fixed: 'left'
     },
     {
       name: '姓名',

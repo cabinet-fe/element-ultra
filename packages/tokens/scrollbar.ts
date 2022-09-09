@@ -1,8 +1,8 @@
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, ShallowRef } from 'vue'
 
 export interface scrollbarContext {
-  scrollbarElement: HTMLDivElement
-  wrapElement: HTMLDivElement
+  scrollbarElement: ShallowRef<HTMLDivElement>
+  wrapElement: ShallowRef<HTMLDivElement>
 }
 
 export const scrollbarContextKey: InjectionKey<scrollbarContext> = Symbol(

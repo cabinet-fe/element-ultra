@@ -16,7 +16,9 @@ import DataTableFooter from './data-table-footer.vue'
 import { dataTableProps } from './data-table'
 import { provide } from 'vue'
 import { dataTableToken } from './token'
-import { useColumns } from './hooks/useColumns'
+import useColumns from './hooks/use-columns'
+import useStyle from './hooks/use-style'
+import useState from './hooks/use-state'
 
 defineOptions({
   name: 'ElDataTable'
@@ -25,11 +27,13 @@ defineOptions({
 const ns = useNamespace('data-table')
 const props = defineProps(dataTableProps)
 
-const result = useColumns(props)
+const state = useState(props)
 
 // 依赖提供
 provide(dataTableToken, {
-  ...result,
+  state,
+  ...useColumns(props, state),
+  ...useStyle(props),
   rootProps: props
 })
 </script>

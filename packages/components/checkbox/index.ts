@@ -8,8 +8,8 @@ import CheckboxGroups from './src/checkbox-groups.vue'
 export const ElCheckbox = withInstall(Checkbox, {
   CheckboxButton,
   CheckboxGroup,
-  CheckboxGroups
 })
+
 export default ElCheckbox
 
 export const ElCheckboxButton = withNoopInstall(CheckboxButton)

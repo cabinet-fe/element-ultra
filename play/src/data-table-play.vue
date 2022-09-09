@@ -3,17 +3,30 @@
     <label>数据量</label>
     <el-input-number :precision="0" v-model="count" style="width: 200px" />
   </div>
-  <el-data-table :columns="columns" :data="data"> </el-data-table>
+  <el-data-table
+    show-index
+    checkable
+    :columns="columns"
+    :data="data"
+  >
+    <template #test1="{ row }">
+      <el-button link type="primary">{{ row.name }}</el-button>
+    </template>
+  </el-data-table>
 </template>
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DataTableColumn } from '@element-ultra/components'
 import { computed } from '@vue/reactivity'
 import { shallowRef } from 'vue'
 
 const columns: DataTableColumn[] = [
-  { name: '姓名', key: 'name' },
-  { name: '测试1', key: 'test1' },
+  {
+    name: () => <span style="color: red">姓名</span>,
+    key: 'name',
+    align: 'center'
+  },
+  { name: '测试1', key: 'test1', slot: 'test1' },
   {
     name: '测试2',
     key: 'test2',
@@ -22,22 +35,24 @@ const columns: DataTableColumn[] = [
         name: '测试2-1',
         key: 'test2-1',
         children: [
-          { name: '测试2-1-1', key: 'test2-1-1' },
-          { name: '测试2-1-2', key: 'test2-1-2' },
-          { name: '测试2-1-3', key: 'test2-1-3' }
+          { name: '测试2-1-1', key: 'test2-1-1',  },
+          { name: '测试2-1-2', key: 'test2-1-2',  },
+          { name: '测试2-1-3', key: 'test2-1-3',  }
         ]
       },
-      { name: '测试2-2', key: 'test2-2',
+      {
+        name: '测试2-2',
+        key: 'test2-2',
         children: [
-          { name: '测试3-1-1', key: 'test3-1-1' },
-          { name: '测试3-1-2', key: 'test3-1-2' },
-          { name: '测试3-1-3', key: 'test3-1-3' }
+          { name: '测试3-1-1', key: 'test3-1-1',  },
+          { name: '测试3-1-2', key: 'test3-1-2',  },
+          { name: '测试3-1-3', key: 'test3-1-3',  }
         ]
       },
-      { name: '测试2-3', key: 'test2-3' }
+      { name: '测试2-3', key: 'test2-3',  }
     ]
   },
-  { name: '测试3', key: 'test3' }
+  { name: '测试3', key: 'test3' ,}
 ]
 
 const count = shallowRef(3000)
@@ -51,13 +66,14 @@ const data = computed(() => {
     const xing = xings[~~(Math.random() * xings.length)]
     const ming = mings[~~(Math.random() * mings.length)]
     return {
-      name: xing + ming + i
+      name: xing + ming + i,
+      id: i
     }
   })
 })
 </script>
 
-<script lang="ts">
+<script lang="tsx">
 export default {
   inheritAttrs: false
 }

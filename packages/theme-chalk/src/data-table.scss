@@ -1,14 +1,19 @@
 @use 'mixins/mixins' as *;
 
 @include b(data-table) {
-  background-color: #fff;
+  background-color: var(--el-bg-color-overlay);
+  color: var(--el-text-color-regular);
+  border: 1px solid #eee;
 
-  @include e(header) {
-    min-width: 100%;
+  table {
     table-layout: fixed;
     border-spacing: 0;
-    background-color: #fff;
     border-collapse: collapse;
+    min-width: 100%;
+  }
+
+  @include e(header) {
+    background-color: #fff;
 
     &-wrap {
       width: 100%;
@@ -16,22 +21,38 @@
     }
   }
 
+  @include e(body) {
+  }
+
   @include e(header-cell) {
     border-bottom: 1px solid #eee;
-    border-right: 1px solid #eee;
-    padding: 0;
+    box-shadow: -1px 0px 0px 0px #eee inset;
+    padding: 4px 4px;
     word-break: break-all;
+    box-sizing: border-box;
   }
 
   @include e(row) {
+    &:hover {
+      background-color: var(--el-fill-color-light);
+    }
   }
 
   @include e(cell) {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    padding: 0 4px;
-    box-sizing: border-box;
+    padding: 0;
+
+    div {
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
+      border-bottom: 1px solid #eee;
+      border-right: 1px solid #eee;
+      box-sizing: border-box;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: break-all;
+    }
   }
 
   @include e(footer) {

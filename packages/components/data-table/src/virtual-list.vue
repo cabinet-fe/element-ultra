@@ -4,19 +4,21 @@
       <component
         :is="tag"
         v-bind="$attrs"
+        ref="wrapRef"
         :style="{
-          'will-change': 'transform',
-          transform: `translateY(${position * itemSize}px)`
+          'will-change': 'transform'
         }"
       >
+        <slot name="prepend" />
         <slot
-          v-for="(item, index) of renderedRange"
-          :key="item[uniqueKey]"
-          v-bind="{ item, index }"
+          v-for="item of renderedRange"
+          :key="item._id"
+          v-bind="{ item: item.data, index: item.index }"
           :style="{
             height: itemSize + 'px'
           }"
         />
+        <slot name="append" />
       </component>
     </div>
   </ElScrollbar>
@@ -33,11 +35,8 @@ import {
 } from 'vue'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import { useResizeObserver } from '@vueuse/core'
+import { debounce } from 'lodash'
 
-interface Scroll {
-  scrollTop: number
-  scrollLeft: number
-}
 const props = defineProps({
   /** 指定渲染的元素标签 */
   tag: {
@@ -67,11 +66,10 @@ const props = defineProps({
     default: 60
   },
 
-  // TODO根据缓冲区高度优化滚动性能
-  /** 缓冲区高度, 防止出现闪烁 */
+  /** 缓冲区高度, 优化滚动性能 */
   bufferHeight: {
     type: Number,
-    default: 100
+    default: 200
   },
 
   /** 尺寸大小 */
@@ -84,6 +82,17 @@ const props = defineProps({
   idle: {
     type: Boolean
   }
+})
+
+type ScrollCtx = {
+  scrollTop: number
+  scrollLeft: number
+}
+
+const wrapRef = shallowRef<HTMLElement>()
+
+const emit = defineEmits({
+  scroll: (s: ScrollCtx) => true
 })
 
 /** 总高度, 预估高度 */
@@ -101,16 +110,28 @@ const listStyle = computed(() => {
 let position = shallowRef(0)
 
 let uid = 0
+
 /** 如果没有传入uniqueKey则默认提供一个 */
 const computedData = computed(() => {
-  return props.uniqueKey
-    ? props.data
-    : props.data.map(item => {
-        return {
-          ...item,
-          _id: uid++
+  const { uniqueKey } = props
+  // 对原始数据进行包裹, 同时不能破坏原有的结构
+  return props.data.map(
+    uniqueKey
+      ? (item, index) => {
+          return {
+            data: item,
+            index,
+            _id: item[uniqueKey]
+          }
         }
-      })
+      : (item, index) => {
+          return {
+            data: item,
+            index,
+            _id: uid++
+          }
+        }
+  )
 })
 
 /** 容器高度 */
@@ -127,23 +148,37 @@ const renderedRange = computed(() => {
   return computedData.value.slice(position.value, end)
 })
 
+watch(
+  [() => position.value, () => props.itemSize],
+  ([position, itemSize]) => {
+    if (!wrapRef.value) return
+    wrapRef.value.style.transform = `translateY(${position * itemSize}px)`
+  },
+  { immediate: true }
+)
+
+let scroll = debounce((s: ScrollCtx) => {
+  position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
+  position.value < 0 && (position.value = 0)
+}, 30)
+
 /** 用来cancelIdleCallback */
 let idleId: number
 /** 空闲时滚动, 防止cpu阻止渲染 */
-const handleScrollWhenIdle = (s: Scroll) => {
+const handleScrollWhenIdle = (s: ScrollCtx) => {
   // 计算当前渲染位置
   cancelIdleCallback(idleId)
   idleId = requestIdleCallback(() => {
-    position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
-    position.value < 0 && (position.value = 0)
+    emit('scroll', s)
+    scroll(s)
   })
 }
 
 /** 正常滚动 */
-const handleScrollNormal = (s: Scroll) => {
+const handleScrollNormal = (s: ScrollCtx) => {
   requestAnimationFrame(() => {
-    position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
-    position.value < 0 && (position.value = 0)
+    emit('scroll', s)
+    scroll(s)
   })
 }
 const handleScroll = computed(() => {
@@ -163,11 +198,6 @@ watch(
       })
   }
 )
-
-/** 唯一标识符的key, 用于优化性能 */
-const uniqueKey = computed(() => {
-  return props.uniqueKey || '_id'
-})
 
 let stop: () => void
 onMounted(() => {
