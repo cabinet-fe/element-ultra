@@ -35,24 +35,24 @@ const columns: DataTableColumn[] = [
         name: '测试2-1',
         key: 'test2-1',
         children: [
-          { name: '测试2-1-1', key: 'test2-1-1',  },
-          { name: '测试2-1-2', key: 'test2-1-2',  },
-          { name: '测试2-1-3', key: 'test2-1-3',  }
+          { name: '测试2-1-1', key: 'test2-1-1', slot: 'test1' },
+          { name: '测试2-1-2', key: 'test2-1-2', slot: 'test1' },
+          { name: '测试2-1-3', key: 'test2-1-3', slot: 'test1' }
         ]
       },
       {
         name: '测试2-2',
         key: 'test2-2',
         children: [
-          { name: '测试3-1-1', key: 'test3-1-1',  },
-          { name: '测试3-1-2', key: 'test3-1-2',  },
-          { name: '测试3-1-3', key: 'test3-1-3',  }
+          { name: '测试3-1-1', key: 'test3-1-1', slot: 'test1' },
+          { name: '测试3-1-2', key: 'test3-1-2', slot: 'test1' },
+          { name: '测试3-1-3', key: 'test3-1-3', slot: 'test1' }
         ]
       },
-      { name: '测试2-3', key: 'test2-3',  }
+      { name: '测试2-3', key: 'test2-3', slot: 'test1' }
     ]
   },
-  { name: '测试3', key: 'test3' ,}
+  { name: '测试3', key: 'test3' ,slot: 'test1'}
 ]
 
 const count = shallowRef(3000)

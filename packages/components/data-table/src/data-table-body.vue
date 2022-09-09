@@ -7,6 +7,7 @@
     :item-size="32"
     :class="ns.e('body')"
     @scroll="handleScroll"
+    idle
   >
     <template #prepend>
       <colgroup>
