@@ -1,6 +1,13 @@
 import { useFormDialog } from '@element-ultra/components/form-dialog'
-import { useFormModel, type FormModelItem } from '@element-ultra/components/form'
-import type { MultipleFormEmits, MultipleFormProps } from './multiple-form'
+import {
+  useFormModel,
+  type FormModelItem
+} from '@element-ultra/components/form'
+import type {
+  MultipleFormColumn,
+  MultipleFormEmits,
+  MultipleFormProps
+} from './multiple-form'
 import type { ShallowRef } from 'vue'
 
 interface Options {
@@ -9,34 +16,49 @@ interface Options {
   emit: MultipleFormEmits
 }
 
-export default function useDialogEdit (options: Options) {
+export default function useDialogEdit(options: Options) {
   const { props, rows, emit } = options
+  // 根据列生成数据模型
 
-  const model = props.columns!.reduce((acc, cur) => {
-    if (cur.defaultValue instanceof Function) {
-      let v = cur.defaultValue()
-      if (v instanceof Promise) {
-        v.then(result => model[cur.key] = result)
+  const getModel = (columns: MultipleFormColumn[]) => {
+    const model = {} as Record<string, FormModelItem>
+    columns.forEach(column => {
+      let { defaultValue } = column
+      // 引用类型需要
+      if (defaultValue instanceof Function) {
+        let v = defaultValue()
+        if (v instanceof Promise) {
+          model[column.key] = { ...column.rules } as any
+          v.then(result => (form[column.key] = result))
+        } else {
+          model[column.key] = { value: v, ...column.rules } as any
+        }
       } else {
-        acc[cur.key] = v
+        model[column.key] = {
+          value: column.defaultValue,
+          ...column.rules
+        } as any
       }
-    } else {
-      acc[cur.key] = { value: cur.defaultValue, ...cur.rules } as any
-    }
 
-    return acc
-  }, {} as Record<string, FormModelItem>)
+      // 如果有嵌套
+      if (column.nest) {
+        model[column.key].children = getModel(column.nest)
+      }
+    })
+
+    return model
+  }
+
+  const model = getModel(props.columns!)
 
   const [form, rules] = useFormModel(model)
 
   const [dialog, open] = useFormDialog(form) as any
 
-
   const submit = () => {
     const { ctx } = dialog
     let data = { ...form }
     if (dialog.type === 'create') {
-
       rows.value.splice(ctx.index + 1, 0, data)
     } else {
       rows.value.splice(ctx.index, 1, data)

@@ -30,7 +30,7 @@
           >
             <div v-bind="rest" :style="{ 'justify-content': column.align }">
               <ElSlotsRender
-                :nodes="[column.render!(item[column.key], item, index)]"
+                :nodes="[column.render!(getChainValue(item, column.key), item, index)]"
               />
             </div>
           </td>
@@ -48,9 +48,12 @@ import { inject } from 'vue'
 import { dataTableToken } from './token'
 import VirtualList from './virtual-list.vue'
 import ElSlotsRender from '@element-ultra/components/slots-render'
+import { getChainValue } from '@element-ultra/utils'
 
 const ns = useNamespace('data-table')
 const { rootProps, getCellStyle, scrollLeft, columns } = inject(dataTableToken)!
+
+
 
 const handleScroll = (s: any) => {
   scrollLeft.value = s.scrollLeft

@@ -24,7 +24,7 @@
       </td>
     </template>
 
-    <!-- 默认显示的行 -->
+    <!-- 列表查看 -->
     <template v-else>
       <td
         v-for="column of visibleColumns"

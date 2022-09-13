@@ -14,7 +14,7 @@
       >
         <component
           :is="slot.node"
-          :modelValue="data?.[slot.field]"
+          :modelValue="getChainValue(data, slot.field)"
           @update:model-value="handleUpdateValue(slot.field, $event)"
         />
       </el-form-item>
@@ -43,8 +43,10 @@ import { formInjectionKey, formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
 import { useNamespace } from '@element-ultra/hooks'
-import { isFragment, isTemplate } from '@element-ultra/utils'
+import { getChainValue, isFragment, isTemplate } from '@element-ultra/utils'
 import { isObject } from 'lodash'
+
+
 
 type FormItemType = InstanceType<typeof ElFormItem>
 
@@ -107,7 +109,19 @@ const getFormItemSpan = (span?: 'max' | number) => {
 const handleUpdateValue = (field: string, val: any) => {
   const { data } = props
   if (!data) return
-  data[field] = val
+  let fieldItems = field.split('.')
+
+  // 有多个字段
+  if (fieldItems.length > 1) {
+    let target = data
+    fieldItems.slice(0, -1).forEach(field => {
+      target = target[field]
+    })
+
+    target[fieldItems[fieldItems.length - 1]] = val
+  } else {
+    data[field] = val
+  }
 }
 
 type FormComponentSlot = {
@@ -204,7 +218,7 @@ const validateField = async (field: string) => {
   const { data, rules } = props
   if (!data || !rules) return null
 
-  const value = data[field]
+  const value = getChainValue(data, field)
 
   let fieldRules = rules[field]
   if (!fieldRules) {
@@ -223,7 +237,7 @@ const validateField = async (field: string) => {
   errMsg = await validator?.(value, data, rule)
   if (errMsg) return errMsg
 
-  type RuleKey = keyof typeof rule
+  type RuleKey = keyof Omit<typeof rule, 'children'>
   Object.keys(rule).some(type => {
     let result = validators[type as RuleKey]?.(
       value,

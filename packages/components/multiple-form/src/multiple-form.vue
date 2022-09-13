@@ -37,7 +37,10 @@
 
           <tr v-if="!rows.length">
             <!-- 额外的列为序号和操作栏 -->
-            <td :colspan="visibleColumns!.length + (disabled ? 1 : 2)" style="text-align: center">
+            <td
+              :colspan="visibleColumns!.length + (disabled ? 1 : 2)"
+              style="text-align: center"
+            >
               暂无数据
             </td>
           </tr>
@@ -59,7 +62,7 @@
       <slot v-bind="{ form }" />
     </el-form>
 
-    <slot name="dialog" />
+    <slot name="dialog" v-bind="{ form }" />
   </el-form-dialog>
 </template>
 
@@ -71,7 +74,7 @@ import {
   shallowRef,
   nextTick,
   shallowReactive,
-  provide,
+  provide
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './multiple-form'
@@ -126,14 +129,13 @@ const {
   handleMouseEnter
 } = useInline({ props, emit, targetIndex, rows })
 
-
-
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0
   const toolsHeight = slots.tools ? 40 : 0
   return props.height ? `calc(100% - ${titleHeight + toolsHeight}px)` : ''
 })
 
+// 可响应式
 const initRows = () => {
   rows.value = props.data!.map(item => shallowReactive(item))
 }
@@ -177,7 +179,6 @@ const handleEdit = (row: any, index: number) => {
     open('update', { title: '编辑', data: row, ctx: { index } })
   }
 }
-
 
 provide(multipleFormKey, {
   multipleFormProps: props,

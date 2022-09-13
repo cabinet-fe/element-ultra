@@ -1,9 +1,12 @@
 import { omit } from 'lodash'
-import { shallowReactive } from 'vue'
+import { isReactive, shallowReactive } from 'vue'
 import type { FormModel, FormModelItem } from './form'
+import { isObject } from '@element-ultra/utils'
 
 type GetModel<T extends Record<string, any>> = {
-  [key in keyof T]: T[key]['value']
+  [key in keyof T]: T[key]['children'] extends  Record<string, any>
+    ? GetModel<T[key]['children']>
+    : T[key]['value']
 }
 
 function proxyHelper() {
@@ -118,17 +121,47 @@ export default function useFormModel<
     [key in K]?: (model: Model) => any
   }
 ) {
-  let modelKeys = Object.keys(model) as K[]
+  const rawModel = {} as Model
 
-  const rawModel = modelKeys.reduce((acc, key) => {
-    acc[key] = model[key].value
-    return acc
-  }, {} as Model)
+  const reduceRawModel = (model: FormModel, rawModel: Record<string, any>) => {
+    const modelKeys = Object.keys(model)
+    modelKeys.forEach(key => {
+      const modelItem = model[key]
+      if (modelItem.value) {
+        rawModel[key] = modelItem.value
+      }
+      if (modelItem.children) {
+        let value = rawModel[key]
+        if (!value || !isObject(value)) {
+          throw new Error(`请为${key}字段指定一个对象值`)
+        }
+        // 非响应的对象要使其响应
+        if (!isReactive(value)) {
+          rawModel[key] = shallowReactive(value)
+        }
+        reduceRawModel(modelItem.children, rawModel[key])
+      }
+    })
+  }
 
-  const rules = modelKeys.reduce((acc, key) => {
-    acc[key] = omit(model[key], ['value'])
-    return acc
-  }, {} as { [key in K]: Omit<FormModelItem, 'value'> })
+  reduceRawModel(model, rawModel)
+
+  const rules: Record<string, Omit<FormModelItem, 'value'>> = {}
+
+  // 递归合并子级规则, 以便校验.
+  // test: { children: { test1: { required: true } } } -> 'test.test1': { required: true }
+  const getRules = (model: FormModel, pre = '') => {
+    const modelKeys = Object.keys(model)
+    modelKeys.forEach(key => {
+      const modelItem = model[key]
+      if (modelItem.children) {
+        getRules(modelItem.children, pre + key + '.')
+      } else {
+        rules[pre + key] = omit(modelItem, ['value'])
+      }
+    })
+  }
+  getRules(model)
 
   const form = shallowReactive(rawModel)
 

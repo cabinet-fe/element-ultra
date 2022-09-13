@@ -4,6 +4,32 @@ import type { DataTableColumn, DataTableProps } from '../data-table'
 import { bfs } from '../utils'
 import type { UseStateReturned } from './use-state'
 
+
+interface LeftColumn extends DataTableColumn {
+  left: number
+  width: number
+}
+
+interface RightColumn extends DataTableColumn {
+  right: number
+  width: number
+}
+
+/** 循环 */
+const loop = <T>(arr: T[], cb: (cur: T, pre: T | undefined, next: T | undefined ) => void) => {
+  let i = -1
+  while (++i < arr.length) {
+    cb(arr[i], arr[i - 1], arr[i + 1])
+  }
+}
+
+const loopRight = <T>(arr: T[], cb: (cur: T, pre: T | undefined, next: T | undefined ) => void) => {
+  let i = arr.length
+  while (i-- > 0) {
+    cb(arr[i], arr[i - 1], arr[i + 1])
+  }
+}
+
 /**
  * 转化列为组件所需的数据结构
  * @param props 表格属性
@@ -128,37 +154,52 @@ export default function useColumns(
   const slots = useSlots()
 
   const columns = computed(() => {
-    let left: DataTableColumn[] = []
+    let left: LeftColumn[] = []
     let center: DataTableColumn[] = []
-    let right: DataTableColumn[] = []
+    let right: RightColumn[] = []
 
     // TODO算出每一列的长度
     // TODO拖拽排序列
     extraColumns.value.concat(leafColumns.value).forEach(column => {
+      /** 设为响应式的 */
       let reactiveColumn = shallowReactive({
         ...column
       })
+
+      // 将插槽或者row[key]转化为渲染函数, 避免在数据循环中判断, 在10w级的数据中开销很大
       if (!column.render) {
         if (column.slot) {
           reactiveColumn.render = (value, row, index) => {
             return slots[column.slot!]?.({ row, index, value })
           }
         } else {
-          reactiveColumn.render = value => {
-            return value
-          }
+          reactiveColumn.render = value => value
         }
       }
       if (column.fixed === 'left') {
-        return left.push(reactiveColumn)
+        return left.push(reactiveColumn as LeftColumn)
       }
       if (column.fixed === 'right') {
-        return right.push(reactiveColumn)
+        return right.push(reactiveColumn as RightColumn)
       }
       center.push(reactiveColumn)
     })
 
-    console.log(left, center, right)
+    loop(left, (cur, pre) => {
+      if (!pre) {
+        cur.left = 0
+      } else {
+        cur.left = pre.left + pre.width
+      }
+    })
+
+    loopRight(right, (cur, _, next) => {
+      if (!next) {
+        cur.right = 0
+      } else {
+        cur.right = next.right + next.width
+      }
+    })
 
     return {
       left,

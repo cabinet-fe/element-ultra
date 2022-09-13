@@ -76,6 +76,9 @@
         />
 
         <el-date-picker label="日期" type="week" field="date" />
+
+        <el-input label="测试1" field="test.test1" />
+        <el-input label="测试2" field="test.test2" />
       </el-form>
     </el-card>
 
@@ -131,10 +134,23 @@ const [data, rules] = useFormModel(
     name: {
       match: [/^[^\d]+$/, '不能有数字'],
       value: ''
+    },
+    test: {
+      value: {},
+      children: {
+        test1: {
+          value: '1'
+        },
+        test2: {
+          value: '2'
+        }
+      }
     }
+
+
   },
   {
-    name: model => model.xing + model.ming
+    name: model =>  model.xing + model.ming
   }
 )
 

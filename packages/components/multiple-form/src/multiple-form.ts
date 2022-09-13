@@ -57,6 +57,9 @@ export type MultipleFormColumn = {
 
   /** 自定义渲染 */
   render?: (val: any, row: any, index: number) => string
+
+  /** 对象嵌套 */
+  nest?: MultipleFormColumn[]
 }
 
 export const multipleFormProps = {

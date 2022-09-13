@@ -8,7 +8,33 @@ export const keysOf = <T>(arr: T) => Object.keys(arr) as Array<keyof T>
 export const entriesOf = <T>(arr: T) => Object.entries(arr) as Entries<T>
 export { hasOwn } from '@vue/shared'
 
-/** @deprecated TODO: improve it, use lodash */
+/**
+ * 获取链式值
+ * @param o 目标对象
+ * @param prop 属性
+ * @param targetProp 目标属性
+ */
+export function getChainValue(o: any, prop: string, targetProp?: string) {
+  let ret = o
+  if (targetProp) {
+    ret = o[targetProp]
+  }
+
+  prop &&
+    prop.split('.').some(p => {
+      if (p === '$last' && Array.isArray(ret)) {
+        ret = ret[ret.length - 1]
+      } else {
+        ret = ret[p]
+      }
+
+      if (!ret) {
+        return true
+      }
+    })
+  return ret
+}
+
 export function getPropByPath(
   obj: any,
   path: string,
@@ -49,6 +75,6 @@ export function getPropByPath(
   return {
     o: tempObj,
     k: key,
-    v: value,
+    v: value
   }
 }

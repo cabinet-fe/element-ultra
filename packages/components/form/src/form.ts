@@ -23,6 +23,8 @@ export interface FormModelItem<V = any> {
     model: Record<string, any>,
     rule: FormRules[string]
   ): string | Promise<string>
+  /** 子对象 */
+  children?: Record<string, FormModelItem>
 }
 
 export type FormRules = Record<string, Omit<FormModelItem, 'value'>>

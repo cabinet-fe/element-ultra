@@ -32,12 +32,18 @@
     <template #school="{ row }">
       <el-input v-model="row.school"></el-input>
     </template>
+    <template #test="{ row }">
+      <el-input v-model="row.test.test1"></el-input>
+      <el-input v-model="row.test.test2"></el-input>
+    </template>
 
     <template #default="{ form }">
       <el-form-item label="名称">{{ form.name }}</el-form-item>
       <el-input label="名称" field="name"></el-input>
       <el-input label="年龄" field="age"></el-input>
       <el-input label="学校" field="school"></el-input>
+      <el-input label="测试1" field="test.test1" />
+      <el-input label="测试2" field="test.test2" />
     </template>
   </el-multiple-form>
 </template>
@@ -62,7 +68,12 @@ const columns: MultipleFormColumn[] = [
   {
     name: '年龄',
     key: 'age',
-    defaultValue: () => new Promise((rs) => setTimeout(() => {rs(20)}, 2000)),
+    defaultValue: () =>
+      new Promise(rs =>
+        setTimeout(() => {
+          rs(20)
+        }, 2000)
+      ),
     align: 'left'
   },
   {
@@ -71,6 +82,15 @@ const columns: MultipleFormColumn[] = [
     rules: {
       required: true
     }
+  },
+  {
+    key: 'test',
+    name: '美滋滋',
+    defaultValue: () => ({}),
+    nest: [
+      { key: 'test1', name: '对象测试1' },
+      { key: 'test2', name: '对象测试2' }
+    ]
   }
 ]
 
@@ -87,18 +107,14 @@ let data = $shallowRef<any[]>([
   { name: '6216616101002312625', age: 18, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' },
   { name: '6216616101002312625', age: 18, school: '15962245908' },
-  { name: '6216616101002312625', age: 18, school: '15962245908' },
+  { name: '6216616101002312625', age: 18, school: '15962245908' }
 ])
 
 /** 保存 */
-const onSave = (row: any) => {
+const onSave = (row: any) => {}
 
-}
-
-const onChange = (rows: any) => {
-}
+const onChange = (rows: any) => {}
 
 /** 增加下一行 */
-const addNextLine = (row: any) => {
-}
+const addNextLine = (row: any) => {}
 </script>
