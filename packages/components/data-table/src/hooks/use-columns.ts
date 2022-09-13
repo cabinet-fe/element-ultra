@@ -28,9 +28,11 @@ export default function useColumns(
   // 深度优先遍历获取列的叶子节点(叶子节点才会在最终被data读取其key)
   const leafColumns = computed(() => {
     let result: DataTableColumn[] = []
-    const recursive = (arr: any[]) => {
+    const recursive = (arr: DataTableColumn[]) => {
       arr.forEach(item => {
         if (!item.children) {
+          if (!item.width || !item.minWidth) {
+          }
           return result.push(item)
         }
         recursive(item.children)
@@ -123,7 +125,6 @@ export default function useColumns(
     return result
   })
 
-
   const slots = useSlots()
 
   const columns = computed(() => {
@@ -134,17 +135,16 @@ export default function useColumns(
     // TODO算出每一列的长度
     // TODO拖拽排序列
     extraColumns.value.concat(leafColumns.value).forEach(column => {
-
-      let reactiveColumn  = shallowReactive({
+      let reactiveColumn = shallowReactive({
         ...column
       })
       if (!column.render) {
         if (column.slot) {
           reactiveColumn.render = (value, row, index) => {
-            return slots[column.slot!]?.({ row, index, value})
+            return slots[column.slot!]?.({ row, index, value })
           }
         } else {
-          reactiveColumn.render = (value) => {
+          reactiveColumn.render = value => {
             return value
           }
         }
@@ -157,6 +157,8 @@ export default function useColumns(
       }
       center.push(reactiveColumn)
     })
+
+    console.log(left, center, right)
 
     return {
       left,

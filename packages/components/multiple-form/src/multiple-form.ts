@@ -60,6 +60,10 @@ export type MultipleFormColumn = {
 }
 
 export const multipleFormProps = {
+  dialogWidth: {
+    type: String
+  },
+
   /** 列表数据 */
   data: {
     type: Array as PropType<any[]>,

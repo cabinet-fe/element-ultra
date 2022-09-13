@@ -78,6 +78,10 @@ type multipleFormProps = {
     required: true
   },
 
+  /** dialog模式下dialog的宽度 */
+  dialogWidth: {
+    type: String
+  },
   /** 是否显示新增按钮  默认false*/
   createBtnText: {
     type: [String, Boolean] as PropType<string | false>,
@@ -148,6 +152,7 @@ type multipleFormProps = {
 | 插槽名称          | 说明                         | 作用域参数                                                   |
 | --------------- | ---------------------------- | ---------------------------------------------------------- |
 | default            | 默认插槽, 在 multiple-form的mode为dialog时很有用                         | #default="{ form }" |
+| dialog            | mode="dialog"时, dialog的内部插槽    | 无 |
 | column.key          |                          | #column.key="{ row }" |
 | column.key:view          |                          | #column.key:view="{ row }" |
 

@@ -25,6 +25,7 @@ defineOptions({
 })
 
 const ns = useNamespace('data-table')
+
 const props = defineProps(dataTableProps)
 
 const state = useState(props)

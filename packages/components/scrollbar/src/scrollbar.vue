@@ -72,6 +72,8 @@ const wrapWidth = shallowRef(0)
 const { stop } = useResizeObserver(wrap$, ([entry]) => {
   wrapHeight.value = entry.contentRect.height
   wrapWidth.value = entry.contentRect.width
+  _scrollHeight = wrap$.value!.scrollHeight
+  _scrollWidth = wrap$.value!.scrollWidth
 })
 onUnmounted(() => {
   stop()
@@ -86,13 +88,24 @@ const style = computed<StyleValue>(() => {
 
 let _scrollTop = 0,
   _scrollLeft = 0,
-  _scrollHeight = 0
+  _scrollHeight = 0,
+  _scrollWidth = 0
 
-const handleScroll = (event: UIEvent) => {
-  const { scrollTop, scrollLeft, scrollHeight } = event.target as HTMLElement
+const updateScrollState = (
+  scrollTop: number,
+  scrollLeft: number,
+  scrollHeight: number,
+  scrollWidth: number
+) => {
   _scrollTop = scrollTop
   _scrollLeft = scrollLeft
   _scrollHeight = scrollHeight
+  _scrollWidth = scrollWidth
+}
+
+const handleScroll = (event: UIEvent) => {
+  const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = event.target as HTMLElement
+  updateScrollState(scrollTop, scrollLeft, scrollHeight, scrollWidth)
   update()
   emit('scroll', { scrollTop, scrollLeft })
 }
@@ -130,7 +143,7 @@ const update = () => {
   const offsetWidth = wrapWidth.value - GAP // wrap$.value.offsetWidth - GAP
 
   const originalHeight = offsetHeight ** 2 / _scrollHeight // wrap$.value.scrollHeight
-  const originalWidth = offsetWidth ** 2 / _scrollLeft // wrap$.value.scrollWidth
+  const originalWidth = offsetWidth ** 2 / _scrollWidth // wrap$.value.scrollWidth
   const height = Math.max(originalHeight, props.minSize)
   const width = Math.max(originalWidth, props.minSize)
 
@@ -172,7 +185,8 @@ watch(
 )
 
 watch(
-  () => [props.maxHeight, props.height],
+  [() => props.maxHeight, () => props.height, wrapHeight, wrapWidth],
+
   () => {
     if (!props.native)
       nextTick(() => {

@@ -53,7 +53,7 @@ const thumbStyle = computed(() =>
   renderThumbStyle({
     size: props.size,
     move: props.move,
-    bar: bar.value,
+    bar: bar.value
   })
 )
 
@@ -96,8 +96,7 @@ const clickTrackHandler = (e: MouseEvent) => {
     instance.value[bar.value.offset]
 
   wrapElement.value[bar.value.scroll] =
-    (thumbPositionPercentage * wrapElement.value[bar.value.scrollSize]) /
-    100
+    (thumbPositionPercentage * wrapElement.value[bar.value.scrollSize]) / 100
 }
 
 const startDrag = (e: MouseEvent) => {
@@ -125,7 +124,8 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
     ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
   scrollbar.wrapElement.value[bar.value.scroll] =
-    (thumbPositionPercentage * scrollbar.wrapElement.value[bar.value.scrollSize]) /
+    (thumbPositionPercentage *
+      scrollbar.wrapElement.value[bar.value.scrollSize]) /
     100
 }
 
@@ -138,7 +138,7 @@ const mouseUpDocumentHandler = () => {
   if (cursorLeave) visible.value = false
 }
 
-const mouseMoveScrollbarHandler = () => {
+const mouseEnterScrollbarHandler = () => {
   cursorLeave = false
   visible.value = !!props.size
 }
@@ -158,14 +158,6 @@ const restoreOnselectstart = () => {
     document.onselectstart = originalOnSelectStart
 }
 
-useEventListener(
-  scrollbarElement,
-  'mousemove',
-  mouseMoveScrollbarHandler
-)
-useEventListener(
-  scrollbarElement,
-  'mouseleave',
-  mouseLeaveScrollbarHandler
-)
+useEventListener(scrollbarElement, 'mouseenter', mouseEnterScrollbarHandler)
+useEventListener(scrollbarElement, 'mouseleave', mouseLeaveScrollbarHandler)
 </script>

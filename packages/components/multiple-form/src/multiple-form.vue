@@ -53,10 +53,13 @@
     :title="dialog.title"
     :confirm="submit"
     :continue="dialog.type === 'create'"
+    :width="dialogWidth"
   >
     <el-form :data="form" :rules="rules" label-width="100px">
       <slot v-bind="{ form }" />
     </el-form>
+
+    <slot name="dialog" />
   </el-form-dialog>
 </template>
 
@@ -80,7 +83,6 @@ import useInline from './use-inline'
 import { multipleFormKey } from './token'
 import MultipleFormRow from './multiple-form-row.vue'
 import MultipleFormHeader from './multiple-form-header.vue'
-
 
 defineOptions({
   name: 'ElMultipleForm'
