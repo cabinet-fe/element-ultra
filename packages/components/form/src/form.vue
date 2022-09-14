@@ -43,7 +43,7 @@ import { formInjectionKey, formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
 import { useNamespace } from '@element-ultra/hooks'
-import { getChainValue, isFragment, isTemplate } from '@element-ultra/utils'
+import { deepExtend, getChainValue, isFragment, isTemplate } from '@element-ultra/utils'
 import { isObject } from 'lodash'
 
 type FormItemType = InstanceType<typeof ElFormItem>
@@ -90,7 +90,7 @@ const renderEffect = () => {
 
 // 默认表单值
 let defaultFormValues: Record<string, any> = JSON.parse(
-  JSON.stringify(props.data)
+  JSON.stringify(props.data || {})
 )
 
 const getFormItemSpan = (span?: 'max' | number) => {
@@ -192,27 +192,27 @@ const resetField = (field: string) => {
 /** 重置所有字段 */
 const resetFields = () => {
   if (!props.data) return
+  deepExtend(props.data, defaultFormValues, true)
+  /** 对表单项的值进行重置 */
+  // for (const key in formItemRefsMap) {
+  //   let keyList = key.split('.')
+  //   if (keyList.length > 1) {
+  //     let target = props.data
+  //     let defaultTarget = defaultFormValues
+  //     keyList.slice(0, -1).some(item => {
+  //       target = target[item]
+  //       defaultTarget = defaultTarget[item]
+  //       return !target || !defaultTarget
+  //     })
+  //     const lastKey = keyList[keyList.length - 1]
 
-
-  for (const key in formItemRefsMap) {
-    let keyList = key.split('.')
-    if (keyList.length > 1) {
-      let target = props.data
-      let defaultTarget = defaultFormValues
-      keyList.slice(0, -1).some(item => {
-        target = target[item]
-        defaultTarget = defaultTarget[item]
-        return !target || !defaultTarget
-      })
-      const lastKey = keyList[keyList.length - 1]
-
-      if (target && defaultTarget) {
-        target[lastKey] = defaultTarget[lastKey]
-      }
-    } else {
-      props.data[key] = defaultFormValues[key]
-    }
-  }
+  //     if (target && defaultTarget) {
+  //       target[lastKey] = defaultTarget[lastKey]
+  //     }
+  //   } else {
+  //     props.data[key] = defaultFormValues[key]
+  //   }
+  // }
   nextTick(() => clearValidate())
 }
 

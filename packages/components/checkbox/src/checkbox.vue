@@ -1,11 +1,12 @@
 <template>
-  <label
+  <div
     :class="[
       ns.b(),
       ns.m(checkboxSize),
       ns.is('disabled', isDisabled),
       ns.is('checked', isChecked)
     ]"
+    @click="inputRef?.click()"
   >
     <span
       :class="[
@@ -21,6 +22,7 @@
       <span :class="ns.e('inner')"></span>
       <input
         type="checkbox"
+        ref="inputRef"
         :checked="isChecked"
         :class="ns.e('original')"
         :tabindex="tabindex"
@@ -33,10 +35,11 @@
     <span ref="labelRef" v-if="$slots.default" :class="ns.e('label')">
       <slot> </slot>
     </span>
-  </label>
+  </div>
 </template>
 <script setup lang="ts">
 import { useNamespace } from '@element-ultra/hooks'
+import { shallowRef } from 'vue'
 import { checkboxProps, checkboxEmit } from './checkbox'
 import { useCheckbox } from './useCheckbox'
 
@@ -47,6 +50,8 @@ const props = defineProps(checkboxProps)
 const emit = defineEmits(checkboxEmit)
 
 const ns = useNamespace('checkbox')
+
+const inputRef = shallowRef()
 
 const { isChecked, focus, isDisabled, checkboxSize, handleChange } =
   useCheckbox(props, emit)

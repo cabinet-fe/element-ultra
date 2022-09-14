@@ -4,7 +4,6 @@ import type { DataTableColumn, DataTableProps } from '../data-table'
 import { bfs } from '../utils'
 import type { UseStateReturned } from './use-state'
 
-
 interface LeftColumn extends DataTableColumn {
   left: number
   width: number
@@ -16,14 +15,20 @@ interface RightColumn extends DataTableColumn {
 }
 
 /** 循环 */
-const loop = <T>(arr: T[], cb: (cur: T, pre: T | undefined, next: T | undefined ) => void) => {
+const loop = <T>(
+  arr: T[],
+  cb: (cur: T, pre: T | undefined, next: T | undefined) => void
+) => {
   let i = -1
   while (++i < arr.length) {
     cb(arr[i], arr[i - 1], arr[i + 1])
   }
 }
 
-const loopRight = <T>(arr: T[], cb: (cur: T, pre: T | undefined, next: T | undefined ) => void) => {
+const loopRight = <T>(
+  arr: T[],
+  cb: (cur: T, pre: T | undefined, next: T | undefined) => void
+) => {
   let i = arr.length
   while (i-- > 0) {
     cb(arr[i], arr[i - 1], arr[i + 1])
@@ -165,7 +170,6 @@ export default function useColumns(
       let reactiveColumn = shallowReactive({
         ...column
       })
-
       // 将插槽或者row[key]转化为渲染函数, 避免在数据循环中判断, 在10w级的数据中开销很大
       if (!column.render) {
         if (column.slot) {

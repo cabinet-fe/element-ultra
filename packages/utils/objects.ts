@@ -85,14 +85,15 @@ const isObject = (v: any) => Object.prototype.toString.call(v).slice(8, -1) === 
  * 对象深度继承, 引用类型的值不进行合并
  * @param data1 对象1
  * @param data2 对象2
+ * @param extendEmpty 是否继承空值, 默认false
  */
-export const deepExtend = (data1: Record<string, any>, data2: Record<string, any>) => {
+export const deepExtend = (data1: Record<string, any>, data2: Record<string, any>, extendEmpty = false) => {
   for (const key in data1) {
     let value1 = data1[key]
     let value2 = data2[key]
     if (isObject(value1)) {
-      isObject(value2) && deepExtend(value1, value2)
-    } else if (value2 || value2 === 0) {
+      isObject(value2) && deepExtend(value1, value2, extendEmpty)
+    } else if (value2 || value2 === 0 || extendEmpty) {
       data1[key] = value2
     }
   }

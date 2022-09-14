@@ -3,7 +3,6 @@
     <DataTableHeader />
 
     <DataTableBody />
-
     <DataTableFooter />
   </div>
 </template>
