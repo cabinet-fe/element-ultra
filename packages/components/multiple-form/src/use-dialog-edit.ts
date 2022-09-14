@@ -57,7 +57,7 @@ export default function useDialogEdit(options: Options) {
 
   const submit = () => {
     const { ctx } = dialog
-    let data = { ...form }
+    let data = JSON.parse(JSON.stringify(form))
     if (dialog.type === 'create') {
       rows.value.splice(ctx.index + 1, 0, data)
     } else {
