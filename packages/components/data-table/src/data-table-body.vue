@@ -26,6 +26,7 @@
         <template v-for="(columnItem, type) of columns">
           <td
             v-for="column of columnItem"
+            :key="column.key"
             :class="[ns.e('cell'), ns.e(`cell--${type}`)]"
           >
             <div v-bind="rest" :style="{ 'justify-content': column.align }">
