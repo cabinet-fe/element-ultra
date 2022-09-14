@@ -9,12 +9,12 @@
 </template>
 
 <script setup lang="ts">
+import { provide } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import DataTableHeader from './data-table-header.vue'
 import DataTableBody from './data-table-body.vue'
 import DataTableFooter from './data-table-footer.vue'
 import { dataTableProps } from './data-table'
-import { provide } from 'vue'
 import { dataTableToken } from './token'
 import useColumns from './hooks/use-columns'
 import useStyle from './hooks/use-style'

@@ -43,17 +43,19 @@
 </template>
 
 <script lang="ts" setup>
-import { useNamespace } from '@element-ultra/hooks'
 import { inject } from 'vue'
+import { useNamespace } from '@element-ultra/hooks'
 import { dataTableToken } from './token'
 import VirtualList from './virtual-list.vue'
 import ElSlotsRender from '@element-ultra/components/slots-render'
 import { getChainValue } from '@element-ultra/utils'
 
+defineOptions({
+  name: 'ElDataTableBody'
+})
+
 const ns = useNamespace('data-table')
 const { rootProps, getCellStyle, scrollLeft, columns } = inject(dataTableToken)!
-
-
 
 const handleScroll = (s: any) => {
   scrollLeft.value = s.scrollLeft

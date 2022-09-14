@@ -1,4 +1,4 @@
-import { hasOwn, isObject } from '@vue/shared'
+import { hasOwn } from '@vue/shared'
 import { throwError } from './error'
 import type { Entries } from 'type-fest'
 
@@ -78,6 +78,8 @@ export function getPropByPath(
     v: value
   }
 }
+
+const isObject = (v: any) => Object.prototype.toString.call(v).slice(8, -1) === 'Object'
 
 /**
  * 对象深度继承, 引用类型的值不进行合并

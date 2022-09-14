@@ -144,7 +144,7 @@ export default function useFormModel<
 
   reduceRawModel(model, rawModel)
 
-  console.log(rawModel)
+
 
   const rules: Record<string, Omit<FormModelItem, 'value'>> = {}
 
