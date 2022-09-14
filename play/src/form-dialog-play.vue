@@ -12,7 +12,13 @@
     @click="
       open('update', {
         title: '编辑',
-        data: [{ name: '张三', type: '2', school: '清华', age: 1 }, { test: '' }]
+        data: {
+            name: '张三',
+            type: '2',
+            school: '清华',
+            age: 1,
+            a: { a: '14', b: '23' }
+          }
       })
     "
     >编辑</el-button
@@ -20,8 +26,17 @@
 
   <div>{{ data }}</div>
 
-  <el-form-dialog :title="dialog.title" v-model="dialog.visible" :confirm="confirm">
-    <el-form :cols="{ cols: 3, xs: 1, s: 2 }" :data="data" :rules="rules" label-width="80px">
+  <el-form-dialog
+    :title="dialog.title"
+    v-model="dialog.visible"
+    :confirm="confirm"
+  >
+    <el-form
+      :cols="{ cols: 3, xs: 1, s: 2 }"
+      :data="data"
+      :rules="rules"
+      label-width="80px"
+    >
       <el-radio-group field="type" label="类型">
         <el-radio value="1">名称</el-radio>
         <el-radio value="2">学校</el-radio>
@@ -29,38 +44,45 @@
 
       <el-input-number field="age" label="年龄"></el-input-number>
 
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
 
-      <el-input v-if="data.type === '1'"  field="name" label="名称" />
-      <el-input v-else type="password" key="2" field="school" label="学校" tips="输入一个学校" />
+      <el-input v-if="data.type === '1'" field="name" label="名称" />
+      <el-input
+        v-else
+        type="password"
+        key="2"
+        field="school"
+        label="学校"
+        tips="输入一个学校"
+      />
 
       <el-textarea field="name" label="副文本" span="max"></el-textarea>
 
@@ -97,15 +119,15 @@ const [data, rules] = useFormModel({
     }
   },
   school: { required: true },
-  type: { value: '1' },
+  type: { value: '' },
   age: {},
   node1: { value: '' },
   node2: { value: [] },
   a: {
     value: {},
     children: {
-      a: { value: '1' },
-      b: { value: '2' }
+      a: { value: '' },
+      b: { value: '' }
     }
   }
 })
@@ -130,7 +152,7 @@ const [data2, rules2] = useFormModel({
   test: {}
 })
 
-const [dialog, open] = useFormDialog([data, data2])
+const [dialog, open] = useFormDialog(data)
 
 const confirm = () => {
   return new Promise(rs => {

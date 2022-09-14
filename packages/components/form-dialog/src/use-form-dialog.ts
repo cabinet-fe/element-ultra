@@ -1,3 +1,4 @@
+import { deepExtend } from '@element-ultra/utils'
 import { nextTick, watch, shallowReactive } from 'vue'
 
 type OpenOptions<T> = {
@@ -45,10 +46,10 @@ export default function useFormDialog<
     }
   )
 
-  const open: Open<Type, F extends any[] ? Partial<F[number]>[] : Partial<F>> = (
-    type,
-    options
-  ) => {
+  const open: Open<
+    Type,
+    F extends any[] ? Partial<F[number]>[] : Partial<F>
+  > = (type, options) => {
     dialog.visible = true
     dialog.type = type
 
@@ -67,20 +68,11 @@ export default function useFormDialog<
         // 数组
         if (Array.isArray(formData)) {
           return formData.forEach((item, i) => {
-            Object.keys(item).forEach(k => {
-              let v = dialog.data![i][k as any]
-              if (v !== undefined) {
-                ;(item as any)[k] = v
-              }
-            })
+            deepExtend(item, dialog.data![i])
           })
         }
-        Object.keys(formData).forEach(k => {
-          let v = dialog.data![k as any]
-          if (v !== undefined) {
-            ;(formData as any)[k] = v
-          }
-        })
+
+        deepExtend(formData, dialog.data!)
       })
     }
   }

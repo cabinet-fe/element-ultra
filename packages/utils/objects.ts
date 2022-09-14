@@ -1,4 +1,4 @@
-import { hasOwn } from '@vue/shared'
+import { hasOwn, isObject } from '@vue/shared'
 import { throwError } from './error'
 import type { Entries } from 'type-fest'
 
@@ -76,5 +76,22 @@ export function getPropByPath(
     o: tempObj,
     k: key,
     v: value
+  }
+}
+
+/**
+ * 对象深度继承, 引用类型的值不进行合并
+ * @param data1 对象1
+ * @param data2 对象2
+ */
+export const deepExtend = (data1: Record<string, any>, data2: Record<string, any>) => {
+  for (const key in data1) {
+    let value1 = data1[key]
+    let value2 = data2[key]
+    if (isObject(value1)) {
+      isObject(value2) && deepExtend(value1, value2)
+    } else if (value2 || value2 === 0) {
+      data1[key] = value2
+    }
   }
 }

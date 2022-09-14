@@ -61,6 +61,9 @@
       ]"
     />
 
+    <el-input label="负责人姓名" field="leader.name" />
+    <el-input label="负责人电话" field="leader.phone" />
+
     <el-date-picker label="活动时间" type="datetime" field="date" />
 
     <el-checkbox-group label="活动类型" field="type">
@@ -145,6 +148,15 @@ const [data, rules] = useFormModel({
         return '上海疫情比较严重，请换个地方'
       }
       return ''
+    }
+  },
+
+  leader: {
+    // 指定一个对象
+    value: {},
+    children: {
+      name: { required: true },
+      phone: { required: true }
     }
   }
 },  {

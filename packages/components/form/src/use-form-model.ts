@@ -127,9 +127,7 @@ export default function useFormModel<
     const modelKeys = Object.keys(model)
     modelKeys.forEach(key => {
       const modelItem = model[key]
-      if (modelItem.value) {
-        rawModel[key] = modelItem.value
-      }
+      rawModel[key] = modelItem.value
       if (modelItem.children) {
         let value = rawModel[key]
         if (!value || !isObject(value)) {
@@ -145,6 +143,8 @@ export default function useFormModel<
   }
 
   reduceRawModel(model, rawModel)
+
+  console.log(rawModel)
 
   const rules: Record<string, Omit<FormModelItem, 'value'>> = {}
 
