@@ -29,7 +29,7 @@ import ElDialog from '@element-ultra/components/dialog'
 import ElButton from '@element-ultra/components/button'
 import { formDialogProps } from './form-dialog'
 import { formInjectionKey } from '@element-ultra/tokens'
-import { provide, shallowRef } from 'vue'
+import { provide, shallowRef, watch } from 'vue'
 
 defineOptions({
   name: 'ElFormDialog'
@@ -56,9 +56,15 @@ provide(formInjectionKey, {
   deleteForm
 })
 
+watch(
+  () => props.modelValue,
+  visible => {
+    !visible && resetForm()
+  }
+)
+
 const cancel = () => {
   emit('update:modelValue', false)
-  resetForm()
 }
 
 const validateForm = async () => {
