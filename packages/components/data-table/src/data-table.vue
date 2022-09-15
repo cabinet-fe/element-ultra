@@ -1,14 +1,20 @@
 <template>
-  <div :class="ns.b()">
+  <div
+    :class="{
+      [ns.b()]: true,
+      [ns.is('left-fixed-shadow')]: showLeftFixedShadow,
+      [ns.is('right-fixed-shadow')]: showRightFixedShadow
+    }"
+  >
+    {{ c.log('rendered') }}
     <DataTableHeader />
-
     <DataTableBody />
     <DataTableFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import { provide } from 'vue'
+import { provide, shallowRef, watch } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import DataTableHeader from './data-table-header.vue'
 import DataTableBody from './data-table-body.vue'
@@ -29,11 +35,28 @@ const props = defineProps(dataTableProps)
 
 const state = useState(props)
 
+const styles = useStyle(props)
+
+const showLeftFixedShadow = shallowRef(false)
+const showRightFixedShadow = shallowRef(false)
+
+watch(
+  [
+    () => styles.offsetWidth.value,
+    () => styles.scrollWidth.value,
+    () => styles.scrollLeft.value
+  ],
+  ([offsetWidth, scrollWidth, scrollLeft]) => {
+    showLeftFixedShadow.value = scrollLeft > 0 && scrollWidth > offsetWidth
+    showRightFixedShadow.value = scrollWidth - offsetWidth > scrollLeft
+  }
+)
+
 // 依赖提供
 provide(dataTableToken, {
   state,
   ...useColumns(props, state),
-  ...useStyle(props),
+  ...styles,
   rootProps: props
 })
 </script>

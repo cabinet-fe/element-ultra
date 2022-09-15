@@ -12,16 +12,33 @@
     min-width: 100%;
   }
 
+  @include e(header-wrap) {
+    @include when(resizing) {
+      cursor: col-resize;
+    }
+  }
+
   @include e(header) {
     background-color: #fff;
-
+    user-select: none;
     &-wrap {
       width: 100%;
       overflow: hidden;
     }
   }
 
-  @include e(body) {
+  @include e(column-resize) {
+    position: absolute;
+    height: 100%;
+    width: 4px;
+    top: 0;
+    cursor: col-resize;
+    z-index: 1;
+    box-sizing: border-box;
+
+    &:hover {
+      border-right: 4px dotted #ccc;
+    }
   }
 
   @include e(header-cell) {
@@ -30,11 +47,25 @@
     padding: 4px 4px;
     word-break: break-all;
     box-sizing: border-box;
+
+    @include when(left, right) {
+      position: sticky;
+      z-index: 1;
+    }
+
+    @include when(leaf) {
+      position: relative;
+    }
+  }
+
+  @include e(body) {
   }
 
   @include e(row) {
     &:hover {
-      background-color: var(--el-fill-color-light);
+      td {
+        background-color: var(--el-fill-color-light);
+      }
     }
   }
 
@@ -53,8 +84,42 @@
       overflow: hidden;
       word-break: break-all;
     }
+
+    @include when(left, right) {
+      position: sticky;
+      z-index: 1;
+      background-color: var(--el-bg-color);
+    }
+
+    @include when(right) {
+      &.is-first > div {
+        border-left: 1px solid #eee;
+      }
+    }
+
+    @include when(center) {
+      &.is-last > div {
+        border-right: none;
+      }
+    }
   }
 
   @include e(footer) {
+  }
+
+  @include when(right-fixed-shadow) {
+    .el-data-table__cell.is-right.is-first {
+      div {
+        box-shadow: -2px 2px 2px 1px #eee;
+      }
+    }
+  }
+
+  @include when(left-fixed-shadow) {
+    .el-data-table__cell.is-left.is-last {
+     & > div {
+        box-shadow: 2px 2px 2px 1px #eee;
+      }
+    }
   }
 }

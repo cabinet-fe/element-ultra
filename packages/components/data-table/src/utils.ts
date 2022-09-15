@@ -1,9 +1,25 @@
 import { last } from 'lodash'
 import type { DataTableColumn } from './data-table'
 
+export interface InternalColumn extends DataTableColumn {
+  index?: number
+}
+
+export interface FixedColumn extends InternalColumn {
+  left?: number
+  right?: number
+  width: number
+  fixed: 'left' | 'right'
+  index: number
+}
+
+export interface StaticColumn extends InternalColumn {
+  index: number
+}
+
 export interface TableHeader {
   /** 节点数据 */
-  data: DataTableColumn
+  data: InternalColumn
   /** 子节点 */
   children?: TableHeader[]
   /** 父节点 */
@@ -28,11 +44,12 @@ export function bfs(treeData: DataTableColumn[]) {
     parent: TableHeader | null = null
   ): TableHeader[] => {
     return data.map(item => {
+      const isLeaf = !item.children?.length
       return {
         data: item,
         parent: parent,
         depth: depth,
-        isLeaf: !item.children?.length,
+        isLeaf,
         size: 0
       }
     })

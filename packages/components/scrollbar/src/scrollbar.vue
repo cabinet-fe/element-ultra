@@ -104,10 +104,11 @@ const updateScrollState = (
 }
 
 const handleScroll = (event: UIEvent) => {
-  const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = event.target as HTMLElement
+  const { scrollTop, scrollLeft, scrollHeight, scrollWidth } =
+    event.target as HTMLElement
   updateScrollState(scrollTop, scrollLeft, scrollHeight, scrollWidth)
   update()
-  emit('scroll', { scrollTop, scrollLeft })
+  emit('scroll', { scrollTop, scrollLeft, scrollHeight, scrollWidth })
 }
 
 // TODO: refactor method overrides, due to script setup dts
@@ -141,7 +142,6 @@ const setScrollLeft = (value: number) => {
 const update = () => {
   const offsetHeight = wrapHeight.value - GAP // wrap$.value.offsetHeight - GAP
   const offsetWidth = wrapWidth.value - GAP // wrap$.value.offsetWidth - GAP
-
   const originalHeight = offsetHeight ** 2 / _scrollHeight // wrap$.value.scrollHeight
   const originalWidth = offsetWidth ** 2 / _scrollWidth // wrap$.value.scrollWidth
   const height = Math.max(originalHeight, props.minSize)
@@ -177,7 +177,11 @@ watch(
       stopResizeObserver?.()
       stopResizeListener?.()
     } else {
-      ;({ stop: stopResizeObserver } = useResizeObserver(resize$, update))
+      ;({ stop: stopResizeObserver } = useResizeObserver(resize$, ([entry]) => {
+        update()
+
+        emit('resize', entry.target)
+      }))
       stopResizeListener = useEventListener('resize', update)
     }
   },

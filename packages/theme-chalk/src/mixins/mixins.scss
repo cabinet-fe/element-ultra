@@ -165,10 +165,12 @@
   }
 }
 
-@mixin when($state) {
+@mixin when($states...) {
   @at-root {
-    &.#{$state-prefix + $state} {
-      @content;
+    @each $state in $states {
+      &.#{$state-prefix + $state} {
+        @content;
+      }
     }
   }
 }

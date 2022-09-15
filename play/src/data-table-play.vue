@@ -57,7 +57,7 @@ const columns: DataTableColumn[] = [
       { name: '测试2-3', key: 'test2-3', slot: 'test2' }
     ]
   },
-  { name: '测试3', key: 'test3' ,slot: 'test2'}
+  { name: '测试3', key: 'test3' ,slot: 'test2', fixed: 'right' }
 ]
 
 const count = shallowRef(3000)

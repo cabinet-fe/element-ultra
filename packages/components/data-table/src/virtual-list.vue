@@ -1,5 +1,5 @@
 <template>
-  <ElScrollbar ref="containerRef" :height="height" @scroll="handleScroll">
+  <ElScrollbar ref="containerRef" :height="height" @resize="handleResize" @scroll="handleScroll">
     <div :style="listStyle">
       <component
         :is="tag"
@@ -87,12 +87,15 @@ const props = defineProps({
 type ScrollCtx = {
   scrollTop: number
   scrollLeft: number
+  scrollHeight: number
+  scrollWidth: number
 }
 
 const wrapRef = shallowRef<HTMLElement>()
 
 const emit = defineEmits({
-  scroll: (s: ScrollCtx) => true
+  scroll: (s: ScrollCtx) => true,
+  resize: (s: Element) => true,
 })
 
 /** 总高度, 预估高度 */
@@ -185,16 +188,23 @@ const handleScroll = computed(() => {
   return props.idle ? handleScrollWhenIdle : handleScrollNormal
 })
 
+const handleResize = (s: Element) => {
+  emit('resize', s)
+}
+
 const containerRef = shallowRef<InstanceType<typeof ElScrollbar>>()
 
 watch(
   () => props.itemSize,
-  size => {
-    const scrollTop = containerRef.value?.wrap$?.scrollTop
+  () => {
+    if (!containerRef.value?.wrap$) return
+    const { scrollHeight, scrollTop, scrollLeft, scrollWidth } = containerRef.value?.wrap$
     scrollTop &&
       handleScroll.value({
         scrollTop,
-        scrollLeft: 0
+        scrollLeft,
+        scrollHeight,
+        scrollWidth
       })
   }
 )

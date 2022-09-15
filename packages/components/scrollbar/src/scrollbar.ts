@@ -1,6 +1,5 @@
 import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
-import { isNumber } from '@element-ultra/utils'
 
 export const scrollbarProps = {
   height: {
@@ -42,13 +41,14 @@ export const scrollbarProps = {
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 
 export const scrollbarEmits = {
-  scroll: ({
-    scrollTop,
-    scrollLeft
-  }: {
+  scroll: (ctx: {
     scrollTop: number
     scrollLeft: number
-  }) => [scrollTop, scrollLeft].every(isNumber)
+    scrollHeight: number
+    scrollWidth: number
+  }) => true,
+
+  resize: (el: Element) => true
 }
 export type ScrollbarEmits = typeof scrollbarEmits
 

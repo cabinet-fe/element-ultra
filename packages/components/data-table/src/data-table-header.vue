@@ -1,34 +1,31 @@
 <template>
-  <div :class="ns.e('header-wrap')" ref="headerRef">
+  <div
+    :class="[ns.e('header-wrap'), ns.is('resizing', resizing)]"
+    ref="headerRef"
+  >
     <table :class="ns.e('header')">
       <thead>
         <tr v-for="(row, rowIndex) of headerRows">
-          <template v-if="rowIndex === 0">
-            <th
-              v-for="column of extraColumns"
-              :key="column.key"
-              :rowspan="headerRows.length"
-              :style="getExtraCellStyle(column)"
-              :class="cellClass"
-            >
-              <ElSlotsRender
-                :nodes="[
-                  typeof column.name === 'function'
-                    ? column.name()
-                    : column.name
-                ]"
-              />
-            </th>
-          </template>
-
           <th
             v-for="header of row"
             :rowspan="getCellRowspan(header, rowIndex)"
             :colspan="getCellColspan(header)"
             :key="header.data.key"
-            :class="cellClass"
+            :class="{
+              [cellClass]: true,
+              'is-left': header.data.fixed === 'left',
+              'is-right': header.data.fixed === 'right',
+              'is-leaf': header.isLeaf
+            }"
             :style="getHeaderCellStyle(header)"
           >
+            <span
+              v-if="header.isLeaf"
+              :class="[ns.e('column-resize')]"
+              style="right: 0"
+              @mousedown="handleResizeMousedown($event, header)"
+            ></span>
+
             <ElSlotsRender
               :nodes="[
                 typeof header.data.name === 'function'
@@ -52,15 +49,10 @@ import { dataTableToken } from './token'
 import type { TableHeader } from './utils'
 
 const ns = useNamespace('data-table')
+
 const cellClass = ns.e('header-cell')
 
-const {
-  headerRows,
-  scrollLeft,
-  extraColumns,
-  getHeaderCellStyle,
-  getExtraCellStyle
-} = inject(dataTableToken)!
+const { headerRows, scrollLeft, getHeaderCellStyle } = inject(dataTableToken)!
 
 const headerRowLen = computed(() => {
   return headerRows.value.length
@@ -75,6 +67,26 @@ const getCellRowspan = (column: TableHeader, rowIndex: number) => {
 
 const getCellColspan = (column: TableHeader) => {
   return column.size || undefined
+}
+
+const resizing = shallowRef(false)
+
+let startX = 0
+
+const handleResizeMousedown = (e: MouseEvent, header: TableHeader) => {
+  resizing.value = true
+  startX = e.pageX
+
+  document.addEventListener('mousemove', resizeMousemoveHandler)
+  document.addEventListener('mouseup', resizeMouseupHandler)
+}
+const resizeMouseupHandler = () => {
+  resizing.value = false
+  document.removeEventListener('mousemove', resizeMousemoveHandler)
+  document.removeEventListener('mouseup', resizeMouseupHandler)
+}
+const resizeMousemoveHandler = (e: MouseEvent) => {
+  console.log(e.pageX - startX)
 }
 
 const headerRef = shallowRef<HTMLDivElement>()

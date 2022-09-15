@@ -153,7 +153,9 @@ export default defineComponent({
           perimeter.value * rate.value * (props.percentage / 100)
         }px, ${perimeter.value}px`,
         strokeDashoffset: strokeDashoffset.value,
-        transition: 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease'
+        transition: props.indeterminate
+          ? 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease'
+          : undefined
       })
     )
 

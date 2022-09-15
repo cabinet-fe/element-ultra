@@ -45,10 +45,18 @@ export default function useStyle(props: DataTableProps) {
 
   /** 左偏移量 */
   const scrollLeft = shallowRef(0)
+  const scrollWidth = shallowRef(0)
+  const offsetWidth = shallowRef(0)
 
   return {
     /** 水平滚动的偏移量 */
     scrollLeft,
+
+    /** 水平滚动宽度 */
+    scrollWidth,
+
+    /** 滚动容器的宽度 */
+    offsetWidth,
 
     /** 获取单元格的通用样式 */
     getCellStyle,

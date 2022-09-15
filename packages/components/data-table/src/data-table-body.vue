@@ -7,11 +7,12 @@
     :item-size="32"
     :class="ns.e('body')"
     @scroll="handleScroll"
+    @resize="handleResize"
     idle
   >
     <template #prepend>
       <colgroup>
-        <template v-for="item of columns">
+        <template v-for="item in leafColumns">
           <col
             v-for="column of item"
             :key="column.key"
@@ -23,19 +24,60 @@
 
     <template #default="{ index, item, ...rest }">
       <tr :class="ns.e('row')">
-        <template v-for="(columnItem, type) of columns">
-          <td
-            v-for="column of columnItem"
-            :key="column.key"
-            :class="[ns.e('cell'), ns.e(`cell--${type}`)]"
-          >
-            <div v-bind="rest" :style="{ 'justify-content': column.align }">
-              <ElSlotsRender
-                :nodes="[column.render!(getChainValue(item, column.key), item, index)]"
-              />
-            </div>
-          </td>
-        </template>
+        <!-- 左 -->
+        <td
+          v-for="(column, colIndex) in leafColumns.left"
+          :key="column.key"
+          :class="[
+            cellClass,
+            ns.is('left'),
+            ns.is('last', colIndex + 1 === leafColumns.left.length)
+          ]"
+          :style="{
+            left: column.left + 'px'
+          }"
+        >
+          <div v-bind="rest" :style="{ 'justify-content': column.align }">
+            <ElSlotsRender
+              :nodes="[column.render!(getChainValue(item, column.key), item, index)]"
+            />
+          </div>
+        </td>
+
+        <!-- 中 -->
+        <td
+          v-for="(column, colIndex) of leafColumns.center"
+          :key="column.key"
+          :class="[
+            cellClass,
+            ns.is('center'),
+            ns.is('last', colIndex + 1 === leafColumns.center.length)
+          ]"
+        >
+          <div v-bind="rest" :style="{ 'justify-content': column.align }">
+            <ElSlotsRender
+              :nodes="[
+                column.render!(getChainValue(item, column.key), item, index)
+              ]"
+            />
+          </div>
+        </td>
+
+        <!-- 右 -->
+        <td
+          v-for="(column, colIndex) in leafColumns.right"
+          :key="column.key"
+          :class="[cellClass, ns.is('right'), ns.is('first', colIndex === 0)]"
+          :style="{
+            right: column.right + 'px'
+          }"
+        >
+          <div v-bind="rest" :style="{ 'justify-content': column.align }">
+            <ElSlotsRender
+              :nodes="[column.render!(getChainValue(item, column.key), item, index)]"
+            />
+          </div>
+        </td>
       </tr>
     </template>
 
@@ -56,9 +98,24 @@ defineOptions({
 })
 
 const ns = useNamespace('data-table')
-const { rootProps, getCellStyle, scrollLeft, columns } = inject(dataTableToken)!
+const cellClass = ns.e('cell')
+
+const {
+  rootProps,
+  getCellStyle,
+  scrollLeft,
+  scrollWidth,
+  offsetWidth,
+  leafColumns
+} = inject(dataTableToken)!
 
 const handleScroll = (s: any) => {
   scrollLeft.value = s.scrollLeft
+}
+
+const handleResize = (el: Element) => {
+  scrollLeft.value = el.scrollLeft
+  scrollWidth.value = el.scrollWidth
+  offsetWidth.value = (el as HTMLElement).offsetWidth
 }
 </script>
