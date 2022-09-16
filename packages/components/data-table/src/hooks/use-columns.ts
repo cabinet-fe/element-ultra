@@ -173,13 +173,13 @@ export default function useColumns(
 
         // 移动至对应的
         if (column.fixed === 'left') {
-          return result.left.push(column as FixedColumn)
+          return result.left.push(shallowReactive(column) as FixedColumn)
         }
         if (column.fixed === 'right') {
-          return result.right.push(column as FixedColumn)
+          return result.right.push(shallowReactive(column) as FixedColumn)
         }
 
-        return result.center.push(column as StaticColumn)
+        return result.center.push(shallowReactive(column) as StaticColumn)
       })
     })(allColumns.value)
 

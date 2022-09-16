@@ -1,4 +1,4 @@
-import { CSSProperties, shallowRef } from 'vue'
+import { CSSProperties, shallowRef, watch } from 'vue'
 import type { DataTableColumn, DataTableProps } from '../data-table'
 import type { TableHeader } from '../utils'
 
@@ -34,7 +34,6 @@ export default function useStyle(props: DataTableProps) {
 
   /** 获取额外列的单元格样式 */
   const getExtraCellStyle = (column: DataTableColumn) => {
-
     return Object.assign(
       {
         textAlign: column.align
@@ -43,10 +42,27 @@ export default function useStyle(props: DataTableProps) {
     )
   }
 
-  /** 左偏移量 */
   const scrollLeft = shallowRef(0)
   const scrollWidth = shallowRef(0)
   const offsetWidth = shallowRef(0)
+
+  const showLeftFixedShadow = shallowRef(false)
+  const showRightFixedShadow = shallowRef(false)
+
+  /** 计算表格固定栏的阴影 */
+  const updateFixedColumnsShadow = () => {
+    showLeftFixedShadow.value =
+      scrollLeft.value > 0 && scrollWidth.value > offsetWidth.value
+    showRightFixedShadow.value =
+      scrollWidth.value - offsetWidth.value > scrollLeft.value
+  }
+
+  watch(
+    [() => offsetWidth.value, () => scrollWidth.value, () => scrollLeft.value],
+    () => {
+      updateFixedColumnsShadow()
+    }
+  )
 
   return {
     /** 水平滚动的偏移量 */
@@ -58,6 +74,12 @@ export default function useStyle(props: DataTableProps) {
     /** 滚动容器的宽度 */
     offsetWidth,
 
+    /** 显示左侧固定栏的阴影 */
+    showLeftFixedShadow,
+
+    /** 显示右侧固定栏的阴影 */
+    showRightFixedShadow,
+
     /** 获取单元格的通用样式 */
     getCellStyle,
 
@@ -65,7 +87,9 @@ export default function useStyle(props: DataTableProps) {
     getHeaderCellStyle,
 
     /** 获取额外列的单元格样式 */
-    getExtraCellStyle
+    getExtraCellStyle,
+
+    updateFixedColumnsShadow
   }
 }
 

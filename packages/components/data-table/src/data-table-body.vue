@@ -10,6 +10,7 @@
     @resize="handleResize"
     idle
   >
+    <!-- 组 -->
     <template #prepend>
       <colgroup>
         <template v-for="item in leafColumns">
@@ -22,83 +23,48 @@
       </colgroup>
     </template>
 
-    <template #default="{ index, item, ...rest }">
+    <!-- 主数据 -->
+    <template #default="scoped">
       <tr :class="ns.e('row')">
         <!-- 左 -->
-        <td
+        <LeftCell
           v-for="(column, colIndex) in leafColumns.left"
-          :key="column.key"
-          :class="[
-            cellClass,
-            ns.is('left'),
-            ns.is('last', colIndex + 1 === leafColumns.left.length)
-          ]"
-          :style="{
-            left: column.left + 'px'
-          }"
-        >
-          <div v-bind="rest" :style="{ 'justify-content': column.align }">
-            <ElSlotsRender
-              :nodes="[column.render!(getChainValue(item, column.key), item, index)]"
-            />
-          </div>
-        </td>
-
+          :column="column"
+          :row-scoped="scoped"
+          :class="ns.is('last', colIndex + 1 === leafColumns.left.length)"
+        />
         <!-- 中 -->
-        <td
-          v-for="(column, colIndex) of leafColumns.center"
-          :key="column.key"
-          :class="[
-            cellClass,
-            ns.is('center'),
-            ns.is('last', colIndex + 1 === leafColumns.center.length)
-          ]"
-        >
-          <div v-bind="rest" :style="{ 'justify-content': column.align }">
-            <ElSlotsRender
-              :nodes="[
-                column.render!(getChainValue(item, column.key), item, index)
-              ]"
-            />
-          </div>
-        </td>
-
+        <CenterCell
+          v-for="(column, colIndex) in leafColumns.center"
+          :column="column"
+          :row-scoped="scoped"
+          :class="ns.is('last', colIndex + 1 === leafColumns.center.length)"
+        />
         <!-- 右 -->
-        <td
+        <RightCell
           v-for="(column, colIndex) in leafColumns.right"
-          :key="column.key"
-          :class="[cellClass, ns.is('right'), ns.is('first', colIndex === 0)]"
-          :style="{
-            right: column.right + 'px'
-          }"
-        >
-          <div v-bind="rest" :style="{ 'justify-content': column.align }">
-            <ElSlotsRender
-              :nodes="[column.render!(getChainValue(item, column.key), item, index)]"
-            />
-          </div>
-        </td>
+          :column="column"
+          :row-scoped="scoped"
+          :class="ns.is('first', colIndex === 0)"
+        />
       </tr>
     </template>
 
+    <!-- 合计栏 -->
     <template #append> </template>
   </VirtualList>
 </template>
 
 <script lang="ts" setup>
 import { inject } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
-import { dataTableToken } from './token'
+import { dataBodyToken, dataTableToken } from './token'
 import VirtualList from './virtual-list.vue'
-import ElSlotsRender from '@element-ultra/components/slots-render'
-import { getChainValue } from '@element-ultra/utils'
+import { provide } from 'vue'
+import { LeftCell, CenterCell, RightCell } from './data-table-cell'
 
 defineOptions({
   name: 'ElDataTableBody'
 })
-
-const ns = useNamespace('data-table')
-const cellClass = ns.e('cell')
 
 const {
   rootProps,
@@ -106,8 +72,19 @@ const {
   scrollLeft,
   scrollWidth,
   offsetWidth,
-  leafColumns
+  leafColumns,
+  ns
 } = inject(dataTableToken)!
+
+
+const ele = 'cell'
+
+provide(dataBodyToken, {
+  cellClass: ns.e(ele),
+  leftCellClass: ns.em(ele, 'left'),
+  centerCellClass: ns.em(ele, 'center'),
+  rightCellClass: ns.em(ele, 'right')
+})
 
 const handleScroll = (s: any) => {
   scrollLeft.value = s.scrollLeft

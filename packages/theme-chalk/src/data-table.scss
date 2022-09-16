@@ -1,5 +1,18 @@
 @use 'mixins/mixins' as *;
 
+@mixin shadow($offsetX) {
+  box-shadow: $offsetX 0 10px -10px #ddd inset;
+  content: '';
+  position: absolute;
+  top: 0px;
+  width: 10px;
+  bottom: -1px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  touch-action: none;
+  pointer-events: none;
+}
+
 @include b(data-table) {
   background-color: var(--el-bg-color-overlay);
   color: var(--el-text-color-regular);
@@ -8,8 +21,9 @@
   table {
     table-layout: fixed;
     border-spacing: 0;
-    border-collapse: collapse;
+    // border-collapse: collapse;
     min-width: 100%;
+    width: 100%;
   }
 
   @include e(header-wrap) {
@@ -44,8 +58,11 @@
   @include e(header-cell) {
     border-bottom: 1px solid #eee;
     box-shadow: -1px 0px 0px 0px #eee inset;
-    padding: 4px 4px;
+    padding: 4px 0;
     word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     box-sizing: border-box;
 
     @include when(left, right) {
@@ -71,55 +88,64 @@
 
   @include e(cell) {
     padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-    & > div {
-      display: flex;
-      align-items: center;
-      padding: 0 4px;
-      border-bottom: 1px solid #eee;
-      border-right: 1px solid #eee;
-      box-sizing: border-box;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      word-break: break-all;
-    }
-
-    @include when(left, right) {
+    &--left,
+    &--right {
       position: sticky;
       z-index: 1;
       background-color: var(--el-bg-color);
     }
 
-    @include when(right) {
-      &.is-first > div {
-        border-left: 1px solid #eee;
+    &--left {
+      @include when(last) {
       }
     }
 
-    @include when(center) {
-      &.is-last > div {
-        border-right: none;
+    &--right {
+      @include when(first) {
+        & > div {
+          border-left: 1px solid #eee;
+        }
+      }
+    }
+
+    &--center {
+      @include when(last) {
+        & > div {
+          border-right: none;
+        }
       }
     }
   }
 
-  @include e(footer) {
+
+  @include e(footer-wrap) {
+    overflow: hidden;
+
+  }
+  @include e(footer-cell) {
+    &--left,
+    &--right {
+      position: sticky;
+      z-index: 1;
+      background-color: var(--el-bg-color);
+    }
   }
 
   @include when(right-fixed-shadow) {
-    .el-data-table__cell.is-right.is-first {
-      div {
-        box-shadow: -2px 2px 2px 1px #eee;
-      }
+    .el-data-table__cell--right.is-first::before {
+      @include shadow(-10px);
+      left: -10px;
     }
   }
 
   @include when(left-fixed-shadow) {
-    .el-data-table__cell.is-left.is-last {
-     & > div {
-        box-shadow: 2px 2px 2px 1px #eee;
-      }
+    .el-data-table__cell--left.is-last::after {
+      @include shadow(10px);
+      right: -10px;
     }
   }
 }

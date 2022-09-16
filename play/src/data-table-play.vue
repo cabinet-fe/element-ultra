@@ -8,6 +8,7 @@
     checkable
     :columns="columns"
     :data="data"
+    show-summary
   >
     <template #test1="{ row }">
       <el-button link type="primary">{{ row.name }}</el-button>
@@ -29,7 +30,7 @@ const columns: DataTableColumn[] = [
   {
     name: () => <span style="color: red">姓名</span>,
     key: 'name',
-    align: 'center'
+    align: 'center',
   },
   { name: '测试1', key: 'test1', slot: 'test1' },
   {
