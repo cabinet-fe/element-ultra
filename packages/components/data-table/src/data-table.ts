@@ -1,3 +1,4 @@
+import type { ComponentSize } from '@element-ultra/constants'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 数据表格列 */
@@ -41,6 +42,11 @@ export const dataTableProps = {
   columnMinWidth: {
     type: Number,
     default: 100
+  },
+
+  /** 尺寸 */
+  size: {
+    type: String as PropType<ComponentSize>
   },
 
   /** 是否多选 */

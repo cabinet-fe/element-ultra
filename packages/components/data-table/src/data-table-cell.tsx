@@ -78,6 +78,7 @@ export const RightCell = defineComponent({
 
   setup(props) {
     const { cellClass, rightCellClass } = inject(dataBodyToken)!
+
     return () => {
       const { column, rowScoped } = props
       const { index, style, item } = rowScoped

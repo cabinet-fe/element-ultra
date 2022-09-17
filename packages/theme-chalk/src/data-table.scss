@@ -17,11 +17,12 @@
   background-color: var(--el-bg-color-overlay);
   color: var(--el-text-color-regular);
   border: 1px solid #eee;
+  font-size: 14px;
 
   table {
     table-layout: fixed;
     border-spacing: 0;
-    // border-collapse: collapse;
+    border-collapse: collapse;
     min-width: 100%;
     width: 100%;
   }
@@ -65,13 +66,23 @@
     white-space: nowrap;
     box-sizing: border-box;
 
-    @include when(left, right) {
+    &--left,
+    &--right {
       position: sticky;
       z-index: 1;
+      background-color: var(--el-bg-color);
     }
 
-    @include when(leaf) {
-      position: relative;
+    &--center {
+      @include when(leaf) {
+        position: relative;
+      }
+    }
+
+    &--right {
+      @include when(first) {
+        box-shadow: 1px 0px 0px 0px #eee inset;
+      }
     }
   }
 
@@ -91,6 +102,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    box-shadow: -1px -1px 0px 0px #eee inset;
 
     &--left,
     &--right {
@@ -124,15 +136,20 @@
 
   @include e(footer-wrap) {
     overflow: hidden;
-
   }
+
+
   @include e(footer-cell) {
+    box-shadow: -1px 0px 0px 0px #eee inset;
+
     &--left,
     &--right {
       position: sticky;
       z-index: 1;
       background-color: var(--el-bg-color);
     }
+
+
   }
 
   @include when(right-fixed-shadow) {

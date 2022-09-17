@@ -1,4 +1,4 @@
-import { useFormItem } from '@element-ultra/hooks'
+import { useFormItem, useSize } from '@element-ultra/hooks'
 import { computed, inject, shallowRef } from 'vue'
 import type { CheckboxEmit, CheckboxProps } from './checkbox'
 import { checkboxGroupInjectionKey } from './token'
@@ -38,9 +38,7 @@ export const useCheckbox = (props: CheckboxProps, emit: CheckboxEmit) => {
       (props.value !== undefined && groupCheckedSet?.value.has(props.value))
     )
   })
-  const checkboxSize = computed(() => {
-    return props.size || groupProps?.size || form?.props.size || 'default'
-  })
+  const checkboxSize = useSize({ props })
 
   let focus = shallowRef(false)
 

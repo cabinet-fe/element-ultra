@@ -169,10 +169,11 @@ let scroll = debounce((s: ScrollCtx) => {
 let idleId: number
 /** 空闲时滚动, 防止cpu阻止渲染 */
 const handleScrollWhenIdle = (s: ScrollCtx) => {
+  emit('scroll', s)
+
   // 计算当前渲染位置
   cancelIdleCallback(idleId)
   idleId = requestIdleCallback(() => {
-    emit('scroll', s)
     scroll(s)
   })
 }

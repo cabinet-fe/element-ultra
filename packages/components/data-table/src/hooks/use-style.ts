@@ -1,21 +1,36 @@
-import { CSSProperties, shallowRef, watch } from 'vue'
+import { useConfig } from '@element-ultra/hooks'
+import { computed, CSSProperties, shallowRef, watch } from 'vue'
 import type { DataTableColumn, DataTableProps } from '../data-table'
 import type { TableHeader } from '../utils'
 
 export default function useStyle(props: DataTableProps) {
-  const { columnMinWidth } = props
-
   /**
    * 获取单元格的通用样式
    * @param column 列
    */
   const getCellStyle = (column: DataTableColumn) => {
     const { width, minWidth } = column
+    const { columnMinWidth } = props
     return {
       width: width ? width + 'px' : undefined,
       minWidth: (width || minWidth || columnMinWidth) + 'px'
     }
   }
+
+  /** 表格大小尺寸映射 */
+  const [config] = useConfig()
+
+  const sizeMapper = {
+    small: 24,
+    default: 32,
+    large: 40
+  }
+  /** 表格项尺寸 */
+  const itemSize = computed(() => {
+    const size = props.size || config.size || 'default'
+
+    return sizeMapper[size] || 32
+  })
 
   /**
    * 获取表头单元格的样式
@@ -73,6 +88,9 @@ export default function useStyle(props: DataTableProps) {
 
     /** 滚动容器的宽度 */
     offsetWidth,
+
+    /** 行高大小 */
+    itemSize,
 
     /** 显示左侧固定栏的阴影 */
     showLeftFixedShadow,

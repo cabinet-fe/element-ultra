@@ -27,8 +27,7 @@ export const checkboxProps = {
     default: false
   },
   size: {
-    type: String as PropType<ComponentSize>,
-    default: 'default'
+    type: String as PropType<ComponentSize>
   },
   tabindex: [String, Number]
 }

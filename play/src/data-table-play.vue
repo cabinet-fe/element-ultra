@@ -23,9 +23,14 @@
 
 <script lang="tsx" setup>
 import type { DataTableColumn } from '@element-ultra/components'
+import { useConfig } from '@element-ultra/hooks'
 import { computed } from '@vue/reactivity'
 import { shallowRef } from 'vue'
 
+const [_, setStore] = useConfig()
+setStore({
+  size: 'small'
+})
 const columns: DataTableColumn[] = [
   {
     name: () => <span style="color: red">姓名</span>,

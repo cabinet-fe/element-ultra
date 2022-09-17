@@ -1,11 +1,8 @@
 <template>
   <div :class="ns.e('footer-wrap')" ref="footerRef">
-
-
-
-    <table>
-       <!-- 组 -->
-      <colgroup>
+    <table :class="ns.e('footer')">
+      <!-- 组 -->
+      <colgroup :class="ns.e('footer-group')">
         <template v-for="item in leafColumns">
           <col
             v-for="column of item"
@@ -44,7 +41,8 @@ import { inject, provide, shallowRef, watch } from 'vue'
 import { dataFooterToken, dataTableToken } from './token'
 import { LeftCell, CenterCell, RightCell } from './data-table-footer-cell'
 
-const { rootProps, leafColumns, ns, scrollLeft, getCellStyle } = inject(dataTableToken)!
+const { rootProps, leafColumns, ns, scrollLeft, getCellStyle } =
+  inject(dataTableToken)!
 
 const ele = 'footer-cell'
 

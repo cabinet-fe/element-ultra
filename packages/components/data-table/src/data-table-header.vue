@@ -4,6 +4,17 @@
     ref="headerRef"
   >
     <table :class="ns.e('header')">
+      <!-- 组 -->
+      <colgroup :class="ns.e('header-group')">
+        <template v-for="item in leafColumns">
+          <col
+            v-for="column of item"
+            :key="column.key"
+            :style="getCellStyle(column)"
+          />
+        </template>
+      </colgroup>
+
       <thead>
         <tr v-for="(row, rowIndex) of headerRows">
           <th
@@ -18,7 +29,11 @@
               [cellRightClass]: header.data.fixed === 'right',
               'is-leaf': header.isLeaf
             }"
-            :style="getHeaderCellStyle(header)"
+            :style="{
+              'text-align': header.data.align,
+              left: header.data.left + 'px',
+              right: header.data.right + 'px'
+            }"
           >
             <span
               v-if="header.isLeaf"
@@ -52,10 +67,10 @@ import type { TableHeader } from './utils'
 const {
   headerRows,
   scrollLeft,
-  getHeaderCellStyle,
   updateFixedColumnsShadow,
   leafColumns,
-  ns
+  ns,
+  getCellStyle
 } = inject(dataTableToken)!
 
 const cellClass = ns.e('header-cell')
@@ -84,7 +99,10 @@ let startX = 0
 let currentColIndex = -1
 let currentNodeOriginWidth = 0
 let currentNode: HTMLElement | null = null
-let cols: any = []
+
+let headerCols: NodeList | null = null
+let bodyCols: NodeList | null = null
+let footerCols: NodeList | null = null
 
 /** 重置为初始状态 */
 const resetResizeState = () => {
@@ -92,7 +110,9 @@ const resetResizeState = () => {
   currentColIndex = -1
   currentNodeOriginWidth = 0
   currentNode = null
-  cols = []
+  headerCols = null
+  bodyCols = null
+  footerCols = null
 }
 
 const handleResizeMousedown = (e: MouseEvent, header: TableHeader) => {
@@ -102,7 +122,10 @@ const handleResizeMousedown = (e: MouseEvent, header: TableHeader) => {
   currentColIndex = header.data.index!
   currentNode = (e.target as HTMLSpanElement).parentElement
   currentNodeOriginWidth = currentNode!.offsetWidth
-  cols = document.querySelectorAll('.el-data-table__body col')
+
+  headerCols = document.querySelectorAll('.el-data-table__header col')
+  bodyCols = document.querySelectorAll('.el-data-table__body col')
+  footerCols = document.querySelectorAll('.el-data-table__footer col')
 
   document.addEventListener('mousemove', resizeMousemoveHandler)
   document.addEventListener('mouseup', resizeMouseupHandler)
@@ -129,10 +152,14 @@ const resizeMouseupHandler = () => {
 const resizeMousemoveHandler = throttle((e: MouseEvent) => {
   let targetWidth = currentNodeOriginWidth + e.pageX - startX + 'px'
 
-  currentNode!.style.width = targetWidth
-  currentNode!.style.minWidth = targetWidth
-  cols[currentColIndex].style.width = targetWidth
-  cols[currentColIndex].style.minWidth = targetWidth
+  ~[
+    headerCols![currentColIndex],
+    bodyCols![currentColIndex],
+    footerCols![currentColIndex]
+  ].forEach(node => {
+    node.style.width = targetWidth
+    node.style.minWidth = targetWidth
+  })
 }, 16.7)
 
 const headerRef = shallowRef<HTMLDivElement>()

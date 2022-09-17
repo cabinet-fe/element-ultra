@@ -18,7 +18,8 @@ export const LeftCell = defineComponent({
 
   setup(props) {
     const { cellClass, leftCellClass } = inject(dataFooterToken)!
-    const { rootProps } = inject(dataTableToken)!
+    const { rootProps, itemSize } = inject(dataTableToken)!
+
     return () => {
       const { column } = props
 
@@ -27,7 +28,8 @@ export const LeftCell = defineComponent({
           class={[cellClass, leftCellClass]}
           style={{
             left: column.left + 'px',
-            'text-align': column.align
+            'text-align': column.align,
+            height: itemSize.value + 'px'
           }}
         >
           {rootProps.data.reduce((acc, cur) => {
@@ -46,13 +48,14 @@ export const CenterCell = defineComponent({
 
   setup(props) {
     const { cellClass, centerCellClass } = inject(dataFooterToken)!
-    const { rootProps } = inject(dataTableToken)!
+    const { rootProps, itemSize } = inject(dataTableToken)!
+
     return () => {
       const { column } = props
       return (
         <td
           class={[cellClass, centerCellClass]}
-          style={{ 'text-align': column.align }}
+          style={{ 'text-align': column.align, height: itemSize.value + 'px' }}
         >
           {rootProps.data.reduce((acc, cur) => {
             return acc + +cur[column.key]
@@ -70,7 +73,8 @@ export const RightCell = defineComponent({
 
   setup(props) {
     const { cellClass, rightCellClass } = inject(dataFooterToken)!
-    const { rootProps } = inject(dataTableToken)!
+    const { rootProps, itemSize } = inject(dataTableToken)!
+
     return () => {
       const { column } = props
       return (
@@ -78,7 +82,8 @@ export const RightCell = defineComponent({
           class={[cellClass, rightCellClass]}
           style={{
             right: column.right + 'px',
-            'text-align': column.align
+            'text-align': column.align,
+            height: itemSize.value + 'px'
           }}
         >
           {rootProps.data.reduce((acc, cur) => {

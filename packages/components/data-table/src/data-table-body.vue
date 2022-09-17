@@ -4,7 +4,7 @@
     :data="rootProps.data"
     height="600px"
     :total="rootProps.data?.length || 0"
-    :item-size="32"
+    :item-size="itemSize"
     :class="ns.e('body')"
     @scroll="handleScroll"
     @resize="handleResize"
@@ -12,7 +12,7 @@
   >
     <!-- 组 -->
     <template #prepend>
-      <colgroup>
+      <colgroup :class="ns.e('body-group')">
         <template v-for="item in leafColumns">
           <col
             v-for="column of item"
@@ -73,9 +73,9 @@ const {
   scrollWidth,
   offsetWidth,
   leafColumns,
-  ns
+  ns,
+  itemSize
 } = inject(dataTableToken)!
-
 
 const ele = 'cell'
 
