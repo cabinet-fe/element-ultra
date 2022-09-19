@@ -90,9 +90,9 @@ setTimeout(() => {
     {
       name: '姓名',
       key: 'name',
-
+      fixed: 'left',
       children: [
-        { name: 'child', key: 'child1',  fixed: 'left', },
+        { name: 'child', key: 'child1' },
         { name: 'child2', key: 'child2' }
       ]
     },
@@ -100,35 +100,36 @@ setTimeout(() => {
       name: '钱',
       key: 'money',
       preset: 'money',
-      fixed: 'left'
+      fixed: 'left',
+      width: 100
     },
     {
       name: '姓名',
-      key: 'name'
+      key: 'name1'
     },
     {
       name: '姓名',
-      key: 'name'
+      key: 'name2'
     },
     {
       name: '姓名',
-      key: 'name'
+      key: 'name3'
     },
     {
       name: '姓名',
-      key: 'name'
+      key: 'name4'
     },
     {
       name: '姓名',
-      key: 'name'
+      key: 'name5'
     },
     {
       name: '姓名',
-      key: 'name'
+      key: 'name6'
     },
     {
       name: '姓名',
-      key: 'name'
+      key: 'name7'
     },
     // {
     //   name: '姓名',

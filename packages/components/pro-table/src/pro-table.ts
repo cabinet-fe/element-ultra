@@ -1,5 +1,7 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { DataTableColumn } from '../../data-table/src/data-table'
+import type { DataTableColumn } from '@element-ultra/components/data-table'
+import type { RequestResponse } from '@element-ultra/hooks'
+import type { EmitFn } from '@element-ultra/utils'
 
 export const proTableProps = {
   /** 数据请求接口, 如果传了data属性, 该属性将失效 */
@@ -24,6 +26,14 @@ export const proTableProps = {
     type: [Boolean, Function] as PropType<
       boolean | ((row: any, index: number) => boolean)
     >
+  },
+  /** 多选选中的数据 */
+  checked: {
+    type: Array as PropType<any[]>
+  },
+  /** 单选选中的数据 */
+  selected: {
+    type: Object
   },
   /** 显示查询按钮, 默认会根据api属性和是否查询条件来判断 */
   showSearchButton: {
@@ -85,6 +95,13 @@ export const proTableProps = {
   showSummary: Boolean
 }
 
+export const proTableEmits = {
+  'update:checked': (checked: any[]) => true,
+  'update:selected': (selected: any) => true,
+  fetch: (query: Record<string, any>) => true,
+  loaded: (res: RequestResponse) => true
+}
+
 /** 专业数据表格类配置 */
 export interface ProTableColumn extends DataTableColumn {
   /** 定义此列的动态插槽 */
@@ -95,3 +112,5 @@ export interface ProTableColumn extends DataTableColumn {
 
 /** 专业表格属性 */
 export type ProTableProps = ExtractPropTypes<typeof proTableProps>
+
+export type ProTableEmits = EmitFn<typeof proTableEmits>

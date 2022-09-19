@@ -1,8 +1,12 @@
 import type { ComponentSize } from '@element-ultra/constants'
+import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 数据表格列 */
-export interface DataTableColumn {
+export type DataTableColumn = {
+  /** 是否固定 */
+  fixed?: 'left' | 'right'
+  align?: 'left' | 'center' | 'right'
   /** 列的默认宽度 */
   width?: number
   /** 列的最小宽度 */
@@ -15,10 +19,6 @@ export interface DataTableColumn {
   sort?: boolean
   /** 自定义渲染 */
   render?: (val: any, row: any, index: number) => any
-  /** 对齐方式 */
-  align?: 'left' | 'center' | 'right'
-  /** 是否固定 */
-  fixed?: 'left' | 'right'
   /** 子列 */
   children?: DataTableColumn[]
   /** 插槽名称, 开启将会有个默认插槽 */
@@ -30,6 +30,11 @@ export const dataTableProps = {
   columns: {
     type: Array as PropType<DataTableColumn[]>,
     required: true
+  },
+
+  /** 指定表格为树形结构 */
+  tree: {
+    type: [Boolean, String] as PropType<boolean | string>
   },
 
   /** 表格数据 */
@@ -57,12 +62,22 @@ export const dataTableProps = {
     default: false
   },
 
+  /** 多选数据 */
+  checked: {
+    type: Array as PropType<any[]>
+  },
+
   /** 是否可以单选 */
   selectable: {
     type: [Function, Boolean] as PropType<
       boolean | ((row: any, index: number) => boolean)
     >,
     default: false
+  },
+
+  /** 单选数据 */
+  selected: {
+    type: Object
   },
 
   /** 显示序号, 可以指定continuos来表示连续的字段, 这样就算跨页也能持续 */
@@ -78,4 +93,12 @@ export const dataTableProps = {
   summaryKeys: Array as PropType<string[]>
 } as const
 
+export const dataTableEmits = {
+  'columns-change': () => true,
+  check: (checked: any[]) => true,
+  select: (selection: any) => true
+}
+
 export type DataTableProps = ExtractPropTypes<typeof dataTableProps>
+
+export type DataTableEmits = EmitFn<typeof dataTableEmits>

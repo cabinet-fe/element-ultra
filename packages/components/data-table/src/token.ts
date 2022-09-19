@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue'
-import type { DataTableProps } from './data-table'
+import type { DataTableEmits, DataTableProps } from './data-table'
 import type useColumns from './hooks/use-columns'
 import type useStyle from './hooks/use-style'
 import type useState from './hooks/use-state'
@@ -8,6 +8,7 @@ import type { useNamespace } from '@element-ultra/hooks'
 export const dataTableToken: InjectionKey<
   {
     rootProps: DataTableProps
+    emit: DataTableEmits,
     state: ReturnType<typeof useState>
     ns: ReturnType<typeof useNamespace>
   } & ReturnType<typeof useColumns> &

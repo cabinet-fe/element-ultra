@@ -1,4 +1,4 @@
-import { computed, shallowReactive } from 'vue'
+import { computed, shallowReactive, watch } from 'vue'
 import type { DataTableProps } from '../data-table'
 
 export default function useState(props: DataTableProps) {
@@ -8,6 +8,7 @@ export default function useState(props: DataTableProps) {
     /** 单选时选中的数据 */
     selected: null as any
   })
+
 
   // 多选相关逻辑----------------------------------------
   /** 全选中 */
@@ -29,6 +30,8 @@ export default function useState(props: DataTableProps) {
     } else {
       store.checked = shallowReactive(new Set(props.data))
     }
+
+
   }
 
   const clearChecked = () => {

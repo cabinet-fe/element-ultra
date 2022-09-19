@@ -28,6 +28,8 @@
   }
 
   @include e(header-wrap) {
+    will-change: scroll-position;
+
     @include when(resizing) {
       cursor: col-resize;
     }
@@ -136,6 +138,7 @@
 
   @include e(footer-wrap) {
     overflow: hidden;
+    will-change: scroll-position;
   }
 
 

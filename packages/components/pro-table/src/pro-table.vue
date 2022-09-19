@@ -6,46 +6,20 @@
       @search="fetchData"
       @tools-resize="calcTableHeight"
     />
-    <el-table
-      :data="computedData"
+    <!-- 缺少合计的方法 -->
+    <el-data-table
       v-if="columns && columns.length"
-      v-bind="$attrs"
-      :default-expand-all="defaultExpandAll"
-      ref="tableRef"
+      :data="computedData"
+      :columns="columns"
       :show-summary="summaryVisible"
-      :summary-method="computedSummaryMethod"
-      :height="tableHeight"
-      @selection-change="handleSelectionChange"
-      border
+      :show-index="showIndex"
+      :checkable="checkable"
+      :selectable="selectable"
       v-loading="loading"
+      @check="emit('update:checked', $event)"
+      @select="emit('update:selected', $event)"
     >
-      <!-- 展开 -->
-      <pro-table-column :column="expandColumn" v-if="$slots['row-expand']">
-        <template #default="scope">
-          <slot name="row-expand" v-bind="scope" />
-        </template>
-      </pro-table-column>
-
-      <!-- 前置的 -->
-      <el-table-column
-        v-bind="column"
-        v-for="column of preColumns"
-        :key="column.key"
-      />
-
-      <pro-table-column
-        v-for="column of columns"
-        :column="column"
-        :key="column.key"
-      >
-        <template
-          v-if="!column.children?.length && column.slot"
-          #default="scope"
-        >
-          <slot v-bind="scope" :name="column.slot" />
-        </template>
-      </pro-table-column>
-    </el-table>
+    </el-data-table>
 
     <el-pagination
       :class="ns.e('pagination')"
@@ -71,14 +45,13 @@ import {
   provide,
   onMounted
 } from 'vue'
-import ElTable from '@element-ultra/components/table'
+
+
+import ElDataTable from '@element-ultra/components/data-table'
 import ProTableTools from './pro-table-tools'
-import { ElTableColumn } from '@element-ultra/components/table'
-import ProTableColumn from './pro-table-column.vue'
-import { proTableProps } from './pro-table'
-import usePreColumns from './use-pre-columns'
+import { proTableProps, proTableEmits } from './pro-table'
 import ElPagination from '@element-ultra/components/pagination'
-import { RequestResponse, useConfig, useNamespace } from '@element-ultra/hooks'
+import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import { proTableContextKey, proTableKey } from './token'
 import { debounce } from 'lodash'
@@ -89,6 +62,8 @@ defineOptions({
 })
 
 const props = defineProps(proTableProps)
+const emit = defineEmits(proTableEmits)
+
 const slots = useSlots()
 const ns = useNamespace('pro-table')
 
@@ -96,14 +71,11 @@ const toolsVisible = computed(() => {
   return (slots.tools || slots.searcher) && props.showTools
 })
 
-const emit = defineEmits({
-  fetch: (query: Record<string, any>) => true,
-  loaded: (res: RequestResponse) => true
-})
+
 
 const [configStore] = useConfig()
 
-const pageSizes = [20, 40, 60, 120, 200]
+const pageSizes = [20, 40, 60, 120, 200, 1000]
 
 const query = shallowReactive({
   page: 1,
@@ -181,7 +153,6 @@ const summaryVisible = computed(() => {
 const computedSummaryMethod = computed(() => {
   let s = statistics.value
   let { columns = [] } = props
-  columns = [...preColumns.value, ...columns]
 
   const formatter = new Intl.NumberFormat('zh-CN', {
     currency: 'RMB',
@@ -196,7 +167,9 @@ const computedSummaryMethod = computed(() => {
             columns.slice(slots['row-expand'] ? 0 : 1).map(column => {
               let number = s![column.key]
               if (number) {
-                return column.preset === 'money' ? formatter.format(number) : String(number)
+                return column.preset === 'money'
+                  ? formatter.format(number)
+                  : String(number)
               }
               return ''
             })
@@ -212,7 +185,7 @@ const computedSummaryMethod = computed(() => {
 const fetchData = async (resetPage = true) => {
   let params = getQueryParams()
   emit('fetch', params)
-  if(props.fetch) return props.fetch(params)
+  if (props.fetch) return props.fetch(params)
 
   if (!props.api || !configStore.proTableRequestMethod || props.data) return
 
@@ -221,7 +194,6 @@ const fetchData = async (resetPage = true) => {
   if (resetPage) {
     query.page = 1
   }
-
 
   const res = await configStore.proTableRequestMethod(params).finally(() => {
     loading.value = false
@@ -272,7 +244,6 @@ watch(
 fetchData()
 
 const tableRef = shallowRef()
-const [expandColumn, preColumns] = usePreColumns(props, tableRef)
 
 const find = () => {
   return computedData.value

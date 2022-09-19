@@ -15,6 +15,7 @@
         </template>
       </colgroup>
 
+      <!-- 分组的表头, 因此会有多行 -->
       <thead>
         <tr v-for="(row, rowIndex) of headerRows">
           <th
@@ -70,7 +71,8 @@ const {
   updateFixedColumnsShadow,
   leafColumns,
   ns,
-  getCellStyle
+  getCellStyle,
+  emit
 } = inject(dataTableToken)!
 
 const cellClass = ns.e('header-cell')
@@ -100,9 +102,9 @@ let currentColIndex = -1
 let currentNodeOriginWidth = 0
 let currentNode: HTMLElement | null = null
 
-let headerCols: NodeList | null = null
-let bodyCols: NodeList | null = null
-let footerCols: NodeList | null = null
+let headerCols: NodeListOf<HTMLElement> | null = null
+let bodyCols: NodeListOf<HTMLElement> | null = null
+let footerCols: NodeListOf<HTMLElement> | null = null
 
 /** 重置为初始状态 */
 const resetResizeState = () => {
@@ -144,6 +146,7 @@ const resizeMouseupHandler = () => {
   columns.value[currentColIndex].width = offsetWidth
   columns.value[currentColIndex].minWidth = offsetWidth
 
+  emit('columns-change')
   resetResizeState()
   updateFixedColumnsShadow()
 }
@@ -156,7 +159,7 @@ const resizeMousemoveHandler = throttle((e: MouseEvent) => {
     headerCols![currentColIndex],
     bodyCols![currentColIndex],
     footerCols![currentColIndex]
-  ].forEach(node => {
+  ].forEach((node) => {
     node.style.width = targetWidth
     node.style.minWidth = targetWidth
   })

@@ -1,15 +1,10 @@
 import ElCheckbox from '@element-ultra/components/checkbox'
 import { computed, h, shallowReactive, useSlots } from 'vue'
 import type { DataTableColumn, DataTableProps } from '../data-table'
-import {
-  bfs,
-  InternalColumn,
- FixedColumn,
-  StaticColumn
-} from '../utils'
+import { bfs, InternalColumn, FixedColumn, StaticColumn } from '../utils'
 import type { UseStateReturned } from './use-state'
 
-// 固定列: 只有最父级可以进行定位
+// 固定列: 只有最父级可以进行左右定位的配置
 // 列位置调换: 只有父级可以进行位置调换
 // 列宽调整: 只有叶子节点的表头可以调整列宽
 
@@ -52,9 +47,9 @@ export default function useColumns(
     store
   } = state
 
-  /** 额外列 , 一般是序号单选多选 */
+  /** 额外列(序号, 单选/多选, 展开栏) */
   const extraColumns = computed(() => {
-    const { checkable, selectable, showIndex } = props
+    const { checkable, selectable, showIndex, tree } = props
 
     let result: InternalColumn[] = []
 
@@ -135,9 +130,27 @@ export default function useColumns(
     return result
   })
 
+  // 先对一级列进行分组排序
+  /** 最外层排序的 */
+  const sortedColumns = computed(() => {
+    const left: DataTableColumn[] = []
+    const center: DataTableColumn[] = []
+    const right: DataTableColumn[] = []
+    props.columns.forEach(column => {
+      if (column.fixed === 'left') {
+        return left.push(column)
+      }
+      if (column.fixed === 'right') {
+        return right.push(column)
+      }
+      center.push(column)
+    })
+    return left.concat(center).concat(right)
+  })
+
   /** 所有列 */
   const allColumns = computed(() => {
-    return extraColumns.value.concat(props.columns)
+    return extraColumns.value.concat(sortedColumns.value)
   })
 
   /** 多级表头的二维结构 */
@@ -156,10 +169,25 @@ export default function useColumns(
 
     let startIndex = 0
 
-    ~(function recursive(columns: DataTableColumn[]) {
+    ~(function recursive(columns: DataTableColumn[], root?: DataTableColumn) {
       columns.forEach(column => {
-        if (column.children?.length) return recursive(column.children)
+        // 如果根节点是固定的, 则将所有的叶子节点设为固定
+        if (root) {
+          if (root.fixed) {
 
+            column.fixed = root.fixed
+          } else {
+            column.fixed = undefined
+          }
+        }
+
+        if (column.children?.length)
+          return recursive(
+            column.children,
+            !root ? (column as DataTableColumn) : root
+          )
+
+        // 处理叶子节点
         // 将插槽或者row[key]转化为渲染函数, 避免在数据循环中判断, 在10w级的数据中开销很大
         if (!column.render) {
           if (column.slot) {
@@ -171,12 +199,15 @@ export default function useColumns(
           }
         }
 
-        // 移动至对应的
-        if (column.fixed === 'left') {
-          return result.left.push(shallowReactive(column) as FixedColumn)
-        }
-        if (column.fixed === 'right') {
-          return result.right.push(shallowReactive(column) as FixedColumn)
+        // 固定列必须加宽高才能ok
+        if (column.width) {
+          // 移动至对应的
+          if (column.fixed === 'left') {
+            return result.left.push(shallowReactive(column) as FixedColumn)
+          }
+          if (column.fixed === 'right') {
+            return result.right.push(shallowReactive(column) as FixedColumn)
+          }
         }
 
         return result.center.push(shallowReactive(column) as StaticColumn)
