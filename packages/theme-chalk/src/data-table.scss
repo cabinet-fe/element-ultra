@@ -27,6 +27,15 @@
     width: 100%;
   }
 
+  th,
+  td {
+    padding: 0;
+    & > div {
+      padding: 0 4px;
+    }
+  }
+
+  // 表头
   @include e(header-wrap) {
     will-change: scroll-position;
 
@@ -61,18 +70,21 @@
   @include e(header-cell) {
     border-bottom: 1px solid #eee;
     box-shadow: -1px 0px 0px 0px #eee inset;
-    padding: 4px 0;
-    word-break: break-all;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     box-sizing: border-box;
+    background-color: #f8f8f8;
+
+    & > div {
+      width: 100%;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     &--left,
     &--right {
       position: sticky;
       z-index: 1;
-      background-color: var(--el-bg-color);
     }
 
     &--center {
@@ -88,6 +100,7 @@
     }
   }
 
+  // 表体
   @include e(body) {
   }
 
@@ -100,11 +113,14 @@
   }
 
   @include e(cell) {
-    padding: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     box-shadow: -1px -1px 0px 0px #eee inset;
+    & > div {
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
 
     &--left,
     &--right {
@@ -135,15 +151,22 @@
     }
   }
 
-
+  // 合计行
   @include e(footer-wrap) {
     overflow: hidden;
     will-change: scroll-position;
   }
 
-
   @include e(footer-cell) {
     box-shadow: -1px 0px 0px 0px #eee inset;
+
+    & > div {
+      width: 100%;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     &--left,
     &--right {
@@ -151,21 +174,29 @@
       z-index: 1;
       background-color: var(--el-bg-color);
     }
-
-
   }
 
-  @include when(right-fixed-shadow) {
-    .el-data-table__cell--right.is-first::before {
-      @include shadow(-10px);
-      left: -10px;
+  // 左固定栏阴影
+  @include when(left-fixed-shadow) {
+    .el-data-table__header-cell,
+    .el-data-table__cell,
+    .el-data-table__footer-cell {
+      &--left.is-last::after {
+        @include shadow(10px);
+        right: -10px;
+      }
     }
   }
 
-  @include when(left-fixed-shadow) {
-    .el-data-table__cell--left.is-last::after {
-      @include shadow(10px);
-      right: -10px;
+  // 右固定栏阴影
+  @include when(right-fixed-shadow) {
+    .el-data-table__header-cell,
+    .el-data-table__cell,
+    .el-data-table__footer-cell {
+      &--right.is-first::before {
+        @include shadow(-10px);
+        left: -10px;
+      }
     }
   }
 }

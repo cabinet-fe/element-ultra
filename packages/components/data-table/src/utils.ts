@@ -3,11 +3,11 @@ import type { DataTableColumn } from './data-table'
 
 export interface InternalColumn extends DataTableColumn {
   index?: number
+  left?: number
+  right?: number
 }
 
 export interface FixedColumn extends InternalColumn {
-  left?: number
-  right?: number
   width: number
   fixed: 'left' | 'right'
   index: number
@@ -30,6 +30,8 @@ export interface TableHeader {
   isLeaf: boolean
   /** 以当前节点为根的子树的size */
   size: number
+  /** 节点的索引 */
+  index?: number
 }
 
 /**
@@ -54,19 +56,21 @@ export function bfs(treeData: DataTableColumn[]) {
       }
     })
   }
-
+  // 初始第一层
   let result = [dataToNodes(treeData, 0)]
   let ending = false
   while (!ending) {
+    // 尝试结束
     ending = true
-    // 往下层遍历
     let nextNodes: TableHeader[] = []
+    // 遍历最后一层
     last(result)?.forEach(node => {
       let { children } = node.data
       if (children?.length) {
         let childrenNodes = dataToNodes(children, node.depth + 1, node)
         node.children = childrenNodes
         nextNodes = nextNodes.concat(childrenNodes)
+        // 遍历没有结束, 继续
         ending = false
       }
     })
@@ -81,6 +85,5 @@ export function bfs(treeData: DataTableColumn[]) {
       node.parent!.size += node.size || 1
     })
   }
-
   return result
 }

@@ -1,4 +1,5 @@
 import ElCheckbox from '@element-ultra/components/checkbox'
+import { deepCopy } from '@element-ultra/utils'
 import { computed, h, shallowReactive, useSlots } from 'vue'
 import type { DataTableColumn, DataTableProps } from '../data-table'
 import { bfs, InternalColumn, FixedColumn, StaticColumn } from '../utils'
@@ -7,22 +8,23 @@ import type { UseStateReturned } from './use-state'
 // 固定列: 只有最父级可以进行左右定位的配置
 // 列位置调换: 只有父级可以进行位置调换
 // 列宽调整: 只有叶子节点的表头可以调整列宽
+// 在列调整时需要触发对应的事件
 
-/** 循环 */
-const loop = <T>(
+type Looper = <T>(
   arr: T[],
   cb: (cur: T, pre: T | undefined, next: T | undefined) => void
-) => {
+) => void
+
+/** 循环 */
+const loop: Looper = (arr, cb) => {
   let i = -1
   while (++i < arr.length) {
     cb(arr[i], arr[i - 1], arr[i + 1])
   }
 }
 
-const loopRight = <T>(
-  arr: T[],
-  cb: (cur: T, pre: T | undefined, next: T | undefined) => void
-) => {
+/** 从右侧开始循环 */
+const loopRight: Looper = (arr, cb) => {
   let i = arr.length
   while (i-- > 0) {
     cb(arr[i], arr[i - 1], arr[i + 1])
@@ -47,9 +49,12 @@ export default function useColumns(
     store
   } = state
 
+  // 深拷贝一份列
+  const columns = computed(() => deepCopy(props.columns))
+
   /** 额外列(序号, 单选/多选, 展开栏) */
-  const extraColumns = computed(() => {
-    const { checkable, selectable, showIndex, tree } = props
+  const preColumns = computed(() => {
+    const { checkable, selectable, showIndex } = props
 
     let result: InternalColumn[] = []
 
@@ -133,32 +138,34 @@ export default function useColumns(
   // 先对一级列进行分组排序
   /** 最外层排序的 */
   const sortedColumns = computed(() => {
-    const left: DataTableColumn[] = []
-    const center: DataTableColumn[] = []
-    const right: DataTableColumn[] = []
-    props.columns.forEach(column => {
-      if (column.fixed === 'left') {
-        return left.push(column)
-      }
-      if (column.fixed === 'right') {
-        return right.push(column)
-      }
-      center.push(column)
-    })
-    return left.concat(center).concat(right)
-  })
+    /** 固定在左侧的列 */
+    const leftColumns: DataTableColumn[] = [...preColumns.value]
+    /** 在中间的列 */
+    const centerColumns: DataTableColumn[] = []
+    /** 固定在右侧的ie */
+    const rightColumns: DataTableColumn[] = []
 
-  /** 所有列 */
-  const allColumns = computed(() => {
-    return extraColumns.value.concat(sortedColumns.value)
+    columns.value.forEach(column => {
+      if (column.width && !column.children) {
+        if (column.fixed === 'left') {
+          return leftColumns.push(column)
+        }
+        if (column.fixed === 'right') {
+          return rightColumns.push(column)
+        }
+      }
+
+      centerColumns.push(column)
+    })
+    return leftColumns.concat(centerColumns).concat(rightColumns)
   })
 
   /** 多级表头的二维结构 */
-  const headerRows = computed(() => bfs(allColumns.value))
+  const headerRows = computed(() => bfs(sortedColumns.value))
 
   const slots = useSlots()
 
-  // 深度优先遍历获取列的叶子节点(叶子节点才会在最终被data读取其key)
+  // 深度优先遍历获取列的叶子节点
   // 叶子节点用于表体
   const leafColumns = computed(() => {
     const result = {
@@ -170,25 +177,22 @@ export default function useColumns(
     let startIndex = 0
 
     ~(function recursive(columns: DataTableColumn[], root?: DataTableColumn) {
+      // 分组列不能够固定, 因此将fixed设置为空
       columns.forEach(column => {
-        // 如果根节点是固定的, 则将所有的叶子节点设为固定
-        if (root) {
-          if (root.fixed) {
-
-            column.fixed = root.fixed
-          } else {
-            column.fixed = undefined
-          }
+        // 存在嵌套的列不作固定, 删除固定属性
+        if (root || column.children?.length) {
+          delete column.fixed
         }
 
-        if (column.children?.length)
+        if (column.children?.length) {
           return recursive(
             column.children,
             !root ? (column as DataTableColumn) : root
           )
+        }
 
         // 处理叶子节点
-        // 将插槽或者row[key]转化为渲染函数, 避免在数据循环中判断, 在10w级的数据中开销很大
+        // 将插槽或者row[key]转化为渲染函数, 避免在数据循环中判断, 在有大量数据时开销很大
         if (!column.render) {
           if (column.slot) {
             column.render = (value, row, index) => {
@@ -212,7 +216,7 @@ export default function useColumns(
 
         return result.center.push(shallowReactive(column) as StaticColumn)
       })
-    })(allColumns.value)
+    })(sortedColumns.value)
 
     loop(result.left, (cur, pre) => {
       if (pre) {
@@ -243,6 +247,7 @@ export default function useColumns(
   return {
     /** 多级表头的二维结构 */
     headerRows,
+
     /** 叶子列 */
     leafColumns
   }

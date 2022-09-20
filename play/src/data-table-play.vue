@@ -14,7 +14,6 @@
       <el-button link type="primary">{{ row.name }}</el-button>
     </template>
 
-
     <template #test2="{ row }">
       {{ row.name }}
     </template>
@@ -26,14 +25,7 @@ import type { DataTableColumn } from '@element-ultra/components'
 import { computed } from '@vue/reactivity'
 import { shallowRef } from 'vue'
 
-
 const columns: DataTableColumn[] = [
-  {
-    name: () => <span style="color: red">姓名</span>,
-    key: 'name',
-    align: 'center',
-  },
-  { name: '测试1', key: 'test1', slot: 'test1' },
   {
     name: '测试2',
     key: 'test2',
@@ -41,9 +33,10 @@ const columns: DataTableColumn[] = [
       {
         name: '测试2-1',
         key: 'test2-1',
+        fixed: 'left',
 
         children: [
-          { name: '测试2-1-1', key: 'test2-1-1', slot: 'test2' },
+          { name: '测试2-1-1', key: 'test2-1-1', slot: 'test2',  align: 'center' },
           { name: '测试2-1-2', key: 'test2-1-2', slot: 'test2' },
           { name: '测试2-1-3', key: 'test2-1-3', slot: 'test2' }
         ]
@@ -60,7 +53,16 @@ const columns: DataTableColumn[] = [
       { name: '测试2-3', key: 'test2-3', slot: 'test2' }
     ]
   },
-  { name: '测试3', key: 'test3' ,slot: 'test2', fixed: 'right' }
+  {
+    name: () => <span style='color: red'>姓名</span>,
+    key: 'name',
+    align: 'center',
+    fixed: 'left',
+    width: 200
+  },
+  { name: '测试1', key: 'test1', slot: 'test1' },
+
+  { name: '测试3', key: 'test3', slot: 'test2', fixed: 'right', width: 100 }
 ]
 
 const count = shallowRef(3000)

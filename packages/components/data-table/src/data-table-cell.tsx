@@ -3,97 +3,99 @@ import { CSSProperties, defineComponent, inject, PropType } from 'vue'
 import { dataBodyToken } from './token'
 import type { FixedColumn, StaticColumn } from './utils'
 
-function defineCellProps<Column = FixedColumn>() {
-  return {
-    column: {
-      type: Object as PropType<Column>,
-      required: true
+const buildCell = <
+  Name extends 'LeftCell' | 'CenterCell' | 'RightCell',
+  Column = Name extends 'CenterCell' ? StaticColumn : FixedColumn
+>(
+  name: Name
+) => {
+  const getClassName = {
+    LeftCell() {
+      const { cellClass, leftCellClass } = inject(dataBodyToken)!
+      return [cellClass, leftCellClass]
     },
-
-    rowScoped: {
-      type: Object as PropType<{
-        index: number
-        item: any
-        style: CSSProperties
-      }>,
-      required: true
+    CenterCell() {
+      const { cellClass, centerCellClass } = inject(dataBodyToken)!
+      return [cellClass, centerCellClass]
+    },
+    RightCell() {
+      const { cellClass, rightCellClass } = inject(dataBodyToken)!
+      return [cellClass, rightCellClass]
     }
-  } as const
+  }[name]
+
+  const styleGetters = {
+    LeftCell(column: FixedColumn) {
+      return {
+        left: column.left + 'px'
+      }
+    },
+    CenterCell(column: StaticColumn) {
+      return {}
+    },
+    RightCell(column: FixedColumn) {
+      return {
+        right: column.right + 'px'
+      }
+    }
+  }
+  const styleGetter = styleGetters[name]
+
+  return defineComponent({
+    name,
+    props: {
+      column: {
+        type: Object as PropType<Column>,
+        required: true
+      },
+
+      rowScoped: {
+        type: Object as PropType<{
+          index: number
+          item: any
+          style: CSSProperties
+        }>,
+        required: true
+      }
+    },
+    setup(props) {
+      const classes = getClassName()
+
+      return () => {
+        const { rowScoped } = props
+        const { index, style, item } = rowScoped
+        let column = props.column as FixedColumn
+
+        const content = column.render!(
+          getChainValue(item, column.key),
+          item,
+          index
+        )
+
+        return (
+          <td
+            class={classes}
+            style={{
+              ...styleGetter(column),
+              'text-align': column.align,
+              ...style
+            }}
+          >
+            <div>
+            {content}
+            </div>
+          </td>
+        )
+      }
+    }
+  })
 }
 
-export const LeftCell = defineComponent({
-  name: 'LeftCell',
+/** 左栏 */
+export const LeftCell = buildCell('LeftCell')
 
-  props: defineCellProps(),
+/** 中栏 */
+export const CenterCell = buildCell('CenterCell')
 
-  setup(props) {
-    const { cellClass, leftCellClass } = inject(dataBodyToken)!
-
-    return () => {
-      const { column, rowScoped } = props
-      const { index, style, item } = rowScoped
-
-      return (
-        <td
-          class={[cellClass, leftCellClass]}
-          style={{
-            left: column.left + 'px',
-            'text-align': column.align,
-            ...style
-          }}
-        >
-          {column.render!(getChainValue(item, column.key), item, index)}
-        </td>
-      )
-    }
-  }
-})
-
-export const CenterCell = defineComponent({
-  name: 'CenterCell',
-
-  props: defineCellProps<StaticColumn>(),
-
-  setup(props) {
-    const { cellClass, centerCellClass } = inject(dataBodyToken)!
-    return () => {
-      const { column, rowScoped } = props
-      const { index, style, item } = rowScoped
-      return (
-        <td
-          class={[cellClass, centerCellClass]}
-          style={{ 'text-align': column.align, ...style }}
-        >
-          {column.render!(getChainValue(item, column.key), item, index)}
-        </td>
-      )
-    }
-  }
-})
-
-export const RightCell = defineComponent({
-  name: 'RightCell',
-
-  props: defineCellProps(),
-
-  setup(props) {
-    const { cellClass, rightCellClass } = inject(dataBodyToken)!
-
-    return () => {
-      const { column, rowScoped } = props
-      const { index, style, item } = rowScoped
-      return (
-        <td
-          class={[cellClass, rightCellClass]}
-          style={{
-            right: column.right + 'px',
-            'text-align': column.align,
-            ...style
-          }}
-        >
-          {column.render!(getChainValue(item, column.key), item, index)}
-        </td>
-      )
-    }
-  }
-})
+/** 右栏 */
+export const RightCell = buildCell('RightCell')

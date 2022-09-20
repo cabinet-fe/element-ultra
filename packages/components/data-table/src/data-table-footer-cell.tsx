@@ -2,95 +2,72 @@ import { defineComponent, inject, PropType } from 'vue'
 import { dataFooterToken, dataTableToken } from './token'
 import type { FixedColumn, StaticColumn } from './utils'
 
-function defineCellProps<Column = FixedColumn>() {
-  return {
-    column: {
-      type: Object as PropType<Column>,
-      required: true
+const buildCell = <
+  Name extends 'LeftCell' | 'CenterCell' | 'RightCell',
+  Column = Name extends 'CenterCell' ? StaticColumn : FixedColumn
+>(
+  name: Name
+) => {
+  const useClassName = {
+    LeftCell() {
+      const { cellClass, leftCellClass } = inject(dataFooterToken)!
+      return [cellClass, leftCellClass]
+    },
+    CenterCell() {
+      const { cellClass, centerCellClass } = inject(dataFooterToken)!
+      return [cellClass, centerCellClass]
+    },
+    RightCell() {
+      const { cellClass, rightCellClass } = inject(dataFooterToken)!
+      return [cellClass, rightCellClass]
     }
-  } as const
+  }[name]
+
+  const getStyle = {
+    LeftCell: (column: FixedColumn) => ({ left: column.left + 'px' }),
+    CenterCell: (column: StaticColumn) => ({}),
+    RightCell: (column: FixedColumn) => ({ right: column.right + 'px' })
+  }[name]
+
+  return defineComponent({
+    name,
+
+    props: {
+      column: {
+        type: Object as PropType<Column>,
+        required: true
+      }
+    },
+
+    setup(props) {
+      const className = useClassName()
+      const { rootProps, itemSize } = inject(dataTableToken)!
+
+      return () => {
+        let column = props.column as FixedColumn
+        return (
+          <td
+            class={className}
+            style={{
+              ...getStyle(column),
+              'text-align': column.align,
+              height: itemSize.value + 'px'
+            }}
+          >
+            <div>
+              {rootProps.data.reduce((acc, cur) => {
+                return acc + +cur[column.key]
+              }, 0)}
+            </div>
+          </td>
+        )
+      }
+    }
+  })
 }
 
-export const LeftCell = defineComponent({
-  name: 'LeftCell',
+export const LeftCell = buildCell('LeftCell')
 
-  props: defineCellProps(),
+export const CenterCell = buildCell('CenterCell')
 
-  setup(props) {
-    const { cellClass, leftCellClass } = inject(dataFooterToken)!
-    const { rootProps, itemSize } = inject(dataTableToken)!
-
-    return () => {
-      const { column } = props
-
-      return (
-        <td
-          class={[cellClass, leftCellClass]}
-          style={{
-            left: column.left + 'px',
-            'text-align': column.align,
-            height: itemSize.value + 'px'
-          }}
-        >
-          {rootProps.data.reduce((acc, cur) => {
-            return acc + +cur[column.key]
-          }, 0)}
-        </td>
-      )
-    }
-  }
-})
-
-export const CenterCell = defineComponent({
-  name: 'CenterCell',
-
-  props: defineCellProps<StaticColumn>(),
-
-  setup(props) {
-    const { cellClass, centerCellClass } = inject(dataFooterToken)!
-    const { rootProps, itemSize } = inject(dataTableToken)!
-
-    return () => {
-      const { column } = props
-      return (
-        <td
-          class={[cellClass, centerCellClass]}
-          style={{ 'text-align': column.align, height: itemSize.value + 'px' }}
-        >
-          {rootProps.data.reduce((acc, cur) => {
-            return acc + +cur[column.key]
-          }, 0)}
-        </td>
-      )
-    }
-  }
-})
-
-export const RightCell = defineComponent({
-  name: 'RightCell',
-
-  props: defineCellProps(),
-
-  setup(props) {
-    const { cellClass, rightCellClass } = inject(dataFooterToken)!
-    const { rootProps, itemSize } = inject(dataTableToken)!
-
-    return () => {
-      const { column } = props
-      return (
-        <td
-          class={[cellClass, rightCellClass]}
-          style={{
-            right: column.right + 'px',
-            'text-align': column.align,
-            height: itemSize.value + 'px'
-          }}
-        >
-          {rootProps.data.reduce((acc, cur) => {
-            return acc + +cur[column.key]
-          }, 0)}
-        </td>
-      )
-    }
-  }
-})
+export const RightCell = buildCell('RightCell')

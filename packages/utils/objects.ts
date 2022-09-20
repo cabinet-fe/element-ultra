@@ -4,8 +4,10 @@ import type { Entries } from 'type-fest'
 
 const SCOPE = 'UtilV2/objects'
 
-export const keysOf = <T>(arr: T) => Object.keys(arr) as Array<keyof T>
-export const entriesOf = <T>(arr: T) => Object.entries(arr) as Entries<T>
+export const keysOf = <T extends Record<string, any>>(arr: T) =>
+  Object.keys(arr) as Array<keyof T>
+export const entriesOf = <T extends Record<string, any>>(arr: T) =>
+  Object.entries(arr) as Entries<T>
 export { hasOwn } from '@vue/shared'
 
 /**
@@ -79,7 +81,8 @@ export function getPropByPath(
   }
 }
 
-const isObject = (v: any) => Object.prototype.toString.call(v).slice(8, -1) === 'Object'
+const isObject = (v: any): v is Record<string, any> =>
+  Object.prototype.toString.call(v).slice(8, -1) === 'Object'
 
 /**
  * 对象深度继承, 引用类型的值不进行合并
@@ -87,7 +90,11 @@ const isObject = (v: any) => Object.prototype.toString.call(v).slice(8, -1) === 
  * @param data2 对象2
  * @param extendEmpty 是否继承空值, 默认false
  */
-export const deepExtend = (data1: Record<string, any>, data2: Record<string, any>, extendEmpty = false) => {
+export const deepExtend = (
+  data1: Record<string, any>,
+  data2: Record<string, any>,
+  extendEmpty = false
+) => {
   for (const key in data1) {
     let value1 = data1[key]
     let value2 = data2[key]
@@ -97,4 +104,22 @@ export const deepExtend = (data1: Record<string, any>, data2: Record<string, any
       data1[key] = value2
     }
   }
+}
+
+export function deepCopy<O extends any>(val: O): O {
+  if (Array.isArray(val)) {
+    let result: any[] = []
+    val.forEach(item => {
+      result.push(deepCopy(item))
+    })
+    return result as O
+  }
+  if (isObject(val)) {
+    let result: Record<string, any> = {}
+    for (const key in val) {
+      result[key] = deepCopy(val[key])
+    }
+    return result as O
+  }
+  return val
 }

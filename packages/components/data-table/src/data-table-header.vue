@@ -18,39 +18,13 @@
       <!-- 分组的表头, 因此会有多行 -->
       <thead>
         <tr v-for="(row, rowIndex) of headerRows">
-          <th
-            v-for="header of row"
-            :rowspan="getCellRowspan(header, rowIndex)"
-            :colspan="getCellColspan(header)"
-            :key="header.data.key"
-            :class="{
-              [cellClass]: true,
-              [cellLeftClass]: header.data.fixed === 'left',
-              [cellCenterClass]: !header.data.fixed,
-              [cellRightClass]: header.data.fixed === 'right',
-              'is-leaf': header.isLeaf
-            }"
-            :style="{
-              'text-align': header.data.align,
-              left: header.data.left + 'px',
-              right: header.data.right + 'px'
-            }"
-          >
-            <span
-              v-if="header.isLeaf"
-              :class="[ns.e('column-resize')]"
-              style="right: 0"
-              @mousedown="handleResizeMousedown($event, header)"
-            ></span>
-
-            <ElSlotsRender
-              :nodes="[
-                typeof header.data.name === 'function'
-                  ? header.data.name()
-                  : header.data.name
-              ]"
-            />
-          </th>
+          <ElSlotsRender
+            :nodes="
+              row.map(header => {
+                return renderHeaderCell(header, row, rowIndex)
+              })
+            "
+          />
         </tr>
       </thead>
     </table>
@@ -61,9 +35,10 @@
 <script lang="ts" setup>
 import ElSlotsRender from '@element-ultra/components/slots-render'
 import { throttle } from 'lodash'
-import { computed, inject, shallowRef, watch } from 'vue'
-import { dataTableToken } from './token'
+import { computed, inject, provide, shallowRef, watch } from 'vue'
+import { dataHeaderToken, dataTableToken } from './token'
 import type { TableHeader } from './utils'
+import renderHeaderCell from './data-table-header-cell'
 
 const {
   headerRows,
@@ -75,24 +50,16 @@ const {
   emit
 } = inject(dataTableToken)!
 
-const cellClass = ns.e('header-cell')
-const cellLeftClass = ns.em('header-cell', 'left')
-const cellCenterClass = ns.em('header-cell', 'center')
-const cellRightClass = ns.em('header-cell', 'right')
-
-const headerRowLen = computed(() => {
-  return headerRows.value.length
-})
+const rowLength = computed(() => headerRows.value.length)
 
 /**
- * 单元格没有子元素才会进行行合并
+ * 合并行
+ * @param header
+ * @param rowIndex
  */
-const getCellRowspan = (column: TableHeader, rowIndex: number) => {
-  return column.children?.length ? undefined : headerRowLen.value - rowIndex
-}
-
-const getCellColspan = (column: TableHeader) => {
-  return column.size || undefined
+const getCellRowSpan = (header: TableHeader, rowIndex: number) => {
+  // 没有子元素进行合并
+  return header.children?.length ? undefined : rowLength.value - rowIndex
 }
 
 const resizing = shallowRef(false)
@@ -159,7 +126,7 @@ const resizeMousemoveHandler = throttle((e: MouseEvent) => {
     headerCols![currentColIndex],
     bodyCols![currentColIndex],
     footerCols![currentColIndex]
-  ].forEach((node) => {
+  ].forEach(node => {
     node.style.width = targetWidth
     node.style.minWidth = targetWidth
   })
@@ -169,5 +136,15 @@ const headerRef = shallowRef<HTMLDivElement>()
 
 watch(scrollLeft, left => {
   headerRef.value!.scrollLeft = left
+})
+
+provide(dataHeaderToken, {
+  getCellRowSpan,
+  cellClass: ns.e('header-cell'),
+  leftCellClass: ns.em('header-cell', 'left'),
+  centerCellClass: ns.em('header-cell', 'center'),
+  rightCellClass: ns.em('header-cell', 'right'),
+  resizeClass: ns.e('column-resize'),
+  handleResizeMousedown
 })
 </script>
