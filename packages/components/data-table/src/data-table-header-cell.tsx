@@ -1,6 +1,5 @@
 import { defineComponent, inject, PropType } from 'vue'
-
-import { dataHeaderToken } from './token'
+import { dataHeaderToken, dataTableToken } from './token'
 import type { InternalColumn, TableHeader } from './utils'
 
 const classNameHooksMap = {
@@ -20,7 +19,7 @@ const classNameHooksMap = {
 
 const getHeaderStyle = (column: InternalColumn) => {
   return {
-    'text-align': column.align,
+    'text-align': column.align || 'left',
     left: column.left + 'px',
     right: column.right + 'px'
   }
@@ -38,11 +37,6 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
         required: true
       },
 
-      row: {
-        type: Object,
-        required: true
-      },
-
       rowIndex: {
         type: Number,
         required: true
@@ -53,11 +47,14 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
       const { getCellRowSpan, resizeClass, handleResizeMousedown } =
         inject(dataHeaderToken)!
       const commonClassName = getClassName()
+      const { handleSort, store, ns } = inject(dataTableToken)!
 
       return () => {
         const { header, rowIndex } = props
         const { data } = header
         let className = [...commonClassName]
+        header.isLeaf && className.push('is-leaf')
+
         const resizer = header.isLeaf ? (
           <span
             class={resizeClass}
@@ -65,6 +62,27 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
             onMousedown={event => handleResizeMousedown(event, header)}
           ></span>
         ) : null
+
+        const sorter =
+          header.isLeaf && data.sortable ? (
+            <span
+              class={ns.e('sort-trigger')}
+              onClick={() => handleSort(data.key)}
+            >
+              <i
+                class={{
+                  asc: true,
+                  'is-active': store.sortKeys[data.key] === 'asc'
+                }}
+              ></i>
+              <i
+                class={{
+                  dsc: true,
+                  'is-active': store.sortKeys[data.key] === 'dsc'
+                }}
+              ></i>
+            </span>
+          ) : null
 
         return (
           <th
@@ -74,9 +92,10 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
             class={className}
             style={getHeaderStyle(data)}
           >
+            {resizer}
             <div>
-              {resizer}
               {typeof data.name === 'function' ? data.name() : data.name}
+              {sorter}
             </div>
           </th>
         )
@@ -90,21 +109,20 @@ const CenterCell = buildCell('CenterCell')
 const RightCell = buildCell('RightCell')
 
 const renderers = {
-  left(header: TableHeader, row: any, rowIndex: number) {
-    return <LeftCell header={header} row={row} rowIndex={rowIndex} />
+  left(header: TableHeader, rowIndex: number) {
+    return <LeftCell header={header} rowIndex={rowIndex} />
   },
-  center(header: TableHeader, row: any, rowIndex: number) {
-    return <CenterCell header={header} row={row} rowIndex={rowIndex} />
+  center(header: TableHeader, rowIndex: number) {
+    return <CenterCell header={header} rowIndex={rowIndex} />
   },
-  right(header: TableHeader, row: any, rowIndex: number) {
-    return <RightCell header={header} row={row} rowIndex={rowIndex} />
+  right(header: TableHeader, rowIndex: number) {
+    return <RightCell header={header} rowIndex={rowIndex} />
   }
 }
 
 export default function renderHeaderCell(
   header: TableHeader,
-  row: any,
   rowIndex: number
 ) {
-  return renderers[header.data.fixed || 'center'](header, row, rowIndex)
+  return renderers[header.data.fixed || 'center'](header, rowIndex)
 }

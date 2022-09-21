@@ -17,13 +17,16 @@
 
       <!-- 分组的表头, 因此会有多行 -->
       <thead>
-        <tr v-for="(row, rowIndex) of headerRows">
-          <ElSlotsRender
-            :nodes="
-              row.map(header => {
-                return renderHeaderCell(header, row, rowIndex)
-              })
-            "
+        <!-- 第一行是可以定位的元素 -->
+        <tr>
+          <ElNodeRender
+            :nodes="headerRows[0].map(header => renderHeaderCell(header, 0))"
+          />
+        </tr>
+        <!-- 其他行不一定显示 -->
+        <tr v-for="(row, rowIndex) of headerRows.slice(1)">
+          <ElNodeRender
+            :nodes="row.map(header => renderHeaderCell(header, rowIndex))"
           />
         </tr>
       </thead>
@@ -33,7 +36,7 @@
 
 <!-- 表格头部, 此处做列相关的操作, 比如存放列信息, 排序 -->
 <script lang="ts" setup>
-import ElSlotsRender from '@element-ultra/components/slots-render'
+import ElNodeRender from '@element-ultra/components/node-render'
 import { throttle } from 'lodash'
 import { computed, inject, provide, shallowRef, watch } from 'vue'
 import { dataHeaderToken, dataTableToken } from './token'
@@ -43,11 +46,11 @@ import renderHeaderCell from './data-table-header-cell'
 const {
   headerRows,
   scrollLeft,
-  updateFixedColumnsShadow,
   leafColumns,
   ns,
+  updateFixedColumnsShadow,
   getCellStyle,
-  emit
+  computePosition
 } = inject(dataTableToken)!
 
 const rowLength = computed(() => headerRows.value.length)
@@ -104,20 +107,6 @@ const columns = computed(() => {
   return Object.values(leafColumns.value).flat()
 })
 
-const resizeMouseupHandler = () => {
-  resizing.value = false
-  document.removeEventListener('mousemove', resizeMousemoveHandler)
-  document.removeEventListener('mouseup', resizeMouseupHandler)
-
-  const { offsetWidth } = currentNode!
-  columns.value[currentColIndex].width = offsetWidth
-  columns.value[currentColIndex].minWidth = offsetWidth
-
-  emit('columns-change')
-  resetResizeState()
-  updateFixedColumnsShadow()
-}
-
 /** 鼠标拖动 */
 const resizeMousemoveHandler = throttle((e: MouseEvent) => {
   let targetWidth = currentNodeOriginWidth + e.pageX - startX + 'px'
@@ -131,6 +120,20 @@ const resizeMousemoveHandler = throttle((e: MouseEvent) => {
     node.style.minWidth = targetWidth
   })
 }, 16.7)
+
+const resizeMouseupHandler = () => {
+  resizing.value = false
+  document.removeEventListener('mousemove', resizeMousemoveHandler)
+  document.removeEventListener('mouseup', resizeMouseupHandler)
+
+  const { offsetWidth } = currentNode!
+  columns.value[currentColIndex].width = offsetWidth
+  columns.value[currentColIndex].minWidth = offsetWidth
+
+  computePosition()
+  resetResizeState()
+  updateFixedColumnsShadow()
+}
 
 const headerRef = shallowRef<HTMLDivElement>()
 

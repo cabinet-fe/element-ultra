@@ -5,3 +5,4 @@ export * from './src/data-table'
 
 export default DataTable
 export const ElDataTable = withInstall(DataTable)
+export type DataTableInstance = InstanceType<typeof DataTable>

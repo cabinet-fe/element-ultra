@@ -14,7 +14,7 @@
     ref="contentRef"
   >
     <div ref="headerRef" :class="ns.e('header')" @mousedown.self="handleMouseDown">
-      <ElSlotsRender v-if="slots.title" :nodes="slots.title()" />
+      <ElNodeRender v-if="slots.title" :nodes="slots.title()" />
       <span v-else :class="ns.e('title')">
         {{ title }}
       </span>
@@ -28,10 +28,10 @@
       :class="ns.e('body')"
       :style="{ maxHeight: `calc(80vh - ${slots.footer ? 88 : 44}px)` }"
     >
-      <ElSlotsRender :nodes="slots.default?.()" />
+      <ElNodeRender :nodes="slots.default?.()" />
     </div>
     <div v-if="slots.footer" :class="ns.e('footer')">
-      <ElSlotsRender :nodes="slots.footer?.()" />
+      <ElNodeRender :nodes="slots.footer?.()" />
     </div>
   </div>
 </template>
@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { inject, shallowRef } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
-import { ElSlotsRender } from '@element-ultra/components/slots-render'
+import { ElNodeRender } from '@element-ultra/components/node-render'
 import { CloseComponents } from '@element-ultra/utils'
 import { dialogContentProps } from './dialog-content'
 

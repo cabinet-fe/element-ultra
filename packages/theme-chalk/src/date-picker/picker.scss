@@ -89,10 +89,11 @@
 
   .#{$namespace}-range__icon {
     height: inherit;
+    line-height: inherit;
     font-size: 14px;
     color: getCssVar('text-color', 'placeholder');
-    float: left;
-
+    // float: left;
+    vertical-align: middle;
     svg {
       vertical-align: middle;
     }
@@ -106,7 +107,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    width: 39%;
+    width: 80px;
     text-align: center;
     font-size: getCssVar('font-size', 'base');
     color: getCssVar('text-color', 'regular');
@@ -136,6 +137,7 @@
     height: inherit;
     width: unset;
     cursor: pointer;
+    // vertical-align: middle;
 
     &:hover {
       color: getCssVar('text-color', 'secondary');

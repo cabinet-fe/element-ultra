@@ -8,12 +8,13 @@ const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
 
-  proTableRequestMethod: () => {
+  proTableRequestMethod (options) {
+    console.log(options)
     return new Promise(rs => {
       setTimeout(() => {
         let data = Array.from({ length: 100 }).map((_, i) => ({
           name: '张三说的有符合公司的的话是个' + i,
-          money: 100 + i,
+          money: ~~(Math.random() * 1000),
           id: i
         }))
         rs({

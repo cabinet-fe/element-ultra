@@ -1,6 +1,6 @@
 import { ElGrid } from '@element-ultra/components/grid'
 import { ElButton } from '@element-ultra/components/button'
-import { ElSlotsRender } from '@element-ultra/components/slots-render'
+import ElNodeRender from '@element-ultra/components/node-render'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
@@ -23,7 +23,7 @@ import {
   type FormExposed
 } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
-import { Router } from 'vue-router'
+import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
 
 export interface PageExposed {
@@ -213,7 +213,7 @@ export default defineComponent({
         >
           <div class={ns.e('main')}>
             <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
-              <ElSlotsRender nodes={children} />
+              <ElNodeRender nodes={children} />
 
               {renderExtra()}
             </ElScrollbar>

@@ -33,19 +33,23 @@ const ns = useNamespace('data-table')
 const props = defineProps(dataTableProps)
 const emit = defineEmits(dataTableEmits)
 
-const state = useState(props)
-
+const state = useState(props, emit)
+const columns = useColumns(props, state)
 const styles = useStyle(props)
 
 const { showLeftFixedShadow, showRightFixedShadow } = styles
 
 // 依赖提供
 provide(dataTableToken, {
-  state,
-  ...useColumns(props, state),
+  ...state,
+  ...columns,
   ...styles,
   ns,
   rootProps: props,
   emit
+})
+
+defineExpose({
+  getColumns: columns.getColumns
 })
 </script>

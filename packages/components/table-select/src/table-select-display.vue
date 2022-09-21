@@ -66,7 +66,7 @@
             :title="item.value"
             :style="`text-align: ${item.align ? item.align : 'left'}`"
           >
-            <ElSlotsRender
+            <ElNodeRender
               v-if="item.slot"
               :nodes="slots[item.slot]?.({ row, index }) || []"
             />
@@ -87,7 +87,7 @@ import { tableSelectDisplayProps } from './table-select-display'
 import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { ElRadio } from '@element-ultra/components/radio'
 import { tableSelectKey } from './token'
-import { ElSlotsRender } from '@element-ultra/components/slots-render'
+import ElNodeRender from '@element-ultra/components/node-render'
 
 const props = defineProps(tableSelectDisplayProps)
 

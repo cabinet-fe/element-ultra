@@ -1,26 +1,33 @@
 <template>
   <div :class="[ns.b(), $attrs.class]" :style="{ height }">
+    <!-- 表格工具栏 -->
     <ProTableTools
       v-if="toolsVisible"
       @key-enter="fetchData"
       @search="fetchData"
       @tools-resize="calcTableHeight"
     />
-    <!-- 缺少合计的方法 -->
+
+    <!-- 数据表格 -->
     <el-data-table
       v-if="columns && columns.length"
       :data="computedData"
       :columns="columns"
       :show-summary="summaryVisible"
+      :summary-method="computedSummaryMethod"
       :show-index="showIndex"
       :checkable="checkable"
       :selectable="selectable"
       v-loading="loading"
-      @check="emit('update:checked', $event)"
-      @select="emit('update:selected', $event)"
+      :checked="checked"
+      :selected="selected"
+      @check="emit('checked', $event)"
+      @select="emit('selected', $event)"
+      ref="tableRef"
     >
     </el-data-table>
 
+    <!-- 分页 -->
     <el-pagination
       :class="ns.e('pagination')"
       v-if="pagination"
@@ -46,8 +53,10 @@ import {
   onMounted
 } from 'vue'
 
-
-import ElDataTable from '@element-ultra/components/data-table'
+import {
+  ElDataTable,
+  DataTableInstance
+} from '@element-ultra/components/data-table'
 import ProTableTools from './pro-table-tools'
 import { proTableProps, proTableEmits } from './pro-table'
 import ElPagination from '@element-ultra/components/pagination'
@@ -67,11 +76,11 @@ const emit = defineEmits(proTableEmits)
 const slots = useSlots()
 const ns = useNamespace('pro-table')
 
+const tableRef = shallowRef<DataTableInstance>()
+
 const toolsVisible = computed(() => {
   return (slots.tools || slots.searcher) && props.showTools
 })
-
-
 
 const [configStore] = useConfig()
 
@@ -84,13 +93,8 @@ const query = shallowReactive({
 
 const state = shallowReactive({
   total: 0,
-  data: [] as any[],
-  selection: [] as any[]
+  data: [] as any[]
 })
-
-const handleSelectionChange = (selection: any[]) => {
-  state.selection = selection
-}
 
 const computedData = computed(() => {
   return props.data || state.data
@@ -239,11 +243,9 @@ watch(
 
 watch(
   () => props.api,
-  () => fetchData()
+  () => fetchData(),
+  { immediate: true }
 )
-fetchData()
-
-const tableRef = shallowRef()
 
 const find = () => {
   return computedData.value
@@ -270,8 +272,7 @@ const exposed = {
   getQueryParams,
   find,
   deleteRow,
-  toggleRowSelection: (row: any, selected: boolean) =>
-    tableRef.value?.toggleRowSelection(row, selected)
+  getColumns: () => tableRef.value?.getColumns()
 }
 
 provide(proTableContextKey, exposed)

@@ -16,7 +16,7 @@ export type DataTableColumn = {
   /** 从值中取的字段, 支持链式 */
   key: string
   /** 是否支持排序 */
-  sort?: boolean
+  sortable?: boolean
   /** 自定义渲染 */
   render?: (val: any, row: any, index: number) => any
   /** 子列 */
@@ -89,12 +89,15 @@ export const dataTableProps = {
   /** 显示表尾合计行 */
   showSummary: Boolean,
 
+  summaryMethod: {
+    type: Function as PropType<() => any[]>
+  },
+
   /** 指定合计的列, 指定showSummary时该字段必填  */
   summaryKeys: Array as PropType<string[]>
 } as const
 
 export const dataTableEmits = {
-  'columns-change': () => true,
   check: (checked: any[]) => true,
   select: (selection: any) => true
 }

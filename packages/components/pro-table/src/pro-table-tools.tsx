@@ -56,6 +56,7 @@ export default defineComponent({
       let nodes: VNode[] = []
 
       const recursive = (slots: VNodeNormalizedChildren) => {
+
         if (Array.isArray(slots)) {
           slots.forEach(node => {
             if (!isVNode(node)) return
@@ -70,12 +71,14 @@ export default defineComponent({
               ? componentWidthMapper[nodeName]
               : undefined
 
+              console.log(wrapWidth)
             let clonedNode = cloneVNode(node, {
               class: contentClass,
               style: {
                 width: node.props?.style?.width || wrapWidth
               }
             })
+
 
             if (props?.placeholder) {
               nodes.push(

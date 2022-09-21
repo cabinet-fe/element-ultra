@@ -1,10 +1,10 @@
 <script lang="ts">
-import { slotsRenderProps } from './slots-render'
+import { nodeRenderProps } from './node-render'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ElSlotsRender',
-  props: slotsRenderProps,
+  name: 'ElNodeRender',
+  props: nodeRenderProps,
   setup(props) {
     return () => props.nodes
   }

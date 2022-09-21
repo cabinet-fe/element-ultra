@@ -58,7 +58,8 @@ const columns: DataTableColumn[] = [
     key: 'name',
     align: 'center',
     fixed: 'left',
-    width: 200
+    width: 200,
+    sortable: true
   },
   { name: '测试1', key: 'test1', slot: 'test1' },
 

@@ -27,12 +27,22 @@
     width: 100%;
   }
 
+  thead {
+    background-color: #f8f8f8;
+  }
+
   th,
   td {
-    padding: 0;
     & > div {
       padding: 0 4px;
     }
+  }
+  td {
+    padding: 0;
+  }
+  th {
+    padding: 4px 0;
+    background-color: #f8f8f8;
   }
 
   // 表头
@@ -53,6 +63,46 @@
     }
   }
 
+  @include e(sort-trigger) {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    height: 14px;
+    width: 24px;
+    vertical-align: middle;
+    cursor: pointer;
+    overflow: initial;
+    position: relative;
+
+    i {
+      width: 0;
+      height: 0;
+      border: solid 5px transparent;
+      position: absolute;
+      left: 7px;
+
+      &.asc {
+        border-bottom-color: var(--el-text-color-placeholder);
+        top: -5px;
+        @include when(active) {
+          border-bottom-color: var(--el-color-primary);
+        }
+      }
+
+      &.dsc {
+        border-top-color: var(--el-text-color-placeholder);
+        bottom: -3px;
+        @include when(active) {
+          border-top-color: var(--el-color-primary);
+        }
+      }
+
+
+    }
+
+
+  }
+
   @include e(column-resize) {
     position: absolute;
     height: 100%;
@@ -71,7 +121,6 @@
     border-bottom: 1px solid #eee;
     box-shadow: -1px 0px 0px 0px #eee inset;
     box-sizing: border-box;
-    background-color: #f8f8f8;
 
     & > div {
       width: 100%;

@@ -9,11 +9,11 @@ import type { TableHeader } from './utils'
 export const dataTableToken: InjectionKey<
   {
     rootProps: DataTableProps
-    emit: DataTableEmits,
-    state: ReturnType<typeof useState>
+    emit: DataTableEmits
     ns: ReturnType<typeof useNamespace>
   } & ReturnType<typeof useColumns> &
-    ReturnType<typeof useStyle>
+    ReturnType<typeof useStyle> &
+    ReturnType<typeof useState>
 > = Symbol()
 
 export const dataBodyToken: InjectionKey<{
@@ -37,7 +37,6 @@ export const dataFooterToken: InjectionKey<{
   /** 右侧固定单元格的类 */
   rightCellClass: string
 }> = Symbol()
-
 
 export const dataHeaderToken: InjectionKey<{
   /** 单元格类 */

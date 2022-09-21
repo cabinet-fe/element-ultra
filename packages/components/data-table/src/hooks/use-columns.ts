@@ -52,6 +52,11 @@ export default function useColumns(
   // 深拷贝一份列
   const columns = computed(() => deepCopy(props.columns))
 
+  /** 获取列 */
+  const getColumns = () => {
+    return columns.value
+  }
+
   /** 额外列(序号, 单选/多选, 展开栏) */
   const preColumns = computed(() => {
     const { checkable, selectable, showIndex } = props
@@ -127,6 +132,7 @@ export default function useColumns(
         name: () => '单选',
         key: '$_radio',
         width: 60,
+        align: 'center',
         fixed: 'left',
         render
       })
@@ -139,19 +145,19 @@ export default function useColumns(
   /** 最外层排序的 */
   const sortedColumns = computed(() => {
     /** 固定在左侧的列 */
-    const leftColumns: DataTableColumn[] = [...preColumns.value]
+    const leftColumns: DataTableColumn[] = []
     /** 在中间的列 */
     const centerColumns: DataTableColumn[] = []
     /** 固定在右侧的ie */
     const rightColumns: DataTableColumn[] = []
 
-    columns.value.forEach(column => {
+    preColumns.value.concat(columns.value).forEach(column => {
       if (column.width && !column.children) {
         if (column.fixed === 'left') {
-          return leftColumns.push(column)
+          return leftColumns.push(shallowReactive(column))
         }
         if (column.fixed === 'right') {
-          return rightColumns.push(column)
+          return rightColumns.push(shallowReactive(column))
         }
       }
 
@@ -207,33 +213,18 @@ export default function useColumns(
         if (column.width) {
           // 移动至对应的
           if (column.fixed === 'left') {
-            return result.left.push(shallowReactive(column) as FixedColumn)
+            return result.left.push(column as FixedColumn)
           }
           if (column.fixed === 'right') {
-            return result.right.push(shallowReactive(column) as FixedColumn)
+            return result.right.push(column as FixedColumn)
           }
         }
 
-        return result.center.push(shallowReactive(column) as StaticColumn)
+        return result.center.push(column as StaticColumn)
       })
     })(sortedColumns.value)
 
-    loop(result.left, (cur, pre) => {
-      if (pre) {
-        cur.left = pre.left! + pre.width
-      } else {
-        cur.left = 0
-      }
-    })
-
-    loopRight(result.right, (cur, _, next) => {
-      if (next) {
-        cur.right = next.right! + next.width
-      } else {
-        cur.right = 0
-      }
-    })
-
+    // TODO寻找更加优雅的解决方案
     // 给叶子节点编号, 以便于在表头中拖拽列宽
     Object.keys(result).forEach(key => {
       result[key as keyof typeof result].forEach(
@@ -241,15 +232,46 @@ export default function useColumns(
       )
     })
 
+    computePosition(result)
+
     return result
   })
+
+  type LeafColumns = typeof leafColumns.value
+
+  const computePosition = (columns?: LeafColumns) => {
+    if (!columns) {
+      columns = leafColumns.value
+    }
+    loop(columns.left, (cur, pre) => {
+      if (pre) {
+        cur.left = pre.left! + pre.width
+      } else {
+        cur.left = 0
+      }
+    })
+
+    loopRight(columns.right, (cur, _, next) => {
+      if (next) {
+        cur.right = next.right! + next.width
+      } else {
+        cur.right = 0
+      }
+    })
+  }
 
   return {
     /** 多级表头的二维结构 */
     headerRows,
 
     /** 叶子列 */
-    leafColumns
+    leafColumns,
+
+    /** 计算列的定位 */
+    computePosition,
+
+    /** 获取列 */
+    getColumns
   }
 }
 

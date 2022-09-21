@@ -10,7 +10,7 @@
         :style="{ textAlign: column.align }"
       >
         <!-- 插槽穿透 -->
-        <ElSlotsRender :nodes="slots[column.key]?.({ row, index: rowIndex })" />
+        <ElNodeRender :nodes="slots[column.key]?.({ row, index: rowIndex })" />
       </td>
 
       <td :class="ns.e('action')" v-if="!multipleFormProps.disabled">
@@ -33,7 +33,7 @@
       >
         <!-- 插槽穿透 -->
         <!-- 查看模式 -->
-        <ElSlotsRender
+        <ElNodeRender
           v-if="slots[column.key + ':view']"
           :nodes="slots[column.key + ':view']?.({ row, index: rowIndex })"
         />
@@ -80,7 +80,7 @@
 import { Select, Close, Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { inject, shallowRef } from 'vue'
 import ElButton from '@element-ultra/components/button'
-import ElSlotsRender from '@element-ultra/components/slots-render'
+import ElNodeRender from '@element-ultra/components/node-render'
 import { multipleFormKey } from './token'
 
 defineProps<{

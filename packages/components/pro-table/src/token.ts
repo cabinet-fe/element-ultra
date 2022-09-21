@@ -1,6 +1,6 @@
 import type { useNamespace } from '@element-ultra/hooks'
 import type { InjectionKey, ShallowReactive, ShallowRef, Slots } from 'vue'
-import type { ProTableProps } from './pro-table'
+import type { ProTableColumn, ProTableProps } from './pro-table'
 
 export const proTableKey: InjectionKey<{
   proTableSlots: Readonly<Slots>
@@ -23,4 +23,7 @@ export const proTableContextKey: InjectionKey<{
     api: string
     query: Record<string, any>
   }
+  find: () => any[],
+  deleteRow: (index: number) => void,
+  getColumns: () => ProTableColumn[]
 }> = Symbol('proTableContextKey')

@@ -38,30 +38,17 @@
 
     <template #tools>
       <el-button type="primary">新增</el-button>
-      <el-button
-        @click="
-          tableRef.toggleRowSelection(
-            {
-              name: '张三',
-              id: 1,
-              age: 20
-            },
-            true
-          )
-        "
-        >切换选中</el-button
-      >
 
       <el-button @click="handleClick">改变query</el-button>
 
       <el-dropdown split-button type="primary" >
-      按钮
-      <!-- <template #dropdown>
+      按钮123
+      <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>Action 1</el-dropdown-item>
+          <el-dropdown-item>Action 134</el-dropdown-item>
           <el-dropdown-item>Action 2</el-dropdown-item>
         </el-dropdown-menu>
-      </template> -->
+      </template>
     </el-dropdown>
     </template>
   </el-pro-table>
