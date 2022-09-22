@@ -11,6 +11,8 @@
     <!-- 数据表格 -->
     <el-data-table
       v-if="columns && columns.length"
+      ref="tableRef"
+      v-loading="loading"
       :data="computedData"
       :columns="columns"
       :show-summary="summaryVisible"
@@ -18,12 +20,11 @@
       :show-index="showIndex"
       :checkable="checkable"
       :selectable="selectable"
-      v-loading="loading"
       :checked="checked"
       :selected="selected"
       @check="emit('checked', $event)"
       @select="emit('selected', $event)"
-      ref="tableRef"
+      @sort="handleSort"
     >
     </el-data-table>
 
@@ -214,6 +215,11 @@ const fetchData = async (resetPage = true) => {
   state.data = data
 
   emit('loaded', res)
+}
+
+
+const handleSort = (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
+  console.log(sortKeys)
 }
 
 let canAutoQuery = shallowRef(true)

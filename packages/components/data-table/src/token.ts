@@ -1,10 +1,11 @@
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, ShallowRef } from 'vue'
 import type { DataTableEmits, DataTableProps } from './data-table'
 import type useColumns from './hooks/use-columns'
 import type useStyle from './hooks/use-style'
 import type useState from './hooks/use-state'
 import type { useNamespace } from '@element-ultra/hooks'
 import type { TableHeader } from './utils'
+import type DataTableAlignAdjuster from './data-table-align-adjuster.vue'
 
 export const dataTableToken: InjectionKey<
   {
@@ -53,4 +54,6 @@ export const dataHeaderToken: InjectionKey<{
   getCellRowSpan: (header: TableHeader, rowIndex: number) => number | undefined
   /** 鼠标按下处理事件 */
   handleResizeMousedown: (event: MouseEvent, header: TableHeader) => void
+  /** 对齐调节器ref */
+  adjusterRef: ShallowRef<InstanceType<typeof DataTableAlignAdjuster>>
 }> = Symbol()

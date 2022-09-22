@@ -32,6 +32,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
   const handleSort = (key: string) => {
     store.sortKeys[key] = sortTable[store.sortKeys[key] || 'default']
+    emit('sort', store.sortKeys)
   }
 
   // 多选相关逻辑----------------------------------------

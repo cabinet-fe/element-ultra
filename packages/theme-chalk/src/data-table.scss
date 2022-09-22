@@ -44,6 +44,9 @@
     padding: 4px 0;
     background-color: #f8f8f8;
   }
+  [draggable=true] {
+    cursor: grab;
+  }
 
   // 表头
   @include e(header-wrap) {
@@ -57,9 +60,16 @@
   @include e(header) {
     background-color: #fff;
     user-select: none;
+
     &-wrap {
       width: 100%;
       overflow: hidden;
+    }
+
+    &:hover {
+      .el-data-table__column-resize {
+        border-right-color: var(--el-border-color);
+      }
     }
   }
 
@@ -68,7 +78,7 @@
     flex-direction: column;
     align-items: center;
     height: 14px;
-    width: 24px;
+    width: 14px;
     vertical-align: middle;
     cursor: pointer;
     overflow: initial;
@@ -79,7 +89,7 @@
       height: 0;
       border: solid 5px transparent;
       position: absolute;
-      left: 7px;
+      right: 0;
 
       &.asc {
         border-bottom-color: var(--el-text-color-placeholder);
@@ -96,11 +106,16 @@
           border-top-color: var(--el-color-primary);
         }
       }
-
-
     }
+  }
 
-
+  @include e(align-adjuster) {
+    position: fixed;
+    z-index: 1;
+    background-color: var(--el-bg-color);
+    padding: 6px 8px;
+    border-radius: 4px;
+    box-shadow: var(--el-box-shadow);
   }
 
   @include e(column-resize) {
@@ -109,12 +124,10 @@
     width: 4px;
     top: 0;
     cursor: col-resize;
-    z-index: 1;
+    z-index: 0;
     box-sizing: border-box;
-
-    &:hover {
-      border-right: 4px dotted #ccc;
-    }
+    border-right: 4px double transparent;
+    transition: border-color .3s;
   }
 
   @include e(header-cell) {

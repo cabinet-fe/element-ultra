@@ -1,4 +1,5 @@
 import { last } from 'lodash'
+import { shallowReactive } from 'vue'
 import type { DataTableColumn } from './data-table'
 
 export interface InternalColumn extends DataTableColumn {
@@ -30,6 +31,8 @@ export interface TableHeader {
   isLeaf: boolean
   /** 以当前节点为根的子树的size */
   size: number
+  /** 是否是前置通用列 */
+  isPre: boolean
   /** 节点的索引 */
   index?: number
 }
@@ -51,6 +54,7 @@ export function bfs(treeData: DataTableColumn[]) {
         data: item,
         parent: parent,
         depth: depth,
+        isPre: item.key.startsWith('$_'),
         isLeaf,
         size: 0
       }
@@ -86,4 +90,16 @@ export function bfs(treeData: DataTableColumn[]) {
     })
   }
   return result
+}
+
+/**
+ * 将树的节点转化为浅响应对象
+ * @param tree 树
+ */
+export function shallowReactiveWithDFS(tree: DataTableColumn) {
+  let ret = shallowReactive(tree)
+  if (tree.children) {
+    ret.children = tree.children.map(item => shallowReactiveWithDFS(item))
+  }
+  return ret
 }

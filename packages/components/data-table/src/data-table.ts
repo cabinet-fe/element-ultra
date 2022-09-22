@@ -99,7 +99,8 @@ export const dataTableProps = {
 
 export const dataTableEmits = {
   check: (checked: any[]) => true,
-  select: (selection: any) => true
+  select: (selection: any) => true,
+  sort: (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => true
 }
 
 export type DataTableProps = ExtractPropTypes<typeof dataTableProps>

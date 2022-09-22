@@ -71,14 +71,12 @@ export default defineComponent({
               ? componentWidthMapper[nodeName]
               : undefined
 
-              console.log(wrapWidth)
             let clonedNode = cloneVNode(node, {
               class: contentClass,
               style: {
                 width: node.props?.style?.width || wrapWidth
               }
             })
-
 
             if (props?.placeholder) {
               nodes.push(

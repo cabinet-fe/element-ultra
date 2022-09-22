@@ -69,11 +69,9 @@ const wrapHeight = shallowRef(0)
 /** 容器宽度 */
 const wrapWidth = shallowRef(0)
 
-const { stop } = useResizeObserver(wrap$, ([entry]) => {
-  wrapHeight.value = entry.contentRect.height
-  wrapWidth.value = entry.contentRect.width
-  _scrollHeight = wrap$.value!.scrollHeight
-  _scrollWidth = wrap$.value!.scrollWidth
+const { stop } = useResizeObserver(wrap$, () => {
+  wrapHeight.value = wrap$.value!.offsetHeight
+  wrapWidth.value = wrap$.value!.offsetWidth
 })
 onUnmounted(() => {
   stop()
@@ -87,26 +85,20 @@ const style = computed<StyleValue>(() => {
 })
 
 let _scrollTop = 0,
-  _scrollLeft = 0,
-  _scrollHeight = 0,
-  _scrollWidth = 0
+  _scrollLeft = 0
 
 const updateScrollState = (
   scrollTop: number,
-  scrollLeft: number,
-  scrollHeight: number,
-  scrollWidth: number
+  scrollLeft: number
 ) => {
   _scrollTop = scrollTop
   _scrollLeft = scrollLeft
-  _scrollHeight = scrollHeight
-  _scrollWidth = scrollWidth
 }
 
 const handleScroll = (event: UIEvent) => {
   const { scrollTop, scrollLeft, scrollHeight, scrollWidth } =
     event.target as HTMLElement
-  updateScrollState(scrollTop, scrollLeft, scrollHeight, scrollWidth)
+  updateScrollState(scrollTop, scrollLeft)
   update()
   emit('scroll', { scrollTop, scrollLeft, scrollHeight, scrollWidth })
 }
@@ -142,8 +134,9 @@ const setScrollLeft = (value: number) => {
 const update = () => {
   const offsetHeight = wrapHeight.value - GAP // wrap$.value.offsetHeight - GAP
   const offsetWidth = wrapWidth.value - GAP // wrap$.value.offsetWidth - GAP
-  const originalHeight = offsetHeight ** 2 / _scrollHeight // wrap$.value.scrollHeight
-  const originalWidth = offsetWidth ** 2 / _scrollWidth // wrap$.value.scrollWidth
+
+  const originalHeight = offsetHeight ** 2 / wrap$.value!.scrollHeight
+  const originalWidth = offsetWidth ** 2 /  wrap$.value!.scrollWidth
   const height = Math.max(originalHeight, props.minSize)
   const width = Math.max(originalWidth, props.minSize)
 
@@ -178,9 +171,8 @@ watch(
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resize$, ([entry]) => {
-        update()
-
         emit('resize', entry.target)
+        update()
       }))
       stopResizeListener = useEventListener('resize', update)
     }
@@ -189,7 +181,12 @@ watch(
 )
 
 watch(
-  [() => props.maxHeight, () => props.height, wrapHeight, wrapWidth],
+  [
+    () => props.maxHeight,
+    () => props.height,
+    () => wrapHeight.value,
+    () => wrapWidth.value
+  ],
 
   () => {
     if (!props.native)

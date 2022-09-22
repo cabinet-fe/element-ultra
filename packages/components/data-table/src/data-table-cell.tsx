@@ -72,6 +72,7 @@ const buildCell = <
           index
         )
 
+
         return (
           <td
             class={classes}

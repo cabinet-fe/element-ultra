@@ -5,6 +5,7 @@
     :size="state.width"
     :always="always"
   />
+
   <thumb
     :move="state.moveY"
     :ratio="state.ratioY"

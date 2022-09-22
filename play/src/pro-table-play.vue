@@ -9,6 +9,7 @@
     show-index
     :checkable="(_, index) => index % 2 === 0"
     ref="tableRef"
+
   >
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
@@ -41,11 +42,11 @@
 
       <el-button @click="handleClick">改变query</el-button>
 
-      <el-dropdown split-button type="primary" >
+      <el-dropdown trigger="click" split-button type="primary" >
       按钮123
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>Action 134</el-dropdown-item>
+          <el-dropdown-item>Action 13</el-dropdown-item>
           <el-dropdown-item>Action 2</el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -79,7 +80,7 @@ setTimeout(() => {
       key: 'name',
       fixed: 'left',
       children: [
-        { name: 'child', key: 'child1' },
+        { name: 'child', key: 'money' },
         { name: 'child2', key: 'child2' }
       ]
     },
@@ -88,11 +89,14 @@ setTimeout(() => {
       key: 'money',
       preset: 'money',
       fixed: 'left',
-      width: 100
+      sortable: true,
+      width: 100,
+      align: 'center'
     },
     {
       name: '姓名',
-      key: 'name1'
+      key: 'name1',
+      sortable: true
     },
     {
       name: '姓名',
@@ -150,6 +154,7 @@ setTimeout(() => {
       slot: 'action'
     }
   ]
+  // console.log(columns)
 }, 500)
 
 const handleClick = () => {

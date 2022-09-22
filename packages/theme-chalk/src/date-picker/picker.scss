@@ -92,11 +92,6 @@
     line-height: inherit;
     font-size: 14px;
     color: getCssVar('text-color', 'placeholder');
-    // float: left;
-    vertical-align: middle;
-    svg {
-      vertical-align: middle;
-    }
   }
 
   .#{$namespace}-range-input {
@@ -107,7 +102,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    width: 80px;
+    width: calc(50% - 26px);
     text-align: center;
     font-size: getCssVar('font-size', 'base');
     color: getCssVar('text-color', 'regular');
@@ -119,14 +114,11 @@
   }
 
   .#{$namespace}-range-separator {
-    flex: 1;
     display: inline-flex;
+    align-content: center;
     justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 0 5px;
-    margin: 0;
     font-size: 14px;
+    width: 24px;
     word-break: keep-all;
     color: getCssVar('text-color', 'primary');
   }
@@ -137,7 +129,6 @@
     height: inherit;
     width: unset;
     cursor: pointer;
-    // vertical-align: middle;
 
     &:hover {
       color: getCssVar('text-color', 'secondary');
@@ -155,6 +146,11 @@
 }
 
 @include b(range-editor) {
+  font-size: 0;
+  & > * {
+    vertical-align: middle;
+  }
+
   &.#{$namespace}-input__wrapper {
     display: inline-flex;
     align-items: center;

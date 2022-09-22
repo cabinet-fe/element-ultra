@@ -32,11 +32,15 @@
       </thead>
     </table>
   </div>
+
+  <!-- 对齐调节器 -->
+  <DataTableAlignAdjuster ref="adjusterRef" />
 </template>
 
 <!-- 表格头部, 此处做列相关的操作, 比如存放列信息, 排序 -->
 <script lang="ts" setup>
 import ElNodeRender from '@element-ultra/components/node-render'
+import DataTableAlignAdjuster from './data-table-align-adjuster.vue'
 import { throttle } from 'lodash'
 import { computed, inject, provide, shallowRef, watch } from 'vue'
 import { dataHeaderToken, dataTableToken } from './token'
@@ -141,6 +145,8 @@ watch(scrollLeft, left => {
   headerRef.value!.scrollLeft = left
 })
 
+const adjusterRef = shallowRef<InstanceType<typeof DataTableAlignAdjuster>>()
+
 provide(dataHeaderToken, {
   getCellRowSpan,
   cellClass: ns.e('header-cell'),
@@ -148,6 +154,7 @@ provide(dataHeaderToken, {
   centerCellClass: ns.em('header-cell', 'center'),
   rightCellClass: ns.em('header-cell', 'right'),
   resizeClass: ns.e('column-resize'),
-  handleResizeMousedown
+  handleResizeMousedown,
+  adjusterRef
 })
 </script>

@@ -44,8 +44,12 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
     },
 
     setup(props) {
-      const { getCellRowSpan, resizeClass, handleResizeMousedown } =
-        inject(dataHeaderToken)!
+      const {
+        getCellRowSpan,
+        resizeClass,
+        handleResizeMousedown,
+        adjusterRef
+      } = inject(dataHeaderToken)!
       const commonClassName = getClassName()
       const { handleSort, store, ns } = inject(dataTableToken)!
 
@@ -55,19 +59,22 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
         let className = [...commonClassName]
         header.isLeaf && className.push('is-leaf')
 
-        const resizer = header.isLeaf ? (
-          <span
-            class={resizeClass}
-            style='right: 0'
-            onMousedown={event => handleResizeMousedown(event, header)}
-          ></span>
-        ) : null
+        /** 尺寸调节器 */
+        const resizer =
+          header.isLeaf && !header.isPre ? (
+            <span
+              class={resizeClass}
+              style='right: 0'
+              onMousedown={event => handleResizeMousedown(event, header)}
+            ></span>
+          ) : null
 
+        /** 排序器 */
         const sorter =
           header.isLeaf && data.sortable ? (
             <span
               class={ns.e('sort-trigger')}
-              onClick={() => handleSort(data.key)}
+              onClick={e => handleSort(data.key)}
             >
               <i
                 class={{
@@ -84,6 +91,23 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
             </span>
           ) : null
 
+        /** 表头展示内容 */
+        let content = typeof data.name === 'function' ? data.name() : data.name
+
+        if (!header.isPre) {
+          // span用来减少触发范围
+          content = (
+            <span
+              onClick={e =>
+                adjusterRef.value?.open(e.target as HTMLTableCellElement, data)
+              }
+              style='cursor: default'
+            >
+              {content}
+            </span>
+          )
+        }
+
         return (
           <th
             rowspan={getCellRowSpan(header, rowIndex)}
@@ -91,10 +115,16 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
             key={data.key}
             class={className}
             style={getHeaderStyle(data)}
+            draggable={!data.fixed}
+            onDrop={console.log}
           >
             {resizer}
+            {/*
+              因为th需要用shadow来定位而到外部作固定列的阴影效果
+              所以包裹一个div来做省略号功能
+            */}
             <div>
-              {typeof data.name === 'function' ? data.name() : data.name}
+              {content}
               {sorter}
             </div>
           </th>

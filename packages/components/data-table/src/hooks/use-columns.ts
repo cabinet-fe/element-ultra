@@ -2,7 +2,7 @@ import ElCheckbox from '@element-ultra/components/checkbox'
 import { deepCopy } from '@element-ultra/utils'
 import { computed, h, shallowReactive, useSlots } from 'vue'
 import type { DataTableColumn, DataTableProps } from '../data-table'
-import { bfs, InternalColumn, FixedColumn, StaticColumn } from '../utils'
+import { bfs, InternalColumn, FixedColumn, StaticColumn, shallowReactiveWithDFS } from '../utils'
 import type { UseStateReturned } from './use-state'
 
 // 固定列: 只有最父级可以进行左右定位的配置
@@ -142,7 +142,7 @@ export default function useColumns(
   })
 
   // 先对一级列进行分组排序
-  /** 最外层排序的 */
+  /** 排序并将列设为响应式 */
   const sortedColumns = computed(() => {
     /** 固定在左侧的列 */
     const leftColumns: DataTableColumn[] = []
@@ -160,11 +160,13 @@ export default function useColumns(
           return rightColumns.push(shallowReactive(column))
         }
       }
-
-      centerColumns.push(column)
+      // 递归响应
+      centerColumns.push(shallowReactiveWithDFS(column))
     })
     return leftColumns.concat(centerColumns).concat(rightColumns)
   })
+
+
 
   /** 多级表头的二维结构 */
   const headerRows = computed(() => bfs(sortedColumns.value))
