@@ -7,9 +7,10 @@
     :query="query"
     :columns="columns"
     show-index
+    tree
     :checkable="(_, index) => index % 2 === 0"
     ref="tableRef"
-
+    show-summary
   >
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
@@ -26,9 +27,9 @@
       />
     </template>
 
-    <template #age="{ row }">
-      {{ row }}
-    </template>
+    <!-- <template #age="{ val }">
+      {{ val }}
+    </template> -->
 
     <template #action>
       <el-action-group>
@@ -42,22 +43,22 @@
 
       <el-button @click="handleClick">改变query</el-button>
 
-      <el-dropdown trigger="click" split-button type="primary" >
-      按钮123
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item>Action 13</el-dropdown-item>
-          <el-dropdown-item>Action 2</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+      <el-dropdown trigger="click" split-button type="primary">
+        按钮123
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Action 13</el-dropdown-item>
+            <el-dropdown-item>Action 2</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </template>
   </el-pro-table>
 </template>
 
 <script setup lang="tsx">
 import { type ProTableColumn, ElButton } from 'element-ultra'
-import {  provide, shallowReactive, shallowRef } from 'vue'
+import { provide, shallowReactive, shallowRef } from 'vue'
 
 provide('aa', { name: 'aa' })
 

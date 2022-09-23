@@ -10,8 +10,8 @@ import type DataTableAlignAdjuster from './data-table-align-adjuster.vue'
 export const dataTableToken: InjectionKey<
   {
     rootProps: DataTableProps
-    emit: DataTableEmits
     ns: ReturnType<typeof useNamespace>
+    emit: DataTableEmits
   } & ReturnType<typeof useColumns> &
     ReturnType<typeof useStyle> &
     ReturnType<typeof useState>

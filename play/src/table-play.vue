@@ -1,6 +1,13 @@
 <template>
-  <el-table :data="data">
+  <el-table
+    :data="data"
+    :height="600"
+    :tree-props="{ children: 'children' }"
+    row-key="id"
+
+  >
     <el-table-column type="index"></el-table-column>
+    <el-table-column type="selection" :checkable="(_, index) => index % 2 === 0"></el-table-column>
 
     <el-table-column :width="120" name="序号" type="index"></el-table-column>
     <el-table-column :width="120" name="序号" type="index"></el-table-column>
@@ -14,7 +21,11 @@
     <el-table-column :width="120" name="序号" type="index"></el-table-column>
     <el-table-column :width="120" name="序号" type="index"></el-table-column>
     <el-table-column :width="120" name="测试1" fixed="left">
-      <el-table-column name="测试1-1" fixed="left" prop="name"></el-table-column>
+      <el-table-column
+        name="测试1-1"
+        fixed="left"
+        prop="name"
+      ></el-table-column>
       <el-table-column name="测试1-2"></el-table-column>
     </el-table-column>
     <el-table-column prop="name" fixed="left"></el-table-column>
@@ -24,7 +35,6 @@
 <script lang="ts" setup>
 import { computed } from '@vue/reactivity'
 import { shallowRef } from 'vue'
-
 
 const count = shallowRef(30)
 
@@ -38,7 +48,15 @@ const data = computed(() => {
     const ming = mings[~~(Math.random() * mings.length)]
     return {
       name: xing + ming + i,
-      id: i
+      id: i,
+      children: [
+        { name: '你好' + i + '-1', id: i + '-1',
+          children: [
+            { name: '你好' + i + '-1-1', id: i + '-1-1' }
+          ]
+        },
+        { name: '你好' + i + '-2', id: i + '-2' }
+      ]
     }
   })
 })

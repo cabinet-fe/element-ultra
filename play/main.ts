@@ -12,9 +12,19 @@ setConfigStore({
     console.log(options)
     return new Promise(rs => {
       setTimeout(() => {
-        let data = Array.from({ length: 100 }).map((_, i) => ({
+        let data = Array.from({ length: 10000 }).map((_, i) => ({
           name: '张三说的有符合公司的的话是个' + i,
           money: ~~(Math.random() * 1000),
+          children: [
+            { name: '你好', money: 10086, id: `${i}-1`,
+            children: [
+              { name: '你好' + i + '-1-1', money: 666, id: i + '-1-1' },
+              { name: '你好' + i + '-1-2', money: 666, id: i + '-1-2' },
+              { name: '你好' + i + '-1-3', money: 666, id: i + '-1-3' },
+            ]
+          },
+          { name: '你好', money: 10001, id: `${i}-2`,}
+          ],
           id: i
         }))
         rs({

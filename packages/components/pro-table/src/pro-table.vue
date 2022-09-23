@@ -7,11 +7,11 @@
       @search="fetchData"
       @tools-resize="calcTableHeight"
     />
-
     <!-- 数据表格 -->
     <el-data-table
       v-if="columns && columns.length"
       ref="tableRef"
+      :height="tableHeight"
       v-loading="loading"
       :data="computedData"
       :columns="columns"
@@ -22,6 +22,7 @@
       :selectable="selectable"
       :checked="checked"
       :selected="selected"
+      :tree="tree"
       @check="emit('checked', $event)"
       @select="emit('selected', $event)"
       @sort="handleSort"
@@ -216,7 +217,6 @@ const fetchData = async (resetPage = true) => {
 
   emit('loaded', res)
 }
-
 
 const handleSort = (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
   console.log(sortKeys)

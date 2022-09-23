@@ -1,5 +1,6 @@
 import { getChainValue } from '@element-ultra/utils'
-import { CSSProperties, defineComponent, inject, PropType } from 'vue'
+import { defineComponent, inject, PropType } from 'vue'
+import type { Row, TreeRow } from './data-table'
 import { dataBodyToken } from './token'
 import type { FixedColumn, StaticColumn } from './utils'
 
@@ -49,12 +50,8 @@ const buildCell = <
         required: true
       },
 
-      rowScoped: {
-        type: Object as PropType<{
-          index: number
-          item: any
-          style: CSSProperties
-        }>,
+      row: {
+        type: Object as PropType<Row | TreeRow>,
         required: true
       }
     },
@@ -62,29 +59,27 @@ const buildCell = <
       const classes = getClassName()
 
       return () => {
-        const { rowScoped } = props
-        const { index, style, item } = rowScoped
+        const { row } = props
+        const { index, data } = row
+
         let column = props.column as FixedColumn
 
-        const content = column.render!(
-          getChainValue(item, column.key),
-          item,
+        const content = column.render!({
+          val: getChainValue(data, column.key),
+          row,
+          data,
           index
-        )
-
+        })
 
         return (
           <td
             class={classes}
             style={{
               ...styleGetter(column),
-              'text-align': column.align,
-              ...style
+              'text-align': column.align
             }}
           >
-            <div>
-            {content}
-            </div>
+            <div>{content}</div>
           </td>
         )
       }

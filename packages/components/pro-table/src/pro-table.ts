@@ -8,6 +8,11 @@ export const proTableProps = {
   api: {
     type: String
   },
+  /** 展示树形数据 */
+  tree: {
+    type: [Boolean, String],
+    default: false
+  },
   /** 数据 */
   data: {
     type: Array as PropType<any[]>

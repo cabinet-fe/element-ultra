@@ -1,9 +1,17 @@
 import ElCheckbox from '@element-ultra/components/checkbox'
+import ElIcon from '@element-ultra/components/icon'
 import { deepCopy } from '@element-ultra/utils'
 import { computed, h, shallowReactive, useSlots } from 'vue'
-import type { DataTableColumn, DataTableProps } from '../data-table'
-import { bfs, InternalColumn, FixedColumn, StaticColumn, shallowReactiveWithDFS } from '../utils'
+import type { DataTableColumn, DataTableProps, TreeRow } from '../data-table'
+import {
+  bfs,
+  InternalColumn,
+  FixedColumn,
+  StaticColumn,
+  shallowReactiveWithDFS
+} from '../utils'
 import type { UseStateReturned } from './use-state'
+import { Plus, Minus } from '@element-plus/icons-vue'
 
 // 固定列: 只有最父级可以进行左右定位的配置
 // 列位置调换: 只有父级可以进行位置调换
@@ -46,7 +54,8 @@ export default function useColumns(
     clearChecked,
     toggleItemCheck,
     toggleSelect,
-    store
+    store,
+    getFlatData
   } = state
 
   // 深拷贝一份列
@@ -59,9 +68,42 @@ export default function useColumns(
 
   /** 额外列(序号, 单选/多选, 展开栏) */
   const preColumns = computed(() => {
-    const { checkable, selectable, showIndex } = props
+    const { checkable, selectable, showIndex, tree } = props
 
     let result: InternalColumn[] = []
+
+    if (tree) {
+      result.push({
+        name: '',
+        key: '$_expand',
+        width: 80,
+        fixed: 'left',
+        render: ctx => {
+          let row = ctx.row as TreeRow
+          return row.children
+            ? h(
+                ElIcon,
+                {
+                  class: 'el-data-table__expand-icon',
+                  style: {
+                    marginLeft: row.depth * 20 + 'px'
+                  },
+                  onClick() {
+                    row.expanded = !row.expanded
+                    getFlatData()
+                  }
+                },
+                () => (row.expanded ? h(Minus) : h(Plus))
+              )
+            : h('span', {
+                class: 'el-data-table__leaf-icon',
+                style: {
+                  marginLeft: row.depth * 20 + 'px'
+                }
+              })
+        }
+      })
+    }
 
     if (showIndex !== false) {
       result.push({
@@ -70,28 +112,28 @@ export default function useColumns(
         width: 60,
         fixed: 'left',
         align: 'center',
-        render: (_, __, index) => index + 1
+        render: ({ index }) => index + 1
       })
     }
 
     // 多选和单选只能有一个, 且多选优先级更高
     if (checkable !== false) {
       // 高性能写法
-      const render =
+      const render: InternalColumn['render'] =
         checkable === true
-          ? (_: any, row: any) =>
+          ? ({ data }) =>
               h(ElCheckbox, {
-                modelValue: store.checked.has(row),
+                modelValue: store.checked.has(data),
                 'onUpdate:modelValue': v => {
-                  toggleItemCheck(row, v as boolean)
+                  toggleItemCheck(data, v as boolean)
                 }
               })
-          : (value: any, row: any, index: number) =>
+          : ({ data, index }) =>
               h(ElCheckbox, {
-                disabled: !checkable(row, index),
-                modelValue: store.checked.has(row),
+                disabled: !checkable(data, index),
+                modelValue: store.checked.has(data),
                 'onUpdate:modelValue': v => {
-                  toggleItemCheck(row, v as boolean)
+                  toggleItemCheck(data, v as boolean)
                 }
               })
       result.push({
@@ -110,21 +152,21 @@ export default function useColumns(
         render
       })
     } else if (selectable !== false) {
-      const render =
+      const render: InternalColumn['render'] =
         selectable === true
-          ? (_: any, row: any) =>
+          ? ({ data }) =>
               h(ElCheckbox, {
-                modelValue: store.selected === row,
+                modelValue: store.selected === data,
                 'onUpdate:modelValue': v => {
-                  v ? toggleSelect(row) : toggleSelect(false)
+                  v ? toggleSelect(data) : toggleSelect(false)
                 }
               })
-          : (value: any, row: any, index: number) =>
+          : ({ data, index }) =>
               h(ElCheckbox, {
-                disabled: !selectable(row, index),
-                modelValue: store.selected === row,
+                disabled: !selectable(data, index),
+                modelValue: store.selected === data,
                 'onUpdate:modelValue': v => {
-                  v ? toggleSelect(row) : toggleSelect(false)
+                  v ? toggleSelect(data) : toggleSelect(false)
                 }
               })
 
@@ -166,8 +208,6 @@ export default function useColumns(
     return leftColumns.concat(centerColumns).concat(rightColumns)
   })
 
-
-
   /** 多级表头的二维结构 */
   const headerRows = computed(() => bfs(sortedColumns.value))
 
@@ -203,11 +243,11 @@ export default function useColumns(
         // 将插槽或者row[key]转化为渲染函数, 避免在数据循环中判断, 在有大量数据时开销很大
         if (!column.render) {
           if (column.slot) {
-            column.render = (value, row, index) => {
-              return slots[column.slot!]?.({ row, index, value })
+            column.render = ctx => {
+              return slots[column.slot!]?.(ctx)
             }
           } else {
-            column.render = value => value
+            column.render = ({ val }) => val
           }
         }
 

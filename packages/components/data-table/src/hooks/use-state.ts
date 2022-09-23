@@ -1,5 +1,10 @@
-import { computed, shallowReactive, watch } from 'vue'
-import type { DataTableEmits, DataTableProps } from '../data-table'
+import { computed, shallowReactive, shallowRef, watch } from 'vue'
+import type {
+  DataTableEmits,
+  DataTableProps,
+  Row,
+  TreeRow
+} from '../data-table'
 
 export default function useState(props: DataTableProps, emit: DataTableEmits) {
   const store = shallowReactive({
@@ -8,8 +13,80 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     /** 单选时选中的数据 */
     selected: props.selected as any,
     /** 排序 */
-    sortKeys: shallowReactive<Record<string, 'asc' | 'dsc' | 'default'>>({})
+    sortKeys: shallowReactive<Record<string, 'asc' | 'dsc' | 'default'>>({}),
+    /** 数据 */
+    data: [] as (Row | TreeRow)[],
+
   })
+
+  let uid = 0
+  const childrenKey = computed(() => {
+    const { tree } = props
+    return typeof tree === 'string' ? tree : 'children'
+  })
+
+  const treeData = shallowRef<TreeRow[]>([])
+
+  const dfsReactive = (arr: any[], depth: number): TreeRow[] => {
+    return arr.map((item, index) => {
+      let ret: TreeRow = shallowReactive({
+        uid: uid++,
+        data: item,
+        expanded: false,
+        depth,
+        index
+      })
+      if (item[childrenKey.value]) {
+        ret.children = dfsReactive(item[childrenKey.value], depth + 1)
+      }
+      return ret
+    })
+  }
+
+  /** 获取包装的行, 保存索引, uid等信息 */
+  const getWrappedRow = (data: any[]): (Row | TreeRow)[] => {
+    const { tree } = props
+
+    if (tree) return dfsReactive(data, 0)
+
+    return data.map((item, index) => {
+      return {
+        uid: uid++,
+        data: item,
+        index
+      }
+    })
+  }
+
+  const dfsFlat = (rows: TreeRow[], cb: (row: TreeRow) => void) => {
+    rows.forEach(row => {
+      cb(row)
+      row.children && row.expanded && dfsFlat(row.children, cb)
+    })
+  }
+  /** 获取碾平后的树形数据 */
+  const getFlatData = () => {
+    let ret: TreeRow[] = []
+    let index = 0
+    dfsFlat(treeData.value, row => {
+      row.index = index++
+      ret.push(row)
+    })
+
+    store.data = ret
+  }
+
+  watch(
+    () => props.data,
+    data => {
+      const ret = getWrappedRow(data)
+      store.data = ret
+      if (props.tree) {
+        treeData.value = ret as TreeRow[]
+      }
+    },
+    { immediate: true }
+  )
 
   watch(
     () => props.checked,
@@ -97,8 +174,10 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
     /** 选中全部数据 */
     checkAll,
+
     /** 清除所有选中 */
     clearChecked,
+
     /** 切换单项的选中 */
     toggleItemCheck,
 
@@ -106,7 +185,10 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     toggleSelect,
 
     /** 排序 */
-    handleSort
+    handleSort,
+
+    /** 获取扁平数据 */
+    getFlatData
   }
 }
 

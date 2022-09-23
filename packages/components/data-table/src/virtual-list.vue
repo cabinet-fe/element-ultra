@@ -1,5 +1,11 @@
 <template>
-  <ElScrollbar ref="containerRef" :height="height" @resize="handleResize" @scroll="handleScroll">
+  <ElScrollbar
+    ref="containerRef"
+    :height="height"
+    :max-height="height ? undefined : 500"
+    @resize="handleResize"
+    @scroll="handleScroll"
+  >
     <div :style="listStyle">
       <component
         :is="tag"
@@ -10,14 +16,9 @@
         }"
       >
         <slot name="prepend" />
-        <slot
-          v-for="item of renderedRange"
-          :key="item._id"
-          v-bind="{ item: item.data, index: item.index }"
-          :style="{
-            height: itemSize + 'px'
-          }"
-        />
+
+        <slot :list="renderedRange" :style="itemStyle" />
+
         <slot name="append" />
       </component>
     </div>
@@ -91,11 +92,17 @@ type ScrollCtx = {
   scrollWidth: number
 }
 
+const itemStyle = computed(() => {
+  return {
+    height: props.itemSize + 'px'
+  }
+})
+
 const wrapRef = shallowRef<HTMLElement>()
 
 const emit = defineEmits({
   scroll: (s: ScrollCtx) => true,
-  resize: (s: Element) => true,
+  resize: (s: Element) => true
 })
 
 /** 总高度, 预估高度 */
@@ -112,43 +119,18 @@ const listStyle = computed(() => {
 /** 当前滚动的位置 */
 let position = shallowRef(0)
 
-let uid = 0
-
-/** 如果没有传入uniqueKey则默认提供一个 */
-const computedData = computed(() => {
-  const { uniqueKey } = props
-  // 对原始数据进行包裹, 同时不能破坏原有的结构
-  return props.data.map(
-    uniqueKey
-      ? (item, index) => {
-          return {
-            data: item,
-            index,
-            _id: item[uniqueKey]
-          }
-        }
-      : (item, index) => {
-          return {
-            data: item,
-            index,
-            _id: uid++
-          }
-        }
-  )
-})
-
 /** 容器高度 */
 const containerHeight = shallowRef(0)
 
 /** 列表渲染范围 */
 const renderedRange = computed(() => {
-  const { itemSize, bufferHeight } = props
+  const { itemSize, bufferHeight, data } = props
 
   /** 这里的缓冲区要乘以2对冲掉上侧的缓冲 */
   let end =
     position.value + ~~((containerHeight.value + bufferHeight * 2) / itemSize)
 
-  return computedData.value.slice(position.value, end)
+  return data.slice(position.value, end)
 })
 
 watch(
@@ -199,7 +181,8 @@ watch(
   () => props.itemSize,
   () => {
     if (!containerRef.value?.wrap$) return
-    const { scrollHeight, scrollTop, scrollLeft, scrollWidth } = containerRef.value?.wrap$
+    const { scrollHeight, scrollTop, scrollLeft, scrollWidth } =
+      containerRef.value?.wrap$
     scrollTop &&
       handleScroll.value({
         scrollTop,

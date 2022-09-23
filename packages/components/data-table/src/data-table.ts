@@ -18,7 +18,12 @@ export type DataTableColumn = {
   /** 是否支持排序 */
   sortable?: boolean
   /** 自定义渲染 */
-  render?: (val: any, row: any, index: number) => any
+  render?: (ctx: {
+    val: any
+    row: Row | TreeRow
+    index: number
+    data: any
+  }) => any
   /** 子列 */
   children?: DataTableColumn[]
   /** 插槽名称, 开启将会有个默认插槽 */
@@ -94,13 +99,29 @@ export const dataTableProps = {
   },
 
   /** 指定合计的列, 指定showSummary时该字段必填  */
-  summaryKeys: Array as PropType<string[]>
+  summaryKeys: Array as PropType<string[]>,
+
+  /** 表格高度 */
+  height: {
+    type: String
+  }
 } as const
 
 export const dataTableEmits = {
   check: (checked: any[]) => true,
   select: (selection: any) => true,
   sort: (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => true
+}
+
+export interface Row {
+  uid: number
+  data: any
+  index: number
+}
+export interface TreeRow extends Row {
+  expanded: boolean
+  depth: number
+  children?: TreeRow[]
 }
 
 export type DataTableProps = ExtractPropTypes<typeof dataTableProps>

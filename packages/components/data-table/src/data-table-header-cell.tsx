@@ -65,7 +65,9 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
             <span
               class={resizeClass}
               style='right: 0'
-              onMousedown={event => handleResizeMousedown(event, header)}
+              onMousedown={event => {
+                handleResizeMousedown(event, header)
+              }}
             ></span>
           ) : null
 
@@ -115,8 +117,6 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
             key={data.key}
             class={className}
             style={getHeaderStyle(data)}
-            draggable={!data.fixed}
-            onDrop={console.log}
           >
             {resizer}
             {/*

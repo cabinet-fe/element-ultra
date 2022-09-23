@@ -5,6 +5,7 @@
       [ns.is('left-fixed-shadow')]: showLeftFixedShadow,
       [ns.is('right-fixed-shadow')]: showRightFixedShadow
     }"
+    :style="{ height }"
   >
     <DataTableHeader />
     <DataTableBody />
