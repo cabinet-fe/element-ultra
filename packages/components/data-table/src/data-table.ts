@@ -94,8 +94,11 @@ export const dataTableProps = {
   /** 显示表尾合计行 */
   showSummary: Boolean,
 
+  /** 合计方式 */
   summaryMethod: {
-    type: Function as PropType<() => any[]>
+    type: Function as PropType<
+      (ctx: { columns: DataTableColumn[]; data: any[] }) => any[]
+    >
   },
 
   /** 指定合计的列, 指定showSummary时该字段必填  */

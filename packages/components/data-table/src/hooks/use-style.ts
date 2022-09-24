@@ -79,6 +79,17 @@ export default function useStyle(props: DataTableProps) {
     }
   )
 
+  // 表头和表底的引用, 用以计算表体的高度
+  const headerRef = shallowRef<HTMLDivElement>()
+  const footerRef = shallowRef<HTMLDivElement>()
+
+  const bodyHeight = computed(() => {
+    return `calc(100% - ${
+      (headerRef.value?.offsetHeight ?? 0) +
+      (footerRef.value?.offsetHeight ?? 0)
+    }px)`
+  })
+
   return {
     /** 水平滚动的偏移量 */
     scrollLeft,
@@ -107,7 +118,14 @@ export default function useStyle(props: DataTableProps) {
     /** 获取额外列的单元格样式 */
     getExtraCellStyle,
 
-    updateFixedColumnsShadow
+    updateFixedColumnsShadow,
+
+    headerRef,
+
+    footerRef,
+
+    /** 表体的高度 */
+    bodyHeight
   }
 }
 

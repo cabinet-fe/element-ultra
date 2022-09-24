@@ -7,6 +7,7 @@
       @search="fetchData"
       @tools-resize="calcTableHeight"
     />
+
     <!-- 数据表格 -->
     <el-data-table
       v-if="columns && columns.length"
@@ -60,7 +61,7 @@ import {
   DataTableInstance
 } from '@element-ultra/components/data-table'
 import ProTableTools from './pro-table-tools'
-import { proTableProps, proTableEmits } from './pro-table'
+import { proTableProps, proTableEmits, ProTableColumn } from './pro-table'
 import ElPagination from '@element-ultra/components/pagination'
 import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
@@ -158,17 +159,17 @@ const summaryVisible = computed(() => {
 /** 合计方法 */
 const computedSummaryMethod = computed(() => {
   let s = statistics.value
-  let { columns = [] } = props
+
 
   const formatter = new Intl.NumberFormat('zh-CN', {
     currency: 'RMB',
     maximumFractionDigits: 2,
     minimumFractionDigits: 2
   })
-  // TODO 这里的类型断言需要去掉
+  return props.summaryMethod
   return (props.summaryMethod ||
     (s
-      ? (item: any) => {
+      ? ({ columns }: { columns: ProTableColumn[] }) => {
           return ['合计'].concat(
             columns.slice(slots['row-expand'] ? 0 : 1).map(column => {
               let number = s![column.key]

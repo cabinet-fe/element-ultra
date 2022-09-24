@@ -69,7 +69,8 @@ const wrapHeight = shallowRef(0)
 /** 容器宽度 */
 const wrapWidth = shallowRef(0)
 
-const { stop } = useResizeObserver(wrap$, () => {
+const { stop } = useResizeObserver(wrap$, ([entry]) => {
+  emit('resize', entry.target)
   wrapHeight.value = wrap$.value!.offsetHeight
   wrapWidth.value = wrap$.value!.offsetWidth
 })
@@ -171,7 +172,6 @@ watch(
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resize$, ([entry]) => {
-        emit('resize', entry.target)
         update()
       }))
       stopResizeListener = useEventListener('resize', update)

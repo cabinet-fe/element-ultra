@@ -245,7 +245,7 @@
   }
 
   @include e(footer-cell) {
-    box-shadow: -1px 0px 0px 0px #eee inset;
+    box-shadow: -1px 1px 0px 0px #eee inset;
 
     & > div {
       width: 100%;

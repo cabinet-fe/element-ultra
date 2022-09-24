@@ -36,12 +36,16 @@ const buildCell = <
       column: {
         type: Object as PropType<Column>,
         required: true
+      },
+      value: {
+        type: [String, Number],
+        required: true
       }
     },
 
     setup(props) {
       const className = useClassName()
-      const { rootProps, itemSize } = inject(dataTableToken)!
+      const { itemSize } = inject(dataTableToken)!
 
       return () => {
         let column = props.column as FixedColumn
@@ -55,9 +59,7 @@ const buildCell = <
             }}
           >
             <div>
-              {rootProps.data.reduce((acc, cur) => {
-                return acc + +cur[column.key]
-              }, 0)}
+              {props.value}
             </div>
           </td>
         )

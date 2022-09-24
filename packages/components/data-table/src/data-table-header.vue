@@ -52,6 +52,7 @@ const {
   scrollLeft,
   leafColumns,
   ns,
+  headerRef,
   updateFixedColumnsShadow,
   getCellStyle,
   computePosition
@@ -138,8 +139,6 @@ const resizeMouseupHandler = () => {
   resetResizeState()
   updateFixedColumnsShadow()
 }
-
-const headerRef = shallowRef<HTMLDivElement>()
 
 watch(scrollLeft, left => {
   headerRef.value!.scrollLeft = left

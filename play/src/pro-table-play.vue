@@ -7,7 +7,6 @@
     :query="query"
     :columns="columns"
     show-index
-    tree
     :checkable="(_, index) => index % 2 === 0"
     ref="tableRef"
     show-summary
@@ -26,10 +25,6 @@
         :placeholder="`测试${i}`"
       />
     </template>
-
-    <!-- <template #age="{ val }">
-      {{ val }}
-    </template> -->
 
     <template #action>
       <el-action-group>
@@ -81,7 +76,7 @@ setTimeout(() => {
       key: 'name',
       fixed: 'left',
       children: [
-        { name: 'child', key: 'money' },
+        { name: 'child', key: 'money', preset: 'money' },
         { name: 'child2', key: 'child2' }
       ]
     },

@@ -1,27 +1,26 @@
 <template>
+  <!-- TODO 考虑后面做成通用的, 抽成公共组件 -->
   <ElScrollbar
     ref="containerRef"
-    :height="height"
-    :max-height="height ? undefined : 500"
     @resize="handleResize"
     @scroll="handleScroll"
+    :style="{ height }"
+    :view-style="listStyle"
   >
-    <div :style="listStyle">
-      <component
-        :is="tag"
-        v-bind="$attrs"
-        ref="wrapRef"
-        :style="{
-          'will-change': 'transform'
-        }"
-      >
-        <slot name="prepend" />
+    <component
+      :is="tag"
+      v-bind="$attrs"
+      ref="wrapRef"
+      :style="{
+        'will-change': 'transform'
+      }"
+    >
+      <slot name="prepend" />
 
-        <slot :list="renderedRange" :style="itemStyle" />
+      <slot :list="renderedRange" :style="itemStyle" />
 
-        <slot name="append" />
-      </component>
-    </div>
+      <slot name="append" />
+    </component>
   </ElScrollbar>
 </template>
 
@@ -112,7 +111,7 @@ let totalHeight = computed(() => {
 
 const listStyle = computed(() => {
   return {
-    minHeight: totalHeight.value + 'px'
+    height: totalHeight.value + 'px'
   }
 })
 
@@ -137,6 +136,7 @@ watch(
   [() => position.value, () => props.itemSize],
   ([position, itemSize]) => {
     if (!wrapRef.value) return
+
     wrapRef.value.style.transform = `translateY(${position * itemSize}px)`
   },
   { immediate: true }
@@ -145,7 +145,7 @@ watch(
 let scroll = debounce((s: ScrollCtx) => {
   position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
   position.value < 0 && (position.value = 0)
-}, 30)
+}, 20)
 
 /** 用来cancelIdleCallback */
 let idleId: number

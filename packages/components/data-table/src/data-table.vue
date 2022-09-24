@@ -9,7 +9,8 @@
   >
     <DataTableHeader />
     <DataTableBody />
-    <DataTableFooter v-if="showSummary" />
+    <!-- 树形结构显示不能显示合计行 -->
+    <DataTableFooter v-if="showSummary && !tree" />
   </div>
 </template>
 

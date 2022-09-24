@@ -4,7 +4,7 @@
     :data="store.data"
     :total="store.data.length || 0"
     :item-size="itemSize"
-
+    :height="bodyHeight"
     :class="ns.e('body')"
     @scroll="handleScroll"
     @resize="handleResize"
@@ -54,6 +54,7 @@ const {
   ns,
   itemSize,
   store,
+  bodyHeight,
   getCellStyle
 } = inject(dataTableToken)!
 
