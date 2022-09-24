@@ -54,6 +54,7 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
       const { handleSort, store, ns } = inject(dataTableToken)!
 
       return () => {
+
         const { header, rowIndex } = props
         const { data } = header
         let className = [...commonClassName]
@@ -134,9 +135,9 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
   })
 }
 
-const LeftCell = buildCell('LeftCell')
-const CenterCell = buildCell('CenterCell')
-const RightCell = buildCell('RightCell')
+export const LeftCell = buildCell('LeftCell')
+export const CenterCell = buildCell('CenterCell')
+export const RightCell = buildCell('RightCell')
 
 const renderers = {
   left(header: TableHeader, rowIndex: number) {

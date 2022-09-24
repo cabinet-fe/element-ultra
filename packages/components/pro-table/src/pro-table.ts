@@ -101,9 +101,8 @@ export const proTableProps = {
 }
 
 export const proTableEmits = {
-  'checked': (checked: any[]) => true,
-  'selected': (selected: any) => true,
-  'columns-change': (columns: ProTableColumn[]) => true,
+  check: (checked: any[]) => true,
+  select: (selected: any) => true,
   fetch: (query: Record<string, any>) => true,
   loaded: (res: RequestResponse) => true
 }

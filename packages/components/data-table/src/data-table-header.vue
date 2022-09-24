@@ -17,17 +17,20 @@
 
       <!-- 分组的表头, 因此会有多行 -->
       <thead>
-        <!-- 第一行是可以定位的元素 -->
-        <tr>
-          <ElNodeRender
-            :nodes="headerRows[0].map(header => renderHeaderCell(header, 0))"
-          />
-        </tr>
-        <!-- 其他行不一定显示 -->
-        <tr v-for="(row, rowIndex) of headerRows.slice(1)">
-          <ElNodeRender
-            :nodes="row.map(header => renderHeaderCell(header, rowIndex))"
-          />
+        <tr v-for="(row, rowIndex) of headerRows">
+          <template v-for="column of row" :key="column.key">
+            <LeftCell
+              v-if="column.data.fixed === 'left'"
+              :header="column"
+              :row-index="rowIndex"
+            />
+            <RightCell
+              v-else-if="column.data.fixed === 'right'"
+              :header="column"
+              :row-index="rowIndex"
+            />
+            <CenterCell v-else :header="column" :row-index="rowIndex" />
+          </template>
         </tr>
       </thead>
     </table>
@@ -39,13 +42,12 @@
 
 <!-- 表格头部, 此处做列相关的操作, 比如存放列信息, 排序 -->
 <script lang="ts" setup>
-import ElNodeRender from '@element-ultra/components/node-render'
 import DataTableAlignAdjuster from './data-table-align-adjuster.vue'
 import { throttle } from 'lodash'
 import { computed, inject, provide, shallowRef, watch } from 'vue'
 import { dataHeaderToken, dataTableToken } from './token'
 import type { TableHeader } from './utils'
-import renderHeaderCell from './data-table-header-cell'
+import { LeftCell, RightCell, CenterCell } from './data-table-header-cell'
 
 const {
   headerRows,
@@ -121,6 +123,7 @@ const resizeMousemoveHandler = throttle((e: MouseEvent) => {
     bodyCols![currentColIndex],
     footerCols![currentColIndex]
   ].forEach(node => {
+    if (!node) return
     node.style.width = targetWidth
     node.style.minWidth = targetWidth
   })
@@ -156,4 +159,10 @@ provide(dataHeaderToken, {
   handleResizeMousedown,
   adjusterRef
 })
+</script>
+
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
 </script>

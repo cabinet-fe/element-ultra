@@ -24,8 +24,8 @@
       :checked="checked"
       :selected="selected"
       :tree="tree"
-      @check="emit('checked', $event)"
-      @select="emit('selected', $event)"
+      @check="emit('check', $event)"
+      @select="emit('select', $event)"
       @sort="handleSort"
     >
     </el-data-table>
@@ -160,13 +160,12 @@ const summaryVisible = computed(() => {
 const computedSummaryMethod = computed(() => {
   let s = statistics.value
 
-
   const formatter = new Intl.NumberFormat('zh-CN', {
     currency: 'RMB',
     maximumFractionDigits: 2,
     minimumFractionDigits: 2
   })
-  return props.summaryMethod
+
   return (props.summaryMethod ||
     (s
       ? ({ columns }: { columns: ProTableColumn[] }) => {

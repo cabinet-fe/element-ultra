@@ -10,6 +10,7 @@
     :checkable="(_, index) => index % 2 === 0"
     ref="tableRef"
     show-summary
+    @checked="c.log"
   >
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
@@ -65,12 +66,12 @@ const query = shallowRef(
   })
 )
 
-let columns: ProTableColumn[] = $shallowRef([])
+let dynamicColumns: ProTableColumn[] = $shallowRef([])
 
 const tableRef = shallowRef()
 
-setTimeout(() => {
-  columns = [
+const columns = $computed<ProTableColumn[]>(() => {
+  return [
     {
       name: '姓名',
       key: 'name',
@@ -80,6 +81,21 @@ setTimeout(() => {
         { name: 'child2', key: 'child2' }
       ]
     },
+
+    ...dynamicColumns,
+    {
+      name: '操作',
+      align: 'center',
+      key: 'action',
+      fixed: 'right',
+      width: 150,
+      slot: 'action'
+    }
+  ]
+})
+
+setTimeout(() => {
+  dynamicColumns = [
     {
       name: '钱',
       key: 'money',
@@ -117,41 +133,9 @@ setTimeout(() => {
     {
       name: '姓名',
       key: 'name7'
-    },
-    // {
-    //   name: '姓名',
-    //   key: 'name'
-    // },
-    // {
-    //   name: '姓名',
-    //   key: 'name'
-    // },
-    // {
-    //   name: '姓名',
-    //   key: 'name'
-    // },
-    // {
-    //   name: '父级',
-    //   key: 'parent',
-    //   children: [
-    //     {
-    //       name: '年龄',
-    //       key: 'age',
-    //       slot: 'age' // 建议使用column-*这样的命名, 方便在模板里面阅读
-    //     }
-    //   ]
-    // },
-    {
-      name: '操作',
-      align: 'center',
-      key: 'action',
-      fixed: 'right',
-      width: 150,
-      slot: 'action'
     }
   ]
-  // console.log(columns)
-}, 500)
+}, 1500)
 
 const handleClick = () => {
   query.value = shallowReactive({
