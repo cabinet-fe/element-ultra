@@ -7,7 +7,7 @@ import {
   inject,
   ref,
   provide,
-  onBeforeUnmount,
+  onBeforeUnmount
 } from 'vue'
 import { NOOP } from '@vue/shared'
 import { formKey } from '@element-ultra/tokens'
@@ -24,8 +24,9 @@ import type {
   ListType,
   UploadFile,
   FileHandler,
-  FileResultHandler,
+  FileResultHandler
 } from './upload.type'
+import { useDisabled } from '@element-ultra/hooks'
 
 type PFileHandler<T> = PropType<FileHandler<T>>
 type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>
@@ -34,99 +35,99 @@ export default defineComponent({
   name: 'ElUpload',
   components: {
     Upload,
-    UploadList,
+    UploadList
   },
   props: {
     action: {
       type: String,
-      required: true,
+      required: true
     },
     headers: {
       type: Object as PropType<Headers>,
-      default: () => ({}),
+      default: () => ({})
     },
     method: {
       type: String,
-      default: 'post',
+      default: 'post'
     },
     data: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     multiple: {
       type: Boolean,
-      default: false,
+      default: false
     },
     name: {
       type: String,
-      default: 'file',
+      default: 'file'
     },
     drag: {
       type: Boolean,
-      default: false,
+      default: false
     },
     withCredentials: Boolean,
     showFileList: {
       type: Boolean,
-      default: true,
+      default: true
     },
     accept: {
       type: String,
-      default: '',
+      default: ''
     },
     type: {
       type: String,
-      default: 'select',
+      default: 'select'
     },
     beforeUpload: {
       type: Function as PFileHandler<void>,
-      default: NOOP,
+      default: NOOP
     },
     beforeRemove: {
       type: Function as PFileHandler<boolean>,
-      default: NOOP,
+      default: NOOP
     },
     onRemove: {
       type: Function as PFileHandler<void>,
-      default: NOOP,
+      default: NOOP
     },
     onChange: {
       type: Function as PFileHandler<void>,
-      default: NOOP,
+      default: NOOP
     },
     onPreview: {
       type: Function as PropType<() => void>,
-      default: NOOP,
+      default: NOOP
     },
     onSuccess: {
       type: Function as PFileResultHandler,
-      default: NOOP,
+      default: NOOP
     },
     onProgress: {
       type: Function as PFileResultHandler<ProgressEvent>,
-      default: NOOP,
+      default: NOOP
     },
     onError: {
       type: Function as PFileResultHandler<Error>,
-      default: NOOP,
+      default: NOOP
     },
     fileList: {
       type: Array as PropType<UploadFile[]>,
       default: () => {
         return [] as UploadFile[]
-      },
+      }
     },
     autoUpload: {
       type: Boolean,
-      default: true,
+      default: true
     },
     listType: {
       type: String as PropType<ListType>,
-      default: 'text' as ListType, // text,picture,picture-card
+      default: 'text' as ListType // text,picture,picture-card
     },
     httpRequest: {
       type: Function,
-      default: ajax,
+      default: ajax
     },
     disabled: {
       type: Boolean,
@@ -134,19 +135,16 @@ export default defineComponent({
     },
     limit: {
       type: Number as PropType<Nullable<number>>,
-      default: null,
+      default: null
     },
     onExceed: {
       type: Function,
-      default: () => NOOP,
-    },
+      default: () => NOOP
+    }
   },
   setup(props) {
-    const elForm = inject(formKey, {} as FormContext)
 
-    const uploadDisabled = computed(() => {
-      return props.disabled || elForm.disabled
-    })
+    const uploadDisabled = useDisabled()
 
     const {
       abort,
@@ -158,13 +156,13 @@ export default defineComponent({
       handleRemove,
       submit,
       uploadRef,
-      uploadFiles,
+      uploadFiles
     } = useHandlers(props)
 
     provide('uploader', getCurrentInstance())
 
     onBeforeUnmount(() => {
-      uploadFiles.value.forEach((file) => {
+      uploadFiles.value.forEach(file => {
         if (file.url && file.url.indexOf('blob:') === 0) {
           URL.revokeObjectURL(file.url)
         }
@@ -184,7 +182,7 @@ export default defineComponent({
       uploadFiles,
       uploadRef,
       submit,
-      clearFiles,
+      clearFiles
     }
   },
   render() {
@@ -197,15 +195,15 @@ export default defineComponent({
           listType: this.listType,
           files: this.uploadFiles,
           onRemove: this.handleRemove,
-          handlePreview: this.onPreview,
+          handlePreview: this.onPreview
         },
         this.$slots.file
           ? {
               default: (props: { file: UploadFile }) => {
                 return this.$slots.file({
-                  file: props.file,
+                  file: props.file
                 })
-              },
+              }
             }
           : null
       )
@@ -238,11 +236,11 @@ export default defineComponent({
       'on-preview': this.onPreview,
       'on-remove': this.handleRemove,
       'http-request': this.httpRequest,
-      ref: 'uploadRef',
+      ref: 'uploadRef'
     }
     const trigger = this.$slots.trigger || this.$slots.default
     const uploadComponent = h(Upload, uploadData, {
-      default: () => trigger?.(),
+      default: () => trigger?.()
     })
     return h('div', [
       this.listType === 'picture-card' ? uploadList : null,
@@ -250,8 +248,8 @@ export default defineComponent({
         ? [uploadComponent, this.$slots.default()]
         : uploadComponent,
       this.$slots.tip?.(),
-      this.listType !== 'picture-card' ? uploadList : null,
+      this.listType !== 'picture-card' ? uploadList : null
     ])
-  },
+  }
 })
 </script>

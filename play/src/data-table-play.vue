@@ -9,6 +9,7 @@
     :columns="columns"
     :data="data"
     show-summary
+    height="100%"
   >
     <template #test1="{ row }">
       <el-button link type="primary">{{ row.name }}</el-button>

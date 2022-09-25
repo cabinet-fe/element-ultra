@@ -4,7 +4,7 @@ import type { FormModel, FormModelItem } from './form'
 import { isObject } from '@element-ultra/utils'
 
 type GetModel<T extends Record<string, any>> = {
-  [key in keyof T]: T[key]['children'] extends  Record<string, any>
+  [key in keyof T]: T[key] extends { [k: string]: any; children: any }
     ? GetModel<T[key]['children']>
     : T[key]['value']
 }
@@ -143,8 +143,6 @@ export default function useFormModel<
   }
 
   reduceRawModel(model, rawModel)
-
-
 
   const rules: Record<string, Omit<FormModelItem, 'value'>> = {}
 

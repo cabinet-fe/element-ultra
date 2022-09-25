@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO 考虑后面做成通用的, 抽成公共组件 -->
   <ElScrollbar
     ref="containerRef"
     @resize="handleResize"
