@@ -15,8 +15,8 @@
       <el-button link type="primary">{{ row.name }}</el-button>
     </template>
 
-    <template #test2="{ data }">
-      {{ data.name }}
+    <template #test2="{ row }">
+      {{ row.name }}
     </template>
   </el-data-table>
 </template>

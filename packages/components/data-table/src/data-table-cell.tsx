@@ -66,8 +66,8 @@ const buildCell = <
 
         const content = column.render!({
           val: getChainValue(data, column.key),
-          row,
-          data,
+          wrap: row,
+          row: data,
           index
         })
 

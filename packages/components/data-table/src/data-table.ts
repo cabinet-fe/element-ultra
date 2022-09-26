@@ -20,9 +20,9 @@ export type DataTableColumn = {
   /** 自定义渲染 */
   render?: (ctx: {
     val: any
-    row: Row | TreeRow
+    row: any
     index: number
-    data: any
+    wrap: any
   }) => any
   /** 子列 */
   children?: DataTableColumn[]
