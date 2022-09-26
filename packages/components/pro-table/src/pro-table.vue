@@ -12,8 +12,8 @@
     <el-data-table
       v-if="columns && columns.length"
       ref="tableRef"
-      :height="tableHeight"
       v-loading="loading"
+      :height="tableHeight"
       :data="computedData"
       :columns="columns"
       :show-summary="summaryVisible"
@@ -28,6 +28,9 @@
       @select="emit('select', $event)"
       @sort="handleSort"
     >
+      <template #[column.slot!]="ctx" v-for="column of columns">
+        <slot :name="column.slot!" v-bind="ctx" />
+      </template>
     </el-data-table>
 
     <!-- 分页 -->

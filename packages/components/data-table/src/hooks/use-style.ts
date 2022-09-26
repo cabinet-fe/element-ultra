@@ -74,7 +74,7 @@ export default function useStyle(props: DataTableProps) {
 
   watch(
     [() => offsetWidth.value, () => scrollWidth.value, () => scrollLeft.value],
-    () => {
+    (v) => {
       updateFixedColumnsShadow()
     }
   )

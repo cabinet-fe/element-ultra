@@ -172,6 +172,8 @@ watch(
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resize$, ([entry]) => {
+
+
         update()
       }))
       stopResizeListener = useEventListener('resize', update)

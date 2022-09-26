@@ -9,22 +9,21 @@
     :columns="columns"
     :data="data"
     show-summary
-    height="100%"
+    height="calc(100% - 40px)"
   >
     <template #test1="{ row }">
       <el-button link type="primary">{{ row.name }}</el-button>
     </template>
 
-    <template #test2="{ row }">
-      {{ row.name }}
+    <template #test2="{ data }">
+      {{ data.name }}
     </template>
   </el-data-table>
 </template>
 
 <script lang="tsx" setup>
 import type { DataTableColumn } from '@element-ultra/components'
-import { computed } from '@vue/reactivity'
-import { shallowRef } from 'vue'
+import { shallowRef, computed } from 'vue'
 
 const columns: DataTableColumn[] = [
   {

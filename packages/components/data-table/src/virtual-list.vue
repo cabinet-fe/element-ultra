@@ -1,7 +1,7 @@
 <template>
   <ElScrollbar
     ref="containerRef"
-    @resize="handleResize"
+    @resize="emit('resize', $event)"
     @scroll="handleScroll"
     :style="{ height }"
     :view-style="listStyle"
@@ -110,7 +110,8 @@ let totalHeight = computed(() => {
 
 const listStyle = computed(() => {
   return {
-    height: totalHeight.value + 'px'
+    height: totalHeight.value + 'px',
+    display: 'inline-block'
   }
 })
 
@@ -144,7 +145,7 @@ watch(
 let scroll = debounce((s: ScrollCtx) => {
   position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
   position.value < 0 && (position.value = 0)
-}, 20)
+}, 30)
 
 /** 用来cancelIdleCallback */
 let idleId: number
@@ -169,10 +170,6 @@ const handleScrollNormal = (s: ScrollCtx) => {
 const handleScroll = computed(() => {
   return props.idle ? handleScrollWhenIdle : handleScrollNormal
 })
-
-const handleResize = (s: Element) => {
-  emit('resize', s)
-}
 
 const containerRef = shallowRef<InstanceType<typeof ElScrollbar>>()
 

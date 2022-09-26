@@ -8,7 +8,7 @@
     :class="ns.e('body')"
     @scroll="handleScroll"
     @resize="handleResize"
-    idle
+    :idle="rootProps.idle"
   >
     <!-- 组 -->
     <template #prepend>
@@ -55,6 +55,7 @@ const {
   itemSize,
   store,
   bodyHeight,
+  rootProps,
   getCellStyle
 } = inject(dataTableToken)!
 

@@ -91,6 +91,11 @@ export const dataTableProps = {
     default: false
   },
 
+  /** 在浏览器滚动期间等待cpu闲置 */
+  idle: {
+    type: Boolean
+  },
+
   /** 显示表尾合计行 */
   showSummary: Boolean,
 
