@@ -79,26 +79,26 @@ export default function useColumns(
         width: 80,
         fixed: 'left',
         render: ctx => {
-          let row = ctx.row as TreeRow
-          return row.children
+          let wrap = ctx.wrap as TreeRow
+          return wrap.children
             ? h(
                 ElIcon,
                 {
                   class: 'el-data-table__expand-icon',
                   style: {
-                    marginLeft: row.depth * 20 + 'px'
+                    marginLeft: wrap.depth * 20 + 'px'
                   },
                   onClick() {
-                    row.expanded = !row.expanded
+                    wrap.expanded = !wrap.expanded
                     getFlatData()
                   }
                 },
-                () => (row.expanded ? h(Minus) : h(Plus))
+                () => (wrap.expanded ? h(Minus) : h(Plus))
               )
             : h('span', {
                 class: 'el-data-table__leaf-icon',
                 style: {
-                  marginLeft: row.depth * 20 + 'px'
+                  marginLeft: wrap.depth * 20 + 'px'
                 }
               })
         }
@@ -121,19 +121,19 @@ export default function useColumns(
       // 高性能写法
       const render: InternalColumn['render'] =
         checkable === true
-          ? ({ data }) =>
+          ? ({ row }) =>
               h(ElCheckbox, {
-                modelValue: store.checked.has(data),
+                modelValue: store.checked.has(row),
                 'onUpdate:modelValue': v => {
-                  toggleItemCheck(data, v as boolean)
+                  toggleItemCheck(row, v as boolean)
                 }
               })
-          : ({ data, index }) =>
+          : ({ row, index }) =>
               h(ElCheckbox, {
-                disabled: !checkable(data, index),
-                modelValue: store.checked.has(data),
+                disabled: !checkable(row, index),
+                modelValue: store.checked.has(row),
                 'onUpdate:modelValue': v => {
-                  toggleItemCheck(data, v as boolean)
+                  toggleItemCheck(row, v as boolean)
                 }
               })
       result.push({
@@ -154,19 +154,19 @@ export default function useColumns(
     } else if (selectable !== false) {
       const render: InternalColumn['render'] =
         selectable === true
-          ? ({ data }) =>
+          ? ({ row }) =>
               h(ElCheckbox, {
-                modelValue: store.selected === data,
+                modelValue: store.selected === row,
                 'onUpdate:modelValue': v => {
-                  v ? toggleSelect(data) : toggleSelect(false)
+                  v ? toggleSelect(row) : toggleSelect(false)
                 }
               })
-          : ({ data, index }) =>
+          : ({ row, index }) =>
               h(ElCheckbox, {
-                disabled: !selectable(data, index),
-                modelValue: store.selected === data,
+                disabled: !selectable(row, index),
+                modelValue: store.selected === row,
                 'onUpdate:modelValue': v => {
-                  v ? toggleSelect(data) : toggleSelect(false)
+                  v ? toggleSelect(row) : toggleSelect(false)
                 }
               })
 
