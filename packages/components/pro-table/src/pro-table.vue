@@ -6,7 +6,14 @@
       @key-enter="fetchData"
       @search="fetchData"
       @tools-resize="calcTableHeight"
-    />
+    >
+      <template #searcher>
+        <slot name="searcher" />
+      </template>
+      <template #tools>
+        <slot name="tools" />
+      </template>
+    </ProTableTools>
 
     <!-- 数据表格 -->
     <el-data-table
@@ -90,7 +97,7 @@ const toolsVisible = computed(() => {
 
 const [configStore] = useConfig()
 
-const pageSizes = [20, 40, 60, 120, 200, 1000]
+const pageSizes = [20, 60, 120, 200, 1000]
 
 const query = shallowReactive({
   page: 1,

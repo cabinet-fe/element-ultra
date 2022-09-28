@@ -9,6 +9,7 @@ import {
   onUnmounted,
   ref,
   shallowRef,
+  useSlots,
   watch,
   type Component,
   type VNode,
@@ -27,9 +28,9 @@ export default defineComponent({
   },
 
   setup(props, { emit }) {
-    const { proTableSlots, ns, rootProps, setAutoQuery, loading } =
+    const {  ns, rootProps, setAutoQuery, loading } =
       inject(proTableKey)!
-
+      // proTableSlots,
     // query发生变化时应当重置
     let defaultQuery = { ...rootProps.query }
 
@@ -43,7 +44,7 @@ export default defineComponent({
     const componentWidthMapper: Record<string, any> = {
       ElDatePicker: '240px'
     }
-
+    const proTableSlots = useSlots()
     const getNodes = () => {
       let slots = (proTableSlots.searcher?.() || []).filter(
         slot => !isComment(slot)

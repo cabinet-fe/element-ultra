@@ -3,7 +3,7 @@
     height="100%"
     pagination
     row-key="id"
-    api="/some/text"
+    :api="api"
     :query="query"
     :columns="columns"
     show-index
@@ -14,8 +14,9 @@
   >
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
+      <el-input v-for="item of list" :placeholder="item.label" />
       <!-- <span></span> -->
-      <el-date-picker
+      <!-- <el-date-picker
         placeholder="起止日期"
         type="daterange"
         v-model="query.$date"
@@ -24,7 +25,8 @@
         style="width: 200px"
         v-for="(_, i) in 9"
         :placeholder="`测试${i}`"
-      />
+      /> -->
+
     </template>
 
     <template #action>
@@ -35,7 +37,8 @@
     </template>
 
     <template #tools>
-      <el-button type="primary">新增</el-button>
+
+      <el-button type="primary" @click="createSearcher">新增</el-button>
 
       <el-button @click="handleClick">改变query</el-button>
 
@@ -94,7 +97,15 @@ const columns = $computed<ProTableColumn[]>(() => {
   ]
 })
 
+const api = shallowRef('')
+
+const list = shallowRef<any[]>([])
+const createSearcher = () => {
+  list.value = [...list.value, { label: '测试' }]
+}
+
 setTimeout(() => {
+  api.value = '/some/test'
   dynamicColumns = [
     {
       name: '钱',
