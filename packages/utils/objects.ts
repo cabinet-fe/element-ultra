@@ -112,6 +112,7 @@ export function deepCopy<O extends any>(val: O): O {
     val.forEach(item => {
       result.push(deepCopy(item))
     })
+
     return result as O
   }
   if (isObject(val)) {
@@ -121,5 +122,6 @@ export function deepCopy<O extends any>(val: O): O {
     }
     return result as O
   }
+
   return val
 }

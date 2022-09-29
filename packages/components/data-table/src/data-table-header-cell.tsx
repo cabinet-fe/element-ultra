@@ -18,6 +18,7 @@ const classNameHooksMap = {
 }
 
 const getHeaderStyle = (column: InternalColumn) => {
+
   return {
     'text-align': column.align || 'left',
     left: column.left + 'px',

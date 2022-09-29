@@ -1,14 +1,12 @@
 import ElCheckbox from '@element-ultra/components/checkbox'
 import ElIcon from '@element-ultra/components/icon'
-import { deepCopy } from '@element-ultra/utils'
-import { computed, h, shallowReactive, useSlots } from 'vue'
+import { computed, h, isReactive, shallowReactive, useSlots } from 'vue'
 import type { DataTableColumn, DataTableProps, TreeRow } from '../data-table'
 import {
   bfs,
   InternalColumn,
   FixedColumn,
-  StaticColumn,
-  shallowReactiveWithDFS
+  StaticColumn
 } from '../utils'
 import type { UseStateReturned } from './use-state'
 import { Plus, Minus } from '@element-plus/icons-vue'
@@ -58,8 +56,20 @@ export default function useColumns(
     getFlatData
   } = state
 
+  const reactiveColumnItem = (columns: any[]) => {
+    let ret: any[] = []
+    columns.forEach(column => {
+      let item = isReactive(column) ? column : shallowReactive(column)
+      if (column.children) {
+        item.children = reactiveColumnItem(column.children)
+      }
+      ret.push(item)
+    })
+    return ret
+  }
+
   // 深拷贝一份列
-  const columns = computed(() => deepCopy(props.columns))
+  const columns = computed(() => reactiveColumnItem(props.columns))
 
   /** 获取列 */
   const getColumns = () => {
@@ -196,14 +206,14 @@ export default function useColumns(
     preColumns.value.concat(columns.value).forEach(column => {
       if (column.width && !column.children) {
         if (column.fixed === 'left') {
-          return leftColumns.push(shallowReactive(column))
+          return leftColumns.push(column)
         }
         if (column.fixed === 'right') {
-          return rightColumns.push(shallowReactive(column))
+          return rightColumns.push(column)
         }
       }
       // 递归响应
-      centerColumns.push(shallowReactiveWithDFS(column))
+      centerColumns.push(column)
     })
     return leftColumns.concat(centerColumns).concat(rightColumns)
   })
@@ -273,19 +283,24 @@ export default function useColumns(
         column => (column.index = startIndex++)
       )
     })
-
     computePosition(result)
-
     return result
   })
 
   type LeafColumns = typeof leafColumns.value
 
   const computePosition = (columns?: LeafColumns) => {
+
     if (!columns) {
       columns = leafColumns.value
     }
+
+    columns.center.forEach(column => {
+      delete column.left
+      delete column.right
+    })
     loop(columns.left, (cur, pre) => {
+      delete cur.right
       if (pre) {
         cur.left = pre.left! + pre.width
       } else {
@@ -294,6 +309,7 @@ export default function useColumns(
     })
 
     loopRight(columns.right, (cur, _, next) => {
+      delete cur.left
       if (next) {
         cur.right = next.right! + next.width
       } else {
