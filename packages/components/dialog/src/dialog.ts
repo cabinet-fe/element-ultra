@@ -53,6 +53,9 @@ export const dialogProps = {
   },
   zIndex: {
     type: Number
+  },
+  bodyHeight: {
+    type: [String, Number] as PropType<number | 'max'>
   }
 }
 

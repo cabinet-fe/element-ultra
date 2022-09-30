@@ -1,7 +1,7 @@
 <template>
   <div :class="[ns.b(), ns.m(size)]" :style="`height: ${theight}px`">
     <table>
-      <colgroup >
+      <colgroup>
         <col v-if="editable" style="width: 60px; text-align: center" />
         <col v-if="showIndex" style="width: 60px; text-align: center" />
         <col
@@ -117,7 +117,13 @@ const getRowColumns = (row: any, index: number) => {
         acc = acc?.[cur]
         return acc
       }, row)
-      value = column.render?.(row, index, cellVal) ?? cellVal
+      value =
+        column.render?.({
+          row,
+          index,
+          val: cellVal,
+          wrap: row
+        }) ?? cellVal
     }
     return {
       value,
@@ -130,19 +136,21 @@ const getRowColumns = (row: any, index: number) => {
 // 选择的数据的value值, 该数据用以在初始化时回显用(因为对象之间不可以判断直接相等)
 let checkedKeys = shallowReactive(new Set<string | number>())
 
+// 因为要跨分页, 所以需要通过以下的逻辑去判断
 const allChecked = computed(() => {
-  return checkedKeys.size === props.data.length
+  return props.data.every((item => checkedKeys.has(item[rootProps.valueKey])))
 })
 const indeterminate = computed(() => {
   return checkedKeys.size > 0 && !allChecked.value
 })
+
 const toggleAllChecked = (checked: boolean) => {
   const { data } = props
   const { valueKey } = rootProps
   if (checked) {
     data.forEach(item => checkedKeys.add(item[valueKey]))
   } else {
-    checkedKeys.clear()
+    data.forEach(item => checkedKeys.delete(item[valueKey]))
   }
 }
 

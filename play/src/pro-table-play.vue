@@ -37,7 +37,7 @@
 
     <template #tools>
       <el-button type="primary" @click="createSearcher">新增</el-button>
-
+      <el-button @click="c.log(columns)">打印列数据</el-button>
       <el-button @click="handleClick">改变query</el-button>
       <el-button @click="handleFix">固定列</el-button>
       <el-dropdown trigger="click" split-button type="primary">

@@ -83,6 +83,11 @@ export const tableSelectProps = {
   disabled: {
     type: Boolean,
     default: undefined
+  },
+
+  defaultPageSize: {
+    type: Number,
+    default: 20
   }
 } as const
 

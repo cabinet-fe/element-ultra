@@ -25,7 +25,6 @@
           :title="title"
           @close="handleClose"
         >
-
         </el-dialog-content>
       </el-overlay>
     </transition>
@@ -33,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, provide, useSlots, shallowRef } from 'vue'
+import { computed, provide, useSlots, shallowRef } from 'vue'
 import { ElOverlay } from '@element-ultra/components/overlay'
 import { useNamespace, useDraggable } from '@element-ultra/hooks'
 import ElDialogContent from './dialog-content.vue'
@@ -79,7 +78,8 @@ provide(dialogInjectionKey, {
   ns,
   rendered,
   style,
-  slots
+  slots,
+  rootProps: props
 })
 
 const draggable = computed(() => props.draggable && !props.fullscreen)

@@ -13,7 +13,11 @@
     :style="style"
     ref="contentRef"
   >
-    <div ref="headerRef" :class="ns.e('header')" @mousedown.self="handleMouseDown">
+    <div
+      ref="headerRef"
+      :class="ns.e('header')"
+      @mousedown.self="handleMouseDown"
+    >
       <ElNodeRender v-if="slots.title" :nodes="slots.title()" />
       <span v-else :class="ns.e('title')">
         {{ title }}
@@ -23,11 +27,7 @@
         <component :is="closeIcon || Close" />
       </el-icon>
     </div>
-    <div
-      @click.stop
-      :class="ns.e('body')"
-      :style="{ maxHeight: `calc(80vh - ${slots.footer ? 88 : 44}px)` }"
-    >
+    <div @click.stop :class="ns.e('body')" :style="bodyStyle">
       <ElNodeRender :nodes="slots.default?.()" />
     </div>
     <div v-if="slots.footer" :class="ns.e('footer')">
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, shallowRef } from 'vue'
+import { computed, inject, shallowRef } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import { ElNodeRender } from '@element-ultra/components/node-render'
 import { CloseComponents } from '@element-ultra/utils'
@@ -45,12 +45,26 @@ import { dialogContentProps } from './dialog-content'
 
 import { dialogInjectionKey } from './token'
 
-
 const { Close } = CloseComponents
 
 defineProps(dialogContentProps)
 
-const { headerRef, ns, style, slots } = inject(dialogInjectionKey)!
+const { headerRef, ns, style, slots, rootProps } = inject(dialogInjectionKey)!
+
+const bodyStyle = computed(() => {
+  const { bodyHeight } = rootProps
+  if (bodyHeight) {
+    return {
+      height:
+        bodyHeight === 'max'
+          ? `calc(80vh - ${slots.footer ? 88 : 44}px)`
+          : bodyHeight + 'px'
+    }
+  }
+  return {
+    maxHeight: `calc(80vh - ${slots.footer ? 88 : 44}px)`
+  }
+})
 
 const contentRef = shallowRef<HTMLElement>()
 

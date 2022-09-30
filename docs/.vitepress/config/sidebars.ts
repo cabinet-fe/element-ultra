@@ -248,6 +248,10 @@ export const sidebars = {
           text: 'Table 表格'
         },
         {
+          link: '/component/data-table',
+          text: 'DataTable 数据表格'
+        },
+        {
           link: '/component/tag',
           text: 'Tag 标签'
         },

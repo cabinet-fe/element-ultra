@@ -5,6 +5,7 @@
     :class="ns.b()"
     v-model="visible"
     :title="dialogTitle"
+    body-height="max"
   >
     <div
       :class="ns.e('searcher')"
@@ -79,8 +80,15 @@ const { dialogTitle, theight, dialogWidth } = toRefs(rootProps)
 
 const pageQuery = shallowReactive({
   page: 1,
-  size: 20
+  size: rootProps.defaultPageSize
 })
+
+watch(
+  () => rootProps.defaultPageSize,
+  size => {
+    pageQuery.size = size
+  }
+)
 
 let totalSize = shallowRef(0)
 

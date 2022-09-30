@@ -37,7 +37,7 @@ dialog/customizations
 
 如果需要在一个 Dialog 内部嵌套另一个 Dialog，需要使用 `append-to-body` 属性。
 
-:::demo 通常我们不建议使用嵌套对话框。 如果你需要在页面上呈现多个对话框，你可以简单地平整它们，呈现一个平级关系。 如果你必须在另一个对话框内排出对话框，将嵌套对话框的 `append-to-body` 设置为真。 并且它将附加到正文而不是其亲节点，所以两个对话框都可以被正确渲染。
+:::demo 通常我们不建议使用嵌套对话框。 如果你需要在页面上呈现多个对话框，你可以简单地平整它们， 呈现一个平级关系。 如果你必须在另一个对话框内排出对话框，将嵌套对话框的 `append-to-body` 设置为真。 并且它将附加到正文而不是其亲节点，所以两个对话框都可以被正确渲染。
 
 dialog/nested-dialog
 
@@ -87,40 +87,41 @@ dialog/draggable-dialog
 
 ## 属性
 
-| 属性                    | 说明                                                   | 类型                              | 可选值 | 默认值   |
-| --------------------- | ---------------------------------------------------- | ------------------------------- | --- | ----- |
-| model-value / v-model | 是否显示 Dialog                                          | boolean                         | —   | —     |
-| title                 | Dialog 对话框 Dialog 的标题， 也可通过具名 slot （见下表）传入           | string                          | —   | —     |
-| width                 | Dialog 的宽度                                           | string / number                 | —   | 50%   |
-| fullscreen            | 是否为全屏 Dialog                                         | boolean                         | —   | false |
-| top                   | Dialog CSS 中的 margin-top 值                           | string                          | —   | 15vh  |
-| modal                 | 是否需要遮罩层                                              | boolean                         | —   | true  |
-| append-to-body        | Dialog 自身是否插入至 body 元素上。 嵌套的 Dialog 必须指定该属性并赋值为 true | boolean                         | —   | false |
-| lock-scroll           | 是否在 Dialog 出现时将 body 滚动锁定                            | boolean                         | —   | true  |
-| custom-class          | Dialog 的自定义类名                                        | string                          | —   | —     |
-| open-delay            | Dialog 打开的延时时间，单位毫秒                                  | number                          | —   | 0     |
-| close-delay           | Dialog 关闭的延时时间，单位毫秒                                  | number                          | —   | 0     |
-| close-on-click-modal  | 是否可以通过点击 modal 关闭 Dialog                             | boolean                         | —   | true  |
-| close-on-press-escape | 是否可以通过按下 ESC 关闭 Dialog                               | boolean                         | —   | true  |
-| show-close            | 是否显示关闭按钮                                             | boolean                         | —   | true  |
-| before-close          | 关闭前的回调，会暂停 Dialog 的关闭                                | function(done)，done 用于关闭 Dialog | —   | —     |
-| draggable             | 为 Dialog 启用可拖拽功能                                     | boolean                         | —   | false |
-| center                | 是否让 Dialog 的 header 和 footer 部分居中排列                  | boolean                         | —   | false |
-| destroy-on-close      | 当关闭 Dialog 时，销毁其中的元素                                 | boolean                         | —   | false |
+| 属性                  | 说明                                                                                                                                | 类型                                 | 可选值 | 默认值 |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------ | ------ |
+| model-value / v-model | 是否显示 Dialog                                                                                                                     | boolean                              | —      | —      |
+| title                 | Dialog 对话框 Dialog 的标题， 也可通过具名 slot （见下表）传入                                                                      | string                               | —      | —      |
+| width                 | Dialog 的宽度                                                                                                                       | string / number                      | —      | 50%    |
+| body-height           | Dialog body 的高度, 用途在于, 你如果不不希望弹框 body 的滚动条影响内部滚动条可以设置固定高度, 也可以设置一个'max', 为预设的最大高度 | 'max' / number                       | —      | -      |
+| fullscreen            | 是否为全屏 Dialog                                                                                                                   | boolean                              | —      | false  |
+| top                   | Dialog CSS 中的 margin-top 值                                                                                                       | string                               | —      | 15vh   |
+| modal                 | 是否需要遮罩层                                                                                                                      | boolean                              | —      | true   |
+| append-to-body        | Dialog 自身是否插入至 body 元素上。 嵌套的 Dialog 必须指定该属性并赋值为 true                                                       | boolean                              | —      | false  |
+| lock-scroll           | 是否在 Dialog 出现时将 body 滚动锁定                                                                                                | boolean                              | —      | true   |
+| custom-class          | Dialog 的自定义类名                                                                                                                 | string                               | —      | —      |
+| open-delay            | Dialog 打开的延时时间，单位毫秒                                                                                                     | number                               | —      | 0      |
+| close-delay           | Dialog 关闭的延时时间，单位毫秒                                                                                                     | number                               | —      | 0      |
+| close-on-click-modal  | 是否可以通过点击 modal 关闭 Dialog                                                                                                  | boolean                              | —      | true   |
+| close-on-press-escape | 是否可以通过按下 ESC 关闭 Dialog                                                                                                    | boolean                              | —      | true   |
+| show-close            | 是否显示关闭按钮                                                                                                                    | boolean                              | —      | true   |
+| before-close          | 关闭前的回调，会暂停 Dialog 的关闭                                                                                                  | function(done)，done 用于关闭 Dialog | —      | —      |
+| draggable             | 为 Dialog 启用可拖拽功能                                                                                                            | boolean                              | —      | false  |
+| center                | 是否让 Dialog 的 header 和 footer 部分居中排列                                                                                      | boolean                              | —      | false  |
+| destroy-on-close      | 当关闭 Dialog 时，销毁其中的元素                                                                                                    | boolean                              | —      | false  |
 
 ## 插槽
 
-| 插槽名    | 说明              |
-| ------ | --------------- |
-| —      | Dialog 的内容      |
-| title  | Dialog 标题区的内容   |
+| 插槽名 | 说明                    |
+| ------ | ----------------------- |
+| —      | Dialog 的内容           |
+| title  | Dialog 标题区的内容     |
 | footer | Dialog 按钮操作区的内容 |
 
 ## 事件
 
-| 事件名    | 说明                | 参数 |
-| ------ | ----------------- | -- |
-| open   | Dialog 打开的回调      | —  |
-| opened | Dialog 打开动画结束时的回调 | —  |
-| close  | Dialog 关闭的回调      | —  |
-| closed | Dialog 关闭动画结束时的回调 | —  |
+| 事件名 | 说明                        | 参数 |
+| ------ | --------------------------- | ---- |
+| open   | Dialog 打开的回调           | —    |
+| opened | Dialog 打开动画结束时的回调 | —    |
+| close  | Dialog 关闭的回调           | —    |
+| closed | Dialog 关闭动画结束时的回调 | —    |

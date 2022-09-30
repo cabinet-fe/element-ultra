@@ -19,9 +19,13 @@ export type DataTableColumn = {
   sortable?: boolean
   /** 自定义渲染 */
   render?: (ctx: {
+    /** 单元格的值, 由column.key决定 */
     val: any
+    /** 行数据 */
     row: any
+    /** 行索引 */
     index: number
+    /** 行包装器 */
     wrap: any
   }) => any
   /** 子列 */
