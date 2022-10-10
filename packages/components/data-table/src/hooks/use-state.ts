@@ -115,7 +115,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
   // 多选相关逻辑----------------------------------------
   /** 全选中 */
   const allChecked = computed(() => {
-    return props.data?.length === store.checked.size
+    return props.data.length && props.data.length === store.checked.size
   })
 
   /** 部分选中 */
@@ -123,6 +123,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     return !!store.checked.size && !allChecked.value
   })
 
+  /** 选择全部 */
   const checkAll = () => {
     let checked =
       typeof props.checkable === 'function'

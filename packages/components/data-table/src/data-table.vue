@@ -7,9 +7,13 @@
     }"
     :style="{ height }"
   >
+    <!-- 表头 -->
     <DataTableHeader />
+
+    <!-- 表体 -->
     <DataTableBody />
-    <!-- 树形结构显示不能显示合计行 -->
+
+    <!-- 合计行. 树形结构显示不能显示合计行 -->
     <DataTableFooter v-if="showSummary && !tree" />
   </div>
 </template>
@@ -41,7 +45,6 @@ const styles = useStyle(props)
 
 const { showLeftFixedShadow, showRightFixedShadow } = styles
 
-// 依赖提供
 provide(dataTableToken, {
   ...state,
   ...columns,

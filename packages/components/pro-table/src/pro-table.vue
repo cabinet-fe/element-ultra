@@ -3,7 +3,7 @@
     <!-- 表格工具栏 -->
     <ProTableTools
       v-if="toolsVisible"
-      @key-enter="fetchData"
+      @key-enter="fetchData()"
       @search="fetchData"
       @tools-resize="calcTableHeight"
     >
@@ -35,7 +35,7 @@
       @select="emit('select', $event)"
       @sort="handleSort"
     >
-      <template #[column.slot!]="ctx" v-for="column of columns">
+      <template v-slot:[column.slot!]="ctx" v-for="column of columns">
         <slot :name="column.slot!" v-bind="ctx" />
       </template>
     </el-data-table>
@@ -233,6 +233,7 @@ const handleSort = (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
 }
 
 let canAutoQuery = shallowRef(true)
+/** 设置自动请求 */
 const setAutoQuery = (autoQuery: boolean) => {
   canAutoQuery.value = autoQuery
 }

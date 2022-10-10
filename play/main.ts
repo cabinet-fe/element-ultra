@@ -9,7 +9,7 @@ setConfigStore({
   proTableDefaultSize: 60,
 
   proTableRequestMethod (options) {
-    console.log(options)
+
     return new Promise(rs => {
       setTimeout(() => {
         let data = Array.from({ length: 1000 }).map((_, i) => ({
