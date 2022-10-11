@@ -36,7 +36,7 @@
 import { computed } from '@vue/reactivity'
 import { shallowRef } from 'vue'
 
-const count = shallowRef(30)
+const count = shallowRef(300)
 
 const xings =
   '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章'

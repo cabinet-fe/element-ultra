@@ -7,7 +7,7 @@
     :query="query"
     :columns="columns"
     show-index
-    :checkable="(_, index) => index % 2 === 0"
+    checkable
     ref="tableRef"
     show-summary
     @checked="c.log"
@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="tsx">
-import { ElButton } from 'element-ultra'
+import { ElButton, ProTableColumn } from 'element-ultra'
 import { isReactive, provide, shallowReactive, shallowRef } from 'vue'
 
 provide('aa', { name: 'aa' })
@@ -84,10 +84,12 @@ const reactiveColumnItem = (columns: any[]) => {
 const columns = reactiveColumnItem([
   {
     name: '姓名',
-    key: 'name',
+    key: 'name11',
     children: [
       { name: 'child', key: 'money', preset: 'money' },
-      { name: 'child2', key: 'child2' }
+      { name: 'child2', key: 'name', render({ val }) {
+        return val
+      } }
     ]
   },
 
@@ -105,8 +107,11 @@ const columns = reactiveColumnItem([
     sortable: true
   },
   {
-    name: '姓名',
-    key: 'name2'
+    name: '姓名2',
+    key: 'name2',
+    render({ row }) {
+      return row.name
+    }
   },
   {
     name: '姓名',
@@ -136,7 +141,7 @@ const columns = reactiveColumnItem([
     width: 150,
     slot: 'action'
   }
-])
+] as ProTableColumn[])
 
 const handleFix = () => {
   const column = columns[1]
