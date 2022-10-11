@@ -145,7 +145,7 @@ watch(
 let scroll = debounce((s: ScrollCtx) => {
   position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
   position.value < 0 && (position.value = 0)
-}, 10)
+}, 20)
 
 /** 用来cancelIdleCallback */
 let idleId: number
