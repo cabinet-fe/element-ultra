@@ -42,8 +42,7 @@ export const dropdownProps = {
     default: () => ({})
   },
   size: {
-    type: String as PropType<ComponentSize>,
-    default: 'default'
+    type: String as PropType<ComponentSize>
   },
   splitButton: Boolean,
   hideOnClick: {
