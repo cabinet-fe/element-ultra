@@ -64,6 +64,7 @@ importers:
       typescript: 4.7.4
       unplugin-vue-components: ^0.22.7
       unplugin-vue-define-options: ^0.11.2
+      vite: 3.1.8
       vite-plugin-inspect: ^0.7.5
       vue: ^3.2.37
       vue-router: ^4.0.16
@@ -104,8 +105,8 @@ importers:
       '@types/node': 18.8.5
       '@types/sass': 1.43.1
       '@types/sortablejs': 1.15.0
-      '@vitejs/plugin-vue': 3.1.2_vue@3.2.40
-      '@vitejs/plugin-vue-jsx': 2.0.1_vue@3.2.40
+      '@vitejs/plugin-vue': 3.1.2_vite@3.1.8+vue@3.2.40
+      '@vitejs/plugin-vue-jsx': 2.0.1_vite@3.1.8+vue@3.2.40
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.19.3
       '@vue/tsconfig': 0.1.3_@types+node@18.8.5
       chalk: 4.1.2
@@ -130,7 +131,8 @@ importers:
       typescript: 4.7.4
       unplugin-vue-components: 0.22.8_vue@3.2.40
       unplugin-vue-define-options: 0.11.2
-      vite-plugin-inspect: 0.7.5
+      vite: 3.1.8_sass@1.55.0
+      vite-plugin-inspect: 0.7.5_vite@3.1.8
       vue: 3.2.40
       vue-router: 4.1.5_vue@3.2.40
       vue-tsc: 0.40.13_typescript@4.7.4
@@ -1852,25 +1854,6 @@ packages:
       - supports-color
     dev: true
 
-  /@vitejs/plugin-vue-jsx/2.0.1_vue@3.2.40:
-    resolution: {integrity: sha512-lmiR1k9+lrF7LMczO0pxtQ8mOn6XeppJDHxnpxkJQpT5SiKz4SKhKdeNstXaTNuR8qZhUo5X0pJlcocn72Y4Jg==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    peerDependencies:
-      vite: ^3.0.0
-      vue: ^3.0.0
-    peerDependenciesMeta:
-      vite:
-        optional: true
-    dependencies:
-      '@babel/core': 7.19.3
-      '@babel/plugin-syntax-import-meta': 7.10.4_@babel+core@7.19.3
-      '@babel/plugin-transform-typescript': 7.19.3_@babel+core@7.19.3
-      '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.19.3
-      vue: 3.2.40
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@vitejs/plugin-vue/2.3.4_vite@2.9.15+vue@3.2.40:
     resolution: {integrity: sha512-IfFNbtkbIm36O9KB8QodlwwYvTEsJb4Lll4c2IwB3VHc2gie2mSPtSzL0eYay7X2jd/2WX02FjSGTWR6OPr/zg==}
     engines: {node: '>=12.0.0'}
@@ -1896,19 +1879,6 @@ packages:
         optional: true
     dependencies:
       vite: 3.1.8
-      vue: 3.2.40
-    dev: true
-
-  /@vitejs/plugin-vue/3.1.2_vue@3.2.40:
-    resolution: {integrity: sha512-3zxKNlvA3oNaKDYX0NBclgxTQ1xaFdL7PzwF6zj9tGFziKwmBa3Q/6XcJQxudlT81WxDjEhHmevvIC4Orc1LhQ==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    peerDependencies:
-      vite: ^3.0.0
-      vue: ^3.2.25
-    peerDependenciesMeta:
-      vite:
-        optional: true
-    dependencies:
       vue: 3.2.40
     dev: true
 
@@ -7680,7 +7650,7 @@ packages:
       replace-ext: 1.0.1
     dev: true
 
-  /vite-plugin-inspect/0.7.5:
+  /vite-plugin-inspect/0.7.5_vite@3.1.8:
     resolution: {integrity: sha512-O8xq6dbvD1G7le75u6BfQTXJDUMXcRYlMVPzUpRjSB6hLyqH6BNnNkNrb/cVgCNNmKwk7dX+H2I+XVU2xpJk9Q==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -7695,6 +7665,7 @@ packages:
       kolorist: 1.6.0
       sirv: 2.0.2
       ufo: 0.8.5
+      vite: 3.1.8_sass@1.55.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7746,6 +7717,34 @@ packages:
       postcss: 8.4.18
       resolve: 1.22.1
       rollup: 2.78.1
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /vite/3.1.8_sass@1.55.0:
+    resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.15.10
+      postcss: 8.4.18
+      resolve: 1.22.1
+      rollup: 2.78.1
+      sass: 1.55.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
