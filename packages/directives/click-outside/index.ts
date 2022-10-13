@@ -4,7 +4,7 @@ import { on } from '@element-ultra/utils'
 import type {
   ComponentPublicInstance,
   DirectiveBinding,
-  ObjectDirective,
+  ObjectDirective
 } from 'vue'
 import type { Nullable } from '@element-ultra/utils'
 
@@ -19,14 +19,16 @@ type FlushList = Map<
 
 const nodeList: FlushList = new Map()
 
-let startClick: MouseEvent
+let startClickEvent: MouseEvent
 
 if (isClient) {
-  on(document, 'mousedown', (e: MouseEvent) => (startClick = e))
+  on(document, 'mousedown', (e: MouseEvent) => {
+    startClickEvent = e
+  })
   on(document, 'mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
-        documentHandler(e as MouseEvent, startClick)
+        documentHandler(e as MouseEvent, startClickEvent)
       }
     }
   })
@@ -49,21 +51,26 @@ function createDocumentHandler(
         popperRef: Nullable<HTMLElement>
       }>
     ).popperRef
+    /** 鼠标放开的目标元素 */
     const mouseUpTarget = mouseup.target as Node
+    /** 鼠标按下的目标元素 */
     const mouseDownTarget = mousedown?.target as Node
     const isBound = !binding || !binding.instance
+    /** 目标元素是否存在 */
     const isTargetExists = !mouseUpTarget || !mouseDownTarget
     const isContainedByEl =
       el.contains(mouseUpTarget) || el.contains(mouseDownTarget)
-    const isSelf = el === mouseUpTarget
 
+    /** 是否和绑定的元素相同 */
+    const isSelf = el === mouseUpTarget
     const isTargetExcluded =
       (excludes.length &&
-        excludes.some((item) => item?.contains(mouseUpTarget))) ||
+        excludes.some(item => item?.contains(mouseUpTarget))) ||
       (excludes.length && excludes.includes(mouseDownTarget as HTMLElement))
     const isContainedByPopper =
       popperRef &&
       (popperRef.contains(mouseUpTarget) || popperRef.contains(mouseDownTarget))
+
     if (
       isBound ||
       isTargetExists ||
@@ -74,7 +81,11 @@ function createDocumentHandler(
     ) {
       return
     }
-    binding.value(mouseup, mousedown)
+
+    // TODO不得已做出的妥协后续可以待修复
+    setTimeout(() => {
+      binding.value(mouseup, mousedown)
+    })
   }
 }
 
@@ -87,7 +98,7 @@ const ClickOutside: ObjectDirective = {
 
     nodeList.get(el).push({
       documentHandler: createDocumentHandler(el, binding),
-      bindingFn: binding.value,
+      bindingFn: binding.value
     })
   },
   updated(el: HTMLElement, binding: DirectiveBinding) {
@@ -97,11 +108,11 @@ const ClickOutside: ObjectDirective = {
 
     const handlers = nodeList.get(el)
     const oldHandlerIndex = handlers.findIndex(
-      (item) => item.bindingFn === binding.oldValue
+      item => item.bindingFn === binding.oldValue
     )
     const newHandler = {
       documentHandler: createDocumentHandler(el, binding),
-      bindingFn: binding.value,
+      bindingFn: binding.value
     }
 
     if (oldHandlerIndex >= 0) {
@@ -114,7 +125,7 @@ const ClickOutside: ObjectDirective = {
   unmounted(el: HTMLElement) {
     // remove all listeners when a component unmounted
     nodeList.delete(el)
-  },
+  }
 }
 
 export default ClickOutside

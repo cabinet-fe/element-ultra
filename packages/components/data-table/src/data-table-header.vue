@@ -37,7 +37,11 @@
   </div>
 
   <!-- 对齐调节器 -->
-  <DataTableAlignAdjuster ref="adjusterRef" />
+  <DataTableAlignAdjuster ref="adjusterRef">
+    <template #default="scoped">
+      <slot name="column-conf" v-bind="scoped" />
+    </template>
+  </DataTableAlignAdjuster>
 </template>
 
 <!-- 表格头部, 此处做列相关的操作, 比如存放列信息, 排序 -->

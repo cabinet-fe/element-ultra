@@ -1,19 +1,40 @@
 <template>
   <div class="count">
     <label>数据量</label>
-    <el-input-number :precision="0" v-model="count" style="width: 200px" />
+    <el-input-number
+      :precision="0"
+      v-model="config.count"
+      style="width: 200px"
+    />
 
     <label>显示合计</label>
-    <el-checkbox v-model="showSummary" />
+    <el-checkbox v-model="config.showSummary" />
+
+    <label>显示序号</label>
+    <el-checkbox v-model="config.showIndex" />
+
+    <label>多选</label>
+    <el-checkbox v-model="config.checkable" />
+
+    <label>单选</label>
+    <el-checkbox v-model="config.selectable" />
+
+    <label>CPU空闲时调度</label>
+    <el-checkbox v-model="config.idle" />
   </div>
   <el-data-table
-    show-index
-    checkable
+    :show-index="config.showIndex"
+    :checkable="config.checkable"
+    :selectable="config.selectable"
     :columns="columns"
     :data="data"
-    :show-summary="showSummary"
-    height="calc(100% - 40px)"
+    :idle="config.idle"
+    :show-summary="config.showSummary"
+    height="500px"
+    @check="log"
+    @select="log"
   >
+    <!-- 表格设置器 -->
     <template #column-conf="{ column }">
       <div class="conf-wrap">
         <el-input
@@ -43,8 +64,10 @@
 
 <script lang="tsx" setup>
 import type { DataTableColumn } from '@element-ultra/components'
-import { shallowRef, computed } from 'vue'
 import { n } from 'fe-dk'
+import { computed, shallowReactive, shallowRef } from 'vue'
+
+const log = console.log
 
 const preset = shallowRef<string>()
 
@@ -60,11 +83,23 @@ const handleChange = (column: DataTableColumn, preset: string) => {
   let render = presetRendererMap[preset]
   if (render) {
     column.render = render
+  } else {
+    column.render = undefined
   }
 }
 
 const columns: DataTableColumn[] = [
-  { name: '测试1', key: 'test1', slot: 'test1' },
+  {
+    name: () => <span style='color: red'>姓名</span>,
+    key: 'name',
+    align: 'center',
+    width: 80,
+    sortable: true
+  },
+  {
+    name: '钱',
+    key: 'money'
+  },
   {
     name: '测试2',
     key: 'test2',
@@ -96,32 +131,33 @@ const columns: DataTableColumn[] = [
       { name: '测试2-3', key: 'test2-3', slot: 'test2' }
     ]
   },
-  {
-    name: () => <span style='color: red'>姓名</span>,
-    key: 'name',
-    align: 'center',
-    fixed: 'left',
-    width: 200,
-    sortable: true
-  },
+
+  { name: '测试1', key: 'test1', slot: 'test1' },
 
   { name: '测试3', key: 'test3', slot: 'test2', fixed: 'right', width: 100 }
 ]
 
-const count = shallowRef(3000)
-const showSummary = shallowRef(false)
+const config = shallowReactive({
+  count: 3000,
+  showSummary: false,
+  showIndex: false,
+  checkable: false,
+  selectable: false,
+  idle: false
+})
 
 const xings =
   '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章'
 const mings = '啊行者三四里华琴浩杰龙晨勉国爱葱飞鹏婷'
 
 const data = computed(() => {
-  return Array.from({ length: count.value }).map((_, i) => {
+  return Array.from({ length: config.count }).map((_, i) => {
     const xing = xings[~~(Math.random() * xings.length)]
     const ming = mings[~~(Math.random() * mings.length)]
     return {
       name: xing + ming + i,
-      id: i
+      id: i,
+      money: ~~(Math.random() * 10000)
     }
   })
 })
@@ -139,12 +175,5 @@ export default {
   justify-content: flex-start;
   align-items: center;
   align-content: center;
-}
-
-.conf-wrap {
-  width: 200px;
-}
-.conf-wrap > * {
-  margin-bottom: 4px;
 }
 </style>

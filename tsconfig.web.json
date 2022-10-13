@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "jsx": "preserve",
-    "lib": ["ES2018", "DOM", "DOM.Iterable"],
+    "lib": ["ES2019", "DOM", "DOM.Iterable"],
     "types": ["unplugin-vue-define-options/macros-global"],
     "skipLibCheck": true,
     "importsNotUsedAsValues": "error"

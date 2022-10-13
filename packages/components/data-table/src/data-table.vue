@@ -8,7 +8,11 @@
     :style="{ height }"
   >
     <!-- 表头 -->
-    <DataTableHeader />
+    <DataTableHeader>
+      <template #column-conf="scoped">
+        <slot name="column-conf" v-bind="scoped" />
+      </template>
+    </DataTableHeader>
 
     <!-- 表体 -->
     <DataTableBody />

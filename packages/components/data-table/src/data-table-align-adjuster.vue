@@ -12,6 +12,8 @@
         <ElRadio value="center">中</ElRadio>
         <ElRadio value="right">右</ElRadio>
       </ElRadioGroup>
+
+      <slot v-bind="{ column: column! }" />
     </div>
   </teleport>
 </template>
@@ -32,7 +34,6 @@ const style = shallowReactive({
 })
 
 let column = shallowRef<InternalColumn>()
-
 const adjusterRef = shallowRef<HTMLElement>()
 
 const close = () => {
