@@ -9,5 +9,10 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.6",
     "element-ultra": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "3.1.8",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "@vitejs/plugin-vue-jsx": "^2.0.1"
   }
 }

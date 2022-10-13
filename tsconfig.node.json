@@ -11,7 +11,9 @@
     "scripts/**/*",
     "packages/theme-chalk/*",
     "packages/element-ultra/version.ts",
-    "packages/element-ultra/package.json"
+    "packages/element-ultra/package.json",
+    "play/**/*",
+    "docs/**/*"
   ],
   "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
 }

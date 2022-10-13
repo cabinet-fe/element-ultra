@@ -60,7 +60,10 @@ export const config: UserConfig = {
   },
 
   markdown: {
-    config: (md) => mdPlugin(md),
+    config: (md) => {
+
+      return mdPlugin(md)
+    },
   },
 
   vue: {

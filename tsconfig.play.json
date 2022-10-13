@@ -7,12 +7,6 @@
   "include": [
     "packages",
     "typings/components.d.ts",
-    "typings/env.d.ts",
-
-    // playground
-    "play/main.ts",
-    "play/env.d.ts",
-    "play/shim.d.ts",
-    "play/src/**/*"
+    "play/**/*"
   ]
 }

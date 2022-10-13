@@ -90,7 +90,7 @@ const handleChange = (column: DataTableColumn, preset: string) => {
 
 const columns: DataTableColumn[] = [
   {
-    name: () => <span style='color: red'>姓名</span>,
+    name: () => <span style={{ color: 'red' }}>姓名</span>,
     key: 'name',
     align: 'center',
     width: 80,

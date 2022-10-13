@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "importsNotUsedAsValues": "error"
   },
-  "include": ["packages", "typings/components.d.ts", "typings/env.d.ts"],
+  "include": ["packages/**/*", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [
     "node_modules",
     "**/dist",

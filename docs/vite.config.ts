@@ -1,17 +1,14 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
-import DefineOptions from 'unplugin-vue-define-options/vite'
 import UnoCSS from 'unocss/vite'
 import glob from 'fast-glob'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-
+import VueMacros from 'unplugin-vue-macros/vite'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-
 import { epPackage } from '../gulpfile/utils/paths'
-
 import { projRoot } from './.vitepress/utils/paths'
 import type { Alias } from 'vite'
 
@@ -20,16 +17,16 @@ if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
       find: /^element-ultra$/,
-      replacement: path.resolve(projRoot, 'packages/element-ultra/index.ts'),
+      replacement: path.resolve(projRoot, 'packages/element-ultra/index.ts')
     },
     {
       find: /^element-ultra\/(.*)$/,
-      replacement: `${path.resolve(projRoot, 'packages')}/$1`,
+      replacement: `${path.resolve(projRoot, 'packages')}/$1`
     }
   )
 }
 
-export default async () => {
+export default defineConfig(async () => {
   const dependencies = Object.keys(require(epPackage).dependencies)
 
   const optimizeDeps = [
@@ -39,50 +36,60 @@ export default async () => {
     'clipboard-copy',
     'axios',
     'nprogress',
-    ...dependencies,
+    ...dependencies
   ]
   optimizeDeps.push(
     ...(
       await glob(['dayjs/plugin/*.js'], {
         cwd: path.resolve(projRoot, 'node_modules'),
-        onlyFiles: true,
+        onlyFiles: true
       })
-    ).map((file) => file.replace(/\.js$/, ''))
+    ).map(file => file.replace(/\.js$/, ''))
   )
 
-  return defineConfig({
+  return {
     server: {
       host: true,
       fs: {
-        allow: [projRoot],
-      },
+        allow: [projRoot]
+      }
     },
     resolve: {
-      alias,
+      alias
     },
     plugins: [
-      vueJsx(),
-      DefineOptions(),
+      VueMacros({
+        setupComponent: false,
+        setupSFC: false,
+        plugins: {
+          vueJsx: vueJsx()
+        }
+      }),
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
+        dirs: ['.vitepress/vitepress/components'],
+
+        allowOverrides: true,
         // custom resolvers
         resolvers: [
           // auto import icons
           // https://github.com/antfu/unplugin-icons
-          IconsResolver(),
+          IconsResolver()
         ],
+        // allow auto import and register components used in markdown
+        include: [/\.vue$/, /\.vue\?vue/, /\.md$/]
       }),
 
       // https://github.com/antfu/unplugin-icons
       Icons({
-        autoInstall: true,
+        autoInstall: true
       }),
       UnoCSS(),
-      Inspect(),
+      Inspect()
     ],
     optimizeDeps: {
-      include: optimizeDeps,
-    },
-  })
-}
+      include: optimizeDeps
+    }
+  }
+})
