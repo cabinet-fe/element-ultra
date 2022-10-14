@@ -12,6 +12,10 @@
     show-summary
     @checked="c.log"
   >
+
+  <template #column-conf="{ column }">
+    <el-input v-model="column.name" />
+  </template>
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
       <el-input v-for="item of list" :placeholder="item.label" />
