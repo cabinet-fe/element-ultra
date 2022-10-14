@@ -32,6 +32,8 @@ export type DataTableColumn = {
   children?: DataTableColumn[]
   /** 插槽名称, 开启将会有个默认插槽 */
   slot?: string
+  /** 预设 */
+  preset?: string
 }
 
 export const dataTableProps = {

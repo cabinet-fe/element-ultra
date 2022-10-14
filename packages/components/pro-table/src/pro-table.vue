@@ -38,6 +38,10 @@
       <template v-slot:[column.slot!]="ctx" v-for="column of columns">
         <slot :name="column.slot!" v-bind="ctx" />
       </template>
+
+      <template #column-conf="scoped">
+        <slot name="column-conf" v-bind="scoped" />
+      </template>
     </el-data-table>
 
     <!-- 分页 -->

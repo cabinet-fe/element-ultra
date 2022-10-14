@@ -31,7 +31,7 @@
         >
         </el-cascade>
 
-        <el-input-number money label="数字" clearable field="num" />
+        <el-input-number money label="数字" :precision="2" clearable field="num" />
 
         <el-tree-select
           :data="options"

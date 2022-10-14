@@ -127,7 +127,10 @@ function getValidValue(value?: number) {
   if (precision === undefined || ~~precision < 0) return value
 
   let factor = Math.pow(10, precision)
-  return Math.round(value * factor) / factor
+  // 转化成整数计算
+  let ret =  Math.round(value * factor) / factor
+
+  return ret
 }
 
 const _increase = () => {
@@ -166,7 +169,7 @@ const setUserInput = () => {
   }
 
   if (money) {
-    let valStr = modelValue + ''
+    let valStr =  modelValue + '' // precision !== undefined ? modelValue.toFixed(precision) :
     let [valIntStr, valDotStr] = valStr.split('.')
 
     let group: string[] = []
