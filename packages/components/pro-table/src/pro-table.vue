@@ -35,7 +35,7 @@
       @select="emit('select', $event)"
       @sort="handleSort"
     >
-      <template v-slot:[column.slot!]="ctx" v-for="column of columns">
+      <template v-slot:[column.slot!]="ctx" v-for="column of columnSlots">
         <slot :name="column.slot!" v-bind="ctx" />
       </template>
 
@@ -46,8 +46,8 @@
 
     <!-- 分页 -->
     <el-pagination
-      :class="ns.e('pagination')"
       v-if="pagination"
+      :class="ns.e('pagination')"
       style="justify-content: flex-end"
       v-model:current-page="query.page"
       v-model:page-size="query.size"
@@ -90,8 +90,14 @@ defineOptions({
 const props = defineProps(proTableProps)
 const emit = defineEmits(proTableEmits)
 
+
 const slots = useSlots()
 const ns = useNamespace('pro-table')
+
+const columnSlots = computed(() => {
+  return props.columns?.filter(column => column.slot) || []
+})
+
 
 const tableRef = shallowRef<DataTableInstance>()
 

@@ -63,7 +63,7 @@ const buildCell = <
         const { index, data } = row
 
         let column = props.column as FixedColumn
-
+        console.log('rerender')
         const content = column.render!({
           val: getChainValue(data, column.key),
           wrap: row,

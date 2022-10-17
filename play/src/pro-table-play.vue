@@ -12,10 +12,18 @@
     show-summary
     @checked="c.log"
   >
-
-  <template #column-conf="{ column }">
-    <el-input v-model="column.name" />
-  </template>
+    <template #column-conf="{ column }">
+      <el-input
+        v-if="typeof column.name !== 'function'"
+        v-model="column.name"
+      />
+      <el-input placeholder="插槽" v-model="column.slot" />
+      <el-select
+        :options="presets"
+        v-model="column.preset"
+        @update:model-value="handleChangePreset(column, $event)"
+      />
+    </template>
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
       <el-input v-for="item of list" :placeholder="item.label" />
@@ -30,6 +38,10 @@
         v-for="(_, i) in 9"
         :placeholder="`测试${i}`"
       /> -->
+    </template>
+
+    <template #name="{ row }">
+      <span style="color: red">{{ row.name }}</span>
     </template>
 
     <template #action>
@@ -59,6 +71,7 @@
 
 <script setup lang="tsx">
 import { ElButton, ProTableColumn } from 'element-ultra'
+import { n } from 'fe-dk'
 import { isReactive, provide, shallowReactive, shallowRef } from 'vue'
 
 provide('aa', { name: 'aa' })
@@ -72,6 +85,20 @@ const query = shallowRef(
 )
 
 const tableRef = shallowRef()
+
+const presets = [{ label: '金钱', value: 'money' }]
+const presetRenders = {
+  money: ({ val }) => n(val).format('money', 2)
+}
+
+const handleChangePreset = (column: ProTableColumn, preset: string) => {
+  let render = presetRenders[preset]
+  if (render) {
+    column.render = render
+  } else {
+    column.render = ({ val }) => val
+  }
+}
 
 const reactiveColumnItem = (columns: any[]) => {
   let ret: any[] = []
@@ -91,23 +118,28 @@ const columns = reactiveColumnItem([
     key: 'name11',
     children: [
       { name: 'child', key: 'money', preset: 'money' },
-      { name: 'child2', key: 'name', render({ val }) {
-        return val
-      } }
+      {
+        name: 'child2',
+        key: 'name',
+        render({ val }) {
+          return val
+        }
+      }
     ]
   },
 
   {
     name: '钱',
     key: 'money',
-    preset: 'money',
     sortable: true,
     width: 100,
+    preset: 'money',
     align: 'center'
   },
   {
     name: '姓名',
     key: 'name1',
+    slot: 'name',
     sortable: true
   },
   {
@@ -146,6 +178,9 @@ const columns = reactiveColumnItem([
     slot: 'action'
   }
 ] as ProTableColumn[])
+columns.forEach(column => {
+  column.preset && handleChangePreset(column, column.preset)
+})
 
 const handleFix = () => {
   const column = columns[1]

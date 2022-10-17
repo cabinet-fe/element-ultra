@@ -56,6 +56,11 @@ const { rootProps, leafColumns, ns, scrollLeft, footerRef, getCellStyle } =
 
 const ele = 'footer-cell'
 
+const zhMoneyFormat = new Intl.NumberFormat('zh-CN', {
+  currency: 'RMB',
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 2
+})
 /** 合计数据 */
 const summaryData = computed(() => {
   // 平铺叶子节点的数据
@@ -80,7 +85,7 @@ const summaryData = computed(() => {
       }
       ret += v
     })
-    return isValidNumber ? ret : ''
+    return isValidNumber ? column.preset === 'money' ? zhMoneyFormat.format(ret) : ret : ''
   })
 
   result[0] = '合计'
