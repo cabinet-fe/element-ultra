@@ -15,6 +15,7 @@ setConfigStore({
         let data = Array.from({ length: 1000 }).map((_, i) => ({
           name: '张三说的有符合公司的的话是个' + i,
           money: ~~(Math.random() * 1000),
+          name2: [{ name: '张三' }],
           children: [
             { name: '你好', money: 10086, id: `${i}-1`,
             children: [

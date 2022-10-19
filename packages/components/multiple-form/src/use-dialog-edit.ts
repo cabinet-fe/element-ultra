@@ -22,6 +22,7 @@ export default function useDialogEdit(options: Options) {
 
   const getModel = (columns: MultipleFormColumn[]) => {
     const model = {} as Record<string, FormModelItem>
+    // 将列转化为表单的模型校验
     columns.forEach(column => {
       let { defaultValue } = column
       // 引用类型需要

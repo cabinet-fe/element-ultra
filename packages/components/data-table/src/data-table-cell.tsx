@@ -62,7 +62,7 @@ const buildCell = <
         const { row } = props
         const { index, data } = row
 
-        let column = props.column as FixedColumn
+        const column = props.column as FixedColumn
 
         const content = column.render!({
           val: getChainValue(data, column.key),

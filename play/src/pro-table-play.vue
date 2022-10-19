@@ -145,9 +145,6 @@ const columns = reactiveColumnItem([
   {
     name: '姓名2',
     key: 'name2',
-    render({ row }) {
-      return row.name
-    }
   },
   {
     name: '姓名',
