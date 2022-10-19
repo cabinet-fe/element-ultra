@@ -70,7 +70,6 @@ const wrapHeight = shallowRef(0)
 const wrapWidth = shallowRef(0)
 
 const { stop } = useResizeObserver(wrap$, ([entry]) => {
-  emit('resize', entry.target)
   wrapHeight.value = wrap$.value!.offsetHeight
   wrapWidth.value = wrap$.value!.offsetWidth
 })
@@ -88,10 +87,7 @@ const style = computed<StyleValue>(() => {
 let _scrollTop = 0,
   _scrollLeft = 0
 
-const updateScrollState = (
-  scrollTop: number,
-  scrollLeft: number
-) => {
+const updateScrollState = (scrollTop: number, scrollLeft: number) => {
   _scrollTop = scrollTop
   _scrollLeft = scrollLeft
 }
@@ -137,7 +133,7 @@ const update = () => {
   const offsetWidth = wrapWidth.value - GAP // wrap$.value.offsetWidth - GAP
 
   const originalHeight = offsetHeight ** 2 / wrap$.value!.scrollHeight
-  const originalWidth = offsetWidth ** 2 /  wrap$.value!.scrollWidth
+  const originalWidth = offsetWidth ** 2 / wrap$.value!.scrollWidth
   const height = Math.max(originalHeight, props.minSize)
   const width = Math.max(originalWidth, props.minSize)
 
@@ -172,8 +168,10 @@ watch(
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resize$, ([entry]) => {
-
-
+        emit('resize', {
+          view: entry.target,
+          wrap: wrap$.value!
+        })
         update()
       }))
       stopResizeListener = useEventListener('resize', update)

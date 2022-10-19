@@ -74,9 +74,7 @@ export default function useStyle(props: DataTableProps) {
 
   watch(
     [() => offsetWidth.value, () => scrollWidth.value, () => scrollLeft.value],
-    (v) => {
-      updateFixedColumnsShadow()
-    }
+    () => updateFixedColumnsShadow()
   )
 
   // 表头和表底的引用, 用以计算表体的高度

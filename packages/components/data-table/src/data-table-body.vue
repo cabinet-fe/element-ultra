@@ -72,9 +72,10 @@ const handleScroll = (s: any) => {
   scrollLeft.value = s.scrollLeft
 }
 
-const handleResize = (el: Element) => {
-  scrollLeft.value = el.scrollLeft
-  scrollWidth.value = el.scrollWidth
-  offsetWidth.value = (el as HTMLElement).offsetWidth
+const handleResize = (ctx: { wrap: Element, view: Element }) => {
+  const { wrap, view } = ctx
+  scrollLeft.value = wrap.scrollLeft
+  scrollWidth.value = view.scrollWidth
+  offsetWidth.value = (wrap as HTMLElement).offsetWidth
 }
 </script>

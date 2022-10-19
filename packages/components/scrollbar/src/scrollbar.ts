@@ -48,7 +48,7 @@ export const scrollbarEmits = {
     scrollWidth: number
   }) => true,
 
-  resize: (el: Element) => true
+  resize: (ctx: { view: Element; wrap: Element }) => true
 }
 export type ScrollbarEmits = typeof scrollbarEmits
 

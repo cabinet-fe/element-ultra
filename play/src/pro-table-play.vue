@@ -72,7 +72,7 @@
 <script setup lang="tsx">
 import { ElButton, ProTableColumn } from 'element-ultra'
 import { n } from 'fe-dk'
-import { isReactive, provide, shallowReactive, shallowRef } from 'vue'
+import { computed, isReactive, provide, shallowReactive, shallowRef } from 'vue'
 
 provide('aa', { name: 'aa' })
 
@@ -87,7 +87,7 @@ const query = shallowRef(
 const tableRef = shallowRef()
 
 const presets = [{ label: '金钱', value: 'money' }]
-const presetRenders = {
+const presetRenders: Record<string, ProTableColumn['render']> = {
   money: ({ val }) => n(val).format('money', 2)
 }
 
@@ -112,75 +112,35 @@ const reactiveColumnItem = (columns: any[]) => {
   return ret
 }
 
-const columns = reactiveColumnItem([
-  {
-    name: '姓名',
-    key: 'name11',
-    children: [
-      { name: 'child', key: 'money', preset: 'money' },
-      {
-        name: 'child2',
-        key: 'name',
-        render({ val }) {
-          return val
+const dynColumns = shallowRef<ProTableColumn[]>([])
+const columns = computed(() => {
+  const columns = reactiveColumnItem([
+    {
+      name: '姓名',
+      key: 'name11',
+      children: [
+        { name: 'child', key: 'money', preset: 'money' },
+        {
+          name: 'child2',
+          key: 'name',
+          render({ val }) {
+            return val
+          }
         }
-      }
-    ]
-  },
+      ]
+    },
+    ...dynColumns.value
+  ] as ProTableColumn[])
 
-  {
-    name: '钱',
-    key: 'money',
-    sortable: true,
-    width: 100,
-    preset: 'money',
-    align: 'center'
-  },
-  {
-    name: '姓名',
-    key: 'name1',
-    slot: 'name',
-    sortable: true
-  },
-  {
-    name: '姓名2',
-    key: 'name2',
-  },
-  {
-    name: '姓名',
-    key: 'name3'
-  },
-  {
-    name: '姓名',
-    key: 'name4'
-  },
-  {
-    name: '姓名',
-    key: 'name5'
-  },
-  {
-    name: '姓名',
-    key: 'name6'
-  },
-  {
-    name: '姓名',
-    key: 'name7'
-  },
-  {
-    name: '操作',
-    align: 'center',
-    key: 'action',
-    fixed: 'right',
-    width: 150,
-    slot: 'action'
-  }
-] as ProTableColumn[])
-columns.forEach(column => {
-  column.preset && handleChangePreset(column, column.preset)
+  columns.forEach(column => {
+    column.preset && handleChangePreset(column, column.preset)
+  })
+
+  return columns
 })
 
 const handleFix = () => {
-  const column = columns[1]
+  const column = columns.value[1]
   if (column.fixed === 'left') {
     column.fixed = 'right'
   } else if (column.fixed === 'right') {
@@ -207,4 +167,55 @@ const handleClick = () => {
     $date: []
   })
 }
+
+setTimeout(() => {
+  dynColumns.value = [
+    {
+      name: '钱',
+      key: 'money',
+      sortable: true,
+      width: 100,
+      preset: 'money',
+      align: 'center'
+    },
+    {
+      name: '姓名',
+      key: 'name1',
+      slot: 'name',
+      sortable: true
+    },
+    {
+      name: '姓名2',
+      key: 'name2'
+    },
+    {
+      name: '姓名',
+      key: 'name3'
+    },
+    {
+      name: '姓名',
+      key: 'name4'
+    },
+    {
+      name: '姓名',
+      key: 'name5'
+    },
+    {
+      name: '姓名',
+      key: 'name6'
+    },
+    {
+      name: '姓名',
+      key: 'name7'
+    },
+    {
+      name: '操作',
+      align: 'center',
+      key: 'action',
+      fixed: 'right',
+      width: 150,
+      slot: 'action'
+    }
+  ]
+}, 1000)
 </script>

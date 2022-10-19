@@ -100,7 +100,7 @@ const wrapRef = shallowRef<HTMLElement>()
 
 const emit = defineEmits({
   scroll: (s: ScrollCtx) => true,
-  resize: (s: Element) => true
+  resize: (s: { wrap: Element; view: Element }) => true
 })
 
 /** 总高度, 预估高度 */
