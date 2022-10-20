@@ -42,7 +42,7 @@ export const messageProps = {
   },
   showClose: {
     type: Boolean,
-    default: false
+    default: true
   },
   type: {
     type: String,
