@@ -168,6 +168,7 @@ watch(
       stopResizeListener?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resize$, ([entry]) => {
+
         emit('resize', {
           view: entry.target,
           wrap: wrap$.value!
