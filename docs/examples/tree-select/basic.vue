@@ -1,16 +1,11 @@
 <template>
   <el-form :data="config" label-width="100px">
     <el-checkbox label="是否多选" field="multiple"></el-checkbox>
-    <el-checkbox label="是否严格选择" field="checkStrictly">  </el-checkbox>
+    <el-checkbox label="是否严格选择" field="checkStrictly"> </el-checkbox>
     <el-input-number label="树缩进长度" field="treeIndent" :min="6" />
   </el-form>
-  <div>
-
-
-  </div>
 
   <div>
-    {{ config.multiple ? '多选' : '单选' }}
     <el-tree-select
       v-model="value"
       :check-strictly="config.checkStrictly"
@@ -18,7 +13,10 @@
       :multiple="config.multiple"
       :tree-indent="config.treeIndent"
     />
-    {{value}}
+  </div>
+
+  <div>
+    {{ value }}
   </div>
 </template>
 

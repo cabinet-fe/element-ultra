@@ -33,6 +33,12 @@
             @edit="handleEdit(row, i)"
             @mouseenter="handleMouseEnter(i)"
           >
+            <template #action:edit-mode="scoped">
+              <slot name="action:edit-mode" v-bind="scoped" />
+            </template>
+            <template #action:view-mode="scoped">
+              <slot name="action:view-mode" v-bind="scoped" />
+            </template>
           </MultipleFormRow>
 
           <tr v-if="!rows.length">
@@ -192,6 +198,9 @@ provide(multipleFormKey, {
 })
 
 defineExpose({
-  clearValidate
+  clearValidate,
+  create: () => {
+    handleCreate(rows.value.length)
+  }
 })
 </script>

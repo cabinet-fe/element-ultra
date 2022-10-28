@@ -21,6 +21,7 @@
           link
           @click="emit('exit-edit')"
         />
+        <slot name="action:edit-mode" v-bind="{ row, index: rowIndex }" />
       </td>
     </template>
 
@@ -71,6 +72,8 @@
           link
           @click="emit('create')"
         />
+
+        <slot name="action:view-mode" v-bind="{ row, index: rowIndex }" />
       </td>
     </template>
   </tr>
