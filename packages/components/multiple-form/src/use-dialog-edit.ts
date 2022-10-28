@@ -66,6 +66,7 @@ export default function useDialogEdit(options: Options) {
     }
     emit('save', data, rows.value)
     emit('change', rows.value)
+    emit('update:data', rows.value)
   }
 
   return {

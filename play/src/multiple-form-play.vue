@@ -5,13 +5,11 @@
   </el-radio-group>
 
   <el-multiple-form
-    :data="data"
     :mode="mode"
     :columns="columns"
     title="标题"
     height="400px"
-    @change="onChange"
-    @save="onSave"
+    v-model:data="data"
   >
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
@@ -46,6 +44,8 @@
       <el-input label="测试2" field="test.test2" />
     </template>
   </el-multiple-form>
+
+  {{data}}
 </template>
 
 <script lang="ts" setup>
@@ -101,10 +101,6 @@ let data = $shallowRef<any[]>([
 /** 保存 */
 const onSave = (row: any) => {}
 
-const onChange = (rows: any) => {
-  data = rows
-  console.log(rows)
-}
 
 /** 增加下一行 */
 const addNextLine = (row: any) => {}

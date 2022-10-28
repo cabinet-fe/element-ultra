@@ -227,6 +227,7 @@ export default function useInline(options: Options) {
     resetTargetIndex()
     emit('save', item, rows.value)
     emit('change', rows.value)
+    emit('update:data', rows.value)
   }
 
   /** 删除 */
@@ -241,6 +242,7 @@ export default function useInline(options: Options) {
     }
     emit('delete', item)
     emit('change', rows.value)
+    emit('update:data', rows.value)
   }
 
   /** 进入编辑状态 */

@@ -128,7 +128,8 @@ export const multipleFormProps = {
 export const multipleFormEmits = {
   save: (row: any, rows: any[]) => true,
   delete: (row: any) => true,
-  change: (rows: any[]) => true
+  change: (rows: any[]) => true,
+  'update:data': (rows: any[]) => true
 }
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
