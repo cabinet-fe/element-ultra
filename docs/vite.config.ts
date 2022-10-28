@@ -1,5 +1,4 @@
 import path from 'path'
-import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
 import glob from 'fast-glob'
@@ -86,7 +85,7 @@ export default defineConfig(async () => {
         autoInstall: true
       }),
       UnoCSS(),
-      Inspect()
+      // Inspect()
     ],
     optimizeDeps: {
       include: optimizeDeps

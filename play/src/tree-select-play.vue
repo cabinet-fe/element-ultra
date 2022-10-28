@@ -32,6 +32,7 @@
         :data="treeData"
         filterable
         field="node2"
+        check-strictly
         label="多选"
         multiple
       />
@@ -46,7 +47,7 @@
 
 <script lang="ts" setup>
 import { useFormModel, type FormInstance } from 'element-ultra'
-import { shallowRef, watch } from 'vue'
+import { shallowRef } from 'vue'
 let treeData = shallowRef<any[]>([])
 setTimeout(() => {
   treeData.value = Array.from({ length: 2 }).map((_, index) => {

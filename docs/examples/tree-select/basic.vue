@@ -1,32 +1,50 @@
 <template>
+  <el-form :data="config" label-width="100px">
+    <el-checkbox label="是否多选" field="multiple"></el-checkbox>
+    <el-checkbox label="是否严格选择" field="checkStrictly">  </el-checkbox>
+    <el-input-number label="树缩进长度" field="treeIndent" :min="6" />
+  </el-form>
   <div>
-    单选
-    <el-tree-select v-model="data.value1" :data="treeData" :selectable="selectable" />
+
+
   </div>
+
   <div>
-    多选
-    <el-tree-select v-model="data.value2" :data="treeData" multiple />
+    {{ config.multiple ? '多选' : '单选' }}
+    <el-tree-select
+      v-model="value"
+      :check-strictly="config.checkStrictly"
+      :data="treeData"
+      :multiple="config.multiple"
+      :tree-indent="config.treeIndent"
+    />
+    {{value}}
   </div>
 </template>
 
 <script setup lang="ts">
-import { shallowReactive } from 'vue'
+import { shallowReactive, shallowRef } from 'vue'
 
-const data = shallowReactive({
-  value1: '',
-  value2: []
+const value = shallowRef()
+
+const config = shallowReactive({
+  checkStrictly: false,
+  multiple: false,
+  treeIndent: 16
 })
 
 const treeData = Array.from({ length: 10 }).map((_, index) => {
   return {
     label: `文本${index}`,
     value: `${index}`,
-    children: Array.from({ length: Math.round(Math.random() * 2) }).map((_, childIndex) => {
-      return {
-        label: `文本${index}-${childIndex}`,
-        value: `${index}-${childIndex}`
+    children: Array.from({ length: Math.round(Math.random() * 2) }).map(
+      (_, childIndex) => {
+        return {
+          label: `文本${index}-${childIndex}`,
+          value: `${index}-${childIndex}`
+        }
       }
-    })
+    )
   }
 })
 
