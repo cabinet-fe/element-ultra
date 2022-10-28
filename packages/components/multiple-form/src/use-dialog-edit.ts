@@ -11,13 +11,18 @@ import type {
 import type { ShallowRef } from 'vue'
 
 interface Options {
+  /** 对象属性 */
   props: MultipleFormProps
+  /** 行数据 */
   rows: ShallowRef<any[]>
+  /** 触发事件 */
   emit: MultipleFormEmits
+  /** 触发更改事件 */
+  emitData: () => void
 }
 
 export default function useDialogEdit(options: Options) {
-  const { props, rows, emit } = options
+  const { props, rows, emit, emitData } = options
   // 根据列生成数据模型
 
   const getModel = (columns: MultipleFormColumn[]) => {
@@ -65,8 +70,7 @@ export default function useDialogEdit(options: Options) {
       rows.value.splice(ctx.index, 1, data)
     }
     emit('save', data, rows.value)
-    emit('change', rows.value)
-    emit('update:data', rows.value)
+    emitData()
   }
 
   return {

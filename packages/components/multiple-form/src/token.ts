@@ -16,7 +16,7 @@ export const multipleFormKey: InjectionKey<{
   multipleFormProps: MultipleFormProps
   ns: ReturnType<typeof useNamespace>
   slots: Readonly<Slots>
-  visibleColumns: ComputedRef<MultipleFormColumn[]>
+  visibleColumns: ComputedRef<MultipleFormColumn[] | undefined>
   columnRules: ComputedRef<Record<string, Partial<MultipleFormRules>>>
   errorTip: ShallowReactive<Record<string, any>>
   handleCreate: (index: number) => void

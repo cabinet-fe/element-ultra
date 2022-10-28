@@ -11,10 +11,11 @@ interface Options {
   emit: MultipleFormEmits
   targetIndex: ShallowRef<number>
   rows: ShallowRef<any[]>
+  emitData: () => void
 }
 
 export default function useInline(options: Options) {
-  const { props, emit, rows, targetIndex } = options
+  const { props, emit, rows, targetIndex, emitData } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -226,8 +227,7 @@ export default function useInline(options: Options) {
     delete item['__new__']
     resetTargetIndex()
     emit('save', item, rows.value)
-    emit('change', rows.value)
-    emit('update:data', rows.value)
+    emitData()
   }
 
   /** 删除 */
@@ -241,8 +241,7 @@ export default function useInline(options: Options) {
       targetIndex.value--
     }
     emit('delete', item)
-    emit('change', rows.value)
-    emit('update:data', rows.value)
+    emitData()
   }
 
   /** 进入编辑状态 */

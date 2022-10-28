@@ -80,7 +80,8 @@ import {
   shallowRef,
   nextTick,
   shallowReactive,
-  provide
+  provide,
+  isReactive
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './multiple-form'
@@ -100,11 +101,22 @@ defineOptions({
 const props = defineProps(multipleFormProps)
 const emit = defineEmits(multipleFormEmits)
 
+const rows = computed(() => {
+  return (
+    props.data?.map(item =>
+      isReactive(item) ? item : shallowReactive(item)
+    ) || []
+  )
+})
+
+const emitData = () => {
+  emit('change', rows.value)
+  emit('update:data', rows.value)
+}
+
 const ns = useNamespace('multiple-form')
 
 let targetIndex = shallowRef(-1)
-
-const rows = shallowRef<any[]>([])
 
 const slots = useSlots()
 
@@ -117,7 +129,8 @@ const visibleColumns = computed(() => {
 const { form, rules, dialog, open, submit } = useDialogEdit({
   props,
   rows,
-  emit
+  emit,
+  emitData
 })
 
 const {
@@ -133,21 +146,13 @@ const {
   handleEnterEdit,
   handleExitEdit,
   handleMouseEnter
-} = useInline({ props, emit, targetIndex, rows })
+} = useInline({ props, emit, targetIndex, rows, emitData })
 
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0
   const toolsHeight = slots.tools ? 40 : 0
   return props.height ? `calc(100% - ${titleHeight + toolsHeight}px)` : ''
 })
-
-// 可响应式
-const initRows = () => {
-  rows.value = props.data!.map(item => shallowReactive(item))
-}
-
-// 回显
-watch(() => props.data, initRows, { immediate: true })
 
 watch(
   () => props.mode,
