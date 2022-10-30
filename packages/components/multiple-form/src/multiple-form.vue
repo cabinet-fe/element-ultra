@@ -23,6 +23,7 @@
             v-for="(row, i) of rows"
             ref="rowRefs"
             :row="row"
+            :key="rowKey ? row[rowKey] : undefined"
             :row-index="i"
             :class="ns.is('guide', showGuide && i === targetIndex)"
             :show-inline="mode === 'inline' && i === targetIndex"
