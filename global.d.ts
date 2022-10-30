@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     ElCollapseTransition: typeof import('element-ultra')['ElCollapseTransition']
     ElColorPicker: typeof import('element-ultra')['ElColorPicker']
     ElContainer: typeof import('element-ultra')['ElContainer']
+    ElDataTable: typeof import('element-ultra')['ElDataTable']
     ElDatePicker: typeof import('element-ultra')['ElDatePicker']
     ElDialog: typeof import('element-ultra')['ElDialog']
     ElDivider: typeof import('element-ultra')['ElDivider']
