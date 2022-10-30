@@ -11,11 +11,10 @@ interface Options {
   emit: MultipleFormEmits
   targetIndex: ShallowRef<number>
   rows: ShallowRef<any[]>
-  emitData: () => void
 }
 
 export default function useInline(options: Options) {
-  const { props, emit, rows, targetIndex, emitData } = options
+  const { props, emit, rows, targetIndex } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -36,7 +35,7 @@ export default function useInline(options: Options) {
   /** 行引用 */
   const rowRefs = shallowRef<InstanceType<typeof MultipleFormRow>[]>([])
 
-  /** 创建一个空行 */
+  /** 创建一个响应式空行 */
   const createInlineRow = () => {
     let row = shallowReactive(
       (props.columns ?? []).reduce(
@@ -227,12 +226,14 @@ export default function useInline(options: Options) {
     delete item['__new__']
     resetTargetIndex()
     emit('save', item, rows.value)
-    emitData()
   }
 
   /** 删除 */
   const handleDeleteRow = (item: any, index: number) => {
+    // 删除掉一行
     splitRowByIndex(index)
+
+    // 如果删除的恰好是正在编辑的行需要重置
     if (index === targetIndex.value) {
       resetTargetIndex()
     }
@@ -241,7 +242,6 @@ export default function useInline(options: Options) {
       targetIndex.value--
     }
     emit('delete', item)
-    emitData()
   }
 
   /** 进入编辑状态 */

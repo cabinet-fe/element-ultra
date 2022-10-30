@@ -79,9 +79,9 @@ import {
   watch,
   shallowRef,
   nextTick,
-  shallowReactive,
   provide,
-  isReactive
+  isReactive,
+reactive
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './multiple-form'
@@ -101,18 +101,19 @@ defineOptions({
 const props = defineProps(multipleFormProps)
 const emit = defineEmits(multipleFormEmits)
 
-const rows = computed(() => {
-  return (
-    props.data?.map(item =>
-      isReactive(item) ? item : shallowReactive(item)
-    ) || []
-  )
+const rows = computed({
+  get() {
+    return (
+      props.data?.map(item =>
+        isReactive(item) ? item : reactive(item)
+      ) || []
+    )
+  },
+  set(rows) {
+    emit('change', rows)
+    emit('update:data', rows)
+  }
 })
-
-const emitData = () => {
-  emit('change', rows.value)
-  emit('update:data', rows.value)
-}
 
 const ns = useNamespace('multiple-form')
 
@@ -129,8 +130,7 @@ const visibleColumns = computed(() => {
 const { form, rules, dialog, open, submit } = useDialogEdit({
   props,
   rows,
-  emit,
-  emitData
+  emit
 })
 
 const {
@@ -146,7 +146,7 @@ const {
   handleEnterEdit,
   handleExitEdit,
   handleMouseEnter
-} = useInline({ props, emit, targetIndex, rows, emitData })
+} = useInline({ props, emit, targetIndex, rows })
 
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0

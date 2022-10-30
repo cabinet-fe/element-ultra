@@ -98,9 +98,6 @@ let data = $shallowRef<any[]>([
   { name: '6216616101002312625', age: 18, school: '15962245908', test: { test1: 'a', test2: 'b' } }
 ])
 
-/** 保存 */
-const onSave = (row: any) => {}
-
 
 /** 增加下一行 */
 const addNextLine = (row: any) => {}
