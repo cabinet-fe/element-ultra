@@ -82,7 +82,7 @@ import {
   nextTick,
   provide,
   isReactive,
-reactive
+  reactive
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './multiple-form'
@@ -105,9 +105,7 @@ const emit = defineEmits(multipleFormEmits)
 const rows = computed({
   get() {
     return (
-      props.data?.map(item =>
-        isReactive(item) ? item : reactive(item)
-      ) || []
+      props.data?.map(item => (isReactive(item) ? item : reactive(item))) || []
     )
   },
   set(rows) {
