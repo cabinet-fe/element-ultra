@@ -159,7 +159,7 @@ watch(
 )
 
 /** 创建 */
-const handleCreate = (index: number) => {
+const handleCreate = (index: number, data?: Record<string, any>) => {
   const { mode } = props
 
   if (mode === 'inline') {
@@ -168,8 +168,7 @@ const handleCreate = (index: number) => {
       return
     }
     targetIndex.value = index
-    splitRowByIndex(index, createInlineRow())
-    createInlineRow()
+    splitRowByIndex(index, createInlineRow(data))
     nextTick(() => {
       rowRefs.value[index]?.el?.scrollIntoView({
         block: 'nearest'
@@ -205,6 +204,24 @@ defineExpose({
   clearValidate,
   create: () => {
     handleCreate(rows.value.length)
+  },
+  createTo: (
+    index: number,
+    cb: Record<string, any> | (() => Promise<Record<string, any>> | Record<string, any>)
+  ) => {
+    if (typeof cb === 'function') {
+      let result = cb()
+      if (result instanceof Promise) {
+        result.then(data => {
+          handleCreate(index, data)
+        })
+      } else {
+        handleCreate(index, result)
+      }
+    } else {
+
+      handleCreate(index, cb)
+    }
   }
 })
 </script>

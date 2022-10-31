@@ -36,11 +36,13 @@ export default function useInline(options: Options) {
   const rowRefs = shallowRef<InstanceType<typeof MultipleFormRow>[]>([])
 
   /** 创建一个响应式空行 */
-  const createInlineRow = () => {
+  const createInlineRow = (data?: Record<string, any>) => {
     let row = shallowReactive(
       (props.columns ?? []).reduce(
         (acc, cur) => {
-          if (cur.defaultValue instanceof Function) {
+          if (data?.[cur.key]) {
+            acc[cur.key] = data?.[cur.key]
+          } else if (cur.defaultValue instanceof Function) {
             let v = cur.defaultValue()
             if (v instanceof Promise) {
               v.then(result => (row[cur.key] = result))

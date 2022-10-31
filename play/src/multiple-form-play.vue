@@ -10,6 +10,7 @@
     title="标题"
     height="400px"
     v-model:data="data"
+    ref="refer"
   >
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
@@ -44,12 +45,12 @@
       <el-input label="测试2" field="test.test2" />
     </template>
   </el-multiple-form>
-
   {{data}}
 </template>
 
 <script lang="ts" setup>
 import type { MultipleFormColumn } from 'element-ultra'
+import { shallowRef } from 'vue'
 
 const mode = $shallowRef<'inline' | 'dialog'>('inline')
 
@@ -98,7 +99,11 @@ let data = $shallowRef<any[]>([
   { name: '6216616101002312625', age: 18, school: '15962245908', test: { test1: 'a', test2: 'b' } }
 ])
 
-
+const refer = shallowRef()
 /** 增加下一行 */
-const addNextLine = (row: any) => {}
+const addNextLine = (row: any) => {
+  refer.value?.createTo(0, (wrap) => {
+    return wrap({ name: '123', age: ~~(50 * Math.random()) })
+  })
+}
 </script>
