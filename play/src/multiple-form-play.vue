@@ -102,8 +102,6 @@ let data = $shallowRef<any[]>([
 const refer = shallowRef()
 /** 增加下一行 */
 const addNextLine = (row: any) => {
-  refer.value?.createTo(0, (wrap) => {
-    return wrap({ name: '123', age: ~~(50 * Math.random()) })
-  })
+  refer.value?.createTo(0, { name: '123', age: ~~(50 * Math.random()) })
 }
 </script>
