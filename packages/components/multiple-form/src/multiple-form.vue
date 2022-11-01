@@ -207,19 +207,18 @@ defineExpose({
   },
   createTo: (
     index: number,
-    cb: Record<string, any> | (() => Promise<Record<string, any>> | Record<string, any>)
+    cb:
+      | Record<string, any>
+      | (() => Promise<Record<string, any>> | Record<string, any>)
   ) => {
     if (typeof cb === 'function') {
       let result = cb()
       if (result instanceof Promise) {
-        result.then(data => {
-          handleCreate(index, data)
-        })
+        result.then(data => handleCreate(index, data))
       } else {
         handleCreate(index, result)
       }
     } else {
-
       handleCreate(index, cb)
     }
   }

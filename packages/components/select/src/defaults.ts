@@ -83,8 +83,7 @@ export const SelectProps = {
   },
   options: {
     type: Array as PropType<Record<string, any>[]>,
-    default: () => [],
-    required: true
+    default: () => []
   },
   placeholder: {
     type: String,
