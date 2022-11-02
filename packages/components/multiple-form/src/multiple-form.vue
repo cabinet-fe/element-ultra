@@ -102,16 +102,16 @@ defineOptions({
 const props = defineProps(multipleFormProps)
 const emit = defineEmits(multipleFormEmits)
 
-const rows = computed({
-  get() {
-    return (
-      props.data?.map(item => (isReactive(item) ? item : reactive(item))) || []
-    )
-  },
-  set(rows) {
-    emit('change', rows)
-    emit('update:data', rows)
-  }
+const rows = shallowRef<any[]>([])
+
+watch(() => props.data, (data) => {
+  if (data === rows.value) return
+  rows.value = (data || []).map(item => (isReactive(item) ? item : reactive(item)))
+}, { immediate: true })
+
+watch(() => rows.value, rows => {
+  emit('change', rows)
+  emit('update:data', rows)
 })
 
 const ns = useNamespace('multiple-form')
