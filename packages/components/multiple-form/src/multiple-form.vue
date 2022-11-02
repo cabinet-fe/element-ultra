@@ -104,15 +104,21 @@ const emit = defineEmits(multipleFormEmits)
 
 const rows = shallowRef<any[]>([])
 
-watch(() => props.data, (data) => {
-  if (data === rows.value) return
-  rows.value = (data || []).map(item => (isReactive(item) ? item : reactive(item)))
-}, { immediate: true })
+watch(
+  () => props.data,
+  data => {
+    if (data === rows.value) return
+    rows.value = (data || []).map(item =>
+      isReactive(item) ? item : reactive(item)
+    )
+  },
+  { immediate: true }
+)
 
-watch(() => rows.value, rows => {
-  emit('change', rows)
-  emit('update:data', rows)
-})
+const emitChange = () => {
+  emit('change', rows.value)
+  emit('update:data', rows.value)
+}
 
 const ns = useNamespace('multiple-form')
 
@@ -129,7 +135,8 @@ const visibleColumns = computed(() => {
 const { form, rules, dialog, open, submit } = useDialogEdit({
   props,
   rows,
-  emit
+  emit,
+  emitChange
 })
 
 const {
@@ -145,7 +152,7 @@ const {
   handleEnterEdit,
   handleExitEdit,
   handleMouseEnter
-} = useInline({ props, emit, targetIndex, rows })
+} = useInline({ props, emit, targetIndex, rows, emitChange })
 
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0

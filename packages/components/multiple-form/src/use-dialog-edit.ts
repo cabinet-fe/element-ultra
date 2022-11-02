@@ -17,6 +17,7 @@ interface Options {
   rows: ShallowRef<any[]>
   /** 触发事件 */
   emit: MultipleFormEmits
+  emitChange: () => void
 }
 
 export default function useDialogEdit(options: Options) {
@@ -77,6 +78,7 @@ export default function useDialogEdit(options: Options) {
       ]
     }
     emit('save', data, rows.value)
+    options.emitChange()
   }
 
   return {

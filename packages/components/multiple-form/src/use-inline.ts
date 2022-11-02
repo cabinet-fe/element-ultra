@@ -11,6 +11,7 @@ interface Options {
   emit: MultipleFormEmits
   targetIndex: ShallowRef<number>
   rows: ShallowRef<any[]>
+  emitChange: () => void
 }
 
 export default function useInline(options: Options) {
@@ -219,6 +220,8 @@ export default function useInline(options: Options) {
         ...rows.value.slice(index + 1)
       ]
     }
+
+    options.emitChange()
   }
 
   /** 保存行 */
