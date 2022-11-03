@@ -73,6 +73,7 @@ const handleScroll = (s: any) => {
 }
 
 const handleResize = (ctx: { wrap: Element, view: Element }) => {
+
   const { wrap, view } = ctx
   scrollLeft.value = wrap.scrollLeft
   scrollWidth.value = view.scrollWidth

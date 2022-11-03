@@ -15,9 +15,7 @@
       }"
     >
       <slot name="prepend" />
-
       <slot :list="renderedRange" :style="itemStyle" />
-
       <slot name="append" />
     </component>
   </ElScrollbar>
@@ -145,32 +143,17 @@ watch(
 let scroll = debounce((s: ScrollCtx) => {
   position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
   position.value < 0 && (position.value = 0)
-}, 20)
+},0)
 
-/** 用来cancelIdleCallback */
-let idleId: number
-/** 空闲时滚动, 防止cpu阻止渲染 */
-const handleScrollWhenIdle = (s: ScrollCtx) => {
-  emit('scroll', s)
 
-  // 计算当前渲染位置
-  cancelIdleCallback(idleId)
-  idleId = requestIdleCallback(() => {
-    scroll(s)
-  })
-}
 
 /** 正常滚动 */
-const handleScrollNormal = (s: ScrollCtx) => {
+const handleScroll = (s: ScrollCtx) => {
   requestAnimationFrame(() => {
     emit('scroll', s)
     scroll(s)
   })
 }
-const handleScroll = computed(() => {
-  return props.idle ? handleScrollWhenIdle : handleScrollNormal
-})
-
 const containerRef = shallowRef<InstanceType<typeof ElScrollbar>>()
 
 watch(
@@ -180,7 +163,7 @@ watch(
     const { scrollHeight, scrollTop, scrollLeft, scrollWidth } =
       containerRef.value?.wrap$
     scrollTop &&
-      handleScroll.value({
+      handleScroll({
         scrollTop,
         scrollLeft,
         scrollHeight,

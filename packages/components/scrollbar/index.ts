@@ -1,6 +1,6 @@
 import { withInstall } from '@element-ultra/utils'
 
-import Scrollbar from './src/scrollbar.vue'
+import Scrollbar from './src/scrollbar-new.vue'
 
 export const ElScrollbar = withInstall(Scrollbar)
 export default ElScrollbar

@@ -150,6 +150,8 @@ const update = () => {
   const moveY = ((_scrollTop * 100) / offsetHeight) * ratioY
   const moveX = ((_scrollLeft * 100) / offsetWidth) * ratioX
 
+
+
   barRef.value?.updateStyle({
     moveX,
     moveY,

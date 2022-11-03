@@ -1,6 +1,7 @@
 <template>
  <el-scrollbar style="height: 100%; width: 400px; border: 1px solid #ccc;">
-  <div>
+
+  <div style="width: 500px">
     <p>111</p>
     <p>111</p>
     <p>111</p>
