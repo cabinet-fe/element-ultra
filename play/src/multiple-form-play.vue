@@ -4,7 +4,10 @@
     <el-radio value="dialog">弹框</el-radio>
   </el-radio-group>
 
-  <el-multiple-form
+  <el-button @click="visible = true">设置</el-button>
+
+  <el-dialog v-model="visible">
+    <el-multiple-form
     :mode="mode"
     :columns="columns"
     title="标题"
@@ -45,6 +48,7 @@
       <el-input label="测试2" field="test.test2" />
     </template>
   </el-multiple-form>
+  </el-dialog>
   {{data}}
 </template>
 
@@ -52,7 +56,7 @@
 import type { MultipleFormColumn } from 'element-ultra'
 import { shallowRef } from 'vue'
 
-const mode = $shallowRef<'inline' | 'dialog'>('inline')
+const mode = $shallowRef<'inline' | 'dialog'>('dialog')
 
 const columns: MultipleFormColumn[] = [
   {
@@ -95,8 +99,10 @@ const columns: MultipleFormColumn[] = [
   }
 ]
 
+let visible = shallowRef(false)
+
 let data = $shallowRef<any[]>([
-  { name: '6216616101002312625', age: 18, school: '15962245908', test: { test1: 'a', test2: 'b' } }
+
 ])
 
 const refer = shallowRef()

@@ -40,8 +40,6 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
 
-// TODO这里form的类型最终需要还原
-// TODO 要把一些代码抽成useFormDialog
 const forms = new Set<any>()
 
 const addForm = (form: any) => {

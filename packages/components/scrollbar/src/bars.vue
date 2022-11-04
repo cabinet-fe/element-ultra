@@ -1,13 +1,13 @@
 <template>
   <!-- 水平滚动条 -->
-  <div v-if="visibleX" class="sb-bar sb-bar-x" ref="barXRef"></div>
+  <div v-show="visibleX" class="sb-bar sb-bar-x" ref="barXRef"></div>
 
   <!-- 垂直滚动条 -->
-  <div v-if="visibleY" class="sb-bar sb-bar-y" ref="barYRef"></div>
+  <div v-show="visibleY" class="sb-bar sb-bar-y" ref="barYRef"></div>
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onBeforeUnmount, reactive, shallowRef, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, reactive, shallowRef, watch } from 'vue'
 
 const visibleX = shallowRef(false)
 const visibleY = shallowRef(false)
@@ -33,6 +33,7 @@ const updateX = (s: typeof barX) => {
   style.transform = `translateX(${s.left}px)`
   return true
 }
+
 const updateY = (s: typeof barY) => {
   const style = barYRef.value?.style
   if (!style) return false
@@ -78,15 +79,29 @@ function updateVisible(v: Visible) {
 }
 
 const draggable = (dom: HTMLDivElement) => {
+  let originX = 0
+  let originY = 0
+
+  let disX = 0
+  let disY = 0
 
   const handleMousemove = (e: MouseEvent) => {
-
+    disX = e.x - originX
+    disY = e.y - originY
+    console.log(disY, disX)
   }
+
   const handleMouseup = (e: MouseEvent) => {
     document.removeEventListener('mousemove', handleMousemove)
     document.removeEventListener('mouseup', handleMouseup)
   }
+
   const handleMousedown = (e: MouseEvent) => {
+    originX = e.x
+    originY = e.y
+
+    e.stopPropagation()
+
     document.addEventListener('mousemove', handleMousemove)
     document.addEventListener('mouseup', handleMouseup)
   }
@@ -97,6 +112,10 @@ const draggable = (dom: HTMLDivElement) => {
     dom.removeEventListener('mousedown', handleMousedown)
   })
 }
+
+onMounted(() => {
+  barYRef.value && draggable(barYRef.value)
+})
 
 defineExpose({
   update,

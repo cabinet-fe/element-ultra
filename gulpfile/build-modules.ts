@@ -23,6 +23,7 @@ export default async function buildModules() {
     })
   ).filter(item => !excludeRE.test(item))
 
+
   const bundle = await rollup({
     input,
     plugins: [
@@ -31,7 +32,7 @@ export default async function buildModules() {
       vue({
         isProduction: false
       }),
-      vueJsx(),
+      vueJsx() as any,
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts']
       }),

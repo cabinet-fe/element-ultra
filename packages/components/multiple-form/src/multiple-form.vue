@@ -104,6 +104,11 @@ const emit = defineEmits(multipleFormEmits)
 
 const rows = shallowRef<any[]>([])
 
+const emitChange = () => {
+  emit('change', rows.value)
+  emit('update:data', rows.value)
+}
+
 watch(
   () => props.data,
   data => {
@@ -115,10 +120,7 @@ watch(
   { immediate: true }
 )
 
-const emitChange = () => {
-  emit('change', rows.value)
-  emit('update:data', rows.value)
-}
+
 
 const ns = useNamespace('multiple-form')
 

@@ -11,7 +11,10 @@
 <script lang="ts" setup>
 import { onMounted, shallowRef } from 'vue'
 import Bars from './bars.vue'
-defineProps({})
+
+defineProps({
+
+})
 
 const contentRef = shallowRef<HTMLElement>()
 const barsRef = shallowRef<InstanceType<typeof Bars>>()
@@ -91,6 +94,7 @@ onMounted(() => {
   background-color: #ccc;
   border-radius: 3px;
   will-change: transform;
+  cursor: pointer;
 }
 
 .sb-bar-y {

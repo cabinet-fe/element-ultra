@@ -58,7 +58,7 @@ export default function useDialogEdit(options: Options) {
 
   const [form, rules] = useFormModel(model)
 
-  const [dialog, open] = useFormDialog(form) as any
+  const [dialog, open] = useFormDialog(form)
 
   const submit = () => {
     const { ctx } = dialog
