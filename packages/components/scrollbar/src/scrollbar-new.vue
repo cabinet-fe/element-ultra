@@ -1,23 +1,48 @@
 <template>
   <div class="sb-wrap">
-    <div class="sb-content" ref="contentRef" @scroll.passive="update">
-      <slot />
+    <!-- 滚动容器 -->
+    <div
+      class="sb-content"
+      ref="contentRef"
+      @scroll.passive="update"
+      :style="{
+        maxHeight,
+        height: maxHeight ? undefined : '100%'
+      }"
+    >
+      <component :is="tag" ref="resizeRef">
+        <slot />
+      </component>
     </div>
 
-    <Bars ref="barsRef" />
+    <!-- 滚动条 -->
+    <Bars ref="barsRef" @scroll-to="scrollTo" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, shallowRef } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
+import { onMounted, onUnmounted, shallowRef } from 'vue'
 import Bars from './bars.vue'
 
 defineProps({
+  tag: {
+    type: String,
+    default: 'div'
+  },
 
+  maxHeight: {
+    type: String
+  }
 })
 
-const contentRef = shallowRef<HTMLElement>()
 const barsRef = shallowRef<InstanceType<typeof Bars>>()
+const contentRef = shallowRef<HTMLElement>()
+const resizeRef = shallowRef<HTMLElement>()
+
+const scrollTo = (ctx: { left?: number; top?: number }) => {
+  contentRef.value?.scrollTo(ctx)
+}
 
 const update = () => {
   let dom = contentRef.value
@@ -43,12 +68,12 @@ const update = () => {
 
   if (visibleX) {
     barXWidth = offsetWidth ** 2 / scrollWidth
-    barXLeft = (scrollLeft * barXWidth) / offsetWidth
+    barXLeft = (barXWidth * scrollLeft) / offsetWidth
   }
 
   if (visibleY) {
     barYHeight = offsetHeight ** 2 / scrollHeight
-    barYTop = (scrollTop * barYHeight) / offsetHeight
+    barYTop = (barYHeight * scrollTop) / offsetHeight
   }
 
   // 样式
@@ -56,10 +81,12 @@ const update = () => {
     // 水平bar
     width: barXWidth,
     left: barXLeft,
+    containerWidth: offsetWidth,
 
     // 垂直bar
     height: barYHeight,
-    top: barYTop
+    top: barYTop,
+    containerHeight: offsetHeight
   })
 
   // 显隐
@@ -69,14 +96,22 @@ const update = () => {
   })
 }
 
+// 需要监听滚动容器和视图容器的size变化重新更新滚动条样式
+const contentResizeObserver = useResizeObserver(contentRef, update)
+const resizeObserver = useResizeObserver(resizeRef, update)
+
 onMounted(() => {
   update()
+})
+
+onUnmounted(() => {
+  contentResizeObserver.stop()
+  resizeObserver.stop()
 })
 </script>
 
 <style>
 .sb-content {
-  height: 100%;
   overflow: auto;
 }
 
@@ -85,17 +120,22 @@ onMounted(() => {
 }
 
 .sb-wrap {
-  height: 100%;
   position: relative;
+  overflow: auto;
 }
 
 .sb-bar {
   position: absolute;
-  background-color: #ccc;
+  background-color: rgba(200, 200, 200, 0.3);
   border-radius: 3px;
   will-change: transform;
   cursor: pointer;
 }
+
+.sb-bar:hover {
+  background-color: #ccc;
+}
+
 
 .sb-bar-y {
   right: 0;
