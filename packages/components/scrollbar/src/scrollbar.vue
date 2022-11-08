@@ -1,227 +1,136 @@
 <template>
-  <div ref="scrollbar$" :class="ns.b()">
+  <div :class="ns.b()">
+    <!-- 滚动容器 start -->
     <div
-      ref="wrap$"
-      :class="[
-        wrapClass,
-        ns.e('wrap'),
-        { [ns.em('wrap', 'hidden-default')]: !native }
-      ]"
-      :style="style"
+      ref="wrapRef"
+      :class="scrollbarWrapClass"
+      :style="scrollbarWrapStyle"
       @scroll.passive="handleScroll"
     >
-      <component
-        :is="tag"
-        ref="resize$"
-        :class="[ns.e('view'), viewClass]"
-        :style="viewStyle"
-      >
+      <!-- 视图容器 start -->
+      <component :style="viewStyle" :class="viewClass" :is="tag" ref="viewRef">
         <slot />
       </component>
+      <!-- 视图容器 end -->
     </div>
-    <template v-if="!native">
-      <Bar ref="barRef" :always="always" />
-    </template>
+    <!-- 滚动容器 end -->
+
+    <!-- 滚动条 -->
+    <Bars ref="barsRef" @scroll-to="scrollTo" />
   </div>
 </template>
+
 <script lang="ts" setup>
+import { useNamespace } from '@element-ultra/hooks'
+import { useResizeObserver } from '@vueuse/core'
 import {
   computed,
-  nextTick,
+  CSSProperties,
   onMounted,
   onUnmounted,
-  provide,
-  shallowRef,
-  watch
+  shallowRef
 } from 'vue'
-import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { addUnit, debugWarn, isNumber, isObject } from '@element-ultra/utils'
-import { scrollbarContextKey } from '@element-ultra/tokens'
-import { useNamespace } from '@element-ultra/hooks'
-import { GAP } from './util'
-import Bar from './bar.vue'
-import { scrollbarEmits, scrollbarProps } from './scrollbar'
-import type { BarInstance } from './bar'
-import type { CSSProperties, StyleValue } from 'vue'
-
-defineOptions({
-  name: 'ElScrollbar'
-})
+import { scrollbarProps, scrollbarEmits } from './scrollbar'
+import useScroll from './use-scroll'
+import Bars from './bars.vue'
 
 const props = defineProps(scrollbarProps)
+
 const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
 
-let stopResizeObserver: (() => void) | undefined = undefined
-let stopResizeListener: (() => void) | undefined = undefined
+const barsRef = shallowRef<InstanceType<typeof Bars>>()
+const wrapRef = shallowRef<HTMLElement>()
+const viewRef = shallowRef<HTMLElement>()
 
-const scrollbar$ = shallowRef<HTMLDivElement>()
-const wrap$ = shallowRef<HTMLDivElement>()
-const resize$ = shallowRef<HTMLElement>()
-
-const barRef = shallowRef<BarInstance>()
-
-const SCOPE = 'ElScrollbar'
-
-/** 容器高度 */
-const wrapHeight = shallowRef(0)
-/** 容器宽度 */
-const wrapWidth = shallowRef(0)
-
-const { stop } = useResizeObserver(wrap$, ([entry]) => {
-  wrapHeight.value = wrap$.value!.offsetHeight
-  wrapWidth.value = wrap$.value!.offsetWidth
-})
-onUnmounted(() => {
-  stop()
+const scrollbarWrapClass = computed(() => {
+  return [ns.e('wrap'), props.wrapClass]
 })
 
-const style = computed<StyleValue>(() => {
+const scrollbarWrapStyle = computed(() => {
   const style: CSSProperties = {}
-  if (props.height) style.height = addUnit(props.height)
-  if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)
-  return [props.wrapStyle, style]
+  if (props.maxHeight) {
+    style.maxHeight = props.maxHeight
+  } else {
+    style.height = '100%'
+  }
+
+  Object.assign(style, props.wrapStyle)
+
+  return style
 })
 
-let _scrollTop = 0,
-  _scrollLeft = 0
-
-const updateScrollState = (scrollTop: number, scrollLeft: number) => {
-  _scrollTop = scrollTop
-  _scrollLeft = scrollLeft
+const scrollTo = (ctx: { left?: number; top?: number }) => {
+  wrapRef.value?.scrollTo(ctx)
 }
 
-const handleScroll = (event: UIEvent) => {
-  const { scrollTop, scrollLeft, scrollHeight, scrollWidth } =
-    event.target as HTMLElement
-  updateScrollState(scrollTop, scrollLeft)
-  update()
-  emit('scroll', { scrollTop, scrollLeft, scrollHeight, scrollWidth })
-}
+const updateBar = useScroll({
+  wrapper: wrapRef
+})
 
-// TODO: refactor method overrides, due to script setup dts
-// @ts-nocheck
-function scrollTo(xCord: number, yCord?: number): void
-function scrollTo(options: ScrollToOptions): void
-function scrollTo(arg1: unknown, arg2?: number) {
-  if (isObject(arg1)) {
-    wrap$.value!.scrollTo(arg1)
-  } else if (isNumber(arg1) && isNumber(arg2)) {
-    wrap$.value!.scrollTo(arg1, arg2)
-  }
-}
-
-const setScrollTop = (value: number) => {
-  if (!isNumber(value)) {
-    debugWarn(SCOPE, 'value must be a number')
-    return
-  }
-  wrap$.value!.scrollTop = value
-}
-
-const setScrollLeft = (value: number) => {
-  if (!isNumber(value)) {
-    debugWarn(SCOPE, 'value must be a number')
-    return
-  }
-  wrap$.value!.scrollLeft = value
-}
-
-const update = () => {
-  const offsetHeight = wrapHeight.value - GAP // wrap$.value.offsetHeight - GAP
-  const offsetWidth = wrapWidth.value - GAP // wrap$.value.offsetWidth - GAP
-
-  const originalHeight = offsetHeight ** 2 / wrap$.value!.scrollHeight
-  const originalWidth = offsetWidth ** 2 / wrap$.value!.scrollWidth
-  const height = Math.max(originalHeight, props.minSize)
-  const width = Math.max(originalWidth, props.minSize)
-
-  const ratioY =
-    originalHeight /
-    (offsetHeight - originalHeight) /
-    (height / (offsetHeight - height))
-
-  const ratioX =
-    originalWidth /
-    (offsetWidth - originalWidth) /
-    (width / (offsetWidth - width))
-
-  const moveY = ((_scrollTop * 100) / offsetHeight) * ratioY
-  const moveX = ((_scrollLeft * 100) / offsetWidth) * ratioX
-
-
-
-  barRef.value?.updateStyle({
-    moveX,
-    moveY,
-    width: width + GAP < offsetWidth ? `${width}px` : '',
-    height: height + GAP < offsetHeight ? `${height}px` : '',
-    ratioX,
-    ratioY
+const handleScroll = () => {
+  updateBar(state => {
+    emit('scroll', state.wrapState)
+    barsRef.value?.update(state)
   })
 }
 
-watch(
-  () => props.noresize,
-  noresize => {
-    if (noresize) {
-      stopResizeObserver?.()
-      stopResizeListener?.()
-    } else {
-      ;({ stop: stopResizeObserver } = useResizeObserver(resize$, ([entry]) => {
-
-        emit('resize', {
-          view: entry.target,
-          wrap: wrap$.value!
-        })
-        update()
-      }))
-      stopResizeListener = useEventListener('resize', update)
-    }
-  },
-  { immediate: true }
-)
-
-watch(
-  [
-    () => props.maxHeight,
-    () => props.height,
-    () => wrapHeight.value,
-    () => wrapWidth.value
-  ],
-
-  () => {
-    if (!props.native)
-      nextTick(() => {
-        update()
-      })
-  }
-)
-
-provide(scrollbarContextKey, {
-  scrollbarElement: scrollbar$,
-  wrapElement: wrap$
-})
+// 需要监听滚动容器和视图容器的size变化重新更新滚动条样式
+const contentResizeObserver = useResizeObserver(wrapRef, handleScroll)
+const resizeObserver = useResizeObserver(viewRef, handleScroll)
 
 onMounted(() => {
-  if (!props.native) nextTick(() => update())
+  handleScroll()
+})
+
+onUnmounted(() => {
+  contentResizeObserver.stop()
+  resizeObserver.stop()
 })
 
 defineExpose({
-  /** @description scrollbar wrap ref */
-  wrap$,
-  /** @description scrollbar wrap resize$ */
-  resize$,
-  /** @description update scrollbar state manually */
-  update,
-  /** @description scrolls to a particular set of coordinates */
   scrollTo,
-  /** @description set distance to scroll top */
-  setScrollTop,
-  /** @description set distance to scroll left */
-  setScrollLeft,
-  /** @description handle scroll event */
-  handleScroll
+  wrapRef,
+  viewRef
 })
 </script>
+
+<style>
+.sb-content {
+  overflow: auto;
+}
+
+.sb-content::-webkit-scrollbar {
+  display: none;
+}
+
+.sb-wrap {
+  position: relative;
+  overflow: auto;
+}
+
+.sb-bar {
+  position: absolute;
+  background-color: rgba(200, 200, 200, 0.3);
+  border-radius: 3px;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.sb-bar:hover {
+  background-color: #ccc;
+}
+
+.sb-bar-y {
+  right: 0;
+  top: 0;
+  width: 6px;
+}
+
+.sb-bar-x {
+  bottom: 0;
+  left: 0;
+  height: 6px;
+}
+</style>

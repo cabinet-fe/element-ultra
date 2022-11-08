@@ -10,7 +10,7 @@
     @resize="handleResize"
     :idle="rootProps.idle"
   >
-    <!-- 组 -->
+    <!-- 表格组 -->
     <template #prepend>
       <colgroup :class="ns.e('body-group')">
         <template v-for="item in leafColumns">

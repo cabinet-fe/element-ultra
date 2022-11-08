@@ -11,8 +11,30 @@ import {
   unref,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { BAR_MAP } from '@element-ultra/components/scrollbar'
 import { on, off, rAF, cAF } from '@element-ultra/utils'
+
+const BAR_MAP = {
+  vertical: {
+    offset: 'offsetHeight',
+    scroll: 'scrollTop',
+    scrollSize: 'scrollHeight',
+    size: 'height',
+    key: 'vertical',
+    axis: 'Y',
+    client: 'clientY',
+    direction: 'top',
+  },
+  horizontal: {
+    offset: 'offsetWidth',
+    scroll: 'scrollLeft',
+    scrollSize: 'scrollWidth',
+    size: 'width',
+    key: 'horizontal',
+    axis: 'X',
+    client: 'clientX',
+    direction: 'left',
+  },
+} as const
 
 import { SCROLLBAR_MIN_SIZE, HORIZONTAL, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'

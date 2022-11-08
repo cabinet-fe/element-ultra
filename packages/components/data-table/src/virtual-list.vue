@@ -6,14 +6,7 @@
     :style="{ height }"
     :view-style="listStyle"
   >
-    <component
-      :is="tag"
-      v-bind="$attrs"
-      ref="wrapRef"
-      :style="{
-        'will-change': 'transform'
-      }"
-    >
+    <component :is="tag" v-bind="$attrs" ref="wrapRef">
       <slot name="prepend" />
       <slot :list="renderedRange" :style="itemStyle" />
       <slot name="append" />
@@ -145,8 +138,6 @@ let scroll = debounce((s: ScrollCtx) => {
   position.value < 0 && (position.value = 0)
 }, 20)
 
-
-
 /** 正常滚动 */
 const handleScroll = (s: ScrollCtx) => {
   requestAnimationFrame(() => {
@@ -159,9 +150,9 @@ const containerRef = shallowRef<InstanceType<typeof ElScrollbar>>()
 watch(
   () => props.itemSize,
   () => {
-    if (!containerRef.value?.wrap$) return
+    if (!containerRef.value?.wrapRef) return
     const { scrollHeight, scrollTop, scrollLeft, scrollWidth } =
-      containerRef.value?.wrap$
+      containerRef.value?.wrapRef
     scrollTop &&
       handleScroll({
         scrollTop,
@@ -174,7 +165,7 @@ watch(
 
 let stop: () => void
 onMounted(() => {
-  stop = useResizeObserver(containerRef.value?.wrap$, ([entry]) => {
+  stop = useResizeObserver(containerRef.value?.wrapRef, ([entry]) => {
     const { height } = entry.contentRect
     containerHeight.value = height
   }).stop

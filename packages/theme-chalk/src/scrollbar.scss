@@ -5,82 +5,41 @@
 @use 'common/var' as *;
 
 @include b(scrollbar) {
-  @include set-component-css-var('scrollbar', $scrollbar);
-}
-
-@include b(scrollbar) {
-  overflow: hidden;
+  overflow: auto;
   position: relative;
-  height: 100%;
 
   @include e(wrap) {
     overflow: auto;
-    height: 100%;
+    scrollbar-width: none;
 
-    @include m(hidden-default) {
-      scrollbar-width: none;
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 
   @include e(view) {
-
   }
 
   @include e(thumb) {
-    position: relative;
-    display: block;
-    width: 0;
-    height: 0;
-    cursor: pointer;
-    border-radius: inherit;
-    background-color: var(
-      #{getCssVarName('scrollbar-bg-color')},
-      map.get($scrollbar, 'bg-color')
-    );
-    transition: getCssVar('transition-duration') background-color;
-    opacity: var(
-      #{getCssVarName('scrollbar-opacity')},
-      map.get($scrollbar, 'opacity')
-    );
-
-    &:hover {
-      background-color: var(
-        #{getCssVarName('scrollbar-hover-bg-color')},
-        map.get($scrollbar, 'hover-bg-color')
-      );
-      opacity: var(
-        #{getCssVarName('scrollbar-hover-opacity')},
-        map.get($scrollbar, 'hover-opacity')
-      );
-    }
-  }
-
-  @include e(bar) {
     position: absolute;
-    right: 2px;
-    bottom: 2px;
-    z-index: 1;
+    background-color: rgba(200, 200, 200, 0.3);
     border-radius: 4px;
+    will-change: transform;
+    z-index: 1;
+    cursor: pointer;
 
-    @include when(vertical) {
+
+    @include m(y) {
+      right: 0;
+      top: 0;
       width: 6px;
-      top: 2px;
-
-      > div {
-        width: 100%;
-      }
     }
 
-    @include when(horizontal) {
-      height: 6px;
-      left: 2px;
 
-      > div {
-        height: 100%;
-      }
+    @include m(x) {
+      bottom: 0;
+      left: 0;
+      height: 6px;
     }
   }
 }

@@ -1,38 +1,51 @@
 <template>
   <!-- 水平滚动条 -->
-  <div v-show="visibleX" class="sb-bar sb-bar-x" ref="barXRef"></div>
+  <div
+    v-show="visible.barX"
+    :class="[ns.e('thumb'), ns.em('thumb', 'x')]"
+    ref="barXRef"
+  ></div>
 
   <!-- 垂直滚动条 -->
-  <div v-show="visibleY" class="sb-bar sb-bar-y" ref="barYRef"></div>
+  <div
+    v-show="visible.barY"
+    :class="[ns.e('thumb'), ns.em('thumb', 'y')]"
+    ref="barYRef"
+  ></div>
 </template>
 
 <script lang="ts" setup>
+import { useNamespace } from '@element-ultra/hooks'
 import {
   nextTick,
   onBeforeUnmount,
   onMounted,
-  reactive,
+  shallowReactive,
   shallowRef,
   watch
 } from 'vue'
 
+import type { BarState, BarX, BarY } from './scrollbar'
+
 const emit = defineEmits({
-  'scroll-to': (ctx: { left?: number, top?: number }) => true
+  'scroll-to': (ctx: { left?: number; top?: number }) => true
 })
 
-const visibleX = shallowRef(false)
-const visibleY = shallowRef(false)
+const ns = useNamespace('scrollbar')
 
-const barX = reactive({
+const visible = shallowReactive({
+  barX: false,
+  barY: false
+})
+
+const barX = shallowReactive<BarX>({
   width: 0,
-  left: 0,
-  containerWidth: 0
+  left: 0
 })
 
-const barY = reactive({
+const barY = shallowReactive<BarY>({
   height: 0,
-  top: 0,
-  containerHeight: 0
+  top: 0
 })
 
 // 频繁的事件操作应避免频繁渲染dom, 应该直接操作dom
@@ -67,37 +80,19 @@ watch(barY, s => {
   }
 })
 
-type Styles = {
-  width: number
-  height: number
-  left: number
-  top: number
-  containerWidth: number
-  containerHeight: number
+/** 容器状态 */
+const wrapStyle = {
+  width: 0,
+  height: 0
 }
 
-function update(style: Styles) {
-  barX.width = style.width
-  barX.left = style.left
-  barX.containerWidth = style.containerWidth
-  barY.height = style.height
-  barY.top = style.top
-  barY.containerHeight = style.containerHeight
+function update(state: BarState) {
+  Object.assign(barX, state.barX)
+  Object.assign(barY, state.barY)
+  Object.assign(visible, state.visible)
+  wrapStyle.width = state.wrapState.offsetWidth
+  wrapStyle.height = state.wrapState.offsetHeight
 }
-
-type Visible = {
-  barX: boolean
-  barY: boolean
-}
-
-function updateVisible(v: Visible) {
-  visibleX.value = v.barX
-  visibleY.value = v.barY
-}
-
-
-
-
 
 const draggable = (
   dom: HTMLDivElement,
@@ -159,12 +154,12 @@ onMounted(() => {
       barY.top =
         dis < 0
           ? 0
-          : dis + barY.height > barY.containerHeight
-          ? barY.containerHeight - barY.height
+          : dis + barY.height > wrapStyle.height
+          ? wrapStyle.height - barY.height
           : dis
 
       emit('scroll-to', {
-        top: barY.top * barY.containerHeight / barY.height
+        top: (barY.top * wrapStyle.height) / barY.height
       })
     })
   barXRef.value &&
@@ -172,19 +167,18 @@ onMounted(() => {
       barX.left =
         dis < 0
           ? 0
-          : dis + barX.left > barX.containerWidth
-          ? barX.containerWidth
+          : dis + barX.width > wrapStyle.width
+          ? wrapStyle.width - barX.width
           : dis
 
       emit('scroll-to', {
-        left: barX.left * barX.containerWidth / barX.width
+        left: (barX.left * wrapStyle.width) / barX.width
       })
     })
 })
 
 defineExpose({
-  update,
-  updateVisible
+  update
 })
 </script>
 
