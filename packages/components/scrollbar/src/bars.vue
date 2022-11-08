@@ -2,14 +2,14 @@
   <!-- 水平滚动条 -->
   <div
     v-show="visible.barX"
-    :class="[ns.e('thumb'), ns.em('thumb', 'x')]"
+    :class="[ns.e('thumb'), ns.em('thumb', 'x'), ns.is('moving', moving.x)]"
     ref="barXRef"
   ></div>
 
   <!-- 垂直滚动条 -->
   <div
     v-show="visible.barY"
-    :class="[ns.e('thumb'), ns.em('thumb', 'y')]"
+    :class="[ns.e('thumb'), ns.em('thumb', 'y'), ns.is('moving', moving.y)]"
     ref="barYRef"
   ></div>
 </template>
@@ -81,17 +81,29 @@ watch(barY, s => {
 })
 
 /** 容器状态 */
-const wrapStyle = {
-  width: 0,
-  height: 0
+const wrapStyle: BarState['wrapState'] = {
+  offsetWidth: 0,
+  offsetHeight: 0,
+  scrollHeight: 0,
+  scrollWidth: 0,
+  scrollLeft: 0,
+  scrollTop: 0
 }
 
 function update(state: BarState) {
   Object.assign(barX, state.barX)
   Object.assign(barY, state.barY)
   Object.assign(visible, state.visible)
-  wrapStyle.width = state.wrapState.offsetWidth
-  wrapStyle.height = state.wrapState.offsetHeight
+  Object.assign(wrapStyle, state.wrapState)
+}
+
+let moving = shallowReactive({
+  x: false,
+  y: false
+})
+
+const setMoving = (type: 'x' | 'y', state: boolean) => {
+  moving[type] = state
 }
 
 const draggable = (
@@ -114,6 +126,8 @@ const draggable = (
     // 鼠标左键按下有效
     if (e.button !== 0) return
 
+    setMoving(direction, true)
+
     window.getSelection()?.removeAllRanges()
     // 如果绑定了其他的mouseDown事件, 应该阻止掉
     e.stopImmediatePropagation()
@@ -135,6 +149,8 @@ const draggable = (
   }
 
   const handleMouseup = (e: MouseEvent) => {
+    setMoving(direction, false)
+
     document.removeEventListener('mousemove', handleMousemove)
     document.removeEventListener('mouseup', handleMouseup)
 
@@ -154,12 +170,14 @@ onMounted(() => {
       barY.top =
         dis < 0
           ? 0
-          : dis + barY.height > wrapStyle.height
-          ? wrapStyle.height - barY.height
+          : dis + barY.height > wrapStyle.offsetHeight
+          ? wrapStyle.offsetHeight - barY.height
           : dis
 
       emit('scroll-to', {
-        top: (barY.top * wrapStyle.height) / barY.height
+        top:
+          (barY.top / (wrapStyle.offsetHeight - barY.height)) *
+          (wrapStyle.scrollHeight - wrapStyle.offsetHeight)
       })
     })
   barXRef.value &&
@@ -167,12 +185,13 @@ onMounted(() => {
       barX.left =
         dis < 0
           ? 0
-          : dis + barX.width > wrapStyle.width
-          ? wrapStyle.width - barX.width
+          : dis + barX.width > wrapStyle.offsetWidth
+          ? wrapStyle.offsetWidth - barX.width
           : dis
 
       emit('scroll-to', {
-        left: (barX.left * wrapStyle.width) / barX.width
+        left:  (barX.left / (wrapStyle.offsetWidth - barX.width)) *
+          (wrapStyle.scrollWidth - wrapStyle.offsetWidth)
       })
     })
 })

@@ -43,7 +43,7 @@ export default function (options: Options) {
       top: 0
     }
 
-    const minSize = 10
+    const minSize = 20
 
     // 当滚动条可见时更新
     if (visible.barX) {
@@ -51,7 +51,7 @@ export default function (options: Options) {
       if (barX.width < minSize) {
         barX.width = minSize
       }
-      barX.left = (barX.width * scrollLeft) / offsetWidth
+      barX.left  = (offsetWidth - barX.width) * scrollLeft / (scrollWidth - offsetWidth)
     }
 
     if (visible.barY) {
@@ -59,7 +59,7 @@ export default function (options: Options) {
       if (barY.height < minSize) {
         barY.height = minSize
       }
-      barY.top = (barY.height * scrollTop) / offsetHeight
+      barY.top  = (offsetHeight - barY.height) * scrollTop / (scrollHeight - offsetHeight)
     }
 
     cb({

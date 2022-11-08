@@ -17,24 +17,27 @@
     }
   }
 
-  @include e(view) {
-  }
-
   @include e(thumb) {
     position: absolute;
-    background-color: rgba(200, 200, 200, 0.3);
+    background-color: rgba(200, 200, 200, 0.5);
     border-radius: 4px;
     will-change: transform;
     z-index: 1;
     cursor: pointer;
 
+    &:hover {
+      background-color: rgba(200, 200, 200, 0.8);
+    }
+
+    @include when(moving) {
+      background-color: rgba(200, 200, 200, 0.8);
+    }
 
     @include m(y) {
       right: 0;
       top: 0;
       width: 6px;
     }
-
 
     @include m(x) {
       bottom: 0;

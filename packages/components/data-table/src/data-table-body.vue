@@ -7,7 +7,6 @@
     :height="bodyHeight"
     :class="ns.e('body')"
     @scroll="handleScroll"
-    @resize="handleResize"
     :idle="rootProps.idle"
   >
     <!-- 表格组 -->
@@ -47,9 +46,7 @@ defineOptions({
 })
 
 const {
-  scrollLeft,
-  scrollWidth,
-  offsetWidth,
+  scrollState,
   leafColumns,
   ns,
   itemSize,
@@ -69,14 +66,9 @@ provide(dataBodyToken, {
 })
 
 const handleScroll = (s: any) => {
-  scrollLeft.value = s.scrollLeft
-}
-
-const handleResize = (ctx: { wrap: Element, view: Element }) => {
-
-  const { wrap, view } = ctx
-  scrollLeft.value = wrap.scrollLeft
-  scrollWidth.value = view.scrollWidth
-  offsetWidth.value = (wrap as HTMLElement).offsetWidth
+  for (const key in scrollState) {
+    // @ts-ignore
+    scrollState[key] = s[key]
+  }
 }
 </script>

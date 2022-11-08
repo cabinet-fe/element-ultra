@@ -53,7 +53,7 @@
     "@element-ultra/tokens": "workspace:*",
     "@element-ultra/utils": "workspace:*",
     "@popperjs/core": "^2.11.5",
-    "@vueuse/core": "^8.7.5",
+    "@vueuse/core": "^9.4.0",
     "@wangeditor/editor": "5.1.14",
     "dayjs": "^1.11.5",
     "fe-dk": "^1.0.14",

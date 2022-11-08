@@ -18,18 +18,35 @@
       <!-- 分组的表头, 因此会有多行 -->
       <thead>
         <tr v-for="(row, rowIndex) of headerRows">
-          <template v-for="column of row" :key="column.key">
-            <LeftCell
-              v-if="column.data.fixed === 'left'"
-              :header="column"
-              :row-index="rowIndex"
-            />
-            <RightCell
-              v-else-if="column.data.fixed === 'right'"
-              :header="column"
-              :row-index="rowIndex"
-            />
-            <CenterCell v-else :header="column" :row-index="rowIndex" />
+          <template v-for="(columns, key) in getRowColumns(row)">
+            <template v-if="key === 'left'">
+              <LeftCell
+                v-for="(column, colIndex) of columns"
+                :header="column"
+                :row-index="rowIndex"
+                :key="column.data.key"
+                :class="ns.is('last', colIndex + 1 === columns.length)"
+              />
+            </template>
+
+            <template v-else-if="key === 'right'">
+              <RightCell
+                v-for="(column, colIndex) of columns"
+                :header="column"
+                :row-index="rowIndex"
+                :key="column.data.key"
+                :class="ns.is('first', colIndex === 0)"
+              />
+            </template>
+
+            <template v-else>
+              <CenterCell
+                v-for="column of columns"
+                :header="column"
+                :key="column.data.key"
+                :row-index="rowIndex"
+              />
+            </template>
           </template>
         </tr>
       </thead>
@@ -55,11 +72,10 @@ import { LeftCell, RightCell, CenterCell } from './data-table-header-cell'
 
 const {
   headerRows,
-  scrollLeft,
+  scrollState,
   leafColumns,
   ns,
   headerRef,
-  updateFixedColumnsShadow,
   getCellStyle,
   computePosition
 } = inject(dataTableToken)!
@@ -144,12 +160,34 @@ const resizeMouseupHandler = () => {
 
   computePosition()
   resetResizeState()
-  updateFixedColumnsShadow()
 }
 
-watch(scrollLeft, left => {
-  headerRef.value!.scrollLeft = left
-})
+const getRowColumns = (columns: TableHeader[]) => {
+  let left: TableHeader[] = []
+  let center: TableHeader[] = []
+  let right: TableHeader[] = []
+  columns.forEach(column => {
+    if (column.data.fixed === 'left') {
+      left.push(column)
+    } else if (column.data.fixed === 'right') {
+      right.push(column)
+    } else {
+      center.push(column)
+    }
+  })
+  return {
+    left,
+    center,
+    right
+  }
+}
+
+watch(
+  () => scrollState.scrollLeft,
+  left => {
+    headerRef.value!.scrollLeft = left
+  }
+)
 
 const adjusterRef = shallowRef<InstanceType<typeof DataTableAlignAdjuster>>()
 

@@ -1,7 +1,6 @@
 <template>
   <ElScrollbar
     ref="containerRef"
-    @resize="emit('resize', $event)"
     @scroll="handleScroll"
     :style="{ height }"
     :view-style="listStyle"
@@ -90,8 +89,7 @@ const itemStyle = computed(() => {
 const wrapRef = shallowRef<HTMLElement>()
 
 const emit = defineEmits({
-  scroll: (s: ScrollCtx) => true,
-  resize: (s: { wrap: Element; view: Element }) => true
+  scroll: (s: ScrollCtx) => true
 })
 
 /** 总高度, 预估高度 */
@@ -136,7 +134,7 @@ watch(
 let scroll = debounce((s: ScrollCtx) => {
   position.value = ~~((s.scrollTop - props.bufferHeight) / props.itemSize)
   position.value < 0 && (position.value = 0)
-}, 20)
+}, 16.67)
 
 /** 正常滚动 */
 const handleScroll = (s: ScrollCtx) => {

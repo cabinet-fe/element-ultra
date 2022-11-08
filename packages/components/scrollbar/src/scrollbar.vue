@@ -77,7 +77,9 @@ const handleScroll = () => {
 }
 
 // 需要监听滚动容器和视图容器的size变化重新更新滚动条样式
+// @ts-ignore
 const contentResizeObserver = useResizeObserver(wrapRef, handleScroll)
+// @ts-ignore
 const resizeObserver = useResizeObserver(viewRef, handleScroll)
 
 onMounted(() => {
