@@ -1,17 +1,21 @@
 <template>
   <!-- 水平滚动条 -->
-  <div
-    v-show="visible.barX"
-    :class="[ns.e('thumb'), ns.em('thumb', 'x'), ns.is('moving', moving.x)]"
-    ref="barXRef"
-  ></div>
+  <transition name="el-fade-in">
+    <div
+      v-show="(visible.barX && hovered) || moving.x"
+      :class="[ns.e('thumb'), ns.em('thumb', 'x'), ns.is('moving', moving.x)]"
+      ref="barXRef"
+    ></div>
+  </transition>
 
   <!-- 垂直滚动条 -->
-  <div
-    v-show="visible.barY"
-    :class="[ns.e('thumb'), ns.em('thumb', 'y'), ns.is('moving', moving.y)]"
-    ref="barYRef"
-  ></div>
+  <transition name="el-fade-in">
+    <div
+      v-show="(visible.barY && hovered) || moving.y"
+      :class="[ns.e('thumb'), ns.em('thumb', 'y'), ns.is('moving', moving.y)]"
+      ref="barYRef"
+    ></div>
+  </transition>
 </template>
 
 <script lang="ts" setup>
@@ -37,6 +41,8 @@ const visible = shallowReactive({
   barX: false,
   barY: false
 })
+
+const hovered = shallowRef(false)
 
 const barX = shallowReactive<BarX>({
   width: 0,
@@ -190,14 +196,19 @@ onMounted(() => {
           : dis
 
       emit('scroll-to', {
-        left:  (barX.left / (wrapStyle.offsetWidth - barX.width)) *
+        left:
+          (barX.left / (wrapStyle.offsetWidth - barX.width)) *
           (wrapStyle.scrollWidth - wrapStyle.offsetWidth)
       })
     })
 })
 
 defineExpose({
-  update
+  update,
+
+  setHovered(v: boolean) {
+    hovered.value = v
+  }
 })
 </script>
 

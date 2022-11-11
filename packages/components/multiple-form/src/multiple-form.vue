@@ -195,6 +195,28 @@ const handleEdit = (row: any, index: number) => {
   }
 }
 
+const createTo = (
+  index: number,
+  cb:
+    | Record<string, any>
+    | (() => Promise<Record<string, any>> | Record<string, any>)
+) => {
+  if (typeof cb === 'function') {
+    let result = cb()
+    if (result instanceof Promise) {
+      result.then(data => handleCreate(index, data))
+    } else {
+      handleCreate(index, result)
+    }
+  } else {
+    handleCreate(index, cb)
+  }
+}
+
+const create  = () => {
+  handleCreate(internalData.value.length)
+}
+
 provide(multipleFormKey, {
   multipleFormProps: props,
   visibleColumns,
@@ -208,25 +230,7 @@ provide(multipleFormKey, {
 
 defineExpose({
   clearValidate,
-  create: () => {
-    handleCreate(internalData.value.length)
-  },
-  createTo: (
-    index: number,
-    cb:
-      | Record<string, any>
-      | (() => Promise<Record<string, any>> | Record<string, any>)
-  ) => {
-    if (typeof cb === 'function') {
-      let result = cb()
-      if (result instanceof Promise) {
-        result.then(data => handleCreate(index, data))
-      } else {
-        handleCreate(index, result)
-      }
-    } else {
-      handleCreate(index, cb)
-    }
-  }
+  create,
+  createTo
 })
 </script>

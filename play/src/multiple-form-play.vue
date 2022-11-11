@@ -6,7 +6,7 @@
 
   <el-button @click="visible = true">设置</el-button>
 
-  <el-form-dialog v-model="visible">
+  <el-form-dialog v-model="visible" :confirm="handleConfirm">
     <el-multiple-form
       :mode="mode"
       :columns="columns"
@@ -107,5 +107,13 @@ const refer = shallowRef()
 /** 增加下一行 */
 const addNextLine = (row: any) => {
   refer.value?.createTo(0, { name: '123', age: ~~(50 * Math.random()) })
+}
+
+const handleConfirm = () => {
+  return new Promise((rs) => {
+    setTimeout(() => {
+      rs(1)
+    }, 2000)
+  })
 }
 </script>

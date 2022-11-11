@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b()">
+  <div :class="ns.b()" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
     <!-- 滚动容器 start -->
     <div
       ref="wrapRef"
@@ -81,6 +81,15 @@ const handleScroll = () => {
 const contentResizeObserver = useResizeObserver(wrapRef, handleScroll)
 // @ts-ignore
 const resizeObserver = useResizeObserver(viewRef, handleScroll)
+
+const handleMouseEnter = () => {
+  barsRef.value?.setHovered(true)
+}
+
+const handleMouseLeave = () => {
+  barsRef.value?.setHovered(false)
+}
+
 
 onMounted(() => {
   handleScroll()
