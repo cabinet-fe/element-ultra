@@ -8,7 +8,6 @@
       <slot name="tools" />
     </div>
 
-    <!-- FIXME :noresize="!!height" -->
     <el-scrollbar
       :style="{ height: bodyHeight }"
       always
@@ -20,7 +19,7 @@
 
         <tbody>
           <MultipleFormRow
-            v-for="(row, i) of rows"
+            v-for="(row, i) of internalData"
             ref="rowRefs"
             :row="row"
             :key="rowKey ? row[rowKey] : undefined"
@@ -37,12 +36,13 @@
             <template #action:edit-mode="scoped">
               <slot name="action:edit-mode" v-bind="scoped" />
             </template>
+
             <template #action:view-mode="scoped">
               <slot name="action:view-mode" v-bind="scoped" />
             </template>
           </MultipleFormRow>
 
-          <tr v-if="!rows.length">
+          <tr v-if="!internalData.length">
             <!-- 额外的列为序号和操作栏 -->
             <td
               :colspan="visibleColumns!.length + (disabled ? 1 : 2)"
@@ -54,23 +54,22 @@
         </tbody>
       </table>
     </el-scrollbar>
+
+    <el-form-dialog
+      v-if="props.mode === 'dialog'"
+      v-model="dialog.visible"
+      :title="dialog.title"
+      :confirm="submit"
+      :continue="dialog.type === 'create'"
+      :width="dialogWidth"
+    >
+      <el-form :data="form" :rules="rules" label-width="100px">
+        <slot v-bind="{ form }" />
+      </el-form>
+
+      <slot name="dialog" v-bind="{ form }" />
+    </el-form-dialog>
   </div>
-
-  <!-- 弹框型表单 -->
-  <el-form-dialog
-    v-if="props.mode === 'dialog'"
-    v-model="dialog.visible"
-    :title="dialog.title"
-    :confirm="submit"
-    :continue="dialog.type === 'create'"
-    :width="dialogWidth"
-  >
-    <el-form :data="form" :rules="rules" label-width="100px">
-      <slot v-bind="{ form }" />
-    </el-form>
-
-    <slot name="dialog" v-bind="{ form }" />
-  </el-form-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -102,25 +101,23 @@ defineOptions({
 const props = defineProps(multipleFormProps)
 const emit = defineEmits(multipleFormEmits)
 
-const rows = shallowRef<any[]>([])
+const internalData = shallowRef<any[]>([])
 
 const emitChange = () => {
-  emit('change', rows.value)
-  emit('update:data', rows.value)
+  emit('change', internalData.value)
+  emit('update:data', internalData.value)
 }
 
 watch(
   () => props.data,
   data => {
-    if (data === rows.value) return
-    rows.value = (data || []).map(item =>
+    if (data === internalData.value) return
+    internalData.value = (data || []).map(item =>
       isReactive(item) ? item : reactive(item)
     )
   },
   { immediate: true }
 )
-
-
 
 const ns = useNamespace('multiple-form')
 
@@ -136,7 +133,7 @@ const visibleColumns = computed(() => {
 
 const { form, rules, dialog, open, submit } = useDialogEdit({
   props,
-  rows,
+  internalData,
   emit,
   emitChange
 })
@@ -154,7 +151,7 @@ const {
   handleEnterEdit,
   handleExitEdit,
   handleMouseEnter
-} = useInline({ props, emit, targetIndex, rows, emitChange })
+} = useInline({ props, emit, targetIndex, internalData, emitChange })
 
 const bodyHeight = computed(() => {
   const titleHeight = props.title ? 36 : 0
@@ -205,14 +202,14 @@ provide(multipleFormKey, {
   errorTip,
   ns,
   slots,
-  rows,
+  rows: internalData,
   handleCreate
 })
 
 defineExpose({
   clearValidate,
   create: () => {
-    handleCreate(rows.value.length)
+    handleCreate(internalData.value.length)
   },
   createTo: (
     index: number,

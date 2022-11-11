@@ -44,7 +44,7 @@
 <script lang="tsx" setup>
 import type { DataTableColumn } from '@element-ultra/components'
 import { shallowRef, computed } from 'vue'
-import { n } from 'fe-dk'
+import { n } from 'cat-kit'
 
 const preset = shallowRef<string>()
 

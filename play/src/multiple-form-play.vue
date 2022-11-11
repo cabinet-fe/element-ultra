@@ -6,50 +6,50 @@
 
   <el-button @click="visible = true">设置</el-button>
 
-  <el-dialog v-model="visible">
+  <el-form-dialog v-model="visible">
     <el-multiple-form
-    :mode="mode"
-    :columns="columns"
-    title="标题"
-    height="400px"
-    v-model:data="data"
-    ref="refer"
-  >
-    <template #tools>
-      <el-button type="primary" @click="addNextLine">添加一行</el-button>
-    </template>
+      :mode="mode"
+      :columns="columns"
+      title="标题"
+      height="400px"
+      v-model:data="data"
+      ref="refer"
+    >
+      <template #tools>
+        <el-button type="primary" @click="addNextLine">添加一行</el-button>
+      </template>
 
-    <template #name:view="{ row }">
-      <el-input v-model="row.name" placeholder="名称" />
-    </template>
+      <template #name:view="{ row }">
+        <el-input v-model="row.name" placeholder="名称" />
+      </template>
 
-    <template #name="{ row }">
-      <el-input v-model="row.name" placeholder="名称" />
-    </template>
+      <template #name="{ row }">
+        <el-input v-model="row.name" placeholder="名称" />
+      </template>
 
-    <template #age="{ row }">
-      <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
-    </template>
+      <template #age="{ row }">
+        <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
+      </template>
 
-    <template #school="{ row }">
-      <el-input v-model="row.school"></el-input>
-    </template>
-    <template #test="{ row }">
-      <el-input v-model="row.test.test1"></el-input>
-      <el-input v-model="row.test.test2"></el-input>
-    </template>
+      <template #school="{ row }">
+        <el-input v-model="row.school"></el-input>
+      </template>
+      <template #test="{ row }">
+        <el-input v-model="row.test.test1"></el-input>
+        <el-input v-model="row.test.test2"></el-input>
+      </template>
 
-    <template #default="{ form }">
-      <el-form-item label="名称">{{ form.name }}</el-form-item>
-      <el-input label="名称" field="name"></el-input>
-      <el-input label="年龄" field="age"></el-input>
-      <el-input label="学校" field="school"></el-input>
-      <el-input label="测试1" field="test.test1" />
-      <el-input label="测试2" field="test.test2" />
-    </template>
-  </el-multiple-form>
-  </el-dialog>
-  {{data}}
+      <template #default="{ form }">
+        <el-form-item label="名称">{{ form.name }}</el-form-item>
+        <el-input label="名称" field="name"></el-input>
+        <el-input label="年龄" field="age"></el-input>
+        <el-input label="学校" field="school"></el-input>
+        <el-input label="测试1" field="test.test1" />
+        <el-input label="测试2" field="test.test2" />
+      </template>
+    </el-multiple-form>
+  </el-form-dialog>
+  {{ data }}
 </template>
 
 <script lang="ts" setup>
@@ -101,9 +101,7 @@ const columns: MultipleFormColumn[] = [
 
 let visible = shallowRef(false)
 
-let data = $shallowRef<any[]>([
-
-])
+let data = $shallowRef<any[]>([])
 
 const refer = shallowRef()
 /** 增加下一行 */

@@ -14,14 +14,14 @@ interface Options {
   /** 对象属性 */
   props: MultipleFormProps
   /** 行数据 */
-  rows: ShallowRef<any[]>
+  internalData: ShallowRef<any[]>
   /** 触发事件 */
   emit: MultipleFormEmits
   emitChange: () => void
 }
 
 export default function useDialogEdit(options: Options) {
-  const { props, rows, emit } = options
+  const { props, internalData, emit } = options
   // 根据列生成数据模型
 
   const getModel = (columns: MultipleFormColumn[]) => {
@@ -64,20 +64,21 @@ export default function useDialogEdit(options: Options) {
     const { ctx } = dialog
     // 因为所有行的model共用同一个, 因此在提交时需要深拷贝一份出来
     const data = JSON.parse(JSON.stringify(form))
+
     if (dialog.type === 'create') {
-      rows.value = [
-        ...rows.value.slice(0, ctx.index),
+      internalData.value = [
+        ...internalData.value.slice(0, ctx.index),
         data,
-        ...rows.value.slice(ctx.index)
+        ...internalData.value.slice(ctx.index)
       ]
     } else {
-      rows.value = [
-        ...rows.value.slice(0, ctx.index),
+      internalData.value = [
+        ...internalData.value.slice(0, ctx.index),
         data,
-        ...rows.value.slice(ctx.index + 1)
+        ...internalData.value.slice(ctx.index + 1)
       ]
     }
-    emit('save', data, rows.value)
+    emit('save', data, internalData.value)
     options.emitChange()
   }
 

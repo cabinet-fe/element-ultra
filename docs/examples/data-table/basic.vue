@@ -64,7 +64,7 @@
 
 <script lang="tsx" setup>
 import type { DataTableColumn } from '@element-ultra/components'
-import { n } from 'fe-dk'
+import { n } from 'cat-kit'
 import { computed, shallowReactive, shallowRef } from 'vue'
 
 const log = console.log

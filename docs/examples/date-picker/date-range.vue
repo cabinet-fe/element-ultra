@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-import { date } from 'fe-dk'
+import { date } from 'cat-kit'
 
 const value1 = ref('')
 const value2 = ref('')

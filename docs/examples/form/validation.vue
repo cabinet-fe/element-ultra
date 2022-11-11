@@ -98,7 +98,7 @@
 import { ref } from 'vue'
 import { FormInstance, useFormModel } from 'element-ultra'
 import { ComponentSize } from '@element-ultra/constants'
-import { date } from 'fe-dk'
+import { date } from 'cat-kit'
 
 const [conf, confRules] = useFormModel({
   formSize: { value: 'default' as ComponentSize },

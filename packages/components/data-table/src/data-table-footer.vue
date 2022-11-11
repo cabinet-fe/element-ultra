@@ -51,7 +51,7 @@ import { computed, inject, provide, watch } from 'vue'
 import { dataFooterToken, dataTableToken } from './token'
 import { LeftCell, CenterCell, RightCell } from './data-table-footer-cell'
 
-const { rootProps, leafColumns, ns, scrollLeft, footerRef, getCellStyle } =
+const { rootProps, leafColumns, ns, scrollState, footerRef, getCellStyle } =
   inject(dataTableToken)!
 
 const ele = 'footer-cell'
@@ -100,7 +100,7 @@ provide(dataFooterToken, {
   rightCellClass: ns.em(ele, 'right')
 })
 
-watch(scrollLeft, left => {
+watch(() => scrollState.scrollLeft, left => {
   footerRef.value!.scrollLeft = left
 })
 </script>

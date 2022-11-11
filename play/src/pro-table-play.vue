@@ -71,7 +71,7 @@
 
 <script setup lang="tsx">
 import { ElButton, ProTableColumn } from 'element-ultra'
-import { n } from 'fe-dk'
+import { n } from 'cat-kit'
 import { computed, isReactive, provide, shallowReactive, shallowRef } from 'vue'
 
 provide('aa', { name: 'aa' })

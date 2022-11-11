@@ -10,12 +10,12 @@ interface Options {
   props: MultipleFormProps
   emit: MultipleFormEmits
   targetIndex: ShallowRef<number>
-  rows: ShallowRef<any[]>
+  internalData: ShallowRef<any[]>
   emitChange: () => void
 }
 
 export default function useInline(options: Options) {
-  const { props, emit, rows, targetIndex } = options
+  const { props, emit, internalData, targetIndex } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -170,7 +170,7 @@ export default function useInline(options: Options) {
 
       // validator独立校验
       if (validator) {
-        let errorMsg = await validator(itemValue, item, rows.value)
+        let errorMsg = await validator(itemValue, item, internalData.value)
         errorTip[fieldKey] = errorMsg
         if (errorMsg) {
           isValid = false
@@ -209,15 +209,15 @@ export default function useInline(options: Options) {
   /** 删除rows或插入row */
   const splitRowByIndex = (index: number, row?: any) => {
     if (row) {
-      rows.value = [
-        ...rows.value.slice(0, index),
+      internalData.value = [
+        ...internalData.value.slice(0, index),
         row,
-        ...rows.value.slice(index)
+        ...internalData.value.slice(index)
       ]
     } else {
-      rows.value = [
-        ...rows.value.slice(0, index),
-        ...rows.value.slice(index + 1)
+      internalData.value = [
+        ...internalData.value.slice(0, index),
+        ...internalData.value.slice(index + 1)
       ]
     }
 
@@ -230,7 +230,7 @@ export default function useInline(options: Options) {
     if (!valid) return
     delete item['__new__']
     resetTargetIndex()
-    emit('save', item, rows.value)
+    emit('save', item, internalData.value)
   }
 
   /** 删除 */
@@ -251,9 +251,9 @@ export default function useInline(options: Options) {
 
   /** 进入编辑状态 */
   const handleEnterEdit = (index: number) => {
-    let preEditItem = rows.value[targetIndex.value]
-    // 删除未保存的编辑行
-    if (preEditItem?.__new__) {
+    // 尝试找到当前正在编辑的行, 删除未保存的编辑行
+    let currentEditing = internalData.value[targetIndex.value]
+    if (currentEditing?.__new__) {
       splitRowByIndex(targetIndex.value)
     }
     targetIndex.value = index
