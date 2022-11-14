@@ -8,11 +8,7 @@ export default function useFilter(
 ) {
   const filterer = shallowReactive({
     /** 查询条件 */
-    query: '',
-    /** 是否正在查询中 */
-    filtering: false,
-    /** 是否已聚焦 */
-    focus: false
+    query: ''
   })
 
   const filterMethod = (query: string, node: TreeNodeData) => {
@@ -21,39 +17,16 @@ export default function useFilter(
     return node[labelKey].includes(query)
   }
 
-  const handleCompositionStart = () => {
-    filterer.filtering = true
-  }
 
-  const handleCompositionEnd = () => {
-    filterer.filtering = false
-  }
-
-  const handleFiltererFocus = () => {
-    filterer.focus = true
-  }
-
-  const handleFiltererBlur = () => {
-    filterer.focus = false
-
-    // if (filterer.query) {
-    //   filterer.query = ''
-    //   tree.value?.filter('')
-    // }
-  }
 
   /** 过滤 */
-  const handleFilter = (ev: any) => {
-    tree.value?.filter(ev.target.value)
+  const handleFilter = (v: string) => {
+    tree.value?.filter(v)
   }
 
   return {
     filterer,
     filterMethod,
-    handleCompositionStart,
-    handleCompositionEnd,
-    handleFiltererFocus,
-    handleFiltererBlur,
     handleFilter
   }
 }

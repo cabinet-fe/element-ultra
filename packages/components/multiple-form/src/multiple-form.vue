@@ -43,7 +43,6 @@
           </MultipleFormRow>
 
           <tr v-if="!internalData.length">
-            <!-- 额外的列为序号和操作栏 -->
             <td
               :colspan="visibleColumns!.length + (disabled ? 1 : 2)"
               style="text-align: center"
@@ -54,22 +53,22 @@
         </tbody>
       </table>
     </el-scrollbar>
-
-    <el-form-dialog
-      v-if="props.mode === 'dialog'"
-      v-model="dialog.visible"
-      :title="dialog.title"
-      :confirm="submit"
-      :continue="dialog.type === 'create'"
-      :width="dialogWidth"
-    >
-      <el-form :data="form" :rules="rules" label-width="100px">
-        <slot v-bind="{ form }" />
-      </el-form>
-
-      <slot name="dialog" v-bind="{ form }" />
-    </el-form-dialog>
   </div>
+
+  <el-form-dialog
+    v-if="props.mode === 'dialog'"
+    v-model="dialog.visible"
+    :title="dialog.title"
+    :confirm="submit"
+    :continue="dialog.type === 'create'"
+    :width="dialogWidth"
+  >
+    <el-form :data="form" :rules="rules" label-width="100px">
+      <slot v-bind="{ form }" />
+    </el-form>
+
+    <slot name="dialog" v-bind="{ form }" />
+  </el-form-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -81,7 +80,7 @@ import {
   nextTick,
   provide,
   isReactive,
-  reactive
+  shallowReactive
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './multiple-form'
@@ -95,7 +94,8 @@ import MultipleFormRow from './multiple-form-row.vue'
 import MultipleFormHeader from './multiple-form-header.vue'
 
 defineOptions({
-  name: 'ElMultipleForm'
+  name: 'ElMultipleForm',
+  inheritAttrs: false
 })
 
 const props = defineProps(multipleFormProps)
@@ -113,7 +113,7 @@ watch(
   data => {
     if (data === internalData.value) return
     internalData.value = (data || []).map(item =>
-      isReactive(item) ? item : reactive(item)
+      isReactive(item) ? item : shallowReactive(item)
     )
   },
   { immediate: true }
@@ -213,7 +213,7 @@ const createTo = (
   }
 }
 
-const create  = () => {
+const create = () => {
   handleCreate(internalData.value.length)
 }
 

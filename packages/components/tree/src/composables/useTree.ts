@@ -17,9 +17,34 @@ import type {
   TreeData,
   Tree
 } from '../types'
+import { dfs } from '@element-ultra/utils'
 
 export function useTree(props: TreeProps, emit: TreeEmit) {
-  const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
+  const expandedKeySet = ref(new Set<TreeKey>())
+
+  watch(
+    [
+      () => props.data,
+      () => props.defaultExpandAll,
+      () => props.defaultExpandedKeys
+    ],
+    ([data, expandAll, defaultExpandedKeys]) => {
+      let expandedKeys = defaultExpandedKeys
+
+      if (!expandedKeys) {
+        if (!expandAll) return
+        const valueKey = props.props.value ?? 'value'
+        expandedKeys = []
+        dfs(data, item => {
+          expandedKeys!.push(item[valueKey])
+        })
+
+      }
+
+      expandedKeySet.value = new Set(expandedKeys)
+    }
+  )
+
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
 
@@ -75,6 +100,7 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
     const hiddenKeys = hiddenNodeKeySet.value
     const flattenNodes: TreeNode[] = []
     const nodes = (tree.value && tree.value.treeNodes) || []
+
     function traverse() {
       const stack: TreeNode[] = []
       for (let i = nodes.length - 1; i >= 0; --i) {
@@ -86,7 +112,7 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
         if (!hiddenKeys.has(node.key)) {
           flattenNodes.push(node)
         }
-        // Only "visible" nodes will be rendered
+
         if (expandedKeys.has(node.key)) {
           const children = node.children
           if (children) {
@@ -98,7 +124,9 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
         }
       }
     }
+
     traverse()
+
     return flattenNodes
   })
 

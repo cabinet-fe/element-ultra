@@ -82,8 +82,10 @@ export const treeProps = {
     default: false
   },
   defaultExpandedKeys: {
-    type: Array as PropType<TreeKey[]>,
-    default: () => []
+    type: Array as PropType<TreeKey[]>
+  },
+  defaultExpandAll: {
+    type: Boolean
   },
   indent: {
     type: Number,

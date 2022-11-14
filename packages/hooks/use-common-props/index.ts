@@ -2,7 +2,6 @@ import { unref, inject, computed, type Ref } from 'vue'
 import { formKey } from '@element-ultra/tokens'
 import { useProp } from '../use-prop'
 import type { ComponentSize } from '@element-ultra/constants'
-import type { MaybeRef } from '@vueuse/core'
 import { useConfig } from '../use-config'
 
 /**
@@ -34,7 +33,7 @@ export const useSize = (option: SizeOption): Ref<ComponentSize> => {
   })
 }
 
-export const useDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
+export const useDisabled = (fallback?: boolean | Ref<boolean>) => {
   const disabled = useProp<boolean>('disabled')
   const form = inject(formKey, undefined)
   return computed(

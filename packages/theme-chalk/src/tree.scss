@@ -45,20 +45,11 @@
     color: #fff;
   }
 
-  // .#{$namespace}-tree-node__expand-icon {
-  //   color: #fff;
-  // }
 }
 
 @include b(tree-node) {
   white-space: nowrap;
   outline: none;
-  &:focus {
-    /* focus */
-    > .#{$namespace}-tree-node__content {
-      background-color: getCssVar('tree-node-hover-bg-color');
-    }
-  }
 
   @include when(drop-inner) {
     > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {
@@ -69,9 +60,12 @@
 
   @include when(disabled) {
     > .#{$namespace}-tree-node__content {
-      background-color: var(--el-disabled-bg-color);
       cursor: not-allowed;
       color: var(--el-text-color-disabled);
+
+      &:hover {
+        background-color: unset;
+      }
     }
   }
 

@@ -9,6 +9,10 @@ export const dialogProps = {
     type: Boolean,
     default: false
   },
+  lazyRender: {
+    type: Boolean,
+    default: true
+  },
   beforeClose: {
     type: Function as PropType<(...args: any[]) => void>
   },

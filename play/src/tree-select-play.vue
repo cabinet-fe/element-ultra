@@ -50,7 +50,7 @@ import { useFormModel, type FormInstance } from 'element-ultra'
 import { shallowRef } from 'vue'
 let treeData = shallowRef<any[]>([])
 setTimeout(() => {
-  treeData.value = Array.from({ length: 2 }).map((_, index) => {
+  treeData.value = Array.from({ length: 200 }).map((_, index) => {
     return {
       label: `文本${index}`,
       value: `${index}`,
@@ -64,7 +64,7 @@ setTimeout(() => {
       )
     }
   })
-}, 1000)
+}, 0)
 
 const size = shallowRef('default' as const)
 
@@ -74,7 +74,7 @@ const [data, rules] = useFormModel({
     value: '0'
   },
   node2: {
-    value: [],
+    value: ['0'],
     required: true
   }
 })

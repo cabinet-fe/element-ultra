@@ -8,7 +8,7 @@ import type {
   MultipleFormEmits,
   MultipleFormProps
 } from './multiple-form'
-import type { ShallowRef } from 'vue'
+import { nextTick, ShallowRef } from 'vue'
 
 interface Options {
   /** 对象属性 */
@@ -79,7 +79,8 @@ export default function useDialogEdit(options: Options) {
       ]
     }
     emit('save', data, internalData.value)
-    options.emitChange()
+    // FIXME 曲线救国
+    nextTick(() => options.emitChange())
   }
 
   return {

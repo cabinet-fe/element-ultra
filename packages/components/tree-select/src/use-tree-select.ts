@@ -1,14 +1,14 @@
 import { shallowRef, watch, nextTick, computed, type ShallowRef } from 'vue'
-import type {
-  ElTree,
-  CheckedInfo,
-  TreeNodeData
-} from '@element-ultra/components/tree'
-import type { TreeSelectProps } from './tree-select'
+import type { CheckedInfo, TreeNodeData, ElTree } from '@element-ultra/components/tree'
+import type { TreeSelectProps, TreeSelectEmits } from './tree-select'
 import { useFormItem } from '@element-ultra/hooks'
 
-export default function useTreeSelect(props: TreeSelectProps, emit, treeRef: ShallowRef<any>, filterer: any) {
-
+export default function useTreeSelect(
+  props: TreeSelectProps,
+  emit: TreeSelectEmits,
+  treeRef: ShallowRef<InstanceType<typeof ElTree> | undefined>,
+  filterer: any
+) {
   const dropdownRef = shallowRef<HTMLDivElement>()
   /** 下拉框显隐 */
   const treeVisible = shallowRef(false)
@@ -45,9 +45,7 @@ export default function useTreeSelect(props: TreeSelectProps, emit, treeRef: Sha
         return (changedByEvent.value = false)
       }
 
-      nextTick(() => {
-        setTreeChecked()
-      })
+      nextTick(() =>  setTreeChecked())
     },
     { immediate: true }
   )
@@ -73,42 +71,22 @@ export default function useTreeSelect(props: TreeSelectProps, emit, treeRef: Sha
 
   /** 计算dropdown的位置 */
   const treeSelectRef = shallowRef<HTMLDivElement>()
-  const dropdownStyle = shallowRef({
-    width: '',
-    top: '',
-    left: ''
-  })
+
   const position = shallowRef('bottom')
-  const calcDropdownStyle = () => {
-    const rect = treeSelectRef?.value?.getBoundingClientRect()
 
-    if (rect) {
-      let top = rect.bottom + 16 + 'px'
-      position.value = 'bottom'
-      let dropdownHeight = props.multiple ? 232 : 200
-      if (rect.bottom + 16 + dropdownHeight > window.innerHeight) {
-        top = rect.top - 16 - dropdownHeight + 'px'
-        position.value = 'top'
-      }
-      dropdownStyle.value = {
-        width: rect.width + 'px',
-        top,
-        left: rect.left + 'px'
-      }
-    }
-  }
-
-  const showTree = () => {
-    hasRendered.value = true
+  const openDialog = () => {
     treeVisible.value = true
-    calcDropdownStyle()
+  }
+  const closeDialog = () => {
+    treeVisible.value = false
   }
 
-  const hideTree = () => {
-    treeVisible.value = false
-    filterer.query = ''
-    treeRef.value.filter('')
-  }
+  watch(treeVisible, visible => {
+    if (!visible) {
+      filterer.query = ''
+      treeRef.value?.filter('')
+    }
+  })
 
   // 值相关操作---------------------------------------
 
@@ -163,20 +141,17 @@ export default function useTreeSelect(props: TreeSelectProps, emit, treeRef: Sha
     selectedLabel.value = label
     changedByEvent.value = true
     emitModelValue(value, label, data)
-    hideTree()
+    closeDialog()
   }
 
   /** 多选 */
-  const handleCheck = (_, info: CheckedInfo) => {
+  const handleCheck = (_: any, info: CheckedInfo) => {
     const { checkedKeys, checkedNodes } = info
     const { labelKey } = props
     const checkedLabels = checkedNodes.map(node => node[labelKey])
     tagList.value = checkedNodes
     changedByEvent.value = true
     emitModelValue(checkedKeys, checkedLabels, checkedNodes)
-    nextTick(() => {
-      calcDropdownStyle()
-    })
   }
 
   /** 过滤方法 */
@@ -204,9 +179,8 @@ export default function useTreeSelect(props: TreeSelectProps, emit, treeRef: Sha
     handleCheck,
     filterMethod,
     handleSelectChange,
-    showTree,
-    hideTree,
-    dropdownStyle,
+    openDialog,
+    closeDialog,
     handleCloseTag
   }
 }

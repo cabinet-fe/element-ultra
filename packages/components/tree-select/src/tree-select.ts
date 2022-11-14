@@ -1,11 +1,14 @@
 import { FORM_COMPONENT_PROPS } from '@element-ultra/constants'
+import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const treeSelectProps = {
   ...FORM_COMPONENT_PROPS,
   // common
   modelValue: {
-    type: [String, Number, Array] as PropType<(string | number)[] | string | number>
+    type: [String, Number, Array] as PropType<
+      (string | number)[] | string | number
+    >
   },
   multiple: {
     type: Boolean,
@@ -14,7 +17,7 @@ export const treeSelectProps = {
 
   // input
   size: {
-    type: String as PropType<'large' | 'default' | 'small'>,
+    type: String as PropType<'large' | 'default' | 'small'>
   },
   placeholder: {
     type: String,
@@ -45,7 +48,7 @@ export const treeSelectProps = {
   },
 
   multipleLimit: {
-    type: Number,
+    type: Number
   },
   data: {
     type: Array as PropType<any[]>,
@@ -74,4 +77,14 @@ export const treeSelectProps = {
   }
 } as const
 
+export const treeSelectEmits = {
+  'update:modelValue': (
+    value: string | number | (string | number)[],
+    label: string | string[],
+    item: Record<string, any> | undefined | Record<string, any>[]
+  ) => true
+}
+
 export type TreeSelectProps = ExtractPropTypes<typeof treeSelectProps>
+
+export type TreeSelectEmits = EmitFn<typeof treeSelectEmits>

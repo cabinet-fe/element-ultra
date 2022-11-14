@@ -118,22 +118,11 @@
     z-index: 2;
     padding: 2px 4px;
     background-color: getCssVar('fill-color', 'blank');
-    border-bottom: 1px solid getCssVar('border-color');
+    margin-bottom: 6px;
   }
 
   @include e(query) {
-    outline: none;
-    border: none;
-    padding: 0;
-    width: 100px;
-    background-color: getCssVar('fill-color', 'blank');
 
-    &::placeholder {
-      color: var(
-        --el-input-placeholder-color,
-        map.get($input, 'placeholder-color')
-      );
-    }
   }
 
   @include e(icon) {
@@ -161,32 +150,6 @@
 
     @include when('transparent') {
       color: var(--el-text-color-placeholder);
-    }
-  }
-
-  @include e(dropdown) {
-    border-radius: var(--el-border-radius-base);
-    box-shadow: var(--el-box-shadow-light);
-    position: absolute;
-    z-index: 2022;
-    background-color: var(--el-bg-color-overlay);
-    @include e(triangle) {
-      position: absolute;
-      transform: rotate(45deg) translateY(-8px);
-      left: 20px;
-      top: 0;
-      width: 12px;
-      height: 12px;
-
-      box-shadow: var(--el-box-shadow-light);
-
-      @include when(top) {
-        bottom: -11px;
-        top: unset;
-      }
-    }
-    @include e(tree) {
-      border-radius: var(--el-input-border-radius);
     }
   }
 }

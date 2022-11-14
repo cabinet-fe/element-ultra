@@ -84,6 +84,7 @@ const renderEffect = () => {
         props.data[field] = defaultFormValues[field]
       }
     }
+
     oldMap = null
   })
 }

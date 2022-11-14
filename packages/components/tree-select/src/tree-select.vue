@@ -2,7 +2,7 @@
   <div
     :class="[ns.b(), ns.m(inputSize), $attrs.class]"
     ref="treeSelectRef"
-    @click="!treeSelectDisabled && (treeVisible ? hideTree() : showTree())"
+    @click="openDialog"
   >
     <div
       ref="inputRef"
@@ -22,7 +22,7 @@
         <!-- 多选 -->
         <template v-if="multiple">
           <span
-            v-if="!(modelValue as any[])?.length && !filterer.query && !filterer.filtering"
+            v-if="!(modelValue as any[])?.length"
             :class="[ns.e('placeholder'), ns.is('transparent')]"
           >
             {{ placeholder }}
@@ -54,43 +54,15 @@
               {{ tag[labelKey] }}
             </el-tag>
           </template>
-          <input
-            type="text"
-            v-if="!treeSelectDisabled && filterer.focus"
-            v-model="filterer.query"
-            :class="ns.e('query')"
-            :disabled="treeSelectDisabled"
-            @keydown.delete.stop="handleDelete"
-            @focus="handleFiltererFocus"
-            @blur="handleFiltererBlur"
-            @compositionstart="handleCompositionStart"
-            @compositionend="handleCompositionEnd"
-          />
         </template>
 
         <!-- 单选 -->
         <template v-else>
           <span
-            v-if="!filterer.query && !filterer.filtering"
-            :class="[
-              ns.e('placeholder'),
-              ns.is('transparent', filterer.focus || !selectedLabel)
-            ]"
+            :class="[ns.e('placeholder'), ns.is('transparent', !selectedLabel)]"
           >
             {{ selectedLabel || placeholder }}
           </span>
-
-          <input
-            type="text"
-            v-model="filterer.query"
-            :class="ns.e('text')"
-            :disabled="treeSelectDisabled"
-            @input="handleFilter"
-            @focus="handleFiltererFocus"
-            @blur="handleFiltererBlur"
-            @compositionstart="handleCompositionStart"
-            @compositionend="handleCompositionEnd"
-          />
         </template>
 
         <!-- 输入框，可以用来对列表进行查询 -->
@@ -107,70 +79,75 @@
     </div>
   </div>
 
-  <!-- // TODO下拉框面板， 定位的话应考虑使用tooltip来做  -->
-  <teleport to="body">
-    <transition name="el-zoom-in-top">
-      <!-- 惰性渲染，一旦渲染了之后， 后续的渲染都采用样式渲染 -->
-      <div
-        :class="ns.e('dropdown')"
-        v-show="treeVisible"
-        :style="dropdownStyle"
-        ref="dropdownRef"
-        v-clickoutside:[treeSelectRef]="hideTree"
-      >
-        <span :class="[ns.e('triangle'), ns.is('top', position === 'top')]">
-        </span>
-        <div v-if="multiple" :class="ns.e('tools')">
-          <el-button
-            type="primary"
-            text
-            size="small"
-            @click="handleToggleCheck(true)"
-          >
-            全选
-          </el-button>
-          <el-button
-            type="info"
-            text
-            size="small"
-            @click="handleToggleCheck(false)"
-          >
-            全不选
-          </el-button>
-        </div>
+  <el-dialog
+    append-to-body
+    v-model="treeVisible"
+    :title="placeholder"
+    width="400px"
+    :lazy-render="false"
+  >
+    <div :class="ns.e('tools')">
+      <el-input
+        placeholder="输入关键字查询"
+        v-model="filterer.query"
+        @update:model-value="handleFilter"
+        :class="ns.e('query')"
+        :prefix-icon="Search"
+        clearable
+      />
 
-        <el-tree
-          :data="data"
-          :check-strictly="checkStrictly"
-          ref="treeRef"
-          :node-key="valueKey"
-          :props="treeProps"
-          :show-checkbox="multiple"
-          :class="ns.e('tree')"
-          :filter-method="filterMethod"
-          :indent="treeIndent"
-          :icon="treeIcon"
-          :empty-text="emptyText"
-          :highlight-current="highlightCurrent && !multiple"
-          @current-change="handleSelectChange"
-          @check="handleCheck"
-          :expand-on-click-node="false"
-          :selectable="selectable"
-        />
-      </div>
-    </transition>
-  </teleport>
+      <template v-if="multiple">
+        <el-button
+          type="primary"
+          text
+          size="small"
+          @click="handleToggleCheck(true)"
+        >
+          全选
+        </el-button>
+        <el-button
+          type="info"
+          text
+          size="small"
+          @click="handleToggleCheck(false)"
+        >
+          全不选
+        </el-button>
+      </template>
+    </div>
+
+    <el-tree
+      :data="data"
+      :check-strictly="checkStrictly"
+      ref="treeRef"
+      :node-key="valueKey"
+      :props="treeProps"
+      :show-checkbox="multiple"
+      :class="ns.e('tree')"
+      :filter-method="filterMethod"
+      :indent="treeIndent"
+      :icon="treeIcon"
+      :empty-text="emptyText"
+      :highlight-current="highlightCurrent && !multiple"
+      @current-change="handleSelectChange"
+      @check="handleCheck"
+      :expand-on-click-node="false"
+      :selectable="selectable"
+      default-expand-all
+    />
+  </el-dialog>
 </template>
 <script lang="ts" setup>
 import { ref, shallowRef } from 'vue'
 import { useNamespace, useSize, useDisabled } from '@element-ultra/hooks'
-import { treeSelectProps } from './tree-select'
+import { treeSelectProps, treeSelectEmits } from './tree-select'
 import ElTree from '@element-ultra/components/tree'
 import ElTag from '@element-ultra/components/tag'
+import ElInput from '@element-ultra/components/input'
 import ElIcon from '@element-ultra/components/icon'
 import ElButton from '@element-ultra/components/button'
-import { ClickOutside } from '@element-ultra/directives'
-import { CircleClose, ArrowDown } from '@element-plus/icons-vue'
+import ElDialog from '@element-ultra/components/dialog'
+import { CircleClose, ArrowDown, Search } from '@element-plus/icons-vue'
 import useTreeSelect from './use-tree-select'
 import useFilter from './use-filter'
 
@@ -178,11 +155,8 @@ const ns = useNamespace('tree-select')
 
 defineOptions({
   name: 'ElTreeSelect',
-  directives: {
-    clickoutside: ClickOutside
-  }
+  inheritAttrs: false
 })
-
 
 const props = defineProps(treeSelectProps)
 
@@ -192,48 +166,24 @@ const treeProps = {
   children: props.childrenKey
 }
 
-const emit = defineEmits<{
-  (
-    e: 'update:modelValue',
-    value: string | number,
-    label: string,
-    item: Record<string, any> | undefined
-  ): void
-  (
-    e: 'update:modelValue',
-    value: (string | number)[],
-    label: string[],
-    item: Record<string, any>[]
-  ): void
-}>()
+const emit = defineEmits(treeSelectEmits)
 
 /** 树的引用 */
 const treeRef = shallowRef<InstanceType<typeof ElTree>>()
 
-const {
-  filterer,
-  filterMethod,
-  handleCompositionStart,
-  handleCompositionEnd,
-  handleFiltererBlur,
-  handleFiltererFocus,
-  handleFilter
-} = useFilter(props, treeRef)
+const { filterer, filterMethod, handleFilter } = useFilter(props, treeRef)
 
 const {
   tagList,
   selectedLabel,
-  dropdownStyle,
-  dropdownRef,
-  position,
   treeSelectRef,
   treeVisible,
   clearable,
   handleMouseEnter,
   handleMouseLeave,
   emitModelValue,
-  showTree,
-  hideTree,
+  openDialog,
+  closeDialog,
   handleCheck,
   handleSelectChange,
   handleCloseTag
@@ -264,12 +214,13 @@ const handleToggleCheck = (v: boolean) => {
  * 清空
  */
 const handleClear = () => {
+  console.log('clear')
   const { multiple } = props
   const tree = treeRef.value
   const { query } = filterer
   if (query) {
     filterer.query = ''
-    treeRef.value?.filter('')
+    tree?.filter('')
     return
   }
 
@@ -282,13 +233,6 @@ const handleClear = () => {
     selectedLabel.value = ''
     tree?.setCurrentKey('')
   }
-  hideTree()
-}
-
-/** 删除键删除 */
-const handleDelete = () => {
-  if (filterer.query) return
-  const lastIndex = tagList.value.length - 1
-  handleCloseTag(tagList.value[lastIndex], lastIndex)
+  closeDialog()
 }
 </script>

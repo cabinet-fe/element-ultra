@@ -1,4 +1,4 @@
-import type { ComponentInternalInstance, SetupContext, ExtractPropTypes, Slots } from 'vue'
+import type { ComponentInternalInstance, SetupContext, ExtractPropTypes } from 'vue'
 import type { treeProps, treeEmits } from './virtual-tree'
 
 export type TreeNodeData = Record<string, any>

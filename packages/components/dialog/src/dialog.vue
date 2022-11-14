@@ -14,7 +14,7 @@
         @click="onModalClick"
       >
         <el-dialog-content
-          v-if="rendered"
+          v-if="!lazyRender || rendered"
           v-bind="$attrs"
           :center="center"
           :close-icon="closeIcon"
