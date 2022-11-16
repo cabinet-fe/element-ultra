@@ -13,9 +13,9 @@ export const tableSelectDisplayProps = {
     default: ''
   },
   theight: {
-    type: Number
+    type: [Number, String]
   },
   editable: Boolean
-} as const
+}
 
 export type TableSelectDisplayProps = ExtractPropTypes<typeof tableSelectDisplayProps>

@@ -75,7 +75,7 @@ declare module '@vue/runtime-core' {
     ElScrollbar: typeof import('element-ultra')['ElScrollbar']
     ElSelect: typeof import('element-ultra')['ElSelect']
     ElSlider: typeof import('element-ultra')['ElSlider']
-    ElSlotsRender: typeof import('element-ultra')['ElSlotsRender']
+    ElNodeRender: typeof import('element-ultra')['ElNodeRender']
     ElStep: typeof import('element-ultra')['ElStep']
     ElSteps: typeof import('element-ultra')['ElSteps']
     ElSubMenu: typeof import('element-ultra')['ElSubMenu']

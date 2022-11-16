@@ -1,5 +1,5 @@
 <template>
-  <div :class="[ns.b(), ns.m(size)]" :style="`height: ${theight}px`">
+  <el-scrollbar :class="[ns.b(), ns.m(size)]" :style="containerStyle">
     <table>
       <colgroup>
         <col v-if="editable" style="width: 60px; text-align: center" />
@@ -77,7 +77,7 @@
         </tr>
       </tbody>
     </table>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
@@ -86,6 +86,7 @@ import { useNamespace } from '@element-ultra/hooks'
 import { tableSelectDisplayProps } from './table-select-display'
 import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { ElRadio } from '@element-ultra/components/radio'
+import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { tableSelectKey } from './token'
 import ElNodeRender from '@element-ultra/components/node-render'
 
@@ -106,6 +107,21 @@ const filteredColumns = computed(() => {
     return columnFilter && props.editable
       ? columns.value.filter(columnFilter)
       : columns.value
+  }
+})
+
+const containerStyle = computed(() => {
+  const { theight } = props
+
+  let heightType = typeof theight
+
+  return {
+    height:
+      heightType === 'number'
+        ? theight + 'px'
+        : heightType === 'string'
+        ? theight
+        : '100%'
   }
 })
 
@@ -138,7 +154,7 @@ let checkedKeys = shallowReactive(new Set<string | number>())
 
 // 因为要跨分页, 所以需要通过以下的逻辑去判断
 const allChecked = computed(() => {
-  return props.data.every((item => checkedKeys.has(item[rootProps.valueKey])))
+  return props.data.every(item => checkedKeys.has(item[rootProps.valueKey]))
 })
 const indeterminate = computed(() => {
   return checkedKeys.size > 0 && !allChecked.value

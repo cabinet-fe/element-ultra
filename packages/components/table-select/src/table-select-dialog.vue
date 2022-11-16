@@ -1,22 +1,23 @@
 <template>
   <el-dialog
     append-to-body
-    :width="dialogWidth"
+    :width="rootProps.dialogWidth"
     :class="ns.b()"
     v-model="visible"
-    :title="dialogTitle"
+    :title="rootProps.dialogTitle"
     body-height="max"
   >
     <div
       :class="ns.e('searcher')"
       v-if="$slots.searcher"
       @keyup.enter="fetchData()"
+      ref="searcherRef"
     >
       <slot name="searcher"></slot>
       <el-button type="primary" @click="fetchData()">查询</el-button>
     </div>
     <TableSelectDisplay
-      :theight="theight"
+      :theight="tableHeight"
       v-loading="loading"
       :data="data || tableData"
       :value="props.value"
@@ -48,9 +49,10 @@ import {
   watch,
   inject,
   ref,
-  toRefs,
   shallowReactive,
-  computed
+  computed,
+onMounted,
+onBeforeMount
 } from 'vue'
 import { ElDialog } from '@element-ultra/components/dialog'
 import { ElButton } from '@element-ultra/components/button'
@@ -76,7 +78,40 @@ const emit = defineEmits<{
 
 const { rootProps } = inject(tableSelectKey)!
 
-const { dialogTitle, theight, dialogWidth } = toRefs(rootProps)
+const tableHeight = shallowRef('0')
+const searcherRef = shallowRef<HTMLElement>()
+const calcTableHeight = () => {
+  const { api, pagination } = rootProps
+  let acc = 0
+  // 有分页标签则加上分页的高度
+  if (api && pagination) {
+    acc += 28
+  }
+
+  if (searcherRef.value) {
+    acc += searcherRef.value.offsetHeight
+  }
+
+  tableHeight.value =  `calc(100% - ${acc}px)`
+}
+
+const obs = new ResizeObserver(([entry]) => {
+  calcTableHeight()
+})
+
+watch(searcherRef, (searcher, oldSearcher) => {
+  oldSearcher && obs.unobserve(oldSearcher)
+  searcher && obs.observe(searcher)
+})
+
+onMounted(() => {
+  calcTableHeight()
+})
+
+onBeforeMount(() => {
+  obs.disconnect()
+})
+
 
 const pageQuery = shallowReactive({
   page: 1,

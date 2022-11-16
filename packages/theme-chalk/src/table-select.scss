@@ -16,13 +16,11 @@
   overflow: auto;
   position: relative;
   box-sizing: border-box;
-  height: fit-content;
-  background-color: #fff;
+  background-color: var(--el-bg-color);
   font-size: 14px;
   color: #606266;
   border-collapse: collapse;
-  border: 1px solid #ebeef5;
-  border-bottom: 0;
+  border: 1px solid var(--el-border-color);
 
 
   table {
@@ -30,10 +28,22 @@
     border-spacing: 0;
     table-layout: fixed;
   }
-  tr {
-    border-bottom: 1px solid #ebeef5;
-    cursor: pointer;
 
+
+  thead th {
+    border-bottom: 1px solid var(--el-border-color-light);
+    color: #909399;
+    font-weight: 600;
+  }
+
+  tbody td {
+    border-bottom: 1px solid var(--el-border-color-extra-light);
+  }
+
+  tbody tr {
+    &:hover {
+      background-color: #f5f7fa;
+    }
   }
 
   th {
@@ -63,34 +73,6 @@
       padding: 8px 12px;
     }
   }
-
-  @include e('header') {
-    color: #909399;
-    font-weight: 500;
-    text-align: left;
-  }
-  @include e(body) {
-    @include e('wrapper') {
-      @include e('radio') {
-        .el-radio {
-          padding: 10px;
-          cursor: pointer;
-        }
-      }
-      @include e('checkbox') {
-        .el-radio {
-          padding: 10px;
-          cursor: pointer;
-        }
-      }
-    }
-    tr:hover {
-      background-color: #f5f7fa;
-    }
-    @include e('row-stripe') {
-      background-color: #fafafa;
-    }
-  }
 }
 
 @include b(table-select-dialog) {
@@ -104,6 +86,7 @@
 
     & > * {
       vertical-align: middle;
+      margin-bottom: 4px;
     }
     @include e(btn) {
       text-align: right;
@@ -112,6 +95,10 @@
     @include e(table) {
       overflow-x: scroll;
     }
+  }
+
+  tr {
+    cursor: pointer;
   }
 
   @include e(pagination) {

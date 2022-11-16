@@ -15,15 +15,14 @@
     :path="path"
     value-key="code"
     @change="handleChange"
-    :theight="600"
     :column-filter="columnFilter"
   >
     <el-button type="primary" :icon="Plus">自定义按钮</el-button>
 
     <template #searcher>
       <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-      <!-- <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-      <el-tree-select v-model="query.name" :data="[]"></el-tree-select> -->
+      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
+      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
       <!-- <el-input v-model="query.name" /> -->
       <el-date-picker v-model="query.$date" clearable />
     </template>
@@ -141,12 +140,12 @@ let path = $ref('')
 
 const handleChange = (data: any) => {
   // path = '/page-play'
-  setTimeout(() => {
-    singleData = {
-      code: 'aaa',
-      summary: 'test'
-    }
-  }, 3000)
+  // setTimeout(() => {
+  //   singleData = {
+  //     code: 'aaa',
+  //     summary: 'test'
+  //   }
+  // }, 3000)
 }
 
 let dialogTitle = '弹框标题'

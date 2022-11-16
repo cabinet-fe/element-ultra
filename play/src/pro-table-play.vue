@@ -10,7 +10,6 @@
     checkable
     ref="tableRef"
     show-summary
-    @checked="c.log"
   >
     <template #column-conf="{ column }">
       <el-input

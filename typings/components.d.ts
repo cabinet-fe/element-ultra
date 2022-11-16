@@ -77,7 +77,7 @@ declare module 'vue' {
     ElScrollbar: typeof import('../packages/element-ultra')['ElScrollbar']
     ElSelect: typeof import('../packages/element-ultra')['ElSelect']
     ElSlider: typeof import('../packages/element-ultra')['ElSlider']
-    ElSlotsRender: typeof import('../packages/element-ultra')['ElSlotsRender']
+    ElNodeRender: typeof import('../packages/element-ultra')['ElNodeRender']
     ElStep: typeof import('../packages/element-ultra')['ElStep']
     ElSteps: typeof import('../packages/element-ultra')['ElSteps']
     ElSubMenu: typeof import('../packages/element-ultra')['ElSubMenu']
