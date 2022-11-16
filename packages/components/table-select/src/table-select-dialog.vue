@@ -176,6 +176,7 @@ const fetchData = async (reset = true) => {
   }, {} as Record<string, any>)
 
   loading.value = true
+
   const { total, data } = await configStore
     .tableSelectRequestMethod({
       api,
@@ -187,6 +188,7 @@ const fetchData = async (reset = true) => {
     .finally(() => {
       loading.value = false
     })
+
 
   if (total) {
     totalSize.value = total

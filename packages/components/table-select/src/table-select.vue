@@ -5,7 +5,7 @@
     </slot>
   </div>
 
-  <TableSelectDisplay v-if="table" :data="displayData">
+  <TableSelectDisplay v-if="table" :data="displayData" theight="auto">
     <template #action>
       <slot name="action"></slot>
     </template>

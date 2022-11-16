@@ -8,8 +8,7 @@ const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
 
-  proTableRequestMethod (options) {
-
+  proTableRequestMethod(options) {
     return new Promise(rs => {
       setTimeout(() => {
         let data = Array.from({ length: 1000 }).map((_, i) => ({
@@ -17,14 +16,17 @@ setConfigStore({
           money: ~~(Math.random() * 1000),
           name2: 1,
           children: [
-            { name: '你好', money: 10086, id: `${i}-1`,
-            children: [
-              { name: '你好' + i + '-1-1', money: 666, id: i + '-1-1' },
-              { name: '你好' + i + '-1-2', money: 666, id: i + '-1-2' },
-              { name: '你好' + i + '-1-3', money: 666, id: i + '-1-3' },
-            ]
-          },
-          { name: '你好', money: 10001, id: `${i}-2`,}
+            {
+              name: '你好',
+              money: 10086,
+              id: `${i}-1`,
+              children: [
+                { name: '你好' + i + '-1-1', money: 666, id: i + '-1-1' },
+                { name: '你好' + i + '-1-2', money: 666, id: i + '-1-2' },
+                { name: '你好' + i + '-1-3', money: 666, id: i + '-1-3' }
+              ]
+            },
+            { name: '你好', money: 10001, id: `${i}-2` }
           ],
           id: i
         }))
@@ -36,6 +38,26 @@ setConfigStore({
           }
         })
       }, 500)
+    })
+  },
+
+  tableSelectRequestMethod(option) {
+    return new Promise((rs, rj) => {
+      setTimeout(() => {
+        const data = Array.from({ length: 20 }).map((_, i) => {
+
+          return {
+            code: 'BM' + (100000 + (option.query.page - 1) * option.query.size + i + 1),
+            summary: `摘要${i + 1}`,
+            project: `项目${i + 1}`
+          }
+        })
+
+        rs({
+          total: 100,
+          data
+        })
+      }, 400)
     })
   }
 })

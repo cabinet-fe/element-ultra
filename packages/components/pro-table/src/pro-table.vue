@@ -221,8 +221,6 @@ const fetchData = async (resetPage = true) => {
     query.page = 1
   }
 
-  console.log(12)
-
   const res = await configStore.proTableRequestMethod(params).finally(() => {
     loading.value = false
   })

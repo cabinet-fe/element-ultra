@@ -48,7 +48,7 @@
             <el-checkbox
               v-if="multiple"
               :value="row[valueKey]"
-              :checked="checkedKeys.has(row[valueKey])"
+              :checked="!!checkedKeys[row[valueKey]]"
               @change="toggleChecked($event, row)"
               @click.stop
             />
@@ -150,32 +150,37 @@ const getRowColumns = (row: any, index: number) => {
 
 // 多选相关逻辑---------
 // 选择的数据的value值, 该数据用以在初始化时回显用(因为对象之间不可以判断直接相等)
-let checkedKeys = shallowReactive(new Set<string | number>())
+let checkedKeys = shallowRef(shallowReactive<Record<string, any>>({}))
 
 // 因为要跨分页, 所以需要通过以下的逻辑去判断
 const allChecked = computed(() => {
-  return props.data.every(item => checkedKeys.has(item[rootProps.valueKey]))
+  return props.data.every(item => {
+    return !!checkedKeys.value[item[rootProps.valueKey]]
+  })
 })
+
 const indeterminate = computed(() => {
-  return checkedKeys.size > 0 && !allChecked.value
+  return props.data.some(item => !!checkedKeys.value[item[rootProps.valueKey]]) && !allChecked.value
 })
 
 const toggleAllChecked = (checked: boolean) => {
   const { data } = props
   const { valueKey } = rootProps
   if (checked) {
-    data.forEach(item => checkedKeys.add(item[valueKey]))
+    data.forEach(item => checkedKeys.value[item[valueKey]] = item)
   } else {
-    data.forEach(item => checkedKeys.delete(item[valueKey]))
+    data.forEach(item => {
+      delete checkedKeys.value[ item[valueKey] ]
+    })
   }
 }
 
 const toggleChecked = (checked: boolean, row: any) => {
   const { valueKey } = rootProps
   if (checked) {
-    checkedKeys.add(row[valueKey])
+    checkedKeys.value[row[valueKey]] = row
   } else {
-    checkedKeys.delete(row[valueKey])
+    delete checkedKeys.value[row[valueKey]]
   }
 }
 
@@ -186,27 +191,24 @@ const handleClickRow = (row: any) => {
   const { editable } = props
   if (!editable) return
   if (multiple.value) {
-    toggleChecked(!checkedKeys.has(row[valueKey.value]), row)
+    toggleChecked(!checkedKeys.value[row[valueKey.value]], row)
   } else {
     selectedKey.value = row[valueKey.value]
   }
 }
 
 // 通用
-const getValue = ():
-  | Record<string, any>[]
-  | Record<string, any>
-  | undefined => {
+const getValue = () => {
   const { valueKey, multiple } = rootProps
   const { data } = props
 
   return multiple
-    ? data.filter(item => checkedKeys.has(item[valueKey]))
+    ? Object.values(checkedKeys.value)
     : data.find(item => selectedKey.value === item[valueKey])
 }
 
 const clear = () => {
-  checkedKeys.clear()
+  checkedKeys.value = shallowReactive({})
   selectedKey.value = undefined
 }
 
