@@ -15,13 +15,14 @@ export const proTableContextKey: InjectionKey<{
   state: ShallowReactive<{
     total: number
     data: any[]
-    selection: any[]
   }>;
   props: ProTableProps;
   fetchData: (resetPage?: boolean) => Promise<void>
   getQueryParams: () => {
     api: string
     query: Record<string, any>
+    extra?: Record<string, any>
+    sortKeys?: Record<string, 'default' | 'asc' | 'dsc'>
   }
   find: () => any[],
   deleteRow: (index: number) => void,

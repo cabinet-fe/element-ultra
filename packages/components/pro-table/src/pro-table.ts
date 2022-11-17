@@ -17,6 +17,10 @@ export const proTableProps = {
   data: {
     type: Array as PropType<any[]>
   },
+  /** 额外的请求信息 */
+  requestExtra: {
+    type: Object as PropType<Record<string, any>>
+  },
   /** 列配置 */
   columns: {
     type: Array as PropType<ProTableColumn[]>,

@@ -49,8 +49,8 @@
       v-if="pagination"
       :class="ns.e('pagination')"
       style="justify-content: flex-end"
-      v-model:current-page="query.page"
-      v-model:page-size="query.size"
+      v-model:current-page="pageQuery.page"
+      v-model:page-size="pageQuery.size"
       @change="fetchData(false)"
       small
       layout="total, prev, pager, next,  sizes, jumper"
@@ -90,14 +90,12 @@ defineOptions({
 const props = defineProps(proTableProps)
 const emit = defineEmits(proTableEmits)
 
-
 const slots = useSlots()
 const ns = useNamespace('pro-table')
 
 const columnSlots = computed(() => {
   return props.columns?.filter(column => column.slot) || []
 })
-
 
 const tableRef = shallowRef<DataTableInstance>()
 
@@ -109,7 +107,7 @@ const [configStore] = useConfig()
 
 const pageSizes = [20, 60, 120, 200, 1000]
 
-const query = shallowReactive({
+const pageQuery = shallowReactive({
   page: 1,
   size: configStore.proTableDefaultSize || 20
 })
@@ -146,12 +144,16 @@ onMounted(() => {
   !toolsVisible.value && calcTableHeight(0)
 })
 
-let loading = shallowRef(false)
+// 参数相关逻辑--------------------------------------------
+let sortKeys: Record<string, 'asc' | 'dsc' | 'default'> | undefined = undefined
+const handleSort = (_sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
+  sortKeys = _sortKeys
+}
 
 const getQueryParams = () => {
   let _query = {
     ...props.query,
-    ...(props.pagination ? query : null)
+    ...(props.pagination ? pageQuery : null)
   } as Record<string, any>
   // 还原真实的请求参数
   let realQuery = Object.keys(_query).reduce((acc, cur) => {
@@ -165,7 +167,9 @@ const getQueryParams = () => {
 
   return {
     api: props.api!,
-    query: realQuery
+    query: realQuery,
+    extra: props.requestExtra,
+    sortKeys
   }
 }
 
@@ -204,6 +208,8 @@ const computedSummaryMethod = computed(() => {
       : undefined)) as any
 })
 
+let loading = shallowRef(false)
+
 /**
  * 查询数据
  * @param resetPage 是否重置分页, 只有在 分页相关的组件改变时无需重置
@@ -218,7 +224,7 @@ const fetchData = async (resetPage = true) => {
   loading.value = true
 
   if (resetPage) {
-    query.page = 1
+    pageQuery.page = 1
   }
 
   const res = await configStore.proTableRequestMethod(params).finally(() => {
@@ -236,10 +242,6 @@ const fetchData = async (resetPage = true) => {
   state.data = data
 
   emit('loaded', res)
-}
-
-const handleSort = (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
-  console.log(sortKeys)
 }
 
 let canAutoQuery = shallowRef(true)
@@ -299,7 +301,7 @@ const exposed = {
   getQueryParams,
   find,
   deleteRow,
-  getColumns: () => tableRef.value?.getColumns()
+  getColumns: () => tableRef.value?.getColumns() || []
 }
 
 provide(proTableContextKey, exposed)

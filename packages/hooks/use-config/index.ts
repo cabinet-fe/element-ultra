@@ -2,8 +2,14 @@
 import { shallowReactive, shallowReadonly, type Component } from 'vue'
 
 interface RequestOptions {
+  /** 请求接口 */
   api: string
+  /** 请求查询参数 */
   query: Record<string, any>
+  /** 请求额外信息, 在pro-table中传入 */
+  extra?: Record<string, any>
+  /** 排序字段信息 */
+  sortKeys?: Record<string, 'default' | 'asc' | 'dsc'>
 }
 
 export type RequestResponse = {
