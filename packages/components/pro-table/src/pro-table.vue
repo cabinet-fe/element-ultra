@@ -148,6 +148,7 @@ onMounted(() => {
 let sortKeys: Record<string, 'asc' | 'dsc' | 'default'> | undefined = undefined
 const handleSort = (_sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
   sortKeys = _sortKeys
+  fetchData(false)
 }
 
 const getQueryParams = () => {
