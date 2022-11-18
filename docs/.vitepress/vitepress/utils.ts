@@ -1,9 +1,4 @@
-import {
-  isActive,
-  normalize,
-  endingSlashRE,
-  isExternal,
-} from 'vitepress/dist/client/theme-default/utils'
+import vp  from 'vitepress'
 import { inBrowser } from 'vitepress'
 
 import type { Route } from 'vitepress'
@@ -21,6 +16,9 @@ export {
 } from 'vitepress/dist/client/theme-default/utils'
 
 export function utoa(data: string): string {
+  const buf = Buffer.from(encodeURIComponent(data))
+
+  buf.toString('base64')
   return btoa(unescape(encodeURIComponent(data)))
 }
 

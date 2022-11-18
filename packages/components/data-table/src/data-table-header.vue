@@ -65,7 +65,7 @@
 <script lang="ts" setup>
 import DataTableAlignAdjuster from './data-table-align-adjuster.vue'
 import { throttle } from 'lodash'
-import { computed, inject, provide, shallowRef, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, provide, shallowRef, watch } from 'vue'
 import { dataHeaderToken, dataTableToken } from './token'
 import type { TableHeader } from './utils'
 import { LeftCell, RightCell, CenterCell } from './data-table-header-cell'
@@ -163,9 +163,9 @@ const resizeMouseupHandler = () => {
 }
 
 const getRowColumns = (columns: TableHeader[]) => {
-  let left: TableHeader[] = []
-  let center: TableHeader[] = []
-  let right: TableHeader[] = []
+  const left: TableHeader[] = []
+  const center: TableHeader[] = []
+  const right: TableHeader[] = []
   columns.forEach(column => {
     if (column.data.fixed === 'left') {
       left.push(column)
@@ -190,6 +190,19 @@ watch(
 )
 
 const adjusterRef = shallowRef<InstanceType<typeof DataTableAlignAdjuster>>()
+
+const windowClickHandler = (e: MouseEvent) => {
+  const target = e.target as HTMLElement
+  const trigger = target.closest('.adjuster-trigger')
+  const adjuster = target.closest('.el-data-table__align-adjuster')
+  if (trigger || adjuster) return
+  adjusterRef.value?.close()
+}
+window.addEventListener('click', windowClickHandler)
+
+onBeforeUnmount(() => {
+  window.removeEventListener('click', windowClickHandler)
+})
 
 provide(dataHeaderToken, {
   getCellRowSpan,

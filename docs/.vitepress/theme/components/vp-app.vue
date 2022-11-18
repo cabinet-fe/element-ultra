@@ -1,3 +1,37 @@
+<template>
+  <div class="App">
+    <!-- 导航 -->
+    <VPNav />
+    <!-- 副导航 -->
+    <VPSubNav v-if="hasSidebar" @open-menu="toggleSidebar(true)" />
+    <!-- 侧栏 -->
+    <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
+      <template #bottom>
+        <slot name="sidebar-bottom" />
+      </template>
+    </VPSidebar>
+    <!-- 内容 -->
+    <VPContent :is-sidebar-open="isSidebarOpen">
+      <template #content-top>
+        <slot name="content-top" />
+      </template>
+      <template #content-bottom>
+        <slot name="content-bottom" />
+      </template>
+      <template #aside-top>
+        <slot name="aside-top" />
+      </template>
+      <template #aside-mid>
+        <slot name="aside-mid" />
+      </template>
+      <template #aside-bottom>
+        <slot name="aside-bottom" />
+      </template>
+    </VPContent>
+  </div>
+</template>
+
+
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import nprogress from 'nprogress'
@@ -5,7 +39,6 @@ import { useToggle } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 import { breakpoints } from '../constant'
-import VPOverlay from './vp-overlay.vue'
 import VPNav from './vp-nav.vue'
 import VPSubNav from './vp-subnav.vue'
 import VPSidebar from './vp-sidebar.vue'
@@ -52,37 +85,3 @@ onMounted(async () => {
 })
 </script>
 
-<template>
-  <div class="App">
-    <VPOverlay
-      class="overlay"
-      :show="isSidebarOpen"
-      @click="toggleSidebar(false)"
-    />
-    <VPNav />
-    <VPSubNav v-if="hasSidebar" @open-menu="toggleSidebar(true)" />
-    <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
-      <template #bottom>
-        <slot name="sidebar-bottom" />
-      </template>
-    </VPSidebar>
-    <VPContent :is-sidebar-open="isSidebarOpen">
-      <template #content-top>
-        <slot name="content-top" />
-      </template>
-      <template #content-bottom>
-        <slot name="content-bottom" />
-      </template>
-      <template #aside-top>
-        <slot name="aside-top" />
-      </template>
-      <template #aside-mid>
-        <slot name="aside-mid" />
-      </template>
-      <template #aside-bottom>
-        <slot name="aside-bottom" />
-      </template>
-    </VPContent>
-    <Debug />
-  </div>
-</template>

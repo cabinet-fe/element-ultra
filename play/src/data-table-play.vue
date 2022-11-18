@@ -13,6 +13,7 @@
     :data="data"
     :show-summary="showSummary"
     height="calc(100% - 40px)"
+    tree
   >
     <template #column-conf="{ column }">
       <div class="conf-wrap">
@@ -43,7 +44,7 @@
 
 <script lang="tsx" setup>
 import type { DataTableColumn } from '@element-ultra/components'
-import { shallowRef, computed } from 'vue'
+import { shallowRef, watch } from 'vue'
 import { n } from 'cat-kit'
 
 const preset = shallowRef<string>()
@@ -115,16 +116,27 @@ const xings =
   '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章'
 const mings = '啊行者三四里华琴浩杰龙晨勉国爱葱飞鹏婷'
 
-const data = computed(() => {
-  return Array.from({ length: count.value }).map((_, i) => {
-    const xing = xings[~~(Math.random() * xings.length)]
-    const ming = mings[~~(Math.random() * mings.length)]
-    return {
-      name: xing + ming + i,
-      id: i
-    }
-  })
-})
+const data = shallowRef<any[]>([])
+
+watch(count, () => {
+  setTimeout(() => {
+    data.value = Array.from({ length: count.value }).map((_, i) => {
+      const xing = xings[~~(Math.random() * xings.length)]
+      const ming = mings[~~(Math.random() * mings.length)]
+      return {
+        name: xing + ming + i,
+        id: i,
+        children: Array.from({ length: 3 }).map((_, ci) => {
+          return {
+            name: `${i}-${ci}`,
+            id: `${i}-${ci}`,
+            children: []
+          }
+        })
+      }
+    })
+  }, 500)
+}, { immediate: true })
 </script>
 
 <script lang="tsx">

@@ -2,12 +2,15 @@
   <teleport to="body">
     <div
       v-if="visible"
-      v-click-outside="close"
       :class="ns.e('align-adjuster')"
       :style="style"
       ref="adjusterRef"
     >
-      <ElRadioGroup v-model="column!.align" @change="close">
+      <ElRadioGroup
+        :model-value="column!.align || 'left'"
+        @update:model-value="column!.align = $event"
+        @change="close"
+      >
         <ElRadio value="left">左</ElRadio>
         <ElRadio value="center">中</ElRadio>
         <ElRadio value="right">右</ElRadio>
@@ -20,7 +23,6 @@
 
 <script lang="ts" setup>
 import { inject, nextTick, shallowReactive, shallowRef } from 'vue'
-import { ClickOutside as vClickOutside } from '@element-ultra/directives'
 import { ElRadio, ElRadioGroup } from '@element-ultra/components/radio'
 import type { InternalColumn } from './utils'
 import { dataTableToken } from './token'

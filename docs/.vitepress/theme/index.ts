@@ -1,9 +1,10 @@
 import ElementUltra, { useConfig, type ProTableRequestMethod } from 'element-ultra'
-import VPApp, { globals, NotFound } from '../vitepress'
-import { define } from '../utils/types'
+import Layout from './components/vp-app.vue'
+import NotFound from './components/vp-not-found.vue'
+
+import { Theme } from 'vitepress'
 
 import 'uno.css'
-import type { Theme } from 'vitepress'
 
 const request: ProTableRequestMethod = ({ api, query }) => {
   //  在控制台查看参数
@@ -36,14 +37,14 @@ setConfigStore({
   proTableRequestMethod: request
 })
 
-export default define<Theme>({
+const theme: Theme = {
   NotFound,
-  Layout: VPApp,
+  Layout,
   enhanceApp: ({ app }) => {
+    // @ts-ignore
     app.use(ElementUltra)
-
-    globals.forEach(([name, Comp]) => {
-      app.component(name, Comp)
-    })
   }
-})
+}
+
+export default theme
+

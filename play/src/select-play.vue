@@ -37,6 +37,6 @@ const options1 = Array.from({ length: 100 }).map((_, index) => ({
 
 const model = reactive({
   value1: undefined,
-  value2: undefined
+  value2: []
 })
 </script>

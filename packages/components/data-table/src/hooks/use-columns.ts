@@ -90,7 +90,7 @@ export default function useColumns(
         fixed: 'left',
         render: ctx => {
           let wrap = ctx.wrap as TreeRow
-          return wrap.children
+          return wrap.children?.length
             ? h(
                 ElIcon,
                 {

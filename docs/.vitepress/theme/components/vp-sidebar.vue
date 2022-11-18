@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { onMounted, provide, shallowRef, watch } from 'vue'
+import { provide, shallowRef, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarLink from './sidebar/vp-sidebar-link.vue'
 
 defineProps<{ open: boolean }>()
-defineEmits(['close'])
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
 
-// const isHome = useIsHome()
 const { sidebars, hasSidebar } = useSidebar()
 
 let activeLink = shallowRef<HTMLElement>()
@@ -41,7 +42,7 @@ provide('setActiveLink', setActiveLink)
           v-for="(child, childKey) in item.children"
           :key="childKey"
           :item="child"
-          @close="$emit('close')"
+          @close="emit('close')"
         />
       </section>
     </div>

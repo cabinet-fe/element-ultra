@@ -10,6 +10,7 @@
     checkable
     ref="tableRef"
     show-summary
+    tree
   >
     <template #column-conf="{ column }">
       <el-input

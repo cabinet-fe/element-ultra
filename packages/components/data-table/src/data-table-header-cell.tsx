@@ -105,6 +105,7 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
               onClick={e =>
                 adjusterRef.value?.open(e.target as HTMLTableCellElement, data)
               }
+              class="adjuster-trigger"
               style='cursor: default'
             >
               {content}
