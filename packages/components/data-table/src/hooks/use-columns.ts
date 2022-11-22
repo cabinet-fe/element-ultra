@@ -257,7 +257,7 @@ export default function useColumns(
               return slots[column.slot!]?.(ctx)
             }
           } else {
-            column.render = ({ val }) => val
+            column.render = ({ val }) => val instanceof Object ? String(val) : val
           }
         }
 
