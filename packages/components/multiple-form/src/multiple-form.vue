@@ -51,6 +51,15 @@
             </td>
           </tr>
         </tbody>
+        <tfoot v-if="!!summaryMethods">
+          <tr>
+            <td>合计</td>
+            <td v-for="column of visibleColumns!">
+              {{ getColumnSummary(column) }}
+            </td>
+            <td></td>
+          </tr>
+        </tfoot>
       </table>
     </el-scrollbar>
   </div>
@@ -83,7 +92,11 @@ import {
   shallowReactive
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { multipleFormEmits, multipleFormProps } from './multiple-form'
+import {
+  MultipleFormColumn,
+  multipleFormEmits,
+  multipleFormProps
+} from './multiple-form'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 import { ElForm } from '@element-ultra/components/form'
@@ -130,6 +143,30 @@ const visibleColumns = computed(() => {
   const { columns } = props
   return columns?.filter(column => column.visible !== false)
 })
+
+const summaryMethods = computed(() => {
+  return visibleColumns.value
+    ?.filter(column => !!column.summary)
+    .reduce((acc, cur) => {
+      acc[cur.key] = cur.summary
+      return acc
+    }, {} as Record<string, any>)
+})
+
+/** 获取列的合计 */
+const getColumnSummary = (column: MultipleFormColumn) => {
+  const method = summaryMethods.value?.[column.key]
+  if (!method) return ''
+  const total = internalData.value.reduce((acc, cur) => {
+    return acc + +cur[column.key]
+  }, 0)
+  if (typeof method === 'boolean') {
+    return total
+  }
+  if (typeof method === 'function') {
+    return method(total)
+  }
+}
 
 const { form, rules, dialog, open, submit } = useDialogEdit({
   props,

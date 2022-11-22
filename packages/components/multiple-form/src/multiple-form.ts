@@ -60,6 +60,9 @@ export type MultipleFormColumn = {
 
   /** 对象嵌套 */
   nest?: MultipleFormColumn[]
+
+  /** 合计 */
+  summary?: boolean | ((total: number) => (number | string))
 }
 
 export const multipleFormProps = {

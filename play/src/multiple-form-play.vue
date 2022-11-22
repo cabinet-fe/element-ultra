@@ -79,6 +79,7 @@ const columns: MultipleFormColumn[] = [
           rs(20)
         }, 2000)
       ),
+      summary: true,
     align: 'left'
   },
   {
