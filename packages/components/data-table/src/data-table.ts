@@ -21,6 +21,8 @@ export type DataTableColumn = {
   render?: (ctx: {
     /** 单元格的值, 由column.key决定 */
     val: any
+    /** val的别名，等同于val */
+    v: any
     /** 行数据 */
     row: any
     /** 行索引 */
