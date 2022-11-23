@@ -5,6 +5,7 @@
       v-show="(visible.barX && hovered) || moving.x"
       :class="[ns.e('thumb'), ns.em('thumb', 'x'), ns.is('moving', moving.x)]"
       ref="barXRef"
+      :style="{ zIndex }"
     ></div>
   </transition>
 
@@ -14,6 +15,7 @@
       v-show="(visible.barY && hovered) || moving.y"
       :class="[ns.e('thumb'), ns.em('thumb', 'y'), ns.is('moving', moving.y)]"
       ref="barYRef"
+      :style="{ zIndex }"
     ></div>
   </transition>
 </template>
@@ -30,6 +32,12 @@ import {
 } from 'vue'
 
 import type { BarState, BarX, BarY } from './scrollbar'
+
+defineProps({
+  zIndex: {
+    type: Number
+  }
+})
 
 const emit = defineEmits({
   'scroll-to': (ctx: { left?: number; top?: number }) => true

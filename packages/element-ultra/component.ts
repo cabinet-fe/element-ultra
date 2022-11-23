@@ -92,7 +92,7 @@ import { ElSlider } from '@element-ultra/components/slider'
 import { ElSpace } from '@element-ultra/components/space'
 import { ElSteps, ElStep } from '@element-ultra/components/steps'
 import { ElSwitch } from '@element-ultra/components/switch'
-import { ElTable, ElTableColumn } from '@element-ultra/components/table'
+import { ElTable } from '@element-ultra/components/table'
 import { ElTabs, ElTabPane } from '@element-ultra/components/tabs'
 import { ElTag } from '@element-ultra/components/tag'
 import { ElTextarea } from '@element-ultra/components/textarea'
@@ -196,7 +196,6 @@ export default [
   ElStep,
   ElSwitch,
   ElTable,
-  ElTableColumn,
   ElTabs,
   ElTabPane,
   ElTag,

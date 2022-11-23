@@ -1,6 +1,7 @@
 import { FORM_COMPONENT_PROPS } from '@element-ultra/constants'
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
+import type { TreeNode } from '@element-ultra/components/tree'
 
 export const treeSelectProps = {
   ...FORM_COMPONENT_PROPS,
@@ -73,7 +74,7 @@ export const treeSelectProps = {
     default: true
   },
   selectable: {
-    type: Function as PropType<(node: any) => boolean>
+    type: Function as PropType<(node: TreeNode) => boolean>
   }
 } as const
 

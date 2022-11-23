@@ -1,46 +1,26 @@
 <template>
-  <el-table
-    :data="data"
-    :height="600"
-    :tree-props="{ children: 'children' }"
-    row-key="id"
-
-  >
-    <el-table-column type="index"></el-table-column>
-    <el-table-column type="selection" :checkable="(_, index) => index % 2 === 0"></el-table-column>
-
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="序号" type="index"></el-table-column>
-    <el-table-column :width="120" name="测试1" fixed="left">
-      <el-table-column
-        name="测试1-1"
-        fixed="left"
-        prop="name"
-      ></el-table-column>
-      <el-table-column name="测试1-2"></el-table-column>
-    </el-table-column>
-    <el-table-column prop="name" fixed="left"></el-table-column>
-  </el-table>
+  <el-table :data="data" :columns="columns"> </el-table>
 </template>
 
 <script lang="ts" setup>
+import type { TableColumn } from '@element-ultra/element-ultra'
 import { computed } from '@vue/reactivity'
 import { shallowRef } from 'vue'
 
-const count = shallowRef(300)
+const count = shallowRef(50)
 
 const xings =
   '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章'
 const mings = '啊行者三四里华琴浩杰龙晨勉国爱葱飞鹏婷'
+
+const columns: TableColumn[] = [
+  { name: '姓名', key: 'name', minWidth: 200,  fixed: 'left' },
+  { name: '姓名', key: 'name1', minWidth: 200 },
+  { name: '姓名', key: 'name2', minWidth: 200 },
+  { name: '姓名', key: 'name3', minWidth: 200 },
+  { name: '姓名', key: 'name4', minWidth: 200 },
+  { name: '姓名', key: 'name5', minWidth: 200 },
+]
 
 const data = computed(() => {
   return Array.from({ length: count.value }).map((_, i) => {
@@ -50,10 +30,10 @@ const data = computed(() => {
       name: xing + ming + i,
       id: i,
       children: [
-        { name: '你好' + i + '-1', id: i + '-1',
-          children: [
-            { name: '你好' + i + '-1-1', id: i + '-1-1' }
-          ]
+        {
+          name: '你好' + i + '-1',
+          id: i + '-1',
+          children: [{ name: '你好' + i + '-1-1', id: i + '-1-1' }]
         },
         { name: '你好' + i + '-2', id: i + '-2' }
       ]

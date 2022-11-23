@@ -214,7 +214,6 @@ const handleToggleCheck = (v: boolean) => {
  * 清空
  */
 const handleClear = () => {
-  console.log('clear')
   const { multiple } = props
   const tree = treeRef.value
   const { query } = filterer

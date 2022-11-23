@@ -1,9 +1,8 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall } from '@element-ultra/utils'
 import Table from './src/table.vue'
-import TableColumn from './src/tableColumn'
 
-export const ElTable = withInstall(Table, {
-  TableColumn,
-})
+export const ElTable = withInstall(Table)
+
+export * from './src/table'
+
 export default ElTable
-export const ElTableColumn = withNoopInstall(TableColumn)

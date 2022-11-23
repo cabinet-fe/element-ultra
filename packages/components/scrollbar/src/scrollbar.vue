@@ -16,7 +16,7 @@
     <!-- 滚动容器 end -->
 
     <!-- 滚动条 -->
-    <Bars ref="barsRef" @scroll-to="scrollTo" />
+    <Bars ref="barsRef" :z-index="zIndex"  @scroll-to="scrollTo" />
   </div>
 </template>
 

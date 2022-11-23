@@ -54,6 +54,10 @@ export const scrollbarProps = {
   tag: {
     type: String,
     default: 'div'
+  },
+  zIndex: {
+    type: Number,
+    default: 1
   }
 }
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>

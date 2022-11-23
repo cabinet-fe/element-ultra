@@ -1,41 +1,14 @@
+import type { TableColumn } from '@element-ultra/components/table'
 import type { ComponentSize } from '@element-ultra/constants'
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 数据表格列 */
-export type DataTableColumn = {
-  /** 是否固定 */
-  fixed?: 'left' | 'right'
-  align?: 'left' | 'center' | 'right'
-  /** 列的默认宽度 */
-  width?: number
-  /** 列的最小宽度 */
-  minWidth?: number
-  /** 列的名称, 在表头中显示 */
-  name: string | (() => any)
-  /** 从值中取的字段, 支持链式 */
-  key: string
-  /** 是否支持排序 */
-  sortable?: boolean
-  /** 自定义渲染 */
-  render?: (ctx: {
-    /** 单元格的值, 由column.key决定 */
-    val: any
-    /** val的别名，等同于val */
-    v: any
-    /** 行数据 */
-    row: any
-    /** 行索引 */
-    index: number
-    /** 行包装器 */
-    wrap: any
-  }) => any
-  /** 子列 */
-  children?: DataTableColumn[]
-  /** 插槽名称, 开启将会有个默认插槽 */
-  slot?: string
+export interface DataTableColumn extends TableColumn {
   /** 预设 */
   preset?: string
+  /** 子列 */
+  children?: DataTableColumn[]
 }
 
 export const dataTableProps = {
