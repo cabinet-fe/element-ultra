@@ -4,11 +4,19 @@ import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 数据表格列 */
-export interface DataTableColumn extends TableColumn {
+export interface DataTableColumn extends Omit<TableColumn, 'render'> {
   /** 预设 */
   preset?: string
   /** 子列 */
   children?: DataTableColumn[]
+  /** 渲染 */
+  render: (ctx: {
+    val: any,
+    v: any,
+    row: Record<string, any>
+    index: number
+    wrap: DataTreeRow | Row
+  }) => any
 }
 
 export const dataTableProps = {
@@ -107,10 +115,10 @@ export interface Row {
   data: any
   index: number
 }
-export interface TreeRow extends Row {
+export interface DataTreeRow extends Row {
   expanded: boolean
   depth: number
-  children?: TreeRow[]
+  children?: DataTreeRow[]
 }
 
 export type DataTableProps = ExtractPropTypes<typeof dataTableProps>

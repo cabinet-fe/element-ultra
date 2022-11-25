@@ -1,16 +1,14 @@
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { ProTableColumn } from '@element-ultra/components/pro-table'
+import type { TableColumn } from '@element-ultra/components/table'
 import { SizeProp } from '@element-ultra/constants'
 
-export interface TableSelectColumn extends ProTableColumn {}
+export interface TableSelectColumn extends TableColumn {}
 
 export const tableSelectProps = {
   /** 选择的值 */
   modelValue: {
-    type: [Object, Array] as PropType<
-      Record<string, any> | Record<string, any>[]
-    >
+    type: [Object, Array] as PropType<Record<string, any> | Record<string, any>[]>
   },
   /** 列, 属性可以查看pro-table的属性 */
   columns: {
@@ -93,11 +91,10 @@ export const tableSelectProps = {
 
 export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>
 
-type EmitValue = Record<string, any> | Record<string, any>[]
 
 export const tableSelectEmits = {
-  'update:modelValue': (v: EmitValue) => true,
-  change: (v: EmitValue) => true
+  'update:modelValue': (v: TableSelectProps['modelValue'] | null) => true,
+  change: (v: TableSelectProps['modelValue'] | null) => true
 }
 
 export type TableSelectEmits = EmitFn<typeof tableSelectEmits>

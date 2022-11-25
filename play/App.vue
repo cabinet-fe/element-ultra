@@ -88,7 +88,8 @@ const handleSizeChange = (size: 'large' | 'default' | 'small') => {
   ul {
     margin: 0;
     padding: 0;
-    height: calc(100% - 64px);
+    height: calc(100% - 80px);
+    overflow: auto;
   }
 
   li {

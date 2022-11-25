@@ -1,5 +1,9 @@
 <template>
-  <div :class="ns.b()" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+  <div
+    :class="ns.b()"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
     <!-- 滚动容器 start -->
     <div
       ref="wrapRef"
@@ -16,7 +20,7 @@
     <!-- 滚动容器 end -->
 
     <!-- 滚动条 -->
-    <Bars ref="barsRef" :z-index="zIndex"  @scroll-to="scrollTo" />
+    <Bars ref="barsRef" :z-index="zIndex" @scroll-to="scrollTo" />
   </div>
 </template>
 
@@ -26,8 +30,8 @@ import { useResizeObserver } from '@vueuse/core'
 import {
   computed,
   CSSProperties,
+  onBeforeUnmount,
   onMounted,
-  onUnmounted,
   shallowRef
 } from 'vue'
 import { scrollbarProps, scrollbarEmits } from './scrollbar'
@@ -90,12 +94,11 @@ const handleMouseLeave = () => {
   barsRef.value?.setHovered(false)
 }
 
-
 onMounted(() => {
   handleScroll()
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   contentResizeObserver.stop()
   resizeObserver.stop()
 })

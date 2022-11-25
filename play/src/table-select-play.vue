@@ -1,6 +1,6 @@
 <template>
   <el-table-select
-    v-model="singleData"
+    v-model="data"
     :columns="columns"
     :multiple="true"
     pagination
@@ -69,17 +69,16 @@ let columns = $computed<TableSelectColumn[]>(() => {
   return [...fixed_columns, ...extra_columns]
 })
 
-let singleData = $ref({
-  code: '',
-  summary: ''
-})
-
+let data = shallowRef([
+  { code: 'BM100001',  summary: `摘要1`,  project: `项目1` },
+  { code: 'BM100002',  summary: `摘要2`,  project: `项目2` },
+  { code: 'BM100003',  summary: `摘要3`,  project: `项目3` },
+  { code: 'BM100004',  summary: `摘要4`,  project: `项目4` }
+])
 
 let path = $ref('')
 
-
 let dialogTitle = '弹框标题'
-
 
 onMounted(() => {
   setTimeout(() => {
@@ -99,8 +98,8 @@ onMounted(() => {
         name: '本次冻结金额(元)',
         width: 140
       },
-      { key: 'frozenRemark', name: '冻结备注' }
+      { key: 'frozenRemark', name: '冻结备注', minWidth: 100 }
     ]
-  }, 3000)
+  }, 1000)
 })
 </script>

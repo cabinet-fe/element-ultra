@@ -1,41 +1,24 @@
 <template>
   <tbody :class="ns.e('body')">
-    <TableBodyRow v-for="row of rows" :key="row.id" :row="row" />
+    <TableBodyRow
+      v-for="(row, index) of rootProps.data"
+      :key="rootProps.rowKey ? row[rootProps.rowKey] : index"
+      :row="row"
+      @click="rootEmit('row-click', { row, index })"
+    />
+
+    <tr v-if="!rootProps.data?.length" :class="ns.e('empty')">
+      <td :colspan="columns.length" :class="ns.e('empty-cell')">
+        <span :class="ns.e('empty-text')">{{ rootProps.emptyText }}</span>
+      </td>
+    </tr>
   </tbody>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { inject } from 'vue'
 import TableBodyRow from './table-body-row.vue'
 import { tableToken } from './token'
-import type { TableRow } from './table'
 
-const { rootProps, ns } = inject(tableToken)!
-
-let id = 0
-
-const wrapRow = (data: any): TableRow => {
-  const { childrenKey, tree } = rootProps
-
-  const row: TableRow = {
-    data,
-    leaf: true,
-    expanded: false,
-    id: id++
-  }
-
-  if (!tree) return row
-
-  const children = data[childrenKey] as any[]
-
-  if (children?.length) {
-    row.children = children.map(wrapRow)
-  }
-
-  return row
-}
-
-const rows = computed(() => {
-  return rootProps.data.map(wrapRow)
-})
+const { rootProps, columns, rootEmit, ns } = inject(tableToken)!
 </script>

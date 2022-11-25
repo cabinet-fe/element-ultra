@@ -86,7 +86,7 @@
     padding: 0 getCssVar('dialog', 'padding');
     height: getCssVar('dialog', 'footer-height');
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     align-content: center;
     box-sizing: border-box;

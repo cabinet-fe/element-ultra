@@ -1,4 +1,5 @@
 import { SizeProp } from '@element-ultra/constants'
+import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 表格列 */
@@ -27,19 +28,32 @@ export interface TableColumn {
     row: any
     /** 行索引 */
     index: number
-    /** 行包装器 */
-    wrap: any
   }) => any
   /** 插槽名称, 开启将会有个默认插槽 */
   slot?: string
+  /** 合计 */
+  summary?: ((ctx: {
+    key: string
+    data: any[]
+    total: number
+  }) => any) | boolean
+}
+
+export interface FinalTableColumn extends TableColumn {
+  name: () => any
+  render: TableColumn['render'] & {}
+  right?: number
+  left?: number
+  typeLast?: boolean
+  typeFirst?: boolean
 }
 
 /** 表格行 */
 export interface TableRow {
   /** 源数据 */
-  data: any;
+  data: any
   /** 行唯一标识 */
-  id: number;
+  id: number
   /** 是否展开 */
   expanded: boolean
   /** 是否是叶子节点 */
@@ -64,18 +78,27 @@ export const tableProps = {
     default: () => []
   },
 
-  /** 展示树形数据 */
-  tree: {
-    type: Boolean
+  /** 行class */
+  rowClass: {
+    type: String
   },
 
-  /** 如果树形数据的字段不是children那么需要指定 */
-  childrenKey: {
+  /** 行唯一标识的key */
+  rowKey: {
+    type: String
+  },
+
+  /** 数据为空时显示的文本 */
+  emptyText: {
     type: String,
-    default: 'children'
-  },
-
-
+    default: '暂无数据'
+  }
 }
 
 export type TableProps = ExtractPropTypes<typeof tableProps>
+
+export const tableEmits = {
+  'row-click': (ctx: { row: any, index: number }) => true
+}
+
+export type TableEmits = EmitFn<typeof tableEmits>

@@ -3,7 +3,7 @@ import type {
   DataTableEmits,
   DataTableProps,
   Row,
-  TreeRow
+  DataTreeRow
 } from '../data-table'
 
 export default function useState(props: DataTableProps, emit: DataTableEmits) {
@@ -15,7 +15,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     /** 排序 */
     sortKeys: shallowReactive<Record<string, 'asc' | 'dsc' | 'default'>>({}),
     /** 数据 */
-    data: [] as (Row | TreeRow)[],
+    data: [] as (Row | DataTreeRow)[],
 
   })
 
@@ -25,11 +25,11 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     return typeof tree === 'string' ? tree : 'children'
   })
 
-  const treeData = shallowRef<TreeRow[]>([])
+  const treeData = shallowRef<DataTreeRow[]>([])
 
-  const dfsReactive = (arr: any[], depth: number): TreeRow[] => {
+  const dfsReactive = (arr: any[], depth: number): DataTreeRow[] => {
     return arr.map((item, index) => {
-      let ret: TreeRow = shallowReactive({
+      let ret: DataTreeRow = shallowReactive({
         uid: uid++,
         data: item,
         expanded: false,
@@ -44,7 +44,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
   }
 
   /** 获取包装的行, 保存索引, uid等信息 */
-  const getWrappedRow = (data: any[]): (Row | TreeRow)[] => {
+  const getWrappedRow = (data: any[]): (Row | DataTreeRow)[] => {
     const { tree } = props
 
     if (tree) return dfsReactive(data, 0)
@@ -58,7 +58,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     })
   }
 
-  const dfsFlat = (rows: TreeRow[], cb: (row: TreeRow) => void) => {
+  const dfsFlat = (rows: DataTreeRow[], cb: (row: DataTreeRow) => void) => {
     rows.forEach(row => {
       cb(row)
       row.children && row.expanded && dfsFlat(row.children, cb)
@@ -66,7 +66,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
   }
   /** 获取碾平后的树形数据 */
   const getFlatData = () => {
-    let ret: TreeRow[] = []
+    let ret: DataTreeRow[] = []
     let index = 0
     dfsFlat(treeData.value, row => {
       row.index = index++
@@ -82,7 +82,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
       const ret = getWrappedRow(data)
       store.data = ret
       if (props.tree) {
-        treeData.value = ret as TreeRow[]
+        treeData.value = ret as DataTreeRow[]
       }
     },
     { immediate: true }

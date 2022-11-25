@@ -31,7 +31,12 @@
       <ElNodeRender :nodes="slots.default?.()" />
     </div>
     <div v-if="slots.footer" :class="ns.e('footer')">
-      <ElNodeRender :nodes="slots.footer?.()" />
+      <section :class="ns.e('footer-left')">
+        <ElNodeRender :nodes="slots['footer-left']?.()" />
+      </section>
+      <section :class="ns.e('footer-right')">
+        <ElNodeRender :nodes="slots.footer?.()" />
+      </section>
     </div>
   </div>
 </template>

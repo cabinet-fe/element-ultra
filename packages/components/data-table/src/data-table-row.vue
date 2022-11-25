@@ -33,11 +33,11 @@
 import { CSSProperties, inject, PropType } from 'vue'
 import { dataTableToken } from './token'
 import { LeftCell, CenterCell, RightCell } from './data-table-cell'
-import type { Row, TreeRow } from './data-table'
+import type { Row, DataTreeRow } from './data-table'
 
 defineProps({
   row: {
-    type: Object as PropType<TreeRow | Row>,
+    type: Object as PropType<DataTreeRow | Row>,
     required: true
   },
   style: {

@@ -1,7 +1,7 @@
 import ElCheckbox from '@element-ultra/components/checkbox'
 import ElIcon from '@element-ultra/components/icon'
 import { computed, h, isReactive, shallowReactive, useSlots } from 'vue'
-import type { DataTableColumn, DataTableProps, TreeRow } from '../data-table'
+import type { DataTableColumn, DataTableProps, DataTreeRow } from '../data-table'
 import {
   bfs,
   InternalColumn,
@@ -89,7 +89,7 @@ export default function useColumns(
         width: 80,
         fixed: 'left',
         render: ctx => {
-          let wrap = ctx.wrap as TreeRow
+          let wrap = ctx.wrap as DataTreeRow
           return wrap.children?.length
             ? h(
                 ElIcon,

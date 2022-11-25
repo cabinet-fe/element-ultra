@@ -51,8 +51,8 @@ import {
   ref,
   shallowReactive,
   computed,
-onMounted,
-onBeforeMount
+  onMounted,
+  onBeforeMount
 } from 'vue'
 import { ElDialog } from '@element-ultra/components/dialog'
 import { ElButton } from '@element-ultra/components/button'
@@ -92,7 +92,7 @@ const calcTableHeight = () => {
     acc += searcherRef.value.offsetHeight
   }
 
-  tableHeight.value =  `calc(100% - ${acc}px)`
+  tableHeight.value = `calc(100% - ${acc}px)`
 }
 
 const obs = new ResizeObserver(([entry]) => {
@@ -111,7 +111,6 @@ onMounted(() => {
 onBeforeMount(() => {
   obs.disconnect()
 })
-
 
 const pageQuery = shallowReactive({
   page: 1,
@@ -188,7 +187,6 @@ const fetchData = async (reset = true) => {
     .finally(() => {
       loading.value = false
     })
-
 
   if (total) {
     totalSize.value = total

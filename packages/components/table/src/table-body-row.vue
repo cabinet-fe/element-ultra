@@ -1,11 +1,16 @@
 <template>
-  <tr :class="ns.e('row')">
-    <template v-for="(columns, key) in columnLayouts">
+  <tr :class="[ns.e('row'), rootProps.rowClass]">
+    <template v-for="(columns, type) of columnLayouts">
       <td
         v-for="(column, index) of columns"
-        :class="[rowCellClass, ns.em('row-cell', column.fixed)]"
-        :key="key + '-' + column.key"
-        :style="getCellStyle(column)"
+        :class="[
+          rowCellClass,
+          ns.em('row-cell', type),
+          ns.is('last', column.typeLast),
+          ns.is('first', column.typeFirst)
+        ]"
+        :key="type + '-' + column.key"
+        :style="getCellStyle(column, column.fixed)"
       >
         <ElNodeRender :nodes="getNodes(column, index)" />
       </td>
@@ -27,19 +32,18 @@ const props = defineProps({
   }
 })
 
-const { ns, columnLayouts, getCellStyle } = inject(tableToken)!
+const { ns, columnLayouts, rootProps, getCellStyle } = inject(tableToken)!
 
 const rowCellClass = ns.e('row-cell')
 
 const getNodes = (column: TableColumn, index: number) => {
   const { row } = props
-  const val = getChainValue(row.data, column.key)
+  const val = getChainValue(row, column.key)
   const content = column.render!({
     val,
     v: val,
     index,
-    row: row.data,
-    wrap: row
+    row
   })
   return [content]
 }

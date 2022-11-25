@@ -1,6 +1,6 @@
 import { getChainValue } from '@element-ultra/utils'
 import { defineComponent, inject, PropType } from 'vue'
-import type { Row, TreeRow } from './data-table'
+import type { Row, DataTreeRow } from './data-table'
 import { dataBodyToken } from './token'
 import type { FixedColumn, StaticColumn } from './utils'
 
@@ -51,7 +51,7 @@ const buildCell = <
       },
 
       row: {
-        type: Object as PropType<Row | TreeRow>,
+        type: Object as PropType<Row | DataTreeRow>,
         required: true
       }
     },

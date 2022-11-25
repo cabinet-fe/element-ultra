@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="data" :columns="columns"> </el-table>
+  <el-table :data="data" style="height: 400px;" :columns="columns"> </el-table>
 </template>
 
 <script lang="ts" setup>
@@ -14,12 +14,20 @@ const xings =
 const mings = '啊行者三四里华琴浩杰龙晨勉国爱葱飞鹏婷'
 
 const columns: TableColumn[] = [
-  { name: '姓名', key: 'name', minWidth: 200,  fixed: 'left' },
-  { name: '姓名', key: 'name1', minWidth: 200 },
-  { name: '姓名', key: 'name2', minWidth: 200 },
-  { name: '姓名', key: 'name3', minWidth: 200 },
-  { name: '姓名', key: 'name4', minWidth: 200 },
-  { name: '姓名', key: 'name5', minWidth: 200 },
+  { name: '姓名', key: 'name', width: 200, fixed: 'left' },
+  { name: 'id', key: 'id', summary: ({ total }) => total },
+  { name: '姓名1', key: 'name1', render: ({ row }) => row.name, minWidth: 200 },
+  { name: '姓名2', key: 'name2', render: ({ row }) => row.name, minWidth: 200 },
+  { name: '姓名3', key: 'name3', render: ({ row }) => row.name, minWidth: 200 },
+  { name: '姓名4', key: 'name4', render: ({ row }) => row.name, minWidth: 200 },
+  {
+    name: '姓名5',
+    width: 200,
+    fixed: 'right',
+    key: 'name5',
+    render: ({ row }) => row.name,
+    minWidth: 200
+  }
 ]
 
 const data = computed(() => {
@@ -40,6 +48,8 @@ const data = computed(() => {
     }
   })
 })
+
+
 </script>
 
 <style>

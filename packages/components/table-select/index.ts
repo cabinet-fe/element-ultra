@@ -1,9 +1,9 @@
 import { withInstall } from '@element-ultra/utils'
 
-import TableSelect from './src/table-select.vue'
+import TableSelect from './src2/table-select.vue'
 
 export const ElTableSelect = withInstall(TableSelect)
 
 export default TableSelect
 
-export * from './src/table-select'
+export * from './src2/table-select'

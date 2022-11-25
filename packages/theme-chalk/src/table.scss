@@ -2,6 +2,17 @@
 
 @use 'mixins/mixins' as *;
 
+@mixin shadow {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 10px;
+  overflow: hidden;
+  touch-action: none;
+  pointer-events: none;
+}
+
 @include b(table) {
   position: relative;
   box-sizing: border-box;
@@ -14,43 +25,15 @@
   color: var(--el-text-color-primary);
   border-spacing: 0;
 
+  @include e(wrap) {
+    border: 1px solid var(--el-border-color);
+    border-radius: 4px;
+  }
+
   th,
   td {
     padding: 6px 4px;
     box-sizing: border-box;
-  }
-
-  @include e(header) {
-    th {
-      position: sticky;
-      top: 0;
-      background-color: var(--el-fill-color-light);
-      z-index: 2;
-      border-bottom: 1px solid var(--el-border-color);
-    }
-  }
-
-  @include e(header-cell) {
-    @include m((left, right)) {
-      position: sticky;
-    }
-  }
-
-
-  @include e(row) {
-    td {
-      border-bottom: 1px solid var(--el-border-color);
-    }
-
-    &:hover  {
-      background-color: var(--el-fill-color-light);
-    }
-  }
-
-  @include e(row-cell) {
-    @include m((left, right)) {
-      position: sticky;
-    }
   }
 
   @include m(small) {
@@ -63,6 +46,102 @@
     th,
     td {
       padding: 8px 4px;
+    }
+  }
+
+  @include e(empty-cell) {
+    position: relative;
+  }
+
+  @include e(empty-text) {
+    position: sticky;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--el-disabled-text-color);
+  }
+
+  @include e(header-cell) {
+    position: sticky;
+    top: 0;
+    background-color: var(--el-fill-color-light);
+    z-index: 1;
+
+    &::before {
+      position: absolute;
+      content: '';
+      left: 0;
+      height: 4px;
+      width: 100%;
+      overflow: hidden;
+      bottom: -4px;
+      box-shadow: inset 0 4px 4px -4px #ccc;
+    }
+
+    @include m((left, right)) {
+      z-index: 2;
+    }
+  }
+
+  @include e(row) {
+    &:not(:last-child) {
+      td {
+        border-bottom: 1px solid var(--el-border-color);
+      }
+    }
+
+    &:hover td {
+      background-color: var(--el-fill-color-light);
+    }
+  }
+
+  @include e(row-cell) {
+    @include m((left, right)) {
+      position: sticky;
+      z-index: 1;
+      background-color: var(--el-bg-color);
+    }
+  }
+
+  @include e(footer-cell) {
+    background-color: var(--el-bg-color);
+    position: sticky;
+    bottom: 0;
+    border-top: 1px solid var(--el-border-color);
+    z-index: 1;
+    @include m((left, right)) {
+      z-index: 2;
+    }
+  }
+
+  @include m((shadow-left)) {
+    .el-table {
+      &__header-cell,
+      &__row-cell,
+      &__footer-cell {
+        &--left.is-last {
+          &::after {
+            @include shadow;
+            right: -10px;
+            box-shadow: inset 10px 0 10px -10px #ccc;
+          }
+        }
+      }
+    }
+  }
+
+  @include m((shadow-right)) {
+    .el-table {
+      &__header-cell,
+      &__row-cell,
+      &__footer-cell {
+        &--right.is-first {
+          &::after {
+            @include shadow;
+            left: -10px;
+            box-shadow: inset -10px 0 10px -10px #ccc;
+          }
+        }
+      }
     }
   }
 }

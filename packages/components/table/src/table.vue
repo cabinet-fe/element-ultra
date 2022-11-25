@@ -1,106 +1,90 @@
 <template>
-  <el-scrollbar style="height: 100%" :z-index="2">
-    <table :class="[ns.b(), ns.m(size)]">
+  <el-scrollbar :class="ns.e('wrap')" :z-index="2" @scroll="handleScroll">
+    <table
+      :class="[
+        ns.b(),
+        ns.m(tableSize),
+        leftShadow ? ns.m('shadow-left') : undefined,
+        rightShadow ? ns.m('shadow-right') : undefined
+      ]"
+    >
       <TableHeader />
 
       <TableBody />
 
-      <TableFooter />
+      <TableFooter v-if="summaryMethods" />
     </table>
   </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 import TableHeader from './table-header.vue'
 import TableBody from './table-body.vue'
 import TableFooter from './table-footer.vue'
-import { tableProps, TableColumn } from './table'
-import {
-  CSSProperties,
-  provide,
-  reactive,
-  shallowRef,
-  watch
-} from 'vue'
+import { tableProps, FinalTableColumn, tableEmits } from './table'
+import { computed, CSSProperties, provide } from 'vue'
 import { tableToken } from './token'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
+import useColumns from './use-columns'
+import useShadow from './use-shadow'
 
 const ns = useNamespace('table')
 
 const props = defineProps(tableProps)
 
-const columnLayouts = shallowRef<{
-  left: TableColumn[]
-  center: TableColumn[]
-  right: TableColumn[]
-}>({
-  left: [],
-  center: [],
-  right: []
+const emit = defineEmits(tableEmits)
+
+const { columns, columnLayouts } = useColumns({
+  props
 })
 
-const columns = shallowRef<TableColumn[]>([])
+const tableSize = useSize({
+  props
+})
 
-watch(
-  () => props.columns,
-  _columns => {
-    const left: TableColumn[] = []
-    const center: TableColumn[] = []
-    const right: TableColumn[] = []
+const { handleScroll, leftShadow, rightShadow } = useShadow()
 
-    const result = {
-      left,
-      center,
-      right
-    }
+const summaryMethods = computed(() => {
+  const summaries = columns.value.filter(column => !!column.summary)
+  if (!summaries.length) return undefined
 
-    if (!_columns?.length) {
-      columnLayouts.value = result
-      return
-    }
+  const commonSummary = (ctx: any) => ctx.total
 
-    _columns.forEach(column => {
-      if (typeof column.name === 'string') {
-        const { name } = column
-        column.name = () => name
-      }
+  return summaries.reduce((acc, cur) => {
+    acc[cur.key] =
+      typeof cur.summary === 'function' ? cur.summary! : commonSummary
+    return acc
+  }, {} as Record<string, FinalTableColumn['summary'] & {}>)
+})
 
-      if (!column.render) {
-        column.render = ({ val }) => val
-      }
+const cellGetters = {
+  left: (column: FinalTableColumn) => ({
+    left: column.left + 'px'
+  }),
+  right: (column: FinalTableColumn) => ({
+    right: column.right + 'px'
+  }),
+  center: () => ({})
+}
 
-      const { fixed } = column
-
-      let reactiveColumn = reactive(column)
-      // TODO计算left和right
-      if (fixed === 'left') {
-
-        left.push(reactiveColumn)
-      } else if (fixed === 'right') {
-        right.push(reactiveColumn)
-      } else {
-        center.push(reactiveColumn)
-      }
-    })
-
-    columnLayouts.value = result
-    columns.value = Object.values(result).flat(1)
-  },
-  { immediate: true }
-)
-
-const getCellStyle = (column: TableColumn): CSSProperties => {
+const getCellStyle = (
+  column: FinalTableColumn,
+  type: 'left' | 'center' | 'right' = 'center'
+): CSSProperties => {
   return {
-    textAlign: column.align || 'left'
+    textAlign: column.align || 'left',
+    ...cellGetters[type](column)
   }
 }
 
 provide(tableToken, {
   rootProps: props,
+  rootEmit: emit,
   ns,
-  columnLayouts,
   columns,
-  getCellStyle
+  columnLayouts,
+  getCellStyle,
+  summaryMethods
 })
 </script>
