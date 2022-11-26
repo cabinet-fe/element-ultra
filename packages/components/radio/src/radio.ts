@@ -74,7 +74,10 @@ export const useRadio = (
     fallback: computed(() => radioGroup?.size)
   })
 
-  const disabled = useDisabled(computed(() => radioGroup?.disabled))
+  const disabled = useDisabled({
+    props,
+    fallback: computed(() => radioGroup?.disabled)
+  })
   const focus = ref(false)
 
   const tabIndex = computed(() => {

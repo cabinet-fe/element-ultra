@@ -1,31 +1,36 @@
 <template>
   <el-dialog
-    append-to-body
-    :width="rootProps.dialogWidth"
-    :class="ns.b()"
-    v-model="visible"
     :title="rootProps.dialogTitle"
     body-height="max"
+    v-model="visible"
+    :width="rootProps.dialogWidth"
+    append-to-body
+    :class="ns.e('dialog')"
   >
     <div
-      :class="ns.e('searcher')"
       v-if="$slots.searcher"
-      @keyup.enter="fetchData()"
       ref="searcherRef"
+      :class="ns.e('dialog-searcher')"
+      @keyup.enter="fetchData()"
     >
-      <slot name="searcher"></slot>
+      <slot name="searcher" />
       <el-button type="primary" @click="fetchData()">查询</el-button>
     </div>
-    <TableSelectDisplay
-      :theight="tableHeight"
+
+    <el-table
+      :class="ns.e('dialog-table')"
+      :size="rootProps.size"
+      :data="data"
+      :columns="columns"
+      :style="{
+        height: tableHeight
+      }"
+      @row-click="handleRowClick"
       v-loading="loading"
-      :data="data || tableData"
-      :value="props.value"
-      editable
-      ref="tableRef"
-    />
+    ></el-table>
+
     <el-pagination
-      :class="ns.e('pagination')"
+      :class="ns.e('dialog-pagination')"
       v-if="rootProps.api && rootProps.pagination"
       v-model:currentPage="pageQuery.page"
       v-model:page-size="pageQuery.size"
@@ -33,189 +38,118 @@
       small
       :page-sizes="[20, 40, 80, 100, 150, 200]"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="totalSize"
+      :total="total"
     >
     </el-pagination>
+
+    <template #footer-left>
+      <span style="color: var(--el-text-color-regular); vertical-align: middle">
+        已选择 {{ checkedSize }} 条
+      </span>
+
+      <el-button @click="handleClear">清空</el-button>
+    </template>
+
     <template #footer>
-      <el-button @click="handleCancel">取消</el-button>
+      <el-button @click="toggleVisible(false)">取消</el-button>
       <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import {
-  shallowRef,
-  watch,
-  inject,
-  ref,
-  shallowReactive,
-  computed,
-  onMounted,
-  onBeforeMount
-} from 'vue'
+import { ElTable } from '@element-ultra/components/table'
 import { ElDialog } from '@element-ultra/components/dialog'
 import { ElButton } from '@element-ultra/components/button'
 import { ElPagination } from '@element-ultra/components/pagination'
-import { useNamespace, useConfig } from '@element-ultra/hooks'
-import { tableSelectDialogProps } from './table-select-dialog'
-import TableSelectDisplay from './table-select-display.vue'
-import { tableSelectKey } from './token'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
+import { inject, ref, watch } from 'vue'
+import { tableSelectToken } from './token'
+import useApi from './use-api'
+import useModel from './use-model'
+import useTableHeight from './use-table-height'
+import useColumns from './use-columns'
 
-let visible = ref<boolean>(false)
+const { rootProps, ns, rootEmit } = inject(tableSelectToken)!
 
-const props = defineProps(tableSelectDialogProps)
-
-const ns = useNamespace('table-select-dialog')
-
-const tableRef = shallowRef<InstanceType<typeof TableSelectDisplay>>()
-
-const emit = defineEmits<{
-  (e: 'change', data: Record<string, any>[] | Record<string, any>): void
-  (e: 'apiData', data: Record<string, any>[]): void
-}>()
-
-const { rootProps } = inject(tableSelectKey)!
-
-const tableHeight = shallowRef('0')
-const searcherRef = shallowRef<HTMLElement>()
-const calcTableHeight = () => {
-  const { api, pagination } = rootProps
-  let acc = 0
-  // 有分页标签则加上分页的高度
-  if (api && pagination) {
-    acc += 28
-  }
-
-  if (searcherRef.value) {
-    acc += searcherRef.value.offsetHeight
-  }
-
-  tableHeight.value = `calc(100% - ${acc}px)`
-}
-
-const obs = new ResizeObserver(([entry]) => {
-  calcTableHeight()
+const { fetchData, loading, total, pageQuery, data } = useApi({
+  props: rootProps
 })
-
-watch(searcherRef, (searcher, oldSearcher) => {
-  oldSearcher && obs.unobserve(oldSearcher)
-  searcher && obs.observe(searcher)
-})
-
-onMounted(() => {
-  calcTableHeight()
-})
-
-onBeforeMount(() => {
-  obs.disconnect()
-})
-
-const pageQuery = shallowReactive({
-  page: 1,
-  size: rootProps.defaultPageSize
-})
-
-watch(
-  () => rootProps.defaultPageSize,
-  size => {
-    pageQuery.size = size
-  }
-)
-
-let totalSize = shallowRef(0)
-
-const open = () => {
-  visible.value = true
-}
-
-const close = () => {
-  visible.value = false
-}
-
-const handleCancel = () => {
-  tableRef.value?.clear()
-  close()
-}
-
-const handleSubmit = () => {
-  const data = tableRef.value?.getValue()
-  if (!data) {
-    return console.warn('没有选择数据')
-  }
-  emit('change', data)
-  close()
-}
-
-let tableData = ref<any[]>()
-
-const [configStore] = useConfig()
-
-let loading = shallowRef(false)
-
-/**
- * 查询数据
- * @param reset 重置分页 默认 true
- */
-const fetchData = async (reset = true) => {
-  const { api } = rootProps
-  if (!configStore.tableSelectRequestMethod || !api) return
-  if (reset) {
-    pageQuery.page = 1
-  }
-  const { query } = props
-  let realQuery = Object.keys(query || {}).reduce((acc, cur) => {
-    let v = query![cur]
-    if (cur.startsWith('$')) {
-      cur = cur.slice(1)
-    }
-    acc[cur] = v
-    return acc
-  }, {} as Record<string, any>)
-
-  loading.value = true
-
-  const { total, data } = await configStore
-    .tableSelectRequestMethod({
-      api,
-      query: {
-        ...realQuery,
-        ...pageQuery
-      }
-    })
-    .finally(() => {
-      loading.value = false
-    })
-
-  if (total) {
-    totalSize.value = total
-  }
-  tableData.value = data
-  emit('apiData', data)
-}
-
-let queryWatchList = computed(() => {
-  return Object.keys(props.query || {})
-    .filter(k => k.startsWith('$'))
-    .map(k => {
-      return props.query?.[k]
-    })
-})
-
-watch(queryWatchList, () => fetchData())
 
 watch(
   () => rootProps.api,
-  () => fetchData()
+  api => {
+    api && fetchData()
+  },
+  { immediate: true }
 )
 
-watch(
-  () => visible.value,
-  visible => visible && fetchData()
-)
+// 显示隐藏
+const visible = ref(false)
+const toggleVisible = (v: boolean) => {
+  visible.value = v
+}
+
+// 数据勾选相关模型
+const {
+  checkedData,
+  allChecked,
+  selected,
+  indeterminate,
+  checkedSize,
+  handleToggleCheck,
+  toggleAllChecked,
+  handleSelect,
+  handleClear
+} = useModel({
+  props: rootProps,
+  data,
+  visible
+})
+
+/** 点击行 */
+const handleRowClick = (ctx: { row: any }) => {
+  const { row } = ctx
+  if (rootProps.multiple) {
+    handleToggleCheck(!checkedData.value[row[rootProps.valueKey]], row)
+  } else {
+    handleSelect(row)
+  }
+}
+
+// 计算表格的高度
+const { searcherRef, tableHeight } = useTableHeight({ props: rootProps })
+
+// 列
+const columns = useColumns({
+  allChecked,
+  toggleAllChecked,
+  handleSelect,
+  indeterminate,
+  props: rootProps,
+  selected,
+  checkedData,
+  handleToggleCheck
+})
+
+/** 提交 */
+const handleSubmit = () => {
+  const data: Record<string, any>[] | Record<string, any> | null =
+    rootProps.multiple
+      ? (Object.values(checkedData.value) as Record<string, any>[])
+      : (selected.value as Record<string, any> | null)
+
+  rootEmit('update:modelValue', data)
+
+  toggleVisible(false)
+}
 
 defineExpose({
-  open
+  open() {
+    toggleVisible(true)
+  },
+  clear() {
+    handleClear()
+  }
 })
 </script>

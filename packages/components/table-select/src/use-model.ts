@@ -49,6 +49,10 @@ export default function useModel(options: Options) {
     handleSelect(value)
   }
 
+  const handleClear = () => {
+    checkedData.value = shallowReactive({})
+  }
+
   watch(
     () => props.modelValue,
     value => {
@@ -60,7 +64,7 @@ export default function useModel(options: Options) {
   watch(visible, v => {
     if (v || !props.multiple) return
 
-    checkedData.value = shallowReactive({})
+    handleClear()
     setSelectOrChecked(props.modelValue)
   })
 
@@ -115,6 +119,7 @@ export default function useModel(options: Options) {
     indeterminate,
     handleToggleCheck,
     toggleAllChecked,
-    handleSelect
+    handleSelect,
+    handleClear
   }
 }

@@ -190,7 +190,7 @@ const {
 } = useTreeSelect(props, emit, treeRef, filterer)
 
 const inputSize = useSize({ props })
-const treeSelectDisabled = useDisabled()
+const treeSelectDisabled = useDisabled({ props })
 const inputRef = ref<HTMLInputElement>()
 
 const handleToggleCheck = (v: boolean) => {

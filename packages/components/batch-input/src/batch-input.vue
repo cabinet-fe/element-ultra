@@ -88,7 +88,7 @@ const [setEvent] = useEventWatch(
 
 const { formItem, form } = useFormItem()
 const inputSize = useSize({ props })
-const batchInputDisabled = useDisabled()
+const batchInputDisabled = useDisabled({ props })
 const provideObj = {
   ...form,
   props: shallowReactive<Record<string, any>>({})

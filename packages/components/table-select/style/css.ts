@@ -7,5 +7,6 @@ import '@element-ultra/components/button/style/css'
 import '@element-ultra/components/pagination/style/css'
 import '@element-ultra/components/loading/style/css'
 import '@element-ultra/components/table/style/css'
+import '@element-ultra/components/popconfirm/style/css'
 
 import '@element-ultra/theme-chalk/table-select.css'

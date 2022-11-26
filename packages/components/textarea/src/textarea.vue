@@ -81,7 +81,7 @@ export default defineComponent({
     const attrs = useAttrs()
 
     const { formItem } = useFormItem()
-    const inputDisabled = useDisabled()
+    const inputDisabled = useDisabled({ props })
     const ns = useNamespace('textarea')
 
     const textarea = ref<HTMLTextAreaElement>()

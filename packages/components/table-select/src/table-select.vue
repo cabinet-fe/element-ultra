@@ -1,23 +1,44 @@
 <template>
-  <div @click="open" v-if="!disabled" :class="ns.e('btn')">
-    <slot>
-      <el-button type="primary" :icon="Plus"> 选择 </el-button>
-    </slot>
+  <div :class="ns.b()">
+    <!-- 触发器 -->
+    <span
+      @click="!tableSelectDisabled && dialogRef?.open()"
+      :class="ns.e('btn')"
+    >
+      <slot>
+        <el-button :disabled="tableSelectDisabled" type="primary">选择</el-button>
+      </slot>
+    </span>
+
+    <!-- 清空数据 -->
+    <el-popconfirm @confirm="handleClear()" :hide-after="0" title="确定清空">
+      <template #reference>
+        <el-button :disabled="tableSelectDisabled" type="warning">
+          <slot>{{ clearText }}</slot>
+        </el-button>
+      </template>
+    </el-popconfirm>
+
+    <!-- 数据展示表格 -->
+    <ElTable
+      v-if="!hide"
+      :size="props.size"
+      :columns="props.columns"
+      :data="displayData"
+      v-bind="$attrs"
+    >
+      <template
+        v-for="column of props.columns.filter(column => !!column.slot)"
+        :key="column.slot"
+        v-slot:[column.slot!]="scoped"
+      >
+        <slot :name="column.slot" v-bind="scoped" />
+      </template>
+    </ElTable>
   </div>
 
-  <TableSelectDisplay v-if="table" :data="displayData" theight="auto">
-    <template #action>
-      <slot name="action"></slot>
-    </template>
-  </TableSelectDisplay>
-
-  <!-- 弹框 -->
-  <TableSelectDialog
-    :data="data"
-    @change="handleChange"
-    :query="query"
-    ref="dialogRef"
-  >
+  <!-- 数据选择和筛选表格 -->
+  <TableSelectDialog ref="dialogRef">
     <template #searcher>
       <slot name="searcher" />
     </template>
@@ -25,59 +46,51 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, shallowRef, useSlots, watch } from 'vue'
 import { tableSelectEmits, tableSelectProps } from './table-select'
-import TableSelectDialog from './table-select-dialog.vue'
-import TableSelectDisplay from './table-select-display.vue'
-import { Plus } from '@element-plus/icons-vue'
-import { tableSelectKey } from './token'
+import { ElTable } from '@element-ultra/components/table'
+import { ElPopconfirm } from '@element-ultra/components/popconfirm'
 import { ElButton } from '@element-ultra/components/button'
-import { useNamespace, useSize } from '@element-ultra/hooks'
-
-defineOptions({
-  name: 'ElTableSelect',
-  inheritAttrs: false
-})
+import { computed, provide, shallowRef } from 'vue'
+import { tableSelectToken } from './token'
+import { useDisabled, useNamespace } from '@element-ultra/hooks'
+import TableSelectDialog from './table-select-dialog.vue'
 
 const props = defineProps(tableSelectProps)
-
-const size = useSize({ props })
 
 const emit = defineEmits(tableSelectEmits)
 
 const ns = useNamespace('table-select')
-const slots = useSlots()
 
-provide(tableSelectKey, {
-  rootProps: props,
-  slots,
-  size
+const tableSelectDisabled = useDisabled({ props })
+
+const displayData = computed(() => {
+  const { modelValue } = props
+  if (!modelValue) return []
+  return Array.isArray(modelValue) ? modelValue : [modelValue]
 })
 
 const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()
 
-const open = () => {
-  dialogRef?.value?.open()
+provide(tableSelectToken, {
+  rootProps: props,
+  ns,
+  rootEmit: emit
+})
+
+const handleClear = () => {
+  dialogRef.value?.clear()
+  emit('update:modelValue', props.multiple ? [] : null)
 }
 
-let displayData = shallowRef<any[]>([])
-
-let handleChange = (data: any) => {
-  if (!props.dialogColumns) {
-    displayData.value = Array.isArray(data) ? data : [data]
-    emit('update:modelValue', data)
+defineExpose({
+  open() {
+    dialogRef.value?.open()
   }
+})
+</script>
 
-  emit('change', data)
+<script lang="ts">
+export default {
+  inheritAttrs: false
 }
-
-watch(
-  () => props.modelValue,
-  data => {
-    displayData.value = Array.isArray(data) ? data : [data]
-  },
-  { immediate: true }
-)
-
-defineExpose({ open })
 </script>

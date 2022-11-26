@@ -144,7 +144,7 @@ export default defineComponent({
   },
   setup(props) {
 
-    const uploadDisabled = useDisabled()
+    const uploadDisabled = useDisabled({ props })
 
     const {
       abort,

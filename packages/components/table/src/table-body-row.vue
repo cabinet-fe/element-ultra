@@ -2,7 +2,7 @@
   <tr :class="[ns.e('row'), rootProps.rowClass]">
     <template v-for="(columns, type) of columnLayouts">
       <td
-        v-for="(column, index) of columns"
+        v-for="column of columns"
         :class="[
           rowCellClass,
           ns.em('row-cell', type),
@@ -12,7 +12,7 @@
         :key="type + '-' + column.key"
         :style="getCellStyle(column, column.fixed)"
       >
-        <ElNodeRender :nodes="getNodes(column, index)" />
+        <ElNodeRender :nodes="getNodes(column, rowIndex)" />
       </td>
     </template>
   </tr>
@@ -28,6 +28,10 @@ import { getChainValue } from '@element-ultra/utils'
 const props = defineProps({
   row: {
     type: Object as PropType<TableRow>,
+    required: true
+  },
+  rowIndex: {
+    type: Number,
     required: true
   }
 })

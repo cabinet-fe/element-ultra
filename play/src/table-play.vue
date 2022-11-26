@@ -1,13 +1,19 @@
 <template>
-  <el-table :data="data" style="height: 400px;" :columns="columns"> </el-table>
+  <el-table :data="data" style="height: 400px;" :columns="columns">
+    <template #aa="{ row }">
+      {{ row }}
+    </template>
+
+  </el-table>
 </template>
 
 <script lang="ts" setup>
 import type { TableColumn } from '@element-ultra/element-ultra'
 import { computed } from '@vue/reactivity'
+import { template } from 'lodash'
 import { shallowRef } from 'vue'
 
-const count = shallowRef(50)
+const count = shallowRef(10)
 
 const xings =
   '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章'
@@ -16,7 +22,7 @@ const mings = '啊行者三四里华琴浩杰龙晨勉国爱葱飞鹏婷'
 const columns: TableColumn[] = [
   { name: '姓名', key: 'name', width: 200, fixed: 'left' },
   { name: 'id', key: 'id', summary: ({ total }) => total },
-  { name: '姓名1', key: 'name1', render: ({ row }) => row.name, minWidth: 200 },
+  { name: '姓名1', key: 'name1', slot: 'aa', minWidth: 200 },
   { name: '姓名2', key: 'name2', render: ({ row }) => row.name, minWidth: 200 },
   { name: '姓名3', key: 'name3', render: ({ row }) => row.name, minWidth: 200 },
   { name: '姓名4', key: 'name4', render: ({ row }) => row.name, minWidth: 200 },

@@ -4,6 +4,7 @@
       v-for="(row, index) of rootProps.data"
       :key="rootProps.rowKey ? row[rootProps.rowKey] : index"
       :row="row"
+      :row-index="index"
       @click="rootEmit('row-click', { row, index })"
     />
 

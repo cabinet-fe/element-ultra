@@ -1,6 +1,5 @@
-import { unref, inject, computed, type Ref } from 'vue'
+import { inject, computed, type Ref } from 'vue'
 import { formKey } from '@element-ultra/tokens'
-import { useProp } from '../use-prop'
 import type { ComponentSize } from '@element-ultra/constants'
 import { useConfig } from '../use-config'
 
@@ -33,10 +32,22 @@ export const useSize = (option: SizeOption): Ref<ComponentSize> => {
   })
 }
 
-export const useDisabled = (fallback?: boolean | Ref<boolean>) => {
-  const disabled = useProp<boolean>('disabled')
+/**
+ * 获取组件大小
+ * @param props 组件属性, 一个有size属性的props, 优先使用props
+ * @param fallback 第二优先的属性
+ * @param ignore 忽略的size来源
+ * @returns 组件的size
+ */
+ interface DisabledOption {
+  props: { disabled?: boolean; [key: string]: any }
+  fallback?: Ref<boolean | undefined>
+}
+
+export const useDisabled = (options: DisabledOption) => {
+  const { props, fallback } = options
   const form = inject(formKey, undefined)
   return computed(
-    () => disabled.value ?? unref(fallback) ??  form?.props.disabled ?? false
+    () => props.disabled ?? fallback?.value ?? form?.props.disabled ?? false
   )
 }

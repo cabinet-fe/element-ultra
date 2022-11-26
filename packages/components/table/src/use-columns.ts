@@ -1,4 +1,4 @@
-import { shallowRef, watch, reactive } from 'vue'
+import { shallowRef, watch, reactive, useSlots } from 'vue'
 import type { FinalTableColumn, TableProps } from './table'
 
 type ColumnLayouts = Record<'left' | 'center' | 'right', FinalTableColumn[]>
@@ -13,6 +13,8 @@ export default function useColumns(params: { props: TableProps }) {
   })
 
   const columns = shallowRef<FinalTableColumn[]>([])
+
+  const slots = useSlots()
 
   watch(
     () => props.columns,
@@ -35,7 +37,11 @@ export default function useColumns(params: { props: TableProps }) {
         }
 
         if (!column.render) {
-          column.render = ({ val }) => val
+          if (column.slot && slots[column.slot]) {
+            column.render = (ctx) => slots[column.slot!]!(ctx)
+          } else {
+            column.render = ({ val }) => val
+          }
         }
 
         const { fixed } = column

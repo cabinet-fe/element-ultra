@@ -57,7 +57,7 @@ const _size = useSize({
   props,
   fallback: computed(() => buttonGroupContext?.size)
 })
-const _disabled = useDisabled()
+const _disabled = useDisabled({ props })
 const _ref = ref<HTMLButtonElement>()
 
 const _type = computed(() => props.type || buttonGroupContext?.type || '')

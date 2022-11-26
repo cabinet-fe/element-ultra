@@ -10,19 +10,17 @@
     :dialog-title="dialogTitle"
     ref="tableRef"
     :editable="true"
-    :table="true"
     :path="path"
     value-key="code"
     :column-filter="columnFilter"
   >
-    <el-button type="primary" :icon="Plus">自定义按钮</el-button>
-
     <template #searcher>
-      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-      <el-tree-select v-model="query.name" :data="[]"></el-tree-select>
-      <!-- <el-input v-model="query.name" /> -->
+      <el-input v-model="query.name" />
       <el-date-picker v-model="query.$date" clearable />
+    </template>
+
+    <template #action="scope">
+      {{ scope }}
     </template>
   </el-table-select>
 </template>
@@ -30,7 +28,6 @@
 <script lang="ts" setup>
 import { shallowReactive, onMounted, shallowRef } from 'vue'
 import type { TableSelectColumn } from 'element-ultra'
-import { Plus } from '@element-plus/icons-vue'
 
 const query = shallowReactive({
   name: '',
@@ -60,7 +57,15 @@ const fixed_columns: TableSelectColumn[] = [
     name: '状态'
   },
   { key: 'remarks', name: '备注', slot: 'column-remarks' },
-  { key: 'department', name: '部门', width: 160 }
+  { key: 'department', name: '部门', width: 160 },
+  {
+    key: 'action',
+    slot: 'action',
+    name: '操作',
+    fixed: 'right',
+    align: 'center',
+    width: 160
+  }
 ]
 
 let extra_columns: TableSelectColumn[] = $ref([])
@@ -70,10 +75,10 @@ let columns = $computed<TableSelectColumn[]>(() => {
 })
 
 let data = shallowRef([
-  { code: 'BM100001',  summary: `摘要1`,  project: `项目1` },
-  { code: 'BM100002',  summary: `摘要2`,  project: `项目2` },
-  { code: 'BM100003',  summary: `摘要3`,  project: `项目3` },
-  { code: 'BM100004',  summary: `摘要4`,  project: `项目4` }
+  { code: 'BM100001', summary: `摘要1`, project: `项目1` },
+  { code: 'BM100002', summary: `摘要2`, project: `项目2` },
+  { code: 'BM100003', summary: `摘要3`, project: `项目3` },
+  { code: 'BM100004', summary: `摘要4`, project: `项目4` }
 ])
 
 let path = $ref('')

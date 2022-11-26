@@ -1,5 +1,5 @@
 import { useConfig } from '@element-ultra/hooks'
-import { computed, shallowReactive, shallowRef } from 'vue'
+import { computed, shallowReactive, shallowRef, watch } from 'vue'
 import type { TableSelectProps } from './table-select'
 
 interface Options {
@@ -66,6 +66,16 @@ export default function useApi(options: Options) {
 
     internalData.value = data
   }
+
+  const queryWatchList = computed(() => {
+    return Object.keys(props.query || {})
+      .filter(k => k.startsWith('$'))
+      .map(k => {
+        return props.query?.[k]
+      })
+  })
+
+  watch(queryWatchList, () => fetchData())
 
   return {
     fetchData,

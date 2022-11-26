@@ -133,7 +133,7 @@ const instance = getCurrentInstance()!
 
 const { formItem, parentInjected } = useFormItem()
 const inputSize = useSize({ props })
-const inputDisabled = useDisabled()
+const inputDisabled = useDisabled({ props })
 const ns = useNamespace('input')
 
 const inputRef = ref<HTMLInputElement>()

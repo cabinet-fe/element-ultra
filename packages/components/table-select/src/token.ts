@@ -1,13 +1,14 @@
-import type { InjectionKey, Ref, Slots } from 'vue'
-import type { TableSelectProps } from './table-select'
+import type { UseNamespaceReturn } from '@element-ultra/element-ultra'
+import type { InjectionKey } from 'vue'
+import type { TableSelectEmits, TableSelectProps } from './table-select'
 
-export const tableSelectKey: InjectionKey<{
+export const tableSelectToken: InjectionKey<{
   /** 根组件属性 */
   rootProps: TableSelectProps,
-  /** 插槽 */
-  slots: Slots,
-  /** 组件尺寸 */
-  size:  Ref<"small" | "default" | "large">
-}> = Symbol('tableSelectKey')
+  /** 根组件触发事件 */
+  rootEmit: TableSelectEmits
+  /** 类命名空间 */
+  ns: UseNamespaceReturn
+}> = Symbol('tableSelectToken')
 
 

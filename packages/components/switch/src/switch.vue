@@ -118,7 +118,10 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const { formItem } = useFormItem()
-    const switchDisabled = useDisabled(computed(() => props.loading))
+    const switchDisabled = useDisabled({
+      props,
+      fallback: computed(() => props.loading)
+    })
     const ns = useNamespace('switch')
 
     const switchSize = useSize({ props })

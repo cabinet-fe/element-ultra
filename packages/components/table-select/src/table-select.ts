@@ -1,9 +1,9 @@
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { ProTableColumn } from '@element-ultra/components/pro-table'
+import type { TableColumn } from '@element-ultra/components/table'
 import { SizeProp } from '@element-ultra/constants'
 
-export interface TableSelectColumn extends ProTableColumn {}
+export interface TableSelectColumn extends TableColumn {}
 
 export const tableSelectProps = {
   /** 选择的值 */
@@ -44,6 +44,10 @@ export const tableSelectProps = {
     type: Boolean,
     default: false
   },
+  clearText: {
+    type: String,
+    default: '清空'
+  },
   /** 查询对象, 从外部传进来 */
   query: {
     type: Object as PropType<Record<string, any>>
@@ -58,15 +62,10 @@ export const tableSelectProps = {
     type: String,
     default: ''
   },
-  /** 弹框高度 */
-  theight: {
-    type: Number
-  },
 
-  /** 是否显示展示的表格 */
-  table: {
-    type: Boolean,
-    default: true
+  /** 是否隐藏显示的表格 */
+  hide: {
+    type: Boolean
   },
   /** 弹框宽度 */
   dialogWidth: {
@@ -81,8 +80,7 @@ export const tableSelectProps = {
 
   /** 是否可选择 */
   disabled: {
-    type: Boolean,
-    default: undefined
+    type: Boolean
   },
 
   defaultPageSize: {
@@ -93,11 +91,9 @@ export const tableSelectProps = {
 
 export type TableSelectProps = ExtractPropTypes<typeof tableSelectProps>
 
-type EmitValue = Record<string, any> | Record<string, any>[]
-
 export const tableSelectEmits = {
-  'update:modelValue': (v: EmitValue) => true,
-  change: (v: EmitValue) => true
+  'update:modelValue': (v: TableSelectProps['modelValue'] | null) => true,
+  change: (v: TableSelectProps['modelValue'] | null) => true
 }
 
 export type TableSelectEmits = EmitFn<typeof tableSelectEmits>
