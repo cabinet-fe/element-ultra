@@ -140,6 +140,7 @@ const handleSubmit = () => {
       : (selected.value as Record<string, any> | null)
 
   rootEmit('update:modelValue', data)
+  rootEmit('change', data)
 
   toggleVisible(false)
 }

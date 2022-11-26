@@ -82,8 +82,13 @@ provide(tableSelectToken, {
 })
 
 const handleClear = () => {
+  // 清空弹框中的所有数据
   dialogRef.value?.clear()
-  emit('update:modelValue', props.multiple ? [] : null)
+
+  const emptyData = props.multiple ? [] : null
+
+  emit('update:modelValue', emptyData)
+  emit('change', emptyData)
 }
 
 const open = () => dialogRef.value?.open()

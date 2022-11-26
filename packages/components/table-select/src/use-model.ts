@@ -53,6 +53,7 @@ export default function useModel(options: Options) {
     checkedData.value = shallowReactive({})
   }
 
+  // TODO由用户操作选择时, 应该不再触发监听
   watch(
     () => props.modelValue,
     value => {
