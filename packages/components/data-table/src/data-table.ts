@@ -10,7 +10,7 @@ export interface DataTableColumn extends Omit<TableColumn, 'render'> {
   /** 子列 */
   children?: DataTableColumn[]
   /** 渲染 */
-  render: (ctx: {
+  render?: (ctx: {
     val: any,
     v: any,
     row: Record<string, any>
