@@ -11,7 +11,7 @@
     </span>
 
     <!-- 清空数据 -->
-    <el-popconfirm @confirm="handleClear()" :hide-after="0" title="确定清空">
+    <el-popconfirm v-if="clearable" @confirm="handleClear()" :hide-after="0" title="确定清空">
       <template #reference>
         <el-button :disabled="tableSelectDisabled" type="warning">
           {{ clearText }}

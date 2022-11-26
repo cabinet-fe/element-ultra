@@ -78,8 +78,13 @@ export const tableSelectProps = {
 
   size: SizeProp,
 
-  /** 是否可选择 */
+  /** 是否禁用 */
   disabled: {
+    type: Boolean
+  },
+
+  /** 是否可选择 */
+  clearable: {
     type: Boolean
   },
 
