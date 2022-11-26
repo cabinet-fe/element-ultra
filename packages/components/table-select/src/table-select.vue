@@ -45,7 +45,7 @@
   </TableSelectDialog>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { tableSelectEmits, tableSelectProps } from './table-select'
 import { ElTable } from '@element-ultra/components/table'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
@@ -55,8 +55,12 @@ import { tableSelectToken } from './token'
 import { useDisabled, useNamespace } from '@element-ultra/hooks'
 import TableSelectDialog from './table-select-dialog.vue'
 
-const props = defineProps(tableSelectProps)
+defineOptions({
+  name: 'ElTableSelect',
+  inheritAttrs: false
+})
 
+const props = defineProps(tableSelectProps)
 const emit = defineEmits(tableSelectEmits)
 
 const ns = useNamespace('table-select')
@@ -82,15 +86,9 @@ const handleClear = () => {
   emit('update:modelValue', props.multiple ? [] : null)
 }
 
-defineExpose({
-  open() {
-    dialogRef.value?.open()
-  }
-})
-</script>
+const open = () => dialogRef.value?.open()
 
-<script lang="ts">
-export default {
-  inheritAttrs: false
-}
+defineExpose({
+  open
+})
 </script>
