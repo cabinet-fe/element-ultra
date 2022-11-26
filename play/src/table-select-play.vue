@@ -2,7 +2,7 @@
   <el-table-select
     v-model="data"
     :columns="columns"
-    :multiple="true"
+    :multiple="false"
     pagination
     :show-index="true"
     :query="query"
@@ -10,7 +10,6 @@
     :dialog-title="dialogTitle"
     ref="tableRef"
     :editable="true"
-    :path="path"
     value-key="code"
     :column-filter="columnFilter"
   >

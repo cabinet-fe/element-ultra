@@ -14,7 +14,7 @@
     <el-popconfirm @confirm="handleClear()" :hide-after="0" title="确定清空">
       <template #reference>
         <el-button :disabled="tableSelectDisabled" type="warning">
-          <slot>{{ clearText }}</slot>
+          {{ clearText }}
         </el-button>
       </template>
     </el-popconfirm>

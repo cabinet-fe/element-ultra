@@ -50,7 +50,11 @@ export default function useModel(options: Options) {
   }
 
   const handleClear = () => {
-    checkedData.value = shallowReactive({})
+    if (props.multiple) {
+      checkedData.value = shallowReactive({})
+    } else {
+      selected.value = null
+    }
   }
 
   // TODO由用户操作选择时, 应该不再触发监听

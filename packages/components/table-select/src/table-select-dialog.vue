@@ -42,7 +42,7 @@
     >
     </el-pagination>
 
-    <template #footer-left>
+    <template v-if="rootProps.multiple" #footer-left>
       <span style="color: var(--el-text-color-regular); vertical-align: middle">
         已选择 {{ checkedSize }} 条
       </span>
@@ -149,8 +149,6 @@ defineExpose({
   open() {
     toggleVisible(true)
   },
-  clear() {
-    handleClear()
-  }
+  clear: handleClear
 })
 </script>
