@@ -24,7 +24,6 @@
 
     <!-- 主数据 -->
     <template #default="{ list, style }">
-
       <DataTableRow
         v-for="item of list"
         :key="item.uid"
