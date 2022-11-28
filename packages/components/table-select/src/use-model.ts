@@ -28,6 +28,11 @@ export default function useModel(options: Options) {
     return Object.keys(checkedData.value).length
   })
 
+  /** 单选框操作 */
+  const handleSelect = (row: any) => {
+    selected.value = row
+  }
+
   const setSelectOrChecked = (
     value: Record<string, any> | any[] | undefined
   ) => {
@@ -111,10 +116,7 @@ export default function useModel(options: Options) {
     }
   }
 
-  /** 单选框操作 */
-  const handleSelect = (row: any) => {
-    selected.value = row
-  }
+
 
   return {
     checkedData,
