@@ -1,16 +1,10 @@
 <template>
   <el-pro-table
-    height="100%"
-    pagination
-    row-key="id"
-    :api="api"
-    :query="query"
+
     :columns="columns"
+    :data="[{}]"
     show-index
-    checkable
-    ref="tableRef"
-    show-summary
-    tree
+
   >
     <template #column-conf="{ column }">
       <el-input

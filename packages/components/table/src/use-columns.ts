@@ -31,11 +31,18 @@ export default function useColumns(params: { props: TableProps }) {
       }
 
       _columns.forEach(column => {
+        // name统一转化为函数
         if (typeof column.name === 'string') {
           const { name } = column
           column.name = () => name
         }
 
+        // 指定一个最小宽度
+        if (!column.width && !column.minWidth) {
+          column.minWidth = 100
+        }
+
+        // 始终保持render存在
         if (!column.render) {
           if (column.slot && slots[column.slot]) {
             column.render = (ctx) => slots[column.slot!]!(ctx)

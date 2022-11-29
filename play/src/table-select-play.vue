@@ -2,7 +2,7 @@
   <el-table-select
     v-model="data"
     :columns="columns"
-    :multiple="false"
+    :multiple="true"
     pagination
     :show-index="true"
     :query="query"
@@ -22,6 +22,11 @@
       {{ scope }}
     </template>
   </el-table-select>
+
+
+  <el-multiple-form v-model:data="data" :columns="columns">
+
+  </el-multiple-form>
 </template>
 
 <script lang="ts" setup>

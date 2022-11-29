@@ -82,9 +82,15 @@ const handleScroll = () => {
 
 // 需要监听滚动容器和视图容器的size变化重新更新滚动条样式
 // @ts-ignore
-const contentResizeObserver = useResizeObserver(wrapRef, handleScroll)
+const contentResizeObserver = useResizeObserver(wrapRef, ([entry]) => {
+  emit('view-resize', entry.contentRect)
+  handleScroll()
+})
 // @ts-ignore
-const resizeObserver = useResizeObserver(viewRef, handleScroll)
+const resizeObserver = useResizeObserver(viewRef, () => {
+
+  handleScroll()
+})
 
 const handleMouseEnter = () => {
   barsRef.value?.setHovered(true)

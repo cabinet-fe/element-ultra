@@ -25,7 +25,8 @@
     <!-- 主数据 -->
     <template #default="{ list, style }">
       <DataTableRow
-        v-for="item of list"
+        v-for="(item, index) of list"
+        @click="emit('row-click', item, index)"
         :key="item.uid"
         :row="item"
         :style="style"
@@ -53,7 +54,8 @@ const {
   store,
   bodyHeight,
   rootProps,
-  getCellStyle
+  getCellStyle,
+  emit
 } = inject(dataTableToken)!
 
 const ele = 'cell'

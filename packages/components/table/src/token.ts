@@ -26,4 +26,6 @@ export const tableToken: InjectionKey<{
 }) => any> | undefined>
   /** 获取单元格样式 */
   getCellStyle: (column: TableColumn, type?: 'left' | 'center' | 'right') => CSSProperties
+
+  containerWidth: ShallowRef<number>
 }> = Symbol('tableToken')

@@ -79,10 +79,11 @@ const columns: DataTableColumn[] = [
             name: '测试2-1-1',
             key: 'test2-1-1',
             slot: 'test2',
-            align: 'center'
+            align: 'center',
+            minWidth: 200
           },
-          { name: '测试2-1-2', key: 'test2-1-2', slot: 'test2' },
-          { name: '测试2-1-3', key: 'test2-1-3', slot: 'test2' }
+          { name: '测试2-1-2', key: 'test2-1-2', slot: 'test2',   minWidth: 200 },
+          { name: '测试2-1-3', key: 'test2-1-3', slot: 'test2',   minWidth: 200 }
         ]
       },
       {

@@ -27,20 +27,52 @@
 </template>
 
 <script lang="ts" setup>
-import { CSSProperties, inject } from 'vue'
+import { computed, CSSProperties, inject } from 'vue'
 import { tableToken } from './token'
 import { ElNodeRender } from '@element-ultra/components/node-render'
 import type { TableColumn } from './table'
 
-const { columnLayouts, columns, ns, getCellStyle } = inject(tableToken)!
+const { columnLayouts, columns, containerWidth, ns, getCellStyle } =
+  inject(tableToken)!
 
 const headerCellClass = ns.e('header-cell')
 
-/** 如果没有指定width, 则给个minWidth */
+/** 剩余的平均宽度 */
+const restAverageWidth = computed(() => {
+  const columnTotalWidth = columns.value.reduce((acc, cur) => {
+    if (cur.width) {
+      if (cur.minWidth && cur.minWidth > cur.width) {
+        acc += cur.minWidth
+      } else {
+        acc += cur.width
+      }
+    } else {
+      if (cur.minWidth) {
+        acc += cur.minWidth
+      }
+    }
+
+    return acc
+  }, 0)
+
+  const restNum = columns.value.filter(column => !column.width).length
+
+  return (containerWidth.value - columnTotalWidth) / restNum
+})
+
 const getColStyle = (column: TableColumn): CSSProperties => {
-  return {
-    width: column.width + 'px',
-    minWidth: (column.minWidth ? column.minWidth : column.width ? column.width : 100) + 'px'
+  const style: CSSProperties = {}
+
+  if (column.width) {
+    style.width = `${column.width}px`
   }
+  if (column.minWidth) {
+    if (restAverageWidth.value > 0) {
+      style.width = `${column.minWidth + restAverageWidth.value}px`
+    } else {
+      style.width = `${column.minWidth}px`
+    }
+  }
+  return style
 }
 </script>

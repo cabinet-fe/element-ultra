@@ -71,6 +71,7 @@ export type ScrollCtx = {
 
 export const scrollbarEmits = {
   scroll: (ctx: ScrollCtx) => true,
+  'view-resize': (rect: DOMRectReadOnly) => true
 }
 
 export type ScrollbarEmits = typeof scrollbarEmits

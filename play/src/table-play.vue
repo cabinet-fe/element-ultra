@@ -3,7 +3,6 @@
     <template #aa="{ row }">
       {{ row }}
     </template>
-
   </el-table>
 </template>
 
@@ -22,13 +21,12 @@ const mings = '啊行者三四里华琴浩杰龙晨勉国爱葱飞鹏婷'
 const columns: TableColumn[] = [
   { name: '姓名', key: 'name', width: 200, fixed: 'left' },
   { name: 'id', key: 'id', summary: ({ total }) => total },
-  { name: '姓名1', key: 'name1', slot: 'aa', minWidth: 200 },
-  { name: '姓名2', key: 'name2', render: ({ row }) => row.name, minWidth: 200 },
-  { name: '姓名3', key: 'name3', render: ({ row }) => row.name, minWidth: 200 },
-  { name: '姓名4', key: 'name4', render: ({ row }) => row.name, minWidth: 200 },
+  { name: '姓名1', key: 'name1', slot: 'aa' },
+  { name: '姓名2', key: 'name2', render: ({ row }) => row.name },
+  { name: '姓名3', key: 'name3', render: ({ row }) => row.name },
+  { name: '姓名4', key: 'name4', render: ({ row }) => row.name },
   {
     name: '姓名5',
-    width: 200,
     fixed: 'right',
     key: 'name5',
     render: ({ row }) => row.name,

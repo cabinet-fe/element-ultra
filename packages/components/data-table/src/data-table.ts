@@ -105,6 +105,7 @@ export const dataTableProps = {
 } as const
 
 export const dataTableEmits = {
+  'row-click': (row: any, rowIndex: number) => true,
   check: (checked: any[]) => true,
   select: (selection: any) => true,
   sort: (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => true

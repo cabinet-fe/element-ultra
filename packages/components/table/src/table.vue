@@ -1,5 +1,10 @@
 <template>
-  <el-scrollbar :class="ns.e('wrap')" :z-index="2" @scroll="handleScroll">
+  <el-scrollbar
+    :class="ns.e('wrap')"
+    :z-index="2"
+    @view-resize="containerWidth = $event.width"
+    @scroll="handleScroll"
+  >
     <table
       :class="[
         ns.b(),
@@ -23,7 +28,7 @@ import TableHeader from './table-header.vue'
 import TableBody from './table-body.vue'
 import TableFooter from './table-footer.vue'
 import { tableProps, FinalTableColumn, tableEmits } from './table'
-import { computed, CSSProperties, provide } from 'vue'
+import { computed, CSSProperties, provide, shallowRef } from 'vue'
 import { tableToken } from './token'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import useColumns from './use-columns'
@@ -38,6 +43,8 @@ const emit = defineEmits(tableEmits)
 const { columns, columnLayouts } = useColumns({
   props
 })
+
+const containerWidth = shallowRef(0)
 
 const tableSize = useSize({
   props
@@ -79,6 +86,7 @@ const getCellStyle = (
 }
 
 provide(tableToken, {
+  containerWidth,
   rootProps: props,
   rootEmit: emit,
   ns,
