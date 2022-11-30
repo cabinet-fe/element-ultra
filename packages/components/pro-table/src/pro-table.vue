@@ -33,6 +33,7 @@
       :tree="tree"
       @check="emit('check', $event)"
       @select="emit('select', $event)"
+      @row-click="handleRowClick"
       @sort="handleSort"
     >
       <template v-slot:[column.slot!]="ctx" v-for="column of columnSlots">
@@ -94,7 +95,17 @@ const slots = useSlots()
 const ns = useNamespace('pro-table')
 
 const columnSlots = computed(() => {
-  return props.columns?.filter(column => column.slot) || []
+  let leafColumns: ProTableColumn[] = []
+  const recursive = (columns?: ProTableColumn[]) => {
+    columns?.forEach(column => {
+      if (column.children?.length) return recursive(column.children)
+      leafColumns.push(column)
+    })
+
+  }
+  recursive(props.columns)
+
+  return leafColumns.filter(column => column.slot)
 })
 
 const tableRef = shallowRef<DataTableInstance>()
@@ -270,6 +281,10 @@ watch(
   },
   { immediate: true }
 )
+
+const handleRowClick = (row: any, index: number) => {
+  emit('row-click', row, index)
+}
 
 watch(
   () => props.api,

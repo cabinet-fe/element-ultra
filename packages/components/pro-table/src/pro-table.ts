@@ -108,7 +108,8 @@ export const proTableEmits = {
   check: (checked: any[]) => true,
   select: (selected: any) => true,
   fetch: (query: Record<string, any>) => true,
-  loaded: (res: RequestResponse) => true
+  loaded: (res: RequestResponse) => true,
+  'row-click': (row: any, rowIndex: number) => true
 }
 
 /** 专业数据表格类配置 */
