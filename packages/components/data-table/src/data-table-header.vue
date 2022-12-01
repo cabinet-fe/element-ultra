@@ -70,6 +70,10 @@ import { dataHeaderToken, dataTableToken } from './token'
 import type { TableHeader } from './utils'
 import { LeftCell, RightCell, CenterCell } from './data-table-header-cell'
 
+const emit = defineEmits({
+  'column-resize': (position: string, visible: boolean) => true
+})
+
 const {
   headerRows,
   scrollState,
@@ -92,39 +96,38 @@ const getCellRowSpan = (header: TableHeader, rowIndex: number) => {
   return header.children?.length ? undefined : rowLength.value - rowIndex
 }
 
+/** 是否resize中 */
 const resizing = shallowRef(false)
 
-let startX = 0
+let mouseStartX = 0
 let currentColIndex = -1
 let currentNodeOriginWidth = 0
 let currentNode: HTMLElement | null = null
 
-let headerCols: NodeListOf<HTMLElement> | null = null
-let bodyCols: NodeListOf<HTMLElement> | null = null
-let footerCols: NodeListOf<HTMLElement> | null = null
+let containerLeft = 0
 
 /** 重置为初始状态 */
 const resetResizeState = () => {
-  startX = 0
+  mouseStartX = 0
   currentColIndex = -1
   currentNodeOriginWidth = 0
   currentNode = null
-  headerCols = null
-  bodyCols = null
-  footerCols = null
 }
 
+// 找到
 const handleResizeMousedown = (e: MouseEvent, header: TableHeader) => {
   resizing.value = true
-  startX = e.pageX
+  mouseStartX = e.pageX
+
+  // 表头容器相对于屏幕的左偏移量(resizeline的left = mouseX - header.left)
+  const { left } = headerRef.value!.getBoundingClientRect()
+  containerLeft = left
+
+  emit('column-resize', e.pageX - containerLeft + 'px', resizing.value)
 
   currentColIndex = header.data.index!
-  currentNode = (e.target as HTMLSpanElement).parentElement
+  currentNode = (e.target as HTMLSpanElement).closest('th')
   currentNodeOriginWidth = currentNode!.offsetWidth
-
-  headerCols = document.querySelectorAll('.el-data-table__header col')
-  bodyCols = document.querySelectorAll('.el-data-table__body col')
-  footerCols = document.querySelectorAll('.el-data-table__footer col')
 
   document.addEventListener('mousemove', resizeMousemoveHandler)
   document.addEventListener('mouseup', resizeMouseupHandler)
@@ -136,27 +139,18 @@ const columns = computed(() => {
 
 /** 鼠标拖动 */
 const resizeMousemoveHandler = throttle((e: MouseEvent) => {
-  let targetWidth = currentNodeOriginWidth + e.pageX - startX + 'px'
+  emit('column-resize', e.pageX - containerLeft + 'px', resizing.value)
+}, 0)
 
-  ~[
-    headerCols![currentColIndex],
-    bodyCols![currentColIndex],
-    footerCols![currentColIndex]
-  ].forEach(node => {
-    if (!node) return
-    node.style.width = targetWidth
-    node.style.minWidth = targetWidth
-  })
-}, 16.7)
-
-const resizeMouseupHandler = () => {
+const resizeMouseupHandler = (e: MouseEvent) => {
   resizing.value = false
+  emit('column-resize', e.pageX - containerLeft + 'px', resizing.value)
+  const targetWidth = currentNodeOriginWidth + e.pageX - mouseStartX
   document.removeEventListener('mousemove', resizeMousemoveHandler)
   document.removeEventListener('mouseup', resizeMouseupHandler)
 
-  const { offsetWidth } = currentNode!
-  columns.value[currentColIndex].width = offsetWidth
-  columns.value[currentColIndex].minWidth = offsetWidth
+  columns.value[currentColIndex].width = targetWidth
+  columns.value[currentColIndex].minWidth = targetWidth
 
   computePosition()
   resetResizeState()

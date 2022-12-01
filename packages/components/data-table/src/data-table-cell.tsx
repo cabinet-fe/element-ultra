@@ -76,6 +76,7 @@ const buildCell = <
         return (
           <td
             class={classes}
+            title={val}
             style={{
               ...styleGetter(column),
               'text-align': column.align

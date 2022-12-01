@@ -8,7 +8,7 @@
     :style="{ height }"
   >
     <!-- 表头 -->
-    <DataTableHeader>
+    <DataTableHeader @column-resize="handleColumnResize">
       <template #column-conf="scoped">
         <slot name="column-conf" v-bind="scoped" />
       </template>
@@ -19,11 +19,14 @@
 
     <!-- 合计行. 树形结构显示不能显示合计行 -->
     <DataTableFooter v-if="showSummary && !tree" />
+
+    <!-- size线 -->
+    <div :class="ns.e('resize-line')" ref="lineRef"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { provide } from 'vue'
+import { provide, shallowRef } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import DataTableHeader from './data-table-header.vue'
 import DataTableBody from './data-table-body.vue'
@@ -57,6 +60,13 @@ provide(dataTableToken, {
   rootProps: props,
   emit
 })
+
+const lineRef = shallowRef<HTMLElement>()
+
+const handleColumnResize = (left: string, visible: boolean) => {
+  lineRef.value!.style.left = left
+  lineRef.value!.style.visibility = visible ? 'visible' : 'hidden'
+}
 
 defineExpose({
   getColumns: columns.getColumns

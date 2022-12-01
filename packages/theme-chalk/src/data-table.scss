@@ -20,6 +20,19 @@
   font-size: 14px;
   position: relative;
 
+  @include e(resize-line) {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    background-color: var(--el-border-color-darker);
+    height: 100%;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+
   table {
     table-layout: fixed;
     border-spacing: 0;
@@ -55,6 +68,7 @@
     border: 1px solid var(--el-border-color);
     box-sizing: content-box;
   }
+
   @include e(leaf-icon) {
     display: inline-block;
     width: 16px;

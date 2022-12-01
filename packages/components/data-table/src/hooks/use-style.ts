@@ -18,8 +18,8 @@ export default function useStyle(props: DataTableProps) {
     const { width, minWidth } = column
     const { columnMinWidth } = props
     return {
-      width: width ? width + 'px' : minWidth ? minWidth + 'px' : undefined,
-      minWidth: (width || minWidth || columnMinWidth) + 'px'
+      width: width ? width + 'px' : minWidth ? minWidth + 'px' : columnMinWidth + 'px',
+      // minWidth: (width || minWidth || columnMinWidth) + 'px'
     }
   }
 
