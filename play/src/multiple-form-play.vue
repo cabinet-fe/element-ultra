@@ -4,16 +4,20 @@
     <el-radio value="dialog">弹框</el-radio>
   </el-radio-group>
 
-  <el-button @click="visible = true">设置</el-button>
+  <!--  <el-button @click="visible = true">设置</el-button>
 
   <el-form-dialog v-model="visible" :confirm="handleConfirm">
-    <el-multiple-form
+
+  </el-form-dialog> -->
+
+  <el-multiple-form
       :mode="mode"
       :columns="columns"
       title="标题"
       height="400px"
       v-model:data="data"
       ref="refer"
+
     >
       <template #tools>
         <el-button type="primary" @click="addNextLine">添加一行</el-button>
@@ -48,19 +52,18 @@
         <el-input label="测试2" field="test.test2" />
       </template>
     </el-multiple-form>
-  </el-form-dialog>
-  {{ data }}
 </template>
 
 <script lang="ts" setup>
 import type { MultipleFormColumn } from 'element-ultra'
 import { shallowRef } from 'vue'
 
-const mode = $shallowRef<'inline' | 'dialog'>('dialog')
+const mode = $shallowRef<'inline' | 'dialog'>('inline')
 
 const columns: MultipleFormColumn[] = [
   {
     name: '名称',
+    width: 100,
     key: 'name',
     tips: '这是一个tip<br>aa<br>bbb',
     rules: {
@@ -72,6 +75,7 @@ const columns: MultipleFormColumn[] = [
   },
   {
     name: '年龄',
+    width: 100,
     key: 'age',
     defaultValue: () =>
       new Promise(rs =>
@@ -79,11 +83,12 @@ const columns: MultipleFormColumn[] = [
           rs(20)
         }, 2000)
       ),
-      summary: true,
-    align: 'left'
+    align: 'left',
+    summary: true
   },
   {
     name: '手机号',
+    width: 100,
     key: 'school',
     rules: {
       required: true
@@ -92,6 +97,7 @@ const columns: MultipleFormColumn[] = [
   {
     key: 'test',
     name: '美滋滋',
+    width: 100,
     defaultValue: () => ({}),
     nest: [
       { key: 'test1', name: '对象测试1' },

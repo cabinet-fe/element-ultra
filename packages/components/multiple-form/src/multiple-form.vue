@@ -147,7 +147,7 @@ const visibleColumns = computed(() => {
 const summaryMethods = computed(() => {
   const summaries = visibleColumns.value?.filter(column => !!column.summary)
 
-  if (!summaries) return undefined
+  if (!summaries?.length) return undefined
   return summaries.reduce((acc, cur) => {
     acc[cur.key] = cur.summary
     return acc

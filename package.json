@@ -101,7 +101,7 @@
     "ts-morph": "^15.1.0",
     "tsx": "^3.11.0",
     "type-fest": "^2.15.1",
-    "typescript": "4.8.4",
+    "typescript": "4.9.3",
     "unplugin-vue-components": "^0.22.9",
     "unplugin-vue-define-options": "^0.12.7",
     "vite": "3.2.3",

@@ -114,7 +114,7 @@ const containerHeight = shallowRef(0)
 const renderedRange = computed(() => {
   const { itemSize, bufferHeight, data } = props
 
-  /** 这里的缓冲区要乘以2对冲掉上侧的缓冲 */
+  /** 使用缓冲区对冲掉网上滚动时元素的渲染 */
   let end =
     position.value + ~~((containerHeight.value + bufferHeight * 2) / itemSize)
 

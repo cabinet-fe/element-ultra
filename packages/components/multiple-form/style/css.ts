@@ -5,5 +5,6 @@ import '@element-ultra/components/scrollbar/style/css'
 import '@element-ultra/components/form/style/css'
 import '@element-ultra/components/icon/style/css'
 import '@element-ultra/components/form-dialog/style/css'
+import '@element-ultra/components/table/style/css'
 
 import '@element-ultra/theme-chalk/multiple-form.css'

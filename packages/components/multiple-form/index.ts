@@ -1,6 +1,6 @@
 import { withInstall } from '@element-ultra/utils'
 
-import MultipleForm from './src/multiple-form.vue'
+import MultipleForm from './src1/multiple-form.vue'
 
 export const ElMultipleForm = withInstall(MultipleForm)
 
