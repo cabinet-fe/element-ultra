@@ -11,10 +11,18 @@ export default function useRows(options: Options) {
 
   const rows = shallowRef<MultipleFormRow[]>([])
 
-  // 不能每次data更新时都重新包裹row, 要缓存用户更改的内容
+  const editedRowsMap = new Map()
+
+  // 不能每次data更新时都重新包裹row
+  // 一旦editedRowsMap不为空则返回
   watch(() => props.data, data => {
-    if (!data) return
+    if (!data || editedRowsMap.size) return
 
     rows.value = wrapDataRows(data)
   })
+
+  return {
+    rows,
+    editedRowsMap
+  }
 }
