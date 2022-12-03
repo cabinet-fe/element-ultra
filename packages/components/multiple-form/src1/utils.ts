@@ -10,6 +10,7 @@ export function wrapDataRows(
       data: reactive(item),
       status: 'view',
       parent,
+      index,
       indexes: parent ? parent.indexes.concat(index) : [index]
     }
 

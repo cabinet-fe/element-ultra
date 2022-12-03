@@ -24,6 +24,7 @@
   }
 
   $tools-height: 40px;
+
   @include e(tools) {
     height: $tools-height;
 
@@ -34,6 +35,17 @@
 
     & > * {
       vertical-align: middle;
+    }
+  }
+
+  @include e('create') {
+    cursor: pointer;
+    color: var(--el-color-primary);
+    margin-left: 4px;
+    user-select: none;
+
+    &:active {
+      color: var(--el-color-primary-dark-2);
     }
   }
 

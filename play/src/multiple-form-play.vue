@@ -63,7 +63,6 @@ const mode = $shallowRef<'inline' | 'dialog'>('inline')
 const columns: MultipleFormColumn[] = [
   {
     name: '名称',
-    width: 100,
     key: 'name',
     tips: '这是一个tip<br>aa<br>bbb',
     rules: {
@@ -75,7 +74,6 @@ const columns: MultipleFormColumn[] = [
   },
   {
     name: '年龄',
-    width: 100,
     key: 'age',
     defaultValue: () =>
       new Promise(rs =>
@@ -88,22 +86,21 @@ const columns: MultipleFormColumn[] = [
   },
   {
     name: '手机号',
-    width: 100,
     key: 'school',
     rules: {
       required: true
     }
   },
-  {
-    key: 'test',
-    name: '美滋滋',
-    width: 100,
-    defaultValue: () => ({}),
-    nest: [
-      { key: 'test1', name: '对象测试1' },
-      { key: 'test2', name: '对象测试2' }
-    ]
-  }
+  // {
+  //   key: 'test',
+  //   name: '美滋滋',
+  //   width: 100,
+  //   defaultValue: () => ({}),
+  //   nest: [
+  //     { key: 'test1', name: '对象测试1' },
+  //     { key: 'test2', name: '对象测试2' }
+  //   ]
+  // }
 ]
 
 let visible = shallowRef(false)

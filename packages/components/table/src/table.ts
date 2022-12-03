@@ -3,7 +3,7 @@ import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 表格列 */
-export interface TableColumn {
+export interface TableColumn<Row extends Record<string, any> = any> {
   /** 固定列 */
   fixed?: 'left' | 'right'
   /** 对齐方式 */
@@ -25,7 +25,7 @@ export interface TableColumn {
     /** val的别名，等同于val */
     v: any
     /** 行数据 */
-    row: any
+    row: Row
     /** 行索引 */
     index: number
   }) => any

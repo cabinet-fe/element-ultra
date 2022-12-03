@@ -62,7 +62,11 @@ export type MultipleFormColumn = {
   nest?: MultipleFormColumn[]
 
   /** 合计 */
-  summary?: boolean | ((total: number) => (number | string))
+  summary?: boolean | ((ctx: {
+    total: number;
+    key: string;
+    data: any[]
+  }) => (number | string))
 }
 
 export const multipleFormProps = {
@@ -72,6 +76,10 @@ export const multipleFormProps = {
 
   rowKey: {
     type: String
+  },
+
+  tree: {
+    type: Boolean,
   },
 
   /** 列表数据 */
@@ -148,6 +156,8 @@ export type MultipleFormRow = {
   data: any;
   /** 行状态 */
   status: 'view' | 'editing'
+  /** 行索引 */
+  index: number
   /** 节点编号 */
   indexes: number[]
   /** 父节点 */

@@ -2,19 +2,19 @@ import { computed, shallowReactive, shallowRef, type ShallowRef } from 'vue'
 import type {
   MultipleFormEmits,
   MultipleFormProps,
+  MultipleFormRow,
   MultipleFormRules
 } from './multiple-form'
 
 interface Options {
   props: MultipleFormProps
   emit: MultipleFormEmits
-  targetIndex: ShallowRef<number>
-  internalData: ShallowRef<any[]>
+  rows: ShallowRef<MultipleFormRow[]>
   emitChange: () => void
 }
 
-export default function useInline(options: Options) {
-  const { props, emit, internalData, targetIndex } = options
+export default function useInlineEdit(options: Options) {
+  const { props, emit, rows } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -34,26 +34,29 @@ export default function useInline(options: Options) {
 
   /** 创建一个响应式空行 */
   const createInlineRow = (data?: Record<string, any>) => {
-    let row = shallowReactive(
-      (props.columns ?? []).reduce(
-        (acc, cur) => {
-          if (data?.[cur.key]) {
-            acc[cur.key] = data?.[cur.key]
-          } else if (cur.defaultValue instanceof Function) {
-            let v = cur.defaultValue()
-            if (v instanceof Promise) {
-              v.then(result => (row[cur.key] = result))
-            } else {
-              acc[cur.key] = v
-            }
-          } else {
-            acc[cur.key] = cur.defaultValue
-          }
-          return acc
-        },
-        { __new__: true } as Record<string, any>
-      )
-    )
+    const { columns = [] } = props
+
+    const row = columns.reduce((acc, cur) => {
+      const dataValue = data?.[cur.key]
+      if (dataValue) {
+        acc[cur.key] = dataValue
+      }
+      // 有默认值函数
+      else if (cur.defaultValue instanceof Function) {
+        let v = cur.defaultValue()
+        if (v instanceof Promise) {
+          v.then(result => (row[cur.key] = result))
+        } else {
+          acc[cur.key] = v
+        }
+      }
+      else {
+        acc[cur.key] = cur.defaultValue
+      }
+
+      return acc
+    }, {} as Record<string, any>)
+
 
     return row
   }
@@ -166,7 +169,7 @@ export default function useInline(options: Options) {
 
       // validator独立校验
       if (validator) {
-        let errorMsg = await validator(itemValue, item, internalData.value)
+        let errorMsg = await validator(itemValue, item, props.data ?? [])
         errorTips[fieldKey] = errorMsg
         if (errorMsg) {
           isValid = false
@@ -198,94 +201,18 @@ export default function useInline(options: Options) {
     }
   }
 
-  const resetTargetIndex = () => {
-    targetIndex.value = -1
-  }
 
-  /** 删除rows或插入row */
-  const splitRowByIndex = (index: number, row?: any) => {
-    if (row) {
-      internalData.value = [
-        ...internalData.value.slice(0, index),
-        row,
-        ...internalData.value.slice(index)
-      ]
-    } else {
-      internalData.value = [
-        ...internalData.value.slice(0, index),
-        ...internalData.value.slice(index + 1)
-      ]
-    }
 
-    options.emitChange()
-  }
 
-  /** 保存行 */
-  const handleSaveRow = async (item: any, i: number) => {
-    let valid = await validate(item, columnRules.value)
-    if (!valid) return
-    delete item['__new__']
-    resetTargetIndex()
-    emit('save', item, internalData.value)
-  }
 
-  /** 删除 */
-  const handleDeleteRow = (item: any, index: number) => {
-    // 删除掉一行
-    splitRowByIndex(index)
 
-    // 如果删除的恰好是正在编辑的行需要重置
-    if (index === targetIndex.value) {
-      resetTargetIndex()
-    }
-    // 删除的行索引小于处于编辑状态的行索引，则目标索引减一
-    else if (index < targetIndex.value) {
-      targetIndex.value--
-    }
-    emit('delete', item)
-  }
 
-  /** 进入编辑状态 */
-  const handleEnterEdit = (index: number) => {
-    // 尝试找到当前正在编辑的行, 删除未保存的编辑行
-    let currentEditing = internalData.value[targetIndex.value]
-    if (currentEditing?.__new__) {
-      splitRowByIndex(targetIndex.value)
-    }
-    targetIndex.value = index
-  }
 
-  /**
-   * 退出编辑
-   * 1. 更新状态下退出正常退出
-   * 2. 新增状态下退出删除
-   */
-  const handleExitEdit = (item: any, index: number) => {
-    if (item.__new__) {
-      splitRowByIndex(index)
-      clearValidate()
-    }
-    resetTargetIndex()
-  }
-
-  const handleMouseEnter = (index: number) => {
-    if (targetIndex.value === index) {
-      showGuide.value = false
-    }
-  }
 
   return {
     errorTips,
     showGuide,
     columnRules,
-    createInlineRow,
-    handleSaveRow,
-    splitRowByIndex,
-    /** 删除 */
-    handleDeleteRow,
     clearValidate,
-    handleEnterEdit,
-    handleExitEdit,
-    handleMouseEnter
   }
 }

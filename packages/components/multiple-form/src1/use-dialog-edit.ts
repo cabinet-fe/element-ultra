@@ -21,9 +21,10 @@ interface Options {
 }
 
 export default function useDialogEdit(options: Options) {
-  const { props, internalData, emit } = options
-  // 根据列生成数据模型
+  const { props, internalData, emit, emitChange } = options
 
+
+  // 根据列生成数据模型
   const getModel = (columns: MultipleFormColumn[]) => {
     const model = {} as Record<string, FormModelItem>
     // 将列转化为表单的模型校验
@@ -64,6 +65,8 @@ export default function useDialogEdit(options: Options) {
     const { ctx } = dialog
     // 因为所有行的model共用同一个, 因此在提交时需要深拷贝一份出来
     const data = JSON.parse(JSON.stringify(form))
+
+
 
     if (dialog.type === 'create') {
       internalData.value = [
