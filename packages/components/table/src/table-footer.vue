@@ -27,7 +27,10 @@
         summaryMethods![column.key]?.({
           key: column.key,
           data: rootProps.data,
-          total: rootProps.data.reduce((acc, cur) => acc + +cur[column.key], 0)
+          total: rootProps.data.reduce(
+            (acc, cur) => acc + +(getChainValue(cur, column.key) ?? 0),
+            0
+          )
         })
       }}
     </td>
@@ -35,6 +38,7 @@
 </template>
 
 <script lang="ts" setup>
+import { getChainValue } from '@element-ultra/utils'
 import { inject } from 'vue'
 import { tableToken } from './token'
 

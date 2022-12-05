@@ -8,7 +8,11 @@
       <slot name="tools" />
     </div>
 
-    <el-table :columns="tableColumns" :data="rows"></el-table>
+    <el-table
+      :columns="tableColumns"
+      :data="root.children"
+      style="height: 400px"
+    ></el-table>
   </div>
 
   <!-- <el-form-dialog
@@ -30,10 +34,7 @@
 <script lang="ts" setup>
 import { useSlots } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import {
-  multipleFormEmits,
-  multipleFormProps,
-} from './multiple-form'
+import { multipleFormEmits, multipleFormProps } from './multiple-form'
 import { ElTable } from '@element-ultra/components/table'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 import { ElForm } from '@element-ultra/components/form'
@@ -55,26 +56,34 @@ const slots = useSlots()
 
 const ns = useNamespace('multiple-form')
 
-const { rows, emitChange, handleCreateRow, handleDeleteRow } = useRows({
+const { root, emitChange, handleCreateRow, delRow, find, insertTo } = useRows({
   props,
   emit
 })
 
 // const {} = useDialogEdit({ })
 
+// 行内编辑
 const { errorTips } = useInlineEdit({
   props,
   emit,
   emitChange,
-  rows
+  root
 })
 
+/** 列 */
 const { tableColumns } = useColumns({
   props,
   errorTips,
   handleCreateRow,
-  handleDeleteRow,
+  delRow,
   slots,
   ns
+})
+
+defineExpose({
+  find,
+  delete: delRow,
+  insertTo
 })
 </script>

@@ -1,4 +1,4 @@
-import { computed, shallowReactive, shallowRef, type ShallowRef } from 'vue'
+import { computed, shallowReactive, shallowRef } from 'vue'
 import type {
   MultipleFormEmits,
   MultipleFormProps,
@@ -9,12 +9,12 @@ import type {
 interface Options {
   props: MultipleFormProps
   emit: MultipleFormEmits
-  rows: ShallowRef<MultipleFormRow[]>
+  root: MultipleFormRow
   emitChange: () => void
 }
 
 export default function useInlineEdit(options: Options) {
-  const { props, emit, rows } = options
+  const { props, emit, root } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -31,35 +31,6 @@ export default function useInlineEdit(options: Options) {
 
   /** 显示引导 */
   const showGuide = shallowRef(false)
-
-  /** 创建一个响应式空行 */
-  const createInlineRow = (data?: Record<string, any>) => {
-    const { columns = [] } = props
-
-    const row = columns.reduce((acc, cur) => {
-      const dataValue = data?.[cur.key]
-      if (dataValue) {
-        acc[cur.key] = dataValue
-      }
-      // 有默认值函数
-      else if (cur.defaultValue instanceof Function) {
-        let v = cur.defaultValue()
-        if (v instanceof Promise) {
-          v.then(result => (row[cur.key] = result))
-        } else {
-          acc[cur.key] = v
-        }
-      }
-      else {
-        acc[cur.key] = cur.defaultValue
-      }
-
-      return acc
-    }, {} as Record<string, any>)
-
-
-    return row
-  }
 
   /** 校验器 */
   const validators = {
@@ -201,18 +172,10 @@ export default function useInlineEdit(options: Options) {
     }
   }
 
-
-
-
-
-
-
-
-
   return {
     errorTips,
     showGuide,
     columnRules,
-    clearValidate,
+    clearValidate
   }
 }

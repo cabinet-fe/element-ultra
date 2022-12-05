@@ -9,7 +9,7 @@
   <el-form-dialog v-model="visible" :confirm="handleConfirm">
 
   </el-form-dialog> -->
-
+  {{data}}
   <el-multiple-form
       :mode="mode"
       :columns="columns"

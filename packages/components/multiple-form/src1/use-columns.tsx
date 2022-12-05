@@ -22,12 +22,12 @@ interface Options {
   slots: Slots
   errorTips: ShallowReactive<Record<string, any>>
   handleCreateRow: (parent?: MultipleFormRow) => void
-  handleDeleteRow: (row: MultipleFormRow) => void
+  delRow: (indexes: number | number[]) => void
   ns: UseNamespaceReturn
 }
 
 export default function useColumns(options: Options) {
-  const { props, handleCreateRow, handleDeleteRow, errorTips, slots, ns } =
+  const { props, handleCreateRow, delRow, errorTips, slots, ns } =
     options
 
   const renders: Record<
@@ -107,7 +107,7 @@ export default function useColumns(options: Options) {
               type='primary'
               icon={Delete}
               link
-              onClick={() => handleDeleteRow(row)}
+              onClick={() => delRow(row.indexes)}
             />
           )
 
