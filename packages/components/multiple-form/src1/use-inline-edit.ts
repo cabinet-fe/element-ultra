@@ -1,20 +1,15 @@
-import { computed, shallowReactive, shallowRef } from 'vue'
+import { computed, shallowReactive } from 'vue'
 import type {
-  MultipleFormEmits,
   MultipleFormProps,
-  MultipleFormRow,
   MultipleFormRules
 } from './multiple-form'
 
 interface Options {
   props: MultipleFormProps
-  emit: MultipleFormEmits
-  root: MultipleFormRow
-  emitChange: () => void
 }
 
 export default function useInlineEdit(options: Options) {
-  const { props, emit, root } = options
+  const { props } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -28,9 +23,6 @@ export default function useInlineEdit(options: Options) {
 
   /** 错误提示 */
   const errorTips = shallowReactive<Record<string, any>>({})
-
-  /** 显示引导 */
-  const showGuide = shallowRef(false)
 
   /** 校验器 */
   const validators = {
@@ -113,69 +105,88 @@ export default function useInlineEdit(options: Options) {
     )
   }
 
-  /** 验证 */
-  async function validate(
-    item: any,
-    fieldsRules: Record<string, Partial<MultipleFormRules>>
-  ) {
-    let isValid = true
+  /**
+   * 校验单个字段
+   * @param fieldValue 字段值
+   * @param fieldRules 字段的校验规则
+   * @param data 单挑数据
+   */
+  const validateField = async (fieldValue: any, fieldRules: Partial<MultipleFormRules>, data: any) => {
+    const { validator, required, ...otherRules } = fieldRules
 
-    // 用所有的校验规则进行校验
-    for (const fieldKey in fieldsRules) {
-      const rule = fieldsRules[fieldKey]
-      let itemValue = item[fieldKey]
+    const errorMsg = singleRuleValidate('required', fieldValue, required)
+    if (errorMsg) return errorMsg
 
-      const { validator, required, ...restRule } = rule
+    if (!fieldValue && fieldValue !== 0) return
 
-      // 首先校验必填项
-      let errorMsg = singleRuleValidate('required', itemValue, required)
-      errorTips[fieldKey] = errorMsg
-      if (errorMsg) {
-        isValid = false
-        continue
-      }
+    // validator独立校验
+    if (validator) {
+      const errorMsg = await validator(fieldValue, data, props.data ?? [])
+      if (errorMsg) return errorMsg
+    }
 
-      // 值为空时不再对require规则之外的进行校验
-      if (!itemValue && itemValue !== 0) continue
+    for (const key in otherRules) {
+      type Key = keyof typeof otherRules
+      const errorMsg = singleRuleValidate(
+        key as Key,
+        fieldValue,
+        otherRules[key as Key]
+      )
+      if (errorMsg) return errorMsg
+    }
 
-      // validator独立校验
-      if (validator) {
-        let errorMsg = await validator(itemValue, item, props.data ?? [])
-        errorTips[fieldKey] = errorMsg
-        if (errorMsg) {
-          isValid = false
-          continue
-        }
-      }
+  }
 
-      for (const key in restRule) {
-        type Key = keyof typeof restRule
-        const errorMsg = singleRuleValidate(
-          key as Key,
-          itemValue,
-          restRule[key as Key]
-        )
+  /**
+   * 校验数据
+   * @param data 数据项
+   */
+  async function validate(data: Record<string, any>[] | Record<string, any>) {
+    // 校验前先清空之前的校验信息
+    clearValidate()
 
-        errorTips[fieldKey] = errorMsg
-        if (errorMsg) {
-          isValid = false
-          break
+    const rules = columnRules.value
+
+    // 校验多条数据时以字段循环为优先
+    if (Array.isArray(data)) {
+      for (const field in rules) {
+        let fieldRules = rules[field]
+        let i = -1
+        while (++i < data.length && !errorTips[field]) {
+          let errorMsg = await validateField(data[i][field], fieldRules, data[i])
+          if (errorMsg) {
+            errorTips[field] = errorMsg
+          }
         }
       }
     }
-    return isValid
+    // 校验单条数据
+    else {
+      for (const field in rules) {
+        const errorMsg = await validateField(data[field], rules[field], data)
+        if (errorMsg) {
+          errorTips[field] = errorMsg
+        }
+      }
+    }
+
+    for (let _ in errorTips) {
+      return false
+    }
+
+    return true
   }
 
   const clearValidate = () => {
     for (const key in errorTips) {
-      errorTips[key] = undefined
+      delete errorTips[key]
     }
   }
 
   return {
     errorTips,
-    showGuide,
     columnRules,
-    clearValidate
+    clearValidate,
+    validate
   }
 }

@@ -113,7 +113,11 @@ export default function useRows(options: Options) {
   }
 
   const insertTo = markAsUserAction(
-    (indexes: number | number[], rowData: Record<string, any>) => {
+    (
+      indexes: number | number[],
+      rowData: Record<string, any>,
+      replaced = false
+    ) => {
       const _indexes = getIndexes(indexes)
 
       const parent = find(_indexes.slice(0, -1))
@@ -127,7 +131,7 @@ export default function useRows(options: Options) {
       }
 
       const preHalf = children.slice(0, lastIndex)
-      const nextHalf = children.slice(lastIndex)
+      const nextHalf = children.slice(replaced ? lastIndex + 1 : lastIndex)
 
       parent.children = [
         ...preHalf,
@@ -135,11 +139,11 @@ export default function useRows(options: Options) {
         ...nextHalf
       ]
 
-      nextHalf.forEach(row => {
-        row.index++
-        row.indexes[row.indexes.length - 1] = row.index
-      })
-
+      !replaced &&
+        nextHalf.forEach(row => {
+          row.index++
+          row.indexes[row.indexes.length - 1] = row.index
+        })
       emitChange()
     }
   )

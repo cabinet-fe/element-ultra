@@ -32,11 +32,9 @@ export interface TableColumn<Row extends Record<string, any> = any> {
   /** 插槽名称, 开启将会有个默认插槽 */
   slot?: string
   /** 合计 */
-  summary?: ((ctx: {
-    key: string
-    data: any[]
-    total: number
-  }) => any) | boolean
+  summary?:
+    | ((ctx: { key: string; data: any[]; total: number }) => any)
+    | boolean
 }
 
 export interface FinalTableColumn extends TableColumn {
@@ -98,7 +96,9 @@ export const tableProps = {
 export type TableProps = ExtractPropTypes<typeof tableProps>
 
 export const tableEmits = {
-  'row-click': (ctx: { row: any, index: number }) => true
+  'row-click': (ctx: { row: any; index: number }) => true,
+  'row-focus': (ctx: { row: any; index: number }) => true,
+  'row-blur': (ctx: { row: any; index: number }) => true
 }
 
 export type TableEmits = EmitFn<typeof tableEmits>

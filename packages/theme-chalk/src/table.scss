@@ -84,6 +84,8 @@
   }
 
   @include e(row) {
+    outline: none;
+
     &:not(:last-child) {
       td {
         border-bottom: 1px solid var(--el-border-color);

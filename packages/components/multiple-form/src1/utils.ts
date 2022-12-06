@@ -31,3 +31,19 @@ export function unwrapRows(rows: MultipleFormRow[]) {
     return data
   })
 }
+
+/**
+ * 扁平tree
+ * @param arr tree数组
+ * @param acc 初始累加值
+ */
+export function flatTree<T extends Record<string, any>>(arr: T[], acc: T[] = []) {
+  arr.forEach(item => {
+    acc.push(item)
+    if (item.children) {
+      flatTree(item.children, acc)
+    }
+  })
+
+  return acc
+}

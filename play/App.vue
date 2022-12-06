@@ -1,5 +1,5 @@
 <template>
-  <el-grid class="play-container" :cols="['200px', '1fr']" gap="0">
+  <div class="play-container" :cols="['200px', '1fr']" gap="0">
     <div class="play-aside">
       <el-select
         style="width: 100%"
@@ -25,7 +25,7 @@
     <main class="play-main">
       <router-view v-if="!reloading" />
     </main>
-  </el-grid>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -78,12 +78,15 @@ const handleSizeChange = (size: 'large' | 'default' | 'small') => {
 <style lang="scss" scoped>
 .play-container {
   height: 100%;
+  display: flex;
+
 }
 
 .play-aside {
   height: 100%;
   border-right: 1px solid #ccc;
   padding: 10px;
+  width: 200px;
 
   ul {
     margin: 0;
@@ -101,6 +104,7 @@ const handleSizeChange = (size: 'large' | 'default' | 'small') => {
   height: 100%;
   overflow: auto;
   flex-grow: 1;
+  width: calc(100% - 200px);
   // background-color: var(--el-bg-color);
 }
 

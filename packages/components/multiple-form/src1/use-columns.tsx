@@ -6,37 +6,55 @@ import { computed, ShallowReactive, Slots } from 'vue'
 import type {
   MultipleFormColumn,
   MultipleFormProps,
-  MultipleFormRow
+  MultipleFormRow,
+  MultipleFormEmits
 } from './multiple-form'
 import {
   Plus,
   QuestionFilled,
   Edit,
   Delete,
+  Select,
   Close
 } from '@element-plus/icons-vue'
 import type { UseNamespaceReturn } from '@element-ultra/hooks'
 
 interface Options {
   props: MultipleFormProps
+  emit: MultipleFormEmits
   slots: Slots
   errorTips: ShallowReactive<Record<string, any>>
   handleCreateRow: (parent?: MultipleFormRow) => void
   delRow: (indexes: number | number[]) => void
+  validate: (data: Record<string, any>) => Promise<boolean>
   ns: UseNamespaceReturn
+  open: (type: 'create' | 'update', options: any) => void
+  root: MultipleFormRow
 }
 
-export default function useColumns(options: Options) {
-  const { props, handleCreateRow, delRow, errorTips, slots, ns } =
-    options
+type Renders = Record<
+  MultipleFormRow['status'],
+  (
+    params: { row: MultipleFormRow; val: any },
+    column: MultipleFormColumn
+  ) => any
+>
 
-  const renders: Record<
-    MultipleFormRow['status'],
-    (
-      params: { row: MultipleFormRow; val: any },
-      column: MultipleFormColumn
-    ) => any
-  > = {
+export default function useColumns(options: Options) {
+  const {
+    props,
+    errorTips,
+    slots,
+    ns,
+    emit,
+    handleCreateRow,
+    delRow,
+    validate,
+    open,
+    root
+  } = options
+
+  const renders: Renders = {
     view: ({ val, row }, column) => {
       const viewSlot = slots[column.key + ':view']
       return column.render
@@ -64,7 +82,8 @@ export default function useColumns(options: Options) {
   }
 
   const tableColumns = computed(() => {
-    const { columns, disabled, actionCreate, actionEdit, actionDelete } = props
+    const { columns, disabled, actionCreate, actionEdit, actionDelete, mode } =
+      props
 
     const actionColumn: TableColumn<MultipleFormRow> = {
       fixed: 'right',
@@ -74,35 +93,68 @@ export default function useColumns(options: Options) {
       name: () => (
         <>
           <span>操作</span>
-          <a class={ns.e('create')} onClick={() => handleCreateRow()}>
+          <a
+            class={ns.e('create')}
+            onClick={() => {
+              handleCreateRow()
+
+            }}
+          >
             新增
           </a>
         </>
       ),
       render: ({ row }) => {
-        const content: JSX.Element[] = []
+        const buttons: JSX.Element[] = []
 
-        // 编辑状态
-        if (row.status === 'editing') {
-          content.push(
-            <ElButton type='primary' icon={Close} link onClick={() => {}} />
+        row.status === 'editing' &&
+          buttons.push(
+            <ElButton
+              type='primary'
+              icon={Select}
+              link
+              onClick={async () => {
+                const valid = await validate(row.data)
+                if (!valid) return
+                emit('save', row.data, props.data ?? [])
+                row.status = 'view'
+              }}
+            />,
+            <ElButton
+              type='primary'
+              icon={Close}
+              link
+              onClick={() => {
+                row.status = 'view'
+              }}
+            />
           )
-        }
-        // 查看状态
-        else if (row.status === 'view') {
-          actionEdit &&
-            content.push(
-              <ElButton
-                type='primary'
-                icon={Edit}
-                link
-                onClick={() => row.status === 'editing'}
-              />
-            )
-        }
 
+        // 编辑按钮
+        row.status === 'view' &&
+          actionEdit &&
+          buttons.push(
+            <ElButton
+              type='primary'
+              icon={Edit}
+              link
+              onClick={() => {
+                if (props.mode === 'dialog') {
+                  // open('update', {
+                  //   ctx: {
+                  //     indexes: row.indexes
+                  //   }
+                  // })
+                } else {
+                  row.status = 'editing'
+                }
+              }}
+            />
+          )
+
+        // 删除按钮
         actionDelete &&
-          content.push(
+          buttons.push(
             <ElButton
               type='primary'
               icon={Delete}
@@ -114,7 +166,7 @@ export default function useColumns(options: Options) {
         actionCreate &&
           props.tree &&
           props.mode !== 'custom' &&
-          content.push(
+          buttons.push(
             <ElButton
               type='primary'
               icon={Plus}
@@ -123,7 +175,7 @@ export default function useColumns(options: Options) {
             />
           )
 
-        return content
+        return <>{buttons}</>
       }
     }
 
@@ -131,6 +183,8 @@ export default function useColumns(options: Options) {
       .filter(column => column.visible !== false)
       .map(column => {
         const errTip = errorTips[column.key]
+        const required = !!column.rules?.required
+
         const content = errTip ? (
           <ElTooltip
             placement='top'
@@ -144,7 +198,12 @@ export default function useColumns(options: Options) {
             </span>
           </ElTooltip>
         ) : (
-          <span style='vertical-align: middle'>{column.name}</span>
+          <span
+            class={[ns.is('required', required)]}
+            style='vertical-align: middle'
+          >
+            {column.name}
+          </span>
         )
 
         const tip = column.tips ? (

@@ -6,23 +6,25 @@ import {
 import type {
   MultipleFormColumn,
   MultipleFormEmits,
-  MultipleFormProps
+  MultipleFormProps,
+  MultipleFormRow
 } from './multiple-form'
-import { nextTick, ShallowRef } from 'vue'
 
 interface Options {
   /** 对象属性 */
   props: MultipleFormProps
-  /** 行数据 */
-  internalData: ShallowRef<any[]>
-  /** 触发事件 */
+  root: MultipleFormRow
   emit: MultipleFormEmits
-  emitChange: () => void
+  /** 插入数据 */
+  insertTo: (
+    indexes: number | number[],
+    rowData: Record<string, any>,
+    replaced?: any
+  ) => void
 }
 
 export default function useDialogEdit(options: Options) {
-  const { props, internalData, emit, emitChange } = options
-
+  const { props, insertTo, emit, root } = options
 
   // 根据列生成数据模型
   const getModel = (columns: MultipleFormColumn[]) => {
@@ -66,24 +68,13 @@ export default function useDialogEdit(options: Options) {
     // 因为所有行的model共用同一个, 因此在提交时需要深拷贝一份出来
     const data = JSON.parse(JSON.stringify(form))
 
-
+    emit('save', data, props.data!)
 
     if (dialog.type === 'create') {
-      internalData.value = [
-        ...internalData.value.slice(0, ctx.index),
-        data,
-        ...internalData.value.slice(ctx.index)
-      ]
+      insertTo(ctx!.indexes, data)
     } else {
-      internalData.value = [
-        ...internalData.value.slice(0, ctx.index),
-        data,
-        ...internalData.value.slice(ctx.index + 1)
-      ]
+      insertTo(ctx!.indexes, data, true)
     }
-    emit('save', data, internalData.value)
-    // FIXME 曲线救国
-    nextTick(() => options.emitChange())
   }
 
   return {

@@ -1,18 +1,18 @@
 import { deepExtend } from '@element-ultra/utils'
 import { nextTick, watch, shallowReactive } from 'vue'
 
-type OpenOptions<T> = {
+type OpenOptions<T, C> = {
   /** 标题 */
   title?: string
   /** 表单编辑或查看时回显的数据 */
   data?: null | T
   /** 自定义上下文数据 */
-  ctx?: any
+  ctx?: C
   /** 指定当传入回显数据时是否自动合并, 默认为true即自动合并 */
   merge?: boolean
 }
 
-type Open<T, F> = (type: T, options?: OpenOptions<F>) => void
+type Open<T, F, C> = (type: T, options?: OpenOptions<F, C>) => void
 
 /**
  * 表单弹框的通用函数, 返回一个可响应式的弹框对象和一个打开弹框的方法
@@ -21,17 +21,24 @@ type Open<T, F> = (type: T, options?: OpenOptions<F>) => void
  */
 export default function useFormDialog<
   Type extends string = 'create' | 'update',
-  F = any
+  Ctx extends any = any,
+  F extends Record<string, any> |  Record<string, any>[] = any
 >(formData: F) {
   type Data = (F & Record<string, any>) | null
 
   // 弹框对象
-  const dialog = shallowReactive({
+  const dialog = shallowReactive<{
+    visible: boolean
+    type: Type | ''
+    title: string
+    data: Data
+    ctx: Ctx | null
+  }>({
     visible: false,
-    type: '' as Type | '',
+    type: '',
     title: '',
-    data: null as Data,
-    ctx: null as any
+    data: null,
+    ctx: null
   })
 
   watch(
@@ -48,7 +55,8 @@ export default function useFormDialog<
 
   const open: Open<
     Type,
-    F extends any[] ? Partial<F[number]>[] : Partial<F>
+    F extends any[] ? Partial<F[number]>[] : Partial<F>,
+    Ctx
   > = (type, options) => {
     dialog.visible = true
     dialog.type = type
@@ -56,7 +64,7 @@ export default function useFormDialog<
     if (!options) return
 
     Object.keys(dialog).forEach(k => {
-      let v = options[k as keyof OpenOptions<F>]
+      let v = options[k as keyof OpenOptions<F, Ctx>]
       if (v !== undefined) {
         ;(dialog as any)[k] = v
       }

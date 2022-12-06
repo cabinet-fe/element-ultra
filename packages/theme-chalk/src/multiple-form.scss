@@ -41,7 +41,7 @@
   @include e('create') {
     cursor: pointer;
     color: var(--el-color-primary);
-    margin-left: 4px;
+    margin-left: 8px;
     user-select: none;
 
     &:active {
@@ -49,100 +49,15 @@
     }
   }
 
-  @include e(source) {
-    border: 1px solid var(--el-color-info-light-9);
-  }
-
-  @include e(table) {
-    width: 100%;
-    border-radius: 4px;
-    table-layout: fixed;
-    box-sizing: border-box;
-    border-collapse: separate;
-    border-spacing: 0;
-
-    tbody {
-      tr:not(:last-child) {
-        td {
-          border-bottom: 1px solid var(--el-border-color);
-        }
-      }
-    }
-
-    tr:hover {
-      background: rgba(192, 196, 204, 0.1);
-    }
-    thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      font-weight: normal;
-      background-color: var(--el-bg-color);
-    }
-
-    th,
-    td {
-      text-align: left;
-      padding: 6px 6px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-    th:not(.el-multiple-form__action) {
-      box-shadow: 0 2px 3px 0px #f0f0f0;
-    }
-
-    th:last-child {
-      z-index: 3;
-      background-color: var(--el-bg-color);
-      box-shadow: 2px 2px 3px 0px #f0f0f0;
-    }
-
-    thead .is-required {
-      &::before {
-        content: '* ';
-        color: red;
-      }
+  .is-required {
+    &::after {
+      content: ' *';
+      color: #f00;
     }
   }
 
-  @include e(action) {
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 10px;
-      height: 100%;
-      pointer-events: none;
-      touch-action: none;
-      box-shadow: -2px 0 5px 0px rgba(0, 0, 0, 0.05);
-    }
+  // @include e(source) {
+  //   border: 1px solid var(--el-color-info-light-9);
+  // }
 
-    position: sticky;
-    right: 0;
-    z-index: 2;
-    text-align: left;
-    width: 150px;
-    background-color: var(--el-bg-color);
-  }
-
-  tr {
-    @include when(guide) {
-      animation: guide 0.8s ease-in-out alternate infinite;
-    }
-  }
-
-  tfoot {
-    td {
-      position: sticky;
-      background-color: var(--el-bg-color);
-      bottom: 0;
-      border-top: 1px solid var(--el-border-color);
-      box-shadow: 0 1px #FFFFFF;
-
-      &:last-child {
-        z-index: 2;
-      }
-    }
-  }
 }
