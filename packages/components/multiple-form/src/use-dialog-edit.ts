@@ -6,24 +6,24 @@ import {
 import type {
   MultipleFormColumn,
   MultipleFormEmits,
-  MultipleFormProps
+  MultipleFormProps,
+  MultipleFormRow
 } from './multiple-form'
-import { nextTick, ShallowRef } from 'vue'
+import type useRows from './use-rows'
 
 interface Options {
   /** 对象属性 */
   props: MultipleFormProps
-  /** 行数据 */
-  internalData: ShallowRef<any[]>
-  /** 触发事件 */
+  root: MultipleFormRow
   emit: MultipleFormEmits
-  emitChange: () => void
+  /** 插入数据 */
+  insertTo: ReturnType<typeof useRows>['insertTo']
 }
 
 export default function useDialogEdit(options: Options) {
-  const { props, internalData, emit } = options
-  // 根据列生成数据模型
+  const { props, insertTo, emit } = options
 
+  // 根据列生成数据模型
   const getModel = (columns: MultipleFormColumn[]) => {
     const model = {} as Record<string, FormModelItem>
     // 将列转化为表单的模型校验
@@ -65,22 +65,14 @@ export default function useDialogEdit(options: Options) {
     // 因为所有行的model共用同一个, 因此在提交时需要深拷贝一份出来
     const data = JSON.parse(JSON.stringify(form))
 
+    emit('save', data, props.data!)
+
+    /** 表格编辑的数据有皆 */
     if (dialog.type === 'create') {
-      internalData.value = [
-        ...internalData.value.slice(0, ctx.index),
-        data,
-        ...internalData.value.slice(ctx.index)
-      ]
+      insertTo(ctx!.indexes, data, 'view')
     } else {
-      internalData.value = [
-        ...internalData.value.slice(0, ctx.index),
-        data,
-        ...internalData.value.slice(ctx.index + 1)
-      ]
+      insertTo(ctx!.indexes, data, 'view', true)
     }
-    emit('save', data, internalData.value)
-    // FIXME 曲线救国
-    nextTick(() => options.emitChange())
   }
 
   return {

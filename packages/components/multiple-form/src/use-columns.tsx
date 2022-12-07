@@ -49,8 +49,8 @@ export default function useColumns(options: Options) {
     emit,
     handleCreateRow,
     delRow,
-    validate,
     open,
+    validate,
     root
   } = options
 
@@ -81,7 +81,7 @@ export default function useColumns(options: Options) {
     }
   }
 
-  const tableColumns = computed(() => {
+  const cols = computed(() => {
     const { columns, disabled, actionCreate, actionEdit, actionDelete, mode } =
       props
 
@@ -96,8 +96,13 @@ export default function useColumns(options: Options) {
           <a
             class={ns.e('create')}
             onClick={() => {
-              handleCreateRow()
-
+              mode === 'inline' ?
+              handleCreateRow() :
+              open('create', {
+                ctx: {
+                  indexes: [root.children!.length]
+                }
+              })
             }}
           >
             新增
@@ -139,12 +144,13 @@ export default function useColumns(options: Options) {
               icon={Edit}
               link
               onClick={() => {
+                row.status = 'editing'
                 if (props.mode === 'dialog') {
-                  // open('update', {
-                  //   ctx: {
-                  //     indexes: row.indexes
-                  //   }
-                  // })
+                  open('update', {
+                    ctx: {
+                      indexes: row.indexes
+                    }
+                  })
                 } else {
                   row.status = 'editing'
                 }
@@ -232,7 +238,5 @@ export default function useColumns(options: Options) {
     return disabled ? tableColumns : tableColumns.concat(actionColumn)
   })
 
-  return {
-    tableColumns
-  }
+  return cols
 }

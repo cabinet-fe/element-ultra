@@ -12,26 +12,41 @@ interface Options {
   emit: MultipleFormEmits
 }
 
+/**
+ *
+ * @param parent
+ * @param data
+ * @param index
+ * @param status
+ * @param children
+ */
 const createRow = (
   parent: MultipleFormRow | null,
   data: Record<string, any>,
-  index: number
+  index: number,
+  status: MultipleFormRow['status'],
+  children?: MultipleFormRow[],
 ): MultipleFormRow => {
-  return shallowReactive({
+  const row = shallowReactive<MultipleFormRow>({
     data: reactive(data),
     index,
     indexes: parent ? [...parent.indexes, index] : [index],
     parent,
-    status: 'editing'
+    status
   })
+
+  if (children) {
+    row.children = children
+  }
+
+  return row
 }
 
 export default function useRows(options: Options) {
   const { props, emit } = options
 
   /** 根行 */
-  const root = createRow(null, {}, 0)
-  root.children = []
+  const root = createRow(null, {}, 0, 'view', [])
 
   const emitChange = () => {
     const data = unwrapRows(root.children!)
@@ -116,7 +131,8 @@ export default function useRows(options: Options) {
     (
       indexes: number | number[],
       rowData: Record<string, any>,
-      replaced = false
+      status: MultipleFormRow['status'],
+      replaced = false,
     ) => {
       const _indexes = getIndexes(indexes)
 
@@ -135,7 +151,7 @@ export default function useRows(options: Options) {
 
       parent.children = [
         ...preHalf,
-        createRow(null, rowData, lastIndex),
+        createRow(null, rowData, lastIndex, status),
         ...nextHalf
       ]
 
@@ -144,6 +160,7 @@ export default function useRows(options: Options) {
           row.index++
           row.indexes[row.indexes.length - 1] = row.index
         })
+
       emitChange()
     }
   )
@@ -157,12 +174,12 @@ export default function useRows(options: Options) {
     if (parent) {
       const { children } = parent
       children && setPreRowStatus(children, 'view')
-      insertTo([...parent.indexes, children?.length ?? 0], {})
+      insertTo([...parent.indexes, children?.length ?? 0], {}, 'editing')
     }
     // 在根级添加
     else {
       setPreRowStatus(root.children!, 'view')
-      insertTo(root.children!.length, {})
+      insertTo(root.children!.length, {}, 'editing')
     }
   }
 

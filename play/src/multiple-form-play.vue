@@ -4,6 +4,9 @@
     <el-radio value="dialog">弹框</el-radio>
   </el-radio-group>
 
+  <el-button type="primary" @click="addNextLine">添加一行</el-button>
+  <el-button @click="refer?.validate()">校验</el-button>
+
   <el-multiple-form
     :mode="mode"
     :columns="columns"
@@ -12,11 +15,6 @@
     v-model:data="data"
     ref="refer"
   >
-    <template #tools>
-      <el-button type="primary" @click="addNextLine">添加一行</el-button>
-      <el-button @click="refer?.validate()">校验</el-button>
-    </template>
-
     <template #name:view="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
     </template>
@@ -104,7 +102,15 @@ let data = $shallowRef<any[]>([])
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()
 /** 增加下一行 */
 const addNextLine = (row: any) => {
-  refer.value?.insertTo(0, { name: '123', age: ~~(50 * Math.random()) })
+  if (mode === 'dialog') {
+    refer.value?.open('create', {
+      ctx: {
+        indexes: [0]
+      }
+    })
+  } else {
+    refer.value?.insertTo(0, { name: '123', age: ~~(50 * Math.random()) })
+  }
 }
 
 const handleConfirm = () => {
