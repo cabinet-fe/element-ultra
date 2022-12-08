@@ -55,8 +55,6 @@ export default function useRows(options: Options) {
     { immediate: true }
   )
 
-
-
   const getIndexes = (indexes: number | number[]) => {
     if (Array.isArray(indexes)) {
       return indexes
@@ -113,11 +111,7 @@ export default function useRows(options: Options) {
 
       const row = createRow(parent, rowData, lastIndex, status)
 
-      parent.children = [
-        ...preHalf,
-        row,
-        ...nextHalf
-      ]
+      parent.children = [...preHalf, row, ...nextHalf]
 
       !replaced &&
         nextHalf.forEach(row => {
@@ -158,7 +152,7 @@ export default function useRows(options: Options) {
       row.index--
       row.indexes[row.indexes.length - 1] = row.index
     })
-
+    emit('delete', children[lastIndex])
     emitChange()
   })
 
