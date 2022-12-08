@@ -88,39 +88,26 @@ export const multipleFormProps = {
     required: true
   },
 
-  /** 是否显示新增按钮 */
-  createBtnText: {
-    type: [String, Boolean] as PropType<string | false>,
-    default: '新增'
-  },
-
   /** 列配置  */
   columns: {
     type: Array as PropType<MultipleFormColumn[]>,
     required: true
   },
 
-  /** 设置表单固定高度 */
-  height: {
-    type: String as PropType<string>
-  },
-
+  /** 模式 */
   mode: {
-    type: String as PropType<'inline' | 'dialog' | 'custom'>,
+    type: String as PropType<'inline' | 'dialog'>,
     default: 'inline'
   },
 
+  /** 编辑按钮是否可见 */
   actionEdit: {
     type: Boolean,
     default: true
   },
 
+  /** 删除按钮是否可见 */
   actionDelete: {
-    type: Boolean,
-    default: true
-  },
-
-  actionCreate: {
     type: Boolean,
     default: true
   },

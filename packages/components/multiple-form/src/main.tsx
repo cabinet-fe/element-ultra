@@ -1,4 +1,4 @@
-import { defineComponent, shallowRef } from 'vue'
+import { defineComponent, onBeforeUnmount, shallowRef, watch } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './type'
 import { ElTable } from '@element-ultra/components/table'
@@ -66,6 +66,34 @@ export default defineComponent({
       dialog.visible = visible
     }
 
+    // 计算表格的高度
+
+    /** title和tools的累积高度 */
+    const accHeight = shallowRef(0)
+    const titleDom = shallowRef<HTMLElement>()
+    const toolsDom = shallowRef<HTMLElement>()
+
+    const obs = new ResizeObserver((entries) => {
+      accHeight.value = entries.reduce((acc, cur) => acc + cur.contentRect.height, 0)
+      console.log(entries)
+    })
+
+    watch(titleDom, (dom, oldDom) => {
+      oldDom && obs.unobserve(oldDom)
+      dom && obs.observe(dom)
+    })
+
+    watch(toolsDom, (dom, oldDom) => {
+      oldDom && obs.unobserve(oldDom)
+      dom && obs.observe(dom)
+    })
+
+    onBeforeUnmount(() => {
+      titleDom.value && obs.unobserve(titleDom.value)
+      toolsDom.value && obs.unobserve(toolsDom.value)
+      obs.disconnect()
+    })
+
     return {
       ns,
       changeDialog,
@@ -91,7 +119,10 @@ export default defineComponent({
       dialog,
       slots,
       /** 表格ref */
-      tableRef
+      tableRef,
+      toolsDom,
+      titleDom,
+      accHeight
     }
   },
 
@@ -107,22 +138,23 @@ export default defineComponent({
       changeDialog,
       dialogWidth,
       rules,
-      slots
+      slots,
+      accHeight
     } = this
 
     return (
       <>
-        <div class={ns.b()}>
-          {title ? <div class={ns.e('title')}>{title}</div> : null}
+        <div {...this.$attrs} class={ns.b()}>
+          {title ? <div class={ns.e('title')} ref="titleDom">{title}</div> : null}
           {slots.tools ? (
-            <div class={ns.e('tools')}>{slots.tools()}</div>
+            <div class={ns.e('tools')} ref="toolsDom">{slots.tools()}</div>
           ) : null}
 
           <ElTable
             columns={cols}
             data={flatTree(root.children!)}
-            style='height: 400px'
             ref='tableRef'
+            style={{ height: (this.$attrs.style as any)?.height ? `calc(100% - ${accHeight}px)` : undefined }}
           ></ElTable>
         </div>
 

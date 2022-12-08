@@ -8,10 +8,10 @@
     :mode="mode"
     :columns="columns"
     title="标题"
-    height="400px"
     v-model:data="data"
     ref="refer"
     tree
+    style="height: 400px"
   >
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
