@@ -152,7 +152,6 @@ export default function useRows(options: Options) {
       row.index--
       row.indexes[row.indexes.length - 1] = row.index
     })
-    emit('delete', children[lastIndex].data)
 
     emitChange()
   })

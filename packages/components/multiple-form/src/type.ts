@@ -74,6 +74,10 @@ export const multipleFormProps = {
     type: String
   },
 
+  deleteMethod: {
+    type: Function as PropType<(data: any) => Promise<any> | any>
+  },
+
   rowKey: {
     type: String
   },

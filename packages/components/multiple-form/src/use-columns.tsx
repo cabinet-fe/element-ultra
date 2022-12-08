@@ -192,7 +192,10 @@ export default function useColumns(options: Options) {
               type='primary'
               icon={Delete}
               link
-              onClick={() => delRow(row.indexes)}
+              onClick={() => {
+                emit('delete', row.data)
+                delRow(row.indexes)
+              }}
             />
           )
 
