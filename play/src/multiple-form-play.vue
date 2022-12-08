@@ -12,6 +12,7 @@
     ref="refer"
     tree
     style="height: 400px"
+    @delete="c.log"
   >
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>

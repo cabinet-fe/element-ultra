@@ -142,8 +142,8 @@ export default function useRows(options: Options) {
     if (lastIndex > children.length - 1) {
       throw new Error('所删除的索引超出范围')
     }
-    const preHalf = children.slice(0, lastIndex)
 
+    const preHalf = children.slice(0, lastIndex)
     const nextHalf = children.slice(lastIndex + 1)
 
     parent.children = [...preHalf, ...nextHalf]
@@ -152,7 +152,8 @@ export default function useRows(options: Options) {
       row.index--
       row.indexes[row.indexes.length - 1] = row.index
     })
-    emit('delete', children[lastIndex])
+    emit('delete', children[lastIndex].data)
+
     emitChange()
   })
 
