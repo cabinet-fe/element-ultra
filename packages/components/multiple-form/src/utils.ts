@@ -25,6 +25,8 @@ export function createRow(
     indexes: (parent && !isRoot) ? [...parent.indexes, index] : [index],
     parent,
     status,
+    // row初始创建时如果status为editing则视该条数据为未保存状态
+    saved: status === 'editing' ? false : true,
     depth: isRoot ? 0 : parent.depth + 1
   })
 

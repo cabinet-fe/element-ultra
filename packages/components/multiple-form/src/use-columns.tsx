@@ -118,6 +118,7 @@ export default function useColumns(options: Options) {
       render: ({ row }) => {
         const buttons: JSX.Element[] = []
 
+        // 保存按钮
         row.status === 'editing' &&
           buttons.push(
             <ElButton
@@ -127,8 +128,14 @@ export default function useColumns(options: Options) {
               onClick={async () => {
                 const valid = await validate(row.data)
                 if (!valid) return
-                emit('save', row.data, props.data ?? [])
+                emit(
+                  'save',
+                  row.data,
+                  props.data ?? [],
+                  row.saved ? row.parent?.data : undefined
+                )
                 row.status = 'view'
+                row.saved = true
               }}
             />,
             <ElButton
@@ -136,7 +143,12 @@ export default function useColumns(options: Options) {
               icon={Close}
               link
               onClick={() => {
-                row.status = 'view'
+                if (!row.saved) {
+                  // 未保存的行删掉
+                  delRow(row.indexes)
+                } else {
+                  row.status = 'view'
+                }
               }}
             />
           )

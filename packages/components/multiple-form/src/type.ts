@@ -132,7 +132,7 @@ export const multipleFormProps = {
 }
 
 export const multipleFormEmits = {
-  save: (row: any, rows: any[]) => true,
+  save: (row: any, rows: any[], parent?: any) => true,
   delete: (row: any) => true,
   change: (rows: any[]) => true,
   'update:data': (rows: any[]) => true
@@ -147,6 +147,8 @@ export type MultipleFormRow = {
   data: any;
   /** 树深 */
   depth: number
+  /** 是否是已保存的数据 */
+  saved: boolean
   /** 行状态 */
   status: 'view' | 'editing'
   /** 行索引 */

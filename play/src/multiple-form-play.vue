@@ -91,8 +91,6 @@ const columns: MultipleFormColumn[] = [
   }
 ]
 
-let visible = shallowRef(false)
-
 let data = $shallowRef<any[]>([{ school: '213', age: 123, test: {} }])
 
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()
@@ -111,13 +109,5 @@ const addNextLine = (row: any) => {
       'view'
     )
   }
-}
-
-const handleConfirm = () => {
-  return new Promise(rs => {
-    setTimeout(() => {
-      rs(1)
-    }, 2000)
-  })
 }
 </script>

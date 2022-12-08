@@ -17,8 +17,6 @@ export default function useFilter(
     return node[labelKey].includes(query)
   }
 
-
-
   /** 过滤 */
   const handleFilter = (v: string) => {
     tree.value?.filter(v)
