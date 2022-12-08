@@ -73,9 +73,11 @@ export default defineComponent({
     const titleDom = shallowRef<HTMLElement>()
     const toolsDom = shallowRef<HTMLElement>()
 
-    const obs = new ResizeObserver((entries) => {
-      accHeight.value = entries.reduce((acc, cur) => acc + cur.contentRect.height, 0)
-      console.log(entries)
+    const obs = new ResizeObserver(entries => {
+      accHeight.value = entries.reduce(
+        (acc, cur) => acc + cur.contentRect.height,
+        0
+      )
     })
 
     watch(titleDom, (dom, oldDom) => {
@@ -145,16 +147,26 @@ export default defineComponent({
     return (
       <>
         <div {...this.$attrs} class={ns.b()}>
-          {title ? <div class={ns.e('title')} ref="titleDom">{title}</div> : null}
+          {title ? (
+            <div class={ns.e('title')} ref='titleDom'>
+              {title}
+            </div>
+          ) : null}
           {slots.tools ? (
-            <div class={ns.e('tools')} ref="toolsDom">{slots.tools()}</div>
+            <div class={ns.e('tools')} ref='toolsDom'>
+              {slots.tools()}
+            </div>
           ) : null}
 
           <ElTable
             columns={cols}
             data={flatTree(root.children!)}
             ref='tableRef'
-            style={{ height: (this.$attrs.style as any)?.height ? `calc(100% - ${accHeight}px)` : undefined }}
+            style={{
+              height: (this.$attrs.style as any)?.height
+                ? `calc(100% - ${accHeight}px)`
+                : undefined
+            }}
           ></ElTable>
         </div>
 
