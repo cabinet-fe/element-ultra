@@ -150,7 +150,6 @@ export default function useColumns(options: Options) {
                 icon={Edit}
                 link
                 onClick={() => {
-                  row.status = 'editing'
                   if (props.mode === 'dialog') {
                     open('update', {
                       ctx: {
