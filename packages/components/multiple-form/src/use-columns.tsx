@@ -8,7 +8,7 @@ import type {
   MultipleFormProps,
   MultipleFormRow,
   MultipleFormEmits
-} from './multiple-form'
+} from './type'
 import {
   Plus,
   QuestionFilled,
@@ -24,7 +24,7 @@ interface Options {
   emit: MultipleFormEmits
   slots: Slots
   errorTips: ShallowReactive<Record<string, any>>
-  handleCreateRow: (parent?: MultipleFormRow) => void
+  createInlineRow: (parent?: MultipleFormRow) => void
   delRow: (indexes: number | number[]) => void
   validate: (data: Record<string, any>) => Promise<boolean>
   ns: UseNamespaceReturn
@@ -47,7 +47,7 @@ export default function useColumns(options: Options) {
     slots,
     ns,
     emit,
-    handleCreateRow,
+    createInlineRow,
     delRow,
     open,
     validate,
@@ -58,14 +58,14 @@ export default function useColumns(options: Options) {
     view: ({ val, row }, column) => {
       const viewSlot = slots[column.key + ':view']
       return column.render
-        ? column.render(val, row.data, row.index)
+        ? String(column.render(val, row.data, row.index))
         : viewSlot
         ? viewSlot!({
             row: row.data,
             index: row.index,
             indexes: row.indexes
           })
-        : val
+        : String(val)
     },
 
     editing: ({ val, row }, column) => {
@@ -82,9 +82,9 @@ export default function useColumns(options: Options) {
   }
 
   const cols = computed(() => {
-    const { columns, disabled, actionCreate, actionEdit, actionDelete, mode } =
-      props
+    const { columns, disabled, actionEdit, actionDelete, mode, tree } = props
 
+    // 操作栏
     const actionColumn: TableColumn<MultipleFormRow> = {
       fixed: 'right',
       key: '$_action',
@@ -96,13 +96,13 @@ export default function useColumns(options: Options) {
           <a
             class={ns.e('create')}
             onClick={() => {
-              mode === 'inline' ?
-              handleCreateRow() :
-              open('create', {
-                ctx: {
-                  indexes: [root.children!.length]
-                }
-              })
+              mode === 'inline'
+                ? createInlineRow()
+                : open('create', {
+                    ctx: {
+                      indexes: [root.children!.length]
+                    }
+                  })
             }}
           >
             新增
@@ -135,28 +135,50 @@ export default function useColumns(options: Options) {
             />
           )
 
-        // 编辑按钮
-        row.status === 'view' &&
+        // 编辑
+        if (row.status === 'view') {
           actionEdit &&
-          buttons.push(
-            <ElButton
-              type='primary'
-              icon={Edit}
-              link
-              onClick={() => {
-                row.status = 'editing'
-                if (props.mode === 'dialog') {
-                  open('update', {
-                    ctx: {
-                      indexes: row.indexes
-                    }
-                  })
-                } else {
+            buttons.push(
+              <ElButton
+                type='primary'
+                icon={Edit}
+                link
+                onClick={() => {
                   row.status = 'editing'
-                }
-              }}
-            />
-          )
+                  if (props.mode === 'dialog') {
+                    open('update', {
+                      ctx: {
+                        indexes: row.indexes
+                      }
+                    })
+                  } else {
+                    row.status = 'editing'
+                  }
+                }}
+              />
+            )
+
+          // 新增子级
+          tree &&
+            buttons.push(
+              <ElButton
+                type='primary'
+                link
+                icon={Plus}
+                onClick={() => {
+                  if (props.mode === 'dialog') {
+                    open('create', {
+                      ctx: {
+                        indexes: [...row.indexes, row.children?.length ?? 0]
+                      }
+                    })
+                  } else {
+                    createInlineRow(row)
+                  }
+                }}
+              />
+            )
+        }
 
         // 删除按钮
         actionDelete &&
@@ -169,20 +191,30 @@ export default function useColumns(options: Options) {
             />
           )
 
-        actionCreate &&
-          props.tree &&
-          props.mode !== 'custom' &&
-          buttons.push(
-            <ElButton
-              type='primary'
-              icon={Plus}
-              link
-              onClick={() => handleCreateRow(row)}
-            />
-          )
-
         return <>{buttons}</>
       }
+    }
+
+    // 索引列
+    const indexColumn: TableColumn<MultipleFormRow> = {
+      name: '#',
+      key: '$_index',
+      render: ({ row }) => {
+        return (
+          <>
+            <i
+              class={ns.e('index-line')}
+              style={{
+                width: row.depth * 18 + 'px'
+              }}
+            ></i>
+
+            <span> {row.index + 1}</span>
+          </>
+        )
+      },
+      fixed: 'left',
+      width: 120
     }
 
     const tableColumns: TableColumn<MultipleFormRow>[] = columns!
@@ -235,7 +267,10 @@ export default function useColumns(options: Options) {
         }
       })
 
-    return disabled ? tableColumns : tableColumns.concat(actionColumn)
+    return [
+      indexColumn,
+      ...(disabled ? tableColumns : tableColumns.concat(actionColumn))
+    ]
   })
 
   return cols

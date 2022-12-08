@@ -1,23 +1,47 @@
-import { reactive } from 'vue'
-import type { MultipleFormRow } from './multiple-form'
+import { reactive, shallowReactive } from 'vue'
+import type { MultipleFormRow } from './type'
 
-export function wrapDataRows(
-  data: any[],
-  parent: MultipleFormRow | null = null
-) {
+/**
+ * 创建行
+ * @param parent 父级
+ * @param data 数据
+ * @param index 索引
+ * @param status 状态
+ * @param children 子元素
+ */
+export function createRow(
+  parent: MultipleFormRow | null,
+  data: Record<string, any>,
+  index: number,
+  status: MultipleFormRow['status'],
+  children?: MultipleFormRow[]
+): MultipleFormRow {
+  // 如果parent为空(根row)或者parent为rootRow则depth都视为1
+  const isRoot = !parent?.parent
+
+  const row = shallowReactive<MultipleFormRow>({
+    data: reactive(data),
+    index,
+    indexes: (parent && !isRoot) ? [...parent.indexes, index] : [index],
+    parent,
+    status,
+    depth: isRoot ? 0 : parent.depth + 1
+  })
+
+  if (children) {
+    row.children = children
+  }
+
+  return row
+}
+
+export function wrapDataRows(data: any[], parent: MultipleFormRow) {
   return data.map((item, index) => {
-    const row: MultipleFormRow = {
-      data: reactive(item),
-      status: 'view',
-      parent,
-      index,
-      indexes: parent ? parent.indexes.concat(index) : [index]
-    }
+    const row = createRow(parent, item, index, 'view')
 
     if (item.children) {
       row.children = wrapDataRows(item.children, row)
     }
-
     return row
   })
 }
@@ -37,7 +61,10 @@ export function unwrapRows(rows: MultipleFormRow[]) {
  * @param arr tree数组
  * @param acc 初始累加值
  */
-export function flatTree<T extends Record<string, any>>(arr: T[], acc: T[] = []) {
+export function flatTree<T extends Record<string, any>>(
+  arr: T[],
+  acc: T[] = []
+) {
   arr.forEach(item => {
     acc.push(item)
     if (item.children) {

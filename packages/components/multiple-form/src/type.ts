@@ -154,6 +154,8 @@ export type MultipleFormEmits = EmitFn<typeof multipleFormEmits>
 export type MultipleFormRow = {
   /** 数据本身 */
   data: any;
+  /** 树深 */
+  depth: number
   /** 行状态 */
   status: 'view' | 'editing'
   /** 行索引 */

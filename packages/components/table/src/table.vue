@@ -12,6 +12,7 @@
         leftShadow ? ns.m('shadow-left') : undefined,
         rightShadow ? ns.m('shadow-right') : undefined
       ]"
+      ref="tableDom"
     >
       <TableHeader />
 
@@ -94,5 +95,11 @@ provide(tableToken, {
   columnLayouts,
   getCellStyle,
   summaryMethods
+})
+
+const tableDom = shallowRef<HTMLTableElement>()
+
+defineExpose({
+  tableDom
 })
 </script>

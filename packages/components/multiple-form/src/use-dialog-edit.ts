@@ -8,7 +8,7 @@ import type {
   MultipleFormEmits,
   MultipleFormProps,
   MultipleFormRow
-} from './multiple-form'
+} from './type'
 import type useRows from './use-rows'
 
 interface Options {
@@ -32,12 +32,7 @@ export default function useDialogEdit(options: Options) {
       // 引用类型需要
       if (defaultValue instanceof Function) {
         let v = defaultValue()
-        if (v instanceof Promise) {
-          model[column.key] = { ...column.rules } as any
-          v.then(result => (form[column.key] = result))
-        } else {
-          model[column.key] = { value: v, ...column.rules } as any
-        }
+        model[column.key] = { value: v, ...column.rules } as any
       } else {
         model[column.key] = {
           value: column.defaultValue,

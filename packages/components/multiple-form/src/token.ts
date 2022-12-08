@@ -10,7 +10,7 @@ import type {
   MultipleFormColumn,
   MultipleFormProps,
   MultipleFormRules
-} from './multiple-form'
+} from './type'
 
 export const multipleFormKey: InjectionKey<{
   multipleFormProps: MultipleFormProps

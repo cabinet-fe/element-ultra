@@ -3,10 +3,7 @@
     <el-radio value="inline">行内</el-radio>
     <el-radio value="dialog">弹框</el-radio>
   </el-radio-group>
-
-  <el-button type="primary" @click="addNextLine">添加一行</el-button>
-  <el-button @click="refer?.validate()">校验</el-button>
-
+  {{data}}
   <el-multiple-form
     :mode="mode"
     :columns="columns"
@@ -14,7 +11,13 @@
     height="400px"
     v-model:data="data"
     ref="refer"
+    tree
   >
+    <template #tools>
+      <el-button type="primary" @click="addNextLine">添加一行</el-button>
+      <el-button @click="refer?.validate()">校验</el-button>
+    </template>
+
     <template #name:view="{ row }">
       <el-input v-model="row.name" placeholder="名称" />
     </template>
@@ -67,37 +70,35 @@ const columns: MultipleFormColumn[] = [
   {
     name: '年龄',
     key: 'age',
-    defaultValue: () =>
-      new Promise(rs =>
-        setTimeout(() => {
-          rs(20)
-        }, 2000)
-      ),
+    defaultValue: () => 20,
     align: 'left',
     summary: true
   },
   {
     name: '手机号',
     key: 'school',
+    defaultValue: 2,
     rules: {
       required: true
     }
+  },
+  {
+    key: 'test',
+    name: '美滋滋',
+    width: 100,
+    defaultValue: () => ({}),
+    nest: [
+      { key: 'test1', name: '对象测试1' },
+      { key: 'test2', name: '对象测试2' }
+    ]
   }
-  // {
-  //   key: 'test',
-  //   name: '美滋滋',
-  //   width: 100,
-  //   defaultValue: () => ({}),
-  //   nest: [
-  //     { key: 'test1', name: '对象测试1' },
-  //     { key: 'test2', name: '对象测试2' }
-  //   ]
-  // }
 ]
 
 let visible = shallowRef(false)
 
-let data = $shallowRef<any[]>([])
+let data = $shallowRef<any[]>([
+  { "school": "213", "age": 123, test: {} }
+])
 
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()
 /** 增加下一行 */
@@ -109,7 +110,7 @@ const addNextLine = (row: any) => {
       }
     })
   } else {
-    refer.value?.insertTo(0, { name: '123', age: ~~(50 * Math.random()) })
+    refer.value?.insertTo(0, { name: '123', age: ~~(50 * Math.random()) }, 'view')
   }
 }
 

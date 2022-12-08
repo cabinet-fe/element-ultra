@@ -1,15 +1,20 @@
 import { computed, shallowReactive } from 'vue'
 import type {
   MultipleFormProps,
+  MultipleFormRow,
   MultipleFormRules
-} from './multiple-form'
+} from './type'
+import type useRows from './use-rows'
 
 interface Options {
   props: MultipleFormProps
+  root: MultipleFormRow
+  /** 插入数据 */
+  insertTo: ReturnType<typeof useRows>['insertTo']
 }
 
 export default function useInlineEdit(options: Options) {
-  const { props } = options
+  const { props, insertTo, root } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -111,7 +116,11 @@ export default function useInlineEdit(options: Options) {
    * @param fieldRules 字段的校验规则
    * @param data 单挑数据
    */
-  const validateField = async (fieldValue: any, fieldRules: Partial<MultipleFormRules>, data: any) => {
+  const validateField = async (
+    fieldValue: any,
+    fieldRules: Partial<MultipleFormRules>,
+    data: any
+  ) => {
     const { validator, required, ...otherRules } = fieldRules
 
     const errorMsg = singleRuleValidate('required', fieldValue, required)
@@ -134,7 +143,6 @@ export default function useInlineEdit(options: Options) {
       )
       if (errorMsg) return errorMsg
     }
-
   }
 
   /**
@@ -153,7 +161,11 @@ export default function useInlineEdit(options: Options) {
         let fieldRules = rules[field]
         let i = -1
         while (++i < data.length && !errorTips[field]) {
-          let errorMsg = await validateField(data[i][field], fieldRules, data[i])
+          let errorMsg = await validateField(
+            data[i][field],
+            fieldRules,
+            data[i]
+          )
           if (errorMsg) {
             errorTips[field] = errorMsg
           }
@@ -177,9 +189,48 @@ export default function useInlineEdit(options: Options) {
     return true
   }
 
+  /**
+   * 清除校验
+   */
   const clearValidate = () => {
     for (const key in errorTips) {
       delete errorTips[key]
+    }
+  }
+
+  let currentEditRow: MultipleFormRow | null = null
+
+  /**
+   * 新增行
+   * @param parent 父级
+   */
+  const createInlineRow = (parent?: MultipleFormRow) => {
+    const data = (props.columns || []).reduce((acc, cur) => {
+      let value = cur.defaultValue
+      if (value instanceof Function) {
+        value = value()
+      }
+      acc[cur.key] = value
+      return acc
+    }, {} as Record<string, any>)
+
+    if (currentEditRow) {
+      currentEditRow.status = 'view'
+    }
+
+    // 在父级下添加子级
+    if (parent) {
+      const { children } = parent
+
+      currentEditRow = insertTo(
+        [...parent.indexes, children?.length ?? 0],
+        data,
+        'editing'
+      )
+    }
+    // 在根级添加
+    else {
+      currentEditRow = insertTo(root.children!.length, data, 'editing')
     }
   }
 
@@ -187,6 +238,7 @@ export default function useInlineEdit(options: Options) {
     errorTips,
     columnRules,
     clearValidate,
-    validate
+    validate,
+    createInlineRow
   }
 }

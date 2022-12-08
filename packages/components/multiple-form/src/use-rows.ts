@@ -1,45 +1,16 @@
-import { nextTick, reactive, shallowReactive, watch } from 'vue'
+import type { ElTable } from '@element-ultra/components/table'
+import { nextTick, ShallowRef, watch } from 'vue'
 import type {
   MultipleFormEmits,
   MultipleFormProps,
   MultipleFormRow
-} from './multiple-form'
-import { wrapDataRows, unwrapRows } from './utils'
-
+} from './type'
+import { wrapDataRows, unwrapRows, createRow } from './utils'
 // TODO 让性能优化更好, 分情况只触发每次更改的部分
 interface Options {
   props: MultipleFormProps
   emit: MultipleFormEmits
-}
-
-/**
- *
- * @param parent
- * @param data
- * @param index
- * @param status
- * @param children
- */
-const createRow = (
-  parent: MultipleFormRow | null,
-  data: Record<string, any>,
-  index: number,
-  status: MultipleFormRow['status'],
-  children?: MultipleFormRow[],
-): MultipleFormRow => {
-  const row = shallowReactive<MultipleFormRow>({
-    data: reactive(data),
-    index,
-    indexes: parent ? [...parent.indexes, index] : [index],
-    parent,
-    status
-  })
-
-  if (children) {
-    row.children = children
-  }
-
-  return row
+  tableRef: ShallowRef<InstanceType<typeof ElTable> | undefined>
 }
 
 export default function useRows(options: Options) {
@@ -57,17 +28,19 @@ export default function useRows(options: Options) {
   // 一旦是用户操作发起的数据的改变, 则不重新wrapRows从而提高性能
   let editByUser = false
   // 标记为用户操作
-  const markAsUserAction = <Args extends any[]>(
-    action: (...args: Args) => void
+  const markAsUserAction = <Args extends any[], R>(
+    action: (...args: Args) => R
   ) => {
     return (...args: Args) => {
       editByUser = true
 
-      action(...args)
+      let ret = action(...args)
 
       nextTick(() => {
         editByUser = false
       })
+
+      return ret
     }
   }
 
@@ -78,21 +51,11 @@ export default function useRows(options: Options) {
     data => {
       if (!data || editByUser) return
       root.children = wrapDataRows(data, root)
-    }
+    },
+    { immediate: true }
   )
 
-  /**
-   * 设置当前新增行的上一行的状态
-   * @param rows 所有行数据
-   * @param type 设置为何种状态
-   */
-  const setPreRowStatus = (
-    rows: MultipleFormRow[],
-    type: MultipleFormRow['status']
-  ) => {
-    if (!rows.length) return
-    rows[rows.length - 1].status = type
-  }
+
 
   const getIndexes = (indexes: number | number[]) => {
     if (Array.isArray(indexes)) {
@@ -109,8 +72,7 @@ export default function useRows(options: Options) {
   const find = (indexes: number | number[]) => {
     const _indexes = getIndexes(indexes)
 
-    // 查找到最后一级的arr
-    const target = _indexes.slice(0, -1).reduce((acc, index) => {
+    const target = _indexes.reduce((acc, index) => {
       if (index < 0) {
         throw new Error('索引中不能出现小于0的数字')
       }
@@ -132,7 +94,7 @@ export default function useRows(options: Options) {
       indexes: number | number[],
       rowData: Record<string, any>,
       status: MultipleFormRow['status'],
-      replaced = false,
+      replaced = false
     ) => {
       const _indexes = getIndexes(indexes)
 
@@ -149,9 +111,11 @@ export default function useRows(options: Options) {
       const preHalf = children.slice(0, lastIndex)
       const nextHalf = children.slice(replaced ? lastIndex + 1 : lastIndex)
 
+      const row = createRow(parent, rowData, lastIndex, status)
+
       parent.children = [
         ...preHalf,
-        createRow(null, rowData, lastIndex, status),
+        row,
         ...nextHalf
       ]
 
@@ -162,26 +126,9 @@ export default function useRows(options: Options) {
         })
 
       emitChange()
+      return row
     }
   )
-
-  /**
-   * 新增行
-   * @param parent 父级
-   */
-  const handleCreateRow = (parent?: MultipleFormRow) => {
-    // 在父级下添加子级
-    if (parent) {
-      const { children } = parent
-      children && setPreRowStatus(children, 'view')
-      insertTo([...parent.indexes, children?.length ?? 0], {}, 'editing')
-    }
-    // 在根级添加
-    else {
-      setPreRowStatus(root.children!, 'view')
-      insertTo(root.children!.length, {}, 'editing')
-    }
-  }
 
   /** 删除行 */
   const delRow = markAsUserAction((indexes: number | number[]) => {
@@ -219,8 +166,6 @@ export default function useRows(options: Options) {
     root,
     /** 触发改变事件 */
     emitChange,
-    /** 新增行 */
-    handleCreateRow,
     /** 插入行 */
     insertTo,
     /** 查询 */

@@ -1,31 +1,38 @@
-import { defineComponent } from 'vue'
+import { defineComponent, shallowRef } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { multipleFormEmits, multipleFormProps } from './multiple-form'
+import { multipleFormEmits, multipleFormProps } from './type'
 import { ElTable } from '@element-ultra/components/table'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 import { ElForm } from '@element-ultra/components/form'
+import useRows from './use-rows'
 import useColumns from './use-columns'
 import useInlineEdit from './use-inline-edit'
-import useRows from './use-rows'
 import useDialogEdit from './use-dialog-edit'
 import { flatTree } from './utils'
 
 export default defineComponent({
   name: 'ElMultipleForm',
+
   inheritAttrs: false,
 
   props: multipleFormProps,
 
   emits: multipleFormEmits,
 
-  setup(props, { emit, slots, expose }) {
+  setup(props, { emit, slots }) {
     const ns = useNamespace('multiple-form')
 
-    const { root, handleCreateRow, delRow, find, insertTo } = useRows({
+    // 表格引用
+    const tableRef = shallowRef<InstanceType<typeof ElTable>>()
+
+    // 行数据
+    const { root, delRow, find, insertTo } = useRows({
       props,
-      emit
+      emit,
+      tableRef
     })
 
+    // 弹框编辑
     const { dialog, submit, form, rules, open } = useDialogEdit({
       props,
       insertTo,
@@ -34,9 +41,12 @@ export default defineComponent({
     })
 
     // 行内编辑
-    const { errorTips, validate } = useInlineEdit({
-      props
-    })
+    const { errorTips, validate, createInlineRow, clearValidate } =
+      useInlineEdit({
+        props,
+        insertTo,
+        root
+      })
 
     /** 列 */
     const cols = useColumns({
@@ -44,7 +54,7 @@ export default defineComponent({
       emit,
       validate,
       errorTips,
-      handleCreateRow,
+      createInlineRow,
       open,
       delRow,
       slots,
@@ -52,7 +62,13 @@ export default defineComponent({
       root
     })
 
-    expose({
+    const changeDialog = (visible: boolean) => {
+      dialog.visible = visible
+    }
+
+    return {
+      ns,
+      changeDialog,
       /** 查找数据 */
       find,
       /** 删除数据 */
@@ -61,60 +77,70 @@ export default defineComponent({
       insertTo,
       /** 校验数据 */
       validate: async function () {
-        const data = flatTree(root.children!)
-        const allValid = await Promise.all(
-          data.map(async item => {
-            const valid = await validate(item.data)
-            if (valid) {
-              item.status = 'view'
-            }
-            return valid
-          })
-        ).then(rets => rets.every(ret => ret))
-
-        return allValid
+        const data = flatTree(root.children!.map(item => item.data))
+        return validate(data)
       },
-
-      open
-    })
-
-    const changeDialog = (visible: boolean) => {
-      dialog.visible = visible
+      /** 清楚校验 */
+      clearValidate,
+      open,
+      cols,
+      root,
+      submit,
+      form,
+      rules,
+      dialog,
+      slots,
+      /** 表格ref */
+      tableRef
     }
+  },
 
-    return () => {
-      return (
-        <>
-          <div>
-            {props.title ? (
-              <div class={ns.e('title')}>{props.title}</div>
-            ) : null}
-            {slots.tools ? (
-              <div class={ns.e('tools')}>{slots.tools()}</div>
-            ) : null}
+  render() {
+    const {
+      title,
+      ns,
+      cols,
+      root,
+      dialog,
+      form,
+      submit,
+      changeDialog,
+      dialogWidth,
+      rules,
+      slots
+    } = this
 
-            <ElTable
-              columns={cols.value}
-              data={root.children}
-              style='height: 400px'
-            ></ElTable>
-          </div>
+    return (
+      <>
+        <div class={ns.b()}>
+          {title ? <div class={ns.e('title')}>{title}</div> : null}
+          {slots.tools ? (
+            <div class={ns.e('tools')}>{slots.tools()}</div>
+          ) : null}
 
-          <ElFormDialog
-            modelValue={dialog.visible}
-            onUpdate:modelValue={changeDialog}
-            title={dialog.title}
-            confirm={submit}
-            continue={dialog.type === 'create'}
-            width={props.dialogWidth}
-          >
-            <ElForm data={form} rules={rules} label-width='100px'>
-              {slots.default?.({ form })}
-            </ElForm>
-            {slots.dialog?.({ form })}
-          </ElFormDialog>
-        </>
-      )
-    }
+          <ElTable
+            columns={cols}
+            data={flatTree(root.children!)}
+            style='height: 400px'
+            ref='tableRef'
+          ></ElTable>
+        </div>
+
+        <ElFormDialog
+          modelValue={dialog.visible}
+          onUpdate:modelValue={changeDialog}
+          title={dialog.title}
+          confirm={submit}
+          continue={dialog.type === 'create'}
+          width={dialogWidth}
+        >
+          <ElForm data={form} rules={rules} label-width='100px'>
+            {slots.default?.({ form })}
+          </ElForm>
+
+          {slots.dialog?.({ form })}
+        </ElFormDialog>
+      </>
+    )
   }
 })

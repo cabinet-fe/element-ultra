@@ -49,15 +49,17 @@
     }
   }
 
+  @include e('index-line') {
+    display: inline-block;
+    vertical-align: middle;
+    border-top: 1px dashed var(--el-border-color);
+    height: 1px;
+  }
+
   .is-required {
     &::after {
       content: ' *';
       color: #f00;
     }
   }
-
-  // @include e(source) {
-  //   border: 1px solid var(--el-color-info-light-9);
-  // }
-
 }
