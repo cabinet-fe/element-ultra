@@ -12,7 +12,6 @@
 @include b(multiple-form) {
   background-color: var(--el-fill-color-blank);
   width: 100%;
-  padding: 0 12px;
   $title-height: 24px;
 
   @include e(title) {

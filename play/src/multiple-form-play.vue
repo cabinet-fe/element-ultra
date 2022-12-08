@@ -3,7 +3,7 @@
     <el-radio value="inline">行内</el-radio>
     <el-radio value="dialog">弹框</el-radio>
   </el-radio-group>
-  {{data}}
+
   <el-multiple-form
     :mode="mode"
     :columns="columns"
@@ -16,10 +16,6 @@
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
       <el-button @click="refer?.validate()">校验</el-button>
-    </template>
-
-    <template #name:view="{ row }">
-      <el-input v-model="row.name" placeholder="名称" />
     </template>
 
     <template #name="{ row }">
@@ -96,9 +92,7 @@ const columns: MultipleFormColumn[] = [
 
 let visible = shallowRef(false)
 
-let data = $shallowRef<any[]>([
-  { "school": "213", "age": 123, test: {} }
-])
+let data = $shallowRef<any[]>([{ school: '213', age: 123, test: {} }])
 
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()
 /** 增加下一行 */
@@ -110,7 +104,11 @@ const addNextLine = (row: any) => {
       }
     })
   } else {
-    refer.value?.insertTo(0, { name: '123', age: ~~(50 * Math.random()) }, 'view')
+    refer.value?.insertTo(
+      0,
+      { name: '123', age: ~~(50 * Math.random()) },
+      'view'
+    )
   }
 }
 

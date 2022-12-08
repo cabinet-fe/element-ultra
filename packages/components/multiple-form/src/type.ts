@@ -56,7 +56,7 @@ export type MultipleFormColumn = {
   visible?: boolean
 
   /** 自定义渲染 */
-  render?: (val: any, row: any, index: number) => string
+  render?: (val: any, row: any, index: number) => any
 
   /** 对象嵌套 */
   nest?: MultipleFormColumn[]

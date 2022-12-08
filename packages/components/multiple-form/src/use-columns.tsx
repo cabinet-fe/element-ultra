@@ -2,7 +2,7 @@ import type { TableColumn } from '@element-ultra/components/table'
 import { ElButton } from '@element-ultra/components/button'
 import { ElTooltip } from '@element-ultra/components/tooltip'
 import { ElIcon } from '@element-ultra/components/icon'
-import { computed, ShallowReactive, Slots } from 'vue'
+import { computed, isVNode, ShallowReactive, Slots } from 'vue'
 import type {
   MultipleFormColumn,
   MultipleFormProps,
@@ -57,15 +57,21 @@ export default function useColumns(options: Options) {
   const renders: Renders = {
     view: ({ val, row }, column) => {
       const viewSlot = slots[column.key + ':view']
-      return column.render
-        ? String(column.render(val, row.data, row.index))
-        : viewSlot
-        ? viewSlot!({
-            row: row.data,
-            index: row.index,
-            indexes: row.indexes
-          })
-        : String(val)
+      if (column.render) {
+        const ret = column.render(val, row.data, row.index)
+        if (ret instanceof Object) {
+          return isVNode(ret) ? ret : String(ret)
+        }
+      }
+      if (viewSlot) {
+        return viewSlot({
+          row: row.data,
+          index: row.index,
+          indexes: row.indexes
+        })
+      }
+
+      return val ? String(val) : null
     },
 
     editing: ({ val, row }, column) => {
@@ -199,7 +205,16 @@ export default function useColumns(options: Options) {
     const indexColumn: TableColumn<MultipleFormRow> = {
       name: '#',
       key: '$_index',
-      render: ({ row }) => {
+      align: 'center',
+      fixed: 'left',
+      width: 60,
+      render: ({ row }) => row.index + 1
+    }
+
+    if (tree) {
+      indexColumn.align = 'left'
+      indexColumn.width = 120
+      indexColumn.render = ({ row }) => {
         return (
           <>
             <i
@@ -212,9 +227,7 @@ export default function useColumns(options: Options) {
             <span> {row.index + 1}</span>
           </>
         )
-      },
-      fixed: 'left',
-      width: 120
+      }
     }
 
     const tableColumns: TableColumn<MultipleFormRow>[] = columns!
