@@ -62,20 +62,44 @@ export type MultipleFormColumn = {
   nest?: MultipleFormColumn[]
 
   /** 合计 */
-  summary?: boolean | ((ctx: {
-    total: number;
-    key: string;
-    data: any[]
-  }) => (number | string))
+  summary?:
+    | boolean
+    | ((ctx: { total: number; key: string; data: any[] }) => number | string)
 }
+
+/** MultipleForm删除方法 */
+export type MultipleFormDeleteMethod = (ctx: {
+  /** 当前行的数据 */
+  data: any
+  /** 当前数据是否已保存过 */
+  saved: boolean
+}) => Promise<any> | any
+
+/** MultipleForm保存方法 */
+export type MultipleFormSaveMethod = (ctx: {
+  /** 当前行的数据 */
+  data: any
+  /** 所有行 */
+  rows: any[]
+  /** 保存的类型 */
+  type: 'create' | 'update'
+  /** 父级数据 */
+  parent?: any
+}) => Promise<any> | any
 
 export const multipleFormProps = {
   dialogWidth: {
     type: String
   },
 
+  /** 删除方法 */
   deleteMethod: {
-    type: Function as PropType<(data: any) => Promise<any> | any>
+    type: Function as PropType<MultipleFormDeleteMethod>
+  },
+
+  /** 保存方法 */
+  saveMethod: {
+    type: Function as PropType<MultipleFormSaveMethod>
   },
 
   rowKey: {
@@ -83,7 +107,7 @@ export const multipleFormProps = {
   },
 
   tree: {
-    type: Boolean,
+    type: Boolean
   },
 
   /** 列表数据 */
@@ -132,7 +156,8 @@ export const multipleFormProps = {
 }
 
 export const multipleFormEmits = {
-  save: (row: any, rows: any[], parent?: any) => true,
+  save: (row: any, rows: any[], type: 'create' | 'update', parent?: any) =>
+    true,
   delete: (row: any) => true,
   change: (rows: any[]) => true,
   'update:data': (rows: any[]) => true
@@ -143,8 +168,9 @@ export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
 export type MultipleFormEmits = EmitFn<typeof multipleFormEmits>
 
 export type MultipleFormRow = {
+  root: boolean
   /** 数据本身 */
-  data: any;
+  data: any
   /** 树深 */
   depth: number
   /** 是否是已保存的数据 */
@@ -159,4 +185,6 @@ export type MultipleFormRow = {
   parent: MultipleFormRow | null
   /** 子行 */
   children?: MultipleFormRow[]
+  /** 进度中 */
+  loading: boolean
 }

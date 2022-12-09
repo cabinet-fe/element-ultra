@@ -37,18 +37,20 @@
     }
   }
 
-  @include e('create') {
+  @include e((create)) {
     cursor: pointer;
-    color: var(--el-color-primary);
     margin-left: 8px;
     user-select: none;
+  }
 
+  @include e(create) {
+    color: var(--el-color-primary);
     &:active {
       color: var(--el-color-primary-dark-2);
     }
   }
 
-  @include e('index-line') {
+  @include e(index-line) {
     display: inline-block;
     vertical-align: middle;
     border-top: 1px dashed var(--el-border-color);

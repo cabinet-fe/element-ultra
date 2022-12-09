@@ -18,18 +18,20 @@ import {
   Close
 } from '@element-plus/icons-vue'
 import type { UseNamespaceReturn } from '@element-ultra/hooks'
+import type useRows from './use-rows'
 
 interface Options {
   props: MultipleFormProps
-  emit: MultipleFormEmits
   slots: Slots
   errorTips: ShallowReactive<Record<string, any>>
-  createInlineRow: (parent?: MultipleFormRow) => void
+  ns: UseNamespaceReturn
+  root: MultipleFormRow
+  /** 插入数据 */
+  insertTo: ReturnType<typeof useRows>['insertTo']
+  emit: MultipleFormEmits
   delRow: (indexes: number | number[]) => void
   validate: (data: Record<string, any>) => Promise<boolean>
-  ns: UseNamespaceReturn
   open: (type: 'create' | 'update', options: any) => void
-  root: MultipleFormRow
 }
 
 type Renders = Record<
@@ -47,11 +49,11 @@ export default function useColumns(options: Options) {
     slots,
     ns,
     emit,
-    createInlineRow,
     delRow,
     open,
     validate,
-    root
+    root,
+    insertTo
   } = options
 
   const renders: Renders = {
@@ -87,8 +89,189 @@ export default function useColumns(options: Options) {
     }
   }
 
+  let currentEditRow: MultipleFormRow | null = null
+
+  /** 重置当前编辑行 */
+  const resetCurrentRow = () => {
+    if (currentEditRow) {
+      // 未经保存的row直接删除
+      if (!currentEditRow.saved) {
+        delRow(currentEditRow.indexes)
+        currentEditRow = null
+      } else {
+        currentEditRow.status = 'view'
+      }
+    }
+  }
+
+  /**
+   * 新增行
+   * @param parent 父级
+   */
+  const createInlineRow = (parent?: MultipleFormRow) => {
+    resetCurrentRow()
+
+    const data = (props.columns || []).reduce((acc, cur) => {
+      let value = cur.defaultValue
+      if (value instanceof Function) {
+        value = value()
+      }
+      acc[cur.key] = value
+      return acc
+    }, {} as Record<string, any>)
+
+    // 在父级下添加子级
+    if (parent) {
+      const { children } = parent
+
+      currentEditRow = insertTo(
+        [...parent.indexes, children?.length ?? 0],
+        data,
+        'editing'
+      )
+    }
+    // 在根级添加
+    else {
+      currentEditRow = insertTo(root.children!.length, data, 'editing')
+    }
+  }
+
+  /** 新增函数 */
+  const handleCreate = () => {
+    props.mode === 'inline'
+      ? createInlineRow()
+      : open('create', {
+          ctx: {
+            indexes: [root.children!.length]
+          }
+        })
+  }
+
+  /** 保存 */
+  const handleSave = async (row: MultipleFormRow) => {
+    const valid = await validate(row.data)
+    if (!valid) return
+
+    if (props.saveMethod) {
+      row.loading = true
+      const result = props.saveMethod({
+        data: row.data,
+        rows: root.children!.map(item => item.data),
+        parent: row.parent?.data,
+        type: !row.saved ? 'create' : 'update'
+      })
+
+      // 异步
+      if (result instanceof Promise) {
+        const asyncResult = await result.finally(() => {
+          row.loading = false
+        })
+        if (asyncResult === false) return
+      } else {
+        row.loading = false
+        if (result === false) return
+      }
+    }
+
+    emit(
+      'save',
+      row.data,
+      props.data ?? [],
+      !row.saved ? 'create' : 'update',
+      row.parent?.data
+    )
+
+    row.status = 'view'
+    row.saved = true
+    // 保存和关闭要将当前编辑的row置空
+    currentEditRow = null
+  }
+
+  /**
+   * 退出编辑
+   * @param row
+   */
+  const handleClose = (row: MultipleFormRow) => {
+    if (!row.saved) {
+      // 未保存的行删掉
+      delRow(row.indexes)
+    } else {
+      row.status = 'view'
+    }
+
+    currentEditRow = null
+  }
+
+  /**
+   * 编辑
+   * @param row 行
+   */
+  const handleEdit = (row: MultipleFormRow) => {
+    if (props.mode === 'dialog') {
+      open('update', {
+        ctx: {
+          indexes: row.indexes
+        },
+        data: row.data
+      })
+    } else {
+      resetCurrentRow()
+      row.status = 'editing'
+      currentEditRow = row
+    }
+  }
+
+  /**
+   * 删除行
+   * @param row
+   */
+  const handleDelete = async (row: MultipleFormRow) => {
+    if (props.deleteMethod) {
+      row.loading = true
+
+      const result = props.deleteMethod({
+        data: row.data,
+        saved: row.saved
+      })
+
+      if (result instanceof Promise) {
+        const asyncResult = await result.finally(() => {
+          row.loading = false
+        })
+
+        if (asyncResult === false) return
+      } else {
+        row.loading = false
+        if (result === false) return
+      }
+    }
+
+    emit('delete', row.data)
+    delRow(row.indexes)
+
+    if (row === currentEditRow) {
+      currentEditRow = null
+    }
+  }
+
+  /**
+   * 创建子row
+   * @param row
+   */
+  const handleCreateChild = (row: MultipleFormRow) => {
+    if (props.mode === 'dialog') {
+      open('create', {
+        ctx: {
+          indexes: [...row.indexes, row.children?.length ?? 0]
+        }
+      })
+    } else {
+      createInlineRow(row)
+    }
+  }
+
   const cols = computed(() => {
-    const { columns, disabled, actionEdit, actionDelete, mode, tree } = props
+    const { columns, disabled, actionEdit, actionDelete, tree } = props
 
     // 操作栏
     const actionColumn: TableColumn<MultipleFormRow> = {
@@ -99,18 +282,7 @@ export default function useColumns(options: Options) {
       name: () => (
         <>
           <span>操作</span>
-          <a
-            class={ns.e('create')}
-            onClick={() => {
-              mode === 'inline'
-                ? createInlineRow()
-                : open('create', {
-                    ctx: {
-                      indexes: [root.children!.length]
-                    }
-                  })
-            }}
-          >
+          <a class={ns.e('create')} onClick={handleCreate}>
             新增
           </a>
         </>
@@ -125,31 +297,15 @@ export default function useColumns(options: Options) {
               type='primary'
               icon={Select}
               link
-              onClick={async () => {
-                const valid = await validate(row.data)
-                if (!valid) return
-                emit(
-                  'save',
-                  row.data,
-                  props.data ?? [],
-                  row.saved ? row.parent?.data : undefined
-                )
-                row.status = 'view'
-                row.saved = true
-              }}
+              loading={row.loading}
+              onClick={() => handleSave(row)}
             />,
             <ElButton
               type='primary'
               icon={Close}
+              loading={row.loading}
               link
-              onClick={() => {
-                if (!row.saved) {
-                  // 未保存的行删掉
-                  delRow(row.indexes)
-                } else {
-                  row.status = 'view'
-                }
-              }}
+              onClick={() => handleClose(row)}
             />
           )
 
@@ -161,17 +317,8 @@ export default function useColumns(options: Options) {
                 type='primary'
                 icon={Edit}
                 link
-                onClick={() => {
-                  if (props.mode === 'dialog') {
-                    open('update', {
-                      ctx: {
-                        indexes: row.indexes
-                      }
-                    })
-                  } else {
-                    row.status = 'editing'
-                  }
-                }}
+                loading={row.loading}
+                onClick={() => handleEdit(row)}
               />
             )
 
@@ -181,18 +328,9 @@ export default function useColumns(options: Options) {
               <ElButton
                 type='primary'
                 link
+                loading={row.loading}
                 icon={Plus}
-                onClick={() => {
-                  if (props.mode === 'dialog') {
-                    open('create', {
-                      ctx: {
-                        indexes: [...row.indexes, row.children?.length ?? 0]
-                      }
-                    })
-                  } else {
-                    createInlineRow(row)
-                  }
-                }}
+                onClick={() => handleCreateChild(row)}
               />
             )
         }
@@ -204,10 +342,8 @@ export default function useColumns(options: Options) {
               type='primary'
               icon={Delete}
               link
-              onClick={() => {
-                emit('delete', row.data)
-                delRow(row.indexes)
-              }}
+              loading={row.loading}
+              onClick={() => handleDelete(row)}
             />
           )
 

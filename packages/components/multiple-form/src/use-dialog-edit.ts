@@ -56,11 +56,11 @@ export default function useDialogEdit(options: Options) {
   const [dialog, open] = useFormDialog(form)
 
   const submit = () => {
-    const { ctx } = dialog
+    const { ctx, type } = dialog
     // 因为所有行的model共用同一个, 因此在提交时需要深拷贝一份出来
     const data = JSON.parse(JSON.stringify(form))
 
-    emit('save', data, props.data!)
+    emit('save', data, props.data!, type!)
 
     /** 表格编辑的数据有皆 */
     if (dialog.type === 'create') {

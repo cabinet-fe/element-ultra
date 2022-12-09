@@ -1,20 +1,15 @@
 import { computed, shallowReactive } from 'vue'
 import type {
   MultipleFormProps,
-  MultipleFormRow,
   MultipleFormRules
 } from './type'
-import type useRows from './use-rows'
 
 interface Options {
   props: MultipleFormProps
-  root: MultipleFormRow
-  /** 插入数据 */
-  insertTo: ReturnType<typeof useRows>['insertTo']
 }
 
 export default function useInlineEdit(options: Options) {
-  const { props, insertTo, root } = options
+  const { props } = options
 
   /** 列的校验规则 */
   const columnRules = computed(() => {
@@ -157,21 +152,30 @@ export default function useInlineEdit(options: Options) {
 
     // 校验多条数据时以字段循环为优先
     if (Array.isArray(data)) {
-      for (const field in rules) {
-        let fieldRules = rules[field]
+      const recursiveValidate = async (
+        field: string,
+        data: Record<string, any>[]
+      ) => {
         let i = -1
+
         while (++i < data.length && !errorTips[field]) {
-          let errorMsg = await validateField(
-            data[i][field],
-            fieldRules,
-            data[i]
-          )
+          let item = data[i]
+          let errorMsg = await validateField(item[field], rules[field], item)
           if (errorMsg) {
             errorTips[field] = errorMsg
           }
+
+          if (item.children) {
+            await recursiveValidate(field, item.children)
+          }
         }
       }
+
+      for (const field in rules) {
+        await recursiveValidate(field, data)
+      }
     }
+
     // 校验单条数据
     else {
       for (const field in rules) {
@@ -198,47 +202,10 @@ export default function useInlineEdit(options: Options) {
     }
   }
 
-  let currentEditRow: MultipleFormRow | null = null
-
-  /**
-   * 新增行
-   * @param parent 父级
-   */
-  const createInlineRow = (parent?: MultipleFormRow) => {
-    const data = (props.columns || []).reduce((acc, cur) => {
-      let value = cur.defaultValue
-      if (value instanceof Function) {
-        value = value()
-      }
-      acc[cur.key] = value
-      return acc
-    }, {} as Record<string, any>)
-
-    if (currentEditRow) {
-      currentEditRow.status = 'view'
-    }
-
-    // 在父级下添加子级
-    if (parent) {
-      const { children } = parent
-
-      currentEditRow = insertTo(
-        [...parent.indexes, children?.length ?? 0],
-        data,
-        'editing'
-      )
-    }
-    // 在根级添加
-    else {
-      currentEditRow = insertTo(root.children!.length, data, 'editing')
-    }
-  }
-
   return {
     errorTips,
     columnRules,
     clearValidate,
-    validate,
-    createInlineRow
+    validate
   }
 }

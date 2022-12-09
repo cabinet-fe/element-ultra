@@ -82,10 +82,7 @@ function createDocumentHandler(
       return
     }
 
-    // TODO不得已做出的妥协后续可以待修复
-    setTimeout(() => {
-      binding.value(mouseup, mousedown)
-    })
+    binding.value(mouseup, mousedown)
   }
 }
 

@@ -17,7 +17,9 @@ export default function useRows(options: Options) {
   const { props, emit } = options
 
   /** 根行 */
-  const root = createRow(null, {}, 0, 'view', [])
+  const root = createRow({
+    root: true
+  })
 
   const emitChange = () => {
     const data = unwrapRows(root.children!)
@@ -109,7 +111,13 @@ export default function useRows(options: Options) {
       const preHalf = children.slice(0, lastIndex)
       const nextHalf = children.slice(replaced ? lastIndex + 1 : lastIndex)
 
-      const row = createRow(parent, rowData, lastIndex, status)
+      const row = createRow({
+        parent,
+        data: rowData,
+        index: lastIndex,
+        status,
+        children: replaced ? children[lastIndex].children : undefined
+      })
 
       parent.children = [...preHalf, row, ...nextHalf]
 
@@ -120,9 +128,14 @@ export default function useRows(options: Options) {
         })
 
       emitChange()
+
       return row
     }
   )
+
+  const update = (indexes: number | number[], rowData: Record<string, any>) => {
+    insertTo(indexes, rowData, 'view', true)
+  }
 
   /** 删除行 */
   const delRow = markAsUserAction((indexes: number | number[]) => {
@@ -137,7 +150,6 @@ export default function useRows(options: Options) {
     }
 
     const lastIndex = _indexes[_indexes.length - 1]
-
     // 插入索引超出范围则视为错误
     if (lastIndex > children.length - 1) {
       throw new Error('所删除的索引超出范围')
@@ -165,6 +177,8 @@ export default function useRows(options: Options) {
     /** 查询 */
     find,
     /** 删除行 */
-    delRow
+    delRow,
+    /** 更新行 */
+    update
   }
 }

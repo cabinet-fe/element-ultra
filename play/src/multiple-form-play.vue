@@ -4,6 +4,8 @@
     <el-radio value="dialog">弹框</el-radio>
   </el-radio-group>
 
+  <el-color-picker />
+
   <el-multiple-form
     :mode="mode"
     :columns="columns"
@@ -12,7 +14,8 @@
     ref="refer"
     tree
     style="height: 400px"
-    @delete="c.log"
+    :save-method="handleSave"
+    :delete-method="handleDelete"
   >
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
@@ -47,7 +50,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { ElMultipleForm, MultipleFormColumn } from 'element-ultra'
+import type {
+  ElMultipleForm,
+  MultipleFormColumn,
+  MultipleFormSaveMethod,
+  MultipleFormDeleteMethod
+} from 'element-ultra'
 import { shallowRef } from 'vue'
 
 const mode = $shallowRef<'inline' | 'dialog'>('inline')
@@ -91,7 +99,9 @@ const columns: MultipleFormColumn[] = [
   }
 ]
 
-let data = $shallowRef<any[]>([{ school: '213', age: 123, test: {} }])
+let data = $shallowRef<any[]>([
+  { name: 'asdfasf', school: '213', age: 123, test: {} }
+])
 
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()
 /** 增加下一行 */
@@ -109,5 +119,23 @@ const addNextLine = (row: any) => {
       'view'
     )
   }
+}
+
+const handleSave: MultipleFormSaveMethod = async ({ type, parent }) => {
+  await new Promise(rs => {
+    setTimeout(() => {
+      rs(true)
+    }, 1000)
+  })
+}
+
+const handleDelete: MultipleFormDeleteMethod = async ({ data, saved }) => {
+  if (!saved) return
+
+  return new Promise(rs => {
+    setTimeout(() => {
+      rs(true)
+    }, 1000)
+  })
 }
 </script>

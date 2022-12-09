@@ -26,7 +26,7 @@ export default defineComponent({
     const tableRef = shallowRef<InstanceType<typeof ElTable>>()
 
     // 行数据
-    const { root, delRow, find, insertTo } = useRows({
+    const { root, delRow, find, insertTo, update } = useRows({
       props,
       emit,
       tableRef
@@ -41,12 +41,9 @@ export default defineComponent({
     })
 
     // 行内编辑
-    const { errorTips, validate, createInlineRow, clearValidate } =
-      useInlineEdit({
-        props,
-        insertTo,
-        root
-      })
+    const { errorTips, validate, clearValidate } = useInlineEdit({
+      props
+    })
 
     /** 列 */
     const cols = useColumns({
@@ -54,12 +51,12 @@ export default defineComponent({
       emit,
       validate,
       errorTips,
-      createInlineRow,
       open,
       delRow,
       slots,
       ns,
-      root
+      root,
+      insertTo
     })
 
     const changeDialog = (visible: boolean) => {
@@ -105,11 +102,10 @@ export default defineComponent({
       delete: delRow,
       /** 插入数据 */
       insertTo,
+      /** 更新数据 */
+      update,
       /** 校验数据 */
-      validate: async function () {
-        const data = flatTree(root.children!.map(item => item.data))
-        return validate(data)
-      },
+      validate: () => validate(root.children!.map(item => item.data)),
       /** 清楚校验 */
       clearValidate,
       open,
@@ -141,7 +137,8 @@ export default defineComponent({
       dialogWidth,
       rules,
       slots,
-      accHeight
+      accHeight,
+      mode
     } = this
 
     return (
@@ -170,20 +167,22 @@ export default defineComponent({
           ></ElTable>
         </div>
 
-        <ElFormDialog
-          modelValue={dialog.visible}
-          onUpdate:modelValue={changeDialog}
-          title={dialog.title}
-          confirm={submit}
-          continue={dialog.type === 'create'}
-          width={dialogWidth}
-        >
-          <ElForm data={form} rules={rules} label-width='100px'>
-            {slots.default?.({ form })}
-          </ElForm>
+        {mode === 'dialog' ? (
+          <ElFormDialog
+            modelValue={dialog.visible}
+            onUpdate:modelValue={changeDialog}
+            title={dialog.title}
+            confirm={submit}
+            continue={dialog.type === 'create'}
+            width={dialogWidth}
+          >
+            <ElForm data={form} rules={rules} label-width='100px'>
+              {slots.default?.({ form })}
+            </ElForm>
 
-          {slots.dialog?.({ form })}
-        </ElFormDialog>
+            {slots.dialog?.({ form })}
+          </ElFormDialog>
+        ) : null}
       </>
     )
   }

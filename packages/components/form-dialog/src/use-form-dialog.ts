@@ -1,6 +1,14 @@
 import { deepExtend } from '@element-ultra/utils'
 import { nextTick, watch, shallowReactive } from 'vue'
 
+type Dialog<Type, Data, Ctx> = {
+  visible: boolean
+  type?: Type
+  title: string
+  data: Data
+  ctx: Ctx | null
+}
+
 type OpenOptions<T, C> = {
   /** 标题 */
   title?: string
@@ -22,20 +30,14 @@ type Open<T, F, C> = (type: T, options?: OpenOptions<F, C>) => void
 export default function useFormDialog<
   Type extends string = 'create' | 'update',
   Ctx extends any = any,
-  F extends Record<string, any> |  Record<string, any>[] = any
+  F extends Record<string, any> | Record<string, any>[] = any
 >(formData: F) {
   type Data = (F & Record<string, any>) | null
 
   // 弹框对象
-  const dialog = shallowReactive<{
-    visible: boolean
-    type: Type | ''
-    title: string
-    data: Data
-    ctx: Ctx | null
-  }>({
+  const dialog = shallowReactive<Dialog<Type, Data, Ctx>>({
     visible: false,
-    type: '',
+    type: undefined,
     title: '',
     data: null,
     ctx: null
@@ -48,7 +50,7 @@ export default function useFormDialog<
         dialog.data = null
         dialog.ctx = null
         dialog.title = ''
-        dialog.type = ''
+        dialog.type = undefined
       }
     }
   )
