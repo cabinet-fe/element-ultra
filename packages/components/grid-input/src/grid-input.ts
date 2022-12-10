@@ -1,6 +1,16 @@
+import { FORM_COMPONENT_PROPS, SizeProp } from "@element-ultra/constants"
 import type { ExtractPropTypes } from "vue"
 
 export const gridInputProps = {
+  ...FORM_COMPONENT_PROPS,
+
+  size: SizeProp,
+
+  disabled: {
+    type: Boolean,
+    default: undefined
+  },
+
   /** 值 */
   modelValue: {
     type: String,

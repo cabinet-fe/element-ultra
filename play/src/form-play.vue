@@ -5,12 +5,7 @@
     </div>
 
     <el-card header="表单数据">
-      <el-form
-        ref="formRef"
-        :data="data"
-        label-width="80px"
-        :rules="rules"
-      >
+      <el-form ref="formRef" :data="data" label-width="80px" :rules="rules">
         <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
@@ -31,7 +26,13 @@
         >
         </el-cascade>
 
-        <el-input-number money label="数字" :precision="2" clearable field="num" />
+        <el-input-number
+          money
+          label="数字"
+          :precision="2"
+          clearable
+          field="num"
+        />
 
         <el-tree-select
           :data="options"
@@ -75,6 +76,8 @@
           field="rangedate"
         />
 
+        <el-grid-input field="code" label="编码"></el-grid-input>
+
         <el-date-picker label="日期" type="week" field="date" />
 
         <el-input label="测试1" field="test.test1" />
@@ -91,7 +94,7 @@
 
 <script setup lang="ts">
 import { useFormModel } from 'element-ultra'
-import { shallowRef, } from 'vue'
+import { shallowRef } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 
 document.title = '表单测试'
@@ -120,6 +123,7 @@ const [data, rules] = useFormModel(
   {
     phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
     type: { value: '2' },
+    code: { value: '' },
     address: { required: true },
     date: {},
     rangedate: {},
@@ -146,14 +150,11 @@ const [data, rules] = useFormModel(
         }
       }
     }
-
-
   },
   {
-    name: model =>  model.xing + model.ming
+    name: model => model.xing + model.ming
   }
 )
-
 
 const formRef = shallowRef<any>()
 </script>

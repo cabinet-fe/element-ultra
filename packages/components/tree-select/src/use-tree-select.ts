@@ -75,6 +75,7 @@ export default function useTreeSelect(
   const position = shallowRef('bottom')
 
   const openDialog = () => {
+    if (props.disabled) return
     treeVisible.value = true
   }
   const closeDialog = () => {

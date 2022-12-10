@@ -47,7 +47,7 @@ export default function useColumns(params: { props: TableProps }) {
           if (column.slot && slots[column.slot]) {
             column.render = (ctx) => slots[column.slot!]!(ctx)
           } else {
-            column.render = ({ val }) => val
+            column.render = ({ val }) => String(val)
           }
         }
 

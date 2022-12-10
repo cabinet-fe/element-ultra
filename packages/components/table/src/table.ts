@@ -81,7 +81,7 @@ export const tableProps = {
     type: String
   },
 
-  /** 行唯一标识的key */
+  /** 行唯一标识的key, 建议加上以提高性能 */
   rowKey: {
     type: String
   },

@@ -59,6 +59,7 @@ export type FormProps = ExtractPropTypes<typeof formProps>
 
 export const formComponents = new Set([
   'ElInput',
+  'ElGridInput',
   'ElInputNumber',
   'ElTextarea',
   'ElSwitch',

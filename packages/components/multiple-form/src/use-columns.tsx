@@ -64,6 +64,7 @@ export default function useColumns(options: Options) {
         if (ret instanceof Object) {
           return isVNode(ret) ? ret : String(ret)
         }
+        return ret
       }
       if (viewSlot) {
         return viewSlot({
@@ -152,6 +153,8 @@ export default function useColumns(options: Options) {
     const valid = await validate(row.data)
     if (!valid) return
 
+    let stopped = false
+
     if (props.saveMethod) {
       row.loading = true
       const result = props.saveMethod({
@@ -163,16 +166,23 @@ export default function useColumns(options: Options) {
         indexes: row.indexes
       })
 
+
       // 异步
       if (result instanceof Promise) {
         const asyncResult = await result.finally(() => {
           row.loading = false
         })
-        if (asyncResult === false) return
+        stopped = asyncResult === false
       } else {
         row.loading = false
-        if (result === false) return
+        stopped = result === false
       }
+    }
+
+    if (stopped) {
+      // 设当前编辑的行为空
+      currentEditRow = null
+      return
     }
 
     emit(

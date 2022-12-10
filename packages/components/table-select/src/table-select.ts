@@ -67,6 +67,12 @@ export const tableSelectProps = {
   hide: {
     type: Boolean
   },
+
+  /** 是否隐藏触发器 */
+  noTrigger: {
+    type: Boolean
+  },
+
   /** 弹框宽度 */
   dialogWidth: {
     type: [String, Number] as PropType<string | number>

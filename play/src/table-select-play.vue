@@ -22,11 +22,6 @@
       {{ scope }}
     </template>
   </el-table-select>
-
-
-  <el-multiple-form v-model:data="data" :columns="columns">
-
-  </el-multiple-form>
 </template>
 
 <script lang="ts" setup>

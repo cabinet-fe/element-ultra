@@ -1,12 +1,16 @@
 @use 'mixins/mixins' as *;
 
-@include b('grid-input') {
-  li {
+@include b(grid-input) {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+
+  @include e(item) {
     width: 32px;
     height: 32px;
-    line-height: 32px;
-    border: 1px solid #dcdfe6;
-    color: var(--el-color-primary);
+    border: 1px dashed #dcdfe6;
+
     border-radius: 4px;
     outline: none;
     text-align: center;
@@ -20,18 +24,20 @@
     }
   }
 
-  & &--focus {
-    border-color: var(--el-color-primary);
-
-    @keyframes fade {
-      0% {
-        opacity: 0.2;
-      }
-
-      100% {
-        opacity: 1;
-      }
+  @keyframes fade {
+    0% {
+      opacity: 0.2;
     }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @include m(focus) {
+    border-color: var(--el-color-primary);
+    border-style: solid;
+    color:  var(--el-color-primary);
 
     .el-grid-input__text {
       color: var(--el-color-primary);
@@ -48,6 +54,20 @@
       left: 50%;
       transform: translate(-50%, -50%);
       animation: fade 1s linear infinite alternate;
+    }
+  }
+
+  @include m(small) {
+    .el-grid-input__item {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  @include m(large) {
+    .el-grid-input__item {
+      width: 40px;
+      height: 40px;
     }
   }
 }

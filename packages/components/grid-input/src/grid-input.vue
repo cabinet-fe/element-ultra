@@ -1,15 +1,16 @@
 <template>
-  <ul :class="ns.b()">
+  <ul :class="[ns.b(), ns.m(gridInputSize)]">
     <li
       v-for="(_, index) in max"
       :key="index"
       tabindex="0"
-      @keydown="KeyEventMethods.onKeydown($event, valueArray[index], index)"
+      @keydown="handleKeyDown($event, valueArray[index], index)"
       @focus="focus(index)"
       @blur="index === position && (blur = true)"
       :ref="getRef"
       :class="{
-        'el-grid-input--focus': index === position && !blur
+        [ns.e('item')]: true,
+        [ns.m('focus')]: index === position && !blur
       }"
     >
       <span :class="ns.e('text')" v-if="valueArray[index]">
@@ -21,7 +22,7 @@
   </ul>
 </template>
 <script lang="ts" setup>
-import { useNamespace, useRefs } from '@element-ultra/hooks'
+import { useNamespace, useRefs, useSize } from '@element-ultra/hooks'
 import { computed } from '@vue/reactivity'
 import { shallowRef, watch } from 'vue'
 import { gridInputProps } from './grid-input'
@@ -34,9 +35,14 @@ const [items, getRef] = useRefs()
 
 const ns = useNamespace('grid-input')
 const props = defineProps(gridInputProps)
+
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
+
+const gridInputSize = useSize({
+  props
+})
 
 let valueArray = shallowRef<string[]>([])
 /** 光标位置 */
@@ -54,9 +60,12 @@ const focus = async (index?: number) => {
   }
 
   // 可以聚焦有值的输入框和其下一个输入框
-  if (index !== 0 && index > valueArray.value.length) return
-  position.value = index
-  let dom = items.value[index]
+  if (index !== 0 && index > valueArray.value.length) {
+    position.value = valueArray.value.length
+  } else {
+    position.value = index
+  }
+  let dom = items.value[position.value]
   dom?.focus()
   blur.value = false
 }
@@ -78,7 +87,7 @@ watch(
 const emitModelValue = () => {
   emit(
     'update:modelValue',
-    valueArray.value.filter((v) => v).join(props.separator)
+    valueArray.value.filter(v => v).join(props.separator)
   )
 }
 
@@ -93,7 +102,11 @@ const changeValue = (value: string, index: number) => {
   } else {
     return
   }
-  position.value++
+
+  if (position.value < props.max - 1) {
+    position.value++
+  }
+
   focus()
 
   emitModelValue()
@@ -112,7 +125,7 @@ const KeyEventMethods = {
       focus(index - 1)
     }
 
-    emitModelValue
+    emitModelValue()
   },
 
   ArrowLeft(value: string, index: number) {
@@ -123,17 +136,17 @@ const KeyEventMethods = {
   ArrowRight(value: string, index: number) {
     if (index === valueArray.value.length) return
     focus(index + 1)
-  },
-
-  /** 按键事件 */
-  onKeydown(e: any, value: string, index: number) {
-    if (numberReg.value.test(e.key)) {
-      changeValue(e.key, index)
-      return
-    }
-
-    let handler = KeyEventMethods[e.key]
-    handler && handler(value, index)
   }
+}
+
+/** 按键事件 */
+const handleKeyDown = (e: any, value: string, index: number) => {
+  if (numberReg.value.test(e.key)) {
+    changeValue(e.key, index)
+    return
+  }
+
+  let handler = KeyEventMethods[e.key as keyof typeof KeyEventMethods]
+  handler && handler(value, index)
 }
 </script>

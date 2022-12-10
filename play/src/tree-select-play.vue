@@ -50,14 +50,14 @@ import { useFormModel, type FormInstance } from 'element-ultra'
 import { shallowRef } from 'vue'
 let treeData = shallowRef<any[]>([])
 setTimeout(() => {
-  treeData.value = Array.from({ length: 200 }).map((_, index) => {
+  treeData.value = Array.from({ length: 20 }).map((_, index) => {
     return {
-      label: `文本${index}`,
+      label: `文本${200 + index}`,
       value: `${index}`,
-      children: Array.from({ length: Math.round(Math.random() * 2) }).map(
+      children: Array.from({ length: 100 }).map(
         (_, childIndex) => {
           return {
-            label: `文本${index}-${childIndex}`,
+            label: `文本${200 + index}${('00' + (childIndex + 1)).slice(-3)}`,
             value: `${index}-${childIndex}`
           }
         }
