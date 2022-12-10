@@ -158,7 +158,9 @@ export default function useColumns(options: Options) {
         data: row.data,
         rows: root.children!.map(item => item.data),
         parent: row.parent?.data,
-        type: !row.saved ? 'create' : 'update'
+        type: !row.saved ? 'create' : 'update',
+        index: row.index,
+        indexes: row.indexes
       })
 
       // 异步
@@ -231,7 +233,9 @@ export default function useColumns(options: Options) {
 
       const result = props.deleteMethod({
         data: row.data,
-        saved: row.saved
+        saved: row.saved,
+        index: row.index,
+        indexes: row.indexes
       })
 
       if (result instanceof Promise) {

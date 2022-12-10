@@ -73,6 +73,10 @@ export type MultipleFormDeleteMethod = (ctx: {
   data: any
   /** 当前数据是否已保存过 */
   saved: boolean
+  /** 当前行的索引路径 */
+  indexes: number[]
+  /** 当前行在同级中的索引 */
+  index: number
 }) => Promise<any> | any
 
 /** MultipleForm保存方法 */
@@ -85,6 +89,10 @@ export type MultipleFormSaveMethod = (ctx: {
   type: 'create' | 'update'
   /** 父级数据 */
   parent?: any
+  /** 当前行的索引路径 */
+  indexes: number[]
+  /** 当前行在同级中的路径 */
+  index: number
 }) => Promise<any> | any
 
 export const multipleFormProps = {
