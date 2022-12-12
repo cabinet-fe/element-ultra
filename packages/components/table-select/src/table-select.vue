@@ -94,7 +94,10 @@ const handleClear = () => {
 
 const open = () => dialogRef.value?.open()
 
+const refresh = (reset = true) => dialogRef.value?.fetchData(reset)
+
 defineExpose({
-  open
+  open,
+  refresh
 })
 </script>

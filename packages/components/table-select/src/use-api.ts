@@ -32,6 +32,9 @@ export default function useApi(options: Options) {
   const fetchData = async (reset = true) => {
     const { api } = props
     if (!configStore.tableSelectRequestMethod || !api) return
+
+    internalData.value = []
+
     if (reset) {
       pageQuery.page = 1
     }

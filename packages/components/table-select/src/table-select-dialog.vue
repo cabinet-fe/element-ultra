@@ -149,6 +149,8 @@ defineExpose({
   open() {
     toggleVisible(true)
   },
-  clear: handleClear
+  clear: handleClear,
+
+  fetchData
 })
 </script>

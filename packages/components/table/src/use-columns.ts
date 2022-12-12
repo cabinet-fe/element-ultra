@@ -45,9 +45,9 @@ export default function useColumns(params: { props: TableProps }) {
         // 始终保持render存在
         if (!column.render) {
           if (column.slot && slots[column.slot]) {
-            column.render = (ctx) => slots[column.slot!]!(ctx)
+            column.render = ctx => slots[column.slot!]!(ctx)
           } else {
-            column.render = ({ val }) => String(val)
+            column.render = ({ val }) => String(val ?? '')
           }
         }
 
@@ -95,7 +95,6 @@ export default function useColumns(params: { props: TableProps }) {
       if (result.right.length) {
         result.right[0].typeFirst = true
       }
-
 
       columnLayouts.value = result
       columns.value = Object.values(result).flat(1)
