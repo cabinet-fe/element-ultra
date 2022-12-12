@@ -9,6 +9,7 @@ export const proTableKey: InjectionKey<{
   setAutoQuery: (autoQuery: boolean) => void
   fetchData: (resetPage?: boolean) => Promise<void>
   loading: ShallowRef<boolean>
+  defaultQuery: { value: Record<string, any> }
 }> = Symbol('proTableKey')
 
 export const proTableContextKey: InjectionKey<{

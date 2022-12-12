@@ -162,6 +162,19 @@ const handleSort = (_sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
   fetchData(false)
 }
 
+const getUrlParams = () => {
+  return location.search.replace('?', '').split('&').reduce((acc, item) => {
+    const [key, val] = item.split('=')
+    acc[decodeURIComponent(key)] = decodeURIComponent(val)
+    return acc
+  }, {} as Record<string, any>)
+}
+
+const valueMap: Record<string, (v: string) => any> = {
+  number: (v: string) => +v,
+  array: (v: string) => v.split(','),
+}
+
 const getQueryParams = () => {
   let _query = {
     ...props.query,
@@ -220,6 +233,19 @@ const computedSummaryMethod = computed(() => {
       : undefined)) as any
 })
 
+/** location历史替换 */
+function historyReplace(query: Record<string, any>) {
+  let ret = ''
+  Object.keys(query).forEach(key => {
+    if (query[key] === undefined) {
+      return ret += `${key}=&`
+    }
+    ret += `${key}=${encodeURIComponent(query[key])}&`
+  })
+
+  history.replaceState({}, '', location.pathname + `?${ret.slice(0, -1)}`)
+}
+
 let loading = shallowRef(false)
 
 /**
@@ -239,6 +265,8 @@ const fetchData = async (resetPage = true) => {
     pageQuery.page = 1
   }
 
+  historyReplace(params.query)
+
   const res = await configStore.proTableRequestMethod(params).finally(() => {
     loading.value = false
   })
@@ -257,6 +285,8 @@ const fetchData = async (resetPage = true) => {
 }
 
 let canAutoQuery = shallowRef(true)
+
+let defaultQuery = { value: {} }
 /** 设置自动请求 */
 const setAutoQuery = (autoQuery: boolean) => {
   canAutoQuery.value = autoQuery
@@ -269,6 +299,29 @@ watch(
     stopWatchQueryProps?.()
 
     if (!propQuery) return
+
+    // 在最开始的时候获取默认query的值
+    defaultQuery.value = {...propQuery}
+
+    // 在监听query之前读取
+    if (props.cacheParams) {
+      let cachedParams = getUrlParams()
+
+      Object.keys(propQuery).forEach(key => {
+        let cachedVal = cachedParams[key]
+        if (cachedVal) {
+          let originType = Object.prototype.toString.call(propQuery[key]).slice(8, -1).toLowerCase()
+          propQuery[key] = valueMap[originType] ? valueMap[originType](cachedVal) : cachedVal
+        }
+      })
+
+      if (cachedParams.page) {
+        pageQuery.page = +cachedParams.page
+      }
+      if (cachedParams.size) {
+        pageQuery.size = +cachedParams.size
+      }
+    }
 
     const watchList = Object.keys(propQuery)
       .filter(k => k.startsWith('$'))
@@ -306,7 +359,8 @@ provide(proTableKey, {
   ns,
   setAutoQuery,
   fetchData,
-  loading
+  loading,
+  defaultQuery
 })
 
 const exposed = {

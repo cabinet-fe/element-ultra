@@ -5,13 +5,13 @@
     row-key="id"
     :api="api"
     :query="query"
+    cache-params
     :columns="columns"
     show-index
     checkable
     ref="tableRef"
     show-summary
     tree
-
   >
     <template #column-conf="{ column }">
       <el-input

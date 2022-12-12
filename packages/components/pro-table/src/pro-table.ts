@@ -8,6 +8,9 @@ export const proTableProps = {
   api: {
     type: String
   },
+
+  /** 缓存params */
+  cacheParams: { type: Boolean },
   /** 展示树形数据 */
   tree: {
     type: [Boolean, String],

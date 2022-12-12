@@ -10,7 +10,6 @@ import {
   ref,
   shallowRef,
   useSlots,
-  watch,
   type Component,
   type VNode,
   type VNodeNormalizedChildren
@@ -28,18 +27,11 @@ export default defineComponent({
   },
 
   setup(props, { emit }) {
-    const {  ns, rootProps, setAutoQuery, loading } =
+    const {  ns, rootProps, setAutoQuery, loading, defaultQuery } =
       inject(proTableKey)!
       // proTableSlots,
-    // query发生变化时应当重置
-    let defaultQuery = { ...rootProps.query }
 
-    watch(
-      () => rootProps.query,
-      v => {
-        defaultQuery = { ...v }
-      }
-    )
+
 
     const componentWidthMapper: Record<string, any> = {
       ElDatePicker: '240px'
@@ -122,7 +114,7 @@ export default defineComponent({
       setAutoQuery(false)
       if (query) {
         Object.keys(query).forEach(key => {
-          query[key] = defaultQuery[key]
+          query[key] = defaultQuery.value[key]
         })
       }
       handleSearch()
