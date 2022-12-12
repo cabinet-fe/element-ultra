@@ -2,7 +2,7 @@
   <div :class="ns.b()" v-if="!noTrigger || !hide">
     <!-- 触发器 -->
     <span
-      v-if="!noTrigger"
+      v-if="!noTrigger && !tableSelectDisabled"
       @click="!tableSelectDisabled && dialogRef?.open()"
       :class="ns.e('btn')"
     >
