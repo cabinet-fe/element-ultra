@@ -163,7 +163,9 @@ const handleSort = (_sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
 }
 
 const getUrlParams = () => {
-  return location.search.replace('?', '').split('&').reduce((acc, item) => {
+  const search = location.search.replace('?', '')
+  if (!search) return {}
+  return search.split('&').reduce((acc, item) => {
     const [key, val] = item.split('=')
     acc[decodeURIComponent(key)] = decodeURIComponent(val)
     return acc
@@ -240,7 +242,7 @@ function historyReplace(query: Record<string, any>) {
     if (query[key] === undefined) {
       return ret += `${key}=&`
     }
-    ret += `${key}=${encodeURIComponent(query[key])}&`
+    ret += `${key}=${(query[key])}&`
   })
 
   history.replaceState({}, '', location.pathname + `?${ret.slice(0, -1)}`)
@@ -267,11 +269,10 @@ const fetchData = async (resetPage = true) => {
     pageQuery.page = 1
   }
 
-  historyReplace(params.query)
-  // @ts-ignore
-  const router = inst.appContext.app.config.$router
-  console.log(router)
+  const router = inst.appContext.app.config.globalProperties.$router
+
   if (router) {
+    historyReplace(params.query)
     router.replace(location.pathname + location.search)
   }
 
@@ -316,7 +317,7 @@ watch(
       let cachedParams = getUrlParams()
 
       Object.keys(propQuery).forEach(key => {
-        let cachedVal = cachedParams[key]
+        let cachedVal = key.startsWith('$') ? cachedParams[key.replace(/^\$/, '')] : cachedParams[key]
         if (cachedVal) {
           let originType = Object.prototype.toString.call(propQuery[key]).slice(8, -1).toLowerCase()
           propQuery[key] = valueMap[originType] ? valueMap[originType](cachedVal) : cachedVal

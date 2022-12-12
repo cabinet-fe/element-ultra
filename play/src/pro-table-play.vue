@@ -25,9 +25,12 @@
         @update:model-value="handleChangePreset(column, $event)"
       />
     </template>
+
+
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
       <el-input v-for="item of list" :placeholder="item.label" />
+      <el-select :options="[{ label: 'a', value: 'a' }, { label: 'b', value: 'b' }]" v-model="query.$s" />
       <!-- <span></span> -->
       <!-- <el-date-picker
         placeholder="起止日期"
@@ -57,6 +60,7 @@
       <el-button @click="c.log(columns)">打印列数据</el-button>
       <el-button @click="handleClick">改变query</el-button>
       <el-button @click="handleFix">固定列</el-button>
+      <el-button @click="replace">替换路由</el-button>
       <el-dropdown trigger="click" split-button type="primary">
         按钮123
         <template #dropdown>
@@ -73,7 +77,8 @@
 <script setup lang="tsx">
 import { ElButton, ProTableColumn } from 'element-ultra'
 import { n } from 'cat-kit'
-import { computed, isReactive, provide, shallowReactive, shallowRef } from 'vue'
+import { computed, isReactive, provide, shallowReactive, shallowRef, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 provide('aa', { name: 'aa' })
 
@@ -81,12 +86,18 @@ provide('aa', { name: 'aa' })
 const query = shallowRef(
   shallowReactive({
     name: '',
-    $date: ['2022-02-14', '2022-08-03']
+    $date: ['2022-02-14', '2022-08-03'],
+    $s: ''
   })
 )
 
 const tableRef = shallowRef()
 
+const router = useRouter()
+const route = useRoute()
+const replace = () => {
+  router.replace(route.fullPath + `?t=${Date.now()}`)
+}
 const presets = [{ label: '金钱', value: 'money' }]
 const presetRenders: Record<string, ProTableColumn['render']> = {
   money: ({ val }) => n(val).format('money', 2)
