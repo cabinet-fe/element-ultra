@@ -68,7 +68,8 @@ import {
   shallowRef,
   useSlots,
   provide,
-  onMounted
+  onMounted,
+getCurrentInstance
 } from 'vue'
 import {
   ElDataTable,
@@ -245,6 +246,8 @@ function historyReplace(query: Record<string, any>) {
   history.replaceState({}, '', location.pathname + `?${ret.slice(0, -1)}`)
 }
 
+const inst = getCurrentInstance()!
+
 let loading = shallowRef(false)
 
 /**
@@ -265,6 +268,12 @@ const fetchData = async (resetPage = true) => {
   }
 
   historyReplace(params.query)
+  // @ts-ignore
+  const router = inst.appContext.app.config.$router
+  console.log(router)
+  if (router) {
+    router.replace(location.pathname + location.search)
+  }
 
   const res = await configStore.proTableRequestMethod(params).finally(() => {
     loading.value = false
