@@ -63,7 +63,7 @@ export default function useApi(options: Options) {
         loading.value = false
       })
 
-    if (_total) {
+    if (_total || _total === 0) {
       total.value = _total
     }
 

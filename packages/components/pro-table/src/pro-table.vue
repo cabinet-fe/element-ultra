@@ -248,7 +248,7 @@ const fetchData = async (resetPage = true) => {
     statistics.value = _statistics
   }
 
-  if (total) {
+  if (total || total === 0) {
     state.total = total
   }
   state.data = data
