@@ -70,7 +70,7 @@ import {
   provide,
   onMounted
 } from 'vue'
-
+import { useRouter } from 'vue-router'
 import {
   ElDataTable,
   DataTableInstance
@@ -248,6 +248,8 @@ function historyReplace(query: Record<string, any>) {
 
 let loading = shallowRef(false)
 
+const router = useRouter()
+
 /**
  * 查询数据
  * @param resetPage 是否重置分页, 只有在 分页相关的组件改变时无需重置
@@ -266,6 +268,7 @@ const fetchData = async (resetPage = true) => {
   }
 
   historyReplace(params.query)
+  router.replace(location.pathname + location.search)
 
   const res = await configStore.proTableRequestMethod(params).finally(() => {
     loading.value = false

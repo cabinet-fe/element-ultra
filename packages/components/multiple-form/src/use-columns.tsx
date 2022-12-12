@@ -166,7 +166,6 @@ export default function useColumns(options: Options) {
         indexes: row.indexes
       })
 
-
       // 异步
       if (result instanceof Promise) {
         const asyncResult = await result.finally(() => {
@@ -361,7 +360,24 @@ export default function useColumns(options: Options) {
             />
           )
 
-        return <>{buttons}</>
+        const actionInViewMode = slots['action:view-mode']?.({
+          row: row.data,
+          index: row.index,
+          indexes: row.indexes
+        })
+
+        const actionInEditMode = slots['action:edit-mode']?.({
+          row: row.data,
+          index: row.index,
+          indexes: row.indexes
+        })
+        return (
+          <>
+            {actionInViewMode}
+            {actionInEditMode}
+            {buttons}
+          </>
+        )
       }
     }
 
