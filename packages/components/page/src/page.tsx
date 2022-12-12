@@ -16,17 +16,14 @@ import {
   type VNode,
   type VNodeArrayChildren
 } from 'vue'
-import {
-  formInjectionKey,
-  type FormExposed
-} from '@element-ultra/tokens'
+import { formInjectionKey, type FormExposed } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
 
 export interface PageExposed {
   /** 校验表单 */
-  validate: () => Promise<void>
+  validate: () => Promise<boolean>
 }
 
 export default defineComponent({
@@ -36,6 +33,10 @@ export default defineComponent({
     showExtra: {
       type: Boolean,
       default: true
+    },
+
+    hideFooter: {
+      type: Boolean
     }
   },
 
@@ -190,9 +191,12 @@ export default defineComponent({
     }
 
     const validate = async () => {
+      let validResult: boolean[] = []
       for (const form of exposedFormList) {
-        await form.validate()
+        const valid = await form.validate()
+        validResult.push(valid)
       }
+      return validResult.every(item => item)
     }
 
     expose({
@@ -217,18 +221,19 @@ export default defineComponent({
               {renderExtra()}
             </ElScrollbar>
 
-            <section class={ns.e('footer')}>
-              <ElPopconfirm
-                title='确定返回吗?'
-                content="你的页面可能有未保存的数据"
-                onConfirm={handleBack}
-                v-slots={{
-                  reference: () => <ElButton>返回</ElButton>
-                }}
-              >
-              </ElPopconfirm>
-              <div>{slots.footer?.({ extraRefs })}</div>
-            </section>
+            {props.hideFooter ? null : (
+              <section class={ns.e('footer')}>
+                <ElPopconfirm
+                  title='确定返回吗?'
+                  content='你的页面可能有未保存的数据'
+                  onConfirm={handleBack}
+                  v-slots={{
+                    reference: () => <ElButton>返回</ElButton>
+                  }}
+                ></ElPopconfirm>
+                <div>{slots.footer?.({ extraRefs })}</div>
+              </section>
+            )}
           </div>
 
           {hasNav ? (
