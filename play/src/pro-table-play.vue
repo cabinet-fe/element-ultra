@@ -162,16 +162,16 @@ const handleFix = () => {
   }
 }
 
-const api = shallowRef('')
+const api = shallowRef('/some/test')
 
 const list = shallowRef<any[]>([])
 const createSearcher = () => {
   list.value = [...list.value, { label: '测试' }]
 }
 
-setTimeout(() => {
-  api.value = '/some/test'
-}, 1500)
+// setTimeout(() => {
+//   api.value = '/some/test'
+// }, 1500)
 
 const handleClick = () => {
   query.value = shallowReactive({

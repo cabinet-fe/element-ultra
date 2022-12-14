@@ -71,7 +71,7 @@ export const proTableProps = {
   },
   /** 表格高度, 一旦指定表头就会固定了 */
   height: {
-    type: [Number, String] as PropType<string | number>
+    type: String
   },
 
   /** 汇总方法 */

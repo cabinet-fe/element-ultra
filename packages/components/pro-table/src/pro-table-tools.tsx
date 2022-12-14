@@ -1,12 +1,12 @@
 import { Search, Plus, Minus, Refresh } from '@element-plus/icons-vue'
 import {
   cloneVNode,
-  createVNode,
   defineComponent,
   inject,
   isVNode,
+  nextTick,
+  onBeforeUnmount,
   onMounted,
-  onUnmounted,
   ref,
   shallowRef,
   useSlots,
@@ -15,23 +15,24 @@ import {
   type VNodeNormalizedChildren
 } from 'vue'
 import ElButton from '@element-ultra/components/button'
-import { proTableKey } from './token'
+import { proTableHeightKey, proTableKey } from './token'
 import { isComment, isFragment, isTemplate } from '@element-ultra/utils'
-import { useConfig } from '@element-ultra/hooks'
 
 export default defineComponent({
   emits: {
-    'key-enter': () => true,
-    search: () => true,
-    'tools-resize': (height: number) => true
+    'key-enter': () => true
   },
 
   setup(props, { emit }) {
-    const {  ns, rootProps, setAutoQuery, loading, defaultQuery } =
-      inject(proTableKey)!
-      // proTableSlots,
-
-
+    const {
+      ns,
+      rootProps,
+      setAutoQuery,
+      fetchData,
+      loading,
+      defaultQuery,
+      currentQueryStr
+    } = inject(proTableKey)!
 
     const componentWidthMapper: Record<string, any> = {
       ElDatePicker: '240px'
@@ -49,7 +50,6 @@ export default defineComponent({
       let nodes: VNode[] = []
 
       const recursive = (slots: VNodeNormalizedChildren) => {
-
         if (Array.isArray(slots)) {
           slots.forEach(node => {
             if (!isVNode(node)) return
@@ -105,20 +105,29 @@ export default defineComponent({
         emit('key-enter')
       }
     }
+
+    /**
+     * 查询
+     * 查询的关键点是, 在请求之时对比query和上一次查询的query是否一致
+     */
     const handleSearch = () => {
-      emit('search')
+      // 查询条件一致时不再重新重置分页
+      const queryChanged = currentQueryStr.value !== JSON.stringify(rootProps.query)
+      fetchData(queryChanged)
     }
 
+    /** 重置 */
     const handleReset = () => {
       const { query } = rootProps
+      // 点击重置按钮时会改变query的值, 为了使其不和监听的query冲突从而发生多次请求
+      // 因此此处使用变量来控制watch函数中的fetchData不执行
       setAutoQuery(false)
-      if (query) {
+      query &&
         Object.keys(query).forEach(key => {
           query[key] = defaultQuery.value[key]
         })
-      }
-      handleSearch()
-      setAutoQuery(true)
+      fetchData()
+      nextTick(() => setAutoQuery(true))
     }
 
     const expanded = ref(false)
@@ -128,26 +137,17 @@ export default defineComponent({
 
     const toolsRef = shallowRef<HTMLDivElement | null>(null)
 
-    const [conf] = useConfig()
-    /** 渲染额外的工具栏组件 */
-    const renderExtraTools = () => {
-      if (!conf.proTableExtraTools) return null
-      const nodes = conf.proTableExtraTools.map(component => {
-        return createVNode(component)
-      })
+    const { setToolsHeight } = inject(proTableHeightKey)!
 
-      return nodes
-    }
-
-    let observer: ResizeObserver | null = null
-    onMounted(() => {
-      observer = new ResizeObserver(entries => {
-        emit('tools-resize', entries[0]?.borderBoxSize[0]?.blockSize)
-      })
-      toolsRef.value && observer.observe(toolsRef.value, { box: 'border-box' })
+    const observer = new ResizeObserver(([entry]) => {
+      setToolsHeight((entry.target as HTMLElement).offsetHeight)
     })
 
-    onUnmounted(() => {
+    onMounted(() => {
+      toolsRef.value && observer.observe(toolsRef.value)
+    })
+
+    onBeforeUnmount(() => {
       observer?.disconnect()
     })
 
@@ -196,10 +196,7 @@ export default defineComponent({
               {expandButton}
             </div>
 
-            <div class={ns.e('tools-box')}>
-              {proTableSlots.tools?.()}
-              {renderExtraTools()}
-            </div>
+            <div class={ns.e('tools-box')}>{proTableSlots.tools?.()}</div>
           </div>
 
           {expanded.value ? (
