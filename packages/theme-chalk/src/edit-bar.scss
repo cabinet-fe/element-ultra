@@ -60,6 +60,7 @@
     align-content: center;
     align-items: center;
     flex-grow: 1;
+    cursor: default;
 
     & > *:not(:first-child) {
       vertical-align: middle;

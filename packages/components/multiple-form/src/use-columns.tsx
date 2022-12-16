@@ -360,22 +360,26 @@ export default function useColumns(options: Options) {
             />
           )
 
-        const actionInViewMode = row.status === 'view' ? slots['action:view-mode']?.({
-          row: row.data,
-          index: row.index,
-          indexes: row.indexes
-        }) : null
+        let actionSlotName = ''
+        if (row.status === 'view') {
+          actionSlotName = 'action:view-mode'
+        }
+        else if (row.status === 'editing') {
+          actionSlotName = 'action:edit-mode'
+        }
+        // ...以后获取会添加其他的
 
-        const actionInEditMode = row.status === 'editing' ? slots['action:edit-mode']?.({
-          row: row.data,
-          index: row.index,
-          indexes: row.indexes
-        }) : null
+        const actionSlots = actionSlotName
+          ? slots[actionSlotName]?.({
+              row: row.data,
+              index: row.index,
+              indexes: row.indexes
+            })
+          : ''
 
         return (
           <>
-            {actionInViewMode}
-            {actionInEditMode}
+            {actionSlots}
             {buttons}
           </>
         )

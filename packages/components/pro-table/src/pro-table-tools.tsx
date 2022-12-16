@@ -52,7 +52,7 @@ export default defineComponent({
       const recursive = (slots: VNodeNormalizedChildren) => {
         if (Array.isArray(slots)) {
           slots.forEach(node => {
-            if (!isVNode(node)) return
+            if (!isVNode(node) || isComment(node)) return
 
             if (isFragment(node) || isTemplate(node)) {
               return recursive(node.children)
@@ -112,7 +112,8 @@ export default defineComponent({
      */
     const handleSearch = () => {
       // 查询条件一致时不再重新重置分页
-      const queryChanged = currentQueryStr.value !== JSON.stringify(rootProps.query)
+      const queryChanged =
+        currentQueryStr.value !== JSON.stringify(rootProps.query)
       fetchData(queryChanged)
     }
 
@@ -168,12 +169,14 @@ export default defineComponent({
             onClick={handleSearch}
             title='查询'
           />
-          <ElButton
-            loading={loading.value}
-            icon={Refresh}
-            title='重置'
-            onClick={handleReset}
-          />
+          {nodesCount || rootProps.pagination ? (
+            <ElButton
+              loading={loading.value}
+              icon={Refresh}
+              title='重置'
+              onClick={handleReset}
+            />
+          ) : null}
         </>
       ) : null
 

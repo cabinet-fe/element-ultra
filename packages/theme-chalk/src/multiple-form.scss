@@ -13,6 +13,8 @@
   background-color: var(--el-fill-color-blank);
   width: 100%;
   $title-height: 24px;
+  padding: 4px;
+  border-radius: var(--el-border-radius-base);
 
   @include e(title) {
     height: $title-height;

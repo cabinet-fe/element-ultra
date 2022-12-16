@@ -518,7 +518,7 @@ const createList = ({
           class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
-          onWheel,
+          onWheel_passive: onWheel,
           ref: 'windowRef',
           key: 0,
         },

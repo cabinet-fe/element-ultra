@@ -33,20 +33,20 @@
 
   th,
   td {
-    padding: 6px 4px;
+    padding: 6px 6px;
     box-sizing: border-box;
   }
 
   @include m(small) {
     th,
     td {
-      padding: 4px 4px;
+      padding: 4px 6px;
     }
   }
   @include m(large) {
     th,
     td {
-      padding: 8px 4px;
+      padding: 8px 6px;
     }
   }
 

@@ -643,7 +643,7 @@ const createGrid = ({
                 class: props.className,
                 style: unref(windowStyle),
                 onScroll,
-                onWheel,
+                onWheel_passive: onWheel,
                 ref: windowRef,
               },
               !isString(Container) ? { default: () => Inner } : Inner
