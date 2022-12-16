@@ -105,7 +105,8 @@ const handleSizeChange = (size: 'large' | 'default' | 'small') => {
   overflow: auto;
   flex-grow: 1;
   width: calc(100% - 200px);
-  // background-color: var(--el-bg-color);
+  background-color: #f2f2f2;
+  padding: 8px;
 }
 
 .link {

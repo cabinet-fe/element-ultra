@@ -3,7 +3,7 @@ import { nextTick, watch, shallowReactive } from 'vue'
 
 type Dialog<Type, Data, Ctx> = {
   visible: boolean
-  type?: Type
+  type: Type
   title: string
   data: Data
   ctx: Ctx | null
@@ -37,7 +37,7 @@ export default function useFormDialog<
   // 弹框对象
   const dialog = shallowReactive<Dialog<Type, Data, Ctx>>({
     visible: false,
-    type: undefined,
+    type: '' as unknown as Type,
     title: '',
     data: null,
     ctx: null
@@ -50,7 +50,7 @@ export default function useFormDialog<
         dialog.data = null
         dialog.ctx = null
         dialog.title = ''
-        dialog.type = undefined
+        dialog.type = '' as unknown as Type
       }
     }
   )

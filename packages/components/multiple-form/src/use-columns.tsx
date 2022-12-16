@@ -360,17 +360,18 @@ export default function useColumns(options: Options) {
             />
           )
 
-        const actionInViewMode = slots['action:view-mode']?.({
+        const actionInViewMode = row.status === 'view' ? slots['action:view-mode']?.({
           row: row.data,
           index: row.index,
           indexes: row.indexes
-        })
+        }) : null
 
-        const actionInEditMode = slots['action:edit-mode']?.({
+        const actionInEditMode = row.status === 'editing' ? slots['action:edit-mode']?.({
           row: row.data,
           index: row.index,
           indexes: row.indexes
-        })
+        }) : null
+
         return (
           <>
             {actionInViewMode}

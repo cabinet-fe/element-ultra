@@ -93,7 +93,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { shallowRef, onMounted, watch } from 'vue'
+import { shallowRef, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import ElButton from '@element-ultra/components/button'
@@ -123,13 +123,17 @@ const emit = defineEmits<{
 let itemId = shallowRef()
 
 // 排序相关
-const listRef = shallowRef<any>()
+const listRef = shallowRef<InstanceType<typeof ElScrollbar>>()
 
 let sortInstance: Sortable
 
 const getSortInstance = () => {
   if (props.tree) return
-  sortInstance = new Sortable(listRef.value?.resize$, {
+
+  if (!listRef.value?.viewRef) return
+  const { viewRef } = listRef.value
+
+  sortInstance = new Sortable(viewRef, {
     animation: 150,
     ghostClass: 'el-edit-bar__ghost',
     handle: '.el-edit-bar__handle',
@@ -147,6 +151,11 @@ const getSortInstance = () => {
 onMounted(() => {
   props.sortable && getSortInstance()
 })
+
+onBeforeUnmount(() => {
+  sortInstance?.destroy()
+})
+
 watch(
   () => props.sortable,
   v => {

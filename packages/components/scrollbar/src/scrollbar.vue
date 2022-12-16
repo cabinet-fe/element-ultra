@@ -12,7 +12,7 @@
       @scroll.passive="handleScroll"
     >
       <!-- 视图容器 start -->
-      <component :style="viewStyle" :class="viewClass" :is="tag" ref="viewRef">
+      <component :style="viewStyle" :class="_viewClass" :is="tag" ref="viewRef">
         <slot />
       </component>
       <!-- 视图容器 end -->
@@ -43,6 +43,18 @@ const props = defineProps(scrollbarProps)
 const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
+
+
+const _viewClass = computed(() => {
+  const { viewClass } = props
+  let ret: string[] = [ ns.e('view')]
+  if (Array.isArray(viewClass)) {
+    ret = [...ret, ...viewClass]
+  } else if (viewClass) {
+    ret.push(viewClass)
+  }
+  return ret
+})
 
 const barsRef = shallowRef<InstanceType<typeof Bars>>()
 const wrapRef = shallowRef<HTMLElement>()

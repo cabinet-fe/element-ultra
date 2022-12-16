@@ -3,7 +3,7 @@
     sortable
     @create="onCreate"
     @delete="onDelete"
-    @update="c.log"
+    tree
     :data="data"
   >
     <!-- <template #default="item">

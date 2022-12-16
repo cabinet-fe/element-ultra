@@ -49,10 +49,15 @@
     }
   }
 
+  .el-data-table {
+    border-radius: var(--el-border-radius-base);
+  }
+
   @include e('tools') {
     margin-bottom: 6px;
     padding: 6px;
     background-color: var(--el-bg-color-overlay);
+    border-radius: var(--el-border-radius-base);
 
     &-bar {
       display: flex;
