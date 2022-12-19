@@ -61,6 +61,7 @@
     align-items: center;
     flex-grow: 1;
     cursor: default;
+    padding-left: 4px;
 
     & > *:not(:first-child) {
       vertical-align: middle;
@@ -76,6 +77,7 @@
 
     & > * {
       vertical-align: middle;
+      cursor: pointer;
     }
   }
 
