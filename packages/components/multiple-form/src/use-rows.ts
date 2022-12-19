@@ -22,7 +22,7 @@ export default function useRows(options: Options) {
   })
 
   const emitChange = () => {
-    const data = unwrapRows(root.children!)
+    const data = unwrapRows(root.children!, props.childrenKey)
     emit('change', data)
     emit('update:data', data)
   }
@@ -52,7 +52,7 @@ export default function useRows(options: Options) {
     () => props.data,
     data => {
       if (!data || editByUser) return
-      root.children = wrapDataRows(data, root)
+      root.children = wrapDataRows(data, root, props.childrenKey)
     },
     { immediate: true }
   )

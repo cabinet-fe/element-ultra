@@ -114,6 +114,11 @@ export const multipleFormProps = {
     type: String
   },
 
+  childrenKey: {
+    type: String,
+    default: 'children'
+  },
+
   tree: {
     type: Boolean
   },

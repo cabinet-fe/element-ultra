@@ -58,7 +58,7 @@ export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
   return row
 }
 
-export function wrapDataRows(data: any[], parent: MultipleFormRow) {
+export function wrapDataRows(data: any[], parent: MultipleFormRow, childrenKey: string) {
   return data.map((item, index) => {
     const row = createRow({
       parent,
@@ -67,18 +67,18 @@ export function wrapDataRows(data: any[], parent: MultipleFormRow) {
       status: 'view'
     })
 
-    if (item.children) {
-      row.children = wrapDataRows(item.children, row)
+    if (item[childrenKey]) {
+      row.children = wrapDataRows(item[childrenKey], row, childrenKey)
     }
     return row
   })
 }
 
-export function unwrapRows(rows: MultipleFormRow[]) {
+export function unwrapRows(rows: MultipleFormRow[], childrenKey: string) {
   return rows.map(row => {
     const { data } = row
     if (row.children) {
-      data.children = unwrapRows(row.children)
+      data[childrenKey] = unwrapRows(row.children, childrenKey)
     }
     return data
   })
@@ -91,7 +91,7 @@ export function unwrapRows(rows: MultipleFormRow[]) {
  */
 export function flatTree<T extends Record<string, any>>(
   arr: T[],
-  acc: T[] = []
+  acc: T[] = [],
 ) {
   arr.forEach(item => {
     acc.push(item)

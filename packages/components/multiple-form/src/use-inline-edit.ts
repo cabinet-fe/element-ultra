@@ -152,6 +152,7 @@ export default function useInlineEdit(options: Options) {
 
     // 校验多条数据时以字段循环为优先
     if (Array.isArray(data)) {
+      const { childrenKey } = props
       const recursiveValidate = async (
         field: string,
         data: Record<string, any>[]
@@ -165,8 +166,8 @@ export default function useInlineEdit(options: Options) {
             errorTips[field] = errorMsg
           }
 
-          if (item.children) {
-            await recursiveValidate(field, item.children)
+          if (item[childrenKey]) {
+            await recursiveValidate(field, item[childrenKey])
           }
         }
       }
