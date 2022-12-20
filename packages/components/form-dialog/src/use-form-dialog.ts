@@ -81,7 +81,6 @@ export default function useFormDialog<
             deepExtend(item, dialog.data![i])
           })
         }
-
         deepExtend(formData, dialog.data!)
       })
     }

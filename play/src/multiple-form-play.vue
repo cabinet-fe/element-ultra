@@ -31,6 +31,10 @@
       <el-input v-model="row.name" placeholder="名称" />
     </template>
 
+    <template #bol="{ row }">
+      <el-checkbox v-model="row.bol" />
+    </template>
+
     <template #age="{ row }">
       <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
     </template>
@@ -47,6 +51,7 @@
       <el-form-item label="名称">{{ form.name }}</el-form-item>
       <el-input label="名称" field="name"></el-input>
       <el-input label="年龄" field="age"></el-input>
+      <el-checkbox label="布尔" field="bol" />
       <el-input label="学校" field="school"></el-input>
       <el-input label="测试1" field="test.test1" />
       <el-input label="测试2" field="test.test2" />
@@ -63,7 +68,7 @@ import type {
 } from 'element-ultra'
 import { shallowRef } from 'vue'
 
-const mode = $shallowRef<'inline' | 'dialog'>('inline')
+const mode = $shallowRef<'inline' | 'dialog'>('dialog')
 
 const columns: MultipleFormColumn[] = [
   {
@@ -92,6 +97,7 @@ const columns: MultipleFormColumn[] = [
       required: true
     }
   },
+  { name: '布尔值', key: 'bol', defaultValue: true },
   {
     key: 'test',
     name: '美滋滋',
@@ -105,7 +111,7 @@ const columns: MultipleFormColumn[] = [
 ]
 
 let data = $shallowRef<any[]>([
-  { name: 'asdfasf', school: '213', age: 123, test: {} }
+  { name: 'asdfasf', school: '213', age: 123, test: {}, bol: false }
 ])
 
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()

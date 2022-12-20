@@ -100,7 +100,7 @@ export const deepExtend = (
     let value2 = data2[key]
     if (isObject(value1)) {
       isObject(value2) && deepExtend(value1, value2, extendEmpty)
-    } else if (value2 || value2 === 0 || extendEmpty) {
+    } else if ((value2 !== undefined && value2 !== null) || extendEmpty) {
       data1[key] = value2
     }
   }
