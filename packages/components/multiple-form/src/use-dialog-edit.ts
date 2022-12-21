@@ -64,9 +64,11 @@ export default function useDialogEdit(options: Options) {
 
     /** 表格编辑的数据有皆 */
     if (dialog.type === 'create') {
-      insertTo(ctx!.indexes, data, 'view')
+      const row = insertTo(ctx!.indexes, data, 'view')
+      emit('node-change', row, 'create')
     } else {
-      insertTo(ctx!.indexes, data, 'view', true)
+      const row = insertTo(ctx!.indexes, data, 'view', true)
+      emit('node-change', row, 'update')
     }
   }
 

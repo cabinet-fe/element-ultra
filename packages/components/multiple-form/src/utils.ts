@@ -21,6 +21,7 @@ const isRoot = (v: any): v is RootRowConf => v.root === true
  */
 export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
   let row: MultipleFormRow
+  // 根节点
   if (isRoot(rowConf)) {
     row = shallowReactive<MultipleFormRow>({
       root: true,
@@ -34,10 +35,14 @@ export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
       // 根row和根的直接子row的深度都视为0
       depth: 0,
       children: [],
-      loading: false
+      loading: false,
+      leaf: true
     })
   } else {
     const { parent, index, status, children, data } = rowConf
+    if (parent) {
+      parent.leaf = false
+    }
     row = shallowReactive<MultipleFormRow>({
       root: false,
       data: reactive(data),
@@ -48,10 +53,12 @@ export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
       depth: parent.root ? 0 : parent.depth + 1,
       index,
       indexes: parent.indexes.concat(index),
-      loading: false
+      loading: false,
+      leaf: true
     })
     if (children) {
       row.children = children
+      row.leaf = false
     }
   }
 

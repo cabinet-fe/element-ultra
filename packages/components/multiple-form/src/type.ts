@@ -22,7 +22,8 @@ export type MultipleFormRules = {
   validator: (
     value: any,
     model: Record<string, any>,
-    list: Record<string, any>[]
+    list: Record<string, any>[],
+    node: MultipleFormRow
   ) => Promise<string> | string
 }
 
@@ -56,7 +57,14 @@ export type MultipleFormColumn = {
   visible?: boolean
 
   /** 自定义渲染 */
-  render?: (val: any, row: any, index: number) => any
+  render?: (ctx: {
+    val: any
+    row: any
+    index: number
+    v: any
+    indexes: number[]
+    node: MultipleFormRow
+  }) => any
 
   /** 对象嵌套 */
   nest?: MultipleFormColumn[]
@@ -64,7 +72,12 @@ export type MultipleFormColumn = {
   /** 合计 */
   summary?:
     | boolean
-    | ((ctx: { total: number; key: string; data: any[] }) => number | string)
+    | ((ctx: {
+        total: number
+        key: string
+        data: any[]
+        origin: any[]
+      }) => number | string)
 }
 
 /** MultipleForm删除方法 */
@@ -165,6 +178,10 @@ export const multipleFormProps = {
   actionWidth: {
     type: Number,
     default: 120
+  },
+
+  rowClass: {
+    type: [String, Function] as PropType<string | ((node: MultipleFormRow) => string)>
   }
 }
 
@@ -173,6 +190,7 @@ export const multipleFormEmits = {
     true,
   delete: (row: any) => true,
   change: (rows: any[]) => true,
+  'node-change': (node: MultipleFormRow, type: 'create' | 'update' | 'delete') => true,
   'update:data': (rows: any[]) => true
 }
 
@@ -200,4 +218,6 @@ export type MultipleFormRow = {
   children?: MultipleFormRow[]
   /** 进度中 */
   loading: boolean
+  /** 是否为叶子节点 */
+  leaf: boolean
 }

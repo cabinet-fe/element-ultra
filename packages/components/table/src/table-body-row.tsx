@@ -1,4 +1,4 @@
-import { defineComponent, inject, PropType } from 'vue'
+import { defineComponent, inject, PropType, computed } from 'vue'
 import { tableToken } from './token'
 import type { TableRow, FinalTableColumn } from './table'
 import { getChainValue } from '@element-ultra/utils'
@@ -49,6 +49,15 @@ export default defineComponent({
       )
     }
 
+    const getRowClass = computed(() => {
+      const { rowClass } = rootProps
+      if (typeof rowClass === 'function') {
+        return () => rowClass(props.row)
+      }
+      return () => rowClass
+    })
+
+
     return () => {
       const layouts = columnLayouts.value
 
@@ -68,7 +77,7 @@ export default defineComponent({
         })
       })
 
-      return <tr tabindex="0" class={[ns.e('row'), rootProps.rowClass]}>{tds}</tr>
+      return <tr tabindex="0" class={[ns.e('row'), getRowClass.value()]}>{tds}</tr>
     }
   }
 })

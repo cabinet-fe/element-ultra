@@ -30,7 +30,7 @@ interface Options {
   insertTo: ReturnType<typeof useRows>['insertTo']
   emit: MultipleFormEmits
   delRow: (indexes: number | number[]) => void
-  validate: (data: Record<string, any>) => Promise<boolean>
+  validate: (row: MultipleFormRow) => Promise<boolean>
   open: (type: 'create' | 'update', options: any) => void
 }
 
@@ -60,7 +60,14 @@ export default function useColumns(options: Options) {
     view: ({ val, row }, column) => {
       const viewSlot = slots[column.key + ':view']
       if (column.render) {
-        const ret = column.render(val, row.data, row.index)
+        const ret = column.render({
+          val,
+          v: val,
+          node: row,
+          row: row.data,
+          index: row.index,
+          indexes: [...row.indexes]
+        })
         if (ret instanceof Object) {
           return isVNode(ret) ? ret : String(ret)
         }
@@ -68,9 +75,12 @@ export default function useColumns(options: Options) {
       }
       if (viewSlot) {
         return viewSlot({
+          node: row,
+          val,
+          v: val,
           row: row.data,
           index: row.index,
-          indexes: row.indexes
+          indexes: [...row.indexes]
         })
       }
 
@@ -81,10 +91,11 @@ export default function useColumns(options: Options) {
       const slot = slots[column.key]
       return slot
         ? slot({
+            node: row,
             row: row.data,
             val,
             index: row.index,
-            indexes: row.indexes
+            indexes: [...row.indexes]
           })
         : val
     }
@@ -150,7 +161,7 @@ export default function useColumns(options: Options) {
 
   /** 保存 */
   const handleSave = async (row: MultipleFormRow) => {
-    const valid = await validate(row.data)
+    const valid = await validate(row)
     if (!valid) return
 
     let stopped = false
@@ -163,7 +174,7 @@ export default function useColumns(options: Options) {
         parent: row.parent?.data,
         type: !row.saved ? 'create' : 'update',
         index: row.index,
-        indexes: row.indexes
+        indexes: [...row.indexes]
       })
 
       // 异步
@@ -191,6 +202,7 @@ export default function useColumns(options: Options) {
       !row.saved ? 'create' : 'update',
       row.parent?.data
     )
+    emit('node-change', row,  !row.saved ? 'create' : 'update')
 
     row.status = 'view'
     row.saved = true
@@ -244,7 +256,7 @@ export default function useColumns(options: Options) {
         data: row.data,
         saved: row.saved,
         index: row.index,
-        indexes: row.indexes
+        indexes: [...row.indexes]
       })
 
       if (result instanceof Promise) {
@@ -260,6 +272,7 @@ export default function useColumns(options: Options) {
     }
 
     emit('delete', row.data)
+    emit('node-change', row, 'delete')
     delRow(row.indexes)
 
     if (row === currentEditRow) {
@@ -363,8 +376,7 @@ export default function useColumns(options: Options) {
         let actionSlotName = ''
         if (row.status === 'view') {
           actionSlotName = 'action:view-mode'
-        }
-        else if (row.status === 'editing') {
+        } else if (row.status === 'editing') {
           actionSlotName = 'action:edit-mode'
         }
         // ...以后获取会添加其他的
@@ -373,7 +385,7 @@ export default function useColumns(options: Options) {
           ? slots[actionSlotName]?.({
               row: row.data,
               index: row.index,
-              indexes: row.indexes
+              indexes: [...row.indexes]
             })
           : ''
 
@@ -450,6 +462,8 @@ export default function useColumns(options: Options) {
           </ElTooltip>
         ) : null
 
+        const { summary } = column
+
         return {
           name: () => (
             <>
@@ -461,7 +475,15 @@ export default function useColumns(options: Options) {
           align: column.align,
           key: 'data.' + column.key, // data.key才是真实数据
           render: ctx => renders[ctx.row.status](ctx, column),
-          summary: column.summary
+          summary:
+            summary === true
+              ? summary
+              : summary ? ({ total, key, data }) => summary({
+                total,
+                key,
+                data,
+                origin: props.data || []
+              }) : undefined
         }
       })
 

@@ -1,6 +1,7 @@
 import { computed, shallowReactive } from 'vue'
 import type {
   MultipleFormProps,
+  MultipleFormRow,
   MultipleFormRules
 } from './type'
 
@@ -109,23 +110,24 @@ export default function useInlineEdit(options: Options) {
    * 校验单个字段
    * @param fieldValue 字段值
    * @param fieldRules 字段的校验规则
-   * @param data 单挑数据
+   * @param row 单行
    */
   const validateField = async (
     fieldValue: any,
     fieldRules: Partial<MultipleFormRules>,
-    data: any
+    row: MultipleFormRow
   ) => {
     const { validator, required, ...otherRules } = fieldRules
 
+    // 校验必填
     const errorMsg = singleRuleValidate('required', fieldValue, required)
     if (errorMsg) return errorMsg
 
-    if (!fieldValue && fieldValue !== 0) return
+    if (required && !fieldValue && fieldValue !== 0) return
 
     // validator独立校验
     if (validator) {
-      const errorMsg = await validator(fieldValue, data, props.data ?? [])
+      const errorMsg = await validator(fieldValue, row.data, props.data ?? [], row)
       if (errorMsg) return errorMsg
     }
 
@@ -142,45 +144,44 @@ export default function useInlineEdit(options: Options) {
 
   /**
    * 校验数据
-   * @param data 数据项
+   * @param row 节点
    */
-  async function validate(data: Record<string, any>[] | Record<string, any>) {
+  async function validate(row: MultipleFormRow[] | MultipleFormRow) {
     // 校验前先清空之前的校验信息
     clearValidate()
 
     const rules = columnRules.value
 
     // 校验多条数据时以字段循环为优先
-    if (Array.isArray(data)) {
-      const { childrenKey } = props
+    if (Array.isArray(row)) {
       const recursiveValidate = async (
         field: string,
-        data: Record<string, any>[]
+        row: MultipleFormRow[]
       ) => {
         let i = -1
 
-        while (++i < data.length && !errorTips[field]) {
-          let item = data[i]
-          let errorMsg = await validateField(item[field], rules[field], item)
+        while (++i < row.length && !errorTips[field]) {
+          let item = row[i]
+          let errorMsg = await validateField(item.data[field], rules[field], item)
           if (errorMsg) {
             errorTips[field] = errorMsg
           }
 
-          if (item[childrenKey]) {
-            await recursiveValidate(field, item[childrenKey])
+          if (item.children) {
+            await recursiveValidate(field, item.children)
           }
         }
       }
 
       for (const field in rules) {
-        await recursiveValidate(field, data)
+        await recursiveValidate(field, row)
       }
     }
 
     // 校验单条数据
     else {
       for (const field in rules) {
-        const errorMsg = await validateField(data[field], rules[field], data)
+        const errorMsg = await validateField(row.data[field], rules[field], row)
         if (errorMsg) {
           errorTips[field] = errorMsg
         }

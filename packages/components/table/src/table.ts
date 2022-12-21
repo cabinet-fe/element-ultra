@@ -78,7 +78,7 @@ export const tableProps = {
 
   /** 行class */
   rowClass: {
-    type: String
+    type: [String, Function] as PropType<string | ((row: any) => string)>
   },
 
   /** 行唯一标识的key, 建议加上以提高性能 */

@@ -105,7 +105,7 @@ export default defineComponent({
       /** 更新数据 */
       update,
       /** 校验数据 */
-      validate: () => validate(root.children!.map(item => item.data)),
+      validate: () => validate(root.children!),
       /** 清楚校验 */
       clearValidate,
       open,
@@ -159,6 +159,7 @@ export default defineComponent({
             columns={cols}
             data={flatTree(root.children!)}
             ref='tableRef'
+            rowClass={this.rowClass}
             style={{
               height: (this.$attrs.style as any)?.height
                 ? `calc(100% - ${accHeight}px)`
