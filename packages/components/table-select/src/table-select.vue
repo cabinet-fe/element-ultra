@@ -1,24 +1,33 @@
 <template>
   <div :class="ns.b()" v-if="!noTrigger || !hide">
-    <!-- 触发器 -->
-    <span
-      v-if="!noTrigger && !tableSelectDisabled"
-      @click="!tableSelectDisabled && dialogRef?.open()"
-      :class="ns.e('btn')"
-    >
-      <slot>
-        <el-button :disabled="tableSelectDisabled" type="primary">选择</el-button>
-      </slot>
-    </span>
+    <template v-if="!tableSelectDisabled">
+      <!-- 触发器 -->
+      <span
+        v-if="!noTrigger"
+        @click="!tableSelectDisabled && dialogRef?.open()"
+        :class="ns.e('btn')"
+      >
+        <slot>
+          <el-button :disabled="tableSelectDisabled" type="primary"
+            >选择</el-button
+          >
+        </slot>
+      </span>
 
-    <!-- 清空数据 -->
-    <el-popconfirm v-if="clearable" @confirm="handleClear()" :hide-after="0" title="确定清空">
-      <template #reference>
-        <el-button :disabled="tableSelectDisabled" type="warning">
-          {{ clearText }}
-        </el-button>
-      </template>
-    </el-popconfirm>
+      <!-- 清空数据 -->
+      <el-popconfirm
+        v-if="clearable"
+        @confirm="handleClear()"
+        :hide-after="0"
+        title="确定清空"
+      >
+        <template #reference>
+          <el-button :disabled="tableSelectDisabled" type="warning">
+            {{ clearText }}
+          </el-button>
+        </template>
+      </el-popconfirm>
+    </template>
 
     <!-- 数据展示表格 -->
     <ElTable
