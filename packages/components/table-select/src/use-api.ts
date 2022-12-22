@@ -38,7 +38,7 @@ export default function useApi(options: Options) {
     if (reset) {
       pageQuery.page = 1
     }
-    const { query } = props
+    const { query, pagination } = props
 
     let realQuery = Object.keys(query || {}).reduce((acc, cur) => {
       let v = query![cur]
@@ -56,7 +56,7 @@ export default function useApi(options: Options) {
         api,
         query: {
           ...realQuery,
-          ...pageQuery
+          ...(pagination ? pageQuery : {})
         }
       })
       .finally(() => {
