@@ -350,6 +350,9 @@ export default function useColumns(options: Options) {
 
           // 新增子级
           tree &&
+          (props.maxDepth !== undefined
+            ? props.maxDepth > row.depth
+            : true) &&
             buttons.push(
               <ElButton
                 type='primary'

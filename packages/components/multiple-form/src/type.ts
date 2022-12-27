@@ -182,6 +182,10 @@ export const multipleFormProps = {
 
   rowClass: {
     type: [String, Function] as PropType<string | ((node: MultipleFormRow) => string)>
+  },
+
+  maxDepth: {
+    type: Number
   }
 }
 
