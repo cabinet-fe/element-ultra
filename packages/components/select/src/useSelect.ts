@@ -407,9 +407,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // TODO修复多选时的label问题, 优化select的性能
   const onSelect = (option: Record<string, any>, idx: number, byClick = true) => {
-    const { modelValue } = props
+    const { modelValue, multiple } = props
 
-    if (isMultiple(modelValue)) {
+    if (multiple) {
       let selectedOptions = (modelValue || []).slice()
 
       const index = getValueIndex(selectedOptions, getValue(option))
@@ -672,8 +672,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const initStates = () => {
     resetHoveringIndex()
-    const { modelValue } = props
-    if (isMultiple(modelValue)) {
+    const { modelValue, multiple } = props
+    if (multiple) {
       if ((modelValue || []).length > 0) {
         let initHovering = false
         states.cachedOptions.length = 0
@@ -744,6 +744,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       deep: true
     }
   )
+
+  watch(() => props.multiple, m => {
+    update(m ? [] : '', m ? [] : '', null)
+  })
 
   watch(
     () => props.options,
