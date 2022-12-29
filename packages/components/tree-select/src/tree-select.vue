@@ -35,6 +35,7 @@
               :closable="treeSelectDisabled ? false : true"
               :class="ns.e('item')"
               type="info"
+              max-width="100px"
               @close="handleCloseTag(tag, i)"
             >
               {{ tag[labelKey] }}
@@ -47,6 +48,7 @@
             <el-tag
               v-for="(tag, i) in tagList"
               :key="tag.id"
+              max-width="100px"
               :closable="treeSelectDisabled ? false : true"
               :class="ns.e('item')"
               type="info"

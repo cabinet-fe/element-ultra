@@ -70,6 +70,12 @@ $tag-icon-span-gap: map.merge(
     }
   }
 
+  @include e(content) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   @include when(hit) {
     border-color: getCssVar('color', 'primary');
   }
@@ -166,7 +172,6 @@ $tag-icon-span-gap: map.merge(
       transform: scale(0.8);
     }
   }
-
   @each $type in $types {
     &.#{bem('tag', '', $type)} {
       @include when(hit) {

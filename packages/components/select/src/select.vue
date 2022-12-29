@@ -47,6 +47,7 @@
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
+                  max-width="100px"
                   @close="deleteTag($event, states.cachedOptions[0])"
                 >
                   <span
@@ -86,6 +87,7 @@
                   :closable="!selectDisabled && !selected.disabled"
                   :size="collapseTagSize"
                   type="info"
+                  max-width="100px"
                   disable-transitions
                   @close="deleteTag($event, selected)"
                 >

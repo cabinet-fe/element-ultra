@@ -19,6 +19,9 @@ export const tagProps = {
     type: String as PropType<'dark' | 'light' | 'plain'>,
 
     default: 'light'
+  },
+  maxWidth: {
+    type: String
   }
 }
 export type TagProps = ExtractPropTypes<typeof tagProps>

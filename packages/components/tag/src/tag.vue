@@ -5,7 +5,7 @@
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
-    <span :class="ns.e('content')">
+    <span :style="{ maxWidth }" :class="ns.e('content')">
       <slot></slot>
     </span>
     <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
