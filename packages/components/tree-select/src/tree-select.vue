@@ -1,8 +1,9 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(inputSize), $attrs.class]"
+    :class="[ns.b(), ns.m(inputSize)]"
     ref="treeSelectRef"
     @click="openDialog"
+    v-bind="$attrs"
   >
     <div
       ref="inputRef"
