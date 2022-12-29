@@ -138,7 +138,7 @@ export function useApi(options: Options) {
 
   const valueParser: Record<string, (v: string) => any> = {
     n: (v: string) => +v,
-    a: (v: string) => v.split(',')
+    a: (v: string) => v ? v.split(',') : []
   }
   /** 读取地址栏参数 */
   const readUrlParams = () => {
