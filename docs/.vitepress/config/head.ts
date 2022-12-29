@@ -1,7 +1,4 @@
-import fs from 'fs'
-import path from 'path'
-import { vpRoot } from '../utils/paths'
-import { features } from './features'
+
 import type { HeadConfig } from 'vitepress'
 
 // head标签中的东西
@@ -38,10 +35,3 @@ gtag('js', new Date());
 gtag('config', 'UA-175337989-1');`,
   ],
 ]
-if (features.theme) {
-  head.push([
-    'script',
-    {},
-    fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-  ])
-}

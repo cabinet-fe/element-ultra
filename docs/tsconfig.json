@@ -10,11 +10,11 @@
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
+    "types": ["../typings/components"],
+    "jsx": "preserve",
     "paths": {
       "element-ultra": ["../packages/element-ultra"]
-    },
-    "types": ["../typings/components"],
-    "jsx": "preserve"
+    }
   },
   "include": ["**/*", ".vitepress/**/*"],
   "exclude": ["node_modules"]

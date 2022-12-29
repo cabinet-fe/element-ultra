@@ -1,15 +1,12 @@
 import ElementUltra, { useConfig, type ProTableRequestMethod } from 'element-ultra'
-import Layout from './components/vp-app.vue'
-import NotFound from './components/vp-not-found.vue'
-
-import { Theme } from 'vitepress'
-
-import 'uno.css'
+import Layout from './components/layout.vue'
+import NotFound from './components/not-found.vue'
+import type { Theme } from 'vitepress'
+import './styles/app.scss'
+import '@element-ultra/theme-chalk/src/index.scss'
 
 const request: ProTableRequestMethod = ({ api, query }) => {
-  //  在控制台查看参数
-  console.log('api: ', api)
-  console.log('query', query)
+
   return new Promise((rs, rj) => {
     setTimeout(() => {
       const data = Array.from({ length: 20 }).map((_, i) => ({

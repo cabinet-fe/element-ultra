@@ -1,6 +1,5 @@
 import path from 'path'
 import { defineConfig } from 'vite'
-import UnoCSS from 'unocss/vite'
 import glob from 'fast-glob'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import VueMacros from 'unplugin-vue-macros/vite'
@@ -9,21 +8,8 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { epPackage } from '../gulpfile/utils/paths'
 import { projRoot } from './.vitepress/utils/paths'
-import type { Alias } from 'vite'
+import fs from 'fs'
 
-const alias: Alias[] = []
-if (process.env.DOC_ENV !== 'production') {
-  alias.push(
-    {
-      find: /^element-ultra$/,
-      replacement: path.resolve(projRoot, 'packages/element-ultra/index.ts')
-    },
-    {
-      find: /^element-ultra\/(.*)$/,
-      replacement: `${path.resolve(projRoot, 'packages')}/$1`
-    }
-  )
-}
 
 export default defineConfig(async () => {
   const dependencies = Object.keys(require(epPackage).dependencies)
@@ -53,9 +39,6 @@ export default defineConfig(async () => {
         allow: [projRoot]
       }
     },
-    resolve: {
-      alias
-    },
     plugins: [
       VueMacros({
         setupComponent: false,
@@ -84,8 +67,31 @@ export default defineConfig(async () => {
       Icons({
         autoInstall: true
       }),
-      UnoCSS(),
+
       // Inspect()
+      {
+        name: 'md-transform',
+        enforce: 'pre',
+        async transform(code, id) {
+          const targetDir = 'component/'
+          const modulePath = id.split(targetDir)[1]?.replace(/\.md/, '')
+
+          const hasDemos = fs.existsSync(
+            path.resolve(__dirname, `./examples/${modulePath}`)
+          )
+
+          // 只对utils文件夹里面的
+          if (!id.endsWith('.md') || !id.includes(targetDir) || !hasDemos)
+            return
+
+          const script = `<script setup>
+            const demos = import.meta.globEager('../examples/${modulePath}/*.vue')
+          </script>\n`
+
+          // 返回一个相对该md文件的相对路径的
+          return `${script} ${code}`
+        }
+      }
     ],
     optimizeDeps: {
       include: optimizeDeps
