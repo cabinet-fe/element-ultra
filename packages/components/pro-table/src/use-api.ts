@@ -30,8 +30,14 @@ export function useApi(options: Options) {
     let queryStr = Object.keys(_query)
       .reduce((acc, key) => {
         const v = _query[key]
+        let t = ''
+        if (Array.isArray(v)) {
+          t = '@a'
+        } else if (typeof v === 'number') {
+          t = '@n'
+        }
         if ([undefined, null, ''].includes(v)) return acc
-        return (acc += `${key}=${String(v)}&`)
+        return (acc += `${key + t}=${String(v)}&`)
       }, '')
       .slice(0, -1)
 
@@ -130,9 +136,9 @@ export function useApi(options: Options) {
     defaultQuery.value = JSON.parse(JSON.stringify(query))
   }
 
-  const valueHandler: Record<string, (v: string) => any> = {
-    number: (v: string) => +v,
-    array: (v: string) => v.split(',')
+  const valueParser: Record<string, (v: string) => any> = {
+    n: (v: string) => +v,
+    a: (v: string) => v.split(',')
   }
   /** 读取地址栏参数 */
   const readUrlParams = () => {
@@ -142,18 +148,15 @@ export function useApi(options: Options) {
 
     search.split('&').forEach(item => {
       let [key, val] = decodeURIComponent(item).split('=')
-      if (key in query) {
-        let valType = Object.prototype.toString
-          .call(query)
-          .slice(8, -1)
-          .toLowerCase()
-        if (valueHandler[valType]) {
-          val = valueHandler[valType](val)
-        }
-        query[key] = val
-      } else if (key in pageQuery) {
+      let [_key, t] = key.split('@')
+      if (valueParser[t]) {
+        val = valueParser[t](val)
+      }
+      if (_key in query) {
+        query[_key] = val
+      } else if (_key in pageQuery) {
         // @ts-ignore
-        pageQuery[key] = +val
+        pageQuery[_key] = val
       }
     })
   }
@@ -183,7 +186,6 @@ export function useApi(options: Options) {
       stopWatchQueryField?.()
       // 设置默认query值
       setDefaultQuery(query)
-
       if (!query) return
 
       // 读取url中的参数到query和pageQuery中

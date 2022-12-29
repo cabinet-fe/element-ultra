@@ -123,6 +123,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       !selectDisabled.value &&
       states.comboBoxHovering &&
       hasValue
+
     return criteria
   })
 
@@ -674,11 +675,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     resetHoveringIndex()
     const { modelValue, multiple } = props
     if (multiple) {
-      if ((modelValue || []).length > 0) {
+      if (!modelValue) return
+      if (modelValue.length > 0) {
         let initHovering = false
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
-        ;(props.modelValue as Array<any>).map(selected => {
+
+        props.modelValue.map?.(selected => {
           const itemIndex = filteredOptions.value.findIndex(
             option => getValue(option) === selected
           )

@@ -123,10 +123,6 @@ export const multipleFormProps = {
     type: Function as PropType<MultipleFormSaveMethod>
   },
 
-  rowKey: {
-    type: String
-  },
-
   childrenKey: {
     type: String,
     default: 'children'
@@ -166,26 +162,36 @@ export const multipleFormProps = {
     default: true
   },
 
+  /** 是否禁用 */
   disabled: {
     type: Boolean,
     default: undefined
   },
 
+  /** 标题 */
   title: {
     type: String
   },
 
+  /** 操作栏宽度 */
   actionWidth: {
     type: Number,
     default: 120
   },
 
+  /** 行类 */
   rowClass: {
     type: [String, Function] as PropType<string | ((node: MultipleFormRow) => string)>
   },
 
+  /** 树形操作允许的最大深度 */
   maxDepth: {
     type: Number
+  },
+
+  /** 是否开启拖拽排序 */
+  sortable: {
+    type: Boolean
   }
 }
 
@@ -203,6 +209,7 @@ export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
 export type MultipleFormEmits = EmitFn<typeof multipleFormEmits>
 
 export type MultipleFormRow = {
+  uid: number
   root: boolean
   /** 数据本身 */
   data: any

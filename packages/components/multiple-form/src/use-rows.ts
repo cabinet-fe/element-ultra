@@ -16,6 +16,9 @@ interface Options {
 export default function useRows(options: Options) {
   const { props, emit } = options
 
+  let originId = 1
+  let uid = () => originId++
+
   /** 根行 */
   const root = createRow({
     root: true
@@ -52,7 +55,7 @@ export default function useRows(options: Options) {
     () => props.data,
     data => {
       if (!data || editByUser) return
-      root.children = wrapDataRows(data, root, props.childrenKey)
+      root.children = wrapDataRows(data, root, props.childrenKey, uid)
     },
     { immediate: true }
   )
@@ -113,6 +116,7 @@ export default function useRows(options: Options) {
 
       const row = createRow({
         parent,
+        uid: uid(),
         data: rowData,
         index: lastIndex,
         status,

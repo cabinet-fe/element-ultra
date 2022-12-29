@@ -1,4 +1,4 @@
-import { reactive, shallowReactive } from 'vue'
+import { reactive, shallowReactive, isReactive } from 'vue'
 import type { MultipleFormRow } from './type'
 
 interface RootRowConf {
@@ -11,6 +11,7 @@ interface RowConf {
   index: number
   status: MultipleFormRow['status']
   children?: MultipleFormRow[]
+  uid: number
 }
 
 const isRoot = (v: any): v is RootRowConf => v.root === true
@@ -24,6 +25,7 @@ export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
   // 根节点
   if (isRoot(rowConf)) {
     row = shallowReactive<MultipleFormRow>({
+      uid: 0,
       root: true,
       data: null,
       index: -1,
@@ -39,13 +41,13 @@ export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
       leaf: true
     })
   } else {
-    const { parent, index, status, children, data } = rowConf
+    const { parent, index, status, children, data, uid } = rowConf
     if (parent) {
       parent.leaf = false
     }
     row = shallowReactive<MultipleFormRow>({
       root: false,
-      data: reactive(data),
+      data: isReactive(data) ? data : reactive(data),
       status,
       parent,
       // row初始创建时如果status为editing则视该条数据为未保存状态
@@ -54,7 +56,8 @@ export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
       index,
       indexes: parent.indexes.concat(index),
       loading: false,
-      leaf: true
+      leaf: true,
+      uid
     })
     if (children) {
       row.children = children
@@ -65,17 +68,18 @@ export function createRow(rowConf: RowConf | RootRowConf): MultipleFormRow {
   return row
 }
 
-export function wrapDataRows(data: any[], parent: MultipleFormRow, childrenKey: string) {
+export function wrapDataRows(data: any[], parent: MultipleFormRow, childrenKey: string, uidFactory: () => number) {
   return data.map((item, index) => {
     const row = createRow({
       parent,
       data: item,
       index,
-      status: 'view'
+      status: 'view',
+      uid: uidFactory()
     })
 
     if (item[childrenKey]) {
-      row.children = wrapDataRows(item[childrenKey], row, childrenKey)
+      row.children = wrapDataRows(item[childrenKey], row, childrenKey, uidFactory)
     }
     return row
   })

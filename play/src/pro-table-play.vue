@@ -20,6 +20,7 @@
       />
       <el-input placeholder="插槽" v-model="column.slot" />
       <el-select
+        placeholder="使得"
         :options="presets"
         v-model="column.preset"
         @update:model-value="handleChangePreset(column, $event)"
@@ -30,7 +31,7 @@
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
       <el-input v-for="item of list" :placeholder="item.label" />
-      <el-select :options="[{ label: 'a', value: 'a' }, { label: 'b', value: 'b' }]" v-model="query.$s" />
+      <el-select clearable placeholder="测试" :options="[{ label: 'a', value: 'a' }, { label: 'b', value: 'b' }]" multiple v-model="query.$s" />
       <!-- <span></span> -->
       <!-- <el-date-picker
         placeholder="起止日期"
@@ -87,7 +88,7 @@ const query = shallowRef(
   shallowReactive({
     name: '',
     $date: ['2022-02-14', '2022-08-03'],
-    $s: ''
+    $s: undefined
   })
 )
 

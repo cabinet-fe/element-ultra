@@ -26,7 +26,7 @@ export default defineComponent({
     const tableRef = shallowRef<InstanceType<typeof ElTable>>()
 
     // 行数据
-    const { root, delRow, find, insertTo, update } = useRows({
+    const { root, delRow, find, insertTo, update, emitChange } = useRows({
       props,
       emit,
       tableRef
@@ -48,15 +48,17 @@ export default defineComponent({
     /** 列 */
     const cols = useColumns({
       props,
-      emit,
-      validate,
+      ns,
       errorTips,
+      root,
+      slots,
+      tableRef,
+      validate,
+      emit,
       open,
       delRow,
-      slots,
-      ns,
-      root,
-      insertTo
+      insertTo,
+      emitChange
     })
 
     const changeDialog = (visible: boolean) => {
@@ -165,6 +167,7 @@ export default defineComponent({
                 ? `calc(100% - ${accHeight}px)`
                 : undefined
             }}
+            rowKey='uid'
           ></ElTable>
         </div>
 

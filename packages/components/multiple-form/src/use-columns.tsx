@@ -1,8 +1,16 @@
-import type { TableColumn } from '@element-ultra/components/table'
+import type { ElTable, TableColumn } from '@element-ultra/components/table'
 import { ElButton } from '@element-ultra/components/button'
 import { ElTooltip } from '@element-ultra/components/tooltip'
 import { ElIcon } from '@element-ultra/components/icon'
-import { computed, isVNode, ShallowReactive, Slots } from 'vue'
+import {
+  computed,
+  isVNode,
+  ShallowReactive,
+  Slots,
+  ShallowRef,
+  onMounted,
+  onBeforeUnmount
+} from 'vue'
 import type {
   MultipleFormColumn,
   MultipleFormProps,
@@ -15,10 +23,12 @@ import {
   Edit,
   Delete,
   Select,
-  Close
+  Close,
+  Rank
 } from '@element-plus/icons-vue'
 import type { UseNamespaceReturn } from '@element-ultra/hooks'
 import type useRows from './use-rows'
+import Sortable from 'sortablejs'
 
 interface Options {
   props: MultipleFormProps
@@ -26,12 +36,14 @@ interface Options {
   errorTips: ShallowReactive<Record<string, any>>
   ns: UseNamespaceReturn
   root: MultipleFormRow
+  tableRef: ShallowRef<InstanceType<typeof ElTable> | undefined>
   /** 插入数据 */
   insertTo: ReturnType<typeof useRows>['insertTo']
   emit: MultipleFormEmits
   delRow: (indexes: number | number[]) => void
   validate: (row: MultipleFormRow) => Promise<boolean>
   open: (type: 'create' | 'update', options: any) => void
+  emitChange: () => void
 }
 
 type Renders = Record<
@@ -48,13 +60,63 @@ export default function useColumns(options: Options) {
     errorTips,
     slots,
     ns,
+    root,
+    tableRef,
     emit,
     delRow,
     open,
     validate,
-    root,
-    insertTo
+    insertTo,
+    emitChange
   } = options
+
+  const sortable = computed(() => {
+    return props.sortable && !props.tree
+  })
+
+  const exchange = (arr: any[], oIndex: number, nIndex: number) => {
+    if (oIndex < nIndex) {
+      return [
+        ...arr.slice(0, oIndex),
+        ...arr.slice(oIndex + 1, nIndex + 1),
+        arr[oIndex],
+
+        ...arr.slice(nIndex + 1)
+      ]
+    } else {
+      return [
+        ...arr.slice(0, nIndex),
+        arr[oIndex],
+        ...arr.slice(nIndex, oIndex),
+        ...arr.slice(oIndex + 1)
+      ]
+    }
+  }
+
+  let sortInstance: Sortable
+  onMounted(() => {
+    if (!sortable.value) return
+    const tbody =
+      tableRef.value?.tableDom?.getElementsByClassName('el-table__body')?.[0]
+    if (!tbody) return
+    sortInstance = new Sortable(tbody as HTMLElement, {
+      animation: 150,
+      ghostClass: 'el-multiple-form__sort-ghost',
+      handle: '.el-multiple-form__sort-handle',
+
+      onSort(e) {
+        const { oldIndex, newIndex } = e
+
+        if (oldIndex === undefined || newIndex === undefined) return
+        root.children = exchange(root.children!, oldIndex, newIndex)
+        emitChange()
+      }
+    })
+  })
+
+  onBeforeUnmount(() => {
+    sortInstance.destroy()
+  })
 
   const renders: Renders = {
     view: ({ val, row }, column) => {
@@ -202,7 +264,7 @@ export default function useColumns(options: Options) {
       !row.saved ? 'create' : 'update',
       row.parent?.data
     )
-    emit('node-change', row,  !row.saved ? 'create' : 'update')
+    emit('node-change', row, !row.saved ? 'create' : 'update')
 
     row.status = 'view'
     row.saved = true
@@ -350,9 +412,9 @@ export default function useColumns(options: Options) {
 
           // 新增子级
           tree &&
-          (props.maxDepth !== undefined
-            ? props.maxDepth > row.depth
-            : true) &&
+            (props.maxDepth !== undefined
+              ? props.maxDepth > row.depth
+              : true) &&
             buttons.push(
               <ElButton
                 type='primary'
@@ -481,16 +543,39 @@ export default function useColumns(options: Options) {
           summary:
             summary === true
               ? summary
-              : summary ? ({ total, key, data }) => summary({
-                total,
-                key,
-                data,
-                origin: props.data || []
-              }) : undefined
+              : summary
+              ? ({ total, key, data }) =>
+                  summary({
+                    total,
+                    key,
+                    data,
+                    origin: props.data || []
+                  })
+              : undefined
         }
       })
 
+
+    const handleClass = ns.e('sort-handle')
+    const sortableColumn: TableColumn<MultipleFormRow>[] = sortable.value
+      ? [
+          {
+            name: '排序',
+            key: '$_sort',
+            align: 'center',
+            fixed: 'left',
+            width: 60,
+            render: () => (
+              <ElIcon class={handleClass}>
+                <Rank />
+              </ElIcon>
+            )
+          }
+        ]
+      : []
+
     return [
+      ...sortableColumn,
       indexColumn,
       ...(disabled ? tableColumns : tableColumns.concat(actionColumn))
     ]

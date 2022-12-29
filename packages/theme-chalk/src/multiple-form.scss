@@ -59,6 +59,13 @@
     height: 1px;
   }
 
+  @include e(sort-handle) {
+    cursor: move;
+  }
+  @include e(sort-ghost) {
+    visibility: hidden;
+  }
+
   .is-required {
     &::after {
       content: ' *';

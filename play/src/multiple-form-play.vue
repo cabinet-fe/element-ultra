@@ -12,11 +12,11 @@
     title="标题"
     v-model:data="data"
     ref="refer"
-    tree
     style="height: 400px"
     :save-method="handleSave"
     :delete-method="handleDelete"
     :action-width="200"
+    sortable
   >
     <template #action:view-mode="{ data }">
       123
