@@ -29,6 +29,8 @@ export type MultipleFormRules = {
 
 /** 列配置 */
 export type MultipleFormColumn = {
+  fixed: 'left' | 'right'
+
   /** 列的名称, 在表头中显示 */
   name: string
 

@@ -536,6 +536,7 @@ export default function useColumns(options: Options) {
               {tip}
             </>
           ),
+          fixed: column.fixed,
           width: column.width,
           align: column.align,
           key: 'data.' + column.key, // data.key才是真实数据
