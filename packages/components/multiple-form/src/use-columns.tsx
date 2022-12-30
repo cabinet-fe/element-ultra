@@ -115,7 +115,7 @@ export default function useColumns(options: Options) {
   })
 
   onBeforeUnmount(() => {
-    sortInstance.destroy()
+    sortInstance?.destroy()
   })
 
   const renders: Renders = {
