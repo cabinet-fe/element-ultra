@@ -196,7 +196,7 @@
           </span>
           <span :class="ns.e('suffix')">
             <el-icon
-              v-if="iconComponent"
+              v-if="iconComponent && !selectDisabled"
               v-show="!showClearBtn"
               :class="[ns.e('caret'), nsInput.e('icon'), iconReverse]"
             >

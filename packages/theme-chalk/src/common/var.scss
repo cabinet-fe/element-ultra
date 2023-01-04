@@ -222,7 +222,7 @@ $disabled: () !default;
 $disabled: map.merge(
   (
     'bg-color': getCssVar('fill-color', 'light'),
-    'text-color': getCssVar('text-color', 'placeholder'),
+    'text-color': getCssVar('text-color', 'regular'),
     'border-color': getCssVar('border-color', 'light')
   ),
   $disabled
@@ -595,8 +595,8 @@ $input-number: map.merge(
 $input-padding-horizontal: () !default;
 $input-padding-horizontal: map.merge(
   (
-    'large': 16px,
-    'default': 12px,
+    'large': 14px,
+    'default': 10px,
     'small': 8px
   ),
   $input-padding-horizontal
@@ -1182,7 +1182,7 @@ $link: map.merge(
     'font-weight': getCssVar('font-weight-primary'),
     'text-color': getCssVar('text-color-regular'),
     'hover-text-color': getCssVar('color-primary'),
-    'disabled-text-color': getCssVar('text-color-placeholder')
+    'disabled-text-color': getCssVar('text-color-regular')
   ),
   $link
 );

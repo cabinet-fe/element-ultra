@@ -71,10 +71,10 @@
         <!-- 输入框，可以用来对列表进行查询 -->
       </div>
 
-      <el-icon :class="[ns.e('icon')]">
+      <el-icon :class="[ns.e('icon')]" v-if="!treeSelectDisabled">
         <CircleClose
           :class="ns.e('close')"
-          v-if="!treeSelectDisabled && clearable"
+          v-if="clearable"
           @click.stop="handleClear"
         />
         <ArrowDown v-else />

@@ -5,6 +5,7 @@
     :options="options1"
     label-key="text"
     value-key="id"
+    disabled
     v-model="model.value1"
     allow-create
     :multiple="multiple"

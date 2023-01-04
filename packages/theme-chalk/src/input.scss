@@ -81,7 +81,7 @@
     height: map.get($input-height, 'default');
     line-height: map.get($input-height, 'default');
     outline: none;
-    padding: 0 map.get($input-padding-horizontal, 'default')-$border-width;
+    padding: 0 map.get($input-padding-horizontal, 'default');
     transition: var(--el-transition-box-shadow);
     width: 100%;
     @include inset-input-border(
@@ -223,7 +223,7 @@
       @include e(inner) {
         height: map.get($input-height, $size);
         line-height: map.get($input-height, $size);
-        padding: 0 map.get($input-padding-horizontal, $size)-$border-width;
+        padding: 0 map.get($input-padding-horizontal, $size);
       }
 
       .#{$namespace}-input__icon {

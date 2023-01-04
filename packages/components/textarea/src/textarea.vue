@@ -5,7 +5,7 @@
       ns.is('disabled', inputDisabled),
       ns.is('exceed', inputExceed),
 
-      $attrs.class,
+      $attrs.class
     ]"
     :style="containerStyle"
     @mouseenter="onMouseEnter"
@@ -43,11 +43,9 @@ import {
   computed,
   watch,
   nextTick,
-  getCurrentInstance,
   ref,
   shallowRef,
-  onMounted,
-  onUpdated,
+  onMounted
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-ultra/components/icon'
@@ -57,7 +55,7 @@ import {
   useAttrs,
   useDisabled,
   useFormItem,
-  useNamespace,
+  useNamespace
 } from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { calcTextareaHeight } from './calc-textarea-height'
@@ -94,7 +92,7 @@ export default defineComponent({
     const computedTextareaStyle = computed<StyleValue>(() => [
       props.innerStyle,
       _textareaCalcStyle.value,
-      { resize: props.resize },
+      { resize: props.resize }
     ])
     const nativeInputValue = computed(() =>
       props.modelValue === null || props.modelValue === undefined
@@ -126,11 +124,11 @@ export default defineComponent({
         const minRows = isObject(autosize) ? autosize.minRows : undefined
         const maxRows = isObject(autosize) ? autosize.maxRows : undefined
         _textareaCalcStyle.value = {
-          ...calcTextareaHeight(textarea.value!, minRows, maxRows),
+          ...calcTextareaHeight(textarea.value!, minRows, maxRows)
         }
       } else {
         _textareaCalcStyle.value = {
-          minHeight: calcTextareaHeight(textarea.value!).minHeight,
+          minHeight: calcTextareaHeight(textarea.value!).minHeight
         }
       }
     }
@@ -263,8 +261,8 @@ export default defineComponent({
       onMouseLeave,
       onMouseEnter,
       handleKeydown,
-      ns,
+      ns
     }
-  },
+  }
 })
 </script>

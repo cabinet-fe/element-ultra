@@ -4,12 +4,21 @@
       {{ data }}
     </div>
 
-    <el-card header="表单数据">
-      <el-form ref="formRef" :data="data" label-width="80px" :rules="rules">
+
+
+    <el-card>
+      <template #header>
+        <span> 表单数据 </span>
+        <el-checkbox v-model="disabled">是否禁用</el-checkbox>
+      </template>
+
+      <el-form :disabled="disabled" ref="formRef" :data="data" label-width="80px" :rules="rules">
         <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
+
+        <el-checkbox label="是否选中" field="checked" />
 
         <el-cascade
           label="级联"
@@ -82,6 +91,8 @@
 
         <el-input label="测试1" field="test.test1" />
         <el-input label="测试2" field="test.test2" />
+
+        <el-textarea field="xing" label="姓氏"  show-word-limit maxlength="12" />
       </el-form>
     </el-card>
 
@@ -124,7 +135,8 @@ const [data, rules] = useFormModel(
     phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
     type: { value: '2' },
     code: { value: '' },
-    address: { required: true },
+    checked: { value: true },
+    address: { value: 'aas', required: true },
     date: {},
     rangedate: {},
     start: { value: '' },
@@ -157,4 +169,6 @@ const [data, rules] = useFormModel(
 )
 
 const formRef = shallowRef<any>()
+
+const disabled = shallowRef(false)
 </script>
