@@ -25,6 +25,7 @@ export const proTableContextKey: InjectionKey<{
   state: ShallowReactive<{
     total: number
     data: any[]
+    checked: any[]
   }>;
   props: ProTableProps;
   fetchData: (resetPage?: boolean) => Promise<void>
