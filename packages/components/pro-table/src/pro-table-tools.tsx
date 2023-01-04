@@ -10,7 +10,6 @@ import {
   ref,
   shallowRef,
   useSlots,
-  createVNode,
   type Component,
   type VNode,
   type VNodeNormalizedChildren
@@ -18,7 +17,6 @@ import {
 import ElButton from '@element-ultra/components/button'
 import { proTableHeightKey, proTableKey } from './token'
 import { isComment, isFragment, isTemplate } from '@element-ultra/utils'
-import { useConfig } from '@element-ultra/hooks'
 
 export default defineComponent({
   emits: {
@@ -154,17 +152,7 @@ export default defineComponent({
       observer?.disconnect()
     })
 
-    //
-    const [conf] = useConfig()
-    /** 渲染额外的工具栏组件 */
-    const renderExtraTools = () => {
-      if (!conf.proTableExtraTools) return null
-      const nodes = conf.proTableExtraTools.map(component => {
-        return createVNode(component)
-      })
 
-      return nodes
-    }
 
     return () => {
       const { defaultVisibleNodes, nodesCount, restNodes } = getNodes()
@@ -213,7 +201,7 @@ export default defineComponent({
               {expandButton}
             </div>
 
-            <div class={ns.e('tools-box')}>{proTableSlots.tools?.()} {renderExtraTools()}</div>
+            <div class={ns.e('tools-box')}>{proTableSlots.tools?.()}</div>
           </div>
 
           {expanded.value ? (
