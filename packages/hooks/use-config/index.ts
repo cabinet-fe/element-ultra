@@ -46,6 +46,8 @@ export interface ConfigStore {
   zIndex: number
   /** 命名空间 */
   namespace: string
+  /** table工具栏额外工具 */
+  proTableExtraTools?: Component[]
 }
 
 const configStore = shallowReactive<ConfigStore>({

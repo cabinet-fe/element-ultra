@@ -1,10 +1,7 @@
 <template>
   <div :class="[ns.b(), $attrs.class]" :style="{ height }">
     <!-- 表格工具栏 -->
-    <ProTableTools
-      v-if="toolsVisible"
-      @key-enter="fetchData()"
-    >
+    <ProTableTools v-if="toolsVisible" @key-enter="fetchData()">
       <template #searcher>
         <slot name="searcher" />
       </template>
@@ -26,10 +23,10 @@
       :show-index="showIndex"
       :checkable="checkable"
       :selectable="selectable"
-      :checked="checked"
+      :checked="state.checked"
       :selected="selected"
       :tree="tree"
-      @check="emit('check', $event)"
+      @check="handleCheck"
       @select="emit('select', $event)"
       @row-click="handleRowClick"
       @sort="handleSort"
@@ -59,7 +56,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, shallowRef, useSlots, provide } from 'vue'
+import { computed, shallowRef, useSlots, provide, shallowReadonly } from 'vue'
 import {
   ElDataTable,
   DataTableInstance
@@ -122,7 +119,8 @@ const {
   currentQueryStr,
   fetchData,
   handleSort,
-  getParams
+  getParams,
+  handleCheck
 } = useApi({
   props,
   emit,
@@ -188,11 +186,11 @@ provide(proTableKey, {
   defaultQuery,
   currentQueryStr,
   setAutoQuery,
-  fetchData,
+  fetchData
 })
 
 const exposed = {
-  state,
+  state: shallowReadonly(state),
   fetchData,
   props,
   /** 获取查询参数 */

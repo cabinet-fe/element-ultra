@@ -26,6 +26,7 @@
         field="node1"
         label="单选"
         :selectable="selectable"
+        disabled
       />
 
       <el-tree-select

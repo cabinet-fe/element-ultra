@@ -85,6 +85,8 @@ export function useApi(options: Options) {
     total: 0,
     /** 表格的数据 */
     data: [] as any[],
+    /** 选中的数据 */
+    checked: props.checked || [] as any[],
     /** 表格的字段的统计 */
     statistics: undefined as Record<string, any> | undefined
   })
@@ -199,10 +201,17 @@ export function useApi(options: Options) {
   // 第一次请求时可能读取url中的缓存, 因此不重置
   fetchData(false)
 
+
+  // 多选
+  const handleCheck = (checked: any[]) => {
+    state.checked = checked
+    emit('check', checked)
+  }
   return {
     fetchData,
     getParams,
     handleSort,
+    handleCheck,
     state,
     pageQuery,
     loading,

@@ -7,7 +7,6 @@ import '@element-ultra/theme-chalk/src/dark/css-vars.scss'
 const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
-
   proTableRequestMethod(options) {
     return new Promise(rs => {
       setTimeout(() => {
