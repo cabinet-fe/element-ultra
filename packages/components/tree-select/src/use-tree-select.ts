@@ -1,14 +1,31 @@
-import { shallowRef, watch, nextTick, computed, type ShallowRef } from 'vue'
-import type { CheckedInfo, TreeNodeData, ElTree } from '@element-ultra/components/tree'
+import {
+  shallowRef,
+  watch,
+  nextTick,
+  computed,
+  type ShallowRef,
+  ComputedRef
+} from 'vue'
+import type {
+  CheckedInfo,
+  TreeNodeData,
+  ElTree
+} from '@element-ultra/components/tree'
 import type { TreeSelectProps, TreeSelectEmits } from './tree-select'
 import { useFormItem } from '@element-ultra/hooks'
 
-export default function useTreeSelect(
-  props: TreeSelectProps,
-  emit: TreeSelectEmits,
-  treeRef: ShallowRef<InstanceType<typeof ElTree> | undefined>,
+interface Options {
+  props: TreeSelectProps
+  emit: TreeSelectEmits
+  treeRef: ShallowRef<InstanceType<typeof ElTree> | undefined>
   filterer: any
-) {
+  treeSelectDisabled: ComputedRef<boolean>
+}
+
+export default function useTreeSelect(options: Options) {
+  const { props, emit, treeRef, filterer, treeSelectDisabled } = options
+
+
   const dropdownRef = shallowRef<HTMLDivElement>()
   /** 下拉框显隐 */
   const treeVisible = shallowRef(false)
@@ -45,7 +62,7 @@ export default function useTreeSelect(
         return (changedByEvent.value = false)
       }
 
-      nextTick(() =>  setTreeChecked())
+      nextTick(() => setTreeChecked())
     },
     { immediate: true }
   )
@@ -75,7 +92,7 @@ export default function useTreeSelect(
   const position = shallowRef('bottom')
 
   const openDialog = () => {
-    if (props.disabled) return
+    if (treeSelectDisabled.value) return
     treeVisible.value = true
   }
   const closeDialog = () => {

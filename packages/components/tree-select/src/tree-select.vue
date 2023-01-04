@@ -176,12 +176,16 @@ const treeRef = shallowRef<InstanceType<typeof ElTree>>()
 
 const { filterer, filterMethod, handleFilter } = useFilter(props, treeRef)
 
+const inputSize = useSize({ props })
+const treeSelectDisabled = useDisabled({ props })
+
 const {
   tagList,
   selectedLabel,
   treeSelectRef,
   treeVisible,
   clearable,
+
   handleMouseEnter,
   handleMouseLeave,
   emitModelValue,
@@ -190,10 +194,11 @@ const {
   handleCheck,
   handleSelectChange,
   handleCloseTag
-} = useTreeSelect(props, emit, treeRef, filterer)
+} = useTreeSelect({
+  props, emit, treeRef, filterer,  treeSelectDisabled
+})
 
-const inputSize = useSize({ props })
-const treeSelectDisabled = useDisabled({ props })
+
 const inputRef = ref<HTMLInputElement>()
 
 const handleToggleCheck = (v: boolean) => {
