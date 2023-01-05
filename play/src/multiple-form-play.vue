@@ -132,10 +132,13 @@ const addNextLine = (row: any) => {
   }
 }
 
-const handleSave: MultipleFormSaveMethod = async ({ type, parent }) => {
-  await new Promise(rs => {
+const handleSave: MultipleFormSaveMethod = async (ctx) => {
+  return new Promise(rs => {
     setTimeout(() => {
-      rs(true)
+      rs({
+        ...ctx.data,
+        id: Math.random()
+      })
     }, 1000)
   })
 }

@@ -33,10 +33,14 @@ export default function useRows(options: Options) {
   // 一旦是用户操作发起的数据的改变, 则不重新wrapRows从而提高性能
   let editByUser = false
   // 标记为用户操作
-  const markAsUserAction = <Args extends any[], R>(
-    action: (...args: Args) => R
+  const markAsUserAction = <
+    P extends any[],
+    R extends any,
+    Action extends (...args: P) => R
+  >(
+    action: Action
   ) => {
-    return (...args: Args) => {
+    return ((...args: P) => {
       editByUser = true
 
       let ret = action(...args)
@@ -46,7 +50,7 @@ export default function useRows(options: Options) {
       })
 
       return ret
-    }
+    }) as Action
   }
 
   // 不能每次data更新时都重新包裹row
@@ -92,50 +96,56 @@ export default function useRows(options: Options) {
     return target
   }
 
-  const insertTo = markAsUserAction(
-    (
-      indexes: number | number[],
-      rowData: Record<string, any>,
-      status: MultipleFormRow['status'],
-      replaced = false
-    ) => {
-      const _indexes = getIndexes(indexes)
+  /**
+   * 插入
+   * @param indexes 插入的索引路径
+   * @param rowData 行数据
+   * @param status 状态插入后显示的状态, view查看, edit编辑
+   * @param replaced 是否替换掉原有的数据u
+   */
+  const rawInsertTo = (
+    indexes: number | number[],
+    rowData: Record<string, any>,
+    status: MultipleFormRow['status'],
+    replaced = false
+  ) => {
+    const _indexes = getIndexes(indexes)
 
-      const parent = find(_indexes.slice(0, -1))
+    const parent = find(_indexes.slice(0, -1))
 
-      const { children = [] } = parent
-      const lastIndex = _indexes[_indexes.length - 1]
+    const { children = [] } = parent
+    const lastIndex = _indexes[_indexes.length - 1]
 
-      // 插入索引超出范围则视为错误
-      if (lastIndex > children.length) {
-        throw new Error('插入的索引超出范围')
-      }
+    // 插入索引超出范围则视为错误
+    if (lastIndex > children.length) {
+      throw new Error('插入的索引超出范围')
+    }
 
-      const preHalf = children.slice(0, lastIndex)
-      const nextHalf = children.slice(replaced ? lastIndex + 1 : lastIndex)
+    const preHalf = children.slice(0, lastIndex)
+    const nextHalf = children.slice(replaced ? lastIndex + 1 : lastIndex)
 
-      const row = createRow({
-        parent,
-        uid: uid(),
-        data: rowData,
-        index: lastIndex,
-        status,
-        children: replaced ? children[lastIndex].children : undefined
+    const row = createRow({
+      parent,
+      uid: uid(),
+      data: rowData,
+      index: lastIndex,
+      status,
+      children: replaced ? children[lastIndex].children : undefined
+    })
+
+    parent.children = [...preHalf, row, ...nextHalf]
+
+    !replaced &&
+      nextHalf.forEach(row => {
+        row.index++
+        row.indexes[row.indexes.length - 1] = row.index
       })
 
-      parent.children = [...preHalf, row, ...nextHalf]
+    emitChange()
 
-      !replaced &&
-        nextHalf.forEach(row => {
-          row.index++
-          row.indexes[row.indexes.length - 1] = row.index
-        })
-
-      emitChange()
-
-      return row
-    }
-  )
+    return row
+  }
+  const insertTo = markAsUserAction(rawInsertTo)
 
   const update = (indexes: number | number[], rowData: Record<string, any>) => {
     insertTo(indexes, rowData, 'view', true)

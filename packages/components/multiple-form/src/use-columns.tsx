@@ -210,13 +210,18 @@ export default function useColumns(options: Options) {
     }
   }
 
-  /** 新增函数 */
+  /**
+   * 新增函数, 用于表头中的根极新增
+   */
   const handleCreate = () => {
     props.mode === 'inline'
       ? createInlineRow()
       : open('create', {
+          title: '新增',
           ctx: {
-            indexes: [root.children!.length]
+            indexes: [root.children!.length],
+            index: root.children!.length,
+            parent: root
           }
         })
   }
@@ -294,8 +299,11 @@ export default function useColumns(options: Options) {
   const handleEdit = (row: MultipleFormRow) => {
     if (props.mode === 'dialog') {
       open('update', {
+        title: '编辑',
         ctx: {
-          indexes: row.indexes
+          indexes: row.indexes,
+          index: row.index,
+          parent: row.parent
         },
         data: row.data
       })
@@ -348,9 +356,13 @@ export default function useColumns(options: Options) {
    */
   const handleCreateChild = (row: MultipleFormRow) => {
     if (props.mode === 'dialog') {
+      const childIndex = row.children?.length ?? 0
       open('create', {
+        title: '新增子级',
         ctx: {
-          indexes: [...row.indexes, row.children?.length ?? 0]
+          indexes: [...row.indexes, childIndex],
+          index: childIndex,
+          parent: row
         }
       })
     } else {

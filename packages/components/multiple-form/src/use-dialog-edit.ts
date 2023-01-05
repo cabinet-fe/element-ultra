@@ -21,7 +21,7 @@ interface Options {
 }
 
 export default function useDialogEdit(options: Options) {
-  const { props, insertTo, emit } = options
+  const { props, insertTo, emit, root } = options
 
   // 根据列生成数据模型
   const getModel = (columns: MultipleFormColumn[]) => {
@@ -55,21 +55,44 @@ export default function useDialogEdit(options: Options) {
 
   const [dialog, open] = useFormDialog(form)
 
-  const submit = () => {
+  const submit = async () => {
     const { ctx, type } = dialog
+    const { index, indexes, parent } = ctx
+    const { saveMethod } = props
+
     // 因为所有行的model共用同一个, 因此在提交时需要深拷贝一份出来
-    const data = JSON.parse(JSON.stringify(form))
+    let data = JSON.parse(JSON.stringify(form))
+
+    // 如果有saveMethod使用saveMethod
+    if (saveMethod) {
+      const result = await saveMethod({
+        data,
+        index,
+        indexes,
+        parent,
+        rows: root.children!,
+        type: dialog.type
+      })
+
+      // 返回的值为false则视为终止提交
+      if (result === false) {
+        return
+      }
+      // 使用返回的数据作为data
+      if (result && typeof result === 'object') {
+        data = result
+      }
+    }
 
     emit('save', data, props.data!, type!)
-
-    /** 表格编辑的数据有皆 */
-    if (dialog.type === 'create') {
-      const row = insertTo(ctx!.indexes, data, 'view')
-      emit('node-change', row, 'create')
-    } else {
-      const row = insertTo(ctx!.indexes, data, 'view', true)
-      emit('node-change', row, 'update')
-    }
+    const row = insertTo(
+      indexes,
+      data,
+      'view',
+      type === 'create' ? false : true
+    )
+    console.log(row)
+    emit('node-change', row, type)
   }
 
   return {

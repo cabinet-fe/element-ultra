@@ -88,11 +88,18 @@ const submit = async () => {
   if (props.confirm) {
     const p = props.confirm()
     if (p instanceof Promise) {
-      await p.finally(() => {
+      const result = await p.finally(() => {
         loading.value = false
       })
+
+      if (result === false) {
+        return
+      }
     } else {
       loading.value = false
+      if (p === false) {
+        return
+      }
     }
   } else {
     loading.value = false
