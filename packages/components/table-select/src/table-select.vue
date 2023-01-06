@@ -78,8 +78,6 @@ const ns = useNamespace('table-select')
 
 const tableSelectDisabled = useDisabled({ props })
 
-
-
 const { displayData } = useApi({
   props,
   type: 'provide'

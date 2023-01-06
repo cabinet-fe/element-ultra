@@ -74,7 +74,7 @@ let columns = $computed<TableSelectColumn[]>(() => {
 })
 
 let data = shallowRef([
-  { code: 'BM100001', summary: `摘要1`, project: `项目1` },
+  { code: 'BM100001' },
   { code: 'BM100002', summary: `摘要2`, project: `项目2` },
   { code: 'BM100003', summary: `摘要3`, project: `项目3` },
   { code: 'BM100004', summary: `摘要4`, project: `项目4` }

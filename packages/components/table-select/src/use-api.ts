@@ -50,8 +50,9 @@ export default function useApi(options: Options) {
     })
 
     /** 数据value-key映射关系 */
-    const dataValueKeyMap = computed<Record<string, any>>(() => {
-      if (!props.valueKey) return {}
+    const dataValueKeyMap = computed<Record<string, any> | undefined>(() => {
+      if (!props.valueKey || !data.value.length) return
+
       return data.value.reduce((acc, cur) => {
         acc[cur[props.valueKey]] = cur
         return acc
@@ -117,10 +118,12 @@ export default function useApi(options: Options) {
     const displayData = computed(() => {
       const { modelValue, valueKey } = props
       if (!modelValue) return []
+
       const result = Array.isArray(modelValue) ? modelValue : [modelValue]
+
       // 有value-key时优先从valueKeyMap中取数据(数据相对会更加完整)
-      if (valueKey) {
-        return result.map(item => dataValueKeyMap.value[item[valueKey]])
+      if (valueKey && dataValueKeyMap.value) {
+        return result.map(item => dataValueKeyMap.value![item[valueKey]])
       }
       return result
     })
