@@ -8,9 +8,9 @@
         :class="ns.e('btn')"
       >
         <slot>
-          <el-button :disabled="tableSelectDisabled" type="primary"
-            >选择</el-button
-          >
+          <el-button :disabled="tableSelectDisabled" type="primary">
+            选择
+          </el-button>
         </slot>
       </span>
 
@@ -60,10 +60,11 @@ import { tableSelectEmits, tableSelectProps } from './table-select'
 import { ElTable } from '@element-ultra/components/table'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
 import { ElButton } from '@element-ultra/components/button'
-import { computed, provide, shallowRef } from 'vue'
+import { provide, shallowRef } from 'vue'
 import { tableSelectToken } from './token'
 import { useDisabled, useNamespace } from '@element-ultra/hooks'
 import TableSelectDialog from './table-select-dialog.vue'
+import useApi from './use-api'
 
 defineOptions({
   name: 'ElTableSelect',
@@ -77,10 +78,11 @@ const ns = useNamespace('table-select')
 
 const tableSelectDisabled = useDisabled({ props })
 
-const displayData = computed(() => {
-  const { modelValue } = props
-  if (!modelValue) return []
-  return Array.isArray(modelValue) ? modelValue : [modelValue]
+
+
+const { displayData } = useApi({
+  props,
+  type: 'provide'
 })
 
 const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()

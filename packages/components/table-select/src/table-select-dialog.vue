@@ -72,8 +72,9 @@ import useColumns from './use-columns'
 
 const { rootProps, ns, rootEmit } = inject(tableSelectToken)!
 
-const { fetchData, loading, total, pageQuery, data } = useApi({
-  props: rootProps
+const { fetchData, data, loading, total, pageQuery } = useApi({
+  props: rootProps,
+  type: 'inject'
 })
 
 watch(
