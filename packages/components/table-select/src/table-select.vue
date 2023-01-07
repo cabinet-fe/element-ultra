@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b()" v-if="!noTrigger || !hide">
+  <div :class="ns.b()" v-bind="$attrs" v-if="!noTrigger || !hide">
     <template v-if="!tableSelectDisabled">
       <!-- 触发器 -->
       <span
