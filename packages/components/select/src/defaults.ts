@@ -117,6 +117,12 @@ export const SelectProps = {
   },
   selectable: {
     type: Function as PropType<(node: any) => boolean>
+  },
+  text: {
+    type: String
+  },
+  textField: {
+    type: String
   }
 }
 

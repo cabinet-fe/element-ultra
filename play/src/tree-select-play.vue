@@ -1,8 +1,7 @@
 <template>
   <div style="width: 600px; margin: 100px auto">
     <section>
-      <div>node1: {{ data.node1 }}</div>
-      <div>node2: {{ data.node2 }}</div>
+      {{data}}
     </section>
 
     <el-radio-group v-model="size">
@@ -25,8 +24,8 @@
         :data="treeData"
         field="node1"
         label="单选"
+        text-field="node1Label"
         :selectable="selectable"
-        disabled
       />
 
       <el-tree-select
@@ -72,11 +71,14 @@ const size = shallowRef('default' as const)
 const [data, rules] = useFormModel({
   node1: {
     required: true,
-    value: '0'
+    value: 'hi'
   },
   node2: {
     value: ['0'],
     required: true
+  },
+  node1Label: {
+    value: '测试'
   }
 })
 

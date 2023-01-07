@@ -8,14 +8,18 @@
   >
     <template :key="slot.node.key || undefined" v-for="slot of getSlots()">
       <el-form-item
-        ref="formItemRefs"
         v-if="isFormComponent(slot)"
+        ref="formItemRefs"
         v-bind="slot.formItemProps"
       >
         <component
           :is="slot.node"
           :modelValue="getChainValue(data, slot.field)"
+          :text="
+            slot.textField ? getChainValue(data, slot.textField) : undefined
+          "
           @update:model-value="handleUpdateValue(slot.field, $event)"
+          @update:text="handleUpdateText($event, slot.textField)"
         />
       </el-form-item>
       <component v-else :is="slot.node" />
@@ -43,7 +47,12 @@ import { formInjectionKey, formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
 import { useNamespace } from '@element-ultra/hooks'
-import { deepExtend, getChainValue, isFragment, isTemplate } from '@element-ultra/utils'
+import {
+  deepExtend,
+  getChainValue,
+  isFragment,
+  isTemplate
+} from '@element-ultra/utils'
 import { isObject } from 'lodash'
 
 type FormItemType = InstanceType<typeof ElFormItem>
@@ -124,10 +133,29 @@ const handleUpdateValue = (field: string, val: any) => {
   }
 }
 
+const handleUpdateText = (text: any, textField?: string) => {
+  const { data } = props
+  if (!data || !textField) return
+  let fieldItems = textField.split('.')
+
+  // 有多个字段
+  if (fieldItems.length > 1) {
+    let target = data
+    fieldItems.slice(0, -1).forEach(field => {
+      target = target[field]
+    })
+
+    target[fieldItems[fieldItems.length - 1]] = text
+  } else {
+    data[textField] = text
+  }
+}
+
 type FormComponentSlot = {
   node: VNode
   formItemProps: { label: string; field: string; style: any; tips: string }
   field: string
+  textField?: string
 }
 
 type OtherSlot = {
@@ -155,10 +183,13 @@ const getSlots = () => {
       }
 
       if (isObject(node.type) && formComponents.has((node.type as any).name)) {
-        const { label, field, tips, span } = node.props || {}
+        const props =  node.props || {}
+        const { label, field, tips, span } = props
+
         return result.push({
           node,
           field,
+          textField: props.textField || props['text-field'],
           formItemProps: {
             label,
             field,

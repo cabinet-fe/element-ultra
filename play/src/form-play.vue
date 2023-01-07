@@ -73,8 +73,8 @@
         <el-select
           label="选择框"
           :options="[{ label: 'aa', value: '1' }]"
-          multiple
           field="aa"
+          text-field="bb"
         />
 
         <el-date-picker
@@ -141,7 +141,8 @@ const [data, rules] = useFormModel(
     rangedate: {},
     start: { value: '' },
     end: { value: '' },
-    aa: { value: [] },
+    aa: { value: '00' },
+    bb: { value: '默认值测试' },
     num: { value: null },
     cascade: { value: [] },
     xing: { value: '1' },

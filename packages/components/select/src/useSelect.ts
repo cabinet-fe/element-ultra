@@ -244,9 +244,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder
-    return props.multiple
-      ? _placeholder
-      : states.selectedLabel + '' || _placeholder
+    if (props.multiple) return _placeholder
+    return states.selectedLabel + '' || _placeholder
   })
 
   // this obtains the actual popper DOM element.
@@ -343,6 +342,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   function update(val: (string | number)[], label: string[]): void
   function update(val: any, label: any, option?: Record<string, any> | null): void {
     emit(UPDATE_MODEL_EVENT, val, label)
+    emit('update:text', label)
     emitChange(val, label, option)
     states.previousValue = val.toString()
   }
@@ -673,7 +673,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const initStates = () => {
     resetHoveringIndex()
-    const { modelValue, multiple } = props
+    const { modelValue, multiple, text } = props
     if (multiple) {
       if (!modelValue) return
       if (modelValue.length > 0) {
@@ -708,7 +708,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           states.selectedLabel = getLabel(options[selectedItemIndex])
           updateHoveringIndex(selectedItemIndex)
         } else {
-          states.selectedLabel = `${modelValue}`
+          states.selectedLabel =  text ?? String(modelValue)
         }
       } else {
         states.selectedLabel = ''

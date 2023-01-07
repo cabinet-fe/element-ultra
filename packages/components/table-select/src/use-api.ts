@@ -54,7 +54,10 @@ export default function useApi(options: Options) {
       if (!props.valueKey || !data.value.length) return
 
       return data.value.reduce((acc, cur) => {
-        acc[cur[props.valueKey]] = cur
+        let value = cur[props.valueKey]
+        if (value) {
+          acc[value] = cur
+        }
         return acc
       }, {})
     })
@@ -123,7 +126,10 @@ export default function useApi(options: Options) {
 
       // 有value-key时优先从valueKeyMap中取数据(数据相对会更加完整)
       if (valueKey && dataValueKeyMap.value) {
-        return result.map(item => dataValueKeyMap.value![item[valueKey]])
+        return result.map(item => {
+          let value = item[valueKey]
+          return dataValueKeyMap.value![value] || item
+        })
       }
       return result
     })

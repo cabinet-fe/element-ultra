@@ -25,7 +25,6 @@ interface Options {
 export default function useTreeSelect(options: Options) {
   const { props, emit, treeRef, filterer, treeSelectDisabled } = options
 
-
   const dropdownRef = shallowRef<HTMLDivElement>()
   /** 下拉框显隐 */
   const treeVisible = shallowRef(false)
@@ -54,12 +53,13 @@ export default function useTreeSelect(options: Options) {
     return hasValue && hovered.value
   })
 
-  // 只有通过用户事件触发的才调用
+  // 只有不是通过用户事件触发的才调用
   watch(
     [() => props.modelValue, () => props.data],
     () => {
       if (changedByEvent.value) {
-        return (changedByEvent.value = false)
+        changedByEvent.value = false
+        return
       }
 
       nextTick(() => setTreeChecked())
@@ -83,6 +83,7 @@ export default function useTreeSelect(options: Options) {
   const { formItem } = useFormItem()
   const emitModelValue: EmitModelValue = (value, label, model) => {
     emit('update:modelValue', value, label, model)
+    emit('update:text', label)
     formItem?.validate()
   }
 
@@ -133,20 +134,24 @@ export default function useTreeSelect(options: Options) {
     const tree = treeRef.value
     if (!tree) return
 
-    const { modelValue, multiple, labelKey } = props
+    const { modelValue, multiple, labelKey, text } = props
 
+    // 多选选中
     if (Array.isArray(modelValue)) {
       if (!multiple) return
       tree.setCheckedKeys(modelValue)
       tagList.value = tree.getChecked().nodes
-    } else {
+    }
+    // 单选
+    else {
       if (!modelValue && modelValue !== 0) {
         tree?.setCurrentKey('')
         selectedLabel.value = ''
         return
       }
+
       tree.setCurrentKey(modelValue)
-      selectedLabel.value = tree.getCurrentNode()?.[labelKey] ?? ''
+      selectedLabel.value = tree.getCurrentNode()?.[labelKey] ?? text
     }
   }
 

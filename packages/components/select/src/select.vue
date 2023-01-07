@@ -43,7 +43,9 @@
             <template v-if="collapseTags && modelValue.length > 0">
               <div :class="ns.e('selected-item')">
                 <el-tag
-                  :closable="!selectDisabled && !states.cachedOptions[0]?.disable"
+                  :closable="
+                    !selectDisabled && !states.cachedOptions[0]?.disable
+                  "
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
@@ -55,8 +57,9 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`
                     }"
-                    >{{ getLabel(states.cachedOptions[0]) }}</span
                   >
+                    {{ getLabel(states.cachedOptions[0]) }}
+                  </span>
                 </el-tag>
                 <el-tag
                   v-if="modelValue.length > 1"
@@ -101,7 +104,10 @@
                 </el-tag>
               </div>
             </template>
-            <div :class="[ns.e('selected-item'), ns.e('input-wrapper')]" :style="inputWrapperStyle">
+            <div
+              :class="[ns.e('selected-item'), ns.e('input-wrapper')]"
+              :style="inputWrapperStyle"
+            >
               <input
                 :id="id"
                 ref="inputRef"
@@ -188,7 +194,9 @@
               ns.is(
                 'transparent',
                 states.isComposing ||
-                  (placeholder && multiple ? (modelValue || []).length === 0 : !hasModelValue)
+                  (placeholder && multiple
+                    ? (modelValue || []).length === 0
+                    : !hasModelValue)
               )
             ]"
           >
@@ -266,6 +274,7 @@ export default defineComponent({
   props: SelectProps,
   emits: [
     UPDATE_MODEL_EVENT,
+    'update:text',
     CHANGE_EVENT,
     'remove-tag',
     'clear',
