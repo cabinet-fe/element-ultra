@@ -39,14 +39,6 @@
     }
   }
 
-  @include e(operate) {
-    vertical-align: middle;
-  }
-  @include e(create) {
-    margin-left: 8px;
-    padding: 0 2px;
-  }
-
   @include e(index-line) {
     display: inline-block;
     vertical-align: middle;
