@@ -15,6 +15,7 @@
       v-if="columns && columns.length"
       ref="tableRef"
       v-loading="loading"
+      :default-expand-all="defaultExpandAll"
       :height="tableHeight"
       :data="computedData"
       :columns="columns"

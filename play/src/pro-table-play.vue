@@ -12,6 +12,7 @@
     ref="tableRef"
     show-summary
     tree
+    default-expand-all
   >
     <template #column-conf="{ column }">
       <el-input
@@ -27,11 +28,19 @@
       />
     </template>
 
-
     <template #searcher>
       <el-input placeholder="名称" v-model="query.name" />
       <el-input v-for="item of list" :placeholder="item.label" />
-      <el-select clearable placeholder="测试" :options="[{ label: 'a', value: 'a' }, { label: 'b', value: 'b' }]" multiple v-model="query.$s" />
+      <el-select
+        clearable
+        placeholder="测试"
+        :options="[
+          { label: 'a', value: 'a' },
+          { label: 'b', value: 'b' }
+        ]"
+        multiple
+        v-model="query.$s"
+      />
       <!-- <span></span> -->
       <!-- <el-date-picker
         placeholder="起止日期"

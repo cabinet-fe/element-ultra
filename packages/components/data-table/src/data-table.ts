@@ -26,6 +26,11 @@ export const dataTableProps = {
     required: true
   },
 
+  /** 默认展开树形菜单 */
+  defaultExpandAll: {
+    type: Boolean
+  },
+
   /** 指定表格为树形结构 */
   tree: {
     type: [Boolean, String] as PropType<boolean | string>

@@ -15,8 +15,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     /** 排序 */
     sortKeys: shallowReactive<Record<string, 'asc' | 'dsc' | 'default'>>({}),
     /** 数据 */
-    data: [] as (Row | DataTreeRow)[],
-
+    data: [] as (Row | DataTreeRow)[]
   })
 
   let uid = 0
@@ -65,13 +64,19 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     })
   }
   /** 获取碾平后的树形数据 */
-  const getFlatData = () => {
+  const getFlatData = (expandRow?: boolean) => {
     let ret: DataTreeRow[] = []
     let index = 0
-    dfsFlat(treeData.value, row => {
-      row.index = index++
-      ret.push(row)
-    })
+    expandRow
+      ? dfsFlat(treeData.value, row => {
+          row.expanded = true
+          row.index = index++
+          ret.push(row)
+        })
+      : dfsFlat(treeData.value, row => {
+          row.index = index++
+          ret.push(row)
+        })
 
     store.data = ret
   }
@@ -79,13 +84,16 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
   watch(
     () => props.data,
     data => {
+      const { tree, defaultExpandAll } = props
+
       const ret = getWrappedRow(data)
       store.data = ret
-      if (props.tree) {
+
+      if (tree) {
         treeData.value = ret as DataTreeRow[]
+        defaultExpandAll && getFlatData(true)
       }
-    },
-    { immediate: true }
+    }
   )
 
   watch(
