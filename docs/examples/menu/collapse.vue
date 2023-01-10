@@ -50,7 +50,7 @@ import {
   Document as IconDocument,
   Menu as IconMenu,
   Setting,
-} from '@element-plus/icons-vue'
+} from 'icon-ultra'
 
 const isCollapse = ref(true)
 const handleOpen = (key: string, keyPath: string[]) => {

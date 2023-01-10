@@ -194,7 +194,7 @@ import {
   CHANGE_EVENT,
   FORM_COMPONENT_PROPS
 } from '@element-ultra/constants'
-import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
+import { CircleClose, Check, ArrowDown } from 'icon-ultra'
 
 import type { Options } from '@element-ultra/components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'

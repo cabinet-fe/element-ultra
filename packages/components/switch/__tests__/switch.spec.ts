@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Checked, CircleClose } from '@element-plus/icons-vue'
+import { Checked, CircleClose } from 'icon-ultra'
 import Switch from '../src/switch.vue'
 
 jest.useFakeTimers()

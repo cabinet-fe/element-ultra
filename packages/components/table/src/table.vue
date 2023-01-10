@@ -16,7 +16,11 @@
     >
       <TableHeader />
 
-      <TableBody />
+      <TableBody>
+        <template #empty>
+          <slot name="empty" />
+        </template>
+      </TableBody>
 
       <TableFooter v-if="summaryMethods" />
     </table>

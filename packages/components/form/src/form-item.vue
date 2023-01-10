@@ -36,7 +36,7 @@
 import { computed, defineComponent, inject, ref, nextTick, provide } from 'vue'
 import { formItemKey, formKey } from '@element-ultra/tokens'
 import { addUnit } from '@element-ultra/utils'
-import { QuestionFilled } from '@element-plus/icons-vue'
+import { QuestionFilled } from 'icon-ultra'
 import type { CSSProperties } from 'vue'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'

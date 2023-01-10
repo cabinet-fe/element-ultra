@@ -44,7 +44,7 @@ import {
   Message,
   Star,
   Delete,
-} from '@element-plus/icons-vue'
+} from 'icon-ultra'
 </script>
 
 <!-- <style>

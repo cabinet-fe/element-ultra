@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { CaretTop } from '@element-plus/icons-vue'
+import { CaretTop } from 'icon-ultra'
 import Backtop from '../src/backtop.vue'
 
 const _mount = (template: string) =>

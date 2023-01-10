@@ -53,7 +53,7 @@ import { defineComponent, inject, computed, ref } from 'vue'
 import { generateId } from '@element-ultra/utils'
 import ElCollapseTransition from '@element-ultra/components/collapse-transition'
 import ElIcon from '@element-ultra/components/icon'
-import { ArrowRight } from '@element-plus/icons-vue'
+import { ArrowRight } from 'icon-ultra'
 import { useNamespace } from '@element-ultra/hooks'
 
 import type { PropType } from 'vue'

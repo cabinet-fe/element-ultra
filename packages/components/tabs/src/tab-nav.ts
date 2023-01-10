@@ -20,7 +20,7 @@ import {
 } from '@element-ultra/utils'
 import { EVENT_CODE } from '@element-ultra/constants'
 import { ElIcon } from '@element-ultra/components/icon'
-import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight, Close } from 'icon-ultra'
 import { tabsRootContextKey } from '@element-ultra/tokens'
 import TabBar from './tab-bar.vue'
 import type {  CSSProperties } from 'vue'

@@ -1,5 +1,5 @@
 import type { ButtonType } from '@element-ultra/components/button'
-import { QuestionFilled } from '@element-plus/icons-vue'
+import { QuestionFilled } from 'icon-ultra'
 import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 

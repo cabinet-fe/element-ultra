@@ -91,7 +91,6 @@ export default function useDialogEdit(options: Options) {
       'view',
       type === 'create' ? false : true
     )
-    console.log(row)
     emit('node-change', row, type)
   }
 

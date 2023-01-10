@@ -110,7 +110,7 @@ import ElTooltip, {
 } from '@element-ultra/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
 import ElIcon from '@element-ultra/components/icon'
-import { Loading } from '@element-plus/icons-vue'
+import { Loading } from 'icon-ultra'
 
 import type { Placement } from '@element-ultra/components/popper'
 import type { PropType } from 'vue'

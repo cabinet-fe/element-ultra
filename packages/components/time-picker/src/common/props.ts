@@ -1,5 +1,5 @@
 import { isValidComponentSize } from '@element-ultra/utils'
-import { CircleClose } from '@element-plus/icons-vue'
+import { CircleClose } from 'icon-ultra'
 
 import type { PropType, Component } from 'vue'
 import type { Options } from '@popperjs/core'

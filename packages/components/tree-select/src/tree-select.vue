@@ -150,7 +150,7 @@ import ElInput from '@element-ultra/components/input'
 import ElIcon from '@element-ultra/components/icon'
 import ElButton from '@element-ultra/components/button'
 import ElDialog from '@element-ultra/components/dialog'
-import { CircleClose, ArrowDown, Search } from '@element-plus/icons-vue'
+import { CircleClose, ArrowDown, Search } from 'icon-ultra'
 import useTreeSelect from './use-tree-select'
 import useFilter from './use-filter'
 

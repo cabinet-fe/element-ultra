@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Check } from '@element-plus/icons-vue'
+import { Check } from 'icon-ultra'
 </script>
 
 <style scoped>

@@ -102,7 +102,7 @@ import ElPopconfirm from '@element-ultra/components/popconfirm'
 import ElTree from '@element-ultra/components/tree'
 import { editBarProps } from './edit-bar'
 import Sortable from 'sortablejs'
-import { Edit, Delete, Plus } from '@element-plus/icons-vue'
+import { Edit, Delete, Plus } from 'icon-ultra'
 
 defineOptions({
   name: 'ElEditBar'

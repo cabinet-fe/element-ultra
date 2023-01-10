@@ -19,7 +19,7 @@ import {
 } from '@element-ultra/utils'
 import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
 
-import { ArrowUp } from '@element-plus/icons-vue'
+import { ArrowUp } from 'icon-ultra'
 import { useAllowCreate } from './useAllowCreate'
 
 import { flattenOptions } from './util'

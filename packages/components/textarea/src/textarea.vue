@@ -49,7 +49,7 @@ import {
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-ultra/components/icon'
-import { CircleClose, View as IconView } from '@element-plus/icons-vue'
+import { CircleClose, View as IconView } from 'icon-ultra'
 import { isObject } from '@element-ultra/utils'
 import {
   useAttrs,

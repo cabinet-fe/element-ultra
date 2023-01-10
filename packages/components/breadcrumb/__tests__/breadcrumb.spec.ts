@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { Check } from '@element-plus/icons-vue'
+import { Check } from 'icon-ultra'
 import Breadcrumb from '../src/breadcrumb.vue'
 import BreadcrumbItem from '../src/breadcrumb-item.vue'
 

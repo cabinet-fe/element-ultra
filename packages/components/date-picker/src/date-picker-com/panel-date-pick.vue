@@ -211,7 +211,7 @@ import {
   ArrowRight,
   DArrowLeft,
   DArrowRight
-} from '@element-plus/icons-vue'
+} from 'icon-ultra'
 import { TOOLTIP_INJECTION_KEY } from '@element-ultra/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'

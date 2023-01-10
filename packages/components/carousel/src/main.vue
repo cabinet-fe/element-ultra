@@ -81,7 +81,7 @@ import {
   debugWarn,
 } from '@element-ultra/utils'
 import { ElIcon } from '@element-ultra/components/icon'
-import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight } from 'icon-ultra'
 import { useNamespace } from '@element-ultra/hooks'
 
 import type {

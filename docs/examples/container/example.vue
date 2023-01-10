@@ -97,7 +97,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Message, Menu as IconMenu, Setting } from '@element-plus/icons-vue'
+import { Message, Menu as IconMenu, Setting } from 'icon-ultra'
 
 const item = {
   date: '2016-05-02',

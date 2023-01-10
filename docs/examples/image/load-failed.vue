@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { Picture as IconPicture } from '@element-plus/icons-vue'
+import { Picture as IconPicture } from 'icon-ultra'
 </script>
 
 <style scoped>

@@ -106,7 +106,7 @@ import {
   RefreshRight,
   FullScreen,
   ScaleToOriginal
-} from '@element-plus/icons-vue'
+} from 'icon-ultra'
 import {
   imageViewerProps,
   imageViewerEmits,

@@ -19,7 +19,7 @@ import { useNamespace } from '@element-ultra/hooks'
 import { cardProps } from './card'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
-import { QuestionFilled } from '@element-plus/icons-vue'
+import { QuestionFilled } from 'icon-ultra'
 
 defineOptions({
   name: 'ElCard'

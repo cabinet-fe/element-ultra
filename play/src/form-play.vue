@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import { useFormModel } from 'element-ultra'
 import { shallowRef } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import { Search } from 'icon-ultra'
 
 document.title = '表单测试'
 

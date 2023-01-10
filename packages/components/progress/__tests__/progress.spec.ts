@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { CircleClose } from '@element-plus/icons-vue'
+import { CircleClose } from 'icon-ultra'
 import Progress from '../src/progress.vue'
 describe('Progress.vue', () => {
   test('percent', () => {

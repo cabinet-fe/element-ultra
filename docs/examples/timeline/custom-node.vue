@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { MoreFilled } from '@element-plus/icons-vue'
+import { MoreFilled } from 'icon-ultra'
 
 const activities = [
   {

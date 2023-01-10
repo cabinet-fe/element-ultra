@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Check, Loading } from '@element-plus/icons-vue'
+import { Check, Loading } from 'icon-ultra'
 import CascaderPanel from '../src/index.vue'
 
 const NORMAL_OPTIONS = [

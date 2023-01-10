@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import { Close } from '@element-plus/icons-vue'
+import { Close } from 'icon-ultra'
 
 import { ElOverlay } from '@element-ultra/components/overlay'
 import { useDialog } from '@element-ultra/components/dialog'

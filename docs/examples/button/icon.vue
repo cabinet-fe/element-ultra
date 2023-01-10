@@ -10,7 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Edit, Share, Delete, Search, Upload } from '@element-plus/icons-vue'
+import { Edit, Share, Delete, Search, Upload } from 'icon-ultra'
 </script>
 
 <style>

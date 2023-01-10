@@ -10,5 +10,5 @@
 </template>
 
 <script lang="ts" setup>
-import { Star } from '@element-plus/icons-vue'
+import { Star } from 'icon-ultra'
 </script>

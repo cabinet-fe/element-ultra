@@ -12,7 +12,9 @@
 
     <tr v-if="!rootProps.data?.length" :class="ns.e('empty')">
       <td :colspan="columns.length" :class="ns.e('empty-cell')">
-        <span :class="ns.e('empty-text')">{{ rootProps.emptyText }}</span>
+        <slot name="empty">
+          <span :class="ns.e('empty-text')">{{ rootProps.emptyText }}</span>
+        </slot>
       </td>
     </tr>
   </tbody>

@@ -26,6 +26,7 @@
   color: var(--el-text-color-primary);
   border-spacing: 0;
 
+
   @include e(wrap) {
     border: 1px solid var(--el-border-color);
     border-radius: 4px;
@@ -35,6 +36,7 @@
   td {
     padding: 6px 6px;
     box-sizing: border-box;
+    word-break: break-word;
   }
 
   @include m(small) {

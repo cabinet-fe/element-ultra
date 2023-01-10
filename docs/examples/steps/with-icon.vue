@@ -7,5 +7,5 @@
 </template>
 
 <script lang="ts" setup>
-import { Edit, Upload, Picture } from '@element-plus/icons-vue'
+import { Edit, Upload, Picture } from 'icon-ultra'
 </script>

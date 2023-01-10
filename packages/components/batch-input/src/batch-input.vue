@@ -40,7 +40,7 @@ import {
   useSize
 } from '@element-ultra/hooks'
 import { batchInputProps, batchInputEmits } from './batch-input'
-import { Plus, Minus } from '@element-plus/icons-vue'
+import { Plus, Minus } from 'icon-ultra'
 import {
   computed,
   isReactive,

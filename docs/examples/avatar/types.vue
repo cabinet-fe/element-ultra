@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { UserFilled } from '@element-plus/icons-vue'
+import { UserFilled } from 'icon-ultra'
 </script>
 
 <style scoped>

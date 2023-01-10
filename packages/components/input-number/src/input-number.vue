@@ -63,7 +63,7 @@ import { computed, ref, watch, shallowRef, nextTick } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
 import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import ElInput from '@element-ultra/components/input'
-import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowUp, ArrowDown } from 'icon-ultra'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 import type { ComponentPublicInstance } from 'vue'
 

@@ -37,7 +37,7 @@
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import { generateId } from '@element-ultra/utils'
-import { Loading } from '@element-plus/icons-vue'
+import { Loading } from 'icon-ultra'
 import ElIcon from '@element-ultra/components/icon'
 import ElCascadeNode from './node.vue'
 import { Cascade_PANEL_INJECTION_KEY } from './types'

@@ -18,14 +18,15 @@ import type {
   MultipleFormEmits
 } from './type'
 import {
-  Plus,
-  QuestionFilled,
+  Insert,
+  InfoFilled,
   Edit,
   Delete,
   Select,
   Close,
-  Rank
-} from '@element-plus/icons-vue'
+  Rank,
+  AddChild
+} from 'icon-ultra'
 import type { UseNamespaceReturn } from '@element-ultra/hooks'
 import type useRows from './use-rows'
 import Sortable from 'sortablejs'
@@ -182,7 +183,7 @@ export default function useColumns(options: Options) {
    * 新增行
    * @param parent 父级
    */
-  const createInlineRow = (parent?: MultipleFormRow) => {
+  const createInlineRow = (parent?: MultipleFormRow | null, index?: number) => {
     resetCurrentRow()
 
     const data = (props.columns || []).reduce((acc, cur) => {
@@ -199,14 +200,14 @@ export default function useColumns(options: Options) {
       const { children } = parent
 
       currentEditRow = insertTo(
-        [...parent.indexes, children?.length ?? 0],
+        [...parent.indexes, index ?? children?.length ?? 0],
         data,
         'editing'
       )
     }
     // 在根级添加
     else {
-      currentEditRow = insertTo(root.children!.length, data, 'editing')
+      currentEditRow = insertTo(index ?? root.children!.length, data, 'editing')
     }
   }
 
@@ -222,6 +223,25 @@ export default function useColumns(options: Options) {
             indexes: [root.children!.length],
             index: root.children!.length,
             parent: root
+          }
+        })
+  }
+
+  /**
+   * 在当前行的下方插入行
+   * @param row 当前行
+   */
+  const handleInsert = (row: MultipleFormRow) => {
+    const index = row.index + 1
+    const { parent } = row
+    props.mode === 'inline'
+      ? createInlineRow(row.parent, index)
+      : open('create', {
+          title: '新增',
+          ctx: {
+            indexes: parent?.indexes ? [...parent.indexes, index] : [index],
+            index: row.index + 1,
+            parent: parent
           }
         })
   }
@@ -371,7 +391,8 @@ export default function useColumns(options: Options) {
   }
 
   const cols = computed(() => {
-    const { columns, disabled, actionEdit, actionDelete, tree } = props
+    const { columns, disabled, actionEdit, actionDelete, actionAdd, tree } =
+      props
 
     // 操作栏
     const actionColumn: TableColumn<MultipleFormRow> = {
@@ -379,14 +400,7 @@ export default function useColumns(options: Options) {
       key: '$_action',
       align: 'center',
       width: props.actionWidth,
-      name: () => (
-        <>
-          <span>操作</span>
-          <a class={ns.e('create')} onClick={handleCreate}>
-            新增
-          </a>
-        </>
-      ),
+      name: '操作',
       render: ({ row }) => {
         const buttons: JSX.Element[] = []
 
@@ -396,6 +410,7 @@ export default function useColumns(options: Options) {
             <ElButton
               type='primary'
               icon={Select}
+              title="保存"
               link
               loading={row.loading}
               onClick={() => handleSave(row)}
@@ -403,17 +418,19 @@ export default function useColumns(options: Options) {
             <ElButton
               type='primary'
               icon={Close}
+              title="取消"
               loading={row.loading}
               link
               onClick={() => handleClose(row)}
             />
           )
 
-        // 编辑
+        // 查看状态下显示的按钮
         if (row.status === 'view') {
           actionEdit &&
             buttons.push(
               <ElButton
+                title='编辑'
                 type='primary'
                 icon={Edit}
                 link
@@ -429,11 +446,25 @@ export default function useColumns(options: Options) {
               : true) &&
             buttons.push(
               <ElButton
+                title='新增子级'
                 type='primary'
                 link
                 loading={row.loading}
-                icon={Plus}
+                icon={AddChild}
                 onClick={() => handleCreateChild(row)}
+              />
+            )
+
+          // 在当前行下方插入
+          actionAdd &&
+            buttons.push(
+              <ElButton
+                type='primary'
+                icon={Insert}
+                title='在下方插入'
+                link
+                loading={row.loading}
+                onClick={() => handleInsert(row)}
               />
             )
         }
@@ -444,6 +475,7 @@ export default function useColumns(options: Options) {
             <ElButton
               type='primary'
               icon={Delete}
+              title='删除'
               link
               loading={row.loading}
               onClick={() => handleDelete(row)}
@@ -534,7 +566,7 @@ export default function useColumns(options: Options) {
         const tip = column.tips ? (
           <ElTooltip effect='dark' content={column.tips} raw-content>
             <ElIcon style='vertical-align: middle'>
-              <QuestionFilled />
+              <InfoFilled />
             </ElIcon>
           </ElTooltip>
         ) : null
@@ -568,7 +600,6 @@ export default function useColumns(options: Options) {
         }
       })
 
-
     const handleClass = ns.e('sort-handle')
     const sortableColumn: TableColumn<MultipleFormRow>[] = sortable.value
       ? [
@@ -594,5 +625,8 @@ export default function useColumns(options: Options) {
     ]
   })
 
-  return cols
+  return {
+    cols,
+    handleCreate
+  }
 }

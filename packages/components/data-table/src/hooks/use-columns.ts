@@ -9,7 +9,7 @@ import {
   StaticColumn
 } from '../utils'
 import type { UseStateReturned } from './use-state'
-import { Plus, Minus } from '@element-plus/icons-vue'
+import { Plus, Minus } from 'icon-ultra'
 
 // 固定列: 只有最父级可以进行左右定位的配置
 // 列位置调换: 只有父级可以进行位置调换

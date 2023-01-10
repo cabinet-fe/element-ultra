@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { Edit } from '@element-plus/icons-vue'
+import { Edit } from 'icon-ultra'
 
 interface LinkItem {
   value: string

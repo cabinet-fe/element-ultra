@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from 'vue'
-import { CaretRight } from '@element-plus/icons-vue'
+import { CaretRight } from 'icon-ultra'
 import ElIcon from '@element-ultra/components/icon'
 import ElCheckbox from '@element-ultra/components/checkbox'
 import { useNamespace } from '@element-ultra/hooks'

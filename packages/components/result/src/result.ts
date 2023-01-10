@@ -3,7 +3,7 @@ import {
   CircleCheckFilled,
   CircleCloseFilled,
   InfoFilled
-} from '@element-plus/icons-vue'
+} from 'icon-ultra'
 import type { Component, ExtractPropTypes } from 'vue'
 import type Result from './result.vue'
 

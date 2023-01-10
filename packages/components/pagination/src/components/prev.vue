@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft } from 'icon-ultra'
 
 const paginationPrevProps = {
   disabled: Boolean,

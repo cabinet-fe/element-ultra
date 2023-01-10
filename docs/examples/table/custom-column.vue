@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Timer } from '@element-plus/icons-vue'
+import { Timer } from 'icon-ultra'
 
 interface User {
   date: string

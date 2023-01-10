@@ -60,7 +60,7 @@ import ElIcon from '@element-ultra/components/icon'
 import { formItemKey } from '@element-ultra/tokens'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { useNamespace } from '@element-ultra/hooks'
-import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight } from 'icon-ultra'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import {

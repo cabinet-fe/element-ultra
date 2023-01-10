@@ -31,7 +31,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import ElIcon from '@element-ultra/components/icon'
-import { Close } from '@element-plus/icons-vue'
+import { Close } from 'icon-ultra'
 
 import { useSize, useNamespace } from '@element-ultra/hooks'
 import { tagProps, tagEmits } from './tag'

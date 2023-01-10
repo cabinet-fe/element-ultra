@@ -20,7 +20,7 @@ import {
   Share,
   Delete,
   ArrowRight,
-} from '@element-plus/icons-vue'
+} from 'icon-ultra'
 </script>
 
 <style>

@@ -163,7 +163,7 @@ import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
 import { isEmpty } from '@element-ultra/utils'
 import { EVENT_CODE } from '@element-ultra/constants'
-import { Clock, Calendar } from '@element-plus/icons-vue'
+import { Clock, Calendar } from 'icon-ultra'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'

@@ -107,7 +107,7 @@ import {
   type StyleValue
 } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
-import { CircleClose, View as IconView } from '@element-plus/icons-vue'
+import { CircleClose, View as IconView } from 'icon-ultra'
 import { useAttrs, useDisabled, useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import { inputProps, inputEmits } from './input'

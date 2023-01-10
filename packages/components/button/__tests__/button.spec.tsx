@@ -1,6 +1,6 @@
 import { ref, nextTick, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Loading, Search } from '@element-plus/icons-vue'
+import { Loading, Search } from 'icon-ultra'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 import type { ComponentSize } from '@element-ultra/constants'

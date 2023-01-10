@@ -93,7 +93,7 @@ import { defineComponent, computed, onMounted, ref, nextTick, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { isBoolean, throwError, debugWarn } from '@element-ultra/utils'
 import ElIcon from '@element-ultra/components/icon'
-import { Loading } from '@element-plus/icons-vue'
+import { Loading } from 'icon-ultra'
 import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,

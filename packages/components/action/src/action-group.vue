@@ -13,7 +13,7 @@ import { actionGroupToken } from './token'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
-import { ArrowDown } from '@element-plus/icons-vue'
+import { ArrowDown } from 'icon-ultra'
 import { useNamespace } from '@element-ultra/hooks'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 

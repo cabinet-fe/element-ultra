@@ -11,10 +11,6 @@ Element Ultra 提供了一套常用的图标集合。
 
 - 如果你想像用例一样**直接使用**，你需要[全局注册组件](https://v3.vuejs.org/guide/component-registration.html#global-registration)，才能够直接在项目里使用。
 
-- 如若想查看所有可用的 SVG 图标请查阅 [@element-plus/icons-vue](https://unpkg.com/browse/@element-plus/icons-vue@latest/dist/es/) 和 [element-plus-icons](https://github.com/element-plus/element-plus-icons) 的源代码或当前页的 [Icon Collection](#icons-collection)
-
-- CDN 导入和 [自动导入](https://github.com/antfu/unplugin-icons) 正在开发中。
-
 ## 安装
 
 ### 使用包管理器
@@ -23,11 +19,11 @@ Element Ultra 提供了一套常用的图标集合。
 # 选择一个你喜欢的包管理器
 
 # NPM
-$ npm install @element-plus/icons-vue
+$ npm install icon-ultra
 # Yarn
-$ yarn add @element-plus/icons-vue
+$ yarn add icon-ultra
 # pnpm
-$ pnpm install @element-plus/icons-vue
+$ pnpm install icon-ultra
 ```
 
 ## 基础用法
@@ -52,7 +48,7 @@ $ pnpm install @element-plus/icons-vue
 ```
 
 <script setup>
-import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
+import { Edit, Share, Delete, Search, Loading } from 'icon-ultra'
 </script>
 
 <ElRow>

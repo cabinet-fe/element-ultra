@@ -73,7 +73,7 @@
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
 import { ElIcon } from '@element-ultra/components/icon'
-import { Document, Delete, Close, ZoomIn, Check, CircleCheck } from '@element-plus/icons-vue'
+import { Document, Delete, Close, ZoomIn, Check, CircleCheck } from 'icon-ultra'
 import { useNamespace } from '@element-ultra/hooks'
 import ElProgress from '@element-ultra/components/progress'
 

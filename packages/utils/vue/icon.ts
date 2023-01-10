@@ -7,7 +7,7 @@ import {
   Loading,
   CircleCheck,
   CircleClose,
-} from '@element-plus/icons-vue'
+} from 'icon-ultra'
 import type { Component, PropType } from 'vue'
 
 export const iconPropType = [

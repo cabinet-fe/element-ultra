@@ -1,5 +1,5 @@
 import { iconPropType } from '@element-ultra/utils'
-import { Loading } from '@element-plus/icons-vue'
+import { Loading } from 'icon-ultra'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type button from './button.vue'
 import { SizeProp } from '@element-ultra/constants'

@@ -37,7 +37,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue'
+import { Plus, ZoomIn, Download, Delete } from 'icon-ultra'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 
 const dialogImageUrl = ref('')

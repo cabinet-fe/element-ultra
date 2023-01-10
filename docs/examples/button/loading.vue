@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Eleme } from '@element-plus/icons-vue'
+import { Eleme } from 'icon-ultra'
 </script>
 
 <style scoped>

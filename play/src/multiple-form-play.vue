@@ -1,10 +1,8 @@
 <template>
   <el-radio-group v-model="mode">
-    <el-radio value="inline">行内</el-radio>
-    <el-radio value="dialog">弹框</el-radio>
+    <el-radio value="inline">行内编辑</el-radio>
+    <el-radio value="dialog">弹框编辑</el-radio>
   </el-radio-group>
-
-  <el-color-picker />
 
   <el-multiple-form
     :mode="mode"
@@ -17,11 +15,8 @@
     :delete-method="handleDelete"
     :action-width="200"
     sortable
+    :tree="true"
   >
-    <template #action:view-mode="{ data }">
-      123
-    </template>
-
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
       <el-button @click="refer?.validate()">校验</el-button>
@@ -75,9 +70,10 @@ const columns: MultipleFormColumn[] = [
     name: '名称',
     key: 'name',
     tips: '这是一个tip<br>aa<br>bbb',
+    defaultValue: '111',
     rules: {
       validator(v) {
-        return /^\d+$/.test(v) ? '' : '应该是数字\n嘿嘿黑黑黑黑黑黑'
+        return /^\d+$/.test(v) ? '' : '应该是数字'
       }
     },
     align: 'center'

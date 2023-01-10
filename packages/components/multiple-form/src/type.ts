@@ -152,6 +152,12 @@ export const multipleFormProps = {
     default: 'inline'
   },
 
+  /** 新增按钮是否可见 */
+  actionAdd: {
+    type: Boolean,
+    default: true
+  },
+
   /** 编辑按钮是否可见 */
   actionEdit: {
     type: Boolean,

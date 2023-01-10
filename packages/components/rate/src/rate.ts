@@ -1,4 +1,4 @@
-import { Star, StarFilled } from '@element-plus/icons-vue'
+import { Star, StarFilled } from 'icon-ultra'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
 import {
   isValidComponentSize,

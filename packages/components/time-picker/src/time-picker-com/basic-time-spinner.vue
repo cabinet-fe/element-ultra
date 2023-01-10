@@ -80,7 +80,7 @@ import { debounce } from 'lodash-unified'
 import { RepeatClick } from '@element-ultra/directives'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import ElIcon from '@element-ultra/components/icon'
-import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowUp, ArrowDown } from 'icon-ultra'
 import { getTimeLists } from './useTimePicker'
 
 import type { PropType, Ref } from 'vue'

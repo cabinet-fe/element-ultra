@@ -42,7 +42,7 @@
     "vue": "^3.2.45"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.0.9",
+    "icon-ultra": "^2.0.13",
     "@element-ultra/components": "workspace:*",
     "@element-ultra/constants": "workspace:*",
     "@element-ultra/directives": "workspace:*",

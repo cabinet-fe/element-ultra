@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import { Search } from 'icon-ultra'
 const input1 = ref('')
 const input2 = ref('')
 const input3 = ref('')
