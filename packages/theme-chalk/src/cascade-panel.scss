@@ -10,6 +10,7 @@
   display: flex;
   border-radius: getCssVar('cascade-menu', 'radius');
   font-size: getCssVar('cascade-menu', 'font-size');
+  max-height: 240px;
 
   @include when(bordered) {
     border: getCssVar('cascade-menu', 'border');

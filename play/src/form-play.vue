@@ -4,15 +4,19 @@
       {{ data }}
     </div>
 
-
-
     <el-card>
       <template #header>
         <span> 表单数据 </span>
         <el-checkbox v-model="disabled">是否禁用</el-checkbox>
       </template>
 
-      <el-form :disabled="disabled" ref="formRef" :data="data" label-width="80px" :rules="rules">
+      <el-form
+        :disabled="disabled"
+        ref="formRef"
+        :data="data"
+        label-width="80px"
+        :rules="rules"
+      >
         <el-radio-group label="审批流程" field="type">
           <el-radio value="1">文本1</el-radio>
           <el-radio value="2">文本2</el-radio>
@@ -25,13 +29,7 @@
           :props="{ label: 'name', checkStrictly: true }"
           clearable
           field="cascade"
-          :options="[
-            {
-              name: '哈哈',
-              value: 'aa',
-              children: [{ name: '呵呵', value: 'bb' }]
-            }
-          ]"
+          :options="cascadeOptions"
         >
         </el-cascade>
 
@@ -92,7 +90,7 @@
         <el-input label="测试1" field="test.test1" />
         <el-input label="测试2" field="test.test2" />
 
-        <el-textarea field="xing" label="姓氏"  show-word-limit maxlength="12" />
+        <el-textarea field="xing" label="姓氏" show-word-limit maxlength="12" />
       </el-form>
     </el-card>
 
@@ -168,6 +166,14 @@ const [data, rules] = useFormModel(
     name: model => model.xing + model.ming
   }
 )
+
+const cascadeOptions = Array.from({ length: 20 }).map((_, i) => {
+  return  {
+    name: '哈哈' + i,
+    value: 'aa' + i,
+    children: [{ name: '呵呵' + i, value: 'bb' + i + '-1' }]
+  }
+})
 
 const formRef = shallowRef<any>()
 
