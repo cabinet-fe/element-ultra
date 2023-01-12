@@ -6,14 +6,10 @@
 @use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 
-$button-icon-span-gap: () !default;
-$button-icon-span-gap: map.merge(
-  (
-    'large': 8px,
-    'default': 6px,
-    'small': 4px,
-  ),
-  $button-icon-span-gap
+$button-icon-span-gap: (
+  'large': 8px,
+  'default': 6px,
+  'small': 4px
 );
 
 @include b(button) {

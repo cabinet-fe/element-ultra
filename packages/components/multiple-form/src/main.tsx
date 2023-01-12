@@ -1,4 +1,10 @@
-import { defineComponent, onBeforeUnmount, shallowRef, watch } from 'vue'
+import {
+  defineComponent,
+  onBeforeUnmount,
+  shallowRef,
+  watch,
+  inject
+} from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './type'
 import { ElTable } from '@element-ultra/components/table'
@@ -10,6 +16,7 @@ import useColumns from './use-columns'
 import useInlineEdit from './use-inline-edit'
 import useDialogEdit from './use-dialog-edit'
 import { flatTree } from './utils'
+import { formInjectionKey } from '@element-ultra/tokens'
 
 export default defineComponent({
   name: 'ElMultipleForm',
@@ -95,6 +102,21 @@ export default defineComponent({
       toolsDom.value && obs.unobserve(toolsDom.value)
       obs.disconnect()
     })
+
+    // 尝试往formDialog, page组件中注册自己
+    const formInjection = inject(formInjectionKey, null)
+
+    const exposed = {
+      /** 校验数据 */
+      validate: () => validate(root.children!)
+    }
+    if (formInjection) {
+      formInjection.addMultipleForm(exposed)
+
+      onBeforeUnmount(() => {
+        formInjection.deleteMultipleForm(exposed)
+      })
+    }
 
     return {
       ns,

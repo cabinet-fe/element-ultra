@@ -29,6 +29,8 @@ export interface FormExposed {
 export interface FormInjection {
   addForm(form: FormExposed): void
   deleteForm(form: FormExposed): void
+  addMultipleForm(form: { validate: () => Promise<boolean> }): void
+  deleteMultipleForm(form: { validate: () => Promise<boolean> }): void
 }
 
 export const formKey: InjectionKey<FormContext> = Symbol('elForm')

@@ -3,10 +3,10 @@ import { ElButton } from '@element-ultra/components/button'
 import ElNodeRender from '@element-ultra/components/node-render'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
-import { useConfig, useNamespace } from '@element-ultra/hooks'
+import type { ElMultipleForm } from '@element-ultra/components/multiple-form'
+import { useNamespace } from '@element-ultra/hooks'
 import {
   cloneVNode,
-  createVNode,
   defineComponent,
   getCurrentInstance,
   isVNode,
@@ -20,6 +20,8 @@ import { formInjectionKey, type FormExposed } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
+
+type MultipleFormInst = InstanceType<typeof ElMultipleForm>
 
 export interface PageExposed {
   /** 校验表单 */
@@ -43,7 +45,7 @@ export default defineComponent({
   setup(props, { attrs, slots, expose }) {
     const ns = useNamespace('page')
 
-    const [conf] = useConfig()
+    // const [conf] = useConfig()
 
     const currentNavIndex = shallowRef(0)
 
@@ -151,6 +153,7 @@ export default defineComponent({
     })
 
     let exposedFormList = new Set<FormExposed>()
+    let exposedMultipleFormList = new Set<MultipleFormInst>()
 
     // 注入给form使用
     provide(formInjectionKey, {
@@ -159,6 +162,12 @@ export default defineComponent({
       },
       deleteForm(formExposed: FormExposed) {
         exposedFormList.delete(formExposed)
+      },
+      addMultipleForm(form: MultipleFormInst) {
+        exposedMultipleFormList.add(form)
+      },
+      deleteMultipleForm(form: MultipleFormInst) {
+        exposedMultipleFormList.delete(form)
       }
     })
 
@@ -172,16 +181,16 @@ export default defineComponent({
     // })
 
     /** 渲染额外组件 */
-    const renderExtra = () => {
-      if (!props.showExtra || !conf.pageExtraComponents) return null
-      const nodes = conf.pageExtraComponents.map(c => {
-        return createVNode(c, {
-          ref: ref => extraRefs.push(ref)
-        })
-      })
+    // const renderExtra = () => {
+    //   if (!props.showExtra || !conf.pageExtraComponents) return null
+    //   const nodes = conf.pageExtraComponents.map(c => {
+    //     return createVNode(c, {
+    //       ref: ref => extraRefs.push(ref)
+    //     })
+    //   })
 
-      return nodes
-    }
+    //   return nodes
+    // }
 
     const navTo = (nav: string) => {
       document.getElementById(nav)?.scrollIntoView({
@@ -191,12 +200,14 @@ export default defineComponent({
     }
 
     const validate = async () => {
-      let validResult: boolean[] = []
       for (const form of exposedFormList) {
-        const valid = await form.validate()
-        validResult.push(valid)
+        await form.validate()
       }
-      return validResult.every(item => item)
+      for (const form of exposedMultipleFormList) {
+        await form.validate()
+      }
+
+      return true
     }
 
     expose({
@@ -218,7 +229,7 @@ export default defineComponent({
             <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
               <ElNodeRender nodes={children} />
 
-              {renderExtra()}
+              {/* {renderExtra()} */}
             </ElScrollbar>
 
             {props.hideFooter ? null : (

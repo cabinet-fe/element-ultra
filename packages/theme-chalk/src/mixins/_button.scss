@@ -25,21 +25,33 @@
     'hover': (
       'text-color': (
         'color',
-        'white',
+        $type,
       ),
       'bg-color': (
         'color',
         $type,
+        'light-8'
       ),
       'border-color': (
         'color',
         $type,
+        'light-5'
       ),
     ),
     'active': (
       'text-color': (
         'color',
-        'white',
+        'primary',
+      ),
+      'bg-color': (
+        'color',
+        $type,
+        'light-7',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'light-7'
       ),
     ),
   );

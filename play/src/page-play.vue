@@ -12,6 +12,12 @@
       </el-card>
     </template>
 
+    <el-multiple-form :columns="columns" v-model:data="data1">
+      <template #test="{ row }">
+        <el-input v-model="row.test" />
+      </template>
+    </el-multiple-form>
+
     <el-progress :width="50" :percentage="50" class="progress" type="circle" />
 
     <template #footer="{ extraRefs }">
@@ -49,6 +55,11 @@ let hideIndex = $shallowRef(0)
 const handleHide = () => {
   hideIndex = Math.ceil(Math.random() * 5)
 }
+
+const columns = [
+  { name: '测试', rules: { required: true }, key: 'test' }
+]
+const data1 = $shallowRef<any[]>([])
 </script>
 
 <style>

@@ -306,6 +306,7 @@ const formRef = shallowRef<InstanceType<typeof ElGrid>>()
 const validate = async (fields?: string | string[]): Promise<boolean> => {
   let result = true
 
+  // 没有传入字段或者传入的字段是数组
   if (!fields || Array.isArray(fields)) {
     const allValidation = await Promise.all(
       Array.isArray(fields)
