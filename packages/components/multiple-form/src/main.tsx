@@ -110,11 +110,12 @@ export default defineComponent({
       /** 校验数据 */
       validate: () => validate(root.children!)
     }
+
     if (formInjection) {
-      formInjection.addMultipleForm(exposed)
+      formInjection.addMultipleForm?.(exposed)
 
       onBeforeUnmount(() => {
-        formInjection.deleteMultipleForm(exposed)
+        formInjection.deleteMultipleForm?.(exposed)
       })
     }
 
@@ -129,8 +130,7 @@ export default defineComponent({
       insertTo,
       /** 更新数据 */
       update,
-      /** 校验数据 */
-      validate: () => validate(root.children!),
+      ...exposed,
       /** 清楚校验 */
       clearValidate,
       open,

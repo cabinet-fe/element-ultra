@@ -1,57 +1,62 @@
 <template>
+  <el-button @click="visible = true">打开</el-button>
   <el-radio-group v-model="mode">
     <el-radio value="inline">行内编辑</el-radio>
     <el-radio value="dialog">弹框编辑</el-radio>
   </el-radio-group>
 
-  <el-multiple-form
-    :mode="mode"
-    :columns="columns"
-    title="标题"
-    v-model:data="data"
-    ref="refer"
-    style="height: 400px"
-    :save-method="handleSave"
-    :delete-method="handleDelete"
-    :action-width="200"
-    sortable
-    :tree="true"
-  >
-    <template #tools>
-      <el-button type="primary" @click="addNextLine">添加一行</el-button>
-      <el-button plain type="primary" @click="refer?.validate()">校验</el-button>
-    </template>
+  <el-dialog v-model="visible">
+    <el-multiple-form
+      :mode="mode"
+      :columns="columns"
+      title="标题"
+      v-model:data="data"
+      ref="refer"
+      style="height: 400px"
+      :save-method="handleSave"
+      :delete-method="handleDelete"
+      :action-width="200"
+      sortable
+      :tree="true"
+    >
+      <template #tools>
+        <el-button type="primary" @click="addNextLine">添加一行</el-button>
+        <el-button plain type="primary" @click="refer?.validate()"
+          >校验</el-button
+        >
+      </template>
 
-    <template #name="{ row }">
-      <el-input v-model="row.name" placeholder="名称" />
-    </template>
+      <template #name="{ row }">
+        <el-input v-model="row.name" placeholder="名称" />
+      </template>
 
-    <template #bol="{ row }">
-      <el-checkbox v-model="row.bol" />
-    </template>
+      <template #bol="{ row }">
+        <el-checkbox v-model="row.bol" />
+      </template>
 
-    <template #age="{ row }">
-      <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
-    </template>
+      <template #age="{ row }">
+        <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
+      </template>
 
-    <template #school="{ row }">
-      <el-input v-model="row.school"></el-input>
-    </template>
-    <template #test="{ row }">
-      <el-input v-model="row.test.test1"></el-input>
-      <el-input v-model="row.test.test2"></el-input>
-    </template>
+      <template #school="{ row }">
+        <el-input v-model="row.school"></el-input>
+      </template>
+      <template #test="{ row }">
+        <el-input v-model="row.test.test1"></el-input>
+        <el-input v-model="row.test.test2"></el-input>
+      </template>
 
-    <template #default="{ form }">
-      <el-form-item label="名称">{{ form.name }}</el-form-item>
-      <el-input label="名称" field="name"></el-input>
-      <el-input label="年龄" field="age"></el-input>
-      <el-checkbox label="布尔" field="bol" />
-      <el-input label="学校" field="school"></el-input>
-      <el-input label="测试1" field="test.test1" />
-      <el-input label="测试2" field="test.test2" />
-    </template>
-  </el-multiple-form>
+      <template #default="{ form }">
+        <el-form-item label="名称">{{ form.name }}</el-form-item>
+        <el-input label="名称" field="name"></el-input>
+        <el-input label="年龄" field="age"></el-input>
+        <el-checkbox label="布尔" field="bol" />
+        <el-input label="学校" field="school"></el-input>
+        <el-input label="测试1" field="test.test1" />
+        <el-input label="测试2" field="test.test2" />
+      </template>
+    </el-multiple-form>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -110,6 +115,8 @@ let data = $shallowRef<any[]>([
   // { name: 'asdfasf', school: '213', age: 123, test: {}, bol: false }
 ])
 
+const visible = shallowRef(false)
+
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()
 /** 增加下一行 */
 const addNextLine = (row: any) => {
@@ -128,7 +135,7 @@ const addNextLine = (row: any) => {
   }
 }
 
-const handleSave: MultipleFormSaveMethod = async (ctx) => {
+const handleSave: MultipleFormSaveMethod = async ctx => {
   return new Promise(rs => {
     setTimeout(() => {
       rs({

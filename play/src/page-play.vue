@@ -17,6 +17,11 @@
         <el-input v-model="row.test" />
       </template>
     </el-multiple-form>
+    <el-multiple-form :columns="columns" v-model:data="data2">
+      <template #test="{ row }">
+        <el-input v-model="row.test" />
+      </template>
+    </el-multiple-form>
 
     <el-progress :width="50" :percentage="50" class="progress" type="circle" />
 
@@ -60,6 +65,7 @@ const columns = [
   { name: '测试', rules: { required: true }, key: 'test' }
 ]
 const data1 = $shallowRef<any[]>([])
+const data2 = $shallowRef<any[]>([])
 </script>
 
 <style>

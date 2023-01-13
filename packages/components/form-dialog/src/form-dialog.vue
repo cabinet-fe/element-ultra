@@ -41,7 +41,7 @@ const emit = defineEmits<{
 }>()
 
 const forms = new Set<any>()
-
+const multipleForms = new Set<any>()
 const addForm = (form: any) => {
   forms.add(form)
 }
@@ -49,9 +49,18 @@ const deleteForm = (form: any) => {
   forms.delete(form)
 }
 
+const addMultipleForm = (form: any) => {
+  multipleForms.add(form)
+}
+const deleteMultipleForm = (form: any) => {
+  multipleForms.delete(form)
+}
+
 provide(formInjectionKey, {
   addForm,
-  deleteForm
+  deleteForm,
+  addMultipleForm,
+  deleteMultipleForm
 })
 
 watch(
@@ -68,6 +77,9 @@ const cancel = () => {
 const validateForm = async () => {
   for (const form of forms) {
     await form.validate()
+  }
+  for (const multipleForm of multipleForms) {
+    await multipleForm.validate()
   }
 }
 
