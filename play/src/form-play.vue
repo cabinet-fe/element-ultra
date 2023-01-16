@@ -22,6 +22,10 @@
           <el-radio value="2">文本2</el-radio>
         </el-radio-group>
 
+        <el-range label="范围组件" field="range">
+          <el-input />
+        </el-range>
+
         <el-checkbox label="是否选中" field="checked" />
 
         <el-cascade
@@ -137,6 +141,7 @@ const [data, rules] = useFormModel(
     address: { value: 'aas', required: true },
     date: {},
     rangedate: {},
+    range: {},
     start: { value: '' },
     end: { value: '' },
     aa: { value: '00' },

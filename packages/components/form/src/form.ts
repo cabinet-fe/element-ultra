@@ -72,6 +72,7 @@ export const formComponents = new Set([
   'ElCheckboxGroup',
   'ElRadio',
   'ElRadioGroup',
+  'ElRange',
   'ElTreeSelect',
   'ElTextEditor',
   'ElBatchInput'

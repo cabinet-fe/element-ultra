@@ -1,0 +1,12 @@
+@use 'mixins/mixins' as *;
+
+@include b(range) {
+  display: flex;
+  justify-content: space-between;
+
+  @include e(separator) {
+    text-align: center;
+    width: 12px;
+    flex-shrink: 0;
+  }
+}
