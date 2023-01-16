@@ -30,14 +30,8 @@ export function useApi(options: Options) {
     let queryStr = Object.keys(_query)
       .reduce((acc, key) => {
         const v = _query[key]
-        let t = ''
-        if (Array.isArray(v)) {
-          t = '@a'
-        } else if (typeof v === 'number') {
-          t = '@n'
-        }
         if ([undefined, null, ''].includes(v)) return acc
-        return (acc += `${key + t}=${String(v)}&`)
+        return (acc += `${key}=${JSON.stringify(v)}&`)
       }, '')
       .slice(0, -1)
 
@@ -86,7 +80,7 @@ export function useApi(options: Options) {
     /** 表格的数据 */
     data: [] as any[],
     /** 选中的数据 */
-    checked: props.checked || [] as any[],
+    checked: props.checked || ([] as any[]),
     /** 表格的字段的统计 */
     statistics: undefined as Record<string, any> | undefined
   })
@@ -138,10 +132,6 @@ export function useApi(options: Options) {
     defaultQuery.value = JSON.parse(JSON.stringify(query))
   }
 
-  const valueParser: Record<string, (v: string) => any> = {
-    n: (v: string) => +v,
-    a: (v: string) => v ? v.split(',') : []
-  }
   /** 读取地址栏参数 */
   const readUrlParams = () => {
     const search = location.search.replace('?', '')
@@ -150,15 +140,12 @@ export function useApi(options: Options) {
 
     search.split('&').forEach(item => {
       let [key, val] = decodeURIComponent(item).split('=')
-      let [_key, t] = key.split('@')
-      if (valueParser[t]) {
-        val = valueParser[t](val)
-      }
-      if (_key in query) {
-        query[_key] = val
-      } else if (_key in pageQuery) {
+      val = JSON.parse(val)
+      if (key in query) {
+        query[key] = val
+      } else if (key in pageQuery) {
         // @ts-ignore
-        pageQuery[_key] = val
+        pageQuery[key] = val
       }
     })
   }
@@ -200,7 +187,6 @@ export function useApi(options: Options) {
 
   // 第一次请求时可能读取url中的缓存, 因此不重置
   fetchData(false)
-
 
   // 多选
   const handleCheck = (checked: any[]) => {

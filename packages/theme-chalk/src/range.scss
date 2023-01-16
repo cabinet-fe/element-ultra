@@ -3,6 +3,8 @@
 @include b(range) {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  align-content: center;
 
   @include e(separator) {
     text-align: center;

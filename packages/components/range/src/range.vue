@@ -1,14 +1,14 @@
 <template>
   <div :class="ns.b()">
     <ElInputNumber
-      :model-value="modelValue?.[0]"
+      :model-value="modelValue?.[0] ?? undefined"
       @update:model-value="handleUpdate('start', $event)"
     />
 
     <span :class="ns.e('separator')">-</span>
 
     <ElInputNumber
-      :model-value="modelValue?.[1]"
+      :model-value="modelValue?.[1] ?? undefined"
       @update:model-value="handleUpdate('end', $event)"
     />
   </div>
@@ -29,7 +29,6 @@ const emit = defineEmits(rangeEmits)
 const ns = useNamespace('range')
 
 const handleUpdate = (type: 'start' | 'end', v?: number) => {
-
   let [startVal, endVal] = props.modelValue ?? [undefined, undefined]
   if (type === 'start') {
     if (typeof v === 'number' && typeof endVal === 'number' && endVal < v) {
