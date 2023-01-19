@@ -1,11 +1,3 @@
-<!--
- * @Author: whj
- * @Date: 2022-04-06 12:19:03
- * @LastEditors: whj
- * @LastEditTime: 2023-01-19 16:50:45
- * @FilePath: /element-ultra/play/src/page-play.vue
- *
--->
 <template>
   <el-page ref="pageRef">
     <template v-for="i in 5" :key="i">
