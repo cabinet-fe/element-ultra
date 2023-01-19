@@ -40,6 +40,7 @@
         <el-input-number
           money
           label="数字"
+          tips="aaaa"
           :precision="2"
           clearable
           field="num"

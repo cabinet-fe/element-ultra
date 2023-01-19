@@ -7,7 +7,7 @@
       :class="ns.e('label')"
       :style="labelStyle"
     >
-      <span style="margin-right: 2px">
+      <span :class="ns.e('label-text')">
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
@@ -15,7 +15,7 @@
 
       <ElTooltip v-if="tips" :content="tips" raw-content>
         <ElIcon>
-          <QuestionFilled />
+          <InfoFilled />
         </ElIcon>
       </ElTooltip>
     </label>
@@ -36,7 +36,7 @@
 import { computed, defineComponent, inject, ref, nextTick, provide } from 'vue'
 import { formItemKey, formKey } from '@element-ultra/tokens'
 import { addUnit } from '@element-ultra/utils'
-import { QuestionFilled } from 'icon-ultra'
+import { InfoFilled } from 'icon-ultra'
 import type { CSSProperties } from 'vue'
 import ElIcon from '@element-ultra/components/icon'
 import ElTooltip from '@element-ultra/components/tooltip'
@@ -47,7 +47,7 @@ export default defineComponent({
   componentName: 'ElFormItem',
 
   components: {
-    QuestionFilled,
+    InfoFilled,
     ElIcon,
     ElTooltip
   },
