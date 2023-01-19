@@ -10,7 +10,6 @@ import {
   defineComponent,
   getCurrentInstance,
   isVNode,
-  onBeforeUpdate,
   provide,
   shallowRef,
   type VNode,
@@ -32,10 +31,7 @@ export default defineComponent({
   name: 'ElPage',
 
   props: {
-    showExtra: {
-      type: Boolean,
-      default: true
-    },
+
 
     hideFooter: {
       type: Boolean
@@ -125,31 +121,26 @@ export default defineComponent({
       }
     }, 200)
 
-    // const hiddenClass = 'el-page__card-item--hidden'
+    const hiddenClass = 'el-page__card-item--hidden'
     // 用来监听el-card
-    // const observer = new IntersectionObserver(entries => {
-    //   entries.forEach(entry => {
-    //     const { target, intersectionRatio } = entry
-    //     if (intersectionRatio > 0 && target.classList.contains(hiddenClass)) {
-    //       target.classList.remove(hiddenClass)
-    //     }
-    //   })
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const { target, intersectionRatio } = entry
+        if (intersectionRatio > 0 && target.classList.contains(hiddenClass)) {
+          target.classList.remove(hiddenClass)
+        }
+      })
 
-    //   // 对于点击定位, 点击中的位置不进行更新
-    //   if (clicked) return
+      // 对于点击定位, 点击中的位置不进行更新
+      if (clicked) return
 
-    //   const entry = entries[0]
-    //   // intersectionRatio > 0表示在视口中开始出现
-    //   if (!entry || entry.intersectionRatio === 0) return
+      const entry = entries[0]
+      // intersectionRatio > 0表示在视口中开始出现
+      if (!entry || entry.intersectionRatio === 0) return
 
-    //   currentNavIndex.value = Number(
-    //     entry.target.getAttribute('data-index') || 0
-    //   )
-    // })
-
-    let extraRefs: any = []
-    onBeforeUpdate(() => {
-      extraRefs = []
+      currentNavIndex.value = Number(
+        entry.target.getAttribute('data-index') || 0
+      )
     })
 
     let exposedFormList = new Set<FormExposed>()
@@ -180,23 +171,14 @@ export default defineComponent({
     //   observer.disconnect()
     // })
 
-    /** 渲染额外组件 */
-    // const renderExtra = () => {
-    //   if (!props.showExtra || !conf.pageExtraComponents) return null
-    //   const nodes = conf.pageExtraComponents.map(c => {
-    //     return createVNode(c, {
-    //       ref: ref => extraRefs.push(ref)
-    //     })
-    //   })
-
-    //   return nodes
-    // }
-
     const navTo = (nav: string) => {
-      document.getElementById(nav)?.scrollIntoView({
+      let dom =  document.getElementById(nav)
+      if (!dom) return
+      dom.scrollIntoView({
         behavior: 'smooth',
-        block: 'nearest'
+        block: 'start'
       })
+      dom.style.color = 'var(--el-color-primary)'
     }
 
     const validate = async () => {
@@ -229,7 +211,7 @@ export default defineComponent({
             <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
               <ElNodeRender nodes={children} />
 
-              {/* {renderExtra()} */}
+
             </ElScrollbar>
 
             {props.hideFooter ? null : (
@@ -242,7 +224,7 @@ export default defineComponent({
                     reference: () => <ElButton>返回</ElButton>
                   }}
                 ></ElPopconfirm>
-                <div>{slots.footer?.({ extraRefs })}</div>
+                <div>{slots.footer?.()}</div>
               </section>
             )}
           </div>

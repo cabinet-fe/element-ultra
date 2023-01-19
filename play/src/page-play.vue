@@ -1,3 +1,11 @@
+<!--
+ * @Author: whj
+ * @Date: 2022-04-06 12:19:03
+ * @LastEditors: whj
+ * @LastEditTime: 2023-01-19 16:50:45
+ * @FilePath: /element-ultra/play/src/page-play.vue
+ *
+-->
 <template>
   <el-page ref="pageRef">
     <template v-for="i in 5" :key="i">
@@ -25,8 +33,7 @@
 
     <el-progress :width="50" :percentage="50" class="progress" type="circle" />
 
-    <template #footer="{ extraRefs }">
-      <el-button @click="c.log(extraRefs)">获取实例</el-button>
+    <template #footer>
       <el-button @click="handleHide">随机隐藏某个表单</el-button>
       <el-button @click="handleValidate">校验表单</el-button>
     </template>

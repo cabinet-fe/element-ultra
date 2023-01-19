@@ -5,7 +5,7 @@
 @use 'common/var' as *;
 
 @include b(scrollbar) {
-  overflow: auto;
+  overflow: hidden;
   position: relative;
 
   @include e(wrap) {
