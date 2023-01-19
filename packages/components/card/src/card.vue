@@ -1,5 +1,13 @@
+<!--
+ * @Author: whj
+ * @Date: 2022-03-28 14:08:38
+ * @LastEditors: whj
+ * @LastEditTime: 2023-01-19 16:04:06
+ * @FilePath: /element-ultra/packages/components/card/src/card.vue
+ *
+-->
 <template>
-  <div :class="[ns.b(), ns.is(`${shadow}-shadow`)]">
+  <div :class="[ns.b(), ns.is(`${shadow}-shadow`), ns.is('border', border)]">
     <div v-if="$slots.header || header" :id="header" :class="ns.e('header')">
       <slot name="header">{{ header }}</slot>
 
@@ -9,7 +17,7 @@
         </el-icon>
       </el-tooltip>
     </div>
-    <div :class="ns.e('body')" :style="bodyStyle">
+    <div :class="ns.e('body')">
       <slot></slot>
     </div>
   </div>

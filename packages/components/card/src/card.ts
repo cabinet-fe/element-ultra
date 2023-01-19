@@ -1,22 +1,22 @@
 import type Card from './card.vue'
-import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
 export const cardProps = {
   header: {
     type: String,
     default: ''
   },
-  bodyStyle: {
-    type: [String, Object, Array] as PropType<StyleValue>,
-    default: ''
+  border: {
+    type: Boolean,
+    default: true
   },
   shadow: {
-    type: String,
+    type: String as PropType<'always' | 'none' | 'hover'>,
     default: 'always'
   },
   tips: {
     type: String
-  }
+  },
 }
 export type CardProps = ExtractPropTypes<typeof cardProps>
 export type CardInstance = InstanceType<typeof Card>
