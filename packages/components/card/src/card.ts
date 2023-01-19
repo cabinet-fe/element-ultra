@@ -16,7 +16,7 @@ export const cardProps = {
   },
   tips: {
     type: String
-  },
+  }
 }
 export type CardProps = ExtractPropTypes<typeof cardProps>
 export type CardInstance = InstanceType<typeof Card>
