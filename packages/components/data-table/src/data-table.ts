@@ -106,6 +106,11 @@ export const dataTableProps = {
   /** 表格高度 */
   height: {
     type: String
+  },
+
+  /** 响应式数据项 */
+  itemReactive: {
+    type: Boolean
   }
 } as const
 

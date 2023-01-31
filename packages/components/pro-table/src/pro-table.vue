@@ -27,6 +27,7 @@
       :checked="state.checked"
       :selected="selected"
       :tree="tree"
+      :item-reactive="itemReactive"
       @check="handleCheck"
       @select="emit('select', $event)"
       @row-click="handleRowClick"

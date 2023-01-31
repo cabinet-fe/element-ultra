@@ -7,6 +7,8 @@ import type {
 } from '../data-table'
 
 export default function useState(props: DataTableProps, emit: DataTableEmits) {
+  const { tree, itemReactive } = props
+
   const store = shallowReactive({
     /** 多选时选中的数据 */
     checked: shallowReactive(new Set<any>(props.checked)),
@@ -30,7 +32,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     return arr.map((item, index) => {
       let ret: DataTreeRow = shallowReactive({
         uid: uid++,
-        data: item,
+        data: itemReactive ? shallowReactive(item) : item,
         expanded: false,
         depth,
         index
@@ -44,14 +46,12 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
   /** 获取包装的行, 保存索引, uid等信息 */
   const getWrappedRow = (data: any[]): (Row | DataTreeRow)[] => {
-    const { tree } = props
-
     if (tree) return dfsReactive(data, 0)
 
     return data.map((item, index) => {
       return {
         uid: uid++,
-        data: item,
+        data: itemReactive ? shallowReactive(item) : item,
         index
       }
     })

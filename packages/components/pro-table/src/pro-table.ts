@@ -104,7 +104,10 @@ export const proTableProps = {
   },
 
   /** 显示合计 */
-  showSummary: Boolean
+  showSummary: Boolean,
+
+  /** 数据项是否为响应式的 */
+  itemReactive: Boolean
 }
 
 export const proTableEmits = {

@@ -13,6 +13,7 @@
     show-summary
     tree
     default-expand-all
+    item-reactive
   >
     <template #column-conf="{ column }">
       <el-input
@@ -56,6 +57,7 @@
 
     <template #name="{ row }">
       <span style="color: red">{{ row.name }}</span>
+      <el-checkbox v-model="row.bol" />
     </template>
 
     <template #action>
