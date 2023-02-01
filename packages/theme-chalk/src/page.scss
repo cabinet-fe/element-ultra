@@ -5,6 +5,14 @@
   @include set-component-css-var('page', $page);
 }
 
+@keyframes blink {
+  from {
+  }
+  to {
+    color: var(--el-color-primary);
+  }
+}
+
 @include b(page) {
   height: 100%;
   background-color: getCssVar('page', 'bg-color');
@@ -12,9 +20,8 @@
   @include e(card-item) {
     transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2;
 
-    @include m(hidden) {
-      transform: translateY(100px);
-      opacity: 0;
+    @include m(blink) {
+      animation: blink 0.75s infinite alternate;
     }
   }
 

@@ -2,7 +2,7 @@
  * @Author: whj
  * @Date: 2022-03-28 14:08:38
  * @LastEditors: whj
- * @LastEditTime: 2023-01-19 16:04:06
+ * @LastEditTime: 2023-02-01 15:58:56
  * @FilePath: /element-ultra/packages/components/card/src/card.vue
  *
 -->
@@ -32,17 +32,8 @@ import { QuestionFilled } from 'icon-ultra'
 defineOptions({
   name: 'ElCard'
 })
+
 defineProps(cardProps)
+
 const ns = useNamespace('card')
-
-// const { observer } = inject(pageContextKey, undefined) || {}
-// const cardRef = shallowRef<HTMLDivElement>()
-
-// onMounted(() => {
-//   cardRef.value && observer?.observe(cardRef.value)
-// })
-
-// onUnmounted(() => {
-//   cardRef.value && observer?.unobserve(cardRef.value)
-// })
 </script>

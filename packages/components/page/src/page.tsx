@@ -2,7 +2,6 @@ import { ElGrid } from '@element-ultra/components/grid'
 import { ElButton } from '@element-ultra/components/button'
 import ElNodeRender from '@element-ultra/components/node-render'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
-import { ElPopconfirm } from '@element-ultra/components/popconfirm'
 import type { ElMultipleForm } from '@element-ultra/components/multiple-form'
 import { useNamespace } from '@element-ultra/hooks'
 import {
@@ -31,8 +30,6 @@ export default defineComponent({
   name: 'ElPage',
 
   props: {
-
-
     hideFooter: {
       type: Boolean
     }
@@ -40,8 +37,6 @@ export default defineComponent({
 
   setup(props, { attrs, slots, expose }) {
     const ns = useNamespace('page')
-
-    // const [conf] = useConfig()
 
     const currentNavIndex = shallowRef(0)
 
@@ -57,6 +52,7 @@ export default defineComponent({
       }
     }
 
+    /** 获取默认插槽 */
     const getDefaultSlots = () => {
       let defaultNodes = slots.default?.() || []
       let navList: string[] = []
@@ -116,35 +112,35 @@ export default defineComponent({
 
     // 当滚动停止时表示滚动完成
     const onScrollStopped = debounce((rect: any) => {
+      console.log(rect)
       if (clicked) {
         clicked = false
       }
     }, 200)
 
-    const hiddenClass = 'el-page__card-item--hidden'
     // 用来监听el-card
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const { target, intersectionRatio } = entry
-        if (intersectionRatio > 0 && target.classList.contains(hiddenClass)) {
-          target.classList.remove(hiddenClass)
-        }
-      })
+    // const observer = new IntersectionObserver(entries => {
+    //   entries.forEach(entry => {
+    //     const { target, intersectionRatio } = entry
+    //     if (intersectionRatio > 0 && target.classList.contains(hiddenClass)) {
+    //       target.classList.remove(hiddenClass)
+    //     }
+    //   })
 
-      // 对于点击定位, 点击中的位置不进行更新
-      if (clicked) return
+    //   // 对于点击定位, 点击中的位置不进行更新
+    //   if (clicked) return
 
-      const entry = entries[0]
-      // intersectionRatio > 0表示在视口中开始出现
-      if (!entry || entry.intersectionRatio === 0) return
+    //   const entry = entries[0]
+    //   // intersectionRatio > 0表示在视口中开始出现
+    //   if (!entry || entry.intersectionRatio === 0) return
 
-      currentNavIndex.value = Number(
-        entry.target.getAttribute('data-index') || 0
-      )
-    })
+    //   currentNavIndex.value = Number(
+    //     entry.target.getAttribute('data-index') || 0
+    //   )
+    // })
 
-    let exposedFormList = new Set<FormExposed>()
-    let exposedMultipleFormList = new Set<MultipleFormInst>()
+    const exposedFormList = new Set<FormExposed>()
+    const exposedMultipleFormList = new Set<MultipleFormInst>()
 
     // 注入给form使用
     provide(formInjectionKey, {
@@ -162,25 +158,25 @@ export default defineComponent({
       }
     })
 
-    // // 注入给card使用
-    // provide(pageContextKey, {
-    //   observer
-    // })
+    /** 当前处于定位中的dom */
+    let currentDom: HTMLElement | null = null
 
-    // onUnmounted(() => {
-    //   observer.disconnect()
-    // })
-
+    /** 跳转至 */
     const navTo = (nav: string) => {
-      let dom =  document.getElementById(nav)
+      let dom = document.getElementById(nav)
       if (!dom) return
+      const cls = ns.em('card-item', 'blink')
+      currentDom?.classList.remove(cls)
+
+      currentDom = dom
       dom.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       })
-      dom.style.color = 'var(--el-color-primary)'
+      dom.classList.add(cls)
     }
 
+    /** 校验所有的表单和多行表单 */
     const validate = async () => {
       for (const form of exposedFormList) {
         await form.validate()
@@ -210,20 +206,11 @@ export default defineComponent({
           <div class={ns.e('main')}>
             <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
               <ElNodeRender nodes={children} />
-
-
             </ElScrollbar>
 
             {props.hideFooter ? null : (
               <section class={ns.e('footer')}>
-                <ElPopconfirm
-                  title='确定返回吗?'
-                  content='你的页面可能有未保存的数据'
-                  onConfirm={handleBack}
-                  v-slots={{
-                    reference: () => <ElButton>返回</ElButton>
-                  }}
-                ></ElPopconfirm>
+                <ElButton onClick={handleBack}>返回</ElButton>
                 <div>{slots.footer?.()}</div>
               </section>
             )}
