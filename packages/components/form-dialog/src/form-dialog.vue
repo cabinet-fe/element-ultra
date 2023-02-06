@@ -97,27 +97,27 @@ const submit = async () => {
 
   loading.value = true
 
-  if (props.confirm) {
-    const p = props.confirm()
-    if (p instanceof Promise) {
-      const result = await p.finally(() => {
-        loading.value = false
-      })
-
-      if (result === false) {
-        return
-      }
-    } else {
-      loading.value = false
-      if (p === false) {
-        return
-      }
-    }
-  } else {
+  if (!props.confirm) {
     loading.value = false
+    return cancel()
   }
 
-  cancel()
+  const p = props.confirm()
+  // 异步操作
+  if (p instanceof Promise) {
+    await p
+      .then(result => {
+        result !== false && cancel()
+      })
+      .finally(() => {
+        loading.value = false
+      })
+  }
+  // 同步操作
+  else {
+    loading.value = false
+    p !== false && cancel()
+  }
 }
 
 /** 提交并继续 */
