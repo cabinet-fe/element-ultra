@@ -84,9 +84,9 @@ const validateForm = async () => {
 }
 
 const resetForm = async () => {
-  for (const form of forms) {
+  forms.forEach(form => {
     form.resetFields()
-  }
+  })
 }
 
 const loading = shallowRef(false)

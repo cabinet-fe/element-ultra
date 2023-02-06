@@ -12,14 +12,19 @@
     @click="
       open('update', {
         title: '编辑',
-        data: {
+        data: [
+        {
             name: '张三',
             type: '2',
             school: '清华',
             age: 1,
             a: { a: '14', b: '23' },
             node2: ['0', '0-0', '1']
+          },
+          {
+            test: '33'
           }
+        ]
       })
     "
     >编辑</el-button
@@ -32,6 +37,7 @@
     v-model="dialog.visible"
     :confirm="confirm"
   >
+   <el-card header="aaa">
     <el-form
       :cols="{ cols: 3, xs: 1, s: 2 }"
       :data="data"
@@ -96,10 +102,13 @@
       <el-input label="a.a" field="a.a" />
       <el-input label="a.b" field="a.b" />
     </el-form>
-
+   </el-card>
+   <el-card header="bbb">
     <el-form :data="data2" :rules="rules2">
-      <el-input field="test" />
+      <el-input label="测试2" field="test" />
     </el-form>
+   </el-card>
+
   </el-form-dialog>
 </template>
 
@@ -123,7 +132,7 @@ const [data, rules] = useFormModel({
   type: { value: '' },
   age: {},
   node1: { value: '' },
-  node2: { value: [] },
+  node2: { value: [] as string[] },
   a: {
     value: {},
     children: {
@@ -153,7 +162,7 @@ const [data2, rules2] = useFormModel({
   test: {}
 })
 
-const [dialog, open] = useFormDialog(data)
+const [dialog, open] = useFormDialog([data, data2])
 
 const confirm = () => {
   return new Promise(rs => {
