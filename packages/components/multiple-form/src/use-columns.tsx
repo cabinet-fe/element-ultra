@@ -147,7 +147,7 @@ export default function useColumns(options: Options) {
         })
       }
 
-      return val ? String(val) : null
+      return String(val ?? '')
     },
 
     editing: ({ val, row }, column) => {
