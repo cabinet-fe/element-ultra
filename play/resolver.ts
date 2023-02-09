@@ -40,7 +40,7 @@ function resolveComponent(name: string): any | undefined {
   return {
     importName: name,
     path: `element-ultra`,
-    sideEffects: getSideEffects(partialName),
+    sideEffects: getSideEffects(partialName)
   }
 }
 
@@ -56,8 +56,8 @@ function resolveDirective(
       Popover: { importName: 'ElPopoverDirective', styleName: 'popover' },
       InfiniteScroll: {
         importName: 'ElInfiniteScroll',
-        styleName: 'infinite-scroll',
-      },
+        styleName: 'infinite-scroll'
+      }
     }
 
   const directive = directives[name]
@@ -66,7 +66,7 @@ function resolveDirective(
   return {
     importName: directive.importName,
     path: `element-ultra`,
-    sideEffects: getSideEffects(directive.styleName),
+    sideEffects: getSideEffects(directive.styleName)
   }
 }
 
@@ -81,7 +81,7 @@ export function ElementUltraResolver(
       ssr: false,
       directives: true,
       exclude: undefined,
-      ...options,
+      ...options
     }
     return optionsResolved
   }
@@ -91,13 +91,13 @@ export function ElementUltraResolver(
       type: 'component',
       resolve: async (name: string) => {
         return resolveComponent(name)
-      },
+      }
     },
     {
       type: 'directive',
       resolve: async (name: string) => {
         return resolveDirective(name, await resolveOptions())
-      },
-    },
+      }
+    }
   ]
 }
