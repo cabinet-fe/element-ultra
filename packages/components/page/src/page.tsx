@@ -112,7 +112,6 @@ export default defineComponent({
 
     // 当滚动停止时表示滚动完成
     const onScrollStopped = debounce((rect: any) => {
-      console.log(rect)
       if (clicked) {
         clicked = false
       }
