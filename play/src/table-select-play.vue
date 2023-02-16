@@ -9,9 +9,11 @@
     api="/test/table/select"
     :dialog-title="dialogTitle"
     ref="tableRef"
-    :editable="true"
+    :editable="false"
     value-key="code"
     :column-filter="columnFilter"
+    clearable
+    hide
   >
     <template #searcher>
       <el-input v-model="query.name" />

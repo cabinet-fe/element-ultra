@@ -1,51 +1,52 @@
 <template>
-  <div :class="ns.b()" v-bind="$attrs" v-if="!noTrigger || !hide">
-    <template v-if="!tableSelectDisabled">
-      <!-- 触发器 -->
-      <span
-        v-if="!noTrigger"
-        @click="!tableSelectDisabled && dialogRef?.open()"
-        :class="ns.e('btn')"
-      >
-        <slot>
-          <el-button :disabled="tableSelectDisabled" type="primary">
-            选择
-          </el-button>
-        </slot>
-      </span>
-
-      <!-- 清空数据 -->
-      <el-popconfirm
-        v-if="clearable"
-        @confirm="handleClear()"
-        :hide-after="0"
-        title="确定清空"
-      >
-        <template #reference>
-          <el-button :disabled="tableSelectDisabled" type="warning">
-            {{ clearText }}
-          </el-button>
-        </template>
-      </el-popconfirm>
-    </template>
-
-    <!-- 数据展示表格 -->
-    <ElTable
-      v-if="!hide"
-      :size="props.size"
-      :columns="props.columns"
-      :data="displayData"
-      v-bind="$attrs"
+  <div v-if="!tableSelectDisabled" :class="ns.e('btn')" :style="{
+    marginBottom: hide ? '' : '4px'
+  }">
+    <!-- 触发器 -->
+    <span
+      v-if="!noTrigger"
+      style="margin-right: 6px;"
+      @click="!tableSelectDisabled && dialogRef?.open()"
     >
-      <template
-        v-for="column of props.columns.filter(column => !!column.slot)"
-        :key="column.slot"
-        v-slot:[column.slot!]="scoped"
-      >
-        <slot :name="column.slot" v-bind="scoped" />
+      <slot>
+        <el-button :disabled="tableSelectDisabled" type="primary">
+          选择
+        </el-button>
+      </slot>
+    </span>
+
+    <!-- 清空数据 -->
+    <el-popconfirm
+      v-if="clearable"
+      @confirm="handleClear()"
+      :hide-after="0"
+      title="确定清空"
+    >
+      <template #reference>
+        <el-button :disabled="tableSelectDisabled" type="warning">
+          {{ clearText }}
+        </el-button>
       </template>
-    </ElTable>
+    </el-popconfirm>
   </div>
+
+  <!-- 数据展示表格 -->
+  <ElTable
+    v-if="!hide"
+    :class="ns.b()"
+    :size="props.size"
+    :columns="props.columns"
+    :data="displayData"
+    v-bind="$attrs"
+  >
+    <template
+      v-for="column of props.columns.filter(column => !!column.slot)"
+      :key="column.slot"
+      v-slot:[column.slot!]="scoped"
+    >
+      <slot :name="column.slot" v-bind="scoped" />
+    </template>
+  </ElTable>
 
   <!-- 数据选择和筛选表格 -->
   <TableSelectDialog ref="dialogRef">

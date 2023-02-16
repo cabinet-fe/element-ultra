@@ -33,9 +33,8 @@ $directions: rtl, ltr, ttb, btt;
     align-items: center;
     color: rgb(114, 118, 123);
     display: flex;
-    margin-bottom: 32px;
     padding: getCssVar('drawer-padding-primary');
-    padding-bottom: 0;
+    border-bottom: 1px solid var(--el-border-color);
     & > :first-child {
       flex: 1;
     }

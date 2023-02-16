@@ -8,8 +8,10 @@
 @include b(table-select) {
   @include e(btn) {
     display: inline-block;
-    margin-right: 6px;
-    margin-bottom: 4px;
+
+    & > span {
+      display: inline-block;
+    }
   }
 
   @include e(dialog-searcher) {
