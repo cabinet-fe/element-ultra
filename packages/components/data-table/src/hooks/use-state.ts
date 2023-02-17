@@ -16,7 +16,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     selected: props.selected as any,
     /** 排序 */
     sortKeys: shallowReactive<Record<string, 'asc' | 'dsc' | 'default'>>({}),
-    /** 数据 */
+    /** 表格数据 */
     data: [] as (Row | DataTreeRow)[]
   })
 
@@ -28,7 +28,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
   const treeData = shallowRef<DataTreeRow[]>([])
 
-  const dfsReactive = (arr: any[], depth: number): DataTreeRow[] => {
+  const dfsReactive = (arr: any[], depth: number, root?: DataTreeRow): DataTreeRow[] => {
     return arr.map((item, index) => {
       let ret: DataTreeRow = shallowReactive({
         uid: uid++,

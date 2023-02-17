@@ -30,7 +30,12 @@ export default defineComponent({
   name: 'ElPage',
 
   props: {
+    /** 隐藏底部 */
     hideFooter: {
+      type: Boolean
+    },
+    /** 隐藏右侧导航 */
+    hideNav: {
       type: Boolean
     }
   },
@@ -193,7 +198,7 @@ export default defineComponent({
 
     return () => {
       const { children, navList } = getDefaultSlots()
-      let hasNav = !!navList.length
+      let hasNav = !!navList.length && !props.hideNav
       return (
         <ElGrid
           {...attrs}
@@ -203,7 +208,13 @@ export default defineComponent({
           cols={`minmax(0, 1fr) ${hasNav ? '100px' : '0'}`}
         >
           <div class={ns.e('main')}>
-            <ElScrollbar class={ns.e('content')} onScroll={onScrollStopped}>
+            <ElScrollbar
+              style={{
+                height: props.hideFooter ? '100%' : 'calc(100% - 40px)'
+              }}
+              class={ns.e('content')}
+              onScroll={onScrollStopped}
+            >
               <ElNodeRender nodes={children} />
             </ElScrollbar>
 

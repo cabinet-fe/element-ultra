@@ -44,10 +44,9 @@ const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
 
-
 const _viewClass = computed(() => {
   const { viewClass } = props
-  let ret: string[] = [ ns.e('view')]
+  let ret: string[] = [ns.e('view')]
   if (Array.isArray(viewClass)) {
     ret = [...ret, ...viewClass]
   } else if (viewClass) {
@@ -100,7 +99,6 @@ const contentResizeObserver = useResizeObserver(wrapRef, ([entry]) => {
 })
 // @ts-ignore
 const resizeObserver = useResizeObserver(viewRef, () => {
-
   handleScroll()
 })
 

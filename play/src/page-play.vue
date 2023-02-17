@@ -1,5 +1,5 @@
 <template>
-  <el-page ref="pageRef">
+  <el-page ref="pageRef" hide-nav hide-footer>
     <template v-for="i in 5" :key="i">
       <el-card v-if="hideIndex !== i" :header="`标题${i}`">
         <el-form :data="data" :cols="1"  :key="i" :rules="rules">

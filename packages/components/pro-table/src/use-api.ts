@@ -118,6 +118,7 @@ export function useApi(options: Options) {
     state.data = res.data
     state.total = res.total ?? 0
     state.statistics = res.statistics
+    state.checked = []
 
     emit('loaded', res)
   }

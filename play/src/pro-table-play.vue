@@ -3,7 +3,7 @@
     height="100%"
     pagination
     row-key="id"
-    :api="api"
+    :data="[ { name: 'aaa' } ]"
     :query="query"
     cache-params
     :columns="columns"
@@ -14,6 +14,7 @@
     tree
     default-expand-all
     item-reactive
+    :show-tools="true"
   >
     <template #column-conf="{ column }">
       <el-input
