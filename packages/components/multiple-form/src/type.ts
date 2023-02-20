@@ -94,7 +94,9 @@ export type MultipleFormDeleteMethod = (ctx: {
   index: number
 }) => Promise<any> | any
 
-/** MultipleForm保存方法 */
+/**
+ * MultipleForm保存方法
+ */
 export type MultipleFormSaveMethod = (ctx: {
   /** 当前行的数据 */
   data: any
@@ -108,7 +110,7 @@ export type MultipleFormSaveMethod = (ctx: {
   indexes: number[]
   /** 当前行在同级中的路径 */
   index: number
-}) => Promise<any> | any
+}) => Promise<boolean | void> | boolean | void
 
 export const multipleFormProps = {
   dialogWidth: {

@@ -89,6 +89,7 @@ declare module 'vue' {
     ElTabs: typeof import('../packages/element-ultra')['ElTabs']
     ElTag: typeof import('../packages/element-ultra')['ElTag']
     ElTextarea: typeof import('../packages/element-ultra')['ElTextarea']
+    ElTextEditor: typeof import('../packages/element-ultra')['ElTextEditor']
     ElTimePicker: typeof import('../packages/element-ultra')['ElTimePicker']
     ElTimeSelect: typeof import('../packages/element-ultra')['ElTimeSelect']
     ElTimeline: typeof import('../packages/element-ultra')['ElTimeline']

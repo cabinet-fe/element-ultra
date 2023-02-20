@@ -11,12 +11,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
+import { onMounted, onBeforeUnmount, shallowRef, watch } from 'vue'
 import {
   createEditor,
   createToolbar,
   type Toolbar,
-  type IDomEditor
+  type IDomEditor,
+  IToolbarConfig
 } from '@wangeditor/editor'
 import { textEditorProps } from './text-editor'
 import { useEventWatch, useFormItem, useNamespace } from '@element-ultra/hooks'
@@ -87,10 +88,19 @@ const createTextEditor = () => {
     mode
   })
 
+  const toolbarConf: Partial<IToolbarConfig> = {}
+  if (props.include) {
+    toolbarConf.toolbarKeys = props.include
+  }
+  if (props.exclude) {
+    toolbarConf.excludeKeys = props.exclude
+  }
+
   toolbar = createToolbar({
     editor,
     selector: toolbarRef.value,
-    mode
+    mode,
+    config: toolbarConf
   })
 }
 
@@ -107,6 +117,18 @@ const setHtml = (html = '') => {
 // mode改变后重新创建编辑器
 watch(() => props.mode, createTextEditor)
 
+watch([() => props.exclude, () => props.include], ([exclude, include]) => {
+  const config = toolbar?.getConfig()
+
+  if (!config) return
+  if (exclude) {
+    config.excludeKeys = exclude
+  }
+  if (include) {
+    config.toolbarKeys = include
+  }
+})
+
 const [setEvent] = useEventWatch(() => props.modelValue, {
   onChangeByEvent: () => formItem?.validate(),
   onChangeNotByEvent: v => setHtml(v)
@@ -116,7 +138,7 @@ onMounted(() => {
   createTextEditor()
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   destroyTextEditor()
 })
 </script>
