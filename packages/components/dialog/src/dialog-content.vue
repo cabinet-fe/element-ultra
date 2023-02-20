@@ -47,7 +47,6 @@ import { ElIcon } from '@element-ultra/components/icon'
 import { ElNodeRender } from '@element-ultra/components/node-render'
 import { CloseComponents } from '@element-ultra/utils'
 import { dialogContentProps } from './dialog-content'
-
 import { dialogInjectionKey } from './token'
 
 const { Close } = CloseComponents

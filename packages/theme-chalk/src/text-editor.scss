@@ -3,17 +3,39 @@
 
 @include b(text-editor) {
   width: 100%;
+  line-height: normal;
   background-color: var(--el-bg-color);
   border: 1px solid var(--el-border-color);
   border-radius: var(--el-border-radius-base);
   overflow: hidden;
   transition: border-color var(--el-transition-duration-fast);
+  margin: 0 !important;
+
+  @include e(toolbar) {
+    border-bottom: 1px solid var(--el-border-color);
+  }
 
   @include e(body) {
-    .w-e-scroll,
-    .w-e-scroll > [data-slate-editor] {
+    .w-e-scroll {
       min-height: 300px;
       max-height: 600px;
+      scrollbar-width: 6px;
+      scrollbar-color: rgba(200, 200, 200, 0.5);
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(200, 200, 200, 0.5);
+        border-radius: 3px;
+
+        &:hover {
+          background-color: rgba(200, 200, 200, 0.8);
+        }
+      }
+    }
+    .w-e-scroll > [data-slate-editor] {
+      min-height: 300px;
     }
   }
 
