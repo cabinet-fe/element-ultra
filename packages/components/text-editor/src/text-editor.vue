@@ -68,7 +68,10 @@ const createTextEditor = () => {
       },
 
       onChange(editor) {
-        emit('change', editor.getHtml())
+        // 指定当前是一个用户事件操作
+        // 事件锁：只要值是因事件触发而改变的，modelValue的监听器不会执行
+        setEvent(true)
+        emit('update:modelValue', editor.getHtml())
       },
 
       onFocus() {
@@ -77,11 +80,7 @@ const createTextEditor = () => {
 
       onBlur(editor) {
         focused.value = false
-        // 通过blur事件来触发值的改变
-        // 事件锁：一旦值是因事件触发而改变的，modelValue的监听器不会执行
-        // 创建编辑器的操作，同时将对事件锁进行解锁
-        setEvent(true)
-        emit('update:modelValue', editor.getHtml())
+        emit('change', editor.getHtml())
       },
       placeholder
     },
@@ -130,7 +129,9 @@ watch([() => props.exclude, () => props.include], ([exclude, include]) => {
 })
 
 const [setEvent] = useEventWatch(() => props.modelValue, {
+  // 由用户事件触发的值的更新则进行校验
   onChangeByEvent: () => formItem?.validate(),
+  // 非用户触发的设置html值
   onChangeNotByEvent: v => setHtml(v)
 })
 
