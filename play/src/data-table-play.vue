@@ -66,38 +66,38 @@ const handleChange = (column: DataTableColumn, preset: string) => {
 
 const columns: DataTableColumn[] = [
   { name: '测试1', key: 'test1', slot: 'test1' },
-  {
-    name: '测试2',
-    key: 'test2',
-    children: [
-      {
-        name: '测试2-1',
-        key: 'test2-1',
+  // {
+  //   name: '测试2',
+  //   key: 'test2',
+  //   children: [
+  //     {
+  //       name: '测试2-1',
+  //       key: 'test2-1',
 
-        children: [
-          {
-            name: '测试2-1-1',
-            key: 'test2-1-1',
-            slot: 'test2',
-            align: 'center',
-            minWidth: 200
-          },
-          { name: '测试2-1-2', key: 'test2-1-2', slot: 'test2',   minWidth: 200 },
-          { name: '测试2-1-3', key: 'test2-1-3', slot: 'test2',   minWidth: 200 }
-        ]
-      },
-      {
-        name: '测试2-2',
-        key: 'test2-2',
-        children: [
-          { name: '测试3-1-1', key: 'test3-1-1', slot: 'test2' },
-          { name: '测试3-1-2', key: 'test3-1-2', slot: 'test2' },
-          { name: '测试3-1-3', key: 'test3-1-3', slot: 'test2' }
-        ]
-      },
-      { name: '测试2-3', key: 'test2-3', slot: 'test2' }
-    ]
-  },
+  //       children: [
+  //         {
+  //           name: '测试2-1-1',
+  //           key: 'test2-1-1',
+  //           slot: 'test2',
+  //           align: 'center',
+  //           minWidth: 200
+  //         },
+  //         { name: '测试2-1-2', key: 'test2-1-2', slot: 'test2',   minWidth: 200 },
+  //         { name: '测试2-1-3', key: 'test2-1-3', slot: 'test2',   minWidth: 200 }
+  //       ]
+  //     },
+  //     {
+  //       name: '测试2-2',
+  //       key: 'test2-2',
+  //       children: [
+  //         { name: '测试3-1-1', key: 'test3-1-1', slot: 'test2' },
+  //         { name: '测试3-1-2', key: 'test3-1-2', slot: 'test2' },
+  //         { name: '测试3-1-3', key: 'test3-1-3', slot: 'test2' }
+  //       ]
+  //     },
+  //     { name: '测试2-3', key: 'test2-3', slot: 'test2' }
+  //   ]
+  // },
   {
     name: () => <span style='color: red'>姓名</span>,
     key: 'name',

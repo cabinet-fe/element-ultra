@@ -63,7 +63,7 @@ const buildCell = (name: 'LeftCell' | 'CenterCell' | 'RightCell') => {
 
         /** 尺寸调节器 */
         const resizer =
-          header.isLeaf && !header.isPre ? (
+          header.isLeaf && !header.isPre && !header ? (
             <span
               class={resizeClass}
               style='right: 0'

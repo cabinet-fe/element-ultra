@@ -204,6 +204,7 @@ export default function useColumns(
     const rightColumns: DataTableColumn[] = []
 
     preColumns.value.concat(columns.value).forEach(column => {
+      // 设置了宽度的列才会有效地固定
       if (column.width && !column.children) {
         if (column.fixed === 'left') {
           return leftColumns.push(column)
@@ -299,6 +300,7 @@ export default function useColumns(
       delete column.left
       delete column.right
     })
+
     loop(columns.left, (cur, pre) => {
       delete cur.right
       if (pre) {

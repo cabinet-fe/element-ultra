@@ -69,17 +69,19 @@ import { computed, inject, onBeforeUnmount, provide, shallowRef, watch } from 'v
 import { dataHeaderToken, dataTableToken } from './token'
 import type { TableHeader } from './utils'
 import { LeftCell, RightCell, CenterCell } from './data-table-header-cell'
+import { useDomRefInject } from './hooks/use-dom-ref'
 
 const emit = defineEmits({
   'column-resize': (position: string, visible: boolean) => true
 })
+
+const { headerRef } = useDomRefInject()
 
 const {
   headerRows,
   scrollState,
   leafColumns,
   ns,
-  headerRef,
   getCellStyle,
   computePosition
 } = inject(dataTableToken)!

@@ -8,8 +8,9 @@ import {
 } from 'vue'
 import type { DataTableColumn, DataTableProps } from '../data-table'
 import type { TableHeader } from '../utils'
+import type { DomRefs } from './use-dom-ref'
 
-export default function useStyle(props: DataTableProps) {
+export default function useStyle(props: DataTableProps, refs: DomRefs) {
   /**
    * 获取单元格的通用样式
    * @param column 列
@@ -17,10 +18,23 @@ export default function useStyle(props: DataTableProps) {
   const getCellStyle = (column: DataTableColumn) => {
     const { width, minWidth } = column
     const { columnMinWidth } = props
-    return {
-      width: width ? width + 'px' : minWidth ? minWidth + 'px' : columnMinWidth + 'px',
-      // minWidth: (width || minWidth || columnMinWidth) + 'px'
+    // minWidth的优先级大于width, 同时指定width和minWidth时需要判断:
+    // 当width > minWidth时以width为宽度, 当width < minWidth时, 以minWidth为宽度
+    //
+    let style: Record<string, any> = {}
+    if (width) {
+      style.width = width + 'px'
     }
+    if (minWidth) {
+      style.minWidth = minWidth + 'px'
+      if (width && width < minWidth) {
+        style.width = style.minWidth
+      }
+    }
+    if (!minWidth && !width) {
+      style.minWidth = columnMinWidth + 'px'
+    }
+    return style
   }
 
   /** 表格大小尺寸映射 */
@@ -79,8 +93,7 @@ export default function useStyle(props: DataTableProps) {
   })
 
   // 表头和表底的引用, 用以计算表体的高度
-  const headerRef = shallowRef<HTMLDivElement>()
-  const footerRef = shallowRef<HTMLDivElement>()
+  const { headerRef, footerRef } = refs
 
   const bodyHeight = computed(() => {
     return `calc(100% - ${
@@ -110,10 +123,6 @@ export default function useStyle(props: DataTableProps) {
 
     /** 获取额外列的单元格样式 */
     getExtraCellStyle,
-
-    headerRef,
-
-    footerRef,
 
     /** 表体的高度 */
     bodyHeight

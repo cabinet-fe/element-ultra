@@ -36,6 +36,7 @@ import { dataTableToken } from './token'
 import useColumns from './hooks/use-columns'
 import useStyle from './hooks/use-style'
 import useState from './hooks/use-state'
+import { useDomRefProvide } from './hooks/use-dom-ref'
 
 defineOptions({
   name: 'ElDataTable'
@@ -46,9 +47,18 @@ const ns = useNamespace('data-table')
 const props = defineProps(dataTableProps)
 const emit = defineEmits(dataTableEmits)
 
+
+// 提供domRefs
+const refs = useDomRefProvide()
+
+// 数据状态
 const state = useState(props, emit)
+
+// 列
 const columns = useColumns(props, state)
-const styles = useStyle(props)
+
+// 样式
+const styles = useStyle(props, refs)
 
 const { showLeftFixedShadow, showRightFixedShadow } = styles
 
@@ -60,6 +70,7 @@ provide(dataTableToken, {
   rootProps: props,
   emit
 })
+
 
 const lineRef = shallowRef<HTMLElement>()
 
