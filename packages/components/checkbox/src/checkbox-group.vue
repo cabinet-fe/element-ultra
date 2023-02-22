@@ -29,23 +29,24 @@ const handleItemChange = (
   value: string | number,
   label: string | number
 ) => {
-  setEvent(true)
-  checkedValue.value[checked ? 'add' : 'delete'](value)
-  checkedLabel.value[checked ? 'add' : 'delete'](label)
+  run(() => {
+    checkedValue.value[checked ? 'add' : 'delete'](value)
+    checkedLabel.value[checked ? 'add' : 'delete'](label)
 
-  const modelValue = Array.from(checkedValue.value)
-  const labelValue = Array.from(checkedValue.value)
+    const modelValue = Array.from(checkedValue.value)
+    const labelValue = Array.from(checkedValue.value)
 
-  emit('update:modelValue', modelValue)
-  emit('change', modelValue, labelValue)
-  formItem?.validate()
+    emit('update:modelValue', modelValue)
+    emit('change', modelValue, labelValue)
+    formItem?.validate()
+  })
 }
 
 const groupDisabled = computed(() => {
   return props.disabled || form?.props.disabled
 })
 
-const [setEvent] = useEventWatch(
+const [run] = useEventWatch(
   () => props.modelValue,
   {
     onChangeNotByEvent: v => (checkedValue.value = new Set(v))

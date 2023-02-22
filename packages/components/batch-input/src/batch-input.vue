@@ -69,7 +69,7 @@ const isEmpty = computed(() => {
   return !list.value.length
 })
 
-const [setEvent] = useEventWatch(
+const [run] = useEventWatch(
   () => props.modelValue,
   {
     onChangeNotByEvent(v) {
@@ -95,7 +95,11 @@ const provideObj = {
 }
 
 watch(
-  [() => batchInputDisabled.value, () => inputSize.value, () => form?.props] as const,
+  [
+    () => batchInputDisabled.value,
+    () => inputSize.value,
+    () => form?.props
+  ] as const,
   ([disabled, size, props]) => {
     Object.assign(provideObj.props, props)
     provideObj.props.disabled = disabled
@@ -107,9 +111,10 @@ watch(
 provide(formKey, provideObj)
 
 const handleEmitValue = () => {
-  setEvent(true)
-  emit('update:modelValue', list.value)
-  formItem?.validate()
+  run(() => {
+    emit('update:modelValue', list.value)
+    formItem?.validate()
+  })
 }
 
 const handleAdd = (index: number) => {
@@ -121,7 +126,8 @@ const handleAdd = (index: number) => {
 }
 
 const handleRemove = (index: number) => {
-  setEvent(true)
-  list.value = [...list.value.slice(0, index), ...list.value.slice(index + 1)]
+  run(() => {
+    list.value = [...list.value.slice(0, index), ...list.value.slice(index + 1)]
+  })
 }
 </script>

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount, shallowRef, watch } from 'vue'
+import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import {
   createEditor,
   createToolbar,
@@ -68,10 +68,10 @@ const createTextEditor = () => {
       },
 
       onChange(editor) {
-        // 指定当前是一个用户事件操作
-        // 事件锁：只要值是因事件触发而改变的，modelValue的监听器不会执行
-        setEvent(true)
-        emit('update:modelValue', editor.getHtml())
+        // 在事件里运行
+        run(() => {
+          emit('update:modelValue', editor.getHtml())
+        })
       },
 
       onFocus() {
@@ -80,7 +80,7 @@ const createTextEditor = () => {
 
       onBlur(editor) {
         focused.value = false
-        emit('change', editor.getHtml())
+        run(() => emit('change', editor.getHtml()))
       },
       placeholder
     },
@@ -128,7 +128,7 @@ watch([() => props.exclude, () => props.include], ([exclude, include]) => {
   }
 })
 
-const [setEvent] = useEventWatch(() => props.modelValue, {
+const [run] = useEventWatch(() => props.modelValue, {
   // 由用户事件触发的值的更新则进行校验
   onChangeByEvent: () => formItem?.validate(),
   // 非用户触发的设置html值
@@ -139,7 +139,7 @@ onMounted(() => {
   createTextEditor()
 })
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
   destroyTextEditor()
 })
 </script>

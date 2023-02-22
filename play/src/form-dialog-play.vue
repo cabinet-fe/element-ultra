@@ -49,6 +49,8 @@
         <el-radio value="2">学校</el-radio>
       </el-radio-group>
 
+      <el-text-editor span="max" label="富文本" field="rich" />
+
       <el-input-number field="age" label="年龄"></el-input-number>
 
       <el-input v-if="data.type === '1'" field="name" label="名称" />
@@ -133,6 +135,7 @@ const [data, rules] = useFormModel({
   age: {},
   node1: { value: '' },
   node2: { value: [] as string[] },
+  rich: { required: true },
   a: {
     value: {},
     children: {

@@ -18,17 +18,16 @@ export const useEventWatch = <T extends any = any, Immediate extends Readonly<bo
   },
   options?: WatchOptions<Immediate>
 ) => {
-
-
-
   let changeByEvent = false
 
   /**
    * 设置事件
-   * @param isEvent 是否是事件
+   * @param isEvent 是否用户事件
    */
-  const setEvent = (isEvent: boolean) => {
-    changeByEvent = isEvent
+  const runEvent = (event: () => any) => {
+    changeByEvent = true
+    event()
+    changeByEvent = false
   }
 
   const stop = watch(source, v => {
@@ -36,13 +35,12 @@ export const useEventWatch = <T extends any = any, Immediate extends Readonly<bo
     callback.onChange?.(v)
     if (changeByEvent) {
       callback.onChangeByEvent?.(v)
-      setEvent(false)
     } else {
       callback.onChangeNotByEvent?.(v)
     }
   }, options)
   return [
-    setEvent,
+    runEvent,
     stop
   ] as const
 }

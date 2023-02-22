@@ -80,6 +80,8 @@
           text-field="bb"
         />
 
+        <el-text-editor span="max" label="富文本" field="rich" />
+
         <el-date-picker
           type="daterange"
           label="范围日期"
@@ -166,6 +168,9 @@ const [data, rules] = useFormModel(
           value: '2'
         }
       }
+    },
+    rich: {
+      value: ''
     }
   },
   {
