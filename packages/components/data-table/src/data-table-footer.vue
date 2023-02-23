@@ -50,9 +50,12 @@
 import { computed, inject, provide, watch } from 'vue'
 import { dataFooterToken, dataTableToken } from './token'
 import { LeftCell, CenterCell, RightCell } from './data-table-footer-cell'
+import { useDomRefInject } from './hooks/use-dom-ref'
 
-const { rootProps, leafColumns, ns, scrollState, footerRef, getCellStyle } =
+const { rootProps, leafColumns, ns, scrollState, getCellStyle } =
   inject(dataTableToken)!
+
+const { footerRef } = useDomRefInject()
 
 const ele = 'footer-cell'
 
@@ -101,6 +104,8 @@ provide(dataFooterToken, {
 })
 
 watch(() => scrollState.scrollLeft, left => {
-  footerRef.value!.scrollLeft = left
+  const footer = footerRef.value
+  if (!footer) return
+  footer.scrollLeft = left
 })
 </script>

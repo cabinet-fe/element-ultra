@@ -3,7 +3,7 @@
     height="100%"
     pagination
     row-key="id"
-    :data="[ { name: 'aaa' } ]"
+    :api="api"
     :query="query"
     cache-params
     :columns="columns"
@@ -11,10 +11,8 @@
     checkable
     ref="tableRef"
     show-summary
-    tree
     default-expand-all
     item-reactive
-    :show-tools="true"
   >
     <template #column-conf="{ column }">
       <el-input
