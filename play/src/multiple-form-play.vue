@@ -21,7 +21,7 @@
     >
       <template #tools>
         <el-button type="primary" @click="addNextLine">添加一行</el-button>
-        <el-button plain type="primary" @click="refer?.validate()"
+        <el-button @click="refer?.validate()"
           >校验</el-button
         >
       </template>

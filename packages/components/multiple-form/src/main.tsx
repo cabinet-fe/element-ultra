@@ -8,7 +8,6 @@ import {
 import { useNamespace } from '@element-ultra/hooks'
 import { multipleFormEmits, multipleFormProps } from './type'
 import { ElTable } from '@element-ultra/components/table'
-import { ElButton } from '@element-ultra/components/button'
 import { ElFormDialog } from '@element-ultra/components/form-dialog'
 import { ElForm } from '@element-ultra/components/form'
 import useRows from './use-rows'
@@ -198,14 +197,9 @@ export default defineComponent({
             v-slots={{
               empty: () =>
                 disabled ? null : (
-                  <ElButton
-                    plain
-                    type='primary'
-                    style='width: 100%'
-                    onClick={handleCreate}
-                  >
-                    新增
-                  </ElButton>
+                  <div class={ns.e('btn-add')} onClick={handleCreate}>
+                    <span>新 增</span>
+                  </div>
                 )
             }}
           ></ElTable>
