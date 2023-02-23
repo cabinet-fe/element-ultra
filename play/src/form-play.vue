@@ -77,6 +77,7 @@
           label="选择框"
           :options="[{ label: 'aa', value: '1' }]"
           field="aa"
+          filterable
           text-field="bb"
         />
 

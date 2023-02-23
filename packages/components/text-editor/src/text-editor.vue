@@ -20,7 +20,7 @@ import {
   IToolbarConfig
 } from '@wangeditor/editor'
 import { textEditorProps } from './text-editor'
-import { useEventWatch, useFormItem, useNamespace } from '@element-ultra/hooks'
+import { useFormItem, useNamespace } from '@element-ultra/hooks'
 
 defineOptions({
   name: 'ElTextEditor'
@@ -45,10 +45,14 @@ const bodyRef = shallowRef<HTMLDivElement>()
 let editor: IDomEditor | null = null
 let toolbar: Toolbar | null = null
 
+const internalVal = shallowRef('')
+
 const createTextEditor = () => {
   // 首先销毁之前创建的实例（如果实例已被创建）
   editor?.destroy()
   toolbar?.destroy()
+  editor = null
+  toolbar = null
 
   if (!toolbarRef.value || !bodyRef.value) return
 
@@ -57,7 +61,8 @@ const createTextEditor = () => {
   editor = createEditor({
     selector: bodyRef.value,
     html: modelValue,
-
+    mode,
+    content: [],
     config: {
       MENU_CONF: {
         async uploadImage(file: File, insert: any) {
@@ -68,23 +73,21 @@ const createTextEditor = () => {
       },
 
       onChange(editor) {
-        // 在事件里运行
-        run(() => {
-          emit('update:modelValue', editor.getHtml())
-        })
+        const html = editor.getHtml()
+        internalVal.value = html
+        emit('update:modelValue', html)
+        emit('change', html)
       },
 
       onFocus() {
         focused.value = true
       },
 
-      onBlur(editor) {
+      onBlur() {
         focused.value = false
-        run(() => emit('change', editor.getHtml()))
       },
       placeholder
-    },
-    mode
+    }
   })
 
   const toolbarConf: Partial<IToolbarConfig> = {}
@@ -128,12 +131,14 @@ watch([() => props.exclude, () => props.include], ([exclude, include]) => {
   }
 })
 
-const [run] = useEventWatch(() => props.modelValue, {
-  // 由用户事件触发的值的更新则进行校验
-  onChangeByEvent: () => formItem?.validate(),
-  // 非用户触发的设置html值
-  onChangeNotByEvent: v => setHtml(v)
-})
+watch(
+  () => props.modelValue,
+  v => {
+    formItem?.validate()
+    if (v === internalVal.value) return
+    setHtml(v)
+  }
+)
 
 onMounted(() => {
   createTextEditor()
