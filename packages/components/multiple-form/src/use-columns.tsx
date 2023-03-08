@@ -15,7 +15,8 @@ import type {
   MultipleFormColumn,
   MultipleFormProps,
   MultipleFormRow,
-  MultipleFormEmits
+  MultipleFormEmits,
+  ActionType
 } from './type'
 import {
   Insert,
@@ -390,6 +391,10 @@ export default function useColumns(options: Options) {
     }
   }
 
+  const actionVisible = (type: ActionType, row: MultipleFormRow) => {
+    if (typeof type === 'function') return type(row)
+    return type
+  }
   const cols = computed(() => {
     const { columns, disabled, actionEdit, actionDelete, actionAdd, tree } =
       props
@@ -410,7 +415,7 @@ export default function useColumns(options: Options) {
             <ElButton
               type='primary'
               icon={Select}
-              title="保存"
+              title='保存'
               link
               loading={row.loading}
               onClick={() => handleSave(row)}
@@ -418,7 +423,7 @@ export default function useColumns(options: Options) {
             <ElButton
               type='primary'
               icon={Close}
-              title="取消"
+              title='取消'
               loading={row.loading}
               link
               onClick={() => handleClose(row)}
@@ -427,7 +432,7 @@ export default function useColumns(options: Options) {
 
         // 查看状态下显示的按钮
         if (row.status === 'view') {
-          actionEdit &&
+          actionVisible(actionEdit, row) &&
             buttons.push(
               <ElButton
                 title='编辑'
@@ -456,7 +461,7 @@ export default function useColumns(options: Options) {
             )
 
           // 在当前行下方插入
-          actionAdd &&
+          actionVisible(actionAdd, row) &&
             buttons.push(
               <ElButton
                 type='primary'
@@ -470,7 +475,7 @@ export default function useColumns(options: Options) {
         }
 
         // 删除按钮
-        actionDelete &&
+        actionVisible(actionDelete, row) &&
           buttons.push(
             <ElButton
               type='primary'

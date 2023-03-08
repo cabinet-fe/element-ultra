@@ -1,6 +1,31 @@
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
+export type MultipleFormRow = {
+  uid: number
+  root: boolean
+  /** 数据本身 */
+  data: any
+  /** 树深 */
+  depth: number
+  /** 是否是已保存的数据 */
+  saved: boolean
+  /** 行状态 */
+  status: 'view' | 'editing'
+  /** 行索引 */
+  index: number
+  /** 节点编号 */
+  indexes: number[]
+  /** 父节点 */
+  parent: MultipleFormRow | null
+  /** 子行 */
+  children?: MultipleFormRow[]
+  /** 进度中 */
+  loading: boolean
+  /** 是否为叶子节点 */
+  leaf: boolean
+}
+
 /** 列校验 */
 export type MultipleFormRules = {
   /** 是否必填 */
@@ -112,6 +137,8 @@ export type MultipleFormSaveMethod = (ctx: {
   index: number
 }) => Promise<boolean | void> | boolean | void
 
+export type ActionType = boolean | ((ctx: MultipleFormRow) => boolean)
+
 export const multipleFormProps = {
   dialogWidth: {
     type: String
@@ -156,19 +183,19 @@ export const multipleFormProps = {
 
   /** 新增按钮是否可见 */
   actionAdd: {
-    type: Boolean,
+    type: [Boolean, Function] as PropType<ActionType>,
     default: true
   },
 
   /** 编辑按钮是否可见 */
   actionEdit: {
-    type: Boolean,
+    type: [Boolean, Function] as PropType<ActionType>,
     default: true
   },
 
   /** 删除按钮是否可见 */
   actionDelete: {
-    type: Boolean,
+    type: [Boolean, Function] as PropType<ActionType>,
     default: true
   },
 
@@ -218,27 +245,4 @@ export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
 
 export type MultipleFormEmits = EmitFn<typeof multipleFormEmits>
 
-export type MultipleFormRow = {
-  uid: number
-  root: boolean
-  /** 数据本身 */
-  data: any
-  /** 树深 */
-  depth: number
-  /** 是否是已保存的数据 */
-  saved: boolean
-  /** 行状态 */
-  status: 'view' | 'editing'
-  /** 行索引 */
-  index: number
-  /** 节点编号 */
-  indexes: number[]
-  /** 父节点 */
-  parent: MultipleFormRow | null
-  /** 子行 */
-  children?: MultipleFormRow[]
-  /** 进度中 */
-  loading: boolean
-  /** 是否为叶子节点 */
-  leaf: boolean
-}
+
