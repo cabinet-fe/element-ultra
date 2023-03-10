@@ -58,7 +58,6 @@ const getItemFromCache = (
     }
 
     for (let i = lastVisited + 1; i <= index; i++) {
-      // console.log(i, sizer(i))
       const size = sizer(i)
 
       cachedItems[i] = {

@@ -24,6 +24,21 @@
 
     <!-- 主数据 -->
     <template #default="{ list, style }">
+      <tr v-if="!list.length" :class="ns.e('row')">
+        <td
+          :class="ns.e('cell')"
+          :colspan="
+            leafColumns.left.length +
+            leafColumns.center.length +
+            leafColumns.right.length
+          "
+          :style="style"
+        >
+          <span style="position: sticky; left: 50%; transform: translate(-50%)">
+            暂无数据
+          </span>
+        </td>
+      </tr>
       <DataTableRow
         v-for="(item, index) of list"
         @click="emit('row-click', item, index)"

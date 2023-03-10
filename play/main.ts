@@ -10,7 +10,7 @@ setConfigStore({
   proTableRequestMethod(options) {
     return new Promise(rs => {
       setTimeout(() => {
-        let data = Array.from({ length: 1000 }).map((_, i) => ({
+        let data = Array.from({ length: 1000}).map((_, i) => ({
           name: '张三说的有符合公司的的话是个' + i,
           money: ~~(Math.random() * 1000),
           name2: 1,
