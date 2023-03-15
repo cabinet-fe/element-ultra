@@ -10,7 +10,6 @@
     show-index
     checkable
     ref="tableRef"
-    show-summary
     default-expand-all
     item-reactive
   >

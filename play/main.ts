@@ -32,9 +32,9 @@ setConfigStore({
         rs({
           data,
           total: 100,
-          statistics: {
-            money: 188888888
-          }
+          // statistics: {
+            // money: 188888888
+          // }
         })
       }, 500)
     })

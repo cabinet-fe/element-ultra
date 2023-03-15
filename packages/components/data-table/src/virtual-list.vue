@@ -108,15 +108,14 @@ const listStyle = computed(() => {
 let position = shallowRef(0)
 
 /** 容器高度 */
-const containerHeight = shallowRef(0)
+let containerHeight = 0
 
 /** 列表渲染范围 */
 const renderedRange = computed(() => {
   const { itemSize, bufferHeight, data } = props
 
   /** 使用缓冲区对冲掉网上滚动时元素的渲染 */
-  let end =
-    position.value + ~~((containerHeight.value + bufferHeight * 2) / itemSize)
+  let end = position.value + ~~((containerHeight + bufferHeight * 2) / itemSize)
 
   return data.slice(position.value, end)
 })
@@ -138,10 +137,12 @@ let scroll = debounce((s: ScrollCtx) => {
 
 /** 正常滚动 */
 const handleScroll = (s: ScrollCtx) => {
-  requestAnimationFrame(() => {
-    emit('scroll', s)
-    scroll(s)
-  })
+  emit('scroll', s)
+  scroll(s)
+  // requestAnimationFrame(() => {
+  //   emit('scroll', s)
+  //   scroll(s)
+  // })
 }
 const containerRef = shallowRef<InstanceType<typeof ElScrollbar>>()
 
@@ -165,7 +166,7 @@ let stop: () => void
 onMounted(() => {
   stop = useResizeObserver(containerRef.value?.wrapRef, ([entry]) => {
     const { height } = entry.contentRect
-    containerHeight.value = height
+    containerHeight = height
   }).stop
 })
 

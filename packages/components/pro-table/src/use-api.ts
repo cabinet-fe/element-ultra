@@ -141,7 +141,10 @@ export function useApi(options: Options) {
 
     search.split('&').forEach(item => {
       let [key, val] = decodeURIComponent(item).split('=')
-      val = JSON.parse(val)
+      try {
+        val = JSON.parse(val)
+      } catch {}
+
       if (key in query) {
         query[key] = val
       } else if (key in pageQuery) {
