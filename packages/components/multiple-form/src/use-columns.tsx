@@ -524,7 +524,7 @@ export default function useColumns(options: Options) {
 
     if (tree) {
       indexColumn.align = 'left'
-      indexColumn.width = 120
+      indexColumn.width = 130
       indexColumn.render = ({ row }) => {
         return (
           <>
