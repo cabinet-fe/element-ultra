@@ -12,7 +12,11 @@
   ],
   "license": "MIT",
   "exports": {
-    ".": "./index.mjs",
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.mjs"
+    },
     "./*.mjs": "./*.mjs",
     "./*": "./*"
   },

@@ -8,16 +8,16 @@ import copyFiles from './copy-files'
 import apply from './apply'
 
 export default series(
-  clean, // 清空
+  // clean, // 清空
 
   parallel(
-    buildModules, // 构建packages中的模块
+    // buildModules, // 构建packages中的模块
     genDefinitions,
     // buildHelper, // 构建帮助信息
-    buildTheme // 样式主题构建
+    // buildTheme // 样式主题构建
   ),
 
   copyFiles, // 拷贝常用文件
 
-  apply // 应用到目标项目
+  // apply // 应用到目标项目
 )
