@@ -31,6 +31,7 @@ export default async function genDefinitions() {
     skipAddingFilesFromTsConfig: true
   })
 
+  // 获取TS文件
   const sourceFiles = await getSourceFiles(project)
 
   // 输出诊断信息
@@ -45,6 +46,8 @@ export default async function genDefinitions() {
     emitOnlyDtsFiles: true
   })
 
+  const entryRE = /packages\/index/
+
   const tasks = sourceFiles.map(async sourceFile => {
     const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
     // yellow(`Generating definition for file: ${bold(relativePath)}`)
@@ -57,7 +60,9 @@ export default async function genDefinitions() {
     }
 
     const tasks = emitFiles.map(async outputFile => {
+
       const filepath = outputFile.getFilePath()
+
       await fs.mkdir(path.dirname(filepath), {
         recursive: true
       })
@@ -68,6 +73,11 @@ export default async function genDefinitions() {
         'element-ultra/theme-chalk'
       )
       content = content.replaceAll(`@element-ultra/`, `element-ultra/`)
+
+
+      if (entryRE.test(filepath)) {
+        content = content.replaceAll(`element-ultra/`, './')
+      }
 
       await fs.writeFile(filepath, content, 'utf8')
 
