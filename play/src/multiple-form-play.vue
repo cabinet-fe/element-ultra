@@ -5,7 +5,7 @@
     <el-radio value="dialog">弹框编辑</el-radio>
   </el-radio-group>
 
-  <el-dialog v-model="visible">
+  <el-form-dialog v-model="visible">
     <el-multiple-form
       :mode="mode"
       :columns="columns"
@@ -56,7 +56,7 @@
         <el-input label="测试2" field="test.test2" />
       </template>
     </el-multiple-form>
-  </el-dialog>
+  </el-form-dialog>
 </template>
 
 <script lang="ts" setup>

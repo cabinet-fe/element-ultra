@@ -75,9 +75,9 @@ export default async function genDefinitions() {
       content = content.replaceAll(`@element-ultra/`, `element-ultra/`)
 
 
-      if (entryRE.test(filepath)) {
-        content = content.replaceAll(`element-ultra/`, './')
-      }
+      // if (entryRE.test(filepath)) {
+      //   content = content.replaceAll(`element-ultra/`, './')
+      // }
 
       await fs.writeFile(filepath, content, 'utf8')
 

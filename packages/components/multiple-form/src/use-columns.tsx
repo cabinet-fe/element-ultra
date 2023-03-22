@@ -9,7 +9,8 @@ import {
   Slots,
   ShallowRef,
   onMounted,
-  onBeforeUnmount
+  onBeforeUnmount,
+watch
 } from 'vue'
 import type {
   MultipleFormColumn,
@@ -166,6 +167,8 @@ export default function useColumns(options: Options) {
   }
 
   let currentEditRow: MultipleFormRow | null = null
+
+  watch(() => props.data, () => currentEditRow = null)
 
   /** 重置当前编辑行 */
   const resetCurrentRow = () => {
