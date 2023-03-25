@@ -28,29 +28,30 @@
     </template>
 
     <template #searcher>
-      <el-input placeholder="名称" v-model="query.name" />
-      <el-input v-for="item of list" :placeholder="item.label" />
-      <el-select
-        clearable
-        placeholder="测试"
-        :options="[
-          { label: 'a', value: 'a' },
-          { label: 'b', value: 'b' }
-        ]"
-        multiple
-        v-model="query.$s"
-      />
-      <!-- <span></span> -->
-      <!-- <el-date-picker
-        placeholder="起止日期"
-        type="daterange"
-        v-model="query.$date"
-      />
-      <el-input
-        style="width: 200px"
-        v-for="(_, i) in 9"
-        :placeholder="`测试${i}`"
-      /> -->
+      <template v-if="showTools">
+        <el-input placeholder="名称" v-model="query.name" />
+        <el-input v-for="item of list" :placeholder="item.label" />
+        <el-select
+          clearable
+          placeholder="测试"
+          :options="[
+            { label: 'a', value: 'a' },
+            { label: 'b', value: 'b' }
+          ]"
+          multiple
+          v-model="query.$s"
+        />
+        <el-date-picker
+          placeholder="起止日期"
+          type="daterange"
+          v-model="query.$date"
+        />
+        <el-input
+          style="width: 200px"
+          v-for="(_, i) in 9"
+          :placeholder="`测试${i}`"
+        />
+      </template>
     </template>
 
     <template #name="{ row }">
@@ -91,6 +92,12 @@ import { computed, isReactive, provide, shallowReactive, shallowRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 provide('aa', { name: 'aa' })
+
+const showTools = shallowRef(false)
+
+setTimeout(() => {
+  showTools.value = true
+}, 1000)
 
 // 查询
 const query = shallowRef(
@@ -134,32 +141,81 @@ const reactiveColumnItem = (columns: any[]) => {
   return ret
 }
 
-const dynColumns = shallowRef<ProTableColumn[]>([])
-const columns = computed(() => {
-  const columns = reactiveColumnItem([
+const dynColumns = shallowRef<ProTableColumn[]>([
+  {
+    name: '钱',
+    key: 'money',
+    sortable: true,
+    width: 100,
+    preset: 'money',
+    align: 'center'
+  },
+  {
+    name: '姓名',
+    key: 'name1',
+    slot: 'name',
+    sortable: true
+  },
+  {
+    name: '姓名2',
+    key: 'name2'
+  },
+  {
+    name: '姓名',
+    key: 'name3'
+  },
+  {
+    name: '姓名',
+    key: 'name4'
+  },
+  {
+    name: '姓名',
+    key: 'name5'
+  },
+  {
+    name: '姓名',
+    key: 'name6'
+  },
+  {
+    name: '姓名',
+    key: 'name7'
+  },
+  {
+    name: '操作',
+    align: 'center',
+    key: 'action',
+    fixed: 'right',
+    width: 150,
+    slot: 'action'
+  }
+])
+
+let columns = shallowRef<ProTableColumn[]>([])
+
+setTimeout(() => {
+  const _columns = reactiveColumnItem([
     {
       name: '姓名',
-      key: 'name11',
-      children: [
-        { name: 'child', key: 'money', preset: 'money' },
-        {
-          name: 'child2',
-          key: 'name',
-          render({ val }) {
-            return val
-          }
-        }
-      ]
+      key: 'name11'
+      // children: [
+      //   { name: 'child', key: 'money', preset: 'money' },
+      //   {
+      //     name: 'child2',
+      //     key: 'name',
+      //     render({ val }) {
+      //       return val
+      //     }
+      //   }
+      // ]
     },
     ...dynColumns.value
   ] as ProTableColumn[])
-
-  columns.forEach(column => {
+  _columns.forEach(column => {
     column.preset && handleChangePreset(column, column.preset)
   })
 
-  return columns
-})
+  columns.value = _columns
+}, 2000)
 
 const handleFix = () => {
   const column = columns.value[1]
@@ -189,55 +245,4 @@ const handleClick = () => {
     $date: []
   })
 }
-
-setTimeout(() => {
-  dynColumns.value = [
-    {
-      name: '钱',
-      key: 'money',
-      sortable: true,
-      width: 100,
-      preset: 'money',
-      align: 'center'
-    },
-    {
-      name: '姓名',
-      key: 'name1',
-      slot: 'name',
-      sortable: true
-    },
-    {
-      name: '姓名2',
-      key: 'name2'
-    },
-    {
-      name: '姓名',
-      key: 'name3'
-    },
-    {
-      name: '姓名',
-      key: 'name4'
-    },
-    {
-      name: '姓名',
-      key: 'name5'
-    },
-    {
-      name: '姓名',
-      key: 'name6'
-    },
-    {
-      name: '姓名',
-      key: 'name7'
-    },
-    {
-      name: '操作',
-      align: 'center',
-      key: 'action',
-      fixed: 'right',
-      width: 150,
-      slot: 'action'
-    }
-  ]
-}, 1000)
 </script>

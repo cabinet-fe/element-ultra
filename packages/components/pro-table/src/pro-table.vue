@@ -9,7 +9,6 @@
         <slot name="tools" />
       </template>
     </ProTableTools>
-
     <!-- 数据表格 -->
     <el-data-table
       v-if="columns && columns.length"

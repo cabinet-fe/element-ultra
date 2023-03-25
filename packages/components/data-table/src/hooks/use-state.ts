@@ -28,7 +28,11 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
   const treeData = shallowRef<DataTreeRow[]>([])
 
-  const dfsReactive = (arr: any[], depth: number, root?: DataTreeRow): DataTreeRow[] => {
+  const dfsReactive = (
+    arr: any[],
+    depth: number,
+    root?: DataTreeRow
+  ): DataTreeRow[] => {
     return arr.map((item, index) => {
       let ret: DataTreeRow = shallowReactive({
         uid: uid++,
@@ -93,7 +97,8 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
         treeData.value = ret as DataTreeRow[]
         defaultExpandAll && getFlatData(true)
       }
-    }
+    },
+    { immediate: true }
   )
 
   watch(

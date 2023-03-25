@@ -4,7 +4,8 @@ import {
   CSSProperties,
   shallowReactive,
   shallowRef,
-  watch
+  watch,
+  onBeforeUnmount
 } from 'vue'
 import type { DataTableColumn, DataTableProps } from '../data-table'
 import type { TableHeader } from '../utils'
@@ -95,11 +96,42 @@ export default function useStyle(props: DataTableProps, refs: DomRefs) {
   // 表头和表底的引用, 用以计算表体的高度
   const { headerRef, footerRef } = refs
 
-  const bodyHeight = computed(() => {
-    return `calc(100% - ${
-      (headerRef.value?.offsetHeight ?? 0) +
-      (footerRef.value?.offsetHeight ?? 0)
-    }px)`
+  let bodyHeight = shallowRef('100%')
+
+  let o: ResizeObserver
+
+  watch(
+    [() => headerRef.value, () => footerRef.value],
+    ([header, footer], [oHeader, oFooter]) => {
+      if ((header || footer) ) {
+        if (!o) {
+          o = new ResizeObserver(e => {
+            bodyHeight.value = `calc(100% - ${
+              (headerRef.value?.offsetHeight ?? 0) +
+              (footerRef.value?.offsetHeight ?? 0)
+            }px)`
+          })
+        }
+
+      } else {
+        o?.disconnect()
+      }
+
+      if (header) {
+        o.observe(header)
+      } else {
+        oHeader && o.unobserve(oHeader)
+      }
+      if (footer) {
+        o.observe(footer)
+      } else {
+        oFooter && o.unobserve(oFooter)
+      }
+    }
+  )
+
+  onBeforeUnmount(() => {
+    o.disconnect()
   })
 
   return {
