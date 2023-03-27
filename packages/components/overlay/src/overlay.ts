@@ -72,7 +72,6 @@ export default defineComponent({
               class: props.overlayClass,
               style: {
                 zIndex: props.zIndex,
-                pointerEvents: 'none',
                 position: 'fixed',
                 top: '0px',
                 right: '0px',
