@@ -1,9 +1,9 @@
-import type { UseNamespaceReturn } from '@element-ultra/element-ultra'
+import type { UseNamespaceReturn } from '@element-ultra/hooks'
 import type { ShallowRef } from 'vue'
 import type { ComputedRef } from 'vue'
 import type { CSSProperties } from 'vue'
 import type { InjectionKey } from 'vue'
-import type { TableProps, TableColumn, FinalTableColumn, TableEmits } from './table'
+import type { TableProps, TableColumn, FinalTableColumn, TableEmits, SummaryMethod } from './table'
 
 export const tableToken: InjectionKey<{
   /** 表格根组件属性 */
@@ -19,11 +19,7 @@ export const tableToken: InjectionKey<{
   /** 碾平的表格列 */
   columns: ShallowRef<FinalTableColumn[]>
   /** 合计方法 */
-  summaryMethods: ComputedRef<Record<string, (ctx: {
-    key: string;
-    data: any[];
-    total: number;
-}) => any> | undefined>
+  summaryMethods: ComputedRef<Record<string, SummaryMethod> | undefined>
   /** 获取单元格样式 */
   getCellStyle: (column: TableColumn, type?: 'left' | 'center' | 'right') => CSSProperties
 

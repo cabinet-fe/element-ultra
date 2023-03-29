@@ -2,6 +2,12 @@ import { SizeProp } from '@element-ultra/constants'
 import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
+export type SummaryMethod = (ctx: {
+  key: string
+  data: any[]
+  total: number
+}) => any
+
 /** 表格列 */
 export interface TableColumn<Row extends Record<string, any> = any> {
   /** 固定列 */
@@ -32,9 +38,7 @@ export interface TableColumn<Row extends Record<string, any> = any> {
   /** 插槽名称, 开启将会有个默认插槽 */
   slot?: string
   /** 合计 */
-  summary?:
-    | ((ctx: { key: string; data: any[]; total: number }) => any)
-    | boolean
+  summary?: SummaryMethod | boolean
 }
 
 export interface FinalTableColumn extends TableColumn {

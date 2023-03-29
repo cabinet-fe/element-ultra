@@ -32,7 +32,7 @@ import { useNamespace, useSize } from '@element-ultra/hooks'
 import TableHeader from './table-header.vue'
 import TableBody from './table-body.vue'
 import TableFooter from './table-footer.vue'
-import { tableProps, FinalTableColumn, tableEmits } from './table'
+import { tableProps, FinalTableColumn, tableEmits, SummaryMethod } from './table'
 import { computed, CSSProperties, provide, shallowRef } from 'vue'
 import { tableToken } from './token'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'
@@ -67,7 +67,7 @@ const summaryMethods = computed(() => {
     acc[cur.key] =
       typeof cur.summary === 'function' ? cur.summary! : commonSummary
     return acc
-  }, {} as Record<string, FinalTableColumn['summary'] & {}>)
+  }, {} as Record<string, SummaryMethod>)
 })
 
 const cellGetters = {
