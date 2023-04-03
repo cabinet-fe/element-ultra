@@ -46,7 +46,7 @@ export default async function genDefinitions() {
     emitOnlyDtsFiles: true
   })
 
-  const entryRE = /packages\/index/
+  const entryRE = /dist\/types\/packages\/index\.d\.ts$/
 
   const tasks = sourceFiles.map(async sourceFile => {
     const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
@@ -60,7 +60,6 @@ export default async function genDefinitions() {
     }
 
     const tasks = emitFiles.map(async outputFile => {
-
       const filepath = outputFile.getFilePath()
 
       await fs.mkdir(path.dirname(filepath), {
@@ -73,7 +72,6 @@ export default async function genDefinitions() {
         'element-ultra/theme-chalk'
       )
       content = content.replaceAll(`@element-ultra/`, `element-ultra/`)
-
 
       // if (entryRE.test(filepath)) {
       //   content = content.replaceAll(`element-ultra/`, './')

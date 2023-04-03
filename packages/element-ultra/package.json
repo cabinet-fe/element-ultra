@@ -17,6 +17,9 @@
       "import": "./index.mjs",
       "require": "./index.mjs"
     },
+    "./global": {
+      "types": "./global.d.ts"
+    },
     "./*.mjs": "./*.mjs",
     "./*": "./*"
   },
