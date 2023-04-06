@@ -136,7 +136,7 @@ export default defineComponent({
       showAfter: compatShowAfter,
       hideAfter: toRef(props, 'hideAfter'),
       open: show,
-      close: hide,
+      close: hide
     })
 
     const controlled = computed(() => isBoolean(props.visible))

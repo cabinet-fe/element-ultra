@@ -52,6 +52,8 @@
               :parsed-value="innerDate"
               @pick="handleTimePick"
             />
+
+
           </span>
         </div>
         <div
@@ -206,12 +208,7 @@ import {
 import { ElIcon } from '@element-ultra/components/icon'
 import { isArray, isFunction } from '@element-ultra/utils'
 import { EVENT_CODE } from '@element-ultra/constants'
-import {
-  ArrowLeft,
-  ArrowRight,
-  DArrowLeft,
-  DArrowRight
-} from 'icon-ultra'
+import { ArrowLeft, ArrowRight, DArrowLeft, DArrowRight } from 'icon-ultra'
 import { TOOLTIP_INJECTION_KEY } from '@element-ultra/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'

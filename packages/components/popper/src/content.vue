@@ -12,7 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, inject, provide, unref, onMounted, watch, onBeforeUnmount } from 'vue'
+import {
+  computed,
+  ref,
+  inject,
+  provide,
+  unref,
+  onMounted,
+  watch,
+  onBeforeUnmount
+} from 'vue'
 import { createPopper } from '@popperjs/core'
 import { useZIndex, useNamespace } from '@element-ultra/hooks'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
@@ -48,7 +57,7 @@ const contentZIndex = ref(props.zIndex || nextZIndex())
 const contentStyle = computed(() => {
   return [
     {
-      zIndex: contentZIndex.value
+      zIndex: unref(contentZIndex)
     },
     props.popperStyle || {}
   ]
@@ -76,11 +85,15 @@ const updatePopper = () => {
 }
 
 onBeforeUnmount(() => {
-  popperInstanceRef.value?.destroy()
+  let inst = popperInstanceRef.value
+  if (inst) {
+    inst.destroy()
+  }
 })
 
 onMounted(() => {
   let updateHandle: ReturnType<typeof watch>
+
   watch(
     () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef),
     val => {

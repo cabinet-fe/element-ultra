@@ -71,6 +71,7 @@ export default defineComponent({
         props.format ??
         (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
 
+      // 面板
       const Component = getPanel(props.type)
 
       return (
