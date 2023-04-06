@@ -24,4 +24,10 @@ provide(POPPER_INJECTION_KEY, {
   popperInstanceRef,
   contentRef
 })
+
+defineExpose({
+  triggerRef,
+  popperInstanceRef,
+  contentRef
+})
 </script>
