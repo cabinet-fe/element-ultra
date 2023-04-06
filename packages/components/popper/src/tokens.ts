@@ -1,11 +1,11 @@
-import type { InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref, ShallowRef } from 'vue'
 import type { Instance } from '@popperjs/core'
 import type { Measurable } from './popper'
 
 export type ElPopperInjectionContext = {
-  triggerRef: Ref<Measurable | null>
-  contentRef: Ref<HTMLElement | null>
-  popperInstanceRef: Ref<Instance | null>
+  triggerRef: ShallowRef<Measurable | undefined>
+  contentRef: ShallowRef<HTMLElement | undefined>
+  popperInstanceRef: ShallowRef<Instance | undefined>
 }
 
 export type ElPopperContentInjectionContext = {

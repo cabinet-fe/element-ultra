@@ -1,10 +1,10 @@
 <template>
   <el-page>
     <div style="padding: 8px">
-      {{ data }}
+      <el-checkbox v-model="visible">显示</el-checkbox>
     </div>
 
-    <el-card>
+    <el-card v-if="visible">
       <template #header>
         <span> 表单数据 </span>
         <el-checkbox v-model="disabled">是否禁用</el-checkbox>
@@ -190,4 +190,5 @@ const cascadeOptions = Array.from({ length: 20 }).map((_, i) => {
 const formRef = shallowRef<any>()
 
 const disabled = shallowRef(false)
+const visible = shallowRef(true)
 </script>

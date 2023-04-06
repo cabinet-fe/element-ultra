@@ -4,134 +4,129 @@
     :style="contentStyle"
     :class="contentClass"
     role="tooltip"
-    @mouseenter="(e) => $emit('mouseenter', e)"
-    @mouseleave="(e) => $emit('mouseleave', e)"
+    @mouseenter="emit('mouseenter', $event)"
+    @mouseleave="emit('mouseleave', $event)"
   >
     <slot />
   </div>
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  inject,
-  provide,
-  unref,
-  onMounted,
-  watch,
-} from 'vue'
+<script lang="ts" setup>
+import { computed, ref, inject, provide, unref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { createPopper } from '@popperjs/core'
 import { useZIndex, useNamespace } from '@element-ultra/hooks'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 
-export default defineComponent({
-  name: 'ElPopperContent',
-  props: usePopperContentProps,
-  emits: ['mouseenter', 'mouseleave'],
-  setup(props) {
-    const { triggerRef, popperInstanceRef, contentRef } = inject(
-      POPPER_INJECTION_KEY,
-      undefined
-    )!
-    const { nextZIndex } = useZIndex()
-    const ns = useNamespace('popper')
-    const popperContentRef = ref<HTMLElement | null>(null)
-    const arrowRef = ref<HTMLElement | null>(null)
-    const arrowOffset = ref<number>()
-    provide(POPPER_CONTENT_INJECTION_KEY, {
-      arrowRef,
-      arrowOffset,
-    })
-    const contentZIndex = ref(props.zIndex || nextZIndex())
+defineOptions({
+  name: 'ElPopperContent'
+})
 
-    const contentStyle = computed(
-      () => [{ zIndex: unref(contentZIndex) }, props.popperStyle] as any
-    )
+const props = defineProps(usePopperContentProps)
 
-    const contentClass = computed(() => [
-      ns.b(),
-      ns.is('pure', props.pure),
-      ns.is(props.effect),
-      props.popperClass,
-    ])
+const emit = defineEmits({
+  mouseenter: (e: MouseEvent) => true,
+  mouseleave: (e: MouseEvent) => true
+})
 
-    const createPopperInstance = ({
-      referenceEl,
-      popperContentEl,
-      arrowEl,
-    }) => {
-      const options = buildPopperOptions(props, {
-        arrowEl,
-        arrowOffset: unref(arrowOffset),
-      })
+const { triggerRef, popperInstanceRef, contentRef } = inject(
+  POPPER_INJECTION_KEY,
+  undefined
+)!
+const { nextZIndex } = useZIndex()
+const ns = useNamespace('popper')
+const popperContentRef = ref<HTMLElement | null>(null)
+const arrowRef = ref<HTMLElement | null>(null)
+const arrowOffset = ref<number>()
+provide(POPPER_CONTENT_INJECTION_KEY, {
+  arrowRef,
+  arrowOffset
+})
+const contentZIndex = ref(props.zIndex || nextZIndex())
 
-      return createPopper(referenceEl, popperContentEl, options)
-    }
+const contentStyle = computed(() => {
+  return [
+    {
+      zIndex: contentZIndex.value
+    },
+    props.popperStyle || {}
+  ]
+})
 
-    const updatePopper = () => {
-      unref(popperInstanceRef)?.update()
-      contentZIndex.value = props.zIndex || nextZIndex()
-    }
+const contentClass = computed(() => [
+  ns.b(),
+  ns.is('pure', props.pure),
+  ns.is(props.effect),
+  props.popperClass
+])
 
-    onMounted(() => {
-      let updateHandle: ReturnType<typeof watch>
-      watch(
-        () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef),
-        (val) => {
-          updateHandle?.()
-          if (val) {
-            popperInstanceRef.value?.destroy()
-            const popperContentEl = unref(popperContentRef)!
-            contentRef.value = popperContentEl
-            const arrowEl = unref(arrowRef)
+const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
+  const options = buildPopperOptions(props, {
+    arrowEl,
+    arrowOffset: unref(arrowOffset)
+  })
 
-            const newInstance = createPopperInstance({
-              referenceEl: val,
-              popperContentEl: unref(popperContentRef)!,
-              arrowEl,
-            })
-            popperInstanceRef.value = newInstance
+  return createPopper(referenceEl, popperContentEl, options)
+}
 
-            updateHandle = watch(
-              () => val!.getBoundingClientRect(),
-              () => {
-                updatePopper()
-              },
-              {
-                immediate: true,
-              }
-            )
-          } else {
-            popperInstanceRef.value = null
+const updatePopper = () => {
+  unref(popperInstanceRef)?.update()
+  contentZIndex.value = props.zIndex || nextZIndex()
+}
+
+onBeforeUnmount(() => {
+  popperInstanceRef.value?.destroy()
+})
+
+onMounted(() => {
+  let updateHandle: ReturnType<typeof watch>
+  watch(
+    () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef),
+    val => {
+      updateHandle?.()
+      if (val) {
+        popperInstanceRef.value?.destroy()
+        const popperContentEl = unref(popperContentRef)!
+        contentRef.value = popperContentEl
+        const arrowEl = unref(arrowRef)
+
+        const newInstance = createPopperInstance({
+          referenceEl: val,
+          popperContentEl: unref(popperContentRef)!,
+          arrowEl
+        })
+        popperInstanceRef.value = newInstance
+
+        updateHandle = watch(
+          () => val!.getBoundingClientRect(),
+          () => {
+            updatePopper()
+          },
+          {
+            immediate: true
           }
-        },
-        {
-          immediate: true,
-        }
-      )
-
-      watch(
-        () =>
-          buildPopperOptions(props, {
-            arrowEl: unref(arrowRef),
-            arrowOffset: unref(arrowOffset),
-          }),
-        (option) => popperInstanceRef.value?.setOptions(option)
-      )
-    })
-
-    return {
-      ns,
-      popperContentRef,
-      popperInstanceRef,
-      contentStyle,
-      contentClass,
-      updatePopper,
+        )
+      } else {
+        popperInstanceRef.value = null
+      }
+    },
+    {
+      immediate: true
     }
-  },
+  )
+
+  watch(
+    () =>
+      buildPopperOptions(props, {
+        arrowEl: unref(arrowRef),
+        arrowOffset: unref(arrowOffset)
+      }),
+    option => popperInstanceRef.value?.setOptions(option)
+  )
+})
+
+defineExpose({
+  updatePopper
 })
 </script>

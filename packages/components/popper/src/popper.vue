@@ -2,25 +2,26 @@
   <slot />
 </template>
 
-<script lang="ts">
-import { defineComponent, provide, ref } from 'vue'
+<script lang="ts" setup>
+import { provide, shallowRef } from 'vue'
 import { POPPER_INJECTION_KEY } from './tokens'
+import type { Instance } from '@popperjs/core'
+import type { Measurable } from './popper'
 
-import type { ElPopperInjectionContext } from './tokens'
-
-export default defineComponent({
+defineOptions({
   name: 'ElPopperProvider',
-  inheritAttrs: false,
-  setup() {
-    const popperProvides = {
-      triggerRef: ref<HTMLElement | null>(null),
-      popperInstanceRef: ref(null),
-      contentRef: ref(null),
-    } as ElPopperInjectionContext
+  inheritAttrs: false
+})
 
-    provide(POPPER_INJECTION_KEY, popperProvides)
+const triggerRef = shallowRef<Measurable>()
 
-    return popperProvides
-  },
+const popperInstanceRef = shallowRef<Instance>()
+
+const contentRef = shallowRef<HTMLElement>()
+
+provide(POPPER_INJECTION_KEY, {
+  triggerRef,
+  popperInstanceRef,
+  contentRef
 })
 </script>

@@ -51,7 +51,7 @@
     "@element-ultra/theme-chalk": "workspace:*",
     "@element-ultra/tokens": "workspace:*",
     "@element-ultra/utils": "workspace:*",
-    "@popperjs/core": "^2.11.5",
+    "@popperjs/core": "^2.11.7",
     "@vueuse/core": "^9.4.0",
     "@wangeditor/editor": "5.1.13",
     "dayjs": "^1.11.7",

@@ -3,8 +3,8 @@ import {
   computed,
   defineComponent,
   h,
+  onBeforeUnmount,
   onMounted,
-  onUnmounted,
   provide,
   shallowRef,
   watch
@@ -118,17 +118,25 @@ export default defineComponent({
       return ret
     }
 
+    let observer: ResizeObserver | undefined = undefined
+
     const observe = (cols: GridProps['cols']) => {
+      observer?.disconnect()
       if (!gridRef || !isResponsiveCols(cols)) return
 
-      const observer = new ResizeObserver(
-        debounce((entries: ResizeObserverEntry[]) => {
-          const [entry] = entries
-          if (!entry) return
-          const { width } = entry.contentRect
-          containerWidth.value = width
-          emit('resize', entry.contentRect)
-        }, 500, { leading: true })
+      observer = new ResizeObserver(
+        debounce(
+          (entries: ResizeObserverEntry[]) => {
+            const [entry] = entries
+            if (!entry) return
+
+            const { width } = entry.contentRect
+            containerWidth.value = width
+            emit('resize', entry.contentRect)
+          },
+          500,
+          { leading: true }
+        )
       )
 
       observer.observe(gridRef)
@@ -136,23 +144,21 @@ export default defineComponent({
       return observer
     }
 
-    let currentObserver: ResizeObserver | undefined = undefined
     watch(
       () => props.cols,
       cols => {
         if (!isResponsiveCols(cols)) {
-          currentObserver?.disconnect()
-          currentObserver = undefined
-          return
+          gridRef && observer?.unobserve(gridRef)
+          return observer?.disconnect()
         }
-        currentObserver = observe(cols)
+        observe(cols)
       }
     )
 
     onMounted(() => {
-      currentObserver = observe(props.cols)
-      onUnmounted(() => currentObserver?.disconnect())
+      observe(props.cols)
     })
+    onBeforeUnmount(() => observer?.disconnect())
 
     return () => {
       const { tag } = props
