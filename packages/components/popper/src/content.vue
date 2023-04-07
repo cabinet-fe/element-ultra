@@ -86,7 +86,12 @@ const updatePopper = () => {
 
 onBeforeUnmount(() => {
   let inst = popperInstanceRef.value
+
+  // TODO这里使用了一个移除操作来防止销毁时导致出现滚动条的bug
   if (inst) {
+    let popper: HTMLElement | null = inst.state.elements.popper
+    popper.remove()
+    popper = null
     inst.destroy()
   }
 })
@@ -114,6 +119,7 @@ onMounted(() => {
         updateHandle = watch(
           () => val!.getBoundingClientRect(),
           () => {
+            console.log(111)
             updatePopper()
           },
           {
