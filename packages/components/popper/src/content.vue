@@ -119,7 +119,6 @@ onMounted(() => {
         updateHandle = watch(
           () => val!.getBoundingClientRect(),
           () => {
-            console.log(111)
             updatePopper()
           },
           {
