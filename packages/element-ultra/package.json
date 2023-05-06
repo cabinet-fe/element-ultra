@@ -1,6 +1,6 @@
 {
   "name": "element-ultra",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "A Component Library for Vue 3",
   "keywords": [
     "element-ultra",
@@ -10,6 +10,9 @@
     "ui",
     "vue"
   ],
+  "scripts": {
+    "dts": "pnpm vue-tsc --declaration --emitDeclarationOnly"
+  },
   "license": "MIT",
   "exports": {
     ".": {
@@ -25,12 +28,6 @@
   },
   "module": "index.mjs",
   "style": "dist/index.css",
-  "sideEffects": [
-    "dist/*",
-    "theme-chalk/*.css",
-    "theme-chalk/src/*.scss",
-    "components/*/style/*"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cabinet-fe/element-pro.git"
@@ -39,7 +36,7 @@
     "url": "https://github.com/cabinet-fe/element-pro/issues"
   },
   "peerDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.2.47"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
@@ -58,10 +55,6 @@
   "devDependencies": {
     "@types/lodash": "^4.14.178",
     "@types/lodash-es": "^4.17.6"
-  },
-  "vetur": {
-    "tags": "tags.json",
-    "attributes": "attributes.json"
   },
   "web-types": "web-types.json",
   "browserslist": [
