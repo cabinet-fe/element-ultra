@@ -1,7 +1,7 @@
-import type { EmitFn } from '@element-ultra/utils'
+import type { EmitFn } from 'utils'
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { TableColumn } from '@element-ultra/components/table'
-import { SizeProp } from '@element-ultra/constants'
+import type { TableColumn } from 'components/table'
+import { SizeProp } from 'shared'
 
 export interface TableSelectColumn extends TableColumn {}
 

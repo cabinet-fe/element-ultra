@@ -1,5 +1,5 @@
 {
-  "name": "@element-ultra/constants",
+  "name": "shared",
   "private": true,
   "license": "MIT",
   "main": "index.ts"

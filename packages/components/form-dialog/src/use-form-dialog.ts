@@ -1,4 +1,4 @@
-import { deepExtend } from '@element-ultra/utils'
+import { deepExtend } from 'utils'
 import { nextTick, watch, shallowReactive } from 'vue'
 
 type Dialog<Type, Data, Ctx> = {

@@ -1,4 +1,4 @@
-import { useFormItem, useSize } from '@element-ultra/hooks'
+import { useFormItem, useSize } from 'hooks'
 import { computed, inject, shallowRef } from 'vue'
 import type { CheckboxEmit, CheckboxProps } from './checkbox'
 import { checkboxGroupInjectionKey } from './token'

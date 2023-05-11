@@ -1,7 +1,0 @@
-import '@element-ultra/components/base/style/css'
-import '@element-ultra/theme-chalk/el-time-select.css'
-import '@element-ultra/components/scrollbar/style/css'
-import '@element-ultra/components/popper/style/css'
-import '@element-ultra/components/input/style/css'
-import '@element-ultra/components/select/style/css'
-import '@element-ultra/components/option/style/css'

@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import { checkTagProps, checkTagEmits } from './check-tag'
 
 export default defineComponent({

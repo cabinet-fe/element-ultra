@@ -1,4 +1,4 @@
-import { dialogProps, dialogEmits } from '@element-ultra/components/dialog'
+import { dialogProps, dialogEmits } from 'components/dialog'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const drawerProps = {

@@ -1,4 +1,4 @@
-import { isNumber } from '@element-ultra/utils'
+import { isNumber } from 'utils'
 
 import type { ExtractPropTypes, PropType } from 'vue'
 

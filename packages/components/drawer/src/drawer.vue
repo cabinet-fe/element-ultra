@@ -60,11 +60,11 @@
 import { defineComponent, computed, ref } from 'vue'
 import { Close } from 'icon-ultra'
 
-import { ElOverlay } from '@element-ultra/components/overlay'
-import { useDialog } from '@element-ultra/components/dialog'
-import ElIcon from '@element-ultra/components/icon'
-import { TrapFocus } from '@element-ultra/directives'
-import { useNamespace } from '@element-ultra/hooks'
+import { ElOverlay } from 'components/overlay'
+import { useDialog } from 'components/dialog'
+import ElIcon from 'components/icon'
+import { TrapFocus } from 'directives'
+import { useNamespace } from 'hooks'
 import { drawerProps, drawerEmits } from './drawer'
 
 export default defineComponent({

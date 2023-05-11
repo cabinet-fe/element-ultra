@@ -16,8 +16,8 @@
 
 <script lang="ts" setup>
 import { rangeProps, rangeEmits } from './type'
-import { useNamespace } from '@element-ultra/hooks'
-import { ElInputNumber } from '@element-ultra/components/input-number'
+import { useNamespace } from 'hooks'
+import { ElInputNumber } from 'components/input-number'
 
 defineOptions({
   name: 'ElRange'

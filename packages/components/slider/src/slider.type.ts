@@ -1,5 +1,5 @@
 import type { ComputedRef, CSSProperties, Ref } from 'vue'
-import type { Nullable } from '@element-ultra/utils'
+import type { Nullable } from 'utils'
 
 export interface ISliderProps {
   modelValue: number | number[]

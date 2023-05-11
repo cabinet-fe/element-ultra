@@ -10,4 +10,4 @@
 - 替换docs下所有.vue文件中的from 'element-plus' 为 from 'element-ultra'
 - docs下的所有md文件中的element-plus改成element-ultra
 - build/utils/path.ts中的element-plus改成element-ultra
-- build/utils/constants.ts中的EP_PKG
+- build/utils/shared.ts中的EP_PKG

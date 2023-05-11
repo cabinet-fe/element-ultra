@@ -1,6 +1,0 @@
-import '@element-ultra/components/base/style/css'
-import '@element-ultra/theme-chalk/el-container.css'
-import '@element-ultra/theme-chalk/el-aside.css'
-import '@element-ultra/theme-chalk/el-footer.css'
-import '@element-ultra/theme-chalk/el-header.css'
-import '@element-ultra/theme-chalk/el-main.css'

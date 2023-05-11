@@ -53,9 +53,9 @@ import {
   onBeforeUnmount,
   shallowReactive
 } from 'vue'
-import { ElIcon } from '@element-ultra/components/icon'
+import { ElIcon } from 'components/icon'
 import { Close, Check } from 'icon-ultra'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import { stepProps, type StepStatus } from './steps'
 import { stepsInjectionKey } from './token'
 

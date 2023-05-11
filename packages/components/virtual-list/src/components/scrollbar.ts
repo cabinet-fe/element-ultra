@@ -11,7 +11,7 @@ import {
   unref
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { rAF, cAF } from '@element-ultra/utils'
+import { rAF, cAF } from 'utils'
 
 const BAR_MAP = {
   vertical: {

@@ -42,10 +42,10 @@
 <script lang="ts">
 import { computed, defineComponent, inject, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import { ElPopperContent } from '@element-ultra/components/popper'
-import { ElVisuallyHidden } from '@element-ultra/components/visual-hidden'
-import { composeEventHandlers } from '@element-ultra/utils'
-import { useEscapeKeydown } from '@element-ultra/hooks'
+import { ElPopperContent } from 'components/popper'
+import { ElVisuallyHidden } from 'components/visual-hidden'
+import { composeEventHandlers } from 'utils'
+import { useEscapeKeydown } from 'hooks'
 
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'

@@ -1,6 +1,6 @@
 import CascadePanel from './src/index.vue'
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-ultra/utils'
+import type { SFCWithInstall } from 'utils'
 
 CascadePanel.install = (app: App): void => {
   app.component(CascadePanel.name, CascadePanel)

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, h } from 'vue'
 
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import type { PropType } from 'vue'
 
 export default defineComponent({

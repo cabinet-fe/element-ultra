@@ -1,4 +1,4 @@
-import { useConfig } from '@element-ultra/hooks'
+import { useConfig } from 'hooks'
 import {
   computed,
   CSSProperties,

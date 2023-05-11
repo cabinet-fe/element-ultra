@@ -1,6 +1,6 @@
-import { SizeProp } from '@element-ultra/constants'
+import { SizeProp } from 'shared'
 import type { ExtractPropTypes } from 'vue'
-import { FORM_COMPONENT_PROPS } from '@element-ultra/constants'
+import { FORM_COMPONENT_PROPS } from 'shared'
 import type { PropType } from 'vue'
 
 export const radioGroupProps = {

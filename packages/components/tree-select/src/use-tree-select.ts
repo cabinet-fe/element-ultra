@@ -10,9 +10,9 @@ import type {
   CheckedInfo,
   TreeNodeData,
   ElTree
-} from '@element-ultra/components/tree'
+} from 'components/tree'
 import type { TreeSelectProps, TreeSelectEmits } from './tree-select'
-import { useFormItem } from '@element-ultra/hooks'
+import { useFormItem } from 'hooks'
 
 interface Options {
   props: TreeSelectProps

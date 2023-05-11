@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall, withNoopInstall } from 'utils'
 
 import Breadcrumb from './src/breadcrumb.vue'
 import BreadcrumbItem from './src/breadcrumb-item.vue'

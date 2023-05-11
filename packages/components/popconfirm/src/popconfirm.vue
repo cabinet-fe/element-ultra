@@ -43,11 +43,11 @@
 
 <script setup lang="ts">
 import { ref, computed, unref } from 'vue'
-import ElButton from '@element-ultra/components/button'
-import ElIcon from '@element-ultra/components/icon'
-import ElTooltip from '@element-ultra/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
-import { useNamespace } from '@element-ultra/hooks'
+import ElButton from 'components/button'
+import ElIcon from 'components/icon'
+import ElTooltip from 'components/tooltip'
+import { useDeprecateAppendToBody } from 'components/popper'
+import { useNamespace } from 'hooks'
 import { popconfirmProps } from './popconfirm'
 
 defineOptions({

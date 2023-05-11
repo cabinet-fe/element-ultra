@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Range from './src/range.vue'
 
 export const ElRange = withInstall(Range)

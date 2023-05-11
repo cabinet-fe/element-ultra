@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Action from './src/action.vue'
 import ActionGroup from './src/action-group.vue'
 

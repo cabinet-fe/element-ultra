@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { isArray } from '@element-ultra/utils'
+import { isArray } from 'utils'
 
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from './date-picker.type'

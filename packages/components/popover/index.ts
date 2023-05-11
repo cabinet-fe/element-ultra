@@ -2,7 +2,7 @@ import Popover from './src/index.vue'
 import PopoverDirective, { VPopover } from './src/directive'
 
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-ultra/utils'
+import type { SFCWithInstall } from 'utils'
 
 Popover.install = (app: App): void => {
   app.component(Popover.name, Popover)

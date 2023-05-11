@@ -16,7 +16,7 @@ import {
   readonly,
   toRef,
 } from 'vue'
-import { composeEventHandlers, on, off } from '@element-ultra/utils'
+import { composeEventHandlers, on, off } from 'utils'
 import {
   rovingFocusGroupProps,
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,

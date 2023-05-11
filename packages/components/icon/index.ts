@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 
 import Icon from './src/icon.vue'
 

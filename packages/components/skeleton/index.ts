@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall, withNoopInstall } from 'utils'
 
 import Skeleton from './src/skeleton.vue'
 import SkeletonItem from './src/skeleton-item.vue'

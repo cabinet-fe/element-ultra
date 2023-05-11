@@ -41,9 +41,9 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
-import { ElIcon } from '@element-ultra/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-ultra/utils'
-import { useNamespace } from '@element-ultra/hooks'
+import { ElIcon } from 'components/icon'
+import { TypeComponents, TypeComponentsMap } from 'utils'
+import { useNamespace } from 'hooks'
 import { alertProps, alertEmits } from './alert'
 
 const { Close } = TypeComponents

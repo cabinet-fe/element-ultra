@@ -1,5 +1,5 @@
 import { defineComponent, computed, h, provide } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
 export const rowProps = {

@@ -1,7 +1,7 @@
-import { FORM_COMPONENT_PROPS } from '@element-ultra/constants'
-import type { EmitFn } from '@element-ultra/utils'
+import { FORM_COMPONENT_PROPS } from 'shared'
+import type { EmitFn } from 'utils'
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { TreeNode } from '@element-ultra/components/tree'
+import type { TreeNode } from 'components/tree'
 
 export const treeSelectProps = {
   ...FORM_COMPONENT_PROPS,

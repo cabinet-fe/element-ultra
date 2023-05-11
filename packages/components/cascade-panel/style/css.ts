@@ -1,5 +1,0 @@
-import '@element-ultra/components/base/style/css'
-import '@element-ultra/theme-chalk/el-cascade-panel.css'
-import '@element-ultra/components/checkbox/style/css'
-import '@element-ultra/components/radio/style/css'
-import '@element-ultra/components/scrollbar/style/css'

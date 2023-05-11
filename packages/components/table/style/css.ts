@@ -1,6 +1,0 @@
-import '@element-ultra/components/base/style/css'
-import '@element-ultra/theme-chalk/el-table.css'
-import '@element-ultra/components/checkbox/style/css'
-import '@element-ultra/components/tag/style/css'
-import '@element-ultra/components/tooltip/style/css'
-import '@element-ultra/components/scrollbar/style/css'

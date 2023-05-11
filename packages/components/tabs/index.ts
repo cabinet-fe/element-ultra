@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall, withNoopInstall } from 'utils'
 import Tabs from './src/tabs'
 import TabPane from './src/tab-pane.vue'
 

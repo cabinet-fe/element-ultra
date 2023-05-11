@@ -17,7 +17,7 @@ import type {
   TreeData,
   Tree
 } from '../types'
-import { dfs } from '@element-ultra/utils'
+import { dfs } from 'utils'
 
 export function useTree(props: TreeProps, emit: TreeEmit) {
   const expandedKeySet = ref(new Set<TreeKey>())

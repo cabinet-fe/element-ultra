@@ -1,4 +1,4 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/theme-chalk/src/table-column.scss'
-import '@element-ultra/components/checkbox/style/index'
-import '@element-ultra/components/tag/style/index'
+import 'components/base/style'
+import 'theme-chalk/src/table-column.scss'
+import 'components/checkbox/style/index'
+import 'components/tag/style/index'

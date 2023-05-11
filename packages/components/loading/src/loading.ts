@@ -10,7 +10,7 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
-import { removeClass } from '@element-ultra/utils'
+import { removeClass } from 'utils'
 
 import type { LoadingOptionsResolved } from './types'
 

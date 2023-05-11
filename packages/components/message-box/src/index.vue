@@ -133,8 +133,8 @@ import {
   ref,
   toRefs
 } from 'vue'
-import ElButton from '@element-ultra/components/button'
-import { TrapFocus } from '@element-ultra/directives'
+import ElButton from 'components/button'
+import { TrapFocus } from 'directives'
 import {
   useModal,
   useLockscreen,
@@ -143,21 +143,21 @@ import {
   useDraggable,
   useSameTarget,
   useZIndex
-} from '@element-ultra/hooks'
-import ElInput from '@element-ultra/components/input'
-import { ElOverlay } from '@element-ultra/components/overlay'
+} from 'hooks'
+import ElInput from 'components/input'
+import { ElOverlay } from 'components/overlay'
 import {
   on,
   off,
   isValidComponentSize,
   TypeComponents,
   TypeComponentsMap
-} from '@element-ultra/utils'
-import { EVENT_CODE } from '@element-ultra/constants'
-import { ElIcon } from '@element-ultra/components/icon'
+} from 'utils'
+import { EVENT_CODE } from 'shared'
+import { ElIcon } from 'components/icon'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-ultra/constants'
+import type { ComponentSize } from 'shared'
 import type { Action, MessageBoxState, MessageBoxType } from './message-box.type'
 
 export default defineComponent({

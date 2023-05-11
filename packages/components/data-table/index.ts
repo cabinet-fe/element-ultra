@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import DataTable from './src/data-table.vue'
 
 export * from './src/data-table'

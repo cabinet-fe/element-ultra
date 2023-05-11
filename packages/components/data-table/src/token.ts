@@ -3,7 +3,7 @@ import type { DataTableEmits, DataTableProps } from './data-table'
 import type useColumns from './hooks/use-columns'
 import type useStyle from './hooks/use-style'
 import type useState from './hooks/use-state'
-import type { useNamespace } from '@element-ultra/hooks'
+import type { useNamespace } from 'hooks'
 import type { TableHeader } from './utils'
 import type DataTableAlignAdjuster from './data-table-align-adjuster.vue'
 

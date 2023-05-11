@@ -1,4 +1,4 @@
-import { hasOwn } from '@element-ultra/utils'
+import { hasOwn } from 'utils'
 import type {
   ElUploadProgressEvent,
   ElUploadRequestOptions,

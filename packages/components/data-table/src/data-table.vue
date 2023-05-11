@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { provide, shallowRef } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import DataTableHeader from './data-table-header.vue'
 import DataTableBody from './data-table-body.vue'
 import DataTableFooter from './data-table-footer.vue'

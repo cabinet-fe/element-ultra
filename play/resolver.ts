@@ -23,7 +23,7 @@ type ElementUltraResolverOptionsResolved = Required<
   Pick<ElementUltraResolverOptions, 'exclude'>
 
 function getSideEffects(dirName: string): any {
-  const esComponentsFolder = '@element-ultra/components'
+  const esComponentsFolder = 'components'
   return `${esComponentsFolder}/${dirName}/style/index`
 }
 

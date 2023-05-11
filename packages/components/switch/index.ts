@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Switch from './src/switch.vue'
 
 export const ElSwitch = withInstall(Switch)

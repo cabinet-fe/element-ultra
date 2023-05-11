@@ -2,7 +2,6 @@ import { head } from './config/head'
 import { sidebars } from './config/sidebars'
 import { nav } from './config/nav'
 import { mdPlugin } from './config/plugins'
-import { features } from './config/features'
 import type { UserConfig } from 'vitepress'
 import { BASE_PATH } from './utils/shared'
 
@@ -56,7 +55,6 @@ export const config: UserConfig = {
     //   apiKey: '377f2b647a96d9b1d62e4780f2344da2',
     //   appId: 'BH4D9OD16A',
     // },
-    features,
   },
 
   markdown: {

@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import CheckTag from './src/check-tag.vue'
 
 export const ElCheckTag = withInstall(CheckTag)

@@ -1,5 +1,5 @@
-import ElCheckbox from '@element-ultra/components/checkbox'
-import ElIcon from '@element-ultra/components/icon'
+import ElCheckbox from 'components/checkbox'
+import ElIcon from 'components/icon'
 import { computed, h, isReactive, shallowReactive, useSlots } from 'vue'
 import type { DataTableColumn, DataTableProps, DataTreeRow } from '../data-table'
 import {

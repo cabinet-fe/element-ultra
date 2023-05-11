@@ -1,2 +1,2 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/theme-chalk/src/checkbox.scss'
+import 'components/base/style'
+import 'theme-chalk/src/checkbox.scss'

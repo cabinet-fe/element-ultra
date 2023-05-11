@@ -8,8 +8,8 @@
 <script lang="ts" setup>
 import { computed, onMounted, reactive, shallowRef, watch } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { getScrollContainer } from '@element-ultra/utils'
-import { useNamespace } from '@element-ultra/hooks'
+import { getScrollContainer } from 'utils'
+import { useNamespace } from 'hooks'
 import { affixEmits, affixProps } from './affix'
 
 import type { CSSProperties } from 'vue'

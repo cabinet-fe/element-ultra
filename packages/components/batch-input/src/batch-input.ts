@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { EmitFn } from '@element-ultra/utils'
-import { FORM_COMPONENT_PROPS, SizeProp } from '@element-ultra/constants'
+import type { EmitFn } from 'utils'
+import { FORM_COMPONENT_PROPS, SizeProp } from 'shared'
 
 export const batchInputProps = {
   ...FORM_COMPONENT_PROPS,

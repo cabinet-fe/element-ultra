@@ -1,4 +1,4 @@
-import type { EmitFn } from '@element-ultra/utils'
+import type { EmitFn } from 'utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export interface CheckGroup {

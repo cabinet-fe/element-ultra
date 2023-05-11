@@ -1,4 +1,4 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/theme-chalk/src/form-dialog.scss'
-import '@element-ultra/components/dialog/style'
+import 'components/base/style'
+import 'theme-chalk/src/form-dialog.scss'
+import 'components/dialog/style'
 

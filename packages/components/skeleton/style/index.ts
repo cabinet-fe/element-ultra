@@ -1,3 +1,3 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/theme-chalk/src/skeleton.scss'
-import '@element-ultra/components/skeleton-item/style/index'
+import 'components/base/style'
+import 'theme-chalk/src/skeleton.scss'
+import 'components/skeleton-item/style/index'

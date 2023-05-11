@@ -22,7 +22,7 @@
   </ul>
 </template>
 <script lang="ts" setup>
-import { useNamespace, useRefs, useSize } from '@element-ultra/hooks'
+import { useNamespace, useRefs, useSize } from 'hooks'
 import { computed } from '@vue/reactivity'
 import { shallowRef, watch } from 'vue'
 import { gridInputProps } from './grid-input'

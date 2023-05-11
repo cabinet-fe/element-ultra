@@ -1,9 +1,9 @@
-import { isValidComponentSize } from '@element-ultra/utils'
+import { isValidComponentSize } from 'utils'
 import { CircleClose } from 'icon-ultra'
 
 import type { PropType, Component } from 'vue'
 import type { Options } from '@popperjs/core'
-import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constants'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from 'shared'
 
 export const timePickerDefaultProps = {
   ...FORM_COMPONENT_PROPS,

@@ -101,7 +101,7 @@
 <script lang="ts" setup>
 import { computed, inject, ref, toRef } from 'vue'
 import dayjs from 'dayjs'
-import ElIcon from '@element-ultra/components/icon'
+import ElIcon from 'components/icon'
 import { DArrowLeft, DArrowRight } from 'icon-ultra'
 import {
   panelMonthRangeEmits,

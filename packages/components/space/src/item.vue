@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 
 const spaceItem = {
   prefixCls: {

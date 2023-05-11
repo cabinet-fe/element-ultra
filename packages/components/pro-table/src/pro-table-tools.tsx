@@ -14,9 +14,9 @@ import {
   type VNode,
   type VNodeNormalizedChildren
 } from 'vue'
-import ElButton from '@element-ultra/components/button'
+import ElButton from 'components/button'
 import { proTableHeightKey, proTableKey } from './token'
-import { isComment, isFragment, isTemplate } from '@element-ultra/utils'
+import { isComment, isFragment, isTemplate } from 'utils'
 
 export default defineComponent({
   emits: {

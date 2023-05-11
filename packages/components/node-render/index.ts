@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import NodeRender from './src/node-render.vue'
 
 export const ElNodeRender = withInstall(NodeRender)

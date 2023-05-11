@@ -1,4 +1,4 @@
-import type { useNamespace } from '@element-ultra/hooks'
+import type { useNamespace } from 'hooks'
 import type { InjectionKey, ShallowReactive, ShallowRef, Slots } from 'vue'
 import type { ProTableColumn, ProTableProps } from './pro-table'
 

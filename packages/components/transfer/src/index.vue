@@ -55,11 +55,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, h, reactive, ref, toRefs, watch } from 'vue'
-import ElButton from '@element-ultra/components/button'
-import ElIcon from '@element-ultra/components/icon'
-import { formItemKey } from '@element-ultra/tokens'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
-import { useNamespace } from '@element-ultra/hooks'
+import ElButton from 'components/button'
+import ElIcon from 'components/icon'
+import { formItemKey } from 'tokens'
+import { UPDATE_MODEL_EVENT } from 'shared'
+import { useNamespace } from 'hooks'
 import { ArrowLeft, ArrowRight } from 'icon-ultra'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
@@ -72,7 +72,7 @@ import { useMove } from './useMove'
 import { CHANGE_EVENT } from './transfer'
 
 import type { PropType, VNode } from 'vue'
-import type { FormItemContext } from '@element-ultra/tokens'
+import type { FormItemContext } from 'tokens'
 import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
 
 type TransferType = InstanceType<typeof TransferPanel>

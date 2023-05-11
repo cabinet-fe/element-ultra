@@ -1,7 +1,7 @@
 import { getCurrentInstance, inject, ref, unref, watch } from 'vue'
-import { isArray } from '@element-ultra/utils'
-import { ROOT_PICKER_INJECTION_KEY } from '@element-ultra/tokens'
-import { useNamespace } from '@element-ultra/hooks'
+import { isArray } from 'utils'
+import { ROOT_PICKER_INJECTION_KEY } from 'tokens'
+import { useNamespace } from 'hooks'
 import { getDefaultValue, isValidRange } from '../utils'
 import { useShortcut } from './use-shortcut'
 

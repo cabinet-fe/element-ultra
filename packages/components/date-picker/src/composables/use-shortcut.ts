@@ -1,6 +1,6 @@
 import { getCurrentInstance, useAttrs, useSlots } from 'vue'
 import dayjs from 'dayjs'
-import { isFunction } from '@element-ultra/utils'
+import { isFunction } from 'utils'
 import type { SetupContext } from 'vue'
 import type { RangePickerSharedEmits } from '../props/shared'
 

@@ -5,8 +5,7 @@
     "jsx": "preserve",
     "lib": ["ES2019", "DOM", "DOM.Iterable"],
     "types": ["unplugin-vue-define-options/macros-global"],
-    "skipLibCheck": true,
-    "importsNotUsedAsValues": "error"
+    "skipLibCheck": true
   },
   "include": ["packages/**/*", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [
@@ -15,7 +14,6 @@
     "**/__tests__/**/*",
     "**/gulpfile.ts",
     "**/test-helper",
-    "packages/test-utils",
     "**/*.md"
   ]
 }

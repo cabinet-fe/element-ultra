@@ -3,12 +3,12 @@ import {
   UPDATE_MODEL_EVENT,
   FORM_COMPONENT_PROPS,
   SizeProp
-} from '@element-ultra/constants'
-import { radioGroupKey } from '@element-ultra/tokens'
-import { useDisabled, useSize } from '@element-ultra/hooks'
+} from 'shared'
+import { radioGroupKey } from 'tokens'
+import { useDisabled, useSize } from 'hooks'
 
 import type { ExtractPropTypes } from 'vue'
-import type { EmitFn } from '@element-ultra/utils'
+import type { EmitFn } from 'utils'
 
 export const radioPropsBase = {
   ...FORM_COMPONENT_PROPS,

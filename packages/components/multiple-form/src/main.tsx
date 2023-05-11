@@ -5,17 +5,17 @@ import {
   watch,
   inject
 } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import { multipleFormEmits, multipleFormProps } from './type'
-import { ElTable } from '@element-ultra/components/table'
-import { ElFormDialog } from '@element-ultra/components/form-dialog'
-import { ElForm } from '@element-ultra/components/form'
+import { ElTable } from 'components/table'
+import { ElFormDialog } from 'components/form-dialog'
+import { ElForm } from 'components/form'
 import useRows from './use-rows'
 import useColumns from './use-columns'
 import useInlineEdit from './use-inline-edit'
 import useDialogEdit from './use-dialog-edit'
 import { flatTree } from './utils'
-import { formInjectionKey } from '@element-ultra/tokens'
+import { formInjectionKey } from 'tokens'
 
 export default defineComponent({
   name: 'ElMultipleForm',

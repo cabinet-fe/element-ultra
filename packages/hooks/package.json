@@ -1,15 +1,12 @@
 {
-  "name": "@element-ultra/hooks",
-  "description": "Element Ultra composables",
-  "version": "0.0.5",
+  "name": "hooks",
+  "description": "组合式方法",
+  "version": "1.0.0",
   "main": "index.ts",
   "module": "index.ts",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
   "types": "index.d.ts",
   "license": "MIT",
   "peerDependencies": {
-    "vue": "^3.2.37"
-  },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+    "vue": "^3.2.47"
+  }
 }

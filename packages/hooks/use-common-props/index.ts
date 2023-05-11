@@ -1,6 +1,6 @@
 import { inject, computed, type Ref } from 'vue'
-import { formKey } from '@element-ultra/tokens'
-import type { ComponentSize } from '@element-ultra/constants'
+import { formKey } from 'tokens'
+import type { ComponentSize } from 'shared'
 import { useConfig } from '../use-config'
 
 /**

@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import TreeSelect from './src/tree-select.vue'
 
 export const ElTreeSelect = withInstall(TreeSelect)

@@ -1,3 +1,3 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/theme-chalk/src/virtual-list.scss'
-import '@element-ultra/components/scrollbar/style/index'
+import 'components/base/style'
+import 'theme-chalk/src/virtual-list.scss'
+import 'components/scrollbar/style/index'

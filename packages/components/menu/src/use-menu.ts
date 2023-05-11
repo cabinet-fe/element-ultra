@@ -1,5 +1,5 @@
 import { computed, inject } from 'vue'
-import { throwError } from '@element-ultra/utils'
+import { throwError } from 'utils'
 
 import type { ComponentInternalInstance, Ref, CSSProperties } from 'vue'
 import type { MenuProvider } from './types'

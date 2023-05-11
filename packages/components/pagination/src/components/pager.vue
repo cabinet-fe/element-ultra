@@ -51,7 +51,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watchEffect } from 'vue'
 import { MoreFilled, DArrowLeft, DArrowRight } from 'icon-ultra'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 
 const paginationPagerProps = {
   currentPage: {

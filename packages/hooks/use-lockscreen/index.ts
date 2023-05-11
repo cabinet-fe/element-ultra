@@ -8,7 +8,7 @@ import {
   hasClass,
   getStyle,
   getScrollBarWidth,
-} from '@element-ultra/utils'
+} from 'utils'
 
 import type { Ref } from 'vue'
 

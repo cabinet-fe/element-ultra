@@ -33,8 +33,8 @@
 
 <script lang="ts" setup>
 import { computed, provide, useSlots, shallowRef } from 'vue'
-import { ElOverlay } from '@element-ultra/components/overlay'
-import { useNamespace, useDraggable } from '@element-ultra/hooks'
+import { ElOverlay } from 'components/overlay'
+import { useNamespace, useDraggable } from 'hooks'
 import ElDialogContent from './dialog-content.vue'
 import { dialogProps, dialogEmits } from './dialog'
 import { dialogInjectionKey } from './token'

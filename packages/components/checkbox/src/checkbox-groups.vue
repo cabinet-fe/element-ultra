@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import { provide, ref, watch } from 'vue'
 import { checkboxGroupsProps, checkboxGroupsEmits } from './checkbox-groups'
 import ElCheckGroupsItem from './checkbox-groups-item.vue'

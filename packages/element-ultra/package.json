@@ -1,7 +1,8 @@
 {
   "name": "element-ultra",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "A Component Library for Vue 3",
+  "type": "module",
   "keywords": [
     "element-ultra",
     "element",
@@ -26,26 +27,25 @@
     "./*.mjs": "./*.mjs",
     "./*": "./*"
   },
+  "main": "index.mjs",
   "module": "index.mjs",
   "style": "dist/index.css",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cabinet-fe/element-pro.git"
+    "url": "git+https://github.com/cabinet-fe/element-ultra.git"
   },
   "bugs": {
-    "url": "https://github.com/cabinet-fe/element-pro/issues"
+    "url": "https://github.com/cabinet-fe/element-ultra/issues"
   },
   "peerDependencies": {
     "vue": "^3.2.47"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
-    "icon-ultra": "^2.0.13",
     "@popperjs/core": "^2.11.2",
     "@vueuse/core": "^8.1.2",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.1",
     "memoize-one": "^6.0.0",
     "sortablejs": "^1.15.0",
@@ -53,13 +53,6 @@
     "@wangeditor/editor": "^5.1.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.178",
-    "@types/lodash-es": "^4.17.6"
-  },
-  "web-types": "web-types.json",
-  "browserslist": [
-    "> 1%",
-    "not ie 11",
-    "not op_mini all"
-  ]
+    "@types/lodash": "^4.14.178"
+  }
 }

@@ -10,11 +10,11 @@ import {
   type VNodeArrayChildren,
   isVNode
 } from 'vue'
-import { CHANGE_EVENT } from '@element-ultra/constants'
-import { useNamespace } from '@element-ultra/hooks'
+import { CHANGE_EVENT } from 'shared'
+import { useNamespace } from 'hooks'
 import { stepsProps, type StepState } from './steps'
 import { stepsInjectionKey } from './token'
-import { isFragment, isTemplate } from '@element-ultra/utils'
+import { isFragment, isTemplate } from 'utils'
 
 export default defineComponent({
   name: 'ElSteps',

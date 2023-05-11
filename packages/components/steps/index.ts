@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall, withNoopInstall } from 'utils'
 
 import Steps from './src/steps.vue'
 import Step from './src/step.vue'

@@ -58,12 +58,12 @@
 
 <script setup lang="ts">
 import { tableSelectEmits, tableSelectProps } from './table-select'
-import { ElTable } from '@element-ultra/components/table'
-import { ElPopconfirm } from '@element-ultra/components/popconfirm'
-import { ElButton } from '@element-ultra/components/button'
+import { ElTable } from 'components/table'
+import { ElPopconfirm } from 'components/popconfirm'
+import { ElButton } from 'components/button'
 import { provide, shallowRef } from 'vue'
 import { tableSelectToken } from './token'
-import { useDisabled, useNamespace } from '@element-ultra/hooks'
+import { useDisabled, useNamespace } from 'hooks'
 import TableSelectDialog from './table-select-dialog.vue'
 import useApi from './use-api'
 

@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall, withNoopInstall } from 'utils'
 import Timeline from './src/timeline'
 import TimelineItem from './src/timeline-item.vue'
 

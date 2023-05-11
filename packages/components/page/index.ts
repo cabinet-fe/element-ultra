@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Page, { PageExposed } from './src/page'
 
 export const ElPage = withInstall(Page)

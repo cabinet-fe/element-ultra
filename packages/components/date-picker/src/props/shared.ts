@@ -1,5 +1,5 @@
-import { isArray } from '@element-ultra/utils'
-import { type DatePickType } from '@element-ultra/constants'
+import { isArray } from 'utils'
+import { type DatePickType } from 'shared'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 

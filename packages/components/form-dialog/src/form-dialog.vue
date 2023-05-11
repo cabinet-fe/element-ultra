@@ -25,10 +25,10 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import ElDialog from '@element-ultra/components/dialog'
-import ElButton from '@element-ultra/components/button'
+import ElDialog from 'components/dialog'
+import ElButton from 'components/button'
 import { formDialogProps } from './form-dialog'
-import { formInjectionKey } from '@element-ultra/tokens'
+import { formInjectionKey } from 'tokens'
 import { provide, shallowRef, watch } from 'vue'
 
 defineOptions({

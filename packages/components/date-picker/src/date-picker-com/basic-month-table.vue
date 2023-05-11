@@ -30,9 +30,9 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useNamespace } from '@element-ultra/hooks'
-import { rangeArr } from '@element-ultra/components/time-picker'
-import { castArray, hasClass } from '@element-ultra/utils'
+import { useNamespace } from 'hooks'
+import { rangeArr } from 'components/time-picker'
+import { castArray, hasClass } from 'utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
 
 type MonthCell = {

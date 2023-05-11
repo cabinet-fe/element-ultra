@@ -10,14 +10,14 @@ import {
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
-import { useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-ultra/constants'
+import { useFormItem, useSize, useNamespace } from 'hooks'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from 'shared'
 import {
   ValidateComponentsMap,
   addResizeListener,
   removeResizeListener
-} from '@element-ultra/utils'
-import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
+} from 'utils'
+import { useDeprecateAppendToBody } from 'components/popper'
 
 import { ArrowUp } from 'icon-ultra'
 import { useAllowCreate } from './useAllowCreate'
@@ -25,7 +25,7 @@ import { useAllowCreate } from './useAllowCreate'
 import { flattenOptions } from './util'
 
 import { useInput } from './useInput'
-import type ElTooltip from '@element-ultra/components/tooltip'
+import type ElTooltip from 'components/tooltip'
 import type { SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { OptionType } from './select.types'

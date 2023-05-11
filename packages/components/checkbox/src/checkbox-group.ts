@@ -1,5 +1,5 @@
-import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/constants'
-import type { EmitFn } from '@element-ultra/utils'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from 'shared'
+import type { EmitFn } from 'utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const checkboxGroupProps = {

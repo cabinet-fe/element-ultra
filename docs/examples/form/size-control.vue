@@ -78,7 +78,7 @@
 
 <script lang="ts" setup>
 import { reactive, shallowRef } from 'vue'
-import { ComponentSize } from '@element-ultra/constants'
+import { ComponentSize } from 'shared'
 
 const size = shallowRef<ComponentSize>('default')
 const labelPosition = shallowRef<'left' | 'top' | 'right'>('right')

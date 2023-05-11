@@ -10,7 +10,6 @@ import { epPackage } from '../gulpfile/utils/paths'
 import { projRoot } from './.vitepress/utils/paths'
 import fs from 'fs'
 
-
 export default defineConfig(async () => {
   const dependencies = Object.keys(require(epPackage).dependencies)
 

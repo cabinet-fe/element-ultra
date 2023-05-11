@@ -5,8 +5,8 @@
 </template>
 <script lang="ts" setup>
 import { provide, reactive, toRef } from 'vue'
-import { buttonGroupContextKey } from '@element-ultra/tokens'
-import { useNamespace } from '@element-ultra/hooks'
+import { buttonGroupContextKey } from 'tokens'
+import { useNamespace } from 'hooks'
 import { buttonGroupProps } from './button-group'
 
 defineOptions({

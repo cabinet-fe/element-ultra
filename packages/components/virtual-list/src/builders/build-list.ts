@@ -12,8 +12,8 @@ import {
   unref,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { hasOwn, isNumber, isString } from '@element-ultra/utils'
-import { useNamespace } from '@element-ultra/hooks'
+import { hasOwn, isNumber, isString } from 'utils'
+import { useNamespace } from 'hooks'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'

@@ -1,4 +1,4 @@
-import { addResizeListener, removeResizeListener } from '@element-ultra/utils'
+import { addResizeListener, removeResizeListener } from 'utils'
 
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 

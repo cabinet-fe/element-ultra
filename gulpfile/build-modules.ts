@@ -1,7 +1,7 @@
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import DefineOptions from 'unplugin-vue-define-options/rollup'
+import VueMacros from 'unplugin-vue-macros/rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
@@ -23,18 +23,23 @@ export default async function buildModules() {
     })
   ).filter(item => !excludeRE.test(item))
 
-
   const bundle = await rollup({
     input,
     plugins: [
-      ElementUltraAlias(),
-      DefineOptions(),
-      vue({
-        isProduction: false
+      // ElementUltraAlias(),
+      VueMacros({
+        setupComponent: false,
+        setupSFC: false,
+        plugins: {
+          vue: vue({
+            isProduction: false
+          }),
+          vueJsx: vueJsx()
+        }
       }),
-      vueJsx() as any,
+
       nodeResolve({
-        extensions: ['.mjs', '.js', '.json', '.ts']
+        extensions: ['.ts', '.mjs', '.js', '.json']
       }),
       commonjs(),
       esbuild({

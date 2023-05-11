@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import { useResizeObserver } from '@vueuse/core'
 import {
   computed,

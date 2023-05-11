@@ -58,11 +58,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ElTable } from '@element-ultra/components/table'
-import { ElDialog } from '@element-ultra/components/dialog'
-import { ElButton } from '@element-ultra/components/button'
-import { ElPagination } from '@element-ultra/components/pagination'
-import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
+import { ElTable } from 'components/table'
+import { ElDialog } from 'components/dialog'
+import { ElButton } from 'components/button'
+import { ElPagination } from 'components/pagination'
+import { ElLoadingDirective as vLoading } from 'components/loading'
 import { inject, ref, watch } from 'vue'
 import { tableSelectToken } from './token'
 import useApi from './use-api'

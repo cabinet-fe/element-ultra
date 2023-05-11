@@ -34,8 +34,8 @@
 import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
-import { useNamespace } from '@element-ultra/hooks'
-import { rangeArr } from '@element-ultra/components/time-picker'
+import { useNamespace } from 'hooks'
+import { rangeArr } from 'components/time-picker'
 import { dateTableProps, dateTableEmits } from './date-table'
 import type { Dayjs } from 'dayjs'
 dayjs.extend(localeData)

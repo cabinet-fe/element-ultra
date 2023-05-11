@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 
 import type { Component, VNode } from 'vue'
 

@@ -1,4 +1,11 @@
 packages:
-  - packages/*
+  - packages/components
+  - packages/directives
+  - packages/hooks
+  - packages/shared
+  - packages/theme-chalk
+  - packages/tokens
+  - packages/utils
   - docs
   - play
+  - dist/*

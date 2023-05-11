@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Avatar from './src/avatar.vue'
 
 export const ElAvatar = withInstall(Avatar)

@@ -1,8 +1,33 @@
-import { FORM_COMPONENT_PROPS } from "@element-ultra/constants"
-import type { ExtractPropTypes, PropType } from "vue"
+import { FORM_COMPONENT_PROPS } from 'shared'
+import type { ExtractPropTypes, PropType } from 'vue'
 
-export type ToolBarKeys = '|' | 'blockquote' | 'header1' | 'header2' | 'header3' | 'bold' | 'underline' | 'italic' | 'clearStyle' | 'bgColor' | 'color' | 'through' | 'bulletedList' | 'numberedList' | 'todo'
-| 'justifyLeft' | 'justifyRight' | 'justifyCenter' | 'insertLink' | 'group-image' | 'insertVideo' | 'insertTable' | 'codeBlock' | 'undo' | 'redo' | 'fullScreen'
+export type ToolBarKeys =
+  | '|'
+  | 'blockquote'
+  | 'header1'
+  | 'header2'
+  | 'header3'
+  | 'bold'
+  | 'underline'
+  | 'italic'
+  | 'clearStyle'
+  | 'bgColor'
+  | 'color'
+  | 'through'
+  | 'bulletedList'
+  | 'numberedList'
+  | 'todo'
+  | 'justifyLeft'
+  | 'justifyRight'
+  | 'justifyCenter'
+  | 'insertLink'
+  | 'group-image'
+  | 'insertVideo'
+  | 'insertTable'
+  | 'codeBlock'
+  | 'undo'
+  | 'redo'
+  | 'fullScreen'
 
 export const textEditorProps = {
   ...FORM_COMPONENT_PROPS,

@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Result from './src/result.vue'
 
 export const ElResult = withInstall(Result)

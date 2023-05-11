@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall, withNoopInstall } from 'utils'
 import Grid from './src/grid.vue'
 import GridItem from './src/grid-item.vue'
 

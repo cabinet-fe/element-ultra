@@ -1,5 +1,5 @@
 import { isClient } from '@vueuse/core'
-import { on, off } from '@element-ultra/utils'
+import { on, off } from 'utils'
 
 let isDragging = false
 

@@ -1,6 +1,6 @@
-import { ElCheckbox } from '@element-ultra/components/checkbox'
-import { ElRadio } from '@element-ultra/components/radio'
-import type { TableColumn } from '@element-ultra/components/table'
+import { ElCheckbox } from 'components/checkbox'
+import { ElRadio } from 'components/radio'
+import type { TableColumn } from 'components/table'
 import { h, ComputedRef, computed, ShallowRef } from 'vue'
 import type { TableSelectProps } from './table-select'
 interface Options {

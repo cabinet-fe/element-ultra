@@ -23,7 +23,7 @@ import {
   onBeforeUnmount
 } from 'vue'
 import { createPopper } from '@popperjs/core'
-import { useZIndex, useNamespace } from '@element-ultra/hooks'
+import { useZIndex, useNamespace } from 'hooks'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'

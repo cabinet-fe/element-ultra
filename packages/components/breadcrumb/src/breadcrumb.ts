@@ -1,4 +1,4 @@
-import { iconPropType } from '@element-ultra/utils'
+import { iconPropType } from 'utils'
 import type { ExtractPropTypes } from 'vue'
 import type Breadcrumb from './breadcrumb.vue'
 

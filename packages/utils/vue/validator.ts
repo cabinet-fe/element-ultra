@@ -2,8 +2,8 @@ import {
   componentSizes,
   datePickTypes,
   type DatePickType
-} from '@element-ultra/constants'
-import type { ComponentSize } from '@element-ultra/constants'
+} from 'shared'
+import type { ComponentSize } from 'shared'
 
 export const isValidComponentSize = (val: string): val is ComponentSize | '' =>
   ['', ...componentSizes].includes(val)

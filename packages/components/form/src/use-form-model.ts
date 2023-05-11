@@ -1,7 +1,7 @@
 import { omit } from 'lodash'
 import { isReactive, shallowReactive } from 'vue'
 import type { FormModel, FormModelItem } from './form'
-import { isObject } from '@element-ultra/utils'
+import { isObject } from 'utils'
 
 type GetModel<T extends Record<string, any>> = {
   [key in keyof T]: T[key] extends { [k: string]: any; children: any }

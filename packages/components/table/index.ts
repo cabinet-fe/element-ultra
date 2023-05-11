@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Table from './src/table.vue'
 
 export const ElTable = withInstall(Table)

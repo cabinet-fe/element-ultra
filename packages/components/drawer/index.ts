@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import Drawer from './src/drawer.vue'
 
 export const ElDrawer = withInstall(Drawer)

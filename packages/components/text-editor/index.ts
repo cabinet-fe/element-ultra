@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import { defineAsyncComponent } from 'vue'
 
 const TextEditor = defineAsyncComponent(() => import('./src/text-editor.vue'))

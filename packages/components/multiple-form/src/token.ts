@@ -1,4 +1,4 @@
-import type { useNamespace } from '@element-ultra/hooks'
+import type { useNamespace } from 'hooks'
 import type {
   ComputedRef,
   InjectionKey,

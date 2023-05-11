@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import EditBar from './src/edit-bar.vue'
 
 export const ElEditBar = withInstall(EditBar)

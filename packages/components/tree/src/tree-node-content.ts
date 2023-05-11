@@ -1,5 +1,5 @@
 import { h, defineComponent, inject } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 import { ROOT_TREE_INJECTION_KEY, treeNodeContentProps } from './virtual-tree'
 
 export default defineComponent({

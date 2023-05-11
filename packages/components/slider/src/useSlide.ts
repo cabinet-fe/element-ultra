@@ -3,13 +3,13 @@ import {
   CHANGE_EVENT,
   UPDATE_MODEL_EVENT,
   INPUT_EVENT,
-} from '@element-ultra/constants'
-import { formKey, formItemKey } from '@element-ultra/tokens'
+} from 'shared'
+import { formKey, formItemKey } from 'tokens'
 import type { CSSProperties } from 'vue'
 import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
 
-import type { FormContext } from '@element-ultra/tokens'
-import type { Nullable } from '@element-ultra/utils'
+import type { FormContext } from 'tokens'
+import type { Nullable } from 'utils'
 
 export const useSlide = (
   props: ISliderProps,

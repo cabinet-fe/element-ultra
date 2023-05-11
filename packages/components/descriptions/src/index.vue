@@ -26,13 +26,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, provide } from 'vue'
-import { isValidComponentSize } from '@element-ultra/utils'
-import { useSize, useNamespace } from '@element-ultra/hooks'
+import { isValidComponentSize } from 'utils'
+import { useSize, useNamespace } from 'hooks'
 import DescriptionsRow from './descriptions-row.vue'
 import { elDescriptionsKey } from './token'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-ultra/constants'
+import type { ComponentSize } from 'shared'
 
 export default defineComponent({
   name: 'ElDescriptions',

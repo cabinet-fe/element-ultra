@@ -1,9 +1,9 @@
 {
-  "name": "@element-ultra/components",
-  "version": "0.0.5",
-  "description": "all components are settled here",
+  "name": "components",
+  "version": "1.0.0",
+  "description": "所有的组件放置在这里",
   "peerDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.2.47"
   },
   "main": "index.ts",
   "module": "index.ts",

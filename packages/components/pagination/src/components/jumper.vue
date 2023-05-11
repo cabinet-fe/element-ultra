@@ -18,8 +18,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
-import ElInput from '@element-ultra/components/input'
+import { useNamespace } from 'hooks'
+import ElInput from 'components/input'
 import { usePagination } from '../usePagination'
 
 defineOptions({

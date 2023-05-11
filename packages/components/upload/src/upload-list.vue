@@ -72,10 +72,10 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
-import { ElIcon } from '@element-ultra/components/icon'
+import { ElIcon } from 'components/icon'
 import { Document, Delete, Close, ZoomIn, Check, CircleCheck } from 'icon-ultra'
-import { useNamespace } from '@element-ultra/hooks'
-import ElProgress from '@element-ultra/components/progress'
+import { useNamespace } from 'hooks'
+import ElProgress from 'components/progress'
 
 import type { PropType } from 'vue'
 import type { UploadFile } from './upload.type'

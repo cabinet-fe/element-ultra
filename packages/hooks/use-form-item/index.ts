@@ -1,5 +1,5 @@
 import { computed, inject, provide } from 'vue'
-import { formKey, formItemKey, injectedKey } from '@element-ultra/tokens'
+import { formKey, formItemKey, injectedKey } from 'tokens'
 
 /**
  * 注入formItem和form

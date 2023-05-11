@@ -79,10 +79,10 @@ import {
   addResizeListener,
   removeResizeListener,
   debugWarn,
-} from '@element-ultra/utils'
-import { ElIcon } from '@element-ultra/components/icon'
+} from 'utils'
+import { ElIcon } from 'components/icon'
 import { ArrowLeft, ArrowRight } from 'icon-ultra'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace } from 'hooks'
 
 import type {
   ICarouselProps,
@@ -222,7 +222,7 @@ export default defineComponent({
       }
     }
 
-    function setActiveItem(index) {
+    function setActiveItem(index: number | string) {
       if (typeof index === 'string') {
         const filteredItems = items.value.filter((item) => item.name === index)
         if (filteredItems.length > 0) {
@@ -248,7 +248,7 @@ export default defineComponent({
       }
     }
 
-    function resetItemPosition(oldIndex) {
+    function resetItemPosition(oldIndex: number) {
       items.value.forEach((item, index) => {
         item.translateItem(index, data.activeIndex, oldIndex)
       })
@@ -258,7 +258,7 @@ export default defineComponent({
       items.value.push(item)
     }
 
-    function removeItem(uid) {
+    function removeItem(uid: number) {
       const index = items.value.findIndex((item) => item.uid === uid)
       if (index !== -1) {
         items.value.splice(index, 1)

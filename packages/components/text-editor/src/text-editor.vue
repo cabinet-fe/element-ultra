@@ -20,7 +20,7 @@ import {
   IToolbarConfig
 } from '@wangeditor/editor'
 import { textEditorProps } from './text-editor'
-import { useFormItem, useNamespace } from '@element-ultra/hooks'
+import { useFormItem, useNamespace } from 'hooks'
 
 defineOptions({
   name: 'ElTextEditor'

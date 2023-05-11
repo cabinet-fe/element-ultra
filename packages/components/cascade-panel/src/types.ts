@@ -1,5 +1,5 @@
 import type { VNode, InjectionKey } from 'vue'
-import type { Nullable } from '@element-ultra/utils'
+import type { Nullable } from 'utils'
 import type { default as CascadeNode } from './node'
 
 export type { CascadeNode }

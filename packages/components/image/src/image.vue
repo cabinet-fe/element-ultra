@@ -46,9 +46,9 @@ import {
   useAttrs,
   useNamespace,
   useDeprecated,
-} from '@element-ultra/hooks'
-import ImageViewer from '@element-ultra/components/image-viewer'
-import { getScrollContainer, isInContainer } from '@element-ultra/utils'
+} from 'hooks'
+import ImageViewer from 'components/image-viewer'
+import { getScrollContainer, isInContainer } from 'utils'
 import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'

@@ -168,18 +168,18 @@ import { debounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import ElCascadePanel, {
   CommonProps
-} from '@element-ultra/components/cascade-panel'
-import ElInput from '@element-ultra/components/input'
+} from 'components/cascade-panel'
+import ElInput from 'components/input'
 import ElTooltip, {
   useTooltipContentProps
-} from '@element-ultra/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
-import ElScrollbar from '@element-ultra/components/scrollbar'
-import ElTag from '@element-ultra/components/tag'
-import ElIcon from '@element-ultra/components/icon'
+} from 'components/tooltip'
+import { useDeprecateAppendToBody } from 'components/popper'
+import ElScrollbar from 'components/scrollbar'
+import ElTag from 'components/tag'
+import ElIcon from 'components/icon'
 
-import { ClickOutside as Clickoutside } from '@element-ultra/directives'
-import { useFormItem, useSize } from '@element-ultra/hooks'
+import { ClickOutside as Clickoutside } from 'directives'
+import { useFormItem, useSize } from 'hooks'
 
 import {
   focusNode,
@@ -187,23 +187,23 @@ import {
   addResizeListener,
   removeResizeListener,
   isValidComponentSize
-} from '@element-ultra/utils'
+} from 'utils'
 import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   FORM_COMPONENT_PROPS
-} from '@element-ultra/constants'
+} from 'shared'
 import { CircleClose, Check, ArrowDown } from 'icon-ultra'
 
-import type { Options } from '@element-ultra/components/popper'
+import type { Options } from 'components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'
 import type {
   CascadeValue,
   CascadeNode,
   Tag
-} from '@element-ultra/components/cascade-panel'
-import type { ComponentSize } from '@element-ultra/constants'
+} from 'components/cascade-panel'
+import type { ComponentSize } from 'shared'
 
 type cascadePanelType = InstanceType<typeof ElCascadePanel>
 type tooltipType = InstanceType<typeof ElTooltip>

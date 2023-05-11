@@ -1,2 +1,2 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/theme-chalk/src/infinite-scroll.scss'
+import 'components/base/style'
+import 'theme-chalk/src/infinite-scroll.scss'

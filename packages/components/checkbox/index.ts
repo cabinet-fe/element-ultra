@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-ultra/utils'
+import { withInstall, withNoopInstall } from 'utils'
 
 import Checkbox from './src/checkbox.vue'
 import CheckboxButton from './src/checkbox-button.vue'

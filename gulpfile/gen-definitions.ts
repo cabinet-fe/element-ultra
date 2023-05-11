@@ -68,7 +68,7 @@ export default async function genDefinitions() {
 
       let content = outputFile.getText()
       content = content.replaceAll(
-        `@element-ultra/theme-chalk`,
+        `theme-chalk`,
         'element-ultra/theme-chalk'
       )
       content = content.replaceAll(`@element-ultra/`, `element-ultra/`)

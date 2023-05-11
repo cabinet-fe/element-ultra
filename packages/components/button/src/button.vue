@@ -38,9 +38,9 @@
 
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
-import { ElIcon } from '@element-ultra/components/icon'
-import { useDisabled, useNamespace, useSize } from '@element-ultra/hooks'
-import { buttonGroupContextKey } from '@element-ultra/tokens'
+import { ElIcon } from 'components/icon'
+import { useDisabled, useNamespace, useSize } from 'hooks'
+import { buttonGroupContextKey } from 'tokens'
 import { buttonEmits, buttonProps } from './button'
 
 defineOptions({

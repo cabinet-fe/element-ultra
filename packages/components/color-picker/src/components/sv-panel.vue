@@ -28,7 +28,7 @@ import {
   getCurrentInstance,
   onMounted,
 } from 'vue'
-import { getClientXY } from '@element-ultra/utils'
+import { getClientXY } from 'utils'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'

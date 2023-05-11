@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import GridInput from './src/grid-input.vue'
 
 export const ElGridInput = withInstall(GridInput)

@@ -12,7 +12,7 @@ import {
   watch,
   nextTick,
 } from 'vue'
-import { EVENT_CODE } from '@element-ultra/constants'
+import { EVENT_CODE } from 'shared'
 import {
   focusableStack,
   focusFirstDescendant,
@@ -97,7 +97,7 @@ export default defineComponent({
       const trapContainer = unref(forwardRef)
       if (focusLayer.paused || !trapContainer) return
       const target = e.target as HTMLElement | null
-      
+
       if (target && trapContainer.contains(target)) {
         lastFocusAfterMounted = target
       } else {

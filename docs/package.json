@@ -5,6 +5,7 @@
     "dev": "vitepress dev .",
     "build": "cross-env NODE_ENV=production && vitepress build ."
   },
+  "type": "module",
   "dependencies": {
     "@docsearch/js": "^3.0.0",
     "@docsearch/react": "^3.0.0",
@@ -25,10 +26,6 @@
     "markdown-it-container": "^3.0.0",
     "unplugin-icons": "^0.14.1",
     "unocss": "^0.31.0",
-    "vitepress": "1.0.0-alpha.33",
-    "vite": "3.2.4",
-    "unplugin-vue-macros": "^0.16.3",
-    "@vitejs/plugin-vue": "^3.2.0",
-    "@vitejs/plugin-vue-jsx": "^2.1.1"
+    "vitepress": "1.0.0-alpha.75"
   }
 }

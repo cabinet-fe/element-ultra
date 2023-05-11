@@ -16,8 +16,8 @@ import {
   hasOwn,
   isNumber,
   isString,
-} from '@element-ultra/utils'
-import { useNamespace } from '@element-ultra/hooks'
+} from 'utils'
+import { useNamespace } from 'hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'

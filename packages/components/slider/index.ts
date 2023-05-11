@@ -1,7 +1,7 @@
 import Slider from './src/index.vue'
 
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-ultra/utils'
+import type { SFCWithInstall } from 'utils'
 
 Slider.install = (app: App): void => {
   app.component(Slider.name, Slider)

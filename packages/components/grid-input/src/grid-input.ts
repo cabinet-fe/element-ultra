@@ -1,5 +1,5 @@
-import { FORM_COMPONENT_PROPS, SizeProp } from "@element-ultra/constants"
-import type { ExtractPropTypes } from "vue"
+import { FORM_COMPONENT_PROPS, SizeProp } from 'shared'
+import type { ExtractPropTypes } from 'vue'
 
 export const gridInputProps = {
   ...FORM_COMPONENT_PROPS,

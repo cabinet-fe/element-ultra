@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ElTree } from '@element-ultra/components'
+import type { ElTree } from 'components'
 
 let data = $shallowRef<any[]>([])
 

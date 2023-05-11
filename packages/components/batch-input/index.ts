@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import BatchInput from './src/batch-input.vue'
 
 export const ElBatchInput = withInstall(BatchInput)

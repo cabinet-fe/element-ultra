@@ -94,12 +94,12 @@
 </template>
 <script lang="ts" setup>
 import { shallowRef, onMounted, watch, onBeforeUnmount } from 'vue'
-import { useNamespace } from '@element-ultra/hooks'
-import ElScrollbar from '@element-ultra/components/scrollbar'
-import ElButton from '@element-ultra/components/button'
-import ElIcon from '@element-ultra/components/icon'
-import ElPopconfirm from '@element-ultra/components/popconfirm'
-import ElTree from '@element-ultra/components/tree'
+import { useNamespace } from 'hooks'
+import ElScrollbar from 'components/scrollbar'
+import ElButton from 'components/button'
+import ElIcon from 'components/icon'
+import ElPopconfirm from 'components/popconfirm'
+import ElTree from 'components/tree'
 import { editBarProps } from './edit-bar'
 import Sortable from 'sortablejs'
 import { Edit, Delete, Plus } from 'icon-ultra'

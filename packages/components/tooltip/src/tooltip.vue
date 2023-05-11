@@ -57,15 +57,15 @@ import {
   ElPopper,
   ElPopperArrow,
   usePopperArrowProps,
-} from '@element-ultra/components/popper'
+} from 'components/popper'
 
-import { debugWarn, isBoolean, isUndefined } from '@element-ultra/utils'
+import { debugWarn, isBoolean, isUndefined } from 'utils'
 import {
   usePopperContainer,
   useId,
   createModelToggleComposable,
   useDelayedToggle,
-} from '@element-ultra/hooks'
+} from 'hooks'
 import ElTooltipContent from './content.vue'
 import ElTooltipTrigger from './trigger.vue'
 import {

@@ -1,4 +1,4 @@
-import { EVENT_CODE } from '@element-ultra/constants'
+import { EVENT_CODE } from 'shared'
 import type { HTMLAttributes } from 'vue'
 
 type Orientation = HTMLAttributes['aria-orientation']

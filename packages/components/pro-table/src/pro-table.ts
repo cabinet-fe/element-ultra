@@ -1,7 +1,7 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { DataTableColumn } from '@element-ultra/components/data-table'
-import type { RequestResponse } from '@element-ultra/hooks'
-import type { EmitFn } from '@element-ultra/utils'
+import type { DataTableColumn } from 'components/data-table'
+import type { RequestResponse } from 'hooks'
+import type { EmitFn } from 'utils'
 
 export const proTableProps = {
   /** 数据请求接口, 如果传了data属性, 该属性将失效 */

@@ -1,7 +1,7 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
-import { off, on } from '@element-ultra/utils'
+import { UPDATE_MODEL_EVENT } from 'shared'
+import { off, on } from 'utils'
 
 import type { ComputedRef, CSSProperties } from 'vue'
 import type {

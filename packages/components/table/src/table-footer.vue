@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getChainValue } from '@element-ultra/utils'
+import { getChainValue } from 'utils'
 import { inject } from 'vue'
 import { tableToken } from './token'
 

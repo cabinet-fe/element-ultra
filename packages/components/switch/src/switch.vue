@@ -91,20 +91,20 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref, nextTick, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { isBoolean, throwError, debugWarn } from '@element-ultra/utils'
-import ElIcon from '@element-ultra/components/icon'
+import { isBoolean, throwError, debugWarn } from 'utils'
+import ElIcon from 'components/icon'
 import { Loading } from 'icon-ultra'
 import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
-} from '@element-ultra/constants'
+} from 'shared'
 import {
   useDisabled,
   useFormItem,
   useNamespace,
   useSize,
-} from '@element-ultra/hooks'
+} from 'hooks'
 import { switchProps, switchEmits } from './switch'
 
 const COMPONENT_NAME = 'ElSwitch'

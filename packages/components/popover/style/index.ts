@@ -1,3 +1,3 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/theme-chalk/src/popover.scss'
-import '@element-ultra/components/popper/style/index'
+import 'components/base/style'
+import 'theme-chalk/src/popover.scss'
+import 'components/popper/style/index'

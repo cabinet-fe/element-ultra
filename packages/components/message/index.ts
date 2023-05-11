@@ -1,4 +1,4 @@
-import { withInstallFunction } from '@element-ultra/utils'
+import { withInstallFunction } from 'utils'
 
 import Message from './src/message-method'
 

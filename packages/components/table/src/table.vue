@@ -28,14 +28,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useNamespace, useSize } from '@element-ultra/hooks'
+import { useNamespace, useSize } from 'hooks'
 import TableHeader from './table-header.vue'
 import TableBody from './table-body.vue'
 import TableFooter from './table-footer.vue'
 import { tableProps, FinalTableColumn, tableEmits, SummaryMethod } from './table'
 import { computed, CSSProperties, provide, shallowRef } from 'vue'
 import { tableToken } from './token'
-import { ElScrollbar } from '@element-ultra/components/scrollbar'
+import { ElScrollbar } from 'components/scrollbar'
 import useColumns from './use-columns'
 import useShadow from './use-shadow'
 

@@ -106,10 +106,10 @@ import {
   useAttrs as useRawAttrs,
   type StyleValue
 } from 'vue'
-import { ElIcon } from '@element-ultra/components/icon'
+import { ElIcon } from 'components/icon'
 import { CircleClose, View as IconView } from 'icon-ultra'
-import { useAttrs, useDisabled, useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-ultra/constants'
+import { useAttrs, useDisabled, useFormItem, useSize, useNamespace } from 'hooks'
+import { UPDATE_MODEL_EVENT } from 'shared'
 import { inputProps, inputEmits } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement

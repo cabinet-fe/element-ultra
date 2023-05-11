@@ -35,16 +35,16 @@
 
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
-import ElScrollbar from '@element-ultra/components/scrollbar'
-import { generateId } from '@element-ultra/utils'
+import ElScrollbar from 'components/scrollbar'
+import { generateId } from 'utils'
 import { Loading } from 'icon-ultra'
-import ElIcon from '@element-ultra/components/icon'
+import ElIcon from 'components/icon'
 import ElCascadeNode from './node.vue'
 import { Cascade_PANEL_INJECTION_KEY } from './types'
 
 import type { default as CascadeNode } from './node'
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-ultra/utils'
+import type { Nullable } from 'utils'
 
 export default defineComponent({
   name: 'ElCascadeMenu',

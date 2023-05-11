@@ -1,16 +1,16 @@
-import { iconPropType } from '@element-ultra/utils'
-import { ComponentSize, EVENT_CODE } from '@element-ultra/constants'
-import { createCollectionWithScope } from '@element-ultra/components/collection'
+import { iconPropType } from 'utils'
+import { ComponentSize, EVENT_CODE } from 'shared'
+import { createCollectionWithScope } from 'components/collection'
 import {
   useTooltipTriggerProps,
   useTooltipContentProps
-} from '@element-ultra/components/tooltip'
+} from 'components/tooltip'
 import type { Options } from '@popperjs/core'
 
-import type { ButtonType } from '@element-ultra/components/button'
-import type { Placement } from '@element-ultra/components/popper'
+import type { ButtonType } from 'components/button'
+import type { Placement } from 'components/popper'
 import type { ComponentInternalInstance, ComputedRef, PropType } from 'vue'
-import type { Nullable } from '@element-ultra/utils'
+import type { Nullable } from 'utils'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance

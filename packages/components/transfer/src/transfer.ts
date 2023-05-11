@@ -1,4 +1,4 @@
-import { CHANGE_EVENT } from '@element-ultra/constants'
+import { CHANGE_EVENT } from 'shared'
 
 import type { VNode } from 'vue'
 

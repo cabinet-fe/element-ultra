@@ -1,4 +1,4 @@
-import { getChainValue } from '@element-ultra/utils'
+import { getChainValue } from 'utils'
 import { defineComponent, inject, PropType } from 'vue'
 import type { Row, DataTreeRow } from './data-table'
 import { dataBodyToken } from './token'

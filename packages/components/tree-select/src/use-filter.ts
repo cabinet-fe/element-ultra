@@ -1,6 +1,6 @@
 import { shallowReactive, type ShallowRef } from 'vue'
 import type { TreeSelectProps } from './tree-select'
-import type { ElTree, TreeNodeData } from '@element-ultra/components/tree'
+import type { ElTree, TreeNodeData } from 'components/tree'
 
 export default function useFilter(
   props: TreeSelectProps,

@@ -1,6 +1,6 @@
-import '@element-ultra/components/base/style'
-import '@element-ultra/components/grid/style'
-import '@element-ultra/components/icon/style'
-import '@element-ultra/components/tooltip/style'
+import 'components/base/style'
+import 'components/grid/style'
+import 'components/icon/style'
+import 'components/tooltip/style'
 
-import '@element-ultra/theme-chalk/src/form.scss'
+import 'theme-chalk/src/form.scss'

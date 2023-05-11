@@ -1,4 +1,4 @@
-import { withInstall } from '@element-ultra/utils'
+import { withInstall } from 'utils'
 import FormDialog from './src/form-dialog.vue'
 
 export const ElFormDialog = withInstall(FormDialog)

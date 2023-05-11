@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { debugWarn } from '@element-ultra/utils'
+import { debugWarn } from 'utils'
 import type { ComputedRef, CSSProperties } from 'vue'
 import type { ISliderInitData, ISliderProps, Stops } from './slider.type'
 

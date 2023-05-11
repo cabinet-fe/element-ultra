@@ -46,8 +46,8 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useNamespace } from '@element-ultra/hooks'
-import { castArray } from '@element-ultra/utils'
+import { useNamespace } from 'hooks'
+import { castArray } from 'utils'
 import { basicDateTableProps } from '../props/basic-date-table'
 import { buildPickerTable } from '../utils'
 import ElDatePickerCell from './basic-cell-render'

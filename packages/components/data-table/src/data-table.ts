@@ -1,6 +1,6 @@
-import type { TableColumn } from '@element-ultra/components/table'
-import type { ComponentSize } from '@element-ultra/constants'
-import type { EmitFn } from '@element-ultra/utils'
+import type { TableColumn } from 'components/table'
+import type { ComponentSize } from 'shared'
+import type { EmitFn } from 'utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 数据表格列 */
