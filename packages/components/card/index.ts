@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
+import ElCard from './src/card.vue'
 
-import Card from './src/card.vue'
-
-export const ElCard = withInstall(Card)
+export { ElCard }
 export default ElCard
 
 export * from './src/card'

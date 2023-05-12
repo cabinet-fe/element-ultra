@@ -1,10 +1,8 @@
-import { withInstall } from 'utils'
-import Action from './src/action.vue'
-import ActionGroup from './src/action-group.vue'
-
-export const ElAction = withInstall(Action)
-export const ElActionGroup = withInstall(ActionGroup)
-
-export default Action
+import ElAction from './src/action.vue'
+import ElActionGroup from './src/action-group.vue'
 
 export * from './src/type'
+
+export { ElAction, ElActionGroup }
+
+export default ElAction

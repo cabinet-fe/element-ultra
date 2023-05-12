@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-import DataTable from './src/data-table.vue'
+import ElDataTable from './src/data-table.vue'
 
 export * from './src/data-table'
+export type DataTableInstance = InstanceType<typeof ElDataTable>
 
-export default DataTable
-export const ElDataTable = withInstall(DataTable)
-export type DataTableInstance = InstanceType<typeof DataTable>
+export { ElDataTable }
+export default ElDataTable

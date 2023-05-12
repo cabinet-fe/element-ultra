@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-
-import Backtop from './src/backtop.vue'
-
-export const ElBacktop = withInstall(Backtop)
-export default ElBacktop
+import ElBacktop from './src/backtop.vue'
 
 export * from './src/backtop'
+
+export { ElBacktop }
+
+export default ElBacktop

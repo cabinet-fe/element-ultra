@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-import Page, { PageExposed } from './src/page'
+import ElPage, { PageExposed } from './src/page'
 
-export const ElPage = withInstall(Page)
+export type PageInstance = InstanceType<typeof ElPage> & PageExposed
 
-export type PageInstance = InstanceType<typeof Page> & PageExposed
+export { ElPage }
 
-export default Page
+export default ElPage

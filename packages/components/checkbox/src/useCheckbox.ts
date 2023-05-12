@@ -42,7 +42,7 @@ export const useCheckbox = (props: CheckboxProps, emit: CheckboxEmit) => {
 
   let focus = shallowRef(false)
 
-  const labelRef = shallowRef<HTMLLabelElement>()
+  const labelRef = shallowRef<HTMLLabElement>()
 
   /**
    * 复选框状态改变

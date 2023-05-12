@@ -1,6 +1,5 @@
-import { withInstall } from 'utils'
-import GridInput from './src/grid-input.vue'
+import ElGridInput from './src/grid-input.vue'
 
-export const ElGridInput = withInstall(GridInput)
+export { ElGridInput }
 
-export default GridInput
+export default ElGridInput

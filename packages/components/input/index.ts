@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
-
-import Input from './src/input.vue'
-
-export const ElInput = withInstall(Input)
-export default ElInput
+import ElInput from './src/input.vue'
 
 export * from './src/input'
+
+export { ElInput }
+export default ElInput

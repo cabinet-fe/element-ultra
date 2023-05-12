@@ -50,7 +50,7 @@
                 @input="val => handleTimeInput(val, 'min')"
                 @change="val => handleTimeChange(val, 'min')"
               />
-              <time-pick-panel
+              <el-time-pick-panel
                 :visible="minTimePickerVisible"
                 :format="timeFormat"
                 datetime-role="start"
@@ -91,7 +91,7 @@
                 @input="val => handleTimeInput(val, 'max')"
                 @change="val => handleTimeChange(val, 'max')"
               />
-              <time-pick-panel
+              <el-time-pick-panel
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"
@@ -247,7 +247,7 @@ import { isArray } from 'utils'
 import ElButton from 'components/button'
 import ElInput from 'components/input'
 import {
-  TimePickPanel,
+  ElTimePickPanel,
   extractDateFormat,
   extractTimeFormat
 } from 'components/time-picker'

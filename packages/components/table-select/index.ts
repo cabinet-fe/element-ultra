@@ -1,9 +1,7 @@
-import { withInstall } from 'utils'
-
-import TableSelect from './src/table-select.vue'
-
-export const ElTableSelect = withInstall(TableSelect)
-
-export default TableSelect
+import ElTableSelect from './src/table-select.vue'
 
 export * from './src/table-select'
+
+export { ElTableSelect }
+
+export default ElTableSelect

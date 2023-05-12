@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-import Teleport from './src/teleport.vue'
-
-export const ElTeleport = withInstall(Teleport)
-
-export default ElTeleport
+import ElTeleport from './src/teleport.vue'
 
 export * from './src/teleport'
+
+export { ElTeleport }
+
+export default ElTeleport

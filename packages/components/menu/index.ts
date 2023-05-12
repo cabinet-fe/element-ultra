@@ -1,19 +1,11 @@
-import { withInstall, withNoopInstall } from 'utils'
+import ElMenu from './src/menu'
+import ElMenuItem from './src/menu-item.vue'
+import ElMenuItemGroup from './src/menu-item-group.vue'
+import ElSubMenu from './src/sub-menu'
 
-import Menu from './src/menu'
-import MenuItem from './src/menu-item.vue'
-import MenuItemGroup from './src/menu-item-group.vue'
-import SubMenu from './src/sub-menu'
+export { ElMenu, ElMenuItem, ElMenuItemGroup, ElSubMenu }
 
-export const ElMenu = withInstall(Menu, {
-  MenuItem,
-  MenuItemGroup,
-  SubMenu,
-})
 export default ElMenu
-export const ElMenuItem = withNoopInstall(MenuItem)
-export const ElMenuItemGroup = withNoopInstall(MenuItemGroup)
-export const ElSubMenu = withNoopInstall(SubMenu)
 
 export * from './src/menu'
 export * from './src/menu-item'

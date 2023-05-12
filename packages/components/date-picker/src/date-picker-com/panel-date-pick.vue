@@ -45,15 +45,13 @@
               @input="val => (userInputTime = val)"
               @change="handleVisibleTimeChange"
             />
-            <time-pick-panel
+            <el-time-pick-panel
               :visible="timePickerVisible"
               :format="timeFormat"
               :time-arrow-control="arrowControl"
               :parsed-value="innerDate"
               @pick="handleTimePick"
             />
-
-
           </span>
         </div>
         <div
@@ -201,7 +199,7 @@ import { ClickOutside as vClickOutside } from 'directives'
 import { useNamespace } from 'hooks'
 import ElInput from 'components/input'
 import {
-  TimePickPanel,
+  ElTimePickPanel,
   extractDateFormat,
   extractTimeFormat
 } from 'components/time-picker'

@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
+import ElImageViewer from './src/image-viewer.vue'
 
-import ImageViewer from './src/image-viewer.vue'
-
-export const ElImageViewer = withInstall(ImageViewer)
+export { ElImageViewer }
 export default ElImageViewer
 
 export * from './src/image-viewer'

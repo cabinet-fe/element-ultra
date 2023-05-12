@@ -1,11 +1,6 @@
-import { withInstall, withNoopInstall } from 'utils'
+import ElDescriptions from './src/index.vue'
+import ElDescriptionsItem from './src/description-item'
 
-import Descriptions from './src/index.vue'
-import DescriptionsItem from './src/description-item'
+export { ElDescriptions, ElDescriptionsItem }
 
-export const ElDescriptions = withInstall(Descriptions, {
-  DescriptionsItem,
-})
 export default ElDescriptions
-
-export const ElDescriptionsItem = withNoopInstall(DescriptionsItem)

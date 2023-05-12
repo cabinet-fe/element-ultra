@@ -1,12 +1,8 @@
-import { withInstall, withNoopInstall } from 'utils'
-import Button from './src/button.vue'
-import ButtonGroup from './src/button-group.vue'
+import ElButton from './src/button.vue'
+import ElButtonGroup from './src/button-group.vue'
 
-export const ElButton = withInstall(Button, {
-  ButtonGroup,
-})
+export { ElButton, ElButtonGroup }
 
-export const ElButtonGroup = withNoopInstall(ButtonGroup)
 export default ElButton
 
 export * from './src/button'

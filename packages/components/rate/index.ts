@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-
-import Rate from './src/rate.vue'
-
-export const ElRate = withInstall(Rate)
-export default ElRate
+import ElRate from './src/rate.vue'
 
 export * from './src/rate'
+
+export { ElRate }
+
+export default ElRate

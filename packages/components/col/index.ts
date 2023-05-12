@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
+import ElCol from './src/col'
 
-import Col from './src/col'
-
-export const ElCol = withInstall(Col)
+export { ElCol }
 export default ElCol
 
 export * from './src/col'

@@ -1,9 +1,7 @@
-import { withInstall } from 'utils'
-
-import Space from './src/space'
-
-export const ElSpace = withInstall(Space)
-export default ElSpace
+import ElSpace from './src/space'
 
 export * from './src/space'
 export * from './src/use-space'
+
+export { ElSpace }
+export default ElSpace

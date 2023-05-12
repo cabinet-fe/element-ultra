@@ -1,14 +1,5 @@
-import CollapseTransition from './src/collapse-transition.vue'
-import type { App } from 'vue'
-import type { SFCWithInstall } from 'utils'
+import ElCollapseTransition from './src/collapse-transition.vue'
 
-CollapseTransition.install = (app: App): void => {
-  app.component(CollapseTransition.name, CollapseTransition)
-}
+export { ElCollapseTransition }
 
-const _CollapseTransition = CollapseTransition as SFCWithInstall<
-  typeof CollapseTransition
->
-
-export default _CollapseTransition
-export const ElCollapseTransition = _CollapseTransition
+export default ElCollapseTransition

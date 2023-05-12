@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
+import ElImage from './src/image.vue'
 
-import Image from './src/image.vue'
-
-export const ElImage = withInstall(Image)
+export { ElImage }
 export default ElImage
 
 export * from './src/image'

@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-import Result from './src/result.vue'
-
-export const ElResult = withInstall(Result)
-
-export default ElResult
+import ElResult from './src/result.vue'
 
 export * from './src/result'
+
+export { ElResult }
+
+export default ElResult

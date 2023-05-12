@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-
-import Badge from './src/badge.vue'
-
-export const ElBadge = withInstall(Badge)
-export default ElBadge
+import ElBadge from './src/badge.vue'
 
 export * from './src/badge'
+
+export { ElBadge }
+
+export default ElBadge

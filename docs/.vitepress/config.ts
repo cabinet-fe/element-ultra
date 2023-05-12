@@ -2,7 +2,7 @@ import { head } from './config/head'
 import { sidebars } from './config/sidebars'
 import { nav } from './config/nav'
 import { mdPlugin } from './config/plugins'
-import type { UserConfig } from 'vitepress'
+import { UserConfig } from 'vitepress'
 import { BASE_PATH } from './utils/shared'
 
 const buildTransformers = () => {

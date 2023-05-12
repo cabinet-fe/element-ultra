@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-import TreeSelect from './src/tree-select.vue'
-
-export const ElTreeSelect = withInstall(TreeSelect)
-
-export default TreeSelect
+import ElTreeSelect from './src/tree-select.vue'
 
 export * from './src/tree-select'
+
+export { ElTreeSelect }
+
+export default ElTreeSelect

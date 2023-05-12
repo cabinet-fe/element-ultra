@@ -31,12 +31,12 @@ const createComponent = (name: string) => {
   // 入口文件写入
   mkdirSync(componentDir)
   const componentEntryFileLines = [
-    "import { withInstall } from 'utils'",
-    `import ${bigCamelCaseName} from './src/${name}.vue'`,
+    `import El${bigCamelCaseName} from './src/${name}.vue'`,
     '',
-    `export const El${bigCamelCaseName} = withInstall(${bigCamelCaseName})`,
-    `export default ${bigCamelCaseName}`,
-    `export * from './src/${name}'`
+    `export * from './src/${name}'`,
+    '',
+    `export { El${bigCamelCaseName} }`,
+    `export default El${bigCamelCaseName}`,
   ]
   writeFileSync(resolve(componentDir, 'index.ts'), componentEntryFileLines.join('\n'))
 

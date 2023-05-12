@@ -1,8 +1,7 @@
-import { withInstallFunction } from 'utils'
-
-import Notify from './src/notify'
-
-export const ElNotification = withInstallFunction(Notify, '$notify')
-export default ElNotification
+import ElNotification from './src/notify'
 
 export * from './src/notification'
+
+export { ElNotification }
+
+export default ElNotification

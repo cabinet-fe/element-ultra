@@ -1,7 +1,7 @@
-import { withInstall } from 'utils'
-import Avatar from './src/avatar.vue'
-
-export const ElAvatar = withInstall(Avatar)
-export default ElAvatar
+import ElAvatar from './src/avatar.vue'
 
 export * from './src/avatar'
+
+export { ElAvatar }
+
+export default ElAvatar

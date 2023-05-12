@@ -1,11 +1,7 @@
-import { withInstall, withNoopInstall } from 'utils'
+import ElSteps from './src/steps.vue'
+import ElStep from './src/step.vue'
 
-import Steps from './src/steps.vue'
-import Step from './src/step.vue'
-
-export const ElSteps = withInstall(Steps, {
-  Step,
-})
-export default ElSteps
-export const ElStep = withNoopInstall(Step)
 export * from './src/steps'
+
+export { ElSteps, ElStep }
+export default ElSteps

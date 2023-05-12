@@ -1,6 +1,7 @@
-import { withInstall } from 'utils'
-import BatchInput from './src/batch-input.vue'
+import ElBatchInput from './src/batch-input.vue'
 
-export const ElBatchInput = withInstall(BatchInput)
-export default BatchInput
 export * from './src/batch-input'
+
+export { ElBatchInput }
+
+export default ElBatchInput

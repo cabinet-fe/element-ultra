@@ -1,13 +1,5 @@
-import TimeSelect from './src/time-select.vue'
+import ElTimeSelect from './src/time-select.vue'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from 'utils'
+export { ElTimeSelect }
 
-TimeSelect.install = (app: App): void => {
-  app.component(TimeSelect.name, TimeSelect)
-}
-
-const _TimeSelect = TimeSelect as SFCWithInstall<typeof TimeSelect>
-
-export default _TimeSelect
-export const ElTimeSelect = _TimeSelect
+export default ElTimeSelect

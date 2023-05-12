@@ -1,7 +1,6 @@
-import { withInstall } from 'utils'
-import Switch from './src/switch.vue'
-
-export const ElSwitch = withInstall(Switch)
-export default ElSwitch
+import ElSwitch from './src/switch.vue'
 
 export * from './src/switch'
+
+export { ElSwitch }
+export default ElSwitch

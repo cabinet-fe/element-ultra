@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-
-import PageHeader from './src/page-header.vue'
-
-export const ElPageHeader = withInstall(PageHeader)
-export default ElPageHeader
+import ElPageHeader from './src/page-header.vue'
 
 export * from './src/page-header'
+
+export { ElPageHeader }
+
+export default ElPageHeader

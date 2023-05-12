@@ -1,7 +1,6 @@
-import { withInstall } from 'utils'
-import Calendar from './src/calendar.vue'
+import ElCalendar from './src/calendar.vue'
 
-export const ElCalendar = withInstall(Calendar)
+export { ElCalendar }
 export default ElCalendar
 
 export * from './src/calendar'

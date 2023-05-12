@@ -1,17 +1,8 @@
-import { withInstall, withNoopInstall } from 'utils'
+import ElCheckbox from './src/checkbox.vue'
+import ElCheckboxButton from './src/checkbox-button.vue'
+import ElCheckboxGroup from './src/checkbox-group.vue'
+import ElCheckboxGroups from './src/checkbox-groups.vue'
 
-import Checkbox from './src/checkbox.vue'
-import CheckboxButton from './src/checkbox-button.vue'
-import CheckboxGroup from './src/checkbox-group.vue'
-import CheckboxGroups from './src/checkbox-groups.vue'
-
-export const ElCheckbox = withInstall(Checkbox, {
-  CheckboxButton,
-  CheckboxGroup,
-})
+export { ElCheckbox, ElCheckboxButton, ElCheckboxGroup, ElCheckboxGroups }
 
 export default ElCheckbox
-
-export const ElCheckboxButton = withNoopInstall(CheckboxButton)
-export const ElCheckboxGroup = withNoopInstall(CheckboxGroup)
-export const ElCheckboxGroups = withNoopInstall(CheckboxGroups)

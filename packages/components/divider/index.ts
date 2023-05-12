@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
-
-import Divider from './src/divider.vue'
-
-export const ElDivider = withInstall(Divider)
-export default ElDivider
+import ElDivider from './src/divider.vue'
 
 export * from './src/divider'
+
+export { ElDivider }
+export default ElDivider

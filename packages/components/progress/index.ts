@@ -1,7 +1,7 @@
-import { withInstall } from 'utils'
-import Progress from './src/progress.vue'
+import ElProgress from './src/progress.vue'
 
-export const ElProgress = withInstall(Progress)
+export { ElProgress }
+
 export default ElProgress
 
 export * from './src/progress'

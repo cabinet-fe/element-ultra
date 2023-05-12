@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
-
-import Tag from './src/tag.vue'
-
-export const ElTag = withInstall(Tag)
-export default ElTag
+import ElTag from './src/tag.vue'
 
 export * from './src/tag'
+
+export { ElTag }
+export default ElTag

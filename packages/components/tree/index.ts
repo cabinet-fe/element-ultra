@@ -1,7 +1,6 @@
-import { withInstall } from 'utils'
-import Tree from './src/tree.vue'
-
-export const ElTree = withInstall(Tree)
-export default ElTree
+import ElTree from './src/tree.vue'
 
 export * from './src/types'
+
+export { ElTree }
+export default ElTree

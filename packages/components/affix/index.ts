@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-
-import Affix from './src/affix.vue'
-
-export const ElAffix = withInstall(Affix)
-export default ElAffix
+import ElAffix from './src/affix.vue'
 
 export * from './src/affix'
+
+export { ElAffix }
+
+export default ElAffix

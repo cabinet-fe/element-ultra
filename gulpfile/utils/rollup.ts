@@ -10,7 +10,7 @@ export const generateExternal = async (options: { full: boolean }) => {
     const packages: string[] = Object.keys(peerDependencies)
 
     if (!options.full) {
-      packages.push('theme-chalk')
+      packages.push('theme-chalk', 'icon-ultra')
       // dependencies
       packages.push('@vue', ...Object.keys(dependencies))
     }

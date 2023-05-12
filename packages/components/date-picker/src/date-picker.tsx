@@ -11,7 +11,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import { useNamespace } from 'hooks'
 import { ROOT_PICKER_INJECTION_KEY } from 'tokens'
 import {
-  CommonPicker,
+  ElCommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
   timePickerDefaultProps
@@ -47,7 +47,7 @@ export default defineComponent({
       pickerNs: ns
     })
 
-    const commonPicker = ref<InstanceType<typeof CommonPicker>>()
+    const commonPicker = ref<InstanceType<typeof ElCommonPicker>>()
     const refProps = {
       focus: (focusStartInput = true) => {
         commonPicker.value?.focus(focusStartInput)
@@ -75,7 +75,7 @@ export default defineComponent({
       const Component = getPanel(props.type)
 
       return (
-        <CommonPicker
+        <ElCommonPicker
           {...props}
           format={format}
           type={props.type}
@@ -88,7 +88,7 @@ export default defineComponent({
             },
             'range-separator': slots['range-separator']
           }}
-        </CommonPicker>
+        </ElCommonPicker>
       )
     }
   }

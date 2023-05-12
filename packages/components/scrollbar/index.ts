@@ -1,9 +1,7 @@
-import { withInstall } from 'utils'
-
-import Scrollbar from './src/scrollbar.vue'
-
-export const ElScrollbar = withInstall(Scrollbar)
-export default ElScrollbar
+import ElScrollbar from './src/scrollbar.vue'
 
 export * from './src/scrollbar'
 
+export { ElScrollbar }
+
+export default ElScrollbar

@@ -1,13 +1,11 @@
-import { withInstall } from 'utils'
-
-import ProTable from './src/pro-table.vue'
+import ElProTable from './src/pro-table.vue'
 
 export * from './src/pro-table'
 
 export * from './src/token'
 
-export const ElProTable = withInstall(ProTable)
+export type ProTableInstance = InstanceType<typeof ElProTable>
+
+export { ElProTable }
 
 export default ElProTable
-
-export type ProTableInstance = InstanceType<typeof ProTable>

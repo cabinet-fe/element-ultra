@@ -1,14 +1,7 @@
-import CascadePanel from './src/index.vue'
-import type { App } from 'vue'
-import type { SFCWithInstall } from 'utils'
+import ElCascadePanel from './src/index.vue'
 
-CascadePanel.install = (app: App): void => {
-  app.component(CascadePanel.name, CascadePanel)
-}
+export { ElCascadePanel }
 
-const _CascadePanel = CascadePanel as SFCWithInstall<typeof CascadePanel>
-
-export default _CascadePanel
-export const ElCascadePanel = _CascadePanel
+export default ElCascadePanel
 export * from './src/types'
 export * from './src/config'

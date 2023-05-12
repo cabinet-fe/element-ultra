@@ -1,14 +1,10 @@
-import { withInstall, withNoopInstall } from 'utils'
-import Tabs from './src/tabs'
-import TabPane from './src/tab-pane.vue'
-
-export const ElTabs = withInstall(Tabs, {
-  TabPane,
-})
-export default ElTabs
-export const ElTabPane = withNoopInstall(TabPane)
+import ElTabs from './src/tabs'
+import ElTabPane from './src/tab-pane.vue'
 
 export * from './src/tabs'
 export * from './src/tab-bar'
 export * from './src/tab-nav'
 export * from './src/tab-pane'
+
+export { ElTabs, ElTabPane }
+export default ElTabs

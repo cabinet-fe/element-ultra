@@ -1,8 +1,7 @@
-import { withInstallFunction } from 'utils'
+import ElMessage from './src/message-method'
 
-import Message from './src/message-method'
+export { ElMessage }
 
-export const ElMessage = withInstallFunction(Message, '$message')
 export default ElMessage
 
 export * from './src/message'

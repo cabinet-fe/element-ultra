@@ -1,8 +1,6 @@
-import { withInstall } from 'utils'
-
-import Textarea from './src/textarea.vue'
-
-export const ElTextarea = withInstall(Textarea)
-export default ElTextarea
+import ElTextarea from './src/textarea.vue'
 
 export * from './src/textarea'
+
+export { ElTextarea }
+export default ElTextarea

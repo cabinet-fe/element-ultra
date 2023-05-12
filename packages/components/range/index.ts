@@ -1,6 +1,7 @@
-import { withInstall } from 'utils'
-import Range from './src/range.vue'
+import ElRange from './src/range.vue'
 
-export const ElRange = withInstall(Range)
-export default Range
 export * from './src/type'
+
+export { ElRange }
+
+export default ElRange

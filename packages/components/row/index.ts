@@ -1,7 +1,7 @@
-import { withInstall } from 'utils'
-import Row from './src/row'
-
-export const ElRow = withInstall(Row)
-export default ElRow
+import ElRow from './src/row'
 
 export * from './src/row'
+
+export { ElRow }
+
+export default ElRow

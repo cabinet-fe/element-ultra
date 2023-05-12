@@ -1,11 +1,7 @@
-import { withInstall } from 'utils'
-
-import MultipleForm from './src/main'
-
-export const ElMultipleForm = withInstall(MultipleForm)
+import ElMultipleForm from './src/main'
 
 export * from './src/type'
 
-export default MultipleForm
+export { ElMultipleForm }
 
-
+export default ElMultipleForm

@@ -1,8 +1,7 @@
-import { withInstall } from 'utils'
-
-import Select from './src/select.vue'
-
-export const ElSelect = withInstall(Select)
-export default ElSelect
+import ElSelect from './src/select.vue'
 
 export * from './src/token'
+
+export { ElSelect }
+
+export default ElSelect

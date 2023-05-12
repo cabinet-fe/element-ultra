@@ -1,9 +1,10 @@
-import { withInstall } from 'utils'
-import Tooltip from './src/tooltip.vue'
+import ElTooltip from './src/tooltip.vue'
 
-export const ElTooltip = withInstall(Tooltip)
 export * from './src/tooltip'
 export * from './src/tokens'
-export type TooltipInstance = InstanceType<typeof Tooltip>
+
+export type TooltipInstance = InstanceType<typeof ElTooltip>
+
+export { ElTooltip }
 
 export default ElTooltip

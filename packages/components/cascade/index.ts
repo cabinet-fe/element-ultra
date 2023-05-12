@@ -1,12 +1,5 @@
-import Cascade from './src/index.vue'
-import type { App } from 'vue'
-import type { SFCWithInstall } from 'utils'
+import ElCascade from './src/index.vue'
 
-Cascade.install = (app: App): void => {
-  app.component(Cascade.name, Cascade)
-}
+export { ElCascade }
 
-const _Cascade = Cascade as SFCWithInstall<typeof Cascade>
-
-export default _Cascade
-export const ElCascade = _Cascade
+export default ElCascade

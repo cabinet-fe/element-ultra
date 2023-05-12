@@ -1,10 +1,8 @@
-import { withInstall } from 'utils'
-import FormDialog from './src/form-dialog.vue'
-
-export const ElFormDialog = withInstall(FormDialog)
-
-export default FormDialog
+import ElFormDialog from './src/form-dialog.vue'
 
 export * from './src/form-dialog'
 
 export { default as useFormDialog } from './src/use-form-dialog'
+export { ElFormDialog }
+
+export default ElFormDialog

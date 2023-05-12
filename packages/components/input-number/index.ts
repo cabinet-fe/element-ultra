@@ -1,7 +1,7 @@
-import { withInstall } from 'utils'
-import InputNumber from './src/input-number.vue'
+import ElInputNumber from './src/input-number.vue'
 
-export const ElInputNumber = withInstall(InputNumber)
+export * from './src/input-number'
+
+export { ElInputNumber }
 
 export default ElInputNumber
-export * from './src/input-number'
