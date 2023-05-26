@@ -112,6 +112,7 @@ export const proTableProps = {
 
 export const proTableEmits = {
   check: (checked: any[]) => true,
+  'update:checked': (checked: any[]) => true,
   select: (selected: any) => true,
   fetch: (query: Record<string, any>) => true,
   loaded: (res: RequestResponse) => true,

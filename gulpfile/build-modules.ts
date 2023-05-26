@@ -26,7 +26,7 @@ export default async function buildModules() {
   const bundle = await rollup({
     input,
     plugins: [
-      // ElementUltraAlias(),
+      ElementUltraAlias(),
       VueMacros({
         setupComponent: false,
         setupSFC: false,

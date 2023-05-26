@@ -85,6 +85,10 @@ export function useApi(options: Options) {
     statistics: undefined as Record<string, any> | undefined
   })
 
+  watch(() => props.checked, checked => {
+    state.checked = checked || []
+  })
+
   const currentQueryStr = {
     value: ''
   }
@@ -196,6 +200,7 @@ export function useApi(options: Options) {
   const handleCheck = (checked: any[]) => {
     state.checked = checked
     emit('check', checked)
+    emit('update:checked', checked)
   }
   return {
     fetchData,

@@ -12,6 +12,7 @@
     ref="tableRef"
     default-expand-all
     item-reactive
+    v-model:checked="checked"
   >
     <template #column-conf="{ column }">
       <el-input
@@ -72,6 +73,7 @@
       <el-button @click="handleClick">改变query</el-button>
       <el-button @click="handleFix">固定列</el-button>
       <el-button @click="replace">替换路由</el-button>
+      <el-button @click="checked = []" >清空选择</el-button>
       <el-dropdown trigger="click" split-button type="primary">
         按钮123
         <template #dropdown>
@@ -140,6 +142,8 @@ const reactiveColumnItem = (columns: any[]) => {
   })
   return ret
 }
+
+let checked = shallowRef([])
 
 const dynColumns = shallowRef<ProTableColumn[]>([
   {

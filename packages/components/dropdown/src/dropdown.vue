@@ -85,7 +85,7 @@ import {
   toRef,
   unref
 } from 'vue'
-import ElButton from 'components/button'
+import {ElButton, ElButtonGroup} from 'components/button'
 import ElTooltip from 'components/tooltip'
 import ElScrollbar from 'components/scrollbar'
 import ElIcon from 'components/icon'
@@ -99,7 +99,6 @@ import { DROPDOWN_INJECTION_KEY } from './tokens'
 
 import type { CSSProperties } from 'vue'
 
-const { ButtonGroup: ElButtonGroup } = ElButton
 
 export default defineComponent({
   name: 'ElDropdown',
