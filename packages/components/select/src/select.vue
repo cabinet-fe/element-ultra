@@ -111,7 +111,7 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model-text="states.displayInputValue"
+                v-model="states.displayInputValue"
                 :autocomplete="autocomplete"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
@@ -152,7 +152,7 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model-text="states.displayInputValue"
+                v-model="states.displayInputValue"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 :aria-expanded="expanded"

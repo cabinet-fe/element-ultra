@@ -7,9 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { TableColumn } from '@element-ultra/element-ultra'
+
 import { computed } from '@vue/reactivity'
 import { template } from 'lodash'
+import type { TableColumn } from 'element-ultra'
 import { shallowRef } from 'vue'
 
 const count = shallowRef(10)

@@ -1,3 +1,4 @@
+import { appendFileSync } from 'fs-extra'
 import { PKG } from '../utils/shared'
 import type { Plugin } from 'rollup'
 
@@ -8,12 +9,13 @@ export function ElementUltraAlias(): Plugin {
   return {
     name: 'element-ultra-alias-plugin',
     resolveId(source) {
+      appendFileSync('./aa.txt', source + '\n', 'utf-8')
       if (!source.startsWith(sourceThemeChalk)) return
 
       return {
         id: source.replaceAll(sourceThemeChalk, bundleThemeChalk),
-        external: 'absolute',
+        external: 'absolute'
       }
-    },
+    }
   }
 }

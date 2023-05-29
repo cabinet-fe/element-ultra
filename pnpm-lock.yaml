@@ -189,46 +189,6 @@ importers:
         specifier: ^1.6.4
         version: 1.6.4(typescript@5.0.4)
 
-  dist/element-ultra:
-    dependencies:
-      '@ctrl/tinycolor':
-        specifier: ^3.4.0
-        version: 3.4.1
-      '@popperjs/core':
-        specifier: ^2.11.2
-        version: 2.11.7
-      '@vueuse/core':
-        specifier: ^8.1.2
-        version: 8.9.4(vue@3.2.47)
-      '@wangeditor/editor':
-        specifier: ^5.1.1
-        version: 5.1.13
-      dayjs:
-        specifier: ^1.10.7
-        version: 1.11.7
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      lodash-unified:
-        specifier: ^1.0.1
-        version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
-      memoize-one:
-        specifier: ^6.0.0
-        version: 6.0.0
-      normalize-wheel-es:
-        specifier: ^1.1.2
-        version: 1.2.0
-      sortablejs:
-        specifier: ^1.15.0
-        version: 1.15.0
-      vue:
-        specifier: ^3.2.47
-        version: 3.2.47
-    devDependencies:
-      '@types/lodash':
-        specifier: ^4.14.178
-        version: 4.14.186
-
   docs:
     dependencies:
       '@docsearch/js':
@@ -248,7 +208,7 @@ importers:
         version: 4.0.1
       element-ultra:
         specifier: workspace:*
-        version: link:../dist/element-ultra
+        version: link:../packages/element-ultra
       normalize.css:
         specifier: ^8.0.1
         version: 8.0.1
@@ -298,6 +258,46 @@ importers:
       vue:
         specifier: ^3.2.37
         version: 3.2.41
+
+  packages/element-ultra:
+    dependencies:
+      '@ctrl/tinycolor':
+        specifier: ^3.4.0
+        version: 3.4.1
+      '@popperjs/core':
+        specifier: ^2.11.2
+        version: 2.11.7
+      '@vueuse/core':
+        specifier: ^8.1.2
+        version: 8.9.4(vue@3.2.47)
+      '@wangeditor/editor':
+        specifier: ^5.1.1
+        version: 5.1.13
+      dayjs:
+        specifier: ^1.10.7
+        version: 1.11.7
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      lodash-unified:
+        specifier: ^1.0.1
+        version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
+      memoize-one:
+        specifier: ^6.0.0
+        version: 6.0.0
+      normalize-wheel-es:
+        specifier: ^1.1.2
+        version: 1.2.0
+      sortablejs:
+        specifier: ^1.15.0
+        version: 1.15.0
+      vue:
+        specifier: ^3.2.47
+        version: 3.2.47
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.14.178
+        version: 4.14.186
 
   packages/hooks:
     dependencies:
@@ -350,7 +350,7 @@ importers:
     dependencies:
       element-ultra:
         specifier: workspace:*
-        version: link:../dist/element-ultra
+        version: link:../packages/element-ultra
 
 packages:
 
@@ -2611,7 +2611,7 @@ packages:
       '@vue/shared': 3.3.0-beta.4
       estree-walker: 2.0.2
       magic-string: 0.30.0
-      postcss: 8.4.21
+      postcss: 8.4.23
       source-map-js: 1.0.2
     dev: true
 
@@ -6864,15 +6864,6 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
-
-  /postcss@8.4.21:
-    resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
-    engines: {node: ^10 || ^12 || >=14}
-    dependencies:
-      nanoid: 3.3.4
-      picocolors: 1.0.0
-      source-map-js: 1.0.2
-    dev: true
 
   /postcss@8.4.23:
     resolution: {integrity: sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==}

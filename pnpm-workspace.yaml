@@ -6,6 +6,7 @@ packages:
   - packages/theme-chalk
   - packages/tokens
   - packages/utils
+  - packages/element-ultra
   - docs
   - play
   - dist/*

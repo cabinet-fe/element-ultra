@@ -5,12 +5,14 @@
     :options="options1"
     label-key="text"
     value-key="id"
-    disabled
     v-model="model.value1"
+    @update:model-value="c.log"
     allow-create
+    filterable
     :multiple="multiple"
   >
   </el-select>
+  {{ model.value1 }}
 </template>
 
 <script setup lang="ts">

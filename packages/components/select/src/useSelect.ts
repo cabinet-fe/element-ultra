@@ -61,6 +61,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     cachedPlaceholder: '',
     cachedOptions: [] as any[],
     createdOptions: [] as any[],
+
     createdLabel: '',
     createdSelected: false,
     currentPlaceholder: '',
@@ -332,16 +333,34 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const emitChange = (val: any | any[], label: any | any[], option?: Record<string, any> | null) => {
+  const emitChange = (
+    val: any | any[],
+    label: any | any[],
+    option?: Record<string, any> | any[]
+  ) => {
     if (!isEqual(props.modelValue, val)) {
-      option === undefined ? emit(CHANGE_EVENT, val, label) : emit(CHANGE_EVENT, val, label, option)
+      option === undefined
+        ? emit(CHANGE_EVENT, val, label)
+        : emit(CHANGE_EVENT, val, label, option)
     }
   }
 
-  function update(val: string | number, label: string, option: Record<string, any> | null): void
-  function update(val: (string | number)[], label: string[]): void
-  function update(val: any, label: any, option?: Record<string, any> | null): void {
-    emit(UPDATE_MODEL_EVENT, val, label)
+  function update(
+    val: string | number,
+    label: string,
+    option: Record<string, any> | null
+  ): void
+  function update(
+    val: (string | number)[],
+    label: string[],
+    option: Record<string, any>[]
+  ): void
+  function update(
+    val: any,
+    label: any,
+    option?: Record<string, any> | null | Record<string, any>[]
+  ): void {
+    emit(UPDATE_MODEL_EVENT, val, label, option)
     emit('update:text', label)
     emitChange(val, label, option)
     states.previousValue = val.toString()
@@ -407,31 +426,36 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   // TODO修复多选时的label问题, 优化select的性能
-  const onSelect = (option: Record<string, any>, idx: number, byClick = true) => {
+  const onSelect = (
+    option: Record<string, any>,
+    idx: number,
+    byClick = true
+  ) => {
     const { modelValue, multiple } = props
 
     if (multiple) {
-      let selectedOptions = (modelValue || []).slice()
+      let selectedVal = (modelValue || []).slice()
 
-      const index = getValueIndex(selectedOptions, getValue(option))
+      const index = getValueIndex(selectedVal, getValue(option))
       // 有
       if (index > -1) {
-        selectedOptions = [
-          ...selectedOptions.slice(0, index),
-          ...selectedOptions.slice(index + 1)
+        selectedVal = [
+          ...selectedVal.slice(0, index),
+          ...selectedVal.slice(index + 1)
         ]
         states.cachedOptions.splice(index, 1)
         removeNewOption(option)
       } else if (
         props.multipleLimit <= 0 ||
-        selectedOptions.length < props.multipleLimit
+        selectedVal.length < props.multipleLimit
       ) {
-        selectedOptions = [...selectedOptions, getValue(option)]
+        selectedVal = [...selectedVal, getValue(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
         updateHoveringIndex(idx)
       }
-      update(selectedOptions, [])
+
+      update(selectedVal, states.cachedOptions.map(option => getLabel(option)), states.cachedOptions)
       if (option.created) {
         states.query = ''
         handleQueryChange('')
@@ -471,7 +495,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         ...(props.modelValue as Array<unknown>).slice(index + 1)
       ]
       states.cachedOptions.splice(index, 1)
-      update(value, [])
+      update(value, states.cachedOptions.map(option => getLabel(option)), states.cachedOptions)
       emit('remove-tag', getValue(tag))
       states.softFocus = true
       removeNewOption(tag)
@@ -528,7 +552,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       const selected = (props.modelValue as Array<any>).slice()
       selected.pop()
       removeNewOption(states.cachedOptions.pop())
-      update(selected, [])
+      update(selected, states.cachedOptions.map(option => getLabel(option)), states.cachedOptions)
     }
   }
 
@@ -708,7 +732,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           states.selectedLabel = getLabel(options[selectedItemIndex])
           updateHoveringIndex(selectedItemIndex)
         } else {
-          states.selectedLabel =  text ?? String(modelValue)
+          states.selectedLabel = text ?? String(modelValue)
         }
       } else {
         states.selectedLabel = ''
@@ -748,9 +772,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   )
 
-  watch(() => props.multiple, m => {
-    update(m ? [] : '', m ? [] : '', null)
-  })
+  watch(
+    () => props.multiple,
+    m => {
+      update(m ? [] : '', m ? [] : '', m ? [] : '')
+    }
+  )
 
   watch(
     () => props.options,
