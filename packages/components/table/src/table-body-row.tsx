@@ -1,7 +1,7 @@
 import { defineComponent, inject, PropType, computed } from 'vue'
 import { tableToken } from './token'
 import type { TableRow, FinalTableColumn } from './table'
-import { getChainValue } from 'utils'
+import { getChainValue } from '@element-ultra/utils'
 
 export default defineComponent({
   name: 'TableBodyRow',

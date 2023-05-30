@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash-unified'
 import Node from './node'
 
-import type { Nullable } from 'utils'
+import type { Nullable } from '@element-ultra/utils'
 import type {
   CascadeNodeValue,
   CascadeNodePathValue,

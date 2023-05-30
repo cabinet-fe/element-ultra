@@ -1,3 +1,3 @@
-import 'components/base/style'
-import 'theme-chalk/src/popconfirm.scss'
-import 'components/popover/style/index'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/popconfirm.scss'
+import '@element-ultra/components/popover/style/index'

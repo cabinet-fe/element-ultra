@@ -34,13 +34,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, ref, nextTick, provide } from 'vue'
-import { formItemKey, formKey } from 'tokens'
-import { addUnit } from 'utils'
+import { formItemKey, formKey } from '@element-ultra/tokens'
+import { addUnit } from '@element-ultra/utils'
 import { InfoFilled } from 'icon-ultra'
 import type { CSSProperties } from 'vue'
-import ElIcon from 'components/icon'
-import ElTooltip from 'components/tooltip'
-import { useNamespace, useSize } from 'hooks'
+import ElIcon from '@element-ultra/components/icon'
+import ElTooltip from '@element-ultra/components/tooltip'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 
 export default defineComponent({
   name: 'ElFormItem',

@@ -1,5 +1,5 @@
 
-import { createCollectionWithScope } from 'components/collection'
+import { createCollectionWithScope } from '@element-ultra/components/collection'
 import type { ExtractPropTypes, HTMLAttributes, PropType, StyleValue } from 'vue'
 
 export const rovingFocusGroupProps = {

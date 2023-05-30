@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { usePagination } from '../usePagination'
 
 defineOptions({

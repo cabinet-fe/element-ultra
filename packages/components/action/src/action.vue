@@ -40,9 +40,9 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
 import { actionProps } from './type'
-import ElButton from 'components/button'
-import ElPopconfirm from 'components/popconfirm'
-import { useNamespace } from 'hooks'
+import ElButton from '@element-ultra/components/button'
+import ElPopconfirm from '@element-ultra/components/popconfirm'
+import { useNamespace } from '@element-ultra/hooks'
 import { actionGroupToken } from './token'
 
 const ns = useNamespace('action')

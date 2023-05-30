@@ -1,4 +1,4 @@
-import { cAF, isFirefox, rAF } from 'utils'
+import { cAF, isFirefox, rAF } from '@element-ultra/utils'
 
 import type { ComputedRef } from 'vue'
 

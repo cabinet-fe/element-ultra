@@ -252,11 +252,11 @@
 
 <script lang="ts">
 import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
-import { ClickOutside } from 'directives'
-import ElTooltip from 'components/tooltip'
-import ElTag from 'components/tag'
-import ElIcon from 'components/icon'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from 'shared'
+import { ClickOutside } from '@element-ultra/directives'
+import ElTooltip from '@element-ultra/components/tooltip'
+import ElTag from '@element-ultra/components/tag'
+import ElIcon from '@element-ultra/components/icon'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-ultra/shared'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectInjectionKey } from './token'

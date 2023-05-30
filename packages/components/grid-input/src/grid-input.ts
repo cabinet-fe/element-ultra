@@ -1,4 +1,4 @@
-import { FORM_COMPONENT_PROPS, SizeProp } from 'shared'
+import { FORM_COMPONENT_PROPS, SizeProp } from '@element-ultra/shared'
 import type { ExtractPropTypes } from 'vue'
 
 export const gridInputProps = {

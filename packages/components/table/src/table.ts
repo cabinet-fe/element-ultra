@@ -1,5 +1,5 @@
-import { SizeProp } from 'shared'
-import type { EmitFn } from 'utils'
+import { SizeProp } from '@element-ultra/shared'
+import type { EmitFn } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export type SummaryMethod = (ctx: {

@@ -51,9 +51,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useNamespace } from 'hooks'
-import { ElCheckbox, ElCheckboxGroup } from 'components/checkbox'
-import ElInput from 'components/input'
+import { useNamespace } from '@element-ultra/hooks'
+import { ElCheckbox, ElCheckboxGroup } from '@element-ultra/components/checkbox'
+import ElInput from '@element-ultra/components/input'
 import { Search } from 'icon-ultra'
 import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
 

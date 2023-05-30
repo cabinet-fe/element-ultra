@@ -1,4 +1,4 @@
-import { hasOwn } from 'utils'
+import { hasOwn } from '@element-ultra/utils'
 
 const hsv2hsl = function (hue: number, sat: number, val: number) {
   return [

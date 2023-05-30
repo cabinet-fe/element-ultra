@@ -1,4 +1,4 @@
-import { UPDATE_MODEL_EVENT } from 'shared'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/shared'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const calendarProps = {

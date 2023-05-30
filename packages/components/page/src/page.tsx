@@ -1,9 +1,9 @@
-import { ElGrid } from 'components/grid'
-import { ElButton } from 'components/button'
-import ElNodeRender from 'components/node-render'
-import { ElScrollbar } from 'components/scrollbar'
-import type { ElMultipleForm } from 'components/multiple-form'
-import { useNamespace } from 'hooks'
+import { ElGrid } from '@element-ultra/components/grid'
+import { ElButton } from '@element-ultra/components/button'
+import ElNodeRender from '@element-ultra/components/node-render'
+import { ElScrollbar } from '@element-ultra/components/scrollbar'
+import type { ElMultipleForm } from '@element-ultra/components/multiple-form'
+import { useNamespace } from '@element-ultra/hooks'
 import {
   cloneVNode,
   defineComponent,
@@ -14,8 +14,8 @@ import {
   type VNode,
   type VNodeArrayChildren
 } from 'vue'
-import { formInjectionKey, type FormExposed } from 'tokens'
-import { isFragment, isTemplate } from 'utils'
+import { formInjectionKey, type FormExposed } from '@element-ultra/tokens'
+import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
 

@@ -1,3 +1,3 @@
-import 'components/base/style'
-import 'theme-chalk/src/pagination.scss'
-import 'components/select/style/index'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/pagination.scss'
+import '@element-ultra/components/select/style/index'

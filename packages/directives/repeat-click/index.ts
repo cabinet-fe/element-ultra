@@ -1,4 +1,4 @@
-import { on, once } from 'utils'
+import { on, once } from '@element-ultra/utils'
 
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 

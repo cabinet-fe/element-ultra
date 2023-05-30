@@ -23,10 +23,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { cardProps } from './card'
-import ElIcon from 'components/icon'
-import ElTooltip from 'components/tooltip'
+import ElIcon from '@element-ultra/components/icon'
+import ElTooltip from '@element-ultra/components/tooltip'
 import { QuestionFilled } from 'icon-ultra'
 
 defineOptions({

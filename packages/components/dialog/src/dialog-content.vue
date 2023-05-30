@@ -43,9 +43,9 @@
 
 <script lang="ts" setup>
 import { computed, inject, shallowRef } from 'vue'
-import { ElIcon } from 'components/icon'
-import { ElNodeRender } from 'components/node-render'
-import { CloseComponents } from 'utils'
+import { ElIcon } from '@element-ultra/components/icon'
+import { ElNodeRender } from '@element-ultra/components/node-render'
+import { CloseComponents } from '@element-ultra/utils'
 import { dialogContentProps } from './dialog-content'
 import { dialogInjectionKey } from './token'
 

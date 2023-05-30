@@ -91,15 +91,15 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import ElInputNumber from 'components/input-number'
+import ElInputNumber from '@element-ultra/components/input-number'
 import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
 FORM_COMPONENT_PROPS,
-} from 'shared'
-import { off, on, throwError, isValidComponentSize } from 'utils'
-import { useNamespace, useSize } from 'hooks'
+} from '@element-ultra/shared'
+import { off, on, throwError, isValidComponentSize } from '@element-ultra/utils'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
@@ -107,8 +107,8 @@ import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
 import type { PropType, Ref } from 'vue'
-import type { ComponentSize } from 'shared'
-import type { Nullable } from 'utils'
+import type { ComponentSize } from '@element-ultra/shared'
+import type { Nullable } from '@element-ultra/utils'
 
 export default defineComponent({
   name: 'ElSlider',

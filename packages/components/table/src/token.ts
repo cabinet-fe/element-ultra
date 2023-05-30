@@ -1,4 +1,4 @@
-import type { UseNamespaceReturn } from 'hooks'
+import type { UseNamespaceReturn } from '@element-ultra/hooks'
 import type { ShallowRef } from 'vue'
 import type { ComputedRef } from 'vue'
 import type { CSSProperties } from 'vue'

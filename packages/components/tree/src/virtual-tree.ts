@@ -1,4 +1,4 @@
-import type { EmitFn } from 'utils'
+import type { EmitFn } from '@element-ultra/utils'
 import type { InjectionKey, PropType } from 'vue'
 import type { TreeNodeData } from './types'
 import type {

@@ -79,10 +79,10 @@ import {
   addResizeListener,
   removeResizeListener,
   debugWarn,
-} from 'utils'
-import { ElIcon } from 'components/icon'
+} from '@element-ultra/utils'
+import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowLeft, ArrowRight } from 'icon-ultra'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 
 import type {
   ICarouselProps,

@@ -17,14 +17,14 @@ import {
 } from '@vueuse/core'
 import {
   throwError
-} from 'utils'
-import { EVENT_CODE } from 'shared'
-import { ElIcon } from 'components/icon'
+} from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/shared'
+import { ElIcon } from '@element-ultra/components/icon'
 import { ArrowLeft, ArrowRight, Close } from 'icon-ultra'
-import { tabsRootContextKey } from 'tokens'
+import { tabsRootContextKey } from '@element-ultra/tokens'
 import TabBar from './tab-bar.vue'
 import type {  CSSProperties } from 'vue'
-import type { TabsPaneContext } from 'tokens'
+import type { TabsPaneContext } from '@element-ultra/tokens'
 export interface Scrollable {
   next?: boolean
   prev?: number

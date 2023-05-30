@@ -13,8 +13,8 @@ import {
   isValidElementNode,
   isArray,
   isNumber
-} from 'utils'
-import { componentSizes } from 'shared'
+} from '@element-ultra/utils'
+import { componentSizes } from '@element-ultra/shared'
 import Item from './item.vue'
 import { useSpace } from './use-space'
 

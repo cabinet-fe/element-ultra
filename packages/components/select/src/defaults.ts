@@ -1,13 +1,13 @@
-import { isValidComponentSize } from 'utils'
-import { useTooltipContentProps } from 'components/tooltip'
+import { isValidComponentSize } from '@element-ultra/utils'
+import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import { CircleClose } from 'icon-ultra'
 
 import type { PropType, Component } from 'vue'
 import {
   FORM_COMPONENT_PROPS,
   type ComponentSize
-} from 'shared'
-import type { Options } from 'components/popper'
+} from '@element-ultra/shared'
+import type { Options } from '@element-ultra/components/popper'
 
 export const SelectProps = {
   ...FORM_COMPONENT_PROPS,

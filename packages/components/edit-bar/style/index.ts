@@ -1,10 +1,10 @@
-import 'components/base/style'
-import 'theme-chalk/src/edit-bar.scss'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/edit-bar.scss'
 
-import 'components/icon/style'
-import 'components/scrollbar/style'
-import 'components/popconfirm/style'
-import 'components/button/style'
-import 'components/tree/style'
+import '@element-ultra/components/icon/style'
+import '@element-ultra/components/scrollbar/style'
+import '@element-ultra/components/popconfirm/style'
+import '@element-ultra/components/button/style'
+import '@element-ultra/components/tree/style'
 
 

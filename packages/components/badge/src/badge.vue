@@ -19,8 +19,8 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useNamespace } from 'hooks'
-import { isNumber } from 'utils'
+import { useNamespace } from '@element-ultra/hooks'
+import { isNumber } from '@element-ultra/utils'
 import { badgeProps } from './badge'
 
 defineOptions({

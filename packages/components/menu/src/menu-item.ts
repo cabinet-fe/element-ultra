@@ -1,4 +1,4 @@
-import { isString } from 'utils'
+import { isString } from '@element-ultra/utils'
 
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'

@@ -61,7 +61,7 @@ const createComponent = (name: string) => {
 
   const componentExportsFileLines = [
     "import type { ExtractPropTypes } from 'vue'",
-    "import type { EmitFn } from 'utils'",
+    "import type { EmitFn } from '@element-ultra/utils'",
     '',
     `export const ${camelCaseName}Props = {`,
     '',
@@ -83,14 +83,14 @@ const createComponent = (name: string) => {
   mkdirSync(styleDir)
 
   const styleIndexFileLines = [
-    "import 'components/base/style'",
-    `import 'theme-chalk/src/${name}.scss'`
+    "import '@element-ultra/components/base/style'",
+    `import '@element-ultra/theme-chalk/src/${name}.scss'`
   ]
   writeFileSync(resolve(styleDir, 'index.ts'), styleIndexFileLines.join('\n'))
 
   const styleCssFileLines = [
-    "import 'components/base/style/css'",
-    `import 'theme-chalk/${name}.css'`
+    "import '@element-ultra/components/base/style/css'",
+    `import '@element-ultra/theme-chalk/${name}.css'`
   ]
   writeFileSync(resolve(styleDir, 'css.ts'), styleCssFileLines.join('\n'))
 }

@@ -6,9 +6,9 @@
 
 <script setup lang="ts">
 import { nextTick, provide, onMounted, ref, reactive, toRefs } from 'vue'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from 'shared'
-import { radioGroupKey } from 'tokens'
-import { useFormItem, useNamespace } from 'hooks'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-ultra/shared'
+import { radioGroupKey } from '@element-ultra/tokens'
+import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import { radioGroupProps, type RadioGroupProps } from './radio-group'
 
 defineOptions({

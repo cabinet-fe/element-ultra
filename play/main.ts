@@ -2,7 +2,7 @@ import { createApp, h } from 'vue'
 import { useConfig } from 'element-ultra'
 import { router } from './src/router'
 import App from './App.vue'
-import 'theme-chalk/src/dark/css-vars.scss'
+import '@element-ultra/theme-chalk/src/dark/css-vars.scss'
 
 const [, setConfigStore] = useConfig()
 setConfigStore({

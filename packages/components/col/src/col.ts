@@ -6,7 +6,7 @@ import {
   renderSlot,
   type PropType
 } from 'vue'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
 type SizeObject = {

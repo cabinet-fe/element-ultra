@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { computed, CSSProperties, inject } from 'vue'
 import { tableToken } from './token'
-import { ElNodeRender } from 'components/node-render'
+import { ElNodeRender } from '@element-ultra/components/node-render'
 import type { TableColumn } from './table'
 
 const { columnLayouts, columns, containerWidth, ns, getCellStyle } =

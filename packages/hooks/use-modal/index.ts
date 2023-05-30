@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 import { isClient, useEventListener } from '@vueuse/core'
-import { EVENT_CODE } from 'shared'
+import { EVENT_CODE } from '@element-ultra/shared'
 
 import type { Ref } from 'vue'
 

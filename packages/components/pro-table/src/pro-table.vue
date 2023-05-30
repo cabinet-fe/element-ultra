@@ -61,12 +61,12 @@ import { computed, shallowRef, useSlots, provide, shallowReadonly } from 'vue'
 import {
   ElDataTable,
   DataTableInstance
-} from 'components/data-table'
+} from '@element-ultra/components/data-table'
 import ProTableTools from './pro-table-tools'
 import { proTableProps, proTableEmits, ProTableColumn } from './pro-table'
-import ElPagination from 'components/pagination'
-import { useNamespace } from 'hooks'
-import { ElLoadingDirective as vLoading } from 'components/loading'
+import ElPagination from '@element-ultra/components/pagination'
+import { useNamespace } from '@element-ultra/hooks'
+import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import { proTableContextKey, proTableKey } from './token'
 import useTableHeight from './use-table-height'
 import { useApi } from './use-api'

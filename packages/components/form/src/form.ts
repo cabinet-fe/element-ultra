@@ -1,6 +1,6 @@
-import type { ComponentSize } from 'shared'
+import type { ComponentSize } from '@element-ultra/shared'
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { ResponsiveCols } from 'components/grid'
+import type { ResponsiveCols } from '@element-ultra/components/grid'
 import type Form from './form.vue'
 export type ModelValue = string | number | any[] | boolean
 

@@ -4,6 +4,27 @@ importers:
 
   .:
     dependencies:
+      '@element-ultra/components':
+        specifier: workspace:*
+        version: link:packages/components
+      '@element-ultra/directives':
+        specifier: workspace:*
+        version: link:packages/directives
+      '@element-ultra/hooks':
+        specifier: workspace:*
+        version: link:packages/hooks
+      '@element-ultra/shared':
+        specifier: workspace:*
+        version: link:packages/shared
+      '@element-ultra/theme-chalk':
+        specifier: workspace:*
+        version: link:packages/theme-chalk
+      '@element-ultra/tokens':
+        specifier: workspace:*
+        version: link:packages/tokens
+      '@element-ultra/utils':
+        specifier: workspace:*
+        version: link:packages/utils
       '@popperjs/core':
         specifier: ^2.11.7
         version: 2.11.7
@@ -16,18 +37,9 @@ importers:
       cat-kit:
         specifier: ^2.0.20
         version: 2.0.20
-      components:
-        specifier: workspace:*
-        version: link:packages/components
       dayjs:
         specifier: ^1.11.7
         version: 1.11.7
-      directives:
-        specifier: workspace:*
-        version: link:packages/directives
-      hooks:
-        specifier: workspace:*
-        version: link:packages/hooks
       icon-ultra:
         specifier: ^2.0.16
         version: 2.0.16(vue@3.2.47)
@@ -40,21 +52,9 @@ importers:
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
-      shared:
-        specifier: workspace:*
-        version: link:packages/shared
       sortablejs:
         specifier: ^1.15.0
         version: 1.15.0
-      theme-chalk:
-        specifier: workspace:*
-        version: link:packages/theme-chalk
-      tokens:
-        specifier: workspace:*
-        version: link:packages/tokens
-      utils:
-        specifier: workspace:*
-        version: link:packages/utils
     devDependencies:
       '@commitlint/cli':
         specifier: ^16.2.1

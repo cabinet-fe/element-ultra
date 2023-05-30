@@ -1,4 +1,4 @@
-import {  isObject } from 'utils'
+import {  isObject } from '@element-ultra/utils'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 

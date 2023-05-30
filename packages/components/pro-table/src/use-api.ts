@@ -1,4 +1,4 @@
-import { useConfig } from 'hooks'
+import { useConfig } from '@element-ultra/hooks'
 import { getCurrentInstance, shallowReactive, shallowRef, watch } from 'vue'
 import type { ProTableEmits, ProTableProps } from './pro-table'
 

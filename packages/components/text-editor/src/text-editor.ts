@@ -1,4 +1,4 @@
-import { FORM_COMPONENT_PROPS } from 'shared'
+import { FORM_COMPONENT_PROPS } from '@element-ultra/shared'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export type ToolBarKeys =

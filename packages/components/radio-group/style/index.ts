@@ -1,2 +1,2 @@
-import 'components/base/style'
-import 'theme-chalk/src/radio-group.scss'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/radio-group.scss'

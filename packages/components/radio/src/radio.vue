@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { nextTick } from 'vue'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { useRadio, radioProps, radioEmits } from './radio'
 
 defineOptions({

@@ -1,5 +1,5 @@
 {
-  "name": "components",
+  "name": "@element-ultra/components",
   "version": "1.0.0",
   "description": "所有的组件放置在这里",
   "peerDependencies": {

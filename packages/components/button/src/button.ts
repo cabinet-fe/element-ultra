@@ -1,8 +1,8 @@
-import { iconPropType } from 'utils'
+import { iconPropType } from '@element-ultra/utils'
 import { Loading } from 'icon-ultra'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type button from './button.vue'
-import { SizeProp } from 'shared'
+import { SizeProp } from '@element-ultra/shared'
 
 export const buttonNativeTypes = ['button', 'submit', 'reset'] as const
 

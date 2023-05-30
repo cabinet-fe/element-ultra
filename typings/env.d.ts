@@ -1,5 +1,5 @@
 import type { vShow } from 'vue'
-import type { INSTALLED_KEY } from 'shared'
+import type { INSTALLED_KEY } from '@element-ultra/shared'
 
 declare global {
   const process: {

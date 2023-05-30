@@ -1,4 +1,4 @@
-import { useConfig } from 'hooks'
+import { useConfig } from '@element-ultra/hooks'
 import {
   computed,
   shallowReactive,

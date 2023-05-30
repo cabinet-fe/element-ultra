@@ -1,5 +1,5 @@
 {
-  "name": "theme-chalk",
+  "name": "@element-ultra/theme-chalk",
   "version": "1.0.0",
   "description": "Element component chalk theme.",
   "main": "index.css",

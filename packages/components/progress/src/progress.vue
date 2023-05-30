@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { ElIcon } from 'components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 import {
   WarningFilled,
   CircleCheck,
@@ -85,7 +85,7 @@ import {
   Check,
   Close
 } from 'icon-ultra'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { progressProps } from './progress'
 import type { CSSProperties } from 'vue'
 

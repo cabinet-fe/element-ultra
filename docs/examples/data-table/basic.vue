@@ -63,7 +63,7 @@
 </template>
 
 <script lang="tsx" setup>
-import type { DataTableColumn } from 'components'
+import type { DataTableColumn } from '@element-ultra/components'
 import { n } from 'cat-kit'
 import { computed, shallowReactive, shallowRef } from 'vue'
 

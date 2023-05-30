@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 
 import { dividerProps } from './divider'
 import type { CSSProperties } from 'vue'

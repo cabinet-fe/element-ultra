@@ -1,6 +1,6 @@
-import type { ComponentSize } from 'shared'
+import type { ComponentSize } from '@element-ultra/shared'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
-import type { ButtonType } from 'components/button'
+import type { ButtonType } from '@element-ultra/components/button'
 
 export const actionProps = {
   needConfirm: {

@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 
 import type { CSSProperties } from 'vue'
 

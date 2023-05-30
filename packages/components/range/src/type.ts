@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { EmitFn } from 'utils'
+import type { EmitFn } from '@element-ultra/utils'
 
 export const rangeProps = {
   modelValue: {

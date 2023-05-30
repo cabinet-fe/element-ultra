@@ -48,16 +48,16 @@ import {
   onMounted
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { ElIcon } from 'components/icon'
+import { ElIcon } from '@element-ultra/components/icon'
 import { CircleClose, View as IconView } from 'icon-ultra'
-import { isObject } from 'utils'
+import { isObject } from '@element-ultra/utils'
 import {
   useAttrs,
   useDisabled,
   useFormItem,
   useNamespace
-} from 'hooks'
-import { UPDATE_MODEL_EVENT } from 'shared'
+} from '@element-ultra/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/shared'
 import { calcTextareaHeight } from './calc-textarea-height'
 import { textareaProps, textareaEmits } from './textarea'
 

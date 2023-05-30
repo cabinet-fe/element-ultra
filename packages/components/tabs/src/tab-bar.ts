@@ -1,4 +1,4 @@
-import type { TabsPaneContext } from 'tokens'
+import type { TabsPaneContext } from '@element-ultra/tokens'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export const tabBar = {

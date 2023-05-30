@@ -1,4 +1,4 @@
-import { FORM_COMPONENT_PROPS, type ComponentSize } from 'shared'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/shared'
 import type { PropType } from 'vue'
 
 export const inputNumberProps = {

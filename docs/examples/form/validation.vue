@@ -97,7 +97,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { FormInstance, useFormModel } from 'element-ultra'
-import { ComponentSize } from 'shared'
+import { ComponentSize } from '@element-ultra/shared'
 import { date } from 'cat-kit'
 
 const [conf, confRules] = useFormModel({

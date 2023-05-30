@@ -18,12 +18,12 @@ import {
   EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT
-} from 'shared'
-import ElIcon from 'components/icon'
+} from '@element-ultra/shared'
+import ElIcon from '@element-ultra/components/icon'
 import { Plus } from 'icon-ultra'
-import { tabsRootContextKey } from 'tokens'
+import { tabsRootContextKey } from '@element-ultra/tokens'
 import TabNav from './tab-nav'
-import type { TabsPaneContext } from 'tokens'
+import type { TabsPaneContext } from '@element-ultra/tokens'
 
 import type { Component, ComponentInternalInstance, VNode, Ref } from 'vue'
 

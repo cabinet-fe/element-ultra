@@ -1,7 +1,7 @@
 import { isString } from '@vue/shared'
-import { mutable } from 'utils'
-import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from 'shared'
-import { SizeProp } from 'shared'
+import { mutable } from '@element-ultra/utils'
+import { FORM_COMPONENT_PROPS, UPDATE_MODEL_EVENT } from '@element-ultra/shared'
+import { SizeProp } from '@element-ultra/shared'
 import type { StyleValue, ExtractPropTypes, PropType, Component } from 'vue'
 
 export const inputProps = {

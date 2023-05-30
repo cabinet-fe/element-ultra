@@ -2,7 +2,7 @@ import type { InjectionKey } from 'vue'
 import type {
   FormProps,
   FormRules
-} from 'components/form/src/form'
+} from '@element-ultra/components/form/src/form'
 
 export interface FormContext {
   /** 表单根属性 */

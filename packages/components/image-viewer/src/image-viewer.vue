@@ -92,10 +92,10 @@ import {
 } from 'vue'
 import { useEventListener, isNumber } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
-import ElIcon from 'components/icon'
-import { useNamespace, useZIndex } from 'hooks'
-import { EVENT_CODE } from 'shared'
-import { isFirefox } from 'utils'
+import ElIcon from '@element-ultra/components/icon'
+import { useNamespace, useZIndex } from '@element-ultra/hooks'
+import { EVENT_CODE } from '@element-ultra/shared'
+import { isFirefox } from '@element-ultra/utils'
 import {
   Close,
   ArrowLeft,

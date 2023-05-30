@@ -1,3 +1,3 @@
-import 'components/base/style'
-import 'components/input-number/style'
-import 'theme-chalk/src/range.scss'
+import '@element-ultra/components/base/style'
+import '@element-ultra/components/input-number/style'
+import '@element-ultra/theme-chalk/src/range.scss'

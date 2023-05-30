@@ -1,10 +1,10 @@
 import { Star, StarFilled } from 'icon-ultra'
-import { UPDATE_MODEL_EVENT } from 'shared'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/shared'
 import {
   isValidComponentSize,
   iconPropType,
-} from 'utils'
-import type { ComponentSize } from 'shared'
+} from '@element-ultra/utils'
+import type { ComponentSize } from '@element-ultra/shared'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 import type Rate from './rate.vue'
 

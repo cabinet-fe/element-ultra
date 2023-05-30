@@ -1,4 +1,4 @@
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from 'shared'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-ultra/shared'
 
 import type { ComputedRef } from 'vue'
 import type {

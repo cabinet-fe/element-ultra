@@ -1,8 +1,8 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
-import { isVNode, isNumber, debugWarn } from 'utils'
-import { useZIndex } from 'hooks'
-import { useConfig } from 'hooks'
+import { isVNode, isNumber, debugWarn } from '@element-ultra/utils'
+import { useZIndex } from '@element-ultra/hooks'
+import { useConfig } from '@element-ultra/hooks'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 

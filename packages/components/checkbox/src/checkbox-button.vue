@@ -26,7 +26,7 @@
   </label>
 </template>
 <script setup lang="ts">
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { useCheckbox } from './useCheckbox'
 import { checkboxEmit, checkboxProps } from './checkbox'
 

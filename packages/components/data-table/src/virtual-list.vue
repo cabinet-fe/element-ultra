@@ -22,7 +22,7 @@ import {
   watch,
   type PropType
 } from 'vue'
-import ElScrollbar from 'components/scrollbar'
+import ElScrollbar from '@element-ultra/components/scrollbar'
 import { useResizeObserver } from '@vueuse/core'
 import { debounce } from 'lodash'
 

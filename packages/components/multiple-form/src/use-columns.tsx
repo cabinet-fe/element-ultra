@@ -1,7 +1,7 @@
-import type { ElTable, TableColumn } from 'components/table'
-import { ElButton } from 'components/button'
-import { ElTooltip } from 'components/tooltip'
-import { ElIcon } from 'components/icon'
+import type { ElTable, TableColumn } from '@element-ultra/components/table'
+import { ElButton } from '@element-ultra/components/button'
+import { ElTooltip } from '@element-ultra/components/tooltip'
+import { ElIcon } from '@element-ultra/components/icon'
 import {
   computed,
   isVNode,
@@ -29,7 +29,7 @@ import {
   Rank,
   AddChild
 } from 'icon-ultra'
-import type { UseNamespaceReturn } from 'hooks'
+import type { UseNamespaceReturn } from '@element-ultra/hooks'
 import type useRows from './use-rows'
 import Sortable from 'sortablejs'
 

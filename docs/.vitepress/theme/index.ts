@@ -3,7 +3,7 @@ import Layout from './components/layout.vue'
 import NotFound from './components/not-found.vue'
 import type { Theme } from 'vitepress'
 import './styles/app.scss'
-import 'theme-chalk/src/index.scss'
+import '@element-ultra/theme-chalk/src/index.scss'
 
 const request: ProTableRequestMethod = ({ api, query }) => {
 

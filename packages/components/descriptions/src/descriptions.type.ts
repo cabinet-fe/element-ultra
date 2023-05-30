@@ -1,4 +1,4 @@
-import type { ComponentSize } from 'shared'
+import type { ComponentSize } from '@element-ultra/shared'
 
 export interface IDescriptionsInject {
   border: boolean

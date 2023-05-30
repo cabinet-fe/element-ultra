@@ -1,4 +1,4 @@
-import type { ElTable } from 'components/table'
+import type { ElTable } from '@element-ultra/components/table'
 import { nextTick, ShallowRef, watch } from 'vue'
 import type {
   MultipleFormEmits,

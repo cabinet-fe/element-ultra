@@ -11,15 +11,15 @@ import {
   nextTick,
   type PropType
 } from 'vue'
-import { isString, isObject } from 'utils'
+import { isString, isObject } from '@element-ultra/utils'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
-import { SizeProp } from 'shared'
-import { useNamespace, useSize } from 'hooks'
+import { SizeProp } from '@element-ultra/shared'
+import { useNamespace, useSize } from '@element-ultra/hooks'
 
 export const menuProps = {
   defaultActive: {

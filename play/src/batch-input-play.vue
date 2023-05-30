@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useFormModel } from 'components'
+import { useFormModel } from '@element-ultra/components'
 import { shallowRef } from 'vue'
 const formRef = shallowRef()
 const [form, rules] = useFormModel({

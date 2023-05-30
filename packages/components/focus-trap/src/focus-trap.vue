@@ -12,7 +12,7 @@ import {
   watch,
   nextTick,
 } from 'vue'
-import { EVENT_CODE } from 'shared'
+import { EVENT_CODE } from '@element-ultra/shared'
 import {
   focusableStack,
   focusFirstDescendant,

@@ -42,17 +42,17 @@ import {
   type VNodeArrayChildren
 } from 'vue'
 import ElFormItem from './form-item.vue'
-import { ElGrid } from 'components/grid'
-import { formInjectionKey, formKey } from 'tokens'
+import { ElGrid } from '@element-ultra/components/grid'
+import { formInjectionKey, formKey } from '@element-ultra/tokens'
 import { formComponents, formProps } from './form'
 import { validators } from './form-validator'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import {
   deepExtend,
   getChainValue,
   isFragment,
   isTemplate
-} from 'utils'
+} from '@element-ultra/utils'
 import { isObject } from 'lodash'
 
 type FormItemType = InstanceType<typeof ElFormItem>

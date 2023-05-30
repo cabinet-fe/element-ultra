@@ -17,9 +17,9 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue'
-import { ElIcon } from 'components/icon'
-import { useNamespace } from 'hooks'
-import { isNumber, isString, addUnit } from 'utils'
+import { ElIcon } from '@element-ultra/components/icon'
+import { useNamespace } from '@element-ultra/hooks'
+import { isNumber, isString, addUnit } from '@element-ultra/utils'
 import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'

@@ -38,7 +38,7 @@ import {
   useFormItem,
   useNamespace,
   useSize
-} from 'hooks'
+} from '@element-ultra/hooks'
 import { batchInputProps, batchInputEmits } from './batch-input'
 import { Plus, Minus } from 'icon-ultra'
 import {
@@ -49,8 +49,8 @@ import {
   shallowRef,
   watch
 } from 'vue'
-import { ElButton, ElButtonGroup } from 'components/button'
-import { formKey } from 'tokens'
+import { ElButton, ElButtonGroup } from '@element-ultra/components/button'
+import { formKey } from '@element-ultra/tokens'
 
 defineOptions({
   name: 'ElBatchInput'

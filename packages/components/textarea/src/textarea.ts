@@ -3,7 +3,7 @@ import { isString } from '@vue/shared'
 import {
   FORM_COMPONENT_PROPS,
   UPDATE_MODEL_EVENT
-} from 'shared'
+} from '@element-ultra/shared'
 import type { StyleValue, ExtractPropTypes, PropType } from 'vue'
 
 type AutoSize = { minRows?: number; maxRows?: number } | boolean

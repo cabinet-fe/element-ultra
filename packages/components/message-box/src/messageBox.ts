@@ -1,6 +1,6 @@
 import { h, watch, render } from 'vue'
 import { isClient } from '@vueuse/core'
-import { isVNode, isString, hasOwn } from 'utils'
+import { isVNode, isString, hasOwn } from '@element-ultra/utils'
 import MessageBoxConstructor from './index.vue'
 
 import type { ComponentPublicInstance, VNode } from 'vue'

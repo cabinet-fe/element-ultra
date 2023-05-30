@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, getCurrentInstance, inject } from 'vue'
-import { throwError } from 'utils'
+import { throwError } from '@element-ultra/utils'
 import { menuItemGroupProps } from './menu-item-group'
 
 import type { MenuProvider } from './types'

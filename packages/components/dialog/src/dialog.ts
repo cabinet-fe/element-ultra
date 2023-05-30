@@ -1,4 +1,4 @@
-import { UPDATE_MODEL_EVENT } from 'shared'
+import { UPDATE_MODEL_EVENT } from '@element-ultra/shared'
 import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes, PropType } from 'vue'

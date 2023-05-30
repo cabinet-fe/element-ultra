@@ -7,7 +7,7 @@ import {
 } from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { isBoolean } from 'utils'
+import { isBoolean } from '@element-ultra/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'

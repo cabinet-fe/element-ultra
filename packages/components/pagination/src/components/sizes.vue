@@ -14,10 +14,10 @@
 <script lang="ts">
 import { defineComponent, watch, ref, type PropType } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { ElSelect } from 'components/select'
-import { useNamespace } from 'hooks'
+import { ElSelect } from '@element-ultra/components/select'
+import { useNamespace } from '@element-ultra/hooks'
 import { usePagination } from '../usePagination'
-import type { ComponentSize } from 'shared'
+import type { ComponentSize } from '@element-ultra/shared'
 
 const paginationSizesProps = {
   pageSize: {

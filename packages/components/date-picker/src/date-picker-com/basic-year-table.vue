@@ -20,9 +20,9 @@
 <script lang="tsx" setup>
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useNamespace } from 'hooks'
-import { rangeArr } from 'components/time-picker'
-import { castArray, hasClass } from 'utils'
+import { useNamespace } from '@element-ultra/hooks'
+import { rangeArr } from '@element-ultra/components/time-picker'
+import { castArray, hasClass } from '@element-ultra/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
 
 const datesInYear = (year: number, lang: string) => {

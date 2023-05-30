@@ -1,10 +1,10 @@
 import { ref, computed, watchEffect } from 'vue'
-import { isNumber } from 'utils'
-import { useNamespace } from 'hooks'
+import { isNumber } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import type { SpaceProps } from './space'
 
 import type { CSSProperties, StyleValue } from 'vue'
-import type { ComponentSize } from 'shared'
+import type { ComponentSize } from '@element-ultra/shared'
 
 const SIZE_MAP: Record<ComponentSize, number> = {
   small: 8,

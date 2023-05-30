@@ -1,4 +1,4 @@
-import 'components/base/style'
-import 'theme-chalk/src/slider.scss'
-import 'components/input-number/style/index'
-import 'components/tooltip/style/index'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/slider.scss'
+import '@element-ultra/components/input-number/style/index'
+import '@element-ultra/components/tooltip/style/index'

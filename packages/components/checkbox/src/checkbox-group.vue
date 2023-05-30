@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed, provide, ref } from 'vue'
-import { useEventWatch, useFormItem, useNamespace } from 'hooks'
+import { useEventWatch, useFormItem, useNamespace } from '@element-ultra/hooks'
 import { checkboxGroupProps, checkboxGroupEmit } from './checkbox-group'
 import { checkboxGroupInjectionKey } from './token'
 

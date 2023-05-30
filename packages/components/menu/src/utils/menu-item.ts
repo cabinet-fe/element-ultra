@@ -1,5 +1,5 @@
-import { triggerEvent } from 'utils'
-import { EVENT_CODE } from 'shared'
+import { triggerEvent } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/shared'
 import SubMenu from './submenu'
 
 class MenuItem {

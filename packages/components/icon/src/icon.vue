@@ -6,8 +6,8 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { isUndefined, addUnit } from 'utils'
-import { useNamespace } from 'hooks'
+import { isUndefined, addUnit } from '@element-ultra/utils'
+import { useNamespace } from '@element-ultra/hooks'
 import { iconProps } from './icon'
 import type { CSSProperties } from 'vue'
 

@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch, provide } from 'vue'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from 'shared'
-import { useNamespace } from 'hooks'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-ultra/shared'
+import { useNamespace } from '@element-ultra/hooks'
 import type { CollapseProvider } from './collapse.type'
 
 export default defineComponent({

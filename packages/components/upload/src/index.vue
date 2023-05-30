@@ -10,7 +10,7 @@ import {
   onBeforeUnmount
 } from 'vue'
 import { NOOP } from '@vue/shared'
-import { formKey } from 'tokens'
+import { formKey } from '@element-ultra/tokens'
 
 import ajax from './ajax'
 import UploadList from './upload-list.vue'
@@ -18,15 +18,15 @@ import Upload from './upload.vue'
 import useHandlers from './useHandlers'
 
 import type { PropType } from 'vue'
-import type { FormContext } from 'tokens'
-import type { Nullable } from 'utils'
+import type { FormContext } from '@element-ultra/tokens'
+import type { Nullable } from '@element-ultra/utils'
 import type {
   ListType,
   UploadFile,
   FileHandler,
   FileResultHandler
 } from './upload.type'
-import { useDisabled } from 'hooks'
+import { useDisabled } from '@element-ultra/hooks'
 
 type PFileHandler<T> = PropType<FileHandler<T>>
 type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>

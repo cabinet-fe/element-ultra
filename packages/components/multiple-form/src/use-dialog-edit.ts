@@ -1,8 +1,8 @@
-import { useFormDialog } from 'components/form-dialog'
+import { useFormDialog } from '@element-ultra/components/form-dialog'
 import {
   useFormModel,
   type FormModelItem
-} from 'components/form'
+} from '@element-ultra/components/form'
 import type {
   MultipleFormColumn,
   MultipleFormEmits,

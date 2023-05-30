@@ -1,4 +1,4 @@
-import { iconPropType } from 'utils'
+import { iconPropType } from '@element-ultra/utils'
 
 export const dialogContentProps = {
   center: {

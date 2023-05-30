@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { gridProps, type GridProps, type ResponsiveCols } from './grid'
 import type { CSSProperties } from 'vue'
-import { useConfig, useNamespace } from 'hooks'
+import { useConfig, useNamespace } from '@element-ultra/hooks'
 import { gridInjectionKey } from './token'
 import { debounce } from 'lodash'
 

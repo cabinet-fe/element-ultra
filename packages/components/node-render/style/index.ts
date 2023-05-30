@@ -1,2 +1,2 @@
-import 'components/base/style'
-import 'theme-chalk/src/node-render.scss'
+import '@element-ultra/components/base/style'
+import '@element-ultra/theme-chalk/src/node-render.scss'

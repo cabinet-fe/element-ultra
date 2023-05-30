@@ -194,20 +194,20 @@ import {
   watch
 } from 'vue'
 import dayjs from 'dayjs'
-import ElButton from 'components/button'
-import { ClickOutside as vClickOutside } from 'directives'
-import { useNamespace } from 'hooks'
-import ElInput from 'components/input'
+import ElButton from '@element-ultra/components/button'
+import { ClickOutside as vClickOutside } from '@element-ultra/directives'
+import { useNamespace } from '@element-ultra/hooks'
+import ElInput from '@element-ultra/components/input'
 import {
   ElTimePickPanel,
   extractDateFormat,
   extractTimeFormat
-} from 'components/time-picker'
-import { ElIcon } from 'components/icon'
-import { isArray, isFunction } from 'utils'
-import { EVENT_CODE } from 'shared'
+} from '@element-ultra/components/time-picker'
+import { ElIcon } from '@element-ultra/components/icon'
+import { isArray, isFunction } from '@element-ultra/utils'
+import { EVENT_CODE } from '@element-ultra/shared'
 import { ArrowLeft, ArrowRight, DArrowLeft, DArrowRight } from 'icon-ultra'
-import { TOOLTIP_INJECTION_KEY } from 'components/tooltip'
+import { TOOLTIP_INJECTION_KEY } from '@element-ultra/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'

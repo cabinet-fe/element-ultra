@@ -1,4 +1,4 @@
-import {  iconPropType } from 'utils'
+import {  iconPropType } from '@element-ultra/utils'
 import type { ExtractPropTypes } from 'vue'
 import type TimelineItem from './timeline-item.vue'
 

@@ -242,16 +242,16 @@
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, unref } from 'vue'
 import dayjs from 'dayjs'
-import { ClickOutside as vClickoutside } from 'directives'
-import { isArray } from 'utils'
-import ElButton from 'components/button'
-import ElInput from 'components/input'
+import { ClickOutside as vClickoutside } from '@element-ultra/directives'
+import { isArray } from '@element-ultra/utils'
+import ElButton from '@element-ultra/components/button'
+import ElInput from '@element-ultra/components/input'
 import {
   ElTimePickPanel,
   extractDateFormat,
   extractTimeFormat
-} from 'components/time-picker'
-import ElIcon from 'components/icon'
+} from '@element-ultra/components/time-picker'
+import ElIcon from '@element-ultra/components/icon'
 import {
   ArrowLeft,
   ArrowRight,

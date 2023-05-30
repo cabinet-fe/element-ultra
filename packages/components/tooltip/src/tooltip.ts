@@ -1,11 +1,11 @@
 import {
   usePopperTriggerProps,
   usePopperContentProps
-} from 'components/popper'
+} from '@element-ultra/components/popper'
 import {
   useDelayedToggleProps,
   POPPER_CONTAINER_SELECTOR
-} from 'hooks'
+} from '@element-ultra/hooks'
 
 import type { ExtractPropTypes, PropType } from 'vue'
 

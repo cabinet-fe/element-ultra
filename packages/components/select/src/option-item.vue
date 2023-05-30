@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
-import { useNamespace } from 'hooks'
+import { useNamespace } from '@element-ultra/hooks'
 import { useOption } from './useOption'
 import { OptionProps } from './defaults'
 import { selectInjectionKey } from './token'

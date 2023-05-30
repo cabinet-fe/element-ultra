@@ -1,4 +1,4 @@
-import { isLeaf } from 'utils'
+import { isLeaf } from '@element-ultra/utils'
 import type { default as CascadeNode } from './node'
 
 export const getMenuIndex = (el: HTMLElement) => {

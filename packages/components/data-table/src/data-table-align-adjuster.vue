@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { inject, nextTick, shallowReactive, shallowRef } from 'vue'
-import { ElRadio, ElRadioGroup } from 'components/radio'
+import { ElRadio, ElRadioGroup } from '@element-ultra/components/radio'
 import type { InternalColumn } from './utils'
 import { dataTableToken } from './token'
 const { ns } = inject(dataTableToken)!
