@@ -31,6 +31,7 @@
       @select="emit('select', $event)"
       @row-click="handleRowClick"
       @sort="handleSort"
+      :lazy-load="lazyLoad"
     >
       <template v-slot:[column.slot!]="ctx" v-for="column of columnSlots">
         <slot :name="column.slot!" v-bind="ctx" />

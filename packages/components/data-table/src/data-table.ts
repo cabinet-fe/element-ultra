@@ -11,8 +11,8 @@ export interface DataTableColumn extends Omit<TableColumn, 'render'> {
   children?: DataTableColumn[]
   /** 渲染 */
   render?: (ctx: {
-    val: any,
-    v: any,
+    val: any
+    v: any
     row: Record<string, any>
     index: number
     wrap: DataTreeRow | Row
@@ -111,6 +111,13 @@ export const dataTableProps = {
   /** 响应式数据项 */
   itemReactive: {
     type: Boolean
+  },
+
+  /** 数据懒加载 */
+  lazyLoad: {
+    type: Function as PropType<
+      (data: Record<string, any>, row: DataTreeRow) => any[] | Promise<any[]>
+    >
   }
 } as const
 
@@ -118,7 +125,8 @@ export const dataTableEmits = {
   'row-click': (row: any, rowIndex: number) => true,
   check: (checked: any[]) => true,
   select: (selection: any) => true,
-  sort: (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => true
+  sort: (sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => true,
+  'row-expand': (data: Record<string, any>, row: DataTreeRow) => true
 }
 
 export interface Row {
@@ -128,6 +136,8 @@ export interface Row {
 }
 export interface DataTreeRow extends Row {
   expanded: boolean
+  loaded: boolean
+  loading: boolean
   depth: number
   children?: DataTreeRow[]
 }

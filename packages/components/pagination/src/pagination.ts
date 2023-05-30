@@ -1,5 +1,5 @@
 import { h, ref, provide, computed, defineComponent, getCurrentInstance, watch, type PropType } from 'vue'
-import { debugWarn,  mutable } from '@element-ultra/utils'
+import { debugWarn } from '@element-ultra/utils'
 import { useNamespace } from '@element-ultra/hooks'
 import { elPaginationKey } from '@element-ultra/tokens'
 

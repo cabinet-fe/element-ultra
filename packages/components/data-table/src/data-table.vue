@@ -55,7 +55,7 @@ const refs = useDomRefProvide()
 const state = useState(props, emit)
 
 // 列
-const columns = useColumns(props, state)
+const columns = useColumns(props, emit, state)
 
 // 样式
 const styles = useStyle(props, refs)

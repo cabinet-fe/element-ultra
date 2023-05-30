@@ -1,15 +1,15 @@
 import ElCheckbox from '@element-ultra/components/checkbox'
 import ElIcon from '@element-ultra/components/icon'
 import { computed, h, isReactive, shallowReactive, useSlots } from 'vue'
-import type { DataTableColumn, DataTableProps, DataTreeRow } from '../data-table'
-import {
-  bfs,
-  InternalColumn,
-  FixedColumn,
-  StaticColumn
-} from '../utils'
+import type {
+  DataTableColumn,
+  DataTableEmits,
+  DataTableProps,
+  DataTreeRow
+} from '../data-table'
+import { bfs, InternalColumn, FixedColumn, StaticColumn } from '../utils'
 import type { UseStateReturned } from './use-state'
-import { Plus, Minus } from 'icon-ultra'
+import { Plus, Minus, Loading } from 'icon-ultra'
 
 // 固定列: 只有最父级可以进行左右定位的配置
 // 列位置调换: 只有父级可以进行位置调换
@@ -43,6 +43,7 @@ const loopRight: Looper = (arr, cb) => {
  */
 export default function useColumns(
   props: DataTableProps,
+  emit: DataTableEmits,
   state: UseStateReturned
 ) {
   const {
@@ -53,7 +54,9 @@ export default function useColumns(
     toggleItemCheck,
     toggleSelect,
     store,
-    getFlatData
+    getFlatData,
+    childrenKey,
+    dfsReactive
   } = state
 
   const reactiveColumnItem = (columns: any[]) => {
@@ -78,7 +81,7 @@ export default function useColumns(
 
   /** 额外列(序号, 单选/多选, 展开栏) */
   const preColumns = computed(() => {
-    const { checkable, selectable, showIndex, tree } = props
+    const { checkable, selectable, showIndex, tree, lazyLoad } = props
 
     let result: InternalColumn[] = []
 
@@ -89,28 +92,47 @@ export default function useColumns(
         width: 80,
         fixed: 'left',
         render: ctx => {
-          let wrap = ctx.wrap as DataTreeRow
-          return wrap.children?.length
-            ? h(
-                ElIcon,
-                {
-                  class: 'el-data-table__expand-icon',
-                  style: {
-                    marginLeft: wrap.depth * 20 + 'px'
-                  },
-                  onClick() {
-                    wrap.expanded = !wrap.expanded
-                    getFlatData()
+          const wrap = ctx.wrap as DataTreeRow
+
+          const style = {
+            marginLeft: wrap.depth * 20 + 'px'
+          }
+
+          // 加载状态
+          if (wrap.loading) {
+            return h(ElIcon, { class: 'is-loading', style }, () => h(Loading))
+          }
+
+          if (wrap.children?.length || (lazyLoad && !wrap.loaded)) {
+            return h(
+              ElIcon,
+              {
+                class: 'el-data-table__expand-icon',
+                style,
+                async onClick() {
+                  wrap.expanded = !wrap.expanded
+                  emit('row-expand', wrap.data, wrap)
+                  if (lazyLoad && !wrap.loaded) {
+                    wrap.loading = true
+                    const loadedData = await lazyLoad(wrap.data, wrap)
+                    if (loadedData) {
+                      wrap.data[childrenKey.value] = loadedData
+                      wrap.children = dfsReactive(loadedData, wrap.depth + 1)
+                    }
+                    wrap.loaded = true
+                    wrap.loading = false
                   }
-                },
-                () => (wrap.expanded ? h(Minus) : h(Plus))
-              )
-            : h('span', {
-                class: 'el-data-table__leaf-icon',
-                style: {
-                  marginLeft: wrap.depth * 20 + 'px'
+                  getFlatData()
                 }
-              })
+              },
+              () => (wrap.expanded ? h(Minus) : h(Plus))
+            )
+          }
+
+          return h('span', {
+            class: 'el-data-table__leaf-icon',
+            style
+          })
         }
       })
     }
@@ -258,7 +280,8 @@ export default function useColumns(
               return slots[column.slot!]?.(ctx)
             }
           } else {
-            column.render = ({ val }) => val instanceof Object ? String(val) : val
+            column.render = ({ val }) =>
+              val instanceof Object ? String(val) : val
           }
         }
 
@@ -291,7 +314,6 @@ export default function useColumns(
   type LeafColumns = typeof leafColumns.value
 
   const computePosition = (columns?: LeafColumns) => {
-
     if (!columns) {
       columns = leafColumns.value
     }

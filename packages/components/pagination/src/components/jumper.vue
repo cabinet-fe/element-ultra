@@ -1,14 +1,13 @@
 <template>
   <span :class="ns.e('jump')" :disabled="disabled">
     前往
-    <el-input
+    <el-input-number
       size="small"
       :class="[ns.e('editor'), ns.is('in-pagination')]"
       :min="1"
       :max="pageCount"
       :disabled="disabled"
       :model-value="innerValue"
-      type="number"
       @update:model-value="handleInput"
       @change="handleChange"
     />
@@ -19,7 +18,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import ElInput from '@element-ultra/components/input'
+import ElInputNumber from '@element-ultra/components/input-number'
 import { usePagination } from '../usePagination'
 
 defineOptions({
@@ -31,12 +30,12 @@ const { pageCount, disabled, currentPage, changeEvent } = usePagination()
 const userInput = ref<number>()
 const innerValue = computed(() => userInput.value ?? currentPage?.value)
 
-function handleInput(val: number | string) {
-  userInput.value = +val
+function handleInput(val?: number) {
+  userInput.value = val ?? 1
 }
 
-function handleChange(val: number | string) {
-  val = Math.trunc(+val)
+function handleChange(val?: number) {
+  val = Math.trunc(+(val ?? 1))
   changeEvent?.(+val)
   userInput.value = undefined
 }

@@ -103,6 +103,11 @@ export const proTableProps = {
     default: 2
   },
 
+  /** 数据懒加载 */
+  lazyLoad: {
+    type: Function as PropType<(row: Record<string, any>) => any[] | Promise<any[]>>
+  },
+
   /** 显示合计 */
   showSummary: Boolean,
 

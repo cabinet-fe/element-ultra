@@ -14,19 +14,19 @@ setConfigStore({
           name: '张三说的有符合公司的的话是个' + i,
           money: ~~(Math.random() * 1000),
           name2: 1,
-          children: [
-            {
-              name: '你好',
-              money: 10086,
-              id: `${i}-1`,
-              children: [
-                { name: '你好' + i + '-1-1', money: 666, id: i + '-1-1' },
-                { name: '你好' + i + '-1-2', money: 666, id: i + '-1-2' },
-                { name: '你好' + i + '-1-3', money: 666, id: i + '-1-3' }
-              ]
-            },
-            { name: '你好', money: 10001, id: `${i}-2` }
-          ],
+          // children: [
+          //   {
+          //     name: '你好',
+          //     money: 10086,
+          //     id: `${i}-1`,
+          //     children: [
+          //       { name: '你好' + i + '-1-1', money: 666, id: i + '-1-1' },
+          //       { name: '你好' + i + '-1-2', money: 666, id: i + '-1-2' },
+          //       { name: '你好' + i + '-1-3', money: 666, id: i + '-1-3' }
+          //     ]
+          //   },
+          //   { name: '你好', money: 10001, id: `${i}-2` }
+          // ],
           id: i
         }))
         rs({
@@ -36,7 +36,7 @@ setConfigStore({
             // money: 188888888
           // }
         })
-      }, 500)
+      }, 100)
     })
   },
 
@@ -46,7 +46,7 @@ setConfigStore({
         const data = Array.from({ length: 20 }).map((_, i) => {
 
           return {
-            code: 'BM' + (100000 + (option.query.page - 1) * option.query.size + i + 1),
+            code: 'BM' + (10000 + (option.query.page - 1) * option.query.size + i + 1),
             summary: `摘要${i + 1}`,
             project: `项目${i + 1}`
           }

@@ -8,11 +8,12 @@
     cache-params
     :columns="columns"
     show-index
+    tree
     checkable
     ref="tableRef"
-    default-expand-all
     item-reactive
     v-model:checked="checked"
+    :lazy-load="lazyLoad"
   >
     <template #column-conf="{ column }">
       <el-input
@@ -57,7 +58,7 @@
 
     <template #name="{ row }">
       <span style="color: red">{{ row.name }}</span>
-      <el-checkbox v-model="row.bol" />
+      <!-- <el-checkbox v-model="row.bol" /> -->
     </template>
 
     <template #action>
@@ -73,7 +74,7 @@
       <el-button @click="handleClick">改变query</el-button>
       <el-button @click="handleFix">固定列</el-button>
       <el-button @click="replace">替换路由</el-button>
-      <el-button @click="checked = []" >清空选择</el-button>
+      <el-button @click="checked = []">清空选择</el-button>
       <el-dropdown trigger="click" split-button type="primary">
         按钮123
         <template #dropdown>
@@ -90,12 +91,25 @@
 <script setup lang="tsx">
 import { ElButton, ProTableColumn } from 'element-ultra'
 import { n } from 'cat-kit'
-import { computed, isReactive, provide, shallowReactive, shallowRef } from 'vue'
+import { isReactive, provide, shallowReactive, shallowRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 provide('aa', { name: 'aa' })
 
 const showTools = shallowRef(false)
+
+const lazyLoad = async () => {
+  await new Promise((rs, rj) => {
+    setTimeout(() => {
+      rs(0)
+    }, 1000)
+  })
+  return [
+    { name: '你好' + '-1-1', money: 666, id: '-1-1' },
+    { name: '你好' + '-1-2', money: 666, id: '-1-2' },
+    { name: '你好' + '-1-3', money: 666, id: '-1-3' }
+  ]
+}
 
 setTimeout(() => {
   showTools.value = true
@@ -219,7 +233,7 @@ setTimeout(() => {
   })
 
   columns.value = _columns
-}, 2000)
+}, 100)
 
 const handleFix = () => {
   const column = columns.value[1]

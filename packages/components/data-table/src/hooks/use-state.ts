@@ -28,6 +28,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
   const treeData = shallowRef<DataTreeRow[]>([])
 
+  /** 深度优先递归包括data数据 */
   const dfsReactive = (
     arr: any[],
     depth: number,
@@ -38,11 +39,14 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
         uid: uid++,
         data: itemReactive ? shallowReactive(item) : item,
         expanded: false,
+        loaded: false,
+        loading: false,
         depth,
         index
       })
       if (item[childrenKey.value]) {
         ret.children = dfsReactive(item[childrenKey.value], depth + 1)
+        ret.loaded = true
       }
       return ret
     })
@@ -61,6 +65,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     })
   }
 
+  /** 深度优先递归碾平 */
   const dfsFlat = (rows: DataTreeRow[], cb: (row: DataTreeRow) => void) => {
     rows.forEach(row => {
       cb(row)
@@ -185,6 +190,8 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     allChecked,
     /** 部分选中 */
     someChecked,
+    /** 子节点key */
+    childrenKey,
 
     /** 选中全部数据 */
     checkAll,
@@ -200,6 +207,9 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
     /** 排序 */
     handleSort,
+
+    /** 深度优先递归包括data数据 */
+    dfsReactive,
 
     /** 获取扁平数据 */
     getFlatData
