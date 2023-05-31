@@ -19,6 +19,10 @@ export const formDialogProps = {
   continue: {
     type: Boolean,
     default: false
+  },
+
+  width: {
+    type: String
   }
 } as const
 

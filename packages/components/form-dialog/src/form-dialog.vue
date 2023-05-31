@@ -3,6 +3,7 @@
     :model-value="modelValue"
     :title="title"
     append-to-body
+    :width="width"
     @update:model-value="emit('update:modelValue', $event)"
     @close="cancel"
   >
