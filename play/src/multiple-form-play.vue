@@ -6,6 +6,7 @@
   </el-radio-group>
 
   <el-form-dialog v-model="visible">
+    <el-checkbox v-model="tree">树形</el-checkbox>
     <el-multiple-form
       :mode="mode"
       :columns="columns"
@@ -17,8 +18,9 @@
       :delete-method="handleDelete"
       :action-width="200"
       sortable
-      :tree="true"
+      :tree="tree"
     >
+
       <template #tools>
         <el-button type="primary" @click="addNextLine">添加一行</el-button>
         <el-button @click="refer?.validate()">校验</el-button>
@@ -66,7 +68,9 @@ import type {
 } from 'element-ultra'
 import { shallowRef } from 'vue'
 
-const mode = $shallowRef<'inline' | 'dialog'>('dialog')
+const mode = shallowRef<'inline' | 'dialog'>('dialog')
+
+const tree = shallowRef(true)
 
 const columns: MultipleFormColumn[] = [
   {
@@ -118,7 +122,7 @@ const visible = shallowRef(false)
 const refer = shallowRef<InstanceType<typeof ElMultipleForm>>()
 /** 增加下一行 */
 const addNextLine = (row: any) => {
-  if (mode === 'dialog') {
+  if (mode.value === 'dialog') {
     refer.value?.open('create', {
       ctx: {
         indexes: [0]

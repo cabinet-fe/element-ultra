@@ -10,7 +10,7 @@ import {
   ShallowRef,
   onMounted,
   onBeforeUnmount,
-watch
+  watch
 } from 'vue'
 import type {
   MultipleFormColumn,
@@ -32,6 +32,7 @@ import {
 import type { UseNamespaceReturn } from '@element-ultra/hooks'
 import type useRows from './use-rows'
 import Sortable from 'sortablejs'
+import { nextTick } from 'vue'
 
 interface Options {
   props: MultipleFormProps
@@ -96,12 +97,14 @@ export default function useColumns(options: Options) {
     }
   }
 
-  let sortInstance: Sortable
-  onMounted(() => {
+  const sort = () => {
     if (!sortable.value) return
+    stopSort()
+
     const tbody =
       tableRef.value?.tableDom?.getElementsByClassName('el-table__body')?.[0]
     if (!tbody) return
+
     sortInstance = new Sortable(tbody as HTMLElement, {
       animation: 150,
       ghostClass: 'el-multiple-form__sort-ghost',
@@ -115,10 +118,25 @@ export default function useColumns(options: Options) {
         emitChange()
       }
     })
+  }
+
+  const stopSort = () => {
+    sortInstance?.destroy()
+    sortInstance = null
+  }
+
+  watch(sortable, s => {
+    s ? nextTick(() => sort()) : stopSort()
+  })
+
+  let sortInstance: Sortable | null = null
+
+  onMounted(() => {
+    sort()
   })
 
   onBeforeUnmount(() => {
-    sortInstance?.destroy()
+    stopSort()
   })
 
   const renders: Renders = {
@@ -168,7 +186,10 @@ export default function useColumns(options: Options) {
 
   let currentEditRow: MultipleFormRow | null = null
 
-  watch(() => props.data, () => currentEditRow = null)
+  watch(
+    () => props.data,
+    () => (currentEditRow = null)
+  )
 
   /** 重置当前编辑行 */
   const resetCurrentRow = () => {
