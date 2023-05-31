@@ -9,7 +9,6 @@ export function ElementUltraAlias(): Plugin {
     name: 'element-ultra-alias-plugin',
     resolveId(source) {
       if (!source.startsWith(sourceThemeChalk)) return
-      console.log(source)
       return {
         id: source.replaceAll(sourceThemeChalk, bundleThemeChalk),
         external: 'absolute'
