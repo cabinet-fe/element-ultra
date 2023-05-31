@@ -62,10 +62,11 @@ export default function useModel(options: Options) {
     }
   }
 
-  // TODO由用户操作选择时, 应该不再触发监听
+  // 监听值变化
   watch(
     () => props.modelValue,
     value => {
+      handleClear()
       setSelectOrChecked(value)
     },
     { immediate: true }
@@ -73,7 +74,6 @@ export default function useModel(options: Options) {
 
   watch(visible, v => {
     if (v || !props.multiple) return
-
     handleClear()
     setSelectOrChecked(props.modelValue)
   })
@@ -115,8 +115,6 @@ export default function useModel(options: Options) {
       })
     }
   }
-
-
 
   return {
     checkedData,

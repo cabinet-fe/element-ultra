@@ -166,7 +166,8 @@ export const multipleFormProps = {
   /** 列表数据 */
   data: {
     type: Array as PropType<any[]>,
-    required: true
+    required: true,
+    default: () => []
   },
 
   /** 列配置  */

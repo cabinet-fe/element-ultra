@@ -1,4 +1,6 @@
 <template>
+  <el-button @click="data = v1">值1</el-button>
+  <el-button @click="data = v2">值2</el-button>
   <el-table-select
     v-model="data"
     :columns="columns"
@@ -24,6 +26,8 @@
       {{ scope }}
     </template>
   </el-table-select>
+
+  {{ data }}
 </template>
 
 <script lang="ts" setup>
@@ -75,12 +79,16 @@ let columns = $computed<TableSelectColumn[]>(() => {
   return [...fixed_columns, ...extra_columns]
 })
 
-let data = shallowRef([
-  { code: 'BM100001' },
-  { code: 'BM100002', summary: `摘要2`, project: `项目2` },
-  { code: 'BM100003', summary: `摘要3`, project: `项目3` },
-  { code: 'BM100004', summary: `摘要4`, project: `项目4` }
-])
+let data = shallowRef([])
+
+const v1 = [
+  { code: 'BM10001', summary: '摘要1', project: '项目1' },
+  { code: 'BM10002', summary: '摘要2', project: '项目2' }
+]
+
+const v2 = [
+
+]
 
 let path = $ref('')
 
