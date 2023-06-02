@@ -14,6 +14,7 @@
         :disabled="disabled"
         ref="formRef"
         :data="data"
+        :default-data="{ num: 2 }"
         label-width="80px"
         :rules="rules"
       >
@@ -180,7 +181,7 @@ const [data, rules] = useFormModel(
 )
 
 const cascadeOptions = Array.from({ length: 20 }).map((_, i) => {
-  return  {
+  return {
     name: '哈哈' + i,
     value: 'aa' + i,
     children: [{ name: '呵呵' + i, value: 'bb' + i + '-1' }]

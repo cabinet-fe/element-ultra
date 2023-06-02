@@ -73,6 +73,14 @@ const formItemRefs = shallowRef<FormItemType[]>([])
 // 字段 -> 表单项实例 映射
 let formItemRefsMap: Record<string, FormItemType> = {}
 
+if (props.defaultData && props.data) {
+  for (const key in props.defaultData) {
+    if (key in props.data) {
+      props.data[key] = props.defaultData[key]
+    }
+  }
+}
+
 // 组件渲染时的副作用
 const renderEffect = () => {
   nextTick(() => {
@@ -183,7 +191,7 @@ const getSlots = () => {
       }
 
       if (isObject(node.type) && formComponents.has((node.type as any).name)) {
-        const props =  node.props || {}
+        const props = node.props || {}
         const { label, field, tips, span } = props
 
         return result.push({

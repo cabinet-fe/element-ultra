@@ -35,6 +35,9 @@ export const formProps = {
   data: {
     type: Object as PropType<Record<string, any>>
   },
+  defaultData: {
+    type: Object as PropType<Record<string, any>>
+  },
   rules: {
     type: Object as PropType<FormRules>
   },
@@ -48,7 +51,9 @@ export const formProps = {
     default: ''
   },
   cols: {
-    type: [Number, Array, String, Object] as PropType<string[] | number | string | ResponsiveCols>,
+    type: [Number, Array, String, Object] as PropType<
+      string[] | number | string | ResponsiveCols
+    >,
     default: () => ({ cols: 4, xs: 1, s: 2, l: 3, xl: 4 })
   },
   size: String as PropType<ComponentSize>,
