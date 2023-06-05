@@ -342,6 +342,7 @@ export default function useColumns(options: Options) {
    * @param row 行
    */
   const handleEdit = (row: MultipleFormRow) => {
+    emit('edit', row)
     if (props.mode === 'dialog') {
       open('update', {
         title: '编辑',

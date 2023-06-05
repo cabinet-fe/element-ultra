@@ -236,6 +236,7 @@ export const multipleFormProps = {
 export const multipleFormEmits = {
   save: (row: any, rows: any[], type: 'create' | 'update', parent?: any) =>
     true,
+  edit: (row: any) => true,
   delete: (row: any) => true,
   change: (rows: any[]) => true,
   'node-change': (node: MultipleFormRow, type: 'create' | 'update' | 'delete') => true,
