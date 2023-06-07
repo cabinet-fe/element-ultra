@@ -73,6 +73,7 @@ const {
 } = dialog
 
 provide(dialogInjectionKey, {
+  dialogVisible: visible,
   dialogRef,
   headerRef,
   ns,

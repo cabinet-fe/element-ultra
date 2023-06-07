@@ -2,6 +2,7 @@ import type { ElTable, TableColumn } from '@element-ultra/components/table'
 import { ElButton } from '@element-ultra/components/button'
 import { ElTooltip } from '@element-ultra/components/tooltip'
 import { ElIcon } from '@element-ultra/components/icon'
+import { dialogInjectionKey } from '@element-ultra/components/dialog/src/token'
 import {
   computed,
   isVNode,
@@ -32,7 +33,8 @@ import {
 import type { UseNamespaceReturn } from '@element-ultra/hooks'
 import type useRows from './use-rows'
 import Sortable from 'sortablejs'
-import { nextTick } from 'vue'
+import { nextTick, inject } from 'vue'
+
 
 interface Options {
   props: MultipleFormProps
@@ -203,6 +205,8 @@ export default function useColumns(options: Options) {
       }
     }
   }
+
+  const { dialogVisible } = inject(dialogInjectionKey) || {}
 
   /**
    * 新增行
@@ -497,20 +501,20 @@ export default function useColumns(options: Options) {
                 onClick={() => handleInsert(row)}
               />
             )
-        }
 
-        // 删除按钮
-        actionVisible(actionDelete, row) &&
-          buttons.push(
-            <ElButton
-              type='primary'
-              icon={Delete}
-              title='删除'
-              link
-              loading={row.loading}
-              onClick={() => handleDelete(row)}
-            />
-          )
+          // 删除按钮
+          actionVisible(actionDelete, row) &&
+            buttons.push(
+              <ElButton
+                type='primary'
+                icon={Delete}
+                title='删除'
+                link
+                loading={row.loading}
+                onClick={() => handleDelete(row)}
+              />
+            )
+        }
 
         let actionSlotName = ''
         if (row.status === 'view') {
@@ -572,7 +576,7 @@ export default function useColumns(options: Options) {
         const errTip = errorTips[column.key]
         const required = !!column.rules?.required
 
-        const content = errTip ? (
+        const content = errTip && (!dialogVisible || dialogVisible.value) ? (
           <ElTooltip
             placement='top'
             visible
@@ -593,7 +597,7 @@ export default function useColumns(options: Options) {
           </span>
         )
 
-        const tip = column.tips ? (
+        const tip = column.tips && (!dialogVisible || dialogVisible.value) ? (
           <ElTooltip effect='dark' content={column.tips} raw-content>
             <ElIcon style='vertical-align: middle'>
               <InfoFilled />

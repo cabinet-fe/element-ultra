@@ -9,7 +9,8 @@ export type DialogContext = {
   rendered: Ref<boolean>
   style: ComputedRef<CSSProperties>
   slots: Slots
-  rootProps: DialogProps
+  rootProps: DialogProps,
+  dialogVisible: Ref<boolean>
 }
 
 export const dialogInjectionKey: InjectionKey<DialogContext> = Symbol(
