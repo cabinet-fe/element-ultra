@@ -206,7 +206,7 @@ export default function useColumns(options: Options) {
     }
   }
 
-  const { dialogVisible } = inject(dialogInjectionKey) || {}
+  const { dialogVisible } = inject(dialogInjectionKey, undefined) || {}
 
   /**
    * 新增行
