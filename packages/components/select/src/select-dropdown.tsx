@@ -3,7 +3,7 @@ import { get } from 'lodash-unified'
 import { isObject, isUndefined } from '@element-ultra/utils'
 import {
   DynamicSizeList,
-  FixedSizeList,
+  FixedSizeList
 } from '@element-ultra/components/virtual-list'
 import { useNamespace } from '@element-ultra/hooks'
 import { EVENT_CODE } from '@element-ultra/shared'
@@ -14,17 +14,22 @@ import { selectInjectionKey } from './token'
 
 import type { ItemProps } from '@element-ultra/components/virtual-list'
 import type { Option, OptionItemProps } from './select.types'
+import { ElCheckbox } from '@element-ultra/components/checkbox'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
 
+  components: {
+    ElCheckbox
+  },
+
   props: {
     data: {
       type: Array,
-      required: true,
+      required: true
     },
     hoveringIndex: Number,
-    width: Number,
+    width: Number
   },
   setup(props, { slots, expose }) {
     const select = inject(selectInjectionKey)!
@@ -41,28 +46,36 @@ export default defineComponent({
     const listProps = computed(() => {
       if (isSized.value) {
         return {
-          itemSize: select.props.itemHeight,
+          itemSize: select.props.itemHeight
         }
       }
 
       return {
         estimatedSize: select.props.estimatedOptionHeight,
-        itemSize: (idx: number) => cachedHeights.value[idx],
+        itemSize: (idx: number) => cachedHeights.value[idx]
       }
+    })
+
+    const checkedSet = computed(() => {
+      return new Set<any>(
+        selectProps.multiple && selectProps.modelValue
+          ? selectProps.modelValue
+          : undefined
+      )
     })
 
     const contains = (arr: Array<any> = [], target: any) => {
       const {
-        props: { valueKey },
+        props: { valueKey }
       } = select
 
       if (!isObject(target)) {
-        return arr.includes(target)
+        return checkedSet.value.has(target)
       }
 
       return (
         arr &&
-        arr.some((item) => {
+        arr.some(item => {
           return get(item, valueKey) === get(target, valueKey)
         })
       )
@@ -119,7 +132,7 @@ export default defineComponent({
       isItemHovering,
       isItemSelected,
       scrollToItem,
-      resetScrollTop,
+      resetScrollTop
     })
 
     const Item = (itemProps: ItemProps<any>) => {
@@ -146,9 +159,9 @@ export default defineComponent({
         <OptionItem
           {...itemProps}
           selected={isSelected}
-          disabled={selectProps.selectable
-            ? !selectProps.selectable(item)
-            : isDisabled}
+          disabled={
+            selectProps.selectable ? !selectProps.selectable(item) : isDisabled
+          }
           created={!!item.created}
           hovering={isHovering}
           item={item}
@@ -157,7 +170,7 @@ export default defineComponent({
         >
           {{
             default: (props: OptionItemProps) =>
-              slots.default?.(props) || <span>{item.label}</span>,
+              slots.default?.(props) || <span>{item.label}</span>
           }}
         </OptionItem>
       )
@@ -211,6 +224,27 @@ export default defineComponent({
       }
     }
 
+    const allChecked = computed(() => {
+      return selectProps.options.every(item => {
+        return checkedSet.value.has(item[selectProps.valueKey])
+      })
+    })
+
+    const handleSelectAll = (checked: boolean) => {
+      if (checked) {
+        select.update(
+          selectProps.options.map(option => option[selectProps.valueKey]),
+          selectProps.options.map(option => option[selectProps.labelKey]),
+          selectProps.options.slice()
+        )
+        select.states.cachedOptions = selectProps.options.slice()
+
+      } else {
+        select.update([], [], [])
+        select.states.cachedOptions =  []
+      }
+    }
+
     return () => {
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
@@ -220,7 +254,7 @@ export default defineComponent({
           <div
             class={ns.b('dropdown')}
             style={{
-              width: `${width}px`,
+              width: `${width}px`
             }}
           >
             {slots.empty?.()}
@@ -245,11 +279,30 @@ export default defineComponent({
             onKeydown={onKeydown}
           >
             {{
-              default: (props: ItemProps<any>) => <Item {...props} />,
+              default: (props: ItemProps<any>) => <Item {...props} />
             }}
           </List>
+          {selectProps.multiple ? (
+            <OptionItem
+              style={{
+                listStyle: 'none',
+                borderTop: '1px solid #f2f2f2',
+                fontSize: 0
+              }}
+            >
+              <span style='vertical-align: top; display: inline-block;font-size: 14px; margin-right: 8px'>
+                已选择: {selectProps.modelValue?.length ?? 0} 项
+              </span>
+              <el-checkbox
+                modelValue={allChecked.value}
+                onUpdate:modelValue={handleSelectAll}
+              >
+                全选
+              </el-checkbox>
+            </OptionItem>
+          ) : null}
         </div>
       )
     }
-  },
+  }
 })

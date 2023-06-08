@@ -435,7 +435,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     if (multiple) {
       let selectedVal = (modelValue || []).slice()
-
       const index = getValueIndex(selectedVal, getValue(option))
       // 有
       if (index > -1) {
@@ -455,7 +454,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         updateHoveringIndex(idx)
       }
 
-      update(selectedVal, states.cachedOptions.map(option => getLabel(option)), states.cachedOptions)
+      update(
+        selectedVal,
+        states.cachedOptions.map(option => getLabel(option)),
+        states.cachedOptions
+      )
       if (option.created) {
         states.query = ''
         handleQueryChange('')
@@ -495,7 +498,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         ...(props.modelValue as Array<unknown>).slice(index + 1)
       ]
       states.cachedOptions.splice(index, 1)
-      update(value, states.cachedOptions.map(option => getLabel(option)), states.cachedOptions)
+      update(
+        value,
+        states.cachedOptions.map(option => getLabel(option)),
+        states.cachedOptions
+      )
       emit('remove-tag', getValue(tag))
       states.softFocus = true
       removeNewOption(tag)
@@ -552,7 +559,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       const selected = (props.modelValue as Array<any>).slice()
       selected.pop()
       removeNewOption(states.cachedOptions.pop())
-      update(selected, states.cachedOptions.map(option => getLabel(option)), states.cachedOptions)
+      update(
+        selected,
+        states.cachedOptions.map(option => getLabel(option)),
+        states.cachedOptions
+      )
     }
   }
 
@@ -871,6 +882,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     onUpdateInputValue,
     handleCompositionStart,
     handleCompositionEnd,
+    update,
     handleCompositionUpdate
   }
 }

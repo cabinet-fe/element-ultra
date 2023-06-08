@@ -40,7 +40,7 @@
             <slot name="prefix"></slot>
           </div>
           <div v-if="multiple && modelValue" :class="ns.e('selection')">
-            <template v-if="collapseTags && modelValue.length > 0">
+            <template v-if="collapseTags && modelValue?.length > 0">
               <div :class="ns.e('selected-item')">
                 <el-tag
                   :closable="
@@ -291,12 +291,14 @@ export default defineComponent({
         ...toRefs(props),
         height: API.popupHeight
       }),
+      states: API.states,
       getLabel: API.getLabel,
       getValue: API.getValue,
       onSelect: API.onSelect,
       onHover: API.onHover,
+      update: API.update,
       onKeyboardNavigate: API.onKeyboardNavigate,
-      onKeyboardSelect: API.onKeyboardSelect
+      onKeyboardSelect: API.onKeyboardSelect,
     } as any)
 
     return API

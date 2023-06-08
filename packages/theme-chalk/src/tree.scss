@@ -122,6 +122,8 @@
 
   @include e(label) {
     font-size: getCssVar('font-size', 'base');
+    margin-left: 4px;
+    line-height: 1;
   }
 
   @include e(loading-icon) {

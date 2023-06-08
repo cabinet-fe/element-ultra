@@ -6,7 +6,6 @@
     label-key="text"
     value-key="id"
     v-model="model.value1"
-    @update:model-value="c.log"
     allow-create
     filterable
     :multiple="multiple"

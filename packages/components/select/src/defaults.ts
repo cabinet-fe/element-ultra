@@ -3,10 +3,7 @@ import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import { CircleClose } from 'icon-ultra'
 
 import type { PropType, Component } from 'vue'
-import {
-  FORM_COMPONENT_PROPS,
-  type ComponentSize
-} from '@element-ultra/shared'
+import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/shared'
 import type { Options } from '@element-ultra/components/popper'
 
 export const SelectProps = {
@@ -26,7 +23,9 @@ export const SelectProps = {
     type: String as PropType<'light' | 'dark' | string>,
     default: 'light'
   },
-  collapseTags: Boolean,
+  collapseTags: {
+    type: Boolean
+  },
   defaultFirstOption: Boolean,
   disabled: {
     type: Boolean,

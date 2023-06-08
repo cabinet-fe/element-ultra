@@ -36,6 +36,7 @@
       >
         <component :is="icon" />
       </el-icon>
+      <label for=""></label>
       <el-checkbox
         v-if="showCheckbox && !disabled"
         :model-value="checked"
