@@ -166,7 +166,8 @@ export default defineComponent({
       slots,
       accHeight,
       mode,
-      disabled
+      disabled,
+      tree
     } = this
 
     return (
@@ -185,7 +186,7 @@ export default defineComponent({
 
           <ElTable
             columns={cols}
-            data={flatTree(root.children!)}
+            data={tree ? flatTree(root.children!) : root.children}
             ref='tableRef'
             rowClass={this.rowClass}
             style={{
@@ -196,7 +197,7 @@ export default defineComponent({
             rowKey='uid'
             v-slots={{
               empty: () =>
-                (disabled || !this.actionAdd) ? null : (
+                disabled || !this.actionAdd ? null : (
                   <div class={ns.e('btn-add')} onClick={handleCreate}>
                     <span>新 增</span>
                   </div>

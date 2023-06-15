@@ -106,7 +106,6 @@ export default function useColumns(options: Options) {
     const tbody =
       tableRef.value?.tableDom?.getElementsByClassName('el-table__body')?.[0]
     if (!tbody) return
-
     sortInstance = new Sortable(tbody as HTMLElement, {
       animation: 150,
       ghostClass: 'el-multiple-form__sort-ghost',
@@ -114,7 +113,6 @@ export default function useColumns(options: Options) {
 
       onSort(e) {
         const { oldIndex, newIndex } = e
-
         if (oldIndex === undefined || newIndex === undefined) return
         root.children = exchange(root.children!, oldIndex, newIndex)
         emitChange()

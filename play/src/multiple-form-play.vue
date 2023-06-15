@@ -114,7 +114,12 @@ const columns: MultipleFormColumn[] = [
 ]
 
 let data = $shallowRef<any[]>([
-  // { name: 'asdfasf', school: '213', age: 123, test: {}, bol: false }
+  { name: 'asdfasf', school: '213', age: 123, test: {}, bol: false, children: [
+    { name: 'asdf', school: '321', age: 321, test: {}, bol: false }
+  ] },
+
+  {name: '沃尔特条', school: '33', age: 44, test: {}, bol: false},
+  {name: '沃尔特条2', school: '233', age: 244, test: {}, bol: false}
 ])
 
 const visible = shallowRef(false)
