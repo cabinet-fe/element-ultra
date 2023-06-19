@@ -1,8 +1,9 @@
 import { getChainValue } from '@element-ultra/utils'
 import { defineComponent, inject, PropType } from 'vue'
-import type { Row, DataTreeRow } from './data-table'
+import type { DataTableRow, DataTreeRow } from './data-table'
 import { dataBodyToken } from './token'
 import type { FixedColumn, StaticColumn } from './utils'
+import { dataTableToken } from './token'
 
 const buildCell = <
   Name extends 'LeftCell' | 'CenterCell' | 'RightCell',
@@ -50,16 +51,22 @@ const buildCell = <
         required: true
       },
 
+      columnIndex: {
+        type: Number,
+        required: true
+      },
+
       row: {
-        type: Object as PropType<Row | DataTreeRow>,
+        type: Object as PropType<DataTableRow | DataTreeRow>,
         required: true
       }
     },
     setup(props) {
       const classes = getClassName()
+      const { rootProps } = inject(dataTableToken)!
 
       return () => {
-        const { row } = props
+        const { row, columnIndex } = props
         const { index, data } = row
 
         const column = props.column as FixedColumn
@@ -73,10 +80,16 @@ const buildCell = <
           index
         })
 
-        return (
+        const cellConfig = rootProps.mergeCell?.(row, column, columnIndex)
+        const showCell =
+          !cellConfig || (cellConfig.colspan && cellConfig.rowspan)
+
+        return showCell ? (
           <td
             class={classes}
             title={val}
+            rowspan={cellConfig?.rowspan}
+            colspan={cellConfig?.colspan}
             style={{
               ...styleGetter(column),
               'text-align': column.align
@@ -84,7 +97,7 @@ const buildCell = <
           >
             <div>{content}</div>
           </td>
-        )
+        ) : null
       }
     }
   })

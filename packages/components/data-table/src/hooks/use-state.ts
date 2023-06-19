@@ -2,7 +2,7 @@ import { computed, shallowReactive, shallowRef, watch } from 'vue'
 import type {
   DataTableEmits,
   DataTableProps,
-  Row,
+  DataTableRow,
   DataTreeRow
 } from '../data-table'
 
@@ -17,7 +17,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     /** 排序 */
     sortKeys: shallowReactive<Record<string, 'asc' | 'dsc' | 'default'>>({}),
     /** 表格数据 */
-    data: [] as (Row | DataTreeRow)[]
+    data: [] as (DataTableRow | DataTreeRow)[]
   })
 
   let uid = 0
@@ -53,7 +53,7 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
   }
 
   /** 获取包装的行, 保存索引, uid等信息 */
-  const getWrappedRow = (data: any[]): (Row | DataTreeRow)[] => {
+  const getWrappedRow = (data: any[]): (DataTableRow | DataTreeRow)[] => {
     if (tree) return dfsReactive(data, 0)
 
     return data.map((item, index) => {

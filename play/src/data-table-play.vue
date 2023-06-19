@@ -14,6 +14,7 @@
     :show-summary="showSummary"
     height="calc(100% - 40px)"
     tree
+    :merge-cell="mergeCell"
   >
     <template #column-conf="{ column }">
       <div class="conf-wrap">
@@ -43,7 +44,7 @@
 </template>
 
 <script lang="tsx" setup>
-import type { DataTableColumn } from '@element-ultra/components'
+import type { DataTableColumn, DataTableRow } from '@element-ultra/components'
 import { shallowRef, watch } from 'vue'
 import { n } from 'cat-kit'
 
@@ -61,6 +62,25 @@ const handleChange = (column: DataTableColumn, preset: string) => {
   let render = presetRendererMap[preset]
   if (render) {
     column.render = render
+  }
+}
+
+const mergeCell = (
+  row: DataTableRow,
+  column: DataTableColumn,
+  columnIndex: number
+) => {
+  if (column.key === 'test1') {
+    if (row.index === 0 || row.index % 2 === 0) {
+      return {
+        rowspan: 2,
+        colspan: 1
+      }
+    }
+    return {
+      rowspan: 0,
+      colspan: 0
+    }
   }
 }
 
@@ -119,25 +139,29 @@ const mings = '啊行者三四里华琴浩杰龙晨勉国爱葱飞鹏婷'
 
 const data = shallowRef<any[]>([])
 
-watch(count, () => {
-  setTimeout(() => {
-    data.value = Array.from({ length: count.value }).map((_, i) => {
-      const xing = xings[~~(Math.random() * xings.length)]
-      const ming = mings[~~(Math.random() * mings.length)]
-      return {
-        name: xing + ming + i,
-        id: i,
-        children: Array.from({ length: 3 }).map((_, ci) => {
-          return {
-            name: `${i}-${ci}`,
-            id: `${i}-${ci}`,
-            children: []
-          }
-        })
-      }
-    })
-  }, 500)
-}, { immediate: true })
+watch(
+  count,
+  () => {
+    setTimeout(() => {
+      data.value = Array.from({ length: count.value }).map((_, i) => {
+        const xing = xings[~~(Math.random() * xings.length)]
+        const ming = mings[~~(Math.random() * mings.length)]
+        return {
+          name: xing + ming + i,
+          id: i,
+          children: Array.from({ length: 3 }).map((_, ci) => {
+            return {
+              name: `${i}-${ci}`,
+              id: `${i}-${ci}`,
+              children: []
+            }
+          })
+        }
+      })
+    }, 500)
+  },
+  { immediate: true }
+)
 </script>
 
 <script lang="tsx">

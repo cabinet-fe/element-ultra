@@ -4,6 +4,7 @@
     <LeftCell
       v-for="(column, colIndex) in leafColumns.left"
       :column="column"
+      :column-index="colIndex"
       :row="row"
       :style="style"
       :class="ns.is('last', colIndex + 1 === leafColumns.left.length)"
@@ -13,6 +14,7 @@
     <CenterCell
       v-for="(column, colIndex) in leafColumns.center"
       :column="column"
+      :column-index="colIndex"
       :row="row"
       :style="style"
       :class="ns.is('last', colIndex + 1 === leafColumns.center.length)"
@@ -22,6 +24,7 @@
     <RightCell
       v-for="(column, colIndex) in leafColumns.right"
       :column="column"
+      :column-index="colIndex"
       :row="row"
       :style="style"
       :class="ns.is('first', colIndex === 0)"
@@ -33,11 +36,11 @@
 import { CSSProperties, inject, PropType } from 'vue'
 import { dataTableToken } from './token'
 import { LeftCell, CenterCell, RightCell } from './data-table-cell'
-import type { Row, DataTreeRow } from './data-table'
+import type { DataTableRow, DataTreeRow } from './data-table'
 
 defineProps({
   row: {
-    type: Object as PropType<DataTreeRow | Row>,
+    type: Object as PropType<DataTreeRow | DataTableRow>,
     required: true
   },
   style: {

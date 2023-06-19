@@ -15,7 +15,7 @@ export interface DataTableColumn extends Omit<TableColumn, 'render'> {
     v: any
     row: Record<string, any>
     index: number
-    wrap: DataTreeRow | Row
+    wrap: DataTreeRow | DataTableRow
   }) => any
 }
 
@@ -103,6 +103,14 @@ export const dataTableProps = {
   /** 指定合计的列, 指定showSummary时该字段必填  */
   summaryKeys: Array as PropType<string[]>,
 
+  /** 合并单元格 */
+  mergeCell: {
+    type: Function as PropType<(row: DataTableRow, column: DataTableColumn, columnIndex: number) => {
+      rowspan: number,
+      colspan: number
+    } | undefined>
+  },
+
   /** 表格高度 */
   height: {
     type: String
@@ -129,12 +137,12 @@ export const dataTableEmits = {
   'row-expand': (data: Record<string, any>, row: DataTreeRow) => true
 }
 
-export interface Row {
+export interface DataTableRow {
   uid: number
   data: any
   index: number
 }
-export interface DataTreeRow extends Row {
+export interface DataTreeRow extends DataTableRow {
   expanded: boolean
   loaded: boolean
   loading: boolean

@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { DataTableColumn } from '@element-ultra/components/data-table'
+import type { DataTableColumn, DataTableRow } from '@element-ultra/components/data-table'
 import type { RequestResponse } from '@element-ultra/hooks'
 import type { EmitFn } from '@element-ultra/utils'
 
@@ -112,7 +112,15 @@ export const proTableProps = {
   showSummary: Boolean,
 
   /** 数据项是否为响应式的 */
-  itemReactive: Boolean
+  itemReactive: Boolean,
+
+  /** 合并单元格 */
+  mergeCell: {
+    type: Function as PropType<(row: DataTableRow, column: DataTableColumn, columnIndex: number) => {
+      rowspan: number,
+      colspan: number
+    } | undefined>
+  },
 }
 
 export const proTableEmits = {
