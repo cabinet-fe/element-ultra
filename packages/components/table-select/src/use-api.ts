@@ -105,7 +105,7 @@ export default function useApi(options: Options) {
         total.value = _total
       }
 
-      internalData.value = data
+      internalData.value = props.dataMap ? props.dataMap(data) : data
     }
 
     const queryWatchList = computed(() => {

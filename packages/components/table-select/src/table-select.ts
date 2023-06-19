@@ -24,6 +24,12 @@ export const tableSelectProps = {
   data: {
     type: Array as PropType<Record<string, any>[]>
   },
+
+  /** 接口数据映射 */
+  dataMap: {
+    type: Function as PropType<(data: any[]) => any[]>
+  },
+
   /** 是否多选 */
   multiple: {
     type: Boolean,
