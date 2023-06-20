@@ -1,5 +1,15 @@
 <template>
   <div :class="ns.b()">
+    <div :class="ns.e('tools')">
+      <span :class="ns.e('title')">{{ title }}</span>
+      <slot name="tools">
+
+        <span :class="ns.e('tools-icon')">
+          <el-icon @click="emit('create')" :size="16"><Plus /></el-icon>
+        </span>
+      </slot>
+    </div>
+
     <el-tree
       v-if="tree"
       :data="data"
@@ -61,8 +71,8 @@
         @click="onSelect(item)"
         tabindex="0"
       >
+        <span v-if="sortable" :class="ns.e('handle')"></span>
         <div :class="ns.e('item-content')">
-          <span v-if="sortable" :class="ns.e('handle')"></span>
 
           <slot v-bind="item">
             <span :class="ns.e('item-label')">{{ item[labelKey] }}</span>
@@ -85,18 +95,12 @@
         </span>
       </li>
     </el-scrollbar>
-    <div :class="ns.e('tools')">
-      <slot name="tools">
-        <el-button @click="emit('create')">新增</el-button>
-      </slot>
-    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { shallowRef, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import ElScrollbar from '@element-ultra/components/scrollbar'
-import ElButton from '@element-ultra/components/button'
 import ElIcon from '@element-ultra/components/icon'
 import ElPopconfirm from '@element-ultra/components/popconfirm'
 import ElTree from '@element-ultra/components/tree'
@@ -120,7 +124,7 @@ const emit = defineEmits<{
   (e: 'sorted', list: any[], from: number, to: number): void
 }>()
 
-let itemId = shallowRef()
+let itemId = shallowRef(null)
 
 // 排序相关
 const listRef = shallowRef<InstanceType<typeof ElScrollbar>>()
@@ -168,8 +172,12 @@ watch(
 )
 
 const onSelect = (item: any) => {
-  itemId.value = item[props.valueKey]
-  emit('select', item[props.valueKey], item)
+  if (itemId.value === item[props.valueKey]) {
+    itemId.value = null
+  } else {
+    itemId.value = item[props.valueKey]
+  }
+  emit('select', itemId.value, item)
 }
 
 const onDelete = (item: any) => {

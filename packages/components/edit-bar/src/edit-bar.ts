@@ -24,6 +24,11 @@ export const editBarProps = {
   tree: {
     type: Boolean,
     default: false
+  },
+
+  title: {
+    type: String,
+    default: '分类'
   }
 } as const
 

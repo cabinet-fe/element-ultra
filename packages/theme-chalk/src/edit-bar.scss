@@ -19,7 +19,7 @@
   }
 
   @include e(item) {
-    height: 48px;
+    height: 36px;
     border-bottom: 1px solid getCssVar('border-color');
     color: var(--el-text-color-regular);
     font-size: var(--el-font-size-base);
@@ -39,8 +39,8 @@
       align-content: center;
       justify-content: space-between;
 
-      &:hover,
-      &:focus {
+      &:hover
+       {
         color: var(--el-color-primary);
 
         .el-edit-bar__action {
@@ -81,17 +81,36 @@
     }
   }
 
+  @include e(title) {
+    font-size: 14px;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   @include e(tools) {
-    line-height: 40px;
     height: 40px;
-    padding: 0 4px;
-    border-top: 1px solid #ddd;
+    padding: 0 8px;
     box-sizing: border-box;
     font-size: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
 
-    & > * {
-      display: inline-block;
-      vertical-align: middle;
+    &-icon {
+      display: inline-flex;
+      height: 24px;
+      width: 24px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #eee;
+        border-radius: 4px;
+      }
     }
   }
 
