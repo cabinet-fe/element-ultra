@@ -134,7 +134,7 @@ export default defineComponent({
             containerWidth.value = width
             emit('resize', entry.contentRect)
           },
-          500,
+          0,
           { leading: true }
         )
       )

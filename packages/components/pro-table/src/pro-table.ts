@@ -1,5 +1,8 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { DataTableColumn, DataTableRow } from '@element-ultra/components/data-table'
+import type {
+  DataTableColumn,
+  DataTableRow
+} from '@element-ultra/components/data-table'
 import type { RequestResponse } from '@element-ultra/hooks'
 import type { EmitFn } from '@element-ultra/utils'
 
@@ -105,7 +108,9 @@ export const proTableProps = {
 
   /** 数据懒加载 */
   lazyLoad: {
-    type: Function as PropType<(row: Record<string, any>) => any[] | Promise<any[]>>
+    type: Function as PropType<
+      (row: Record<string, any>) => any[] | Promise<any[]>
+    >
   },
 
   /** 显示合计 */
@@ -116,11 +121,30 @@ export const proTableProps = {
 
   /** 合并单元格 */
   mergeCell: {
-    type: Function as PropType<(row: DataTableRow, column: DataTableColumn, columnIndex: number) => {
-      rowspan: number,
-      colspan: number
-    } | undefined>
+    type: Function as PropType<
+      (
+        row: DataTableRow,
+        column: DataTableColumn,
+        columnIndex: number
+      ) =>
+        | {
+            rowspan: number
+            colspan: number
+          }
+        | undefined
+    >
   },
+
+  /** 单元格类 */
+  cellClass: {
+    type: Function as PropType<
+      (
+        row: DataTableRow,
+        column: DataTableColumn,
+        columnIndex: number
+      ) => string[]
+    >
+  }
 }
 
 export const proTableEmits = {

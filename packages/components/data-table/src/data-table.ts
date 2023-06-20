@@ -111,6 +111,17 @@ export const dataTableProps = {
     } | undefined>
   },
 
+   /** 单元格类 */
+   cellClass: {
+    type: Function as PropType<
+      (
+        row: DataTableRow,
+        column: DataTableColumn,
+        columnIndex: number
+      ) => string[]
+    >
+  },
+
   /** 表格高度 */
   height: {
     type: String

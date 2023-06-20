@@ -15,6 +15,7 @@
     height="calc(100% - 40px)"
     tree
     :merge-cell="mergeCell"
+    :cell-class="cellClass"
   >
     <template #column-conf="{ column }">
       <div class="conf-wrap">
@@ -130,6 +131,13 @@ const columns: DataTableColumn[] = [
   { name: '测试3', key: 'test3', slot: 'test2', fixed: 'right', width: 100 }
 ]
 
+const cellClass = (row: DataTableRow) => {
+  if (row.index % 2 === 1) {
+    console.log(row.index)
+    return ['row-even']
+  }
+}
+
 const count = shallowRef(3000)
 const showSummary = shallowRef(false)
 
@@ -183,5 +191,9 @@ export default {
 }
 .conf-wrap > * {
   margin-bottom: 4px;
+}
+
+.row-even {
+  background-color: #eee!important;
 }
 </style>

@@ -20,6 +20,13 @@ export const editBarProps = {
     type: String,
     default: 'children'
   },
+
+  /** 默认选中 */
+  defaultSelect: {
+    type: Boolean,
+    default: true
+  },
+
   /** 树形列表显示 */
   tree: {
     type: Boolean,

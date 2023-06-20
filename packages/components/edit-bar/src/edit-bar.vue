@@ -187,7 +187,7 @@ const onDelete = (item: any) => {
 watch(
   () => props.data,
   data => {
-    if (data && data.length) {
+    if (data && data.length && props.defaultSelect) {
       onSelect(data[0])
     }
   },

@@ -12,17 +12,17 @@ const buildCell = <
   name: Name
 ) => {
   const getClassName = {
-    LeftCell() {
+    LeftCell(extra: string[] = []) {
       const { cellClass, leftCellClass } = inject(dataBodyToken)!
-      return [cellClass, leftCellClass]
+      return [cellClass, leftCellClass, ...extra]
     },
-    CenterCell() {
+    CenterCell(extra: string[] = []) {
       const { cellClass, centerCellClass } = inject(dataBodyToken)!
-      return [cellClass, centerCellClass]
+      return [cellClass, centerCellClass, ...extra]
     },
-    RightCell() {
+    RightCell(extra: string[] = []) {
       const { cellClass, rightCellClass } = inject(dataBodyToken)!
-      return [cellClass, rightCellClass]
+      return [cellClass, rightCellClass, ...extra]
     }
   }[name]
 
@@ -62,28 +62,26 @@ const buildCell = <
       }
     },
     setup(props) {
-      const classes = getClassName()
       const { rootProps } = inject(dataTableToken)!
 
+      const { row, columnIndex } = props
+      const { index, data } = row
+      const column = props.column as FixedColumn
+      const classes = getClassName(
+        rootProps.cellClass?.(row, column, columnIndex)
+      )
+      let val = getChainValue(data, column.key)
+      const content = column.render!({
+        val,
+        v: val,
+        wrap: row,
+        row: data,
+        index
+      })
+      const cellConfig = rootProps.mergeCell?.(row, column, columnIndex)
+      const showCell = !cellConfig || (cellConfig.colspan && cellConfig.rowspan)
+
       return () => {
-        const { row, columnIndex } = props
-        const { index, data } = row
-
-        const column = props.column as FixedColumn
-
-        let val = getChainValue(data, column.key)
-        const content = column.render!({
-          val,
-          v: val,
-          wrap: row,
-          row: data,
-          index
-        })
-
-        const cellConfig = rootProps.mergeCell?.(row, column, columnIndex)
-        const showCell =
-          !cellConfig || (cellConfig.colspan && cellConfig.rowspan)
-
         return showCell ? (
           <td
             class={classes}

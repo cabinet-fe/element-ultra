@@ -26,6 +26,7 @@
       :checked="state.checked"
       :selected="selected"
       :tree="tree"
+      :cell-class="cellClass"
       :merge-cell="mergeCell"
       :item-reactive="itemReactive"
       @check="handleCheck"
