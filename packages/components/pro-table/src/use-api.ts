@@ -85,9 +85,12 @@ export function useApi(options: Options) {
     statistics: undefined as Record<string, any> | undefined
   })
 
-  watch(() => props.checked, checked => {
-    state.checked = checked || []
-  })
+  watch(
+    () => props.checked,
+    checked => {
+      state.checked = checked || []
+    }
+  )
 
   const currentQueryStr = {
     value: ''
@@ -187,13 +190,13 @@ export function useApi(options: Options) {
 
       // 读取url中的参数到query和pageQuery中
       readUrlParams()
-
       watchQueryField(query)
     },
     { immediate: true }
   )
 
   // 第一次请求时可能读取url中的缓存, 因此不重置
+
   fetchData(false)
 
   // 多选

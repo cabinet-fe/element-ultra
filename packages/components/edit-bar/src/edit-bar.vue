@@ -3,7 +3,6 @@
     <div :class="ns.e('tools')">
       <span :class="ns.e('title')">{{ title }}</span>
       <slot name="tools">
-
         <span :class="ns.e('tools-icon')">
           <el-icon @click="emit('create')" :size="16"><Plus /></el-icon>
         </span>
@@ -73,7 +72,6 @@
       >
         <span v-if="sortable" :class="ns.e('handle')"></span>
         <div :class="ns.e('item-content')">
-
           <slot v-bind="item">
             <span :class="ns.e('item-label')">{{ item[labelKey] }}</span>
           </slot>
@@ -119,12 +117,21 @@ const props = defineProps(editBarProps)
 const emit = defineEmits<{
   (e: 'create', data?: any): void
   (e: 'update', item: any): void
-  (e: 'select', id: any, item: any): void
+  (e: 'select', id: string | number | null, item: any): void
+  (e: 'update:modelValue', modelValue: string | number | null, item: any): void
   (e: 'delete', id: any, item: any): void
   (e: 'sorted', list: any[], from: number, to: number): void
 }>()
 
-let itemId = shallowRef(null)
+let itemId = shallowRef<any>(null)
+
+watch(
+  () => props.modelValue,
+  v => {
+    itemId.value !== v && (itemId.value = v)
+  },
+  { immediate: true }
+)
 
 // 排序相关
 const listRef = shallowRef<InstanceType<typeof ElScrollbar>>()
@@ -178,6 +185,7 @@ const onSelect = (item: any) => {
     itemId.value = item[props.valueKey]
   }
   emit('select', itemId.value, item)
+  emit('update:modelValue', itemId.value, item)
 }
 
 const onDelete = (item: any) => {

@@ -3,7 +3,7 @@
     sortable
     @create="onCreate"
     @delete="onDelete"
-
+    v-model="select"
     :data="data"
   >
     <!-- <template #default="item">
@@ -12,12 +12,18 @@
       </span>
     </template> -->
   </el-edit-bar>
+
+
 </template>
 
 <script setup lang="ts">
+import { shallowRef } from 'vue'
+
 let data = $ref([
   { label: 0, value: Date.now(), children: [{ label: '子节点', value: Date.now() + 1 }] }
 ])
+
+const select = shallowRef<any>(null)
 
 const onCreate = () => {
   data = [

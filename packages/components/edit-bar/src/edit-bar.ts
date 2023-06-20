@@ -21,6 +21,10 @@ export const editBarProps = {
     default: 'children'
   },
 
+  modelValue: {
+    type: [String, Number] as PropType<string | number>,
+  },
+
   /** 默认选中 */
   defaultSelect: {
     type: Boolean,
