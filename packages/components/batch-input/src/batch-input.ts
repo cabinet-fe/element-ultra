@@ -18,6 +18,9 @@ export const batchInputProps = {
   },
   max: {
     type: Number,
+  },
+  itemDefault: {
+    type: Object as PropType<Record<string, any>>
   }
 } as const
 export const batchInputEmits = {

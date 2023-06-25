@@ -1,7 +1,7 @@
 <template>
   {{ form.arr }}
   <el-form  :data="form" :rules="rules" ref="formRef">
-    <el-batch-input span="max" placeholder="aa" label="批量输入测试" field="arr" v-slot="{ item }">
+    <el-batch-input span="max" :item-default="{ value1: 'aa' }" placeholder="aa" label="批量输入测试" field="arr" v-slot="{ item }">
       <el-input v-model="item.value1" />
       <el-input v-model="item.value2" />
       <el-input v-model="item.value3" />

@@ -120,7 +120,7 @@ const handleEmitValue = () => {
 const handleAdd = (index: number) => {
   list.value = [
     ...list.value.slice(0, index + 1),
-    shallowReactive({ _id: uniqueId++ }),
+    shallowReactive(Object.assign({ _id: uniqueId++ }, props.itemDefault)),
     ...list.value.slice(index + 1)
   ]
 }
