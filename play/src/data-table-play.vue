@@ -133,7 +133,6 @@ const columns: DataTableColumn[] = [
 
 const cellClass = (row: DataTableRow) => {
   if (row.index % 2 === 1) {
-    console.log(row.index)
     return ['row-even']
   }
 }

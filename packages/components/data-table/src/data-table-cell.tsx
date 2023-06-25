@@ -71,17 +71,18 @@ const buildCell = <
         rootProps.cellClass?.(row, column, columnIndex)
       )
       let val = getChainValue(data, column.key)
-      const content = column.render!({
-        val,
-        v: val,
-        wrap: row,
-        row: data,
-        index
-      })
+
       const cellConfig = rootProps.mergeCell?.(row, column, columnIndex)
       const showCell = !cellConfig || (cellConfig.colspan && cellConfig.rowspan)
 
       return () => {
+        const content = column.render!({
+          val,
+          v: val,
+          wrap: row,
+          row: data,
+          index
+        })
         return showCell ? (
           <td
             class={classes}
