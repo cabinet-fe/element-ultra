@@ -103,6 +103,11 @@ export const tableSelectProps = {
   defaultPageSize: {
     type: Number,
     default: 20
+  },
+
+  /** 请求的额外数据, 主要用来定义post请求的logic信息 */
+  requestExtra: {
+    type: Object as PropType<Record<string, any>>
   }
 } as const
 

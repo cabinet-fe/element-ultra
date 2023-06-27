@@ -68,7 +68,7 @@ export default function useApi(options: Options) {
      * @param reset 重置分页 默认 true
      */
     const fetchData = async (reset = true) => {
-      const { api } = props
+      const { api, requestExtra } = props
       if (!configStore.tableSelectRequestMethod || !api) return
 
       internalData.value = []
@@ -95,7 +95,8 @@ export default function useApi(options: Options) {
           query: {
             ...realQuery,
             ...(pagination ? pageQuery : {})
-          }
+          },
+          extra: requestExtra
         })
         .finally(() => {
           loading.value = false
