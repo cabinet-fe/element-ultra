@@ -169,8 +169,11 @@ const setUserInput = () => {
   }
 
   if (money) {
-    let valStr =  modelValue + '' // precision !== undefined ? modelValue.toFixed(precision) :
+    const isNegative = (modelValue ?? 0) < 0
+
+    let valStr =  Math.abs(modelValue) +  '' // precision !== undefined ? modelValue.toFixed(precision) :
     let [valIntStr, valDotStr] = valStr.split('.')
+
 
     let group: string[] = []
     let i = valIntStr.length
@@ -183,7 +186,7 @@ const setUserInput = () => {
     if (valDotStr) {
       valStr += `.${valDotStr}`
     }
-    userInput.value = valStr
+    userInput.value = isNegative ? '-' + valStr : valStr
   } else {
     userInput.value = modelValue + ''
   }

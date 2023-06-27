@@ -7,6 +7,7 @@
     <el-card v-if="visible">
       <template #header>
         <span> 表单数据 </span>
+        {{ data }}
         <el-checkbox v-model="disabled">是否禁用</el-checkbox>
       </template>
 
