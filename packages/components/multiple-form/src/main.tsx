@@ -196,7 +196,7 @@ export default defineComponent({
             }}
             rowKey='uid'
             v-slots={{
-              empty: () =>
+              append: () =>
                 disabled || !this.actionAdd ? null : (
                   <div class={ns.e('btn-add')} onClick={handleCreate}>
                     <span>新 增</span>

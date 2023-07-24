@@ -20,6 +20,10 @@
         <template #empty>
           <slot name="empty" />
         </template>
+
+        <template #append v-if="$slots.append">
+          <slot name="append" />
+        </template>
       </TableBody>
 
       <TableFooter v-if="summaryMethods" />

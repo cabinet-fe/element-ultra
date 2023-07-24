@@ -55,6 +55,9 @@
   @include e(empty-cell) {
     position: relative;
   }
+  @include e(append-cell) {
+    position: relative;
+  }
 
   @include e(empty-text) {
     position: sticky;
