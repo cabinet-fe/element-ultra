@@ -127,6 +127,18 @@
       color: getCssVar('text-color', 'placeholder');
     }
 
+    &.disabled {
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        left: 0;
+        top: 50%;
+        background-color: #999;
+      }
+    }
+
     &.selected .#{$namespace}-date-table-cell {
       margin-left: 5px;
       margin-right: 5px;

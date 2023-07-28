@@ -91,6 +91,7 @@
           v-model:start="data.start"
           v-model:end="data.end"
           field="rangedate"
+          :disabled-date="(date) => date.getDate() !== new Date().getDate() - 1"
         />
 
         <el-grid-input field="code" label="编码"></el-grid-input>
