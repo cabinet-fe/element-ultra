@@ -80,7 +80,7 @@ export const proTableProps = {
   /** 汇总方法 */
   summaryMethod: {
     type: Function as PropType<
-      (data: { columns: ProTableColumn[]; data: any[] }) => string[]
+      (data: { columns: ProTableColumn[]; data: any[]; checked: Set<any> }) => string[]
     >
   },
 

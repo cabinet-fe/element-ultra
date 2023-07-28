@@ -96,7 +96,7 @@ export const dataTableProps = {
   /** 合计方式 */
   summaryMethod: {
     type: Function as PropType<
-      (ctx: { columns: DataTableColumn[]; data: any[] }) => any[]
+      (ctx: { columns: DataTableColumn[]; data: any[]; checked: Set<any> }) => any[]
     >
   },
 

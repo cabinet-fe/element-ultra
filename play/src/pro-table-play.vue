@@ -8,12 +8,13 @@
     cache-params
     :columns="columns"
     show-index
-    tree
     checkable
     ref="tableRef"
     item-reactive
     v-model:checked="checked"
     :lazy-load="lazyLoad"
+    :summary-method="summaryMethod"
+    show-summary
   >
     <template #column-conf="{ column }">
       <el-input
@@ -123,6 +124,19 @@ const query = shallowRef(
     $s: undefined
   })
 )
+
+const summaryMethod = ({ checked, columns, data }) => {
+  return ['合计'].concat(
+    columns.slice(1).map(column => {
+      if (column.key !== 'money') return ''
+      let n = 0
+      ~(checked.size ? checked : data).forEach(item => {
+        n += item[column.key]
+      })
+      return n || ''
+    })
+  )
+}
 
 const tableRef = shallowRef()
 

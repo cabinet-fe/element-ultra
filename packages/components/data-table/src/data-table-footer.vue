@@ -52,7 +52,7 @@ import { dataFooterToken, dataTableToken } from './token'
 import { LeftCell, CenterCell, RightCell } from './data-table-footer-cell'
 import { useDomRefInject } from './hooks/use-dom-ref'
 
-const { rootProps, leafColumns, ns, scrollState, getCellStyle } =
+const { rootProps, leafColumns, ns, scrollState, store, getCellStyle } =
   inject(dataTableToken)!
 
 const { footerRef } = useDomRefInject()
@@ -72,7 +72,8 @@ const summaryData = computed(() => {
   if (rootProps.summaryMethod) {
     return rootProps.summaryMethod({
       columns,
-      data: rootProps.data
+      data: rootProps.data,
+      checked: store.checked
     })
   }
 
@@ -88,7 +89,11 @@ const summaryData = computed(() => {
       }
       ret += v
     })
-    return isValidNumber ? column.preset === 'money' ? zhMoneyFormat.format(ret) : ret : ''
+    return isValidNumber
+      ? column.preset === 'money'
+        ? zhMoneyFormat.format(ret)
+        : ret
+      : ''
   })
 
   result[0] = '合计'
@@ -103,9 +108,12 @@ provide(dataFooterToken, {
   rightCellClass: ns.em(ele, 'right')
 })
 
-watch(() => scrollState.scrollLeft, left => {
-  const footer = footerRef.value
-  if (!footer) return
-  footer.scrollLeft = left
-})
+watch(
+  () => scrollState.scrollLeft,
+  left => {
+    const footer = footerRef.value
+    if (!footer) return
+    footer.scrollLeft = left
+  }
+)
 </script>
