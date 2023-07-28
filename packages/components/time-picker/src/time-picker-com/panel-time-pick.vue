@@ -1,6 +1,7 @@
 <template>
   <transition :name="transitionName">
     <div v-if="actualVisible || visible" class="el-time-panel">
+
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner
           ref="spinner"
