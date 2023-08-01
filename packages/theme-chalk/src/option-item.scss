@@ -32,6 +32,14 @@
       background-color: map.get($select-option, 'hover-background');
       font-weight: 700;
 
+      &::after {
+        content: "✔";
+        position: absolute;
+        right: 0;
+        width: 20px;
+        text-align: center;
+      }
+
       &:not(.is-multiple) {
         color: map.get($select-option, 'selected-text-color');
       }
