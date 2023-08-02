@@ -423,7 +423,7 @@ export default function useColumns(options: Options) {
     return type
   }
   const cols = computed(() => {
-    const { columns, disabled, actionEdit, actionDelete, actionAdd, tree } =
+    const { columns, disabled, actionEdit, actionDelete, actionInsert, tree } =
       props
 
     // 操作栏
@@ -488,7 +488,7 @@ export default function useColumns(options: Options) {
             )
 
           // 在当前行下方插入
-          actionVisible(actionAdd, row) &&
+          actionVisible(actionInsert, row) &&
             buttons.push(
               <ElButton
                 type='primary'

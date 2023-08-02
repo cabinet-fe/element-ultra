@@ -187,6 +187,11 @@ export const multipleFormProps = {
     type: [Boolean, Function] as PropType<ActionType>,
     default: true
   },
+  /** 插入按钮是否可见 */
+  actionInsert: {
+    type: [Boolean, Function] as PropType<ActionType>,
+    default: true
+  },
 
   /** 编辑按钮是否可见 */
   actionEdit: {
@@ -219,7 +224,9 @@ export const multipleFormProps = {
 
   /** 行类 */
   rowClass: {
-    type: [String, Function] as PropType<string | ((node: MultipleFormRow) => string)>
+    type: [String, Function] as PropType<
+      string | ((node: MultipleFormRow) => string)
+    >
   },
 
   /** 树形操作允许的最大深度 */
@@ -239,12 +246,13 @@ export const multipleFormEmits = {
   edit: (row: any) => true,
   delete: (row: any) => true,
   change: (rows: any[]) => true,
-  'node-change': (node: MultipleFormRow, type: 'create' | 'update' | 'delete') => true,
+  'node-change': (
+    node: MultipleFormRow,
+    type: 'create' | 'update' | 'delete'
+  ) => true,
   'update:data': (rows: any[]) => true
 }
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>
 
 export type MultipleFormEmits = EmitFn<typeof multipleFormEmits>
-
-
