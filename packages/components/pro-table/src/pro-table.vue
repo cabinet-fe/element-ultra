@@ -19,7 +19,7 @@
       :data="computedData"
       :columns="columns"
       :show-summary="summaryVisible"
-      :summary-method="computedSummaryMethod"
+      :summary-method="summaryMethod"
       :show-index="showIndex"
       :checkable="checkable"
       :selectable="selectable"
@@ -139,36 +139,36 @@ const tableHeight = useTableHeight({ props })
 
 /** 显示合计 */
 const summaryVisible = computed(() => {
-  return props.showSummary || !!state.statistics
+  return props.showSummary
 })
 
 /** 合计方法 */
-const computedSummaryMethod = computed(() => {
-  let s = state.statistics
+// const computedSummaryMethod = computed(() => {
+//   let s = state.statistics
 
-  const formatter = new Intl.NumberFormat('zh-CN', {
-    currency: 'RMB',
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2
-  })
+//   const formatter = new Intl.NumberFormat('zh-CN', {
+//     currency: 'RMB',
+//     maximumFractionDigits: 2,
+//     minimumFractionDigits: 2
+//   })
 
-  return (props.summaryMethod ||
-    (s
-      ? ({ columns }: { columns: ProTableColumn[] }) => {
-          return ['合计'].concat(
-            columns.slice(slots['row-expand'] ? 0 : 1).map(column => {
-              let number = s![column.key]
-              if (number) {
-                return column.preset === 'money'
-                  ? formatter.format(number)
-                  : String(number)
-              }
-              return ''
-            })
-          )
-        }
-      : undefined)) as any
-})
+//   return (props.summaryMethod ||
+//     (s
+//       ? ({ columns }: { columns: ProTableColumn[] }) => {
+//           return ['合计'].concat(
+//             columns.slice(slots['row-expand'] ? 0 : 1).map(column => {
+//               let number = s![column.key]
+//               if (number) {
+//                 return column.preset === 'money'
+//                   ? formatter.format(number)
+//                   : String(number)
+//               }
+//               return ''
+//             })
+//           )
+//         }
+//       : undefined)) as any
+// })
 
 const handleRowClick = (row: any, index: number) => {
   emit('row-click', row, index)
