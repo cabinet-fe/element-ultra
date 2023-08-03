@@ -120,6 +120,10 @@ const renderedRange = computed(() => {
   return data.slice(position.value, end)
 })
 
+watch(() => props.data, () => {
+  position.value = 0
+})
+
 watch(
   [() => position.value, () => props.itemSize],
   ([position, itemSize]) => {

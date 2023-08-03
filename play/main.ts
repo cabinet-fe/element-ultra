@@ -8,6 +8,7 @@ const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
   proTableRequestMethod(options) {
+    console.log(options)
     return new Promise(rs => {
       setTimeout(() => {
         let data = Array.from({ length: 1000}).map((_, i) => ({
@@ -30,8 +31,8 @@ setConfigStore({
           id: i
         }))
         rs({
-          data,
-          total: 100,
+          data: data.filter(item => item.name.includes(options.query.name)),
+          total: data.length,
           // statistics: {
             // money: 188888888
           // }
