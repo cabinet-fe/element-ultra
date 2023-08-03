@@ -170,6 +170,16 @@ export default defineComponent({
       tree
     } = this
 
+    const slotsIn: Record<string, () => any> = {}
+
+    if (!(disabled && this.actionAdd)) {
+      slotsIn['append'] = () => (
+        <div class={ns.e('btn-add')} onClick={handleCreate}>
+          <span>新 增</span>
+        </div>
+      )
+    }
+
     return (
       <>
         <div {...this.$attrs} class={ns.b()}>
@@ -195,14 +205,7 @@ export default defineComponent({
                 : undefined
             }}
             rowKey='uid'
-            v-slots={{
-              append: () =>
-                disabled || !this.actionAdd ? null : (
-                  <div class={ns.e('btn-add')} onClick={handleCreate}>
-                    <span>新 增</span>
-                  </div>
-                )
-            }}
+            v-slots={slotsIn}
           ></ElTable>
         </div>
 

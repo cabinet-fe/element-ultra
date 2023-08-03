@@ -18,6 +18,7 @@
       :delete-method="handleDelete"
       :action-width="200"
       sortable
+      disabled
       :tree="tree"
     >
 
