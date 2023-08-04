@@ -172,7 +172,7 @@ export default defineComponent({
 
     const slotsIn: Record<string, () => any> = {}
 
-    if (!(disabled && this.actionAdd)) {
+    if (!disabled && this.actionAdd) {
       slotsIn['append'] = () => (
         <div class={ns.e('btn-add')} onClick={handleCreate}>
           <span>新 增</span>
