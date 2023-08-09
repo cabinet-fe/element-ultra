@@ -50,11 +50,19 @@
 
         <el-tree-select
           :data="options"
-          label="多选"
+          label="树形多选"
           field="multi"
           multiple
           value-key="name"
           label-key="name"
+        />
+
+        <el-select
+          :options="options2"
+          label="多选"
+          field="multi"
+          multiple
+          span="max"
         />
 
         <template v-if="data.type === '1'">
@@ -122,12 +130,21 @@ let checked = $shallowRef(false)
 
 let options = $shallowRef<any[]>([])
 
+const options2 = ['陈静', '刘畅', '王桧', '潘頔', '范佳成', '钱锋', '赵家钰', '朱宇翔'].map(item => ({
+  label: item,
+  value: item
+}))
+
 setTimeout(() => {
   options = [
     { modelKey: '1', name: '文本1' },
     { modelKey: '2', name: '文本2' },
     { modelKey: '3', name: '文本3' },
-    { modelKey: '4', name: '文本4' }
+    { modelKey: '4', name: '文本4' },
+    { modelKey: '5', name: '文本5' },
+    { modelKey: '6', name: '文本6' },
+    { modelKey: '7', name: '文本7' },
+    { modelKey: '8', name: '文本8' },
   ]
 }, 500)
 
@@ -156,7 +173,7 @@ const [data, rules] = useFormModel(
     cascade: { value: [] },
     xing: { value: '1' },
     ming: { value: '2' },
-    multi: { value: ['文本1', '文本2', '文本3', '文本4'] },
+    multi: { value: [] },
     name: {
       match: [/^[^\d]+$/, '不能有数字'],
       value: ''
