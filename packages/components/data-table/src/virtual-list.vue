@@ -122,6 +122,7 @@ const renderedRange = computed(() => {
 
 watch(() => props.data, () => {
   position.value = 0
+  containerRef.value?.scrollTo({ top: 0})
 })
 
 watch(
