@@ -4,6 +4,7 @@
     @create="onCreate"
     @delete="onDelete"
     v-model="select"
+    tree
     :data="data"
   >
     <!-- <template #default="item">
@@ -13,7 +14,7 @@
     </template> -->
   </el-edit-bar>
 
-
+  {{ select }}
 </template>
 
 <script setup lang="ts">

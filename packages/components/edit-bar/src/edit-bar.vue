@@ -179,11 +179,14 @@ watch(
 )
 
 const onSelect = (item: any) => {
-  if (itemId.value === item[props.valueKey]) {
+  if (!item) {
+    itemId.value = null
+  } else if (itemId.value === item[props.valueKey]) {
     itemId.value = null
   } else {
     itemId.value = item[props.valueKey]
   }
+
   emit('select', itemId.value, item)
   emit('update:modelValue', itemId.value, item)
 }
