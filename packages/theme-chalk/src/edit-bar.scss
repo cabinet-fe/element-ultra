@@ -73,7 +73,7 @@
   @include e(action) {
     opacity: 0;
     transition: opacity 0.15s;
-    width: 40px;
+    width: 60px;
 
     & > * {
       vertical-align: middle;

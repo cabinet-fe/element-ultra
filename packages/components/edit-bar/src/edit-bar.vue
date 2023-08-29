@@ -22,7 +22,7 @@
       height="calc(100% - 40px)"
       @current-change="onSelect"
     >
-      <template #default="{ data }">
+      <template #default="{ data, node }">
         <div
           style="width: 100%"
           :class="{
@@ -36,14 +36,14 @@
 
           <span @click.stop :class="ns.e('action')">
             <el-icon
-              @click="emit('create', data)"
+              @click="emit('create', data, node)"
               :size="16"
               style="margin-right: 4px"
             >
               <Plus />
             </el-icon>
             <el-icon
-              @click="emit('update', data)"
+              @click="emit('update', data, node)"
               :size="16"
               style="margin-right: 4px"
             >
@@ -101,7 +101,7 @@ import { useNamespace } from '@element-ultra/hooks'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import ElIcon from '@element-ultra/components/icon'
 import ElPopconfirm from '@element-ultra/components/popconfirm'
-import ElTree from '@element-ultra/components/tree'
+import ElTree, { type TreeNode } from '@element-ultra/components/tree'
 import { editBarProps } from './edit-bar'
 import Sortable from 'sortablejs'
 import { Edit, Delete, Plus } from 'icon-ultra'
@@ -115,8 +115,8 @@ const ns = useNamespace('edit-bar')
 const props = defineProps(editBarProps)
 
 const emit = defineEmits<{
-  (e: 'create', data?: any): void
-  (e: 'update', item: any): void
+  (e: 'create', data?: any, node?: TreeNode): void
+  (e: 'update', data: any, node?: TreeNode): void
   (e: 'select', id: string | number | null, item: any): void
   (e: 'update:modelValue', modelValue: string | number | null, item: any): void
   (e: 'delete', id: any, item: any): void
