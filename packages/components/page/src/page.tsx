@@ -220,7 +220,10 @@ export default defineComponent({
 
             {props.hideFooter ? null : (
               <section class={ns.e('footer')}>
-                <ElButton onClick={handleBack}>返回</ElButton>
+                {slots.back?.() || (
+                  <ElButton onClick={handleBack}>返回</ElButton>
+                )}
+
                 <div>{slots.footer?.()}</div>
               </section>
             )}

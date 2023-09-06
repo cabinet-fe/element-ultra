@@ -1,5 +1,5 @@
 <template>
-  <el-page ref="pageRef" hide-nav hide-footer>
+  <el-page ref="pageRef" hide-nav>
     <template v-for="i in 5" :key="i">
       <el-card v-if="hideIndex !== i" :header="`标题${i}`">
         <el-form :data="data" :cols="1"  :key="i" :rules="rules">
@@ -24,6 +24,10 @@
     </el-multiple-form>
 
     <el-progress :width="50" :percentage="50" class="progress" type="circle" />
+
+    <template #back>
+
+    </template>
 
     <template #footer>
       <el-button @click="handleHide">随机隐藏某个表单</el-button>
