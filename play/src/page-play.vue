@@ -1,5 +1,6 @@
 <template>
-  <el-page ref="pageRef" hide-nav>
+  <div style="height: 80%; margin-top: 200px;">
+    <el-page ref="pageRef" >
     <template v-for="i in 5" :key="i">
       <el-card v-if="hideIndex !== i" :header="`标题${i}`">
         <el-form :data="data" :cols="1"  :key="i" :rules="rules">
@@ -34,6 +35,7 @@
       <el-button @click="handleValidate">校验表单</el-button>
     </template>
   </el-page>
+  </div>
 </template>
 
 <script setup lang="ts">

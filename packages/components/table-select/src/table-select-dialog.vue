@@ -15,6 +15,7 @@
     >
       <slot name="searcher" />
       <el-button type="primary" @click="fetchData()">查询</el-button>
+      <slot name="tools" />
     </div>
 
     <el-table

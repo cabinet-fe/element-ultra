@@ -18,6 +18,7 @@ import { formInjectionKey, type FormExposed } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
+import { onMounted } from 'vue'
 
 type MultipleFormInst = InstanceType<typeof ElMultipleForm>
 
@@ -120,27 +121,44 @@ export default defineComponent({
       if (clicked) {
         clicked = false
       }
+      const pageDom = pageRef.value.$el as HTMLElement
+      if (!pageDom) return
+
+      // const pageRect = pageDom.getBoundingClientRect()
+
+      // const cards = Array.prototype.slice.call(
+      //   pageDom.getElementsByClassName('el-page__card-item'),
+      //   0
+      // )
+
+      // cards.forEach(card => {
+      //   console.log(card.getBoundingClientRect())
+      // })
     }, 200)
+
+    const pageRef = shallowRef()
 
     // 用来监听el-card
     // const observer = new IntersectionObserver(entries => {
-    //   entries.forEach(entry => {
-    //     const { target, intersectionRatio } = entry
-    //     if (intersectionRatio > 0 && target.classList.contains(hiddenClass)) {
-    //       target.classList.remove(hiddenClass)
-    //     }
-    //   })
 
-    //   // 对于点击定位, 点击中的位置不进行更新
-    //   if (clicked) return
+    // entries.forEach(entry => {
+    //   const { target, intersectionRatio } = entry
+    //   if (intersectionRatio > 0 && target.classList.contains(hiddenClass)) {
+    //     target.classList.remove(hiddenClass)
+    //   }
+    // })
+    // // 对于点击定位, 点击中的位置不进行更新
+    // if (clicked) return
+    // const entry = entries[0]
+    // // intersectionRatio > 0表示在视口中开始出现
+    // if (!entry || entry.intersectionRatio === 0) return
+    // currentNavIndex.value = Number(
+    //   entry.target.getAttribute('data-index') || 0
+    // )
+    // })
 
-    //   const entry = entries[0]
-    //   // intersectionRatio > 0表示在视口中开始出现
-    //   if (!entry || entry.intersectionRatio === 0) return
-
-    //   currentNavIndex.value = Number(
-    //     entry.target.getAttribute('data-index') || 0
-    //   )
+    // onMounted(() => {
+    //   pageRef.value.$el && observer.observe(pageRef.value.$el)
     // })
 
     const exposedFormList = new Set<FormExposed>()
@@ -203,6 +221,7 @@ export default defineComponent({
         <ElGrid
           {...attrs}
           class={ns.b()}
+          ref={pageRef}
           rows='100%'
           gap='0'
           cols={`minmax(0, 1fr) ${hasNav ? '100px' : '0'}`}
