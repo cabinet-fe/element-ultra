@@ -53,6 +53,10 @@
     <template #searcher>
       <slot name="searcher" />
     </template>
+
+    <template #tools>
+      <slot name="tools" />
+    </template>
   </TableSelectDialog>
 </template>
 

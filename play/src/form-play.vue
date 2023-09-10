@@ -93,13 +93,13 @@
 
         <el-text-editor span="max" label="富文本" field="rich" />
 
-        <el-date-picker
-          type="datetimerange"
-          label="范围日期"
-          v-model:start="data.start"
-          v-model:end="data.end"
-          field="rangedate"
-        />
+        <el-form-item label="范围日期" field="start">
+          <el-date-picker
+            type="datetimerange"
+            v-model:start="data.start"
+            v-model:end="data.end"
+          />
+        </el-form-item>
 
         <el-grid-input field="code" label="编码"></el-grid-input>
 
@@ -130,7 +130,16 @@ let checked = $shallowRef(false)
 
 let options = $shallowRef<any[]>([])
 
-const options2 = ['陈静', '刘畅', '王桧', '潘頔', '范佳成', '钱锋', '赵家钰', '朱宇翔'].map(item => ({
+const options2 = [
+  '陈静',
+  '刘畅',
+  '王桧',
+  '潘頔',
+  '范佳成',
+  '钱锋',
+  '赵家钰',
+  '朱宇翔'
+].map(item => ({
   label: item,
   value: item
 }))
@@ -144,7 +153,7 @@ setTimeout(() => {
     { modelKey: '5', name: '文本5' },
     { modelKey: '6', name: '文本6' },
     { modelKey: '7', name: '文本7' },
-    { modelKey: '8', name: '文本8' },
+    { modelKey: '8', name: '文本8' }
   ]
 }, 500)
 
@@ -165,7 +174,7 @@ const [data, rules] = useFormModel(
     date: {},
     rangedate: {},
     range: {},
-    start: { value: '' },
+    start: { value: '', required: true },
     end: { value: '' },
     aa: { value: '00' },
     bb: { value: '默认值测试' },

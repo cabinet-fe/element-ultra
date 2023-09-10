@@ -278,6 +278,7 @@ const validateField = async (field: string) => {
   const value = getChainValue(data, field)
 
   let fieldRules = rules[field]
+
   if (!fieldRules) {
     console.warn(`表单数据中没有定义该字段: ${field}, 校验可能出现问题`)
   }
