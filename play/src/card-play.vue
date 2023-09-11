@@ -3,9 +3,10 @@
    <template #header>
      你好
    </template>
-
+   <el-tag style="overflow: hidden;">你好_啊</el-tag>
 
    <el-form>
+
     <el-input />
     <el-input />
     <el-input />

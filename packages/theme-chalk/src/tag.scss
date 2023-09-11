@@ -74,6 +74,7 @@ $tag-icon-span-gap: map.merge(
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1px 0;
   }
 
   @include when(hit) {
