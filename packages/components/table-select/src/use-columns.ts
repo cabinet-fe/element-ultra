@@ -93,7 +93,9 @@ export default function useColumns(options: Options) {
 
     return [
       ...extra,
-      ...(columnFilter ? props.columns.filter(columnFilter) : props.columns)
+      ...(columnFilter
+        ? props.columns.filter(columnFilter)
+        : props.dialogColumns || props.columns)
     ]
   })
 
