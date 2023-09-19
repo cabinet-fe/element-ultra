@@ -21,6 +21,10 @@ export const batchInputProps = {
   },
   itemDefault: {
     type: Object as PropType<Record<string, any>>
+  },
+  allowAdd: {
+    type: Boolean,
+    default: true
   }
 } as const
 export const batchInputEmits = {

@@ -14,7 +14,7 @@
     >
       <slot v-bind="{ item, index }" />
 
-      <el-button-group :class="ns.e('operation')">
+      <el-button-group :class="ns.e('operation')" v-if="allowAdd">
         <el-button
           :icon="Minus"
           circle

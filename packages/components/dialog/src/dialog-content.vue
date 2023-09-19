@@ -83,8 +83,13 @@ let translateX = 0,
 
 let mousedown = shallowRef(false)
 
+let mouseDownTimer: number | null = null
+
 const handleMouseDown = (e: MouseEvent) => {
-  mousedown.value = true
+  mouseDownTimer = setTimeout(() => {
+    mousedown.value = true
+    mouseDownTimer = null
+  }, 100)
   originX = e.pageX
   originY = e.pageY
   document.addEventListener('mousemove', handleMousemove)
@@ -98,6 +103,7 @@ const handleMousemove = (e: MouseEvent) => {
 }
 
 const handleMouseUp = (e: MouseEvent) => {
+  mouseDownTimer !== null && clearTimeout(mouseDownTimer)
   mousedown.value = false
   document.removeEventListener('mousemove', handleMousemove)
   document.removeEventListener('mouseup', handleMouseUp)
