@@ -1,6 +1,6 @@
 <template>
   <ul :class="ns.b()" @blur.capture="handleEmitValue" tabindex="0">
-    <li v-if="isEmpty">
+    <li v-if="isEmpty && allowAdd">
       <el-button style="width: 100%" :icon="Plus" @click="handleAdd(0)">{{
         placeholder
       }}</el-button>
