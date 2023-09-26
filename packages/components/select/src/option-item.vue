@@ -8,35 +8,40 @@
       ns.is('created', created),
       { hover: hovering }
     ]"
-    @mouseenter="hoverItem"
-    @click.stop="selectOptionClick"
+    @mouseenter="handleMouseEnter"
+    @click.stop="handleClick"
+    :title="String(label)"
   >
     <slot :item="item" :index="index" :disabled="disabled">
-      <span>{{ getLabel(item) }}</span>
+      <span>{{ label }}</span>
     </slot>
   </li>
 </template>
 
-<script lang="ts">
-import { defineComponent, inject } from 'vue'
+<script lang="ts" setup>
+import { inject } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
-import { useOption } from './useOption'
 import { OptionProps } from './defaults'
 import { selectInjectionKey } from './token'
+import { computed } from 'vue'
 
-export default defineComponent({
-  props: OptionProps,
-  emits: ['select', 'hover'],
-  setup(props, { emit }) {
-    const ns = useNamespace('select')
-    const { getLabel } = inject(selectInjectionKey)!
-    const { hoverItem, selectOptionClick } = useOption(props, { emit })
-    return {
-      ns,
-      hoverItem,
-      selectOptionClick,
-      getLabel
-    }
-  }
+const props = defineProps(OptionProps)
+
+const emit = defineEmits({
+  select: (item: Record<string, any>, index: number) => true,
+  hover: (value: any) => true
 })
+
+const ns = useNamespace('select')
+const { getLabel } = inject(selectInjectionKey)!
+const handleMouseEnter = () => {
+  if (!props.disabled) {
+    emit('hover', props.index)
+  }
+}
+const handleClick = () => {
+  if (props.disabled) return
+  emit('select', props.item!, props.index!)
+}
+const label = computed(() => getLabel(props.item))
 </script>

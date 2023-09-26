@@ -54,7 +54,7 @@ export const formProps = {
     type: [Number, Array, String, Object] as PropType<
       string[] | number | string | ResponsiveCols
     >,
-    default: () => ({ cols: 4, xs: 1, s: 2, l: 3, xl: 4 })
+    default: () => ({ cols: 3, xs: 1, s: 2, l: 2, xl: 3 })
   },
   size: String as PropType<ComponentSize>,
   disabled: Boolean

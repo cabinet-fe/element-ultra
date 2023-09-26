@@ -11,7 +11,16 @@
     :multiple="multiple"
   >
   </el-select>
-  {{ model.value1 }}
+
+  <el-select
+    :options="options2"
+    filterable
+    allow-create
+    value-key="value"
+    :multiple="multiple"
+    v-model="model.value2"
+  />
+  {{ model.value2 }}
 </template>
 
 <script setup lang="ts">
@@ -22,9 +31,15 @@ const options1 = Array.from({ length: 100 }).map((_, index) => ({
   text: '文本' + (index + 1)
 }))
 
-const multiple = shallowRef(false)
+const options2 = [
+  { label: '选项3', value: '选项3' },
+  { label: '选项4', value: '选项4' }
+]
+
+const multiple = shallowRef(true)
 
 const model = reactive({
-  value1: undefined
+  value1: undefined,
+  value2: ['选项1', '选项2']
 })
 </script>

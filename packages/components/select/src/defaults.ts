@@ -1,9 +1,14 @@
-import { isValidComponentSize } from '@element-ultra/utils'
+import { EmitFn, isValidComponentSize } from '@element-ultra/utils'
 import { useTooltipContentProps } from '@element-ultra/components/tooltip'
 import { CircleClose } from 'icon-ultra'
 
 import type { PropType, Component } from 'vue'
-import { FORM_COMPONENT_PROPS, type ComponentSize } from '@element-ultra/shared'
+import {
+  FORM_COMPONENT_PROPS,
+  type ComponentSize,
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT
+} from '@element-ultra/shared'
 import type { Options } from '@element-ultra/components/popper'
 
 export const SelectProps = {
@@ -20,7 +25,7 @@ export const SelectProps = {
     default: CircleClose
   },
   effect: {
-    type: String as PropType<'light' | 'dark' | string>,
+    type: String as PropType<'light' | 'dark'>,
     default: 'light'
   },
   collapseTags: {
@@ -125,13 +130,49 @@ export const SelectProps = {
   }
 }
 
+export const SelectEmits = {
+  [UPDATE_MODEL_EVENT]: (
+    val: any,
+    label: string | string[],
+    option?: Record<string, any> | Record<string, any>[]
+  ) => true,
+  [CHANGE_EVENT]: (
+    val: any,
+    label: string | string[],
+    option?: Record<string, any> | Record<string, any>[]
+  ) => true,
+  'update:text': (label: string) => true,
+  'remove-tag': (tag: Record<string, any>) => true,
+  clear: () => true,
+  'visible-change': (visible: boolean) => true,
+  focus: (event: FocusEvent) => true,
+  blur: () => true
+}
+
+export type SelectEmitFn = EmitFn<typeof SelectEmits>
+
 export const OptionProps = {
-  data: Array,
-  disabled: Boolean,
-  hovering: Boolean,
-  item: Object,
-  index: Number,
-  style: Object,
-  selected: Boolean,
-  created: Boolean
+  disabled: {
+    type: Boolean
+  },
+  hovering: {
+    type: Boolean
+  },
+  item: {
+    type: Object as PropType<Record<string, any>>,
+    required: true
+  },
+  index: {
+    type: Number,
+    required: true
+  },
+  style: {
+    type: Object
+  },
+  selected: {
+    type: Boolean
+  },
+  created: {
+    type: Boolean
+  }
 }

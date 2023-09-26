@@ -8,12 +8,11 @@ export function useInput(handleInput: (event: InputEvent) => void) {
     isComposing.value = true
   }
 
-  const handleCompositionUpdate = (event) => {
-    const text = event.target.value
+  const handleCompositionUpdate = (event: InputEvent) => {
     isComposing.value = true
   }
 
-  const handleCompositionEnd = (event) => {
+  const handleCompositionEnd = (event: InputEvent) => {
     if (isComposing.value) {
       isComposing.value = false
       if (isFunction(handleInput)) {
@@ -25,6 +24,6 @@ export function useInput(handleInput: (event: InputEvent) => void) {
   return {
     handleCompositionStart,
     handleCompositionUpdate,
-    handleCompositionEnd,
+    handleCompositionEnd
   }
 }

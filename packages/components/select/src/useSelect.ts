@@ -1,23 +1,8 @@
-import {
-  computed,
-  watch,
-  ref,
-  reactive,
-  nextTick,
-  onMounted,
-  onBeforeMount,
-  shallowRef
-} from 'vue'
+import { computed, watch, ref, reactive, nextTick, shallowRef } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
 import { useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-ultra/shared'
-import {
-  ValidateComponentsMap,
-  addResizeListener,
-  removeResizeListener
-} from '@element-ultra/utils'
-import { useDeprecateAppendToBody } from '@element-ultra/components/popper'
 
 import { ArrowUp } from 'icon-ultra'
 import { useAllowCreate } from './useAllowCreate'
@@ -26,9 +11,11 @@ import { flattenOptions } from './util'
 
 import { useInput } from './useInput'
 import type ElTooltip from '@element-ultra/components/tooltip'
-import type { SelectProps } from './defaults'
+import type ElSelectDropdown from './select-dropdown.vue'
+import type { SelectEmitFn, SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { OptionType } from './select.types'
+import type { Option, OptionType } from './select.types'
+import { useResizeObserver } from '@vueuse/core'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
@@ -37,18 +24,16 @@ const TAG_BASE_WIDTH = {
   default: 42,
   small: 33
 }
-const COMPONENT_NAME = 'ElSelect'
 
-const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
+const useSelect = (
+  props: ExtractPropTypes<typeof SelectProps>,
+  emit: SelectEmitFn
+) => {
   // inject
 
   const ns = useNamespace('select')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
-  const { compatTeleported } = useDeprecateAppendToBody(
-    COMPONENT_NAME,
-    'popperAppendToBody'
-  )
 
   const isMultiple = (value: any): value is any[] => {
     return props.multiple && Array.isArray(value)
@@ -73,7 +58,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputLength: 20,
     selectWidth: 200,
     initialInputHeight: 0,
-    previousQuery: null,
+    previousQuery: null as null | string,
     previousValue: '',
     query: '',
     selectedLabel: '',
@@ -86,10 +71,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const popperSize = ref(-1)
 
   // DOM & Component refs
-  const controlRef = shallowRef(null)
-  const inputRef = shallowRef(null) // el-input ref
-  const menuRef = shallowRef(null)
-  const popper = shallowRef<InstanceType<typeof ElTooltip> | null>(null)
+  const inputRef = shallowRef<HTMLInputElement>() // el-input ref
+  const dropdownRef = shallowRef<InstanceType<typeof ElSelectDropdown>>()
+  const tooltipRef = shallowRef<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = shallowRef<HTMLDivElement>()
   const selectionRef = shallowRef<HTMLDivElement>() // tags ref
   const calculatorRef = shallowRef<HTMLElement | null>(null)
@@ -136,11 +120,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     () => iconComponent.value && ns.is('reverse', expanded.value)
   )
 
-  const validateState = computed(() => elFormItem?.validateState || '')
-  const validateIcon = computed(
-    () => ValidateComponentsMap[validateState.value]
-  )
-
   const debounce = computed(() => (props.remote ? 300 : 0))
 
   // filteredOptions includes flatten the data into one dimensional array.
@@ -161,37 +140,32 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return null
   })
 
-  const filteredOptions = computed(() => {
-    const isValidOption = (o): boolean => {
-      // fill the conditions here.
-      const query = states.inputValue
-      // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? getLabel(o)?.includes(query) : true
-      return containsQueryString
-    }
+  const filteredOptions = computed<any[]>(() => {
     if (props.loading) {
-      return [] as any[]
+      return []
+    }
+    /** 查询query时进行过滤 */
+    const containQuery = (o: Option): boolean => {
+      const query = states.inputValue
+      return query ? getLabel(o)?.includes(query) : true
     }
     return flattenOptions(
-      (props.options as OptionType[])
+      props.options
         .concat(states.createdOptions)
         .map(v => {
-          if (isArray(v.options)) {
-            const filtered = v.options.filter(isValidOption)
+          // 处理分组
+          if (Array.isArray(v.options)) {
+            const filtered = v.options.filter(containQuery)
             if (filtered.length > 0) {
               return {
                 ...v,
                 options: filtered
               }
             }
-          } else {
-            if (props.remote || isValidOption(v)) {
-              return v
-            }
           }
-          return null
+          return containQuery(v as Option) ? v : null
         })
-        .filter(v => v !== null)
+        .filter(v => v !== null) as OptionType[]
     )
   })
 
@@ -250,7 +224,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   // this obtains the actual popper DOM element.
-  const popperRef = computed(() => popper.value?.popperRef?.contentRef)
+  const popperRef = computed(() => tooltipRef.value?.popperRef?.contentRef)
 
   // the index with current value in options
   const indexRef = computed<number>(() => {
@@ -290,19 +264,18 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // methods
   const focusAndUpdatePopup = () => {
-    inputRef.value.focus?.()
-    popper.value?.updatePopper()
+    inputRef.value?.focus()
+    tooltipRef.value?.updatePopper()
   }
 
   const toggleMenu = () => {
     if (props.automaticDropdown) return
-    if (!selectDisabled.value) {
-      if (states.isComposing) states.softFocus = true
-      return nextTick(() => {
-        expanded.value = !expanded.value
-        inputRef.value?.focus?.()
-      })
-    }
+    if (selectDisabled.value) return
+    if (states.isComposing) states.softFocus = true
+    return nextTick(() => {
+      expanded.value = !expanded.value
+      inputRef.value?.focus()
+    })
   }
 
   const onInputChange = () => {
@@ -348,17 +321,17 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   function update(
     val: string | number,
     label: string,
-    option: Record<string, any> | null
+    option?: Record<string, any>
   ): void
   function update(
     val: (string | number)[],
     label: string[],
-    option: Record<string, any>[]
+    option?: Record<string, any>[]
   ): void
   function update(
     val: any,
     label: any,
-    option?: Record<string, any> | null | Record<string, any>[]
+    option?: Record<string, any> | Record<string, any>[]
   ): void {
     emit(UPDATE_MODEL_EVENT, val, label, option)
     emit('update:text', label)
@@ -398,13 +371,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
     return nextTick(() => {
       if (!inputRef.value) return
-      const selection = selectionRef.value
-      if (selectRef.value) {
-        selectRef.value.height = selection?.offsetHeight
-      }
+      // const selection = selectionRef.value
+      // selectRef.value.height = selection?.offsetHeight
 
       if (expanded.value && emptyText.value !== false) {
-        popper.value?.updatePopper?.()
+        tooltipRef.value?.updatePopper?.()
       }
     })
   }
@@ -412,7 +383,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const handleResize = () => {
     resetInputWidth()
     calculatePopperSize()
-    popper.value?.updatePopper?.()
+    tooltipRef.value?.updatePopper?.()
     if (props.multiple) {
       return resetInputHeight()
     }
@@ -425,8 +396,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  // TODO修复多选时的label问题, 优化select的性能
-  const onSelect = (
+  const handleSelect = (
     option: Record<string, any>,
     idx: number,
     byClick = true
@@ -465,12 +435,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.inputLength = 20
       }
       if (props.filterable && !props.reserveKeyword) {
-        inputRef.value.focus?.()
+        inputRef.value?.focus()
         onUpdateInputValue('')
       }
       if (props.filterable) {
-        states.calculatedWidth =
-          calculatorRef.value?.getBoundingClientRect().width
+        const rect = calculatorRef.value?.getBoundingClientRect()
+        if (rect) {
+          states.calculatedWidth = rect.width
+        }
       }
       resetInputHeight()
       setSoftFocus()
@@ -489,14 +461,19 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const deleteTag = (event: MouseEvent, tag) => {
-    const index = (props.modelValue as Array<any>).indexOf(getValue(tag))
+  /**
+   * 删除标签
+   * @param event 鼠标事件
+   * @param tag 标签对象
+   */
+  const deleteTag = (event: MouseEvent, tag: Record<string, any>) => {
+    const index = (props.modelValue as any[]).indexOf(getValue(tag))
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
         ...(props.modelValue as Array<unknown>).slice(0, index),
         ...(props.modelValue as Array<unknown>).slice(index + 1)
-      ]
+      ] as any[]
       states.cachedOptions.splice(index, 1)
       update(
         value,
@@ -515,7 +492,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const focused = states.isComposing
     states.isComposing = true
     if (!states.softFocus) {
-      // If already in the focus state, shouldn't trigger event
       if (!focused) emit('focus', event)
     } else {
       states.softFocus = false
@@ -568,9 +544,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const handleClear = () => {
-    let emptyValue: string | any[]
+    let emptyValue: string | number | any[]
     let emptyLabel: string | any[]
-    if (isArray(props.modelValue)) {
+    if (props.multiple) {
       emptyValue = []
       emptyLabel = []
     } else {
@@ -585,6 +561,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       states.selectedLabel = ''
     }
     expanded.value = false
+    // @ts-ignore
     update(emptyValue, emptyLabel, null)
     emit('clear')
     clearAllNewOption()
@@ -598,8 +575,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const onKeyboardNavigate = (
     direction: 'forward' | 'backward',
-    hoveringIndex: number = undefined
-  ) => {
+    hoveringIndex?: number
+  ): any => {
     const options = filteredOptions.value
     if (
       !['forward', 'backward'].includes(direction) ||
@@ -646,7 +623,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       ~states.hoveringIndex &&
       filteredOptions.value[states.hoveringIndex]
     ) {
-      onSelect(
+      handleSelect(
         filteredOptions.value[states.hoveringIndex],
         states.hoveringIndex,
         false
@@ -669,14 +646,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const onInput = event => {
-    const value = event.target.value
+  const onInput = (event: Event) => {
+    const value = (event.target as HTMLInputElement).value
     onUpdateInputValue(value)
+
     if (states.displayInputValue.length > 0 && !expanded.value) {
       expanded.value = true
     }
 
-    states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+    states.calculatedWidth = calculatorRef.value!.getBoundingClientRect().width
     if (props.multiple) {
       resetInputHeight()
     }
@@ -703,9 +681,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const scrollToItem = (index: number) => {
-    menuRef.value.scrollToItem(index)
+    dropdownRef.value?.scrollToItem(index)
   }
 
+  /** 初始化状态 */
   const initStates = () => {
     resetHoveringIndex()
     const { modelValue, multiple, text } = props
@@ -760,8 +739,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   watch(expanded, val => {
     emit('visible-change', val)
     if (val) {
-      popper.value.update?.()
-      // the purpose of this function is to differ the blur event trigger mechanism
+      tooltipRef.value?.updatePopper()
     } else {
       states.displayInputValue = ''
       createNewOption('')
@@ -806,17 +784,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // fix the problem that scrollTop is not reset in filterable mode
   watch(filteredOptions, () => {
-    return nextTick(menuRef.value.resetScrollTop)
+    return nextTick(() => {
+      dropdownRef.value?.resetScrollTop()
+    })
   })
 
-  onMounted(() => {
-    initStates()
-    addResizeListener(selectRef.value, handleResize)
-  })
-
-  onBeforeMount(() => {
-    removeResizeListener(selectRef.value, handleResize)
-  })
+  useResizeObserver(selectRef, handleResize)
 
   return {
     // data exports
@@ -845,26 +818,17 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     // refs items exports
     calculatorRef,
-    controlRef,
     inputRef,
-    menuRef,
-    popper,
+    dropdownRef,
+    tooltipRef,
     selectRef,
     selectionRef,
 
     popperRef,
 
-    validateState,
-    validateIcon,
-    // deprecations
-    compatTeleported,
-
-    // methods exports
-    debouncedOnInputChange,
     deleteTag,
     getLabel,
     getValue,
-    handleBlur,
     handleClear,
     handleClickOutside,
     handleDel,
@@ -873,11 +837,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleMenuEnter,
     handleResize,
     toggleMenu,
-    scrollTo: scrollToItem,
     onInput,
     onKeyboardNavigate,
     onKeyboardSelect,
-    onSelect,
+    handleSelect,
     onHover: updateHoveringIndex,
     onUpdateInputValue,
     handleCompositionStart,

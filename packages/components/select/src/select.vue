@@ -8,9 +8,9 @@
     @mouseleave="states.comboBoxHovering = false"
   >
     <el-tooltip
-      ref="popper"
+      ref="tooltipRef"
       v-model:visible="dropdownMenuVisible"
-      :teleported="compatTeleported"
+      :teleported="teleported"
       :popper-class="[ns.e('popper'), popperClass]"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
@@ -217,18 +217,12 @@
             >
               <component :is="clearIcon" />
             </el-icon>
-            <el-icon
-              v-if="validateState && validateIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
-            >
-              <component :is="validateIcon" />
-            </el-icon>
           </span>
         </div>
       </template>
       <template #content>
-        <el-select-menu
-          ref="menuRef"
+        <el-select-dropdown
+          ref="dropdownRef"
           :data="filteredOptions"
           :width="popperSize"
           :hovering-index="states.hoveringIndex"
@@ -244,64 +238,101 @@
               </p>
             </slot>
           </template>
-        </el-select-menu>
+        </el-select-dropdown>
       </template>
     </el-tooltip>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
-import { ClickOutside } from '@element-ultra/directives'
+<script lang="ts" setup>
+import { provide, toRefs, reactive } from 'vue'
+import { ClickOutside as vClickOutside } from '@element-ultra/directives'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElTag from '@element-ultra/components/tag'
 import ElIcon from '@element-ultra/components/icon'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-ultra/shared'
-import ElSelectMenu from './select-dropdown'
+import ElSelectDropdown from './select-dropdown.vue'
 import useSelect from './useSelect'
 import { selectInjectionKey } from './token'
-import { SelectProps } from './defaults'
+import { SelectEmits, SelectProps } from './defaults'
 
-export default defineComponent({
-  name: 'ElSelect',
-  components: {
-    ElSelectMenu,
-    ElTag,
-    ElTooltip,
-    ElIcon
-  },
-  directives: { ClickOutside, ModelText: vModelText },
-  props: SelectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    'update:text',
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur'
-  ],
+defineOptions({
+  name: 'ElSelect'
+})
 
-  setup(props, { emit }) {
-    const API = useSelect(props, emit)
-    // TODO, remove the any cast to align the actual API.
-    provide(selectInjectionKey, {
-      props: reactive({
-        ...toRefs(props),
-        height: API.popupHeight
-      }),
-      states: API.states,
-      getLabel: API.getLabel,
-      getValue: API.getValue,
-      onSelect: API.onSelect,
-      onHover: API.onHover,
-      update: API.update,
-      onKeyboardNavigate: API.onKeyboardNavigate,
-      onKeyboardSelect: API.onKeyboardSelect,
-    } as any)
+const props = defineProps(SelectProps)
 
-    return API
-  }
+const emit = defineEmits(SelectEmits)
+
+const {
+  collapseTagSize,
+  currentPlaceholder,
+  expanded,
+  emptyText,
+  popupHeight,
+  filteredOptions,
+  iconComponent,
+  iconReverse,
+  inputWrapperStyle,
+  popperSize,
+  dropdownMenuVisible,
+  hasModelValue,
+
+  // 只读,
+  shouldShowPlaceholder,
+  selectDisabled,
+  selectSize,
+  showClearBtn,
+  states,
+  tagMaxWidth,
+  ns,
+  nsInput,
+
+  // 模板引用
+  calculatorRef,
+  inputRef,
+  dropdownRef,
+  tooltipRef,
+  selectRef,
+  selectionRef,
+
+  popperRef,
+
+  // methods exports
+  deleteTag,
+  getLabel,
+  getValue,
+  handleClear,
+  handleClickOutside,
+  handleDel,
+  handleEsc,
+  handleFocus,
+  handleMenuEnter,
+  toggleMenu,
+  onInput,
+  onKeyboardNavigate,
+  onKeyboardSelect,
+  handleSelect,
+  onHover,
+  onUpdateInputValue,
+  handleCompositionStart,
+  handleCompositionEnd,
+  update,
+  handleCompositionUpdate
+} = useSelect(props, emit)
+
+provide(selectInjectionKey, {
+  props: reactive({
+    ...toRefs(props),
+    height: popupHeight
+  }),
+  expanded,
+  states,
+  getLabel,
+  getValue,
+  handleSelect,
+  onHover,
+  update,
+  onKeyboardNavigate,
+  onKeyboardSelect
 })
 </script>

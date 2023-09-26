@@ -1,11 +1,11 @@
 import type { OptionProps, SelectProps } from './defaults'
-import type { ExtractPropTypes, InjectionKey } from 'vue'
+import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
 
 export interface SelectContext {
   props: ExtractPropTypes<typeof SelectProps>
-  expanded: boolean
+  expanded: Ref<boolean>
   states: Record<string, any>
-  onSelect: (option: any, index: number, byClick?: boolean) => void
+  handleSelect: (option: any, index: number, byClick?: boolean) => void
   onKeyboardNavigate: (direction: 'forward' | 'backward') => void
   onKeyboardSelect: () => void
   onHover: (idx: number) => void

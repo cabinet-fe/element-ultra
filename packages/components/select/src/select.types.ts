@@ -5,6 +5,8 @@ export type OptionCommon = {
 export type Option<T = any> = OptionCommon & {
   created?: boolean
   value: T
+  isTitle: boolean
+  type?: 'Group'
   // reserve for option
   [prop: string]: any
 }
