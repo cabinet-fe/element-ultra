@@ -1,18 +1,18 @@
 import { ref } from 'vue'
 import { isFunction } from '@vue/shared'
 
-export function useInput(handleInput: (event: InputEvent) => void) {
+export function useInput(handleInput: (event: Event) => void) {
   const isComposing = ref(false)
 
-  const handleCompositionStart = () => {
+  const handleCompositionStart = (event: CompositionEvent) => {
     isComposing.value = true
   }
 
-  const handleCompositionUpdate = (event: InputEvent) => {
+  const handleCompositionUpdate = (event: CompositionEvent) => {
     isComposing.value = true
   }
 
-  const handleCompositionEnd = (event: InputEvent) => {
+  const handleCompositionEnd = (event: CompositionEvent) => {
     if (isComposing.value) {
       isComposing.value = false
       if (isFunction(handleInput)) {
