@@ -10,6 +10,7 @@ export const flattenOptions = (
   const flattened: Option[] = []
   options.forEach(option => {
     if (Array.isArray(option.options)) {
+      if (!option.options.length) return
       // 分组标题
       flattened.push({
         label: option.label,
@@ -18,9 +19,7 @@ export const flattenOptions = (
         value: option.value
       })
       // 分组项
-      option.options.forEach((o: Option) => {
-        flattened.push(o)
-      })
+      option.options.forEach((o: Option) => flattened.push(o))
       // 分割线
       flattened.push({
         type: 'Group',

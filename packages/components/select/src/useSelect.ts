@@ -16,6 +16,7 @@ import type { SelectEmitFn, SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { Option, OptionType } from './select.types'
 import { useResizeObserver } from '@vueuse/core'
+import { onMounted } from 'vue'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
@@ -91,11 +92,8 @@ const useSelect = (
   })
 
   const hasModelValue = computed(() => {
-    return (
-      props.modelValue !== undefined &&
-      props.modelValue !== null &&
-      props.modelValue !== ''
-    )
+    const { modelValue } = props
+    return modelValue !== undefined && modelValue !== null && modelValue !== ''
   })
 
   const showClearBtn = computed(() => {
@@ -141,17 +139,15 @@ const useSelect = (
   })
 
   const filteredOptions = computed<any[]>(() => {
-    if (props.loading) {
-      return []
-    }
+    if (props.loading) return []
     /** 查询query时进行过滤 */
     const containQuery = (o: Option): boolean => {
       const query = states.inputValue
       return query ? getLabel(o)?.includes(query) : true
     }
+
     return flattenOptions(
-      props.options
-        .concat(states.createdOptions)
+      (props.options.concat(states.createdOptions) as OptionType[])
         .map(v => {
           // 处理分组
           if (Array.isArray(v.options)) {
@@ -167,6 +163,25 @@ const useSelect = (
         })
         .filter(v => v !== null) as OptionType[]
     )
+  })
+
+  const optionsMap = computed<
+    Map<
+      string | number,
+      {
+        index: number
+        option: Option
+      }
+    >
+  >(() => {
+    return filteredOptions.value.reduce((map, option, index) => {
+      map.set(getValue(option), {
+        option,
+        index
+      })
+
+      return map
+    }, new Map())
   })
 
   const optionsAllDisabled = computed(() =>
@@ -255,7 +270,8 @@ const useSelect = (
     removeNewOption,
     selectNewOption,
     clearAllNewOption
-  } = useAllowCreate(props, states)
+  } = useAllowCreate(props, states, optionsMap)
+
   const {
     handleCompositionStart,
     handleCompositionUpdate,
@@ -684,51 +700,58 @@ const useSelect = (
     dropdownRef.value?.scrollToItem(index)
   }
 
+  const initMultipleStates = () => {
+    const { modelValue, allowCreate } = props
+    if (!Array.isArray(modelValue)) return
+    if (modelValue.length) {
+      let initHovering = false
+      states.cachedOptions.length = 0
+      states.previousValue = modelValue.toString()
+      modelValue.forEach(selected => {
+        const item = optionsMap.value.get(selected)
+
+        if (item) {
+          states.cachedOptions.push(item.option)
+          if (!initHovering) {
+            updateHoveringIndex(item.index)
+          }
+          initHovering = true
+        } else {
+          // 创建一个新的， 然后选中
+          const option = createNewOption(selected)
+          if (!option) return
+          selectNewOption(option)
+          states.cachedOptions.push(option)
+        }
+      })
+    } else {
+      states.cachedOptions = []
+      states.previousValue = ''
+    }
+  }
+  const initSingleStates = () => {
+    const { modelValue, text } = props
+    if (hasModelValue.value) {
+      states.previousValue = modelValue.toString()
+      const options = filteredOptions.value
+      const selectedItemIndex = options.findIndex(
+        option => getValue(option) === props.modelValue
+      )
+      if (selectedItemIndex !== -1) {
+        states.selectedLabel = getLabel(options[selectedItemIndex])
+        updateHoveringIndex(selectedItemIndex)
+      } else {
+        states.selectedLabel = text ?? String(modelValue)
+      }
+    } else {
+      states.selectedLabel = ''
+      states.previousValue = ''
+    }
+  }
   /** 初始化状态 */
   const initStates = () => {
     resetHoveringIndex()
-    const { modelValue, multiple, text } = props
-    if (multiple) {
-      if (!modelValue) return
-      if (modelValue.length > 0) {
-        let initHovering = false
-        states.cachedOptions.length = 0
-        states.previousValue = props.modelValue.toString()
-
-        props.modelValue.map?.(selected => {
-          const itemIndex = filteredOptions.value.findIndex(
-            option => getValue(option) === selected
-          )
-          if (~itemIndex) {
-            states.cachedOptions.push(filteredOptions.value[itemIndex])
-            if (!initHovering) {
-              updateHoveringIndex(itemIndex)
-            }
-            initHovering = true
-          }
-        })
-      } else {
-        states.cachedOptions = []
-        states.previousValue = ''
-      }
-    } else {
-      if (hasModelValue.value) {
-        states.previousValue = modelValue
-        const options = filteredOptions.value
-        const selectedItemIndex = options.findIndex(
-          option => getValue(option) === props.modelValue
-        )
-        if (~selectedItemIndex) {
-          states.selectedLabel = getLabel(options[selectedItemIndex])
-          updateHoveringIndex(selectedItemIndex)
-        } else {
-          states.selectedLabel = text ?? String(modelValue)
-        }
-      } else {
-        states.selectedLabel = ''
-        states.previousValue = ''
-      }
-    }
+    props.multiple ? initMultipleStates() : initSingleStates()
     calculatePopperSize()
   }
 
@@ -764,7 +787,13 @@ const useSelect = (
   watch(
     () => props.multiple,
     m => {
-      update(m ? [] : '', m ? [] : '', m ? [] : '')
+      if (m) {
+        update([], [], [])
+      } else {
+        update('', '', undefined)
+      }
+      states.createdOptions = []
+      states.cachedOptions = []
     }
   )
 
@@ -781,6 +810,10 @@ const useSelect = (
       deep: true
     }
   )
+
+  onMounted(() => {
+    initStates()
+  })
 
   // fix the problem that scrollTop is not reset in filterable mode
   watch(filteredOptions, () => {

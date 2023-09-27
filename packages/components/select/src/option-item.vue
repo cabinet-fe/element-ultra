@@ -1,5 +1,5 @@
 <template>
-  <li
+  <div
     :style="style"
     :class="[
       ns.be('dropdown', 'option-item'),
@@ -15,7 +15,7 @@
     <slot :item="item" :index="index" :disabled="disabled">
       <span>{{ label }}</span>
     </slot>
-  </li>
+  </div>
 </template>
 
 <script lang="ts" setup>

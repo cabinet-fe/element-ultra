@@ -18,7 +18,7 @@ export type OptionGroup<T = any> = OptionCommon & {
   [prop: string]: any
 }
 
-export type OptionType<T = any> = Option<T> | OptionGroup<T>
+export type OptionType = Option | OptionGroup<Option>
 
 // maybe adding T for type restriction is better here, but not sure this is going to work for
 // template rendering

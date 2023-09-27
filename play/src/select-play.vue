@@ -11,6 +11,7 @@
     :multiple="multiple"
   >
   </el-select>
+  {{ model.value1 }}
 
   <el-select
     :options="options2"
@@ -32,14 +33,14 @@ const options1 = Array.from({ length: 100 }).map((_, index) => ({
 }))
 
 const options2 = [
-  { label: '选项3', value: '选项3' },
-  { label: '选项4', value: '选项4' }
+  // { label: '选项3', value: '选项3' },
+  // { label: '选项4', value: '选项4' }
 ]
 
 const multiple = shallowRef(true)
 
 const model = reactive({
-  value1: undefined,
+  value1: [1, 2],
   value2: ['选项1', '选项2']
 })
 </script>

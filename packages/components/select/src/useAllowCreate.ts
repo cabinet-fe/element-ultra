@@ -1,7 +1,21 @@
 import { computed, ref } from 'vue'
 import type { ISelectProps } from './token'
+import type { Option } from './select.types'
+import type { ComputedRef } from 'vue'
 
-export function useAllowCreate(props: ISelectProps, states) {
+export function useAllowCreate(
+  props: ISelectProps,
+  states: Record<string, any>,
+  optionsMap: ComputedRef<
+    Map<
+      string | number,
+      {
+        index: number
+        option: Option
+      }
+    >
+  >
+) {
   const createOptionCount = ref(0)
   const cachedSelectedOption = ref<any>(null)
 
@@ -10,17 +24,16 @@ export function useAllowCreate(props: ISelectProps, states) {
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = option => option[props.valueKey] === query
-    return (
-      (props.options && props.options.some(hasValue)) ||
-      states.createdOptions.some(hasValue)
-    )
+    // const hasValue = option => option[props.valueKey] === query
+    return optionsMap.value.has(query)
+    // return (
+    //   (props.options && props.options.some(hasValue)) ||
+    //   states.createdOptions.some(hasValue)
+    // )
   }
 
-  function selectNewOption(option) {
-    if (!enableAllowCreateMode.value) {
-      return
-    }
+  function selectNewOption(option: any) {
+    if (!enableAllowCreateMode.value) return
     if (props.multiple && option.created) {
       createOptionCount.value++
     } else {
@@ -29,28 +42,31 @@ export function useAllowCreate(props: ISelectProps, states) {
   }
 
   function createNewOption(query: string) {
-    if (enableAllowCreateMode.value) {
-      if (query && query.length > 0 && !hasExistingOption(query)) {
-        const newOption = {
-          [props.valueKey]: query,
-          [props.labelKey]: query,
-          created: true,
-          disabled: false
-        }
-        if (states.createdOptions.length >= createOptionCount.value) {
-          states.createdOptions[createOptionCount.value] = newOption
-        } else {
-          states.createdOptions.push(newOption)
-        }
+    if (!enableAllowCreateMode.value) return
+
+    if (query && query.length > 0 && !hasExistingOption(query)) {
+      const newOption = {
+        [props.valueKey]: query,
+        [props.labelKey]: query,
+        created: true,
+        disabled: false
+      }
+
+      if (states.createdOptions.length >= createOptionCount.value) {
+        states.createdOptions[createOptionCount.value] = newOption
       } else {
-        if (props.multiple) {
-          states.createdOptions.length = createOptionCount.value
-        } else {
-          const selectedOption = cachedSelectedOption.value
-          states.createdOptions.length = 0
-          if (selectedOption && selectedOption.created) {
-            states.createdOptions.push(selectedOption)
-          }
+        states.createdOptions.push(newOption)
+      }
+      return newOption
+    } else {
+
+      if (props.multiple) {
+        states.createdOptions.length = createOptionCount.value
+      } else {
+        const selectedOption = cachedSelectedOption.value
+        states.createdOptions.length = 0
+        if (selectedOption && selectedOption.created) {
+          states.createdOptions.push(selectedOption)
         }
       }
     }

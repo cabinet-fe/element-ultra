@@ -327,6 +327,7 @@ provide(selectInjectionKey, {
   }),
   expanded,
   states,
+  filteredOptions,
   getLabel,
   getValue,
   handleSelect,

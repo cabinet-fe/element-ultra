@@ -16,8 +16,16 @@
     </FixedSizeList>
 
     <div
-      v-if="selectProps.multiple"
-      style="border-top: 1px solid #f2f2f2; fontsize: 0"
+      v-if="selectProps.multiple && selectProps.options.length"
+      style="
+        border-top: 1px solid #f2f2f2;
+        fontsize: 0;
+        color: var(--el-text-color-regular);
+      "
+      :style="{
+        'line-height': selectProps.itemHeight + 'px',
+        padding: '0 32px 0 20px'
+      }"
     >
       <span
         style="
@@ -31,7 +39,7 @@
       </span>
       <el-checkbox
         :model-value="allChecked"
-        @update:modelValue="handleSelectAll"
+        @update:model-value="handleSelectAll"
       >
         全选
       </el-checkbox>
@@ -75,7 +83,8 @@ const {
   onKeyboardNavigate,
   onKeyboardSelect,
   onHover,
-  handleSelect
+  handleSelect,
+  filteredOptions
 } = inject(selectInjectionKey)!
 
 const ns = useNamespace('select')
@@ -202,22 +211,27 @@ const onKeydown = (e: KeyboardEvent) => {
 }
 
 const allChecked = computed(() => {
-  return selectProps.options.every(item => {
+  const options = selectProps.options.concat(selectStates.createdOptions)
+  if (!options.length) return false
+  return options.every(item => {
     return checkedSet.value.has(item[selectProps.valueKey])
   })
 })
 
 const handleSelectAll = (checked: any) => {
   if (checked) {
+    const { valueKey, labelKey } = selectProps
+    const options = filteredOptions.value
     updateSelect(
-      selectProps.options.map(option => option[selectProps.valueKey]),
-      selectProps.options.map(option => option[selectProps.labelKey]),
-      selectProps.options.slice()
+      options.map(option => option[valueKey]),
+      options.map(option => option[labelKey]),
+      options.slice()
     )
-    selectStates.cachedOptions = selectProps.options.slice()
+    selectStates.cachedOptions = options.slice()
   } else {
     updateSelect([], [], [])
     selectStates.cachedOptions = []
+    selectStates.createdOptions = []
   }
 }
 
