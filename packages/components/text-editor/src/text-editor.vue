@@ -73,9 +73,10 @@ const createTextEditor = () => {
       },
 
       onChange(editor) {
-        const html = editor.getHtml()
+        const isEmpty = editor.isEmpty()
+        const html = isEmpty ? '' : editor.getHtml()
         internalVal.value = html
-        emit('update:modelValue', html)
+        emit('update:modelValue',html)
         emit('change', html)
       },
 
