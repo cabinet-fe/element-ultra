@@ -701,7 +701,7 @@ const useSelect = (
   }
 
   const initMultipleStates = () => {
-    const { modelValue, allowCreate } = props
+    const { modelValue } = props
     if (!Array.isArray(modelValue)) return
     if (modelValue.length) {
       let initHovering = false
