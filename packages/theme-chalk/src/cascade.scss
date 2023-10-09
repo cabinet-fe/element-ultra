@@ -12,7 +12,7 @@
   position: relative;
   font-size: getCssVar('font-size', 'base');
   line-height: map.get($input-height, 'default');
-  height: map.get($input-height, 'default');
+  // height: map.get($input-height, 'default');
   outline: none;
 
   &:not(.is-disabled):hover {

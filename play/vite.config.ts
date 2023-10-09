@@ -10,6 +10,7 @@ import VueMacros from 'unplugin-vue-macros/vite'
 import esbuild from 'rollup-plugin-esbuild'
 import { epRoot, projRoot, epPackage } from '../gulpfile/utils/paths'
 
+
 const esbuildPlugin = () => ({
   ...esbuild({
     target: 'chrome64',

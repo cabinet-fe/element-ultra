@@ -89,7 +89,7 @@ export default defineComponent({
     const initialLoaded = ref(true)
     const menuList = ref<any[]>([])
     const checkedValue = shallowRef<Nullable<CascadeValue>>(null)
-    const menus = shallowRef<CascadeNode[][]>([])
+    const menus = ref<CascadeNode[][]>([])
     const expandingNode = shallowRef<Nullable<CascadeNode>>(null)
     const checkedNodes = shallowRef<CascadeNode[]>([])
 
@@ -166,12 +166,14 @@ export default defineComponent({
       const { checkStrictly, multiple } = config.value
       const oldNode = checkedNodes.value[0]
       manualChecked = true
-
+      // 单选则取消旧的选中
       !multiple && oldNode?.doCheck(false)
+
       node.doCheck(checked)
       calculateCheckedValue()
-      emitClose && !multiple && !checkStrictly && emit('close')
-      !emitClose && !multiple && !checkStrictly && expandParentNode(node)
+      if (!multiple && !checkStrictly) {
+        emitClose ? emit('close') : expandParentNode(node)
+      }
     }
 
     const expandParentNode = node => {
@@ -198,6 +200,7 @@ export default defineComponent({
       const { checkStrictly, multiple } = config.value
       const oldNodes = checkedNodes.value
       const newNodes = getCheckedNodes(!checkStrictly)!
+
       // ensure the original order
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
 
@@ -263,8 +266,12 @@ export default defineComponent({
       }
 
       oldNodes.forEach(node => node.doCheck(false))
-      newNodes.forEach(node => node.doCheck(true))
-
+      // newNodes.forEach(node => node.doCheck(true))
+      if (props.props.multiple) {
+        reactive(newNodes).forEach((node) => node.doCheck(true))
+      } else {
+        newNodes.forEach((node) => node.doCheck(true))
+      }
       checkedNodes.value = newNodes
       nextTick(scrollToExpandingNode)
     }
@@ -373,7 +380,12 @@ export default defineComponent({
           emit(CHANGE_EVENT, val, label, item)
         } else {
           const checkedNode = _checkedNodes[0]
-          emit(CHANGE_EVENT, val, checkedNode?.labelByOption, checkedNode?.nodeByOption)
+          emit(
+            CHANGE_EVENT,
+            val,
+            checkedNode?.labelByOption,
+            checkedNode?.nodeByOption
+          )
         }
       }
     })

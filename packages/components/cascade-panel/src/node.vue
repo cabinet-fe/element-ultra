@@ -2,9 +2,6 @@
   <li
     :id="`${menuId}-${node.uid}`"
     role="menuitem"
-    :aria-haspopup="!isLeaf"
-    :aria-owns="isLeaf ? null : menuId"
-    :aria-expanded="inExpandingPath"
     :tabindex="expandable ? -1 : undefined"
     :class="[
       'el-cascade-node',
@@ -12,7 +9,7 @@
       inExpandingPath && 'in-active-path',
       inCheckedPath && 'in-checked-path',
       node.checked && 'is-active',
-      !expandable && 'is-disabled',
+      !expandable && 'is-disabled'
     ]"
     @mouseenter="handleHoverExpand"
     @focus="handleHoverExpand"
@@ -41,10 +38,7 @@
       -->
       <span></span>
     </el-radio>
-    <el-icon
-      v-else-if="isLeaf && node.checked"
-      class="el-cascade-node__prefix"
-    >
+    <el-icon v-else-if="isLeaf && node.checked" class="el-cascade-node__prefix">
       <check />
     </el-icon>
 
@@ -85,15 +79,15 @@ export default defineComponent({
     ElIcon,
     Check,
     Loading,
-    ArrowRight,
+    ArrowRight
   },
 
   props: {
     node: {
       type: Object as PropType<CascadeNode>,
-      required: true,
+      required: true
     },
-    menuId: String,
+    menuId: String
   },
 
   emits: ['expand'],
@@ -105,6 +99,7 @@ export default defineComponent({
     const multiple = computed(() => panel.config.multiple)
     const checkStrictly = computed(() => panel.config.checkStrictly)
     const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
+
     const isDisabled = computed(() => props.node.isDisabled)
     const isLeaf = computed(() => props.node.isLeaf)
     const expandable = computed(
@@ -201,8 +196,8 @@ export default defineComponent({
       handleExpand,
       handleClick,
       handleCheck,
-      handleSelectCheck,
+      handleSelectCheck
     }
-  },
+  }
 })
 </script>

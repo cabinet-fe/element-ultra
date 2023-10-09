@@ -23,6 +23,10 @@ export const formDialogProps = {
 
   width: {
     type: String
+  },
+
+  hideConfirm: {
+    type: Boolean
   }
 } as const
 

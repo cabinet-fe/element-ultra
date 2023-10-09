@@ -39,6 +39,15 @@
         >
         </el-cascade>
 
+        <el-cascade
+          label="多选级联"
+          :props="cascadeProps"
+          clearable
+
+          field="cascades"
+          :options="cascadeOptions"
+        />
+
         <el-input-number
           money
           label="数字"
@@ -180,6 +189,7 @@ const [data, rules] = useFormModel(
     bb: { value: '默认值测试' },
     num: { value: null },
     cascade: { value: [] },
+    cascades: { value: [] },
     xing: { value: '1' },
     ming: { value: '2' },
     multi: { value: [] },
@@ -206,6 +216,8 @@ const [data, rules] = useFormModel(
     name: model => model.xing + model.ming
   }
 )
+
+const cascadeProps = { label: 'name', multiple: true }
 
 const cascadeOptions = Array.from({ length: 20 }).map((_, i) => {
   return {

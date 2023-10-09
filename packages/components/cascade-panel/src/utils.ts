@@ -18,12 +18,16 @@ export const checkNode = (el) => {
   }
 }
 
+/** 通过原始顺序排序 */
 export const sortByOriginalOrder = (
   oldNodes: CascadeNode[],
   newNodes: CascadeNode[]
 ) => {
   const newNodesCopy = newNodes.slice(0)
+  // 新节点id
   const newIds = newNodesCopy.map((node) => node.uid)
+
+  // 循环旧的节点，如果旧的节点和在新的节点中存在（UID相同）则使用旧节点， 并删除新节点里面的节点
   const res = oldNodes.reduce((acc, item) => {
     const index = newIds.indexOf(item.uid)
     if (index > -1) {
@@ -34,6 +38,7 @@ export const sortByOriginalOrder = (
     return acc
   }, [] as CascadeNode[])
 
+  // 追加剩余的新节点到末尾
   res.push(...newNodesCopy)
 
   return res

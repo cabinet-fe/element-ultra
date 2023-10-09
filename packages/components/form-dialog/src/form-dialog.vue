@@ -19,7 +19,7 @@
       >
         提交并继续
       </el-button>
-      <el-button :loading="loading" type="primary" @click="submit">
+      <el-button v-if="!hideConfirm" :loading="loading" type="primary" @click="submit">
         提交
       </el-button>
     </template>
