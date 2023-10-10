@@ -33,7 +33,7 @@ export default function useInlineEdit(options: Options) {
       if (Array.isArray(value)) {
         return value.length > 0 ? undefined : msg
       }
-      if (!value && value !== 0) {
+      if ([undefined, null, ''].includes(value) && value !== 0) {
         return msg
       }
     },
