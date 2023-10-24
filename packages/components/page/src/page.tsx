@@ -18,7 +18,6 @@ import { formInjectionKey, type FormExposed } from '@element-ultra/tokens'
 import { isFragment, isTemplate } from '@element-ultra/utils'
 import type { Router } from 'vue-router'
 import { debounce } from 'lodash'
-import { onMounted } from 'vue'
 
 type MultipleFormInst = InstanceType<typeof ElMultipleForm>
 

@@ -176,7 +176,7 @@ export default {
   inheritAttrs: false
 }
 </script>
-<style>
+<style scoped>
 .count {
   height: 40px;
   display: flex;
@@ -192,7 +192,7 @@ export default {
   margin-bottom: 4px;
 }
 
-.row-even {
-  background-color: #eee!important;
+:deep(.row-even) {
+  background-color: #eee;
 }
 </style>
