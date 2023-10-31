@@ -1,63 +1,57 @@
 <template>
-  <el-button @click="visible = true">打开</el-button>
   <el-radio-group v-model="mode">
     <el-radio value="inline">行内编辑</el-radio>
     <el-radio value="dialog">弹框编辑</el-radio>
   </el-radio-group>
 
-  <el-form-dialog v-model="visible">
-    <el-checkbox v-model="tree">树形</el-checkbox>
-    <el-multiple-form
-      :mode="mode"
-      :columns="columns"
-      title="标题"
-      v-model:data="data"
-      ref="refer"
-      style="height: 400px"
-      :save-method="handleSave"
-      :delete-method="handleDelete"
-      :action-width="200"
-      sortable
-      disabled
-      :tree="tree"
-    >
+  <el-multiple-form
+    :mode="mode"
+    :columns="columns"
+    title="标题"
+    v-model:data="data"
+    ref="refer"
+    style="height: 400px"
+    :save-method="handleSave"
+    :delete-method="handleDelete"
+    :action-width="200"
+    sortable
+    :tree="tree"
+  >
+    <template #tools>
+      <el-button type="primary" @click="addNextLine">添加一行</el-button>
+      <el-button @click="refer?.validate()">校验</el-button>
+    </template>
 
-      <template #tools>
-        <el-button type="primary" @click="addNextLine">添加一行</el-button>
-        <el-button @click="refer?.validate()">校验</el-button>
-      </template>
+    <template #name="{ row }">
+      <el-input v-model="row.name" placeholder="名称" />
+    </template>
 
-      <template #name="{ row }">
-        <el-input v-model="row.name" placeholder="名称" />
-      </template>
+    <template #bol="{ row }">
+      <el-checkbox v-model="row.bol" />
+    </template>
 
-      <template #bol="{ row }">
-        <el-checkbox v-model="row.bol" />
-      </template>
+    <template #age="{ row }">
+      <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
+    </template>
 
-      <template #age="{ row }">
-        <el-input-number :min="1" v-model="row.age" placeholder="年龄" />
-      </template>
+    <template #school="{ row }">
+      <el-input v-model="row.school"></el-input>
+    </template>
+    <template #test="{ row }">
+      <el-input v-model="row.test.test1"></el-input>
+      <el-input v-model="row.test.test2"></el-input>
+    </template>
 
-      <template #school="{ row }">
-        <el-input v-model="row.school"></el-input>
-      </template>
-      <template #test="{ row }">
-        <el-input v-model="row.test.test1"></el-input>
-        <el-input v-model="row.test.test2"></el-input>
-      </template>
-
-      <template #default="{ form }">
-        <el-form-item label="名称">{{ form.name }}</el-form-item>
-        <el-input label="名称" field="name"></el-input>
-        <el-input label="年龄" field="age"></el-input>
-        <el-checkbox label="布尔" field="bol" />
-        <el-input label="学校" field="school"></el-input>
-        <el-input label="测试1" field="test.test1" />
-        <el-input label="测试2" field="test.test2" />
-      </template>
-    </el-multiple-form>
-  </el-form-dialog>
+    <template #default="{ form }">
+      <el-form-item label="名称">{{ form.name }}</el-form-item>
+      <el-input label="名称" field="name"></el-input>
+      <el-input label="年龄" field="age"></el-input>
+      <el-checkbox label="布尔" field="bol" />
+      <el-input label="学校" field="school"></el-input>
+      <el-input label="测试1" field="test.test1" />
+      <el-input label="测试2" field="test.test2" />
+    </template>
+  </el-multiple-form>
 </template>
 
 <script lang="ts" setup>
@@ -115,12 +109,17 @@ const columns: MultipleFormColumn[] = [
 ]
 
 let data = $shallowRef<any[]>([
-  { name: 'asdfasf', school: '213', age: 123, test: {}, bol: false, children: [
-    { name: 'asdf', school: '321', age: 321, test: {}, bol: false }
-  ] },
+  {
+    name: 'asdfasf',
+    school: '213',
+    age: 123,
+    test: {},
+    bol: false,
+    children: [{ name: 'asdf', school: '321', age: 321, test: {}, bol: false }]
+  },
 
-  {name: '沃尔特条', school: '33', age: 44, test: {}, bol: false},
-  {name: '沃尔特条2', school: '233', age: 244, test: {}, bol: false}
+  { name: '沃尔特条', school: '33', age: 44, test: {}, bol: false },
+  { name: '沃尔特条2', school: '233', age: 244, test: {}, bol: false }
 ])
 
 const visible = shallowRef(false)
