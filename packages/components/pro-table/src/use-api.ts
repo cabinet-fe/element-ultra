@@ -23,9 +23,9 @@ export function useApi(options: Options) {
   /** 缓存query */
   const storeQuery = () => {
     const { pagination, query } = props
-    const { $router } = inst.appContext.app.config.globalProperties
+    const { $router, $route } = inst.appContext.app.config.globalProperties
 
-    if (!query || !$router) return
+    if (!query || !$router || !$route) return
     const _query = pagination ? { ...query, ...pageQuery } : query
     let queryStr = Object.keys(_query)
       .reduce((acc, key) => {
@@ -40,7 +40,8 @@ export function useApi(options: Options) {
     }
 
     if (location.search === queryStr) return
-    $router.replace(location.pathname + queryStr)
+    // 考虑到刷新的时候会丢失query，因此重新访问一下路由
+    $router.replace($route.path + queryStr)
   }
 
   let sortKeys: Record<string, 'asc' | 'dsc' | 'default'> | undefined =
