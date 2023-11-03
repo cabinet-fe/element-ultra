@@ -104,7 +104,7 @@ import {
   ZoomIn,
   RefreshLeft,
   RefreshRight,
-  FullScreen,
+  Maximum,
   ScaleToOriginal
 } from 'icon-ultra'
 import {
@@ -118,7 +118,7 @@ import type { CSSProperties } from 'vue'
 const Mode = {
   CONTAIN: {
     name: 'contain',
-    icon: markRaw(FullScreen)
+    icon: markRaw(Maximum)
   },
   ORIGINAL: {
     name: 'original',
