@@ -30,7 +30,10 @@ const onCreate = () => {
     {
       data: { label: data.length },
       value: Date.now(),
-      children: [{ data: { label: '子节点' }, value: Date.now() + 1 }]
+      children: Array.from({ length: 100 }).map((_, i) => ({
+        data: { label: '子节点' },
+        value: Date.now() + i
+      })),
     }
   ]
 }

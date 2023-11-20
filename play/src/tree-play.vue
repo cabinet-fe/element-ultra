@@ -5,7 +5,7 @@
         :data="data"
         style="width: 300px"
         highlight-current
-        :height="416"
+        :height="1000"
         :item-size="32"
         show-checkbox
         ref="treeRef"
