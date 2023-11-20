@@ -6,22 +6,20 @@
     v-model="select"
     tree
     :data="data"
+    label-key="data.label"
   >
-    <!-- <template #default="item">
-      <span>
-        {{ item.label }}
-      </span>
-    </template> -->
   </el-edit-bar>
-
-  {{ select }}
 </template>
 
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 
 let data = $ref([
-  { label: 0, value: Date.now(), children: [{ label: '子节点', value: Date.now() + 1 }] }
+  {
+    data: { label: 0 },
+    value: Date.now(),
+    children: [{ data: { label: '子节点' }, value: Date.now() + 1 }]
+  }
 ])
 
 const select = shallowRef<any>(null)
@@ -30,14 +28,14 @@ const onCreate = () => {
   data = [
     ...data,
     {
-      label: data.length,
+      data: { label: data.length },
       value: Date.now(),
-      children: [{ label: '子节点', value: Date.now() + 1 }]
+      children: [{ data: { label: '子节点' }, value: Date.now() + 1 }]
     }
   ]
 }
 
 const onDelete = (v: any) => {
-  data = data.filter((item) => item.value !== v)
+  data = data.filter(item => item.value !== v)
 }
 </script>

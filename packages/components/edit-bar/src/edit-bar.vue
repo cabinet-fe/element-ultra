@@ -8,7 +8,6 @@
         </span>
       </slot>
     </div>
-
     <el-tree
       v-if="tree"
       :data="data"
@@ -27,11 +26,11 @@
           style="width: 100%"
           :class="{
             [ns.e('tree-item')]: true,
-            [ns.em('item', 'active')]: data[valueKey] === itemId
+            [ns.em('item', 'active')]: getChainValue(data, valueKey) === itemId
           }"
         >
           <slot v-bind="data">
-            <span :class="ns.e('item-label')">{{ data[labelKey] }}</span>
+            <span :class="ns.e('item-label')"> {{ node.label }}</span>
           </slot>
 
           <span @click.stop :class="ns.e('action')">
@@ -62,10 +61,10 @@
     <el-scrollbar v-else ref="listRef" tag="ul" :class="ns.e('list')">
       <li
         v-for="item of data"
-        :key="item[valueKey]"
+        :key="getChainValue(item, valueKey)"
         :class="{
           [ns.e('item')]: true,
-          [ns.em('item', 'active')]: item[valueKey] === itemId
+          [ns.em('item', 'active')]: getChainValue(item, valueKey) === itemId
         }"
         @click="onSelect(item)"
         tabindex="0"
@@ -73,7 +72,9 @@
         <span v-if="sortable" :class="ns.e('handle')"></span>
         <div :class="ns.e('item-content')">
           <slot v-bind="item">
-            <span :class="ns.e('item-label')">{{ item[labelKey] }}</span>
+            <span :class="ns.e('item-label')">{{
+              getChainValue(item, labelKey)
+            }}</span>
           </slot>
         </div>
 
@@ -105,6 +106,7 @@ import ElTree, { type TreeNode } from '@element-ultra/components/tree'
 import { editBarProps } from './edit-bar'
 import Sortable from 'sortablejs'
 import { Edit, Delete, Plus } from 'icon-ultra'
+import { getChainValue } from '@element-ultra/utils'
 
 defineOptions({
   name: 'ElEditBar'
@@ -179,12 +181,13 @@ watch(
 )
 
 const onSelect = (item: any) => {
+  const value = item ? getChainValue(item, props.valueKey) : null
   if (!item) {
     itemId.value = null
-  } else if (itemId.value === item[props.valueKey]) {
+  } else if (itemId.value === value) {
     itemId.value = null
   } else {
-    itemId.value = item[props.valueKey]
+    itemId.value = value
   }
 
   emit('select', itemId.value, item)
@@ -192,7 +195,7 @@ const onSelect = (item: any) => {
 }
 
 const onDelete = (item: any) => {
-  emit('delete', item[props.valueKey], item)
+  emit('delete', getChainValue(item, props.valueKey), item)
 }
 
 watch(

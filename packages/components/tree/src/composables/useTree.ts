@@ -17,7 +17,7 @@ import type {
   TreeData,
   Tree
 } from '../types'
-import { dfs } from '@element-ultra/utils'
+import { dfs, getChainValue } from '@element-ultra/utils'
 
 export function useTree(props: TreeProps, emit: TreeEmit) {
   const expandedKeySet = ref(new Set<TreeKey>())
@@ -37,7 +37,6 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
         dfs(data, item => {
           expandedKeys!.push(item[valueKey])
         })
-
       }
 
       expandedKeySet.value = new Set(expandedKeys)
@@ -203,7 +202,7 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
   }
 
   function getLabel(node: TreeNodeData): string {
-    return node[labelKey.value]
+    return getChainValue(node, labelKey.value)
   }
 
   function toggleExpand(node: TreeNode) {

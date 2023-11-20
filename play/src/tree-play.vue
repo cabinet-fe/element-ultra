@@ -10,6 +10,9 @@
         show-checkbox
         ref="treeRef"
         check-strictly
+        :props="{
+          label: 'data.label'
+        }"
       >
       </el-tree>
     </div>
@@ -29,11 +32,13 @@ setTimeout(() => {
   data = Array.from({ length: 100 }).map((_, index) => {
     return {
       label: `文本${index}`,
+      data: { label: '文本' },
       value: `${index}`,
       children: Array.from({ length: Math.round(Math.random() * 10) }).map(
         (_, childIndex) => {
           return {
             label: `子文本${childIndex}`,
+            data: { label: '子文本' },
             value: `${index}-${childIndex}`
           }
         }
