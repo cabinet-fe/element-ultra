@@ -41,7 +41,7 @@
 
 .#{$namespace}-tree--highlight-current .#{$namespace}-tree-node.is-current {
   > .#{$namespace}-tree-node__content {
-    background-color: getCssVar('color-primary-light-5');
+    background-color: getCssVar('color-primary-light-9');
     color: #fff;
   }
 
