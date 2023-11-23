@@ -50,7 +50,7 @@
 @include b(tree-node) {
   white-space: nowrap;
   outline: none;
-  padding: 0 4px;
+  padding: 0 8px;
 
   @include when(drop-inner) {
     > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {

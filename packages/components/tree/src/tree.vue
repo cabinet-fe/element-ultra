@@ -9,34 +9,56 @@
     :style="containerStyle"
     ref="treeContainer"
   >
-    <fixed-size-list
-      v-if="isNotEmpty && listHeight"
-      :class-name="ns.b('virtual-list')"
-      :data="flattenTree"
-      :total="flattenTree.length"
-      :height="listHeight"
-      :item-size="itemSize"
-      :perf-mode="perfMode"
-    >
-      <template #default="{ data, index, style }">
+    <template v-if="isNotEmpty">
+      <fixed-size-list
+        v-if="flattenTree.length > 240 && listHeight"
+        :class-name="ns.b('virtual-list')"
+        :data="flattenTree"
+        :total="flattenTree.length"
+        :height="listHeight"
+        :item-size="itemSize"
+        :perf-mode="perfMode"
+      >
+        <template #default="{ data, index, style }">
+          <el-tree-node
+            :key="data[index].key"
+            :style="style"
+            :node="data[index]"
+            :class="props.itemClass"
+            :expanded="isExpanded(data[index])"
+            :show-checkbox="showCheckbox"
+            :checked="isChecked(data[index])"
+            :indeterminate="isIndeterminate(data[index])"
+            :disabled="selectable ? !selectable(data[index]) : false"
+            :current="isCurrent(data[index])"
+            :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
+            @click="handleNodeClick"
+            @toggle="toggleExpand"
+            @check="handleNodeCheck"
+          ></el-tree-node>
+        </template>
+      </fixed-size-list>
+
+      <el-scrollbar style="height: 100%;" v-else>
         <el-tree-node
-          :key="data[index].key"
-          :style="style"
-          :node="data[index]"
+          v-for="node of flattenTree"
+          :key="node.key"
+          :node="node"
           :class="props.itemClass"
-          :expanded="isExpanded(data[index])"
+          :expanded="isExpanded(node)"
           :show-checkbox="showCheckbox"
-          :checked="isChecked(data[index])"
-          :indeterminate="isIndeterminate(data[index])"
-          :disabled="selectable ? !selectable(data[index]) : false"
-          :current="isCurrent(data[index])"
-          :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
+          :checked="isChecked(node)"
+          :indeterminate="isIndeterminate(node)"
+          :disabled="selectable ? !selectable(node) : false"
+          :current="isCurrent(node)"
+          :hidden-expand-icon="isForceHiddenExpandIcon(node)"
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
         ></el-tree-node>
-      </template>
-    </fixed-size-list>
+      </el-scrollbar>
+    </template>
+
     <div v-else :class="ns.e('empty-block')">
       <span :class="ns.e('empty-text')">{{ emptyText }}</span>
     </div>
@@ -56,6 +78,7 @@ import {
 } from 'vue'
 import { useNamespace } from '@element-ultra/hooks'
 import { FixedSizeList } from '@element-ultra/components/virtual-list'
+import { ElScrollbar } from '@element-ultra/components/scrollbar'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
 import { ROOT_TREE_INJECTION_KEY, treeEmits, treeProps } from './virtual-tree'

@@ -19,9 +19,10 @@
       :expand-on-click-node="false"
       highlight-current
       :item-size="32"
-      height="calc(100% - 44px)"
+      height="calc(100% - 48px)"
       @current-change="onSelect"
       ref="treeRef"
+      perf-mode
     >
       <template #default="{ data, node }">
         <div
