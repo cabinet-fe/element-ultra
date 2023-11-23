@@ -44,7 +44,7 @@ export const treeProps = {
   },
   itemSize: {
     type: Number,
-    default: 26
+    default: 32
   },
   emptyText: {
     type: String,

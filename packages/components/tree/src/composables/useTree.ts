@@ -43,16 +43,13 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
     }
   )
 
-  const currentKey = ref<TreeKey | undefined>()
+  const currentKey = ref<TreeKey | undefined>(props.currentNodeKey)
   const tree = shallowRef<Tree | undefined>()
 
   watch(
     () => props.currentNodeKey,
     key => {
       currentKey.value = key
-    },
-    {
-      immediate: true
     }
   )
 
@@ -282,7 +279,7 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
     return currentKey.value
   }
 
-  function setCurrentKey(key: TreeKey): void {
+  function setCurrentKey(key: TreeKey | undefined): void {
     currentKey.value = key
   }
 

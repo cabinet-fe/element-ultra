@@ -18,8 +18,10 @@
       }"
       :expand-on-click-node="false"
       highlight-current
-      height="calc(100% - 40px)"
+      :item-size="32"
+      height="calc(100% - 44px)"
       @current-change="onSelect"
+      ref="treeRef"
     >
       <template #default="{ data, node }">
         <div
@@ -72,9 +74,9 @@
         <span v-if="sortable" :class="ns.e('handle')"></span>
         <div :class="ns.e('item-content')">
           <slot v-bind="item">
-            <span :class="ns.e('item-label')">{{
-              getChainValue(item, labelKey)
-            }}</span>
+            <span :class="ns.e('item-label')">
+              {{ getChainValue(item, labelKey) }}
+            </span>
           </slot>
         </div>
 
@@ -107,6 +109,7 @@ import { editBarProps } from './edit-bar'
 import Sortable from 'sortablejs'
 import { Edit, Delete, Plus } from 'icon-ultra'
 import { getChainValue } from '@element-ultra/utils'
+import { nextTick } from 'vue'
 
 defineOptions({
   name: 'ElEditBar'
@@ -119,21 +122,32 @@ const props = defineProps(editBarProps)
 const emit = defineEmits<{
   (e: 'create', data?: any, node?: TreeNode): void
   (e: 'update', data: any, node?: TreeNode): void
-  (e: 'select', id: string | number | null, item: any): void
-  (e: 'update:modelValue', modelValue: string | number | null, item: any): void
+  (e: 'select', id: string | number | undefined, item: any): void
+  (
+    e: 'update:modelValue',
+    modelValue: string | number | undefined,
+    item: any
+  ): void
   (e: 'delete', id: any, item: any): void
   (e: 'sorted', list: any[], from: number, to: number): void
 }>()
 
-let itemId = shallowRef<any>(null)
+let itemId = shallowRef<string | number | undefined>(props.modelValue)
+
+const treeRef = shallowRef<InstanceType<typeof ElTree>>()
 
 watch(
   () => props.modelValue,
   v => {
     itemId.value !== v && (itemId.value = v)
-  },
-  { immediate: true }
+  }
 )
+
+watch(itemId, v => {
+  nextTick(() => {
+    treeRef.value?.setCurrentKey(v)
+  })
+}, { immediate: true })
 
 // 排序相关
 const listRef = shallowRef<InstanceType<typeof ElScrollbar>>()
@@ -181,11 +195,12 @@ watch(
 )
 
 const onSelect = (item: any) => {
-  const value = item ? getChainValue(item, props.valueKey) : null
+  const value = item ? getChainValue(item, props.valueKey) : undefined
+
   if (!item) {
-    itemId.value = null
+    itemId.value = undefined
   } else if (itemId.value === value) {
-    itemId.value = null
+    itemId.value = undefined
   } else {
     itemId.value = value
   }
@@ -201,7 +216,7 @@ const onDelete = (item: any) => {
 watch(
   () => props.data,
   data => {
-    if (data && data.length && props.defaultSelect) {
+    if (data && data.length && props.defaultSelect && itemId.value === null) {
       onSelect(data[0])
     }
   },

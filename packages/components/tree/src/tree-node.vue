@@ -28,15 +28,16 @@
           ns.is('leaf', !!node?.isLeaf),
           ns.is('hidden', hiddenExpandIcon),
           {
-            expanded: !node?.isLeaf && expanded,
+            expanded: !node?.isLeaf && expanded
           },
-          ns.be('node', 'expand-icon'),
+          ns.be('node', 'expand-icon')
         ]"
+        :size="16"
         @click.stop="handleExpandIconClick"
       >
         <component :is="icon" />
       </el-icon>
-      <label for=""></label>
+      <!-- <label for=""></label> -->
       <el-checkbox
         v-if="showCheckbox && !disabled"
         :model-value="checked"
@@ -60,7 +61,7 @@ import {
   ROOT_TREE_INJECTION_KEY,
   NODE_CONTEXTMENU,
   treeNodeEmits,
-  treeNodeProps,
+  treeNodeProps
 } from './virtual-tree'
 
 const DEFAULT_ICON = 'caret-right'
@@ -71,7 +72,7 @@ export default defineComponent({
     ElIcon,
     CaretRight,
     ElCheckbox,
-    ElNodeContent,
+    ElNodeContent
   },
   props: treeNodeProps,
   emits: treeNodeEmits,
@@ -112,8 +113,8 @@ export default defineComponent({
       handleClick,
       handleExpandIconClick,
       handleCheckChange,
-      handleContextMenu,
+      handleContextMenu
     }
-  },
+  }
 })
 </script>

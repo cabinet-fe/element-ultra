@@ -42,14 +42,15 @@
 .#{$namespace}-tree--highlight-current .#{$namespace}-tree-node.is-current {
   > .#{$namespace}-tree-node__content {
     background-color: getCssVar('color-primary-light-9');
-    color: #fff;
+    // color: #fff;
+    border-radius: getCssVar('border-radius-base');
   }
-
 }
 
 @include b(tree-node) {
   white-space: nowrap;
   outline: none;
+  padding: 0 4px;
 
   @include when(drop-inner) {
     > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {
@@ -72,7 +73,7 @@
   @include e(content) {
     display: flex;
     align-items: center;
-    height: 26px;
+    height: 32px;
     cursor: pointer;
 
     & > .#{$namespace}-tree-node__expand-icon {
@@ -82,10 +83,6 @@
     & > label.#{$namespace}-checkbox {
       margin-right: 8px;
     }
-    &:hover {
-      background-color: getCssVar('color-primary-light-9');
-    }
-
     .#{$namespace}-tree.is-dragging & {
       cursor: move;
 

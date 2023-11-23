@@ -9,7 +9,7 @@ import {
   onUpdated,
   ref,
   resolveDynamicComponent,
-  unref,
+  unref
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { hasOwn, isNumber, isString } from '@element-ultra/utils'
@@ -28,7 +28,7 @@ import {
   RTL,
   RTL_OFFSET_NAG,
   RTL_OFFSET_POS_DESC,
-  SCROLL_EVT,
+  SCROLL_EVT
 } from '../defaults'
 
 import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue'
@@ -45,7 +45,7 @@ const createList = ({
   getStopIndexForStartIndex,
   initCache,
   clearCache,
-  validateProps,
+  validateProps
 }: ListConstructorProps<VirtualizedListProps>) => {
   return defineComponent({
     name: name ?? 'ElVirtualList',
@@ -75,7 +75,7 @@ const createList = ({
           : 0,
         updateRequested: false,
         isScrollbarDragging: false,
-        scrollbarAlwaysOn: props.scrollbarAlwaysOn,
+        scrollbarAlwaysOn: props.scrollbarAlwaysOn
       })
 
       // computed
@@ -108,7 +108,7 @@ const createList = ({
           Math.max(0, startIndex - cacheBackward),
           Math.max(0, Math.min(total! - 1, stopIndex + cacheForward)),
           startIndex,
-          stopIndex,
+          stopIndex
         ]
       })
 
@@ -123,14 +123,14 @@ const createList = ({
           position: 'relative',
           [`overflow-${_isHorizontal.value ? 'x' : 'y'}`]: 'scroll',
           WebkitOverflowScrolling: 'touch',
-          willChange: 'transform',
+          willChange: 'transform'
         },
         {
           direction: props.direction,
           height: isNumber(props.height) ? `${props.height}px` : props.height,
-          width: isNumber(props.width) ? `${props.width}px` : props.width,
+          width: isNumber(props.width) ? `${props.width}px` : props.width
         },
-        props.style,
+        props.style
       ])
 
       const innerStyle = computed(() => {
@@ -139,7 +139,7 @@ const createList = ({
         return {
           height: horizontal ? '100%' : `${size}px`,
           pointerEvents: unref(states).isScrolling ? 'none' : undefined,
-          width: horizontal ? `${size}px` : '100%',
+          width: horizontal ? `${size}px` : '100%'
         }
       })
 
@@ -154,9 +154,9 @@ const createList = ({
           atEndEdge: computed(
             () => states.value.scrollOffset >= estimatedTotalSize.value
           ),
-          layout: computed(() => props.layout),
+          layout: computed(() => props.layout)
         },
-        (offset) => {
+        offset => {
           ;(
             scrollbarRef.value as any as {
               onMouseUp: () => void
@@ -202,7 +202,7 @@ const createList = ({
           isScrolling: true,
           scrollDir: getScrollDir(_states.scrollOffset, scrollOffset),
           scrollOffset,
-          updateRequested: false,
+          updateRequested: false
         }
 
         nextTick(resetIsScrolling)
@@ -248,7 +248,7 @@ const createList = ({
           isScrolling: true,
           scrollDir: getScrollDir(_states.scrollOffset, scrollOffset),
           scrollOffset,
-          updateRequested: false,
+          updateRequested: false
         }
 
         nextTick(resetIsScrolling)
@@ -283,7 +283,7 @@ const createList = ({
           ...unref(states),
           scrollOffset: offset,
           scrollDir: getScrollDir(unref(states).scrollOffset, offset),
-          updateRequested: true,
+          updateRequested: true
         }
 
         nextTick(resetIsScrolling)
@@ -332,7 +332,7 @@ const createList = ({
             right: isRtl ? `${offsetHorizontal}px` : undefined,
             top: !horizontal ? `${offset}px` : 0,
             height: !horizontal ? `${size}px` : '100%',
-            width: horizontal ? `${size}px` : '100%',
+            width: horizontal ? `${size}px` : '100%'
           }
         }
 
@@ -427,7 +427,7 @@ const createList = ({
         onWheel,
         scrollTo,
         scrollToItem,
-        resetScrollTop,
+        resetScrollTop
       }
 
       expose({
@@ -437,7 +437,7 @@ const createList = ({
         scrollTo,
         scrollToItem,
         resetScrollTop,
-        states,
+        states
       })
 
       return api
@@ -462,7 +462,7 @@ const createList = ({
         states,
         useIsScrolling,
         windowStyle,
-        ns,
+        ns
       } = ctx
 
       const [start, end] = itemsToRender
@@ -480,7 +480,7 @@ const createList = ({
               key: i,
               index: i,
               isScrolling: useIsScrolling ? states.isScrolling : undefined,
-              style: getItemStyle(i),
+              style: getItemStyle(i)
             })
           )
         }
@@ -491,14 +491,14 @@ const createList = ({
           Inner as VNode,
           {
             style: innerStyle,
-            ref: 'innerRef',
+            ref: 'innerRef'
           },
           !isString(Inner)
             ? {
-                default: () => children,
+                default: () => children
               }
             : children
-        ),
+        )
       ]
 
       const scrollbar = h(Scrollbar, {
@@ -509,7 +509,7 @@ const createList = ({
         ratio: (clientSize * 100) / this.estimatedTotalSize,
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
-        total,
+        total
       })
 
       const listContainer = h(
@@ -520,7 +520,7 @@ const createList = ({
           onScroll,
           onWheel_passive: onWheel,
           ref: 'windowRef',
-          key: 0,
+          key: 0
         },
         !isString(Container) ? { default: () => [InnerNode] } : [InnerNode]
       )
@@ -529,11 +529,12 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: [ns.e('wrapper'), states.scrollbarAlwaysOn ? 'always-on' : ''],
+
+          class: [ns.e('wrapper'), states.scrollbarAlwaysOn ? 'always-on' : '']
         },
         [listContainer, scrollbar]
       )
-    },
+    }
   })
 }
 

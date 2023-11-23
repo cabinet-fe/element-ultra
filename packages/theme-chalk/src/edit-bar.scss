@@ -3,13 +3,13 @@
 @include b(edit-bar) {
   height: 100%;
   background-color: var(--el-bg-color);
-  width: 200px;
-  padding: 0 1px;
   border-radius: var(--el-border-radius-base);
+  overflow: hidden;
+  box-shadow: 0 1px 4px 0 #ccc;
 
   @include e(list) {
     &.el-scrollbar {
-      height: calc(100% - 40px);
+      height: calc(100% - 44px);
     }
   }
 
@@ -39,8 +39,7 @@
       align-content: center;
       justify-content: space-between;
 
-      &:hover
-       {
+      &:hover {
         color: var(--el-color-primary);
 
         .el-edit-bar__action {
@@ -82,22 +81,27 @@
   }
 
   @include e(title) {
-    font-size: 14px;
+    font-size: 16px;
     flex-grow: 1;
+    font-weight: 500;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: #666;
   }
 
   @include e(tools) {
     height: 40px;
     padding: 0 8px;
+    margin-bottom: 4px;
     box-sizing: border-box;
     font-size: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     align-content: center;
+    background-color: getCssVar(bg-color, page);
+
 
     &-icon {
       display: inline-flex;

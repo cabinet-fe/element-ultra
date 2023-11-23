@@ -7,6 +7,7 @@
     tree
     :data="data"
     label-key="data.label"
+    style="width: 300px;"
   >
   </el-edit-bar>
 </template>
@@ -30,7 +31,7 @@ const onCreate = () => {
     {
       data: { label: data.length },
       value: Date.now(),
-      children: Array.from({ length: 100 }).map((_, i) => ({
+      children: Array.from({ length: 2 }).map((_, i) => ({
         data: { label: '子节点' },
         value: Date.now() + i
       })),
