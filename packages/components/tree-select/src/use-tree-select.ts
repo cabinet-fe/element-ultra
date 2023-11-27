@@ -13,6 +13,7 @@ import type {
 } from '@element-ultra/components/tree'
 import type { TreeSelectProps, TreeSelectEmits } from './tree-select'
 import { useFormItem } from '@element-ultra/hooks'
+import { getChainValue } from '@element-ultra/utils'
 
 interface Options {
   props: TreeSelectProps
@@ -159,8 +160,8 @@ export default function useTreeSelect(options: Options) {
   const handleSelectChange = (data?: TreeNodeData) => {
     const { labelKey, valueKey, multiple } = props
     if (multiple) return
-    const value = data?.[valueKey]
-    const label = data?.[labelKey]
+    const value = getChainValue(data, valueKey)
+    const label = getChainValue(data, labelKey)
     selectedLabel.value = label
     changedByEvent.value = true
     emitModelValue(value, label, data)

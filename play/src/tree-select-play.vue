@@ -1,7 +1,7 @@
 <template>
   <div style="width: 600px; margin: 100px auto">
     <section>
-      {{data}}
+      {{ data }}
     </section>
 
     <el-radio-group v-model="size">
@@ -25,6 +25,9 @@
         field="node1"
         label="单选"
         text-field="node1Label"
+        children-key="childnodes"
+        label-key="data.label"
+        value-key="data.value"
         :selectable="selectable"
       />
 
@@ -52,16 +55,18 @@ let treeData = shallowRef<any[]>([])
 setTimeout(() => {
   treeData.value = Array.from({ length: 20 }).map((_, index) => {
     return {
-      label: `文本${200 + index}`,
-      value: `${index}`,
-      children: Array.from({ length: 100 }).map(
-        (_, childIndex) => {
-          return {
+      data: {
+        label: `文本${20 + index}`,
+        value: `${index}`
+      },
+      childnodes: Array.from({ length: 10 }).map((_, childIndex) => {
+        return {
+          data: {
             label: `文本${200 + index}${('00' + (childIndex + 1)).slice(-3)}`,
             value: `${index}-${childIndex}`
           }
         }
-      )
+      })
     }
   })
 }, 0)

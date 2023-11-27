@@ -191,11 +191,11 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
     if (!node) {
       return ''
     }
-    return node[valueKey.value]
+    return getChainValue(node, valueKey.value)
   }
 
   function getDisabled(node: TreeNodeData): boolean {
-    return node[disabledKey.value]
+    return getChainValue(node, disabledKey.value)
   }
 
   function getLabel(node: TreeNodeData): string {
