@@ -55,7 +55,7 @@
           :precision="2"
           clearable
           field="num"
-          :multiple="100"
+          :multiple="2"
         />
 
         <el-tree-select
