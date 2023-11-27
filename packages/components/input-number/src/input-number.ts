@@ -48,6 +48,11 @@ export const inputNumberProps = {
   append: {
     type: [String, Number, Boolean] as PropType<string | number | false>,
     default: ''
+  },
+  /** 输出倍数 */
+  multiple: {
+    type: Number,
+    default: 1
   }
 } as const
 

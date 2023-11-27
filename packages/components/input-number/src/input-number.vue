@@ -66,6 +66,7 @@ import ElInput from '@element-ultra/components/input'
 import { ArrowUp, ArrowDown } from 'icon-ultra'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 import type { ComponentPublicInstance } from 'vue'
+import { plus, minus, mul, divide } from './calc'
 
 // 数值精度
 // 将计算的数值同时去掉所有小数点
@@ -128,17 +129,17 @@ function getValidValue(value?: number) {
 
   let factor = Math.pow(10, precision)
   // 转化成整数计算
-  let ret =  Math.round(value * factor) / factor
+  let ret = Math.round(value * factor) / factor
 
   return ret
 }
 
 const _increase = () => {
-  return exactCalc(props.modelValue ?? 0, props.step, (n1, n2) => n1 + n2)
+  return plus(divide(props.modelValue ?? 0, props.multiple), props.step)
 }
 
 const _decrease = () => {
-  return exactCalc(props.modelValue ?? 0, props.step, (n1, n2) => n1 - n2)
+  return minus(divide(props.modelValue?? 0, props.multiple), props.step)
 }
 
 const increase = () => {
@@ -161,19 +162,22 @@ const maxDisabled = computed(() => _increase() > props.max)
 
 const userInput = shallowRef('')
 const setUserInput = () => {
-  const { modelValue, money } = props
+  const { modelValue, money, multiple } = props
 
   if (!modelValue && modelValue !== 0) {
     userInput.value = ''
     return
   }
 
+  // 输入值 = 输出值(modelValue) / 输出倍数(multiple)
+  const inputValue = divide(modelValue, multiple)
+
   if (money) {
-    const isNegative = (modelValue ?? 0) < 0
+    const isNegative = (inputValue ?? 0) < 0
 
-    let valStr =  Math.abs(modelValue) +  '' // precision !== undefined ? modelValue.toFixed(precision) :
+    let valStr = Math.abs(inputValue) + ''
+    // precision !== undefined ? modelValue.toFixed(precision) :
     let [valIntStr, valDotStr] = valStr.split('.')
-
 
     let group: string[] = []
     let i = valIntStr.length
@@ -188,23 +192,25 @@ const setUserInput = () => {
     }
     userInput.value = isNegative ? '-' + valStr : valStr
   } else {
-    userInput.value = modelValue + ''
+    userInput.value = inputValue + ''
   }
 }
 
 const emitValue = (newVal?: number) => {
   const oldVal = props.modelValue
 
-  if (oldVal === newVal) return
-
   // 有值
   if (newVal !== undefined) {
     newVal = getValidValue(newVal)
   }
 
-  emit('update:modelValue', newVal)
-  emit('input', newVal)
-  emit('change', newVal, oldVal)
+  const newValWithMultiple =
+    newVal !== undefined ? mul(newVal, props.multiple) : newVal
+  if (oldVal === newValWithMultiple) return
+
+  emit('update:modelValue', newValWithMultiple)
+  emit('input', newValWithMultiple)
+  emit('change', newValWithMultiple, oldVal)
 }
 
 const handleInputChange = (value: string) => {
