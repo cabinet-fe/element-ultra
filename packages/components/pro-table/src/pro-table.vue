@@ -6,6 +6,7 @@
       @search="fetchData"
       @tools-resize="calcTableHeight"
     />
+
     <el-table
       :data="computedData"
       v-if="columns && columns.length"

@@ -123,18 +123,16 @@ export default defineComponent({
 
     const toolsRef = shallowRef<HTMLDivElement | null>(null)
 
-
     const [conf] = useConfig()
     /** 渲染额外的工具栏组件 */
     const renderExtraTools = () => {
       if (!conf.proTableExtraTools) return null
-        const nodes = conf.proTableExtraTools.map(component => {
-          return createVNode(component)
-        })
+      const nodes = conf.proTableExtraTools.map(component => {
+        return createVNode(component)
+      })
 
-        return nodes
+      return nodes
     }
-
 
     let observer: ResizeObserver | null = null
     onMounted(() => {
@@ -180,7 +178,6 @@ export default defineComponent({
           </ElButton>
         ) : null
 
-
       return (
         <section class={ns.e('tools')} ref={toolsRef}>
           <div class={ns.e('tools-bar')}>
@@ -201,6 +198,8 @@ export default defineComponent({
               {restNodes}
             </div>
           ) : null}
+
+          {proTableSlots?.['extra-bar'] ? proTableSlots['extra-bar']() : null}
         </section>
       )
     }

@@ -25,6 +25,10 @@
       />
     </template>
 
+    <template #extra-bar>
+      123123123
+    </template>
+
     <template #age="{ row }">
       {{ row }}
     </template>
