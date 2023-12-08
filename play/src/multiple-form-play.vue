@@ -26,7 +26,7 @@
       <el-input v-model="row.name" placeholder="名称" />
     </template>
 
-    <template #bol="{ row }">
+    <template #bol:view="{ row }">
       <el-checkbox v-model="row.bol" />
     </template>
 

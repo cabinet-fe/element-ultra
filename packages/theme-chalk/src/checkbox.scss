@@ -50,6 +50,7 @@ $checkbox-bordered-input-width: map.merge(
   user-select: none;
   margin-right: 30px;
   height: map.get($checkbox-height, 'default');
+  z-index: 0;
 
   @include when(bordered) {
     padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width
