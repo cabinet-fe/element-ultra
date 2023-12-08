@@ -16,6 +16,10 @@
     :summary-method="summaryMethod"
     show-summary
   >
+  <template #extra-bar>
+      123122
+    </template>
+
     <template #column-conf="{ column }">
       <el-input
         v-if="typeof column.name !== 'function'"
@@ -30,45 +34,10 @@
       />
     </template>
 
-<<<<<<< HEAD
-    <template #searcher>
-      <template v-if="showTools">
-        <el-input placeholder="名称" v-model="query.name" />
-        <el-input v-for="item of list" :placeholder="item.label" />
-        <el-select
-          clearable
-          placeholder="测试"
-          :options="[
-            { label: 'a', value: 'a' },
-            { label: 'b', value: 'b' }
-          ]"
-          multiple
-          v-model="query.$s"
-        />
-        <el-date-picker
-          placeholder="起止日期"
-          type="daterange"
-          v-model="query.$date"
-        />
-        <el-input
-          style="width: 200px"
-          v-for="(_, i) in 9"
-          :placeholder="`测试${i}`"
-        />
-      </template>
-    </template>
 
-    <template #name="{ row }">
-      <span style="color: red">{{ row.name }}</span>
-      <!-- <el-checkbox v-model="row.bol" /> -->
-=======
-    <template #extra-bar>
-      123123123
-    </template>
 
     <template #age="{ row }">
       {{ row }}
->>>>>>> 904c980e63c975a02832f66347876aefdba1667d
     </template>
 
     <template #action>

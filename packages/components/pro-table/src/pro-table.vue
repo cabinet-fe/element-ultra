@@ -8,6 +8,9 @@
       <template #tools>
         <slot name="tools" />
       </template>
+      <template #extra-bar>
+        <slot name="extra-bar" />
+      </template>
     </ProTableTools>
     <!-- 数据表格 -->
     <el-data-table

@@ -152,8 +152,6 @@ export default defineComponent({
       observer?.disconnect()
     })
 
-
-
     return () => {
       const { defaultVisibleNodes, nodesCount, restNodes } = getNodes()
 
