@@ -30,6 +30,7 @@
       />
     </template>
 
+<<<<<<< HEAD
     <template #searcher>
       <template v-if="showTools">
         <el-input placeholder="名称" v-model="query.name" />
@@ -60,6 +61,14 @@
     <template #name="{ row }">
       <span style="color: red">{{ row.name }}</span>
       <!-- <el-checkbox v-model="row.bol" /> -->
+=======
+    <template #extra-bar>
+      123123123
+    </template>
+
+    <template #age="{ row }">
+      {{ row }}
+>>>>>>> 904c980e63c975a02832f66347876aefdba1667d
     </template>
 
     <template #action>

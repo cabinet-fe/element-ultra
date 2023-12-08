@@ -209,6 +209,8 @@ export default defineComponent({
               {restNodes}
             </div>
           ) : null}
+
+          {proTableSlots?.['extra-bar'] ? proTableSlots['extra-bar']() : null}
         </section>
       )
     }
