@@ -21,6 +21,10 @@ export const radioGroupProps = {
   textColor: {
     type: String,
     default: ''
+  },
+  items: {
+    type: Array as PropType<{ value: string | number | boolean, label: string }[]>,
+    default: () => []
   }
 } as const
 

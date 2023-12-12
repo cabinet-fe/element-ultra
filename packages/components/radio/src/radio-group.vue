@@ -1,6 +1,19 @@
 <template>
-  <div ref="radioGroupRef" :class="ns.b('group')" role="radiogroup" @keydown="handleKeydown">
-    <slot></slot>
+  <div
+    ref="radioGroupRef"
+    :class="ns.b('group')"
+    role="radiogroup"
+    @keydown="handleKeydown"
+  >
+    <slot>
+      <el-radio
+        v-for="item of items"
+        :key="item.value + ''"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </el-radio>
+    </slot>
   </div>
 </template>
 
@@ -10,6 +23,7 @@ import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-ultra/shared'
 import { radioGroupKey } from '@element-ultra/tokens'
 import { useFormItem, useNamespace } from '@element-ultra/hooks'
 import { radioGroupProps, type RadioGroupProps } from './radio-group'
+import ElRadio from './radio.vue'
 
 defineOptions({
   name: 'ElRadioGroup'
@@ -37,11 +51,14 @@ const handleKeydown = (e: KeyboardEvent) => {
 
   // 左右上下按键 可以在 radio 组内切换不同选项
   const target = e.target as HTMLInputElement
-  const className = target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
-  const radios = radioGroupRef.value.querySelectorAll<HTMLInputElement>(className)
+  const className =
+    target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
+  const radios =
+    radioGroupRef.value.querySelectorAll<HTMLInputElement>(className)
   const length = radios.length
   const index = Array.from(radios).indexOf(target)
-  const roleRadios = radioGroupRef.value.querySelectorAll<HTMLInputElement>('[role=radio]')
+  const roleRadios =
+    radioGroupRef.value.querySelectorAll<HTMLInputElement>('[role=radio]')
 
   let nextIndex: number | null = null
   switch (e.code) {
@@ -66,9 +83,10 @@ const handleKeydown = (e: KeyboardEvent) => {
 }
 
 onMounted(() => {
-  const radios = radioGroupRef.value!.querySelectorAll<HTMLInputElement>('[type=radio]')
+  const radios =
+    radioGroupRef.value!.querySelectorAll<HTMLInputElement>('[type=radio]')
   const firstLabel = radios[0]
-  if (!Array.from(radios).some((radio) => radio.checked) && firstLabel) {
+  if (!Array.from(radios).some(radio => radio.checked) && firstLabel) {
     firstLabel.tabIndex = 0
   }
 })

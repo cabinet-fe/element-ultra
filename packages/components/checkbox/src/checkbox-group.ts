@@ -21,6 +21,9 @@ export const checkboxGroupProps = {
   tag: {
     type: String,
     default: 'div'
+  },
+  items: {
+    type: Array as PropType<{ value: string | number, label: string }[]>
   }
 }
 

@@ -19,10 +19,28 @@
         label-width="80px"
         :rules="rules"
       >
-        <el-radio-group label="审批流程" field="type">
-          <el-radio value="1">文本1</el-radio>
-          <el-radio value="2">文本2</el-radio>
+        <el-radio-group
+          label="审批流程"
+          field="type"
+          :items="[
+            { label: '文本1', value: '1' },
+            { label: '文本2', value: '2' }
+          ]"
+        >
+          <!-- <el-radio value="1">文本1</el-radio>
+          <el-radio value="2">文本2</el-radio> -->
         </el-radio-group>
+
+        <el-checkbox-group
+          label="结算方式"
+          field="pay"
+          :items="[
+            { label: '现金', value: '1' },
+            { label: '银行转账', value: '2' }
+          ]"
+        >
+
+        </el-checkbox-group>
 
         <el-range label="范围组件" field="range">
           <el-input />
@@ -43,7 +61,6 @@
           label="多选级联"
           :props="cascadeProps"
           clearable
-
           field="cascades"
           :options="cascadeOptions"
         />
@@ -178,6 +195,7 @@ const [data, rules] = useFormModel(
   {
     phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
     type: { value: '2' },
+    pay: { value: [] },
     code: { value: '' },
     checked: { value: true },
     address: { value: 'aas', required: true },

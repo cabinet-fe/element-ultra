@@ -1,6 +1,10 @@
 <template>
   <component :is="tag" :class="ns.b('group')">
-    <slot />
+    <slot>
+      <el-checkbox v-for="item of items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </el-checkbox>
+    </slot>
   </component>
 </template>
 
@@ -9,6 +13,7 @@ import { computed, provide, ref } from 'vue'
 import { useEventWatch, useFormItem, useNamespace } from '@element-ultra/hooks'
 import { checkboxGroupProps, checkboxGroupEmit } from './checkbox-group'
 import { checkboxGroupInjectionKey } from './token'
+import ElCheckbox from './checkbox.vue'
 
 defineOptions({
   name: 'ElCheckboxGroup'
