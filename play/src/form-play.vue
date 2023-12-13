@@ -16,13 +16,12 @@
         ref="formRef"
         :data="data"
         :default-data="{ num: 2 }"
-        label-width="80px"
+        label-width="90px"
         :rules="rules"
       >
         <el-radio-group
           label="审批流程"
           field="type"
-          :required="false"
           :items="[
             { label: '文本1', value: '1' },
             { label: '文本2', value: '2' }

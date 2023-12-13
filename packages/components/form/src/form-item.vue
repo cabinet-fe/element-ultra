@@ -11,8 +11,6 @@
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
-
-
       </span>
 
       <ElTooltip v-if="tips" :content="tips" raw-content>
@@ -59,7 +57,7 @@ export default defineComponent({
     field: String,
     tips: String,
     required: {
-      type: Boolean,
+      type: Boolean
     },
     labelWidth: {
       type: [String, Number],

@@ -10,7 +10,7 @@ $form-item-margin-bottom: map.merge(
   (
     'large': 22px,
     'default': 18px,
-    'small': 18px,
+    'small': 18px
   ),
   $form-item-margin-bottom
 );
@@ -20,7 +20,7 @@ $form-item-line-height: map.merge(
   (
     'large': 40px,
     'default': 32px,
-    'small': 24px,
+    'small': 24px
   ),
   $form-item-line-height
 );
@@ -30,7 +30,7 @@ $form-item-error-padding-top: map.merge(
   (
     'large': 4px,
     'default': 2px,
-    'small': 2px,
+    'small': 2px
   ),
   $form-item-error-padding-top
 );
@@ -40,7 +40,7 @@ $form-item-label-top-line-height: map.merge(
   (
     'large': 22px,
     'default': 22px,
-    'small': 20px,
+    'small': 20px
   ),
   $form-item-label-top-line-height
 );
@@ -50,7 +50,7 @@ $form-item-label-top-margin-bottom: map.merge(
   (
     'large': 12px,
     'default': 8px,
-    'small': 4px,
+    'small': 4px
   ),
   $form-item-label-top-margin-bottom
 );
@@ -129,7 +129,6 @@ $form-item-label-top-margin-bottom: map.merge(
 
       @include e(label) {
         height: #{map.get($form-item-line-height, $size)};
-        line-height: #{map.get($form-item-line-height, $size)};
       }
       @include e(content) {
         line-height: #{map.get($form-item-line-height, $size)};
@@ -145,10 +144,9 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include e(label) {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     font-size: getCssVar('form-label-font-size');
     color: getCssVar('text-color', 'regular');
 
@@ -163,6 +161,8 @@ $form-item-label-top-margin-bottom: map.merge(
   @include e(label-text) {
     margin-right: 2px;
     vertical-align: middle;
+    line-height: 1.1;
+    text-align: right;
   }
   @include e(content) {
     display: flex;
@@ -197,9 +197,9 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      > .#{$namespace}-form-item__label:before,
+      .#{$namespace}-form-item__label-text:before,
       > .#{$namespace}-form-item__label-wrap
-        > .#{$namespace}-form-item__label:before {
+        .#{$namespace}-form-item__label-text:before {
         content: '*';
         color: getCssVar('color-danger');
         margin-right: 4px;
