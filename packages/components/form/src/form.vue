@@ -290,12 +290,12 @@ const validateField = async (field: string) => {
   if (!fieldRules) {
     console.warn(`表单数据中没有定义该字段: ${field}, 校验可能出现问题`)
   }
-  const { validator, required = formItemRefsMap[field].isRequired, ...rule } = fieldRules || {}
+  const { validator, required, ...rule } = fieldRules || {}
 
   let errMsg: null | undefined | string = null
 
-  // 优先校验必填
-  errMsg = validators.required(value, required)
+  // 优先校验必填, 已组件中传入的required属性为准
+  errMsg = validators.required(value, formItemRefsMap[field].isRequired ?? required)
   if (errMsg) return errMsg
 
   if (!value && value !== 0) return errMsg
