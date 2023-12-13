@@ -16,7 +16,7 @@
         ref="formRef"
         :data="data"
         :default-data="{ num: 2 }"
-        label-width="90px"
+        label-width="80px"
         :rules="rules"
       >
         <el-radio-group
