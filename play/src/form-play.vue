@@ -22,6 +22,7 @@
         <el-radio-group
           label="审批流程"
           field="type"
+          required
           :items="[
             { label: '文本1', value: '1' },
             { label: '文本2', value: '2' }
@@ -194,7 +195,7 @@ setTimeout(() => {
 const [data, rules] = useFormModel(
   {
     phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
-    type: { value: '2' },
+    type: {  },
     pay: { value: [] },
     code: { value: '' },
     checked: { value: true },

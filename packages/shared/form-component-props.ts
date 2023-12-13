@@ -12,5 +12,8 @@ export const FORM_COMPONENT_PROPS = {
   },
   span: {
     type: [String, Number] as PropType<'max' | number>
+  },
+  required: {
+    type: Boolean
   }
 }

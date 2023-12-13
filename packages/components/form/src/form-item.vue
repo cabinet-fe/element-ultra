@@ -11,6 +11,8 @@
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
+
+
       </span>
 
       <ElTooltip v-if="tips" :content="tips" raw-content>
@@ -56,6 +58,9 @@ export default defineComponent({
     label: String,
     field: String,
     tips: String,
+    required: {
+      type: Boolean,
+    },
     labelWidth: {
       type: [String, Number],
       default: ''
@@ -83,7 +88,7 @@ export default defineComponent({
 
     const isRequired = computed(() => {
       if (!elForm || !props.field) return false
-      return elForm.formRules?.[props.field]?.required
+      return props.required || elForm.formRules?.[props.field]?.required
     })
 
     const validate = async () => {
@@ -142,7 +147,8 @@ export default defineComponent({
       reset,
       clearValidate,
       currentLabel,
-      ns
+      ns,
+      isRequired
     }
   }
 })

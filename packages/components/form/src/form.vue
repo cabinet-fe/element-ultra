@@ -161,7 +161,13 @@ const handleUpdateText = (text: any, textField?: string) => {
 
 type FormComponentSlot = {
   node: VNode
-  formItemProps: { label: string; field: string; style: any; tips: string }
+  formItemProps: {
+    label: string
+    field: string
+    style: any
+    tips: string
+    required?: boolean
+  }
   field: string
   textField?: string
 }
@@ -192,7 +198,8 @@ const getSlots = () => {
 
       if (isObject(node.type) && formComponents.has((node.type as any).name)) {
         const props = node.props || {}
-        const { label, field, tips, span } = props
+
+        const { label, field, tips, span, required } = props
 
         return result.push({
           node,
@@ -202,6 +209,7 @@ const getSlots = () => {
             label,
             field,
             tips,
+            required,
             style: {
               gridColumn: getFormItemSpan(span)
             }
@@ -282,7 +290,7 @@ const validateField = async (field: string) => {
   if (!fieldRules) {
     console.warn(`表单数据中没有定义该字段: ${field}, 校验可能出现问题`)
   }
-  const { validator, required, ...rule } = fieldRules || {}
+  const { validator, required = formItemRefsMap[field].isRequired, ...rule } = fieldRules || {}
 
   let errMsg: null | undefined | string = null
 
