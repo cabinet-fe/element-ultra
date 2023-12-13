@@ -22,7 +22,7 @@
         <el-radio-group
           label="审批流程"
           field="type"
-          required
+          :required="false"
           :items="[
             { label: '文本1', value: '1' },
             { label: '文本2', value: '2' }
@@ -40,7 +40,6 @@
             { label: '银行转账', value: '2' }
           ]"
         >
-
         </el-checkbox-group>
 
         <el-range label="范围组件" field="range">
@@ -195,7 +194,7 @@ setTimeout(() => {
 const [data, rules] = useFormModel(
   {
     phone: { value: '', match: [/^1\d{10}$/, '手机号不正确'] },
-    type: {  },
+    type: { required: true },
     pay: { value: [] },
     code: { value: '' },
     checked: { value: true },
