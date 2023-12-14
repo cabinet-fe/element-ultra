@@ -83,10 +83,11 @@ const buildCell = <
           row: data,
           index
         })
+
         return showCell ? (
           <td
             class={classes}
-            title={val}
+            title={typeof val === 'object' ? undefined : val}
             rowspan={cellConfig?.rowspan}
             colspan={cellConfig?.colspan}
             style={{
