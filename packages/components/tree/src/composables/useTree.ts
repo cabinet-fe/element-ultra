@@ -30,12 +30,13 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
     ],
     ([data, expandAll, defaultExpandedKeys]) => {
       let expandedKeys = defaultExpandedKeys
+
       if (!expandedKeys) {
         if (!expandAll) return
         const valueKey = props.props.value ?? 'value'
         expandedKeys = []
         dfs(data, item => {
-          expandedKeys!.push(item[valueKey])
+          expandedKeys!.push(getChainValue(item, valueKey))
         })
       }
 
