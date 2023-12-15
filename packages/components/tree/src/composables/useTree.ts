@@ -21,7 +21,6 @@ import { dfs, getChainValue } from '@element-ultra/utils'
 
 export function useTree(props: TreeProps, emit: TreeEmit) {
   const expandedKeySet = ref(new Set<TreeKey>())
-
   watch(
     [
       () => props.data,
@@ -41,7 +40,8 @@ export function useTree(props: TreeProps, emit: TreeEmit) {
       }
 
       expandedKeySet.value = new Set(expandedKeys)
-    }
+    },
+    { immediate: true }
   )
 
   const currentKey = ref<TreeKey | undefined>(props.currentNodeKey)

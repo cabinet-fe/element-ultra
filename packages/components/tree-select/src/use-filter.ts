@@ -1,6 +1,7 @@
 import { shallowReactive, type ShallowRef } from 'vue'
 import type { TreeSelectProps } from './tree-select'
 import type { ElTree, TreeNodeData } from '@element-ultra/components/tree'
+import { getChainValue } from '@element-ultra/utils'
 
 export default function useFilter(
   props: TreeSelectProps,
@@ -14,7 +15,7 @@ export default function useFilter(
   const filterMethod = (query: string, node: TreeNodeData) => {
     const { labelKey } = props
     if (!query) return true
-    return node[labelKey].includes(query)
+    return getChainValue(node, labelKey)?.includes(query)
   }
 
   /** 过滤 */

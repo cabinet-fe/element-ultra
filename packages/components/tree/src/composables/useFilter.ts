@@ -1,7 +1,7 @@
-import { computed, ref } from 'vue'
-import { isFunction } from '@vue/shared'
+import { ref } from 'vue'
 import type { Ref } from 'vue'
 import type { TreeProps, TreeKey, TreeNode, Tree } from '../types'
+import { getChainValue } from '@element-ultra/utils'
 
 // When the data volume is very large using filter will cause lag
 // I haven't found a better way to optimize it for now
@@ -20,7 +20,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
     const family: TreeNode[] = []
     const nodes = tree.value?.treeNodes || []
     const filter = props.filterMethod || ((query, data) => {
-      return data[labelKey]?.includes(query)
+      return getChainValue(data, labelKey)?.includes(query)
     })
     hiddenKeys.clear()
 

@@ -123,10 +123,11 @@ export default function useTreeSelect(options: Options) {
     if (!tree || !Array.isArray(modelValue)) return
 
     tagList.value.splice(i, 1)
-    tree.setChecked(data[valueKey], false)
+    tree.setChecked(getChainValue(data, valueKey), false)
 
     const { nodes, keys } = tree.getChecked()
-    const labels = nodes.map(node => node[labelKey])
+
+    const labels = nodes.map(node => getChainValue(node, labelKey))
     emitModelValue(keys, labels, nodes)
   }
 
@@ -152,7 +153,8 @@ export default function useTreeSelect(options: Options) {
       }
 
       tree.setCurrentKey(modelValue)
-      selectedLabel.value = tree.getCurrentNode()?.[labelKey] ?? text
+      selectedLabel.value =
+        getChainValue(tree.getCurrentNode(), labelKey) ?? text
     }
   }
 
@@ -172,17 +174,12 @@ export default function useTreeSelect(options: Options) {
   const handleCheck = (_: any, info: CheckedInfo) => {
     const { checkedKeys, checkedNodes } = info
     const { labelKey } = props
-    const checkedLabels = checkedNodes.map(node => node[labelKey])
+    const checkedLabels = checkedNodes.map(node =>
+      getChainValue(node, labelKey)
+    )
     tagList.value = checkedNodes
     changedByEvent.value = true
     emitModelValue(checkedKeys, checkedLabels, checkedNodes)
-  }
-
-  /** 过滤方法 */
-  const filterMethod = (query: string, node: TreeNodeData) => {
-    const { labelKey } = props
-    if (!query) return true
-    return node[labelKey].includes(query)
   }
 
   return {
@@ -201,7 +198,6 @@ export default function useTreeSelect(options: Options) {
     selectedLabel,
     setTreeChecked,
     handleCheck,
-    filterMethod,
     handleSelectChange,
     openDialog,
     closeDialog,

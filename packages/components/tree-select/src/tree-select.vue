@@ -38,7 +38,7 @@
               max-width="100px"
               @close="handleCloseTag(tag, i)"
             >
-              {{ tag[labelKey] }}
+              {{ getChainValue(tag, labelKey) }}
             </el-tag>
             <el-tag v-if="tagList.length - multipleLimit > 0">
               +{{ tagList.length - multipleLimit }}
@@ -54,7 +54,7 @@
               type="info"
               @close="handleCloseTag(tag, i)"
             >
-              {{ tag[labelKey] }}
+              {{ getChainValue(tag, labelKey) }}
             </el-tag>
           </template>
         </template>
@@ -153,6 +153,7 @@ import ElDialog from '@element-ultra/components/dialog'
 import { CircleClose, ArrowDown, Search } from 'icon-ultra'
 import useTreeSelect from './use-tree-select'
 import useFilter from './use-filter'
+import { getChainValue } from '@element-ultra/utils'
 
 const ns = useNamespace('tree-select')
 

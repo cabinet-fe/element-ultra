@@ -17,6 +17,7 @@ export { hasOwn } from '@vue/shared'
  * @param targetProp 目标属性
  */
 export function getChainValue(o: any, prop: string, targetProp?: string) {
+  if (!o) return undefined
   let ret = o
   if (targetProp) {
     ret = o[targetProp]

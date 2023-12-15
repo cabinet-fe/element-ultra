@@ -3,7 +3,8 @@
     @click="
       open('create', {
         title: '新增'
-      })
+      });
+      data.node1 = '0-0'
     "
     >新增</el-button
   >
@@ -46,9 +47,19 @@
 
         <el-textarea field="name" label="副文本" span="max"></el-textarea>
 
-        <el-tree-select key="111" :data="treeData" field="node1" label="单选" />
+        <el-tree-select
+          key="111"
+          :data="treeData"
+          value-key="data.value"
+          label-key="data.label"
+          children-key="childNodes"
+          field="node1"
+          label="单选"
+        />
 
-        <el-tree-select :data="treeData" field="node2" label="多选" multiple />
+        <el-tree-select :data="treeData" field="node2" label="多选" multiple   value-key="data.value"
+          label-key="data.label"
+          children-key="childNodes"/>
 
         <el-select :options="treeData" />
 
@@ -84,7 +95,7 @@ const [data, rules] = useFormModel({
   school: { required: true },
   type: { value: '' },
   age: {},
-  node1: { value: '' },
+  node1: {},
   node2: { value: [] as string[] },
   rich: { required: true, value: '' },
   a: {
@@ -100,13 +111,17 @@ let treeData = $shallowRef<any[]>([])
 setTimeout(() => {
   treeData = Array.from({ length: 10 }).map((_, index) => {
     return {
-      label: `文本${index}`,
-      value: `${index}`,
-      children: Array.from({ length: Math.round(Math.random() * 2) }).map(
+      data: {
+        label: `文本${index}`,
+        value: `${index}`
+      },
+      childNodes: Array.from({ length: Math.ceil(Math.random() * 2) }).map(
         (_, childIndex) => {
           return {
-            label: `文本${index}-${childIndex}`,
-            value: `${index}-${childIndex}`
+            data: {
+              label: `文本${index}-${childIndex}`,
+              value: `${index}-${childIndex}`
+            }
           }
         }
       )
