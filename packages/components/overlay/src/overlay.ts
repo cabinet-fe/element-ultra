@@ -3,32 +3,29 @@ import { PatchFlags } from '@element-ultra/utils'
 import { useNamespace, useSameTarget } from '@element-ultra/hooks'
 
 import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { ZIndexProperty } from 'csstype'
 
 export const overlayProps = {
   mask: {
     type: Boolean,
-    default: true,
+    default: true
   },
   customMaskEvent: {
     type: Boolean,
-    default: false,
+    default: false
   },
   overlayClass: {
-    type: [
-      String,
-      Array,
-      Object,
-    ] as PropType<string | string[] | Record<string, boolean>>,
+    type: [String, Array, Object] as PropType<
+      string | string[] | Record<string, boolean>
+    >
   },
   zIndex: {
-    type: [String, Number] as PropType<ZIndexProperty>,
-  },
+    type: [String, Number]
+  }
 }
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
 
 export const overlayEmits = {
-  click: (evt: MouseEvent) => evt instanceof MouseEvent,
+  click: (evt: MouseEvent) => evt instanceof MouseEvent
 }
 export type OverlayEmits = typeof overlayEmits
 
@@ -56,11 +53,11 @@ export default defineComponent({
             {
               class: [ns.b(), props.overlayClass],
               style: {
-                zIndex: props.zIndex,
+                zIndex: props.zIndex
               },
               onClick,
               onMousedown,
-              onMouseup,
+              onMouseup
             },
             [renderSlot(slots, 'default')],
             PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
@@ -76,11 +73,11 @@ export default defineComponent({
                 top: '0px',
                 right: '0px',
                 bottom: '0px',
-                left: '0px',
-              } as CSSProperties,
+                left: '0px'
+              } as CSSProperties
             },
             [renderSlot(slots, 'default')]
           )
     }
-  },
+  }
 })

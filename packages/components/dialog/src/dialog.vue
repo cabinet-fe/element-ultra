@@ -10,7 +10,7 @@
         v-show="visible"
         :mask="modal"
         :overlay-class="modalClass"
-        :z-index="zIndex"
+        :z-index="dialog.zIndex.value"
         @click="onModalClick"
       >
         <el-dialog-content
