@@ -71,7 +71,8 @@
           :precision="2"
           clearable
           field="num"
-          :multiple="2"
+          :multiple="10000"
+          :max="1000000"
         />
 
         <el-tree-select

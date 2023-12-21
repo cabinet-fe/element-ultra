@@ -102,7 +102,9 @@ function getValidValue(value?: number) {
     return value
   }
   // 确保在最大值最小值之间
-  const { min, max, precision } = props
+  let { min, max, precision, multiple } = props
+  min = divide(min, multiple)
+  max = divide(max, multiple)
   if (value < min) {
     value = min
   }
@@ -142,8 +144,12 @@ const decrease = () => {
   changedByEvent.value = true
 }
 
-const minDisabled = computed(() => _decrease() <  divide(props.min, props.multiple))
-const maxDisabled = computed(() => _increase() > divide(props.max, props.multiple))
+const minDisabled = computed(
+  () => _decrease() < divide(props.min, props.multiple)
+)
+const maxDisabled = computed(
+  () => _increase() > divide(props.max, props.multiple)
+)
 
 const userInput = shallowRef('')
 const setUserInput = () => {
