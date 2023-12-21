@@ -15,6 +15,7 @@
     :lazy-load="lazyLoad"
     :summary-method="summaryMethod"
     show-summary
+    tree
   >
   <template #extra-bar>
       123122

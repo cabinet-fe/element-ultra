@@ -5,6 +5,7 @@ import type {
   DataTableRow,
   DataTreeRow
 } from '../data-table'
+import { dfs } from '@element-ultra/utils'
 
 export default function useState(props: DataTableProps, emit: DataTableEmits) {
   const { tree, itemReactive } = props
@@ -72,7 +73,10 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
       row.children && row.expanded && dfsFlat(row.children, cb)
     })
   }
-  /** 获取碾平后的树形数据 */
+  /**
+   * 获取碾平后的树形数据
+   * @param expandRow 是否展开行，展开式会碾平所有数据
+   */
   const getFlatData = (expandRow?: boolean) => {
     let ret: DataTreeRow[] = []
     let index = 0
@@ -133,7 +137,17 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
   // 多选相关逻辑----------------------------------------
   /** 全选中 */
   const allChecked = computed(() => {
-    return props.data.length && props.data.length === store.checked.size
+    if (!props.data.length) return
+    if (!props.tree) {
+      return props.data.length === store.checked.size
+    }
+
+    let count = 0
+    dfs(treeData.value, row => {
+      count++
+    })
+
+    return count === store.checked.size
   })
 
   /** 部分选中 */
@@ -143,10 +157,19 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
   /** 选择全部 */
   const checkAll = () => {
-    let checked =
-      typeof props.checkable === 'function'
-        ? props.data.filter(props.checkable)
-        : props.data
+    let checked: any[] = []
+    const { data, checkable } = props
+    if (!props.tree) {
+      checked = typeof checkable === 'function' ? data.filter(checkable) : data
+    } else {
+      typeof checkable === 'function'
+        ? dfs(treeData.value, row => {
+            checkable(row.data) && checked.push(row.data)
+          })
+        : dfs(treeData.value, row => {
+            checked.push(row.data)
+          })
+    }
 
     // 直接替换性能最高
     store.checked = shallowReactive(new Set(checked))

@@ -56,7 +56,7 @@ export const dataTableProps = {
   /** 是否多选 */
   checkable: {
     type: [Function, Boolean] as PropType<
-      boolean | ((row: any, index: number) => boolean)
+      boolean | ((row: any, index?: number) => boolean)
     >,
     default: false
   },
@@ -69,7 +69,7 @@ export const dataTableProps = {
   /** 是否可以单选 */
   selectable: {
     type: [Function, Boolean] as PropType<
-      boolean | ((row: any, index: number) => boolean)
+      boolean | ((row: any, index?: number) => boolean)
     >,
     default: false
   },

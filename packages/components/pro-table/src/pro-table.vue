@@ -66,7 +66,7 @@
 import { computed, shallowRef, useSlots, provide, shallowReadonly } from 'vue'
 import {
   ElDataTable,
-  DataTableInstance
+  type DataTableInstance
 } from '@element-ultra/components/data-table'
 import ProTableTools from './pro-table-tools'
 import { proTableProps, proTableEmits, ProTableColumn } from './pro-table'

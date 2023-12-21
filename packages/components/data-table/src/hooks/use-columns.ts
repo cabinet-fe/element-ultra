@@ -89,7 +89,7 @@ export default function useColumns(
       result.push({
         name: '',
         key: '$_expand',
-        width: 80,
+        width: 100,
         fixed: 'left',
         render: ctx => {
           const wrap = ctx.wrap as DataTreeRow
