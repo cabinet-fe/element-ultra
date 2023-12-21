@@ -89,21 +89,6 @@ const inputNumberSize = computed(() => {
   return props.size ?? formSize.value
 })
 
-const exactCalc = (
-  n1: number,
-  n2: number,
-  calc: (int1: number, int2: number) => number
-) => {
-  let str1 = n1 + ''
-  let str2 = n2 + ''
-  let dotLength = Math.max(
-    (str1.split('.')[1] || '').length,
-    (str2.split('.')[1] || '').length
-  )
-  let factor = Math.pow(10, dotLength)
-  return calc(n1 * factor, n2 * factor) / factor
-}
-
 /**
  * 获取合法的值
  * 在 min - max值之间
@@ -139,7 +124,7 @@ const _increase = () => {
 }
 
 const _decrease = () => {
-  return minus(divide(props.modelValue?? 0, props.multiple), props.step)
+  return minus(divide(props.modelValue ?? 0, props.multiple), props.step)
 }
 
 const increase = () => {
@@ -157,8 +142,8 @@ const decrease = () => {
   changedByEvent.value = true
 }
 
-const minDisabled = computed(() => _decrease() < props.min)
-const maxDisabled = computed(() => _increase() > props.max)
+const minDisabled = computed(() => _decrease() <  divide(props.min, props.multiple))
+const maxDisabled = computed(() => _increase() > divide(props.max, props.multiple))
 
 const userInput = shallowRef('')
 const setUserInput = () => {
