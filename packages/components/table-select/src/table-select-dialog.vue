@@ -28,6 +28,7 @@
       }"
       @row-click="handleRowClick"
       v-loading="loading"
+      :row-key="rootProps.valueKey"
     ></el-table>
 
     <el-pagination

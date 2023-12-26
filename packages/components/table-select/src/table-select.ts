@@ -3,7 +3,9 @@ import type { ExtractPropTypes, PropType } from 'vue'
 import type { TableColumn } from '@element-ultra/components/table'
 import { SizeProp } from '@element-ultra/shared'
 
-export interface TableSelectColumn extends TableColumn {}
+export interface TableSelectColumn extends TableColumn {
+  sortable?: boolean
+}
 
 export const tableSelectProps = {
   /** 选择的值 */
@@ -12,6 +14,7 @@ export const tableSelectProps = {
       Record<string, any> | Record<string, any>[]
     >
   },
+
   /** 列, 属性可以查看pro-table的属性 */
   columns: {
     type: Array as PropType<TableSelectColumn[]>,
