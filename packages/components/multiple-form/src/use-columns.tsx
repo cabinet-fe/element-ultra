@@ -257,7 +257,7 @@ export default function useColumns(options: Options) {
         ? [...parent.indexes, index ?? parent.children?.length ?? 0]
         : index ?? root.children!.length,
       data,
-      'view'
+      'editing'
     )
   }
 
