@@ -38,10 +38,7 @@
     <template #school="{ row }">
       <el-input v-model="row.school"></el-input>
     </template>
-    <template #test="{ row }">
-      <el-input v-model="row.test.test1"></el-input>
-      <el-input v-model="row.test.test2"></el-input>
-    </template>
+
 
     <template #default="{ form }">
       <el-form-item label="名称">{{ form.name }}</el-form-item>

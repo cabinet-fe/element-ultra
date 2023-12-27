@@ -257,7 +257,7 @@ export default function useColumns(options: Options) {
         ? [...parent.indexes, index ?? parent.children?.length ?? 0]
         : index ?? root.children!.length,
       data,
-      'editing'
+      'view'
     )
   }
 
@@ -470,8 +470,15 @@ export default function useColumns(options: Options) {
     return type
   }
   const cols = computed(() => {
-    const { columns, disabled, actionEdit, actionDelete, actionInsert, tree, mode } =
-      props
+    const {
+      columns,
+      disabled,
+      actionEdit,
+      actionDelete,
+      actionInsert,
+      tree,
+      mode
+    } = props
 
     // 操作栏
     const actionColumn: TableColumn<MultipleFormRow> = {
@@ -485,6 +492,7 @@ export default function useColumns(options: Options) {
 
         // 保存按钮
         row.status === 'editing' &&
+          mode === 'inline' &&
           buttons.push(
             <ElButton
               type='primary'
@@ -506,7 +514,8 @@ export default function useColumns(options: Options) {
 
         // 查看状态下显示的按钮
         if (row.status === 'view') {
-          mode !== 'direct' && actionVisible(actionEdit, row) &&
+          mode !== 'direct' &&
+            actionVisible(actionEdit, row) &&
             buttons.push(
               <ElButton
                 title='编辑'
@@ -665,7 +674,10 @@ export default function useColumns(options: Options) {
           width: column.width,
           align: column.align,
           key: 'data.' + column.key, // data.key才是真实数据
-          render: ctx => renders[ctx.row.status](ctx, column),
+          render:
+            mode === 'direct'
+              ? ctx => renders.editing(ctx, column)
+              : ctx => renders[ctx.row.status](ctx, column),
           summary:
             summary === true
               ? summary
