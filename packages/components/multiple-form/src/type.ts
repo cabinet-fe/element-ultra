@@ -178,7 +178,7 @@ export const multipleFormProps = {
 
   /** 模式 */
   mode: {
-    type: String as PropType<'inline' | 'dialog'>,
+    type: String as PropType<'inline' | 'dialog' | 'direct'>,
     default: 'inline'
   },
 

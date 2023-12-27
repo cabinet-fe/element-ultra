@@ -35,7 +35,6 @@ import type useRows from './use-rows'
 import Sortable from 'sortablejs'
 import { nextTick, inject } from 'vue'
 
-
 interface Options {
   props: MultipleFormProps
   slots: Slots
@@ -177,19 +176,19 @@ export default function useColumns(options: Options) {
             node: row,
             row: row.data,
             val,
+            v: val,
             index: row.index,
             indexes: [...row.indexes]
           })
-        : val
+        : String(val ?? '')
     }
   }
 
   let currentEditRow: MultipleFormRow | null = null
 
-  watch(
-    () => props.data,
-    () => (currentEditRow = null)
-  )
+  watch([() => props.data, () => props.mode], () => {
+    currentEditRow = null
+  })
 
   /** 重置当前编辑行 */
   const resetCurrentRow = () => {
@@ -207,13 +206,10 @@ export default function useColumns(options: Options) {
   const { dialogVisible } = inject(dialogInjectionKey, undefined) || {}
 
   /**
-   * 新增行
-   * @param parent 父级
+   * 生成行的原始数据
    */
-  const createInlineRow = (parent?: MultipleFormRow | null, index?: number) => {
-    resetCurrentRow()
-
-    const data = (props.columns || []).reduce((acc, cur) => {
+  const makeRowOriginalData = () => {
+    return (props.columns || []).reduce((acc, cur) => {
       let value = cur.defaultValue
       if (value instanceof Function) {
         value = value()
@@ -221,6 +217,19 @@ export default function useColumns(options: Options) {
       acc[cur.key] = value
       return acc
     }, {} as Record<string, any>)
+  }
+
+  /**
+   * 新增行内编辑的行
+   * @param parent 父级
+   */
+  const createInlineEditingRow = (
+    parent?: MultipleFormRow | null,
+    index?: number
+  ) => {
+    resetCurrentRow()
+
+    const data = makeRowOriginalData()
 
     // 在父级下添加子级
     if (parent) {
@@ -238,20 +247,46 @@ export default function useColumns(options: Options) {
     }
   }
 
+  const createDirectEditingRow = (
+    parent?: MultipleFormRow | null,
+    index?: number
+  ) => {
+    const data = makeRowOriginalData()
+    insertTo(
+      parent
+        ? [...parent.indexes, index ?? parent.children?.length ?? 0]
+        : index ?? root.children!.length,
+      data,
+      'view'
+    )
+  }
+
   /**
    * 新增函数, 用于表头中的根极新增
    */
   const handleCreate = () => {
-    props.mode === 'inline'
-      ? createInlineRow()
-      : open('create', {
-          title: '新增',
-          ctx: {
-            indexes: [root.children!.length],
-            index: root.children!.length,
-            parent: root
-          }
-        })
+    const { mode } = props
+    if (mode === 'inline') {
+      return createInlineEditingRow()
+    }
+
+    if (mode === 'dialog') {
+      return open('create', {
+        title: '新增',
+        ctx: {
+          // 索引路径
+          indexes: [root.children!.length],
+          /** 索引 */
+          index: root.children!.length,
+          /** 父级 */
+          parent: root
+        }
+      })
+    }
+
+    if (mode === 'direct') {
+      return createDirectEditingRow()
+    }
   }
 
   /**
@@ -261,16 +296,23 @@ export default function useColumns(options: Options) {
   const handleInsert = (row: MultipleFormRow) => {
     const index = row.index + 1
     const { parent } = row
-    props.mode === 'inline'
-      ? createInlineRow(row.parent, index)
-      : open('create', {
-          title: '新增',
-          ctx: {
-            indexes: parent?.indexes ? [...parent.indexes, index] : [index],
-            index: row.index + 1,
-            parent: parent
-          }
-        })
+    const { mode } = props
+    if (mode === 'inline') {
+      return createInlineEditingRow(parent, index)
+    }
+    if (mode === 'dialog') {
+      return open('create', {
+        title: '新增',
+        ctx: {
+          indexes: parent?.indexes ? [...parent.indexes, index] : [index],
+          index: row.index + 1,
+          parent: parent
+        }
+      })
+    }
+    if (mode === 'direct') {
+      return createDirectEditingRow(parent, index)
+    }
   }
 
   /** 保存 */
@@ -403,7 +445,11 @@ export default function useColumns(options: Options) {
    * @param row
    */
   const handleCreateChild = (row: MultipleFormRow) => {
-    if (props.mode === 'dialog') {
+    const { mode } = props
+    if (mode === 'inline') {
+      return createInlineEditingRow(row)
+    }
+    if (mode === 'dialog') {
       const childIndex = row.children?.length ?? 0
       open('create', {
         title: '新增子级',
@@ -413,8 +459,9 @@ export default function useColumns(options: Options) {
           parent: row
         }
       })
-    } else {
-      createInlineRow(row)
+    }
+    if (mode === 'direct') {
+      return createDirectEditingRow(row)
     }
   }
 
@@ -423,7 +470,7 @@ export default function useColumns(options: Options) {
     return type
   }
   const cols = computed(() => {
-    const { columns, disabled, actionEdit, actionDelete, actionInsert, tree } =
+    const { columns, disabled, actionEdit, actionDelete, actionInsert, tree, mode } =
       props
 
     // 操作栏
@@ -459,7 +506,7 @@ export default function useColumns(options: Options) {
 
         // 查看状态下显示的按钮
         if (row.status === 'view') {
-          actionVisible(actionEdit, row) &&
+          mode !== 'direct' && actionVisible(actionEdit, row) &&
             buttons.push(
               <ElButton
                 title='编辑'
@@ -574,34 +621,36 @@ export default function useColumns(options: Options) {
         const errTip = errorTips[column.key]
         const required = !!column.rules?.required
 
-        const content = errTip && (!dialogVisible || dialogVisible.value) ? (
-          <ElTooltip
-            placement='top'
-            visible
-            effect='dark'
-            content={errTip}
-            raw-content
-          >
-            <span style='color: #f00; vertical-align: middle'>
+        const content =
+          errTip && (!dialogVisible || dialogVisible.value) ? (
+            <ElTooltip
+              placement='top'
+              visible
+              effect='dark'
+              content={errTip}
+              raw-content
+            >
+              <span style='color: #f00; vertical-align: middle'>
+                {column.name}
+              </span>
+            </ElTooltip>
+          ) : (
+            <span
+              class={[ns.is('required', required)]}
+              style='vertical-align: middle'
+            >
               {column.name}
             </span>
-          </ElTooltip>
-        ) : (
-          <span
-            class={[ns.is('required', required)]}
-            style='vertical-align: middle'
-          >
-            {column.name}
-          </span>
-        )
+          )
 
-        const tip = column.tips && (!dialogVisible || dialogVisible.value) ? (
-          <ElTooltip effect='dark' content={column.tips} raw-content>
-            <ElIcon style='vertical-align: middle'>
-              <InfoFilled />
-            </ElIcon>
-          </ElTooltip>
-        ) : null
+        const tip =
+          column.tips && (!dialogVisible || dialogVisible.value) ? (
+            <ElTooltip effect='dark' content={column.tips} raw-content>
+              <ElIcon style='vertical-align: middle'>
+                <InfoFilled />
+              </ElIcon>
+            </ElTooltip>
+          ) : null
 
         const { summary } = column
 

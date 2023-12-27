@@ -2,6 +2,7 @@
   <el-radio-group v-model="mode">
     <el-radio value="inline">行内编辑</el-radio>
     <el-radio value="dialog">弹框编辑</el-radio>
+    <el-radio value="direct">直接编辑</el-radio>
   </el-radio-group>
 
   <el-multiple-form
@@ -63,7 +64,7 @@ import type {
 } from 'element-ultra'
 import { shallowRef } from 'vue'
 
-const mode = shallowRef<'inline' | 'dialog'>('dialog')
+const mode = shallowRef<'inline' | 'dialog' | 'direct'>('dialog')
 
 const tree = shallowRef(true)
 
