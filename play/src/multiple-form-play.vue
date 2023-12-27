@@ -5,6 +5,8 @@
     <el-radio value="direct">直接编辑</el-radio>
   </el-radio-group>
 
+  <el-checkbox v-model="disabled">禁用</el-checkbox>
+
   <el-multiple-form
     :mode="mode"
     :columns="columns"
@@ -17,6 +19,7 @@
     :action-width="200"
     sortable
     :tree="tree"
+    :disabled="disabled"
   >
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
@@ -27,7 +30,7 @@
       <el-input v-model="row.name" placeholder="名称" />
     </template>
 
-    <template #bol:view="{ row }">
+    <template #bol="{ row }">
       <el-checkbox v-model="row.bol" />
     </template>
 
@@ -38,7 +41,6 @@
     <template #school="{ row }">
       <el-input v-model="row.school"></el-input>
     </template>
-
 
     <template #default="{ form }">
       <el-form-item label="名称">{{ form.name }}</el-form-item>
@@ -65,6 +67,8 @@ const mode = shallowRef<'inline' | 'dialog' | 'direct'>('dialog')
 
 const tree = shallowRef(true)
 
+const disabled = shallowRef(false)
+
 const columns: MultipleFormColumn[] = [
   {
     name: '名称',
@@ -83,7 +87,7 @@ const columns: MultipleFormColumn[] = [
     key: 'age',
     defaultValue: () => 20,
     align: 'left',
-    summary: true
+    // summary: true
   },
   {
     name: '手机号',

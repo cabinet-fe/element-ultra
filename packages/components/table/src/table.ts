@@ -5,7 +5,7 @@ import type { ExtractPropTypes, PropType } from 'vue'
 export type SummaryMethod = (ctx: {
   key: string
   data: any[]
-  checked: any[]
+  checked?: any[]
   total: number
 }) => any
 

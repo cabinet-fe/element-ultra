@@ -17,12 +17,6 @@
         </slot>
       </td>
     </tr>
-
-    <tr v-if="$slots.append" :class="ns.e('append')">
-      <td :colspan="columns.length" :class="ns.e('append-cell')">
-        <slot name="append"> </slot>
-      </td>
-    </tr>
   </tbody>
 </template>
 

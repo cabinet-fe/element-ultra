@@ -20,13 +20,13 @@
         <template #empty>
           <slot name="empty" />
         </template>
+      </TableBody>
 
+      <TableFooter>
         <template #append v-if="$slots.append">
           <slot name="append" />
         </template>
-      </TableBody>
-
-      <TableFooter v-if="summaryMethods" />
+      </TableFooter>
     </table>
   </el-scrollbar>
 </template>
@@ -36,7 +36,12 @@ import { useNamespace, useSize } from '@element-ultra/hooks'
 import TableHeader from './table-header.vue'
 import TableBody from './table-body.vue'
 import TableFooter from './table-footer.vue'
-import { tableProps, FinalTableColumn, tableEmits, SummaryMethod } from './table'
+import {
+  tableProps,
+  FinalTableColumn,
+  tableEmits,
+  SummaryMethod
+} from './table'
 import { computed, CSSProperties, provide, shallowRef } from 'vue'
 import { tableToken } from './token'
 import { ElScrollbar } from '@element-ultra/components/scrollbar'

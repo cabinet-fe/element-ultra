@@ -14,7 +14,7 @@ interface Options {
 }
 
 export default function useRows(options: Options) {
-  const { props, emit } = options
+  const { props, emit, tableRef } = options
 
   let originId = 1
   let uid = () => originId++
@@ -32,7 +32,8 @@ export default function useRows(options: Options) {
 
   // 一旦是用户操作发起的数据的改变, 则不重新wrapRows从而提高性能
   let editByUser = false
-  // 标记为用户操作
+
+  /** 标记为用户操作 */
   const markAsUserAction = <
     P extends any[],
     R extends any,
@@ -96,6 +97,15 @@ export default function useRows(options: Options) {
     return target
   }
 
+  const scrollToLast = async () => {
+    await Promise.resolve()
+    const nodes = tableRef.value?.tableDom?.querySelectorAll(
+      '.el-table__body > tr'
+    )
+    const last = nodes?.[(nodes?.length ?? 0) - 1]
+    last?.scrollIntoView()
+  }
+
   /**
    * 插入
    * @param indexes 插入的索引路径
@@ -142,6 +152,8 @@ export default function useRows(options: Options) {
       })
 
     emitChange()
+
+    !nextHalf.length && scrollToLast()
 
     return row
   }

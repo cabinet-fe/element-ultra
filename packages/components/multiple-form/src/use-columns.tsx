@@ -14,7 +14,6 @@ import {
   watch
 } from 'vue'
 import type {
-  MultipleFormColumn,
   MultipleFormProps,
   MultipleFormRow,
   MultipleFormEmits,
@@ -50,14 +49,6 @@ interface Options {
   open: (type: 'create' | 'update', options: any) => void
   emitChange: () => void
 }
-
-type Renders = Record<
-  MultipleFormRow['status'],
-  (
-    params: { row: MultipleFormRow; val: any },
-    column: MultipleFormColumn
-  ) => any
->
 
 export default function useColumns(options: Options) {
   const {
@@ -137,52 +128,6 @@ export default function useColumns(options: Options) {
   onBeforeUnmount(() => {
     stopSort()
   })
-
-  const renders: Renders = {
-    view: ({ val, row }, column) => {
-      const viewSlot = slots[column.key + ':view']
-      if (column.render) {
-        const ret = column.render({
-          val,
-          v: val,
-          node: row,
-          row: row.data,
-          index: row.index,
-          indexes: [...row.indexes]
-        })
-        if (ret instanceof Object) {
-          return isVNode(ret) ? ret : String(ret)
-        }
-        return ret
-      }
-      if (viewSlot) {
-        return viewSlot({
-          node: row,
-          val,
-          v: val,
-          row: row.data,
-          index: row.index,
-          indexes: [...row.indexes]
-        })
-      }
-
-      return String(val ?? '')
-    },
-
-    editing: ({ val, row }, column) => {
-      const slot = slots[column.key]
-      return slot
-        ? slot({
-            node: row,
-            row: row.data,
-            val,
-            v: val,
-            index: row.index,
-            indexes: [...row.indexes]
-          })
-        : String(val ?? '')
-    }
-  }
 
   let currentEditRow: MultipleFormRow | null = null
 
@@ -267,7 +212,8 @@ export default function useColumns(options: Options) {
   const handleCreate = () => {
     const { mode } = props
     if (mode === 'inline') {
-      return createInlineEditingRow()
+      createInlineEditingRow()
+      return
     }
 
     if (mode === 'dialog') {
@@ -285,7 +231,8 @@ export default function useColumns(options: Options) {
     }
 
     if (mode === 'direct') {
-      return createDirectEditingRow()
+      createDirectEditingRow()
+      return
     }
   }
 
@@ -497,6 +444,7 @@ export default function useColumns(options: Options) {
             <ElButton
               type='primary'
               icon={Select}
+              // @ts-ignore
               title='保存'
               link
               loading={row.loading}
@@ -505,6 +453,7 @@ export default function useColumns(options: Options) {
             <ElButton
               type='primary'
               icon={Close}
+              // @ts-ignore
               title='取消'
               loading={row.loading}
               link
@@ -518,6 +467,7 @@ export default function useColumns(options: Options) {
             actionVisible(actionEdit, row) &&
             buttons.push(
               <ElButton
+                // @ts-ignore
                 title='编辑'
                 type='primary'
                 icon={Edit}
@@ -534,6 +484,7 @@ export default function useColumns(options: Options) {
               : true) &&
             buttons.push(
               <ElButton
+                // @ts-ignore
                 title='新增子级'
                 type='primary'
                 link
@@ -549,6 +500,7 @@ export default function useColumns(options: Options) {
               <ElButton
                 type='primary'
                 icon={Insert}
+                // @ts-ignore
                 title='在下方插入'
                 link
                 loading={row.loading}
@@ -562,6 +514,7 @@ export default function useColumns(options: Options) {
               <ElButton
                 type='primary'
                 icon={Delete}
+                // @ts-ignore
                 title='删除'
                 link
                 loading={row.loading}
@@ -576,8 +529,7 @@ export default function useColumns(options: Options) {
         } else if (row.status === 'editing') {
           actionSlotName = 'action:edit-mode'
         }
-        // ...以后获取会添加其他的
-
+        // ...以后或许会添加其他的
         const actionSlots = actionSlotName
           ? slots[actionSlotName]?.({
               row: row.data,
@@ -674,10 +626,33 @@ export default function useColumns(options: Options) {
           width: column.width,
           align: column.align,
           key: 'data.' + column.key, // data.key才是真实数据
-          render:
-            mode === 'direct'
-              ? ctx => renders.editing(ctx, column)
-              : ctx => renders[ctx.row.status](ctx, column),
+          render: ctx => {
+            const { val, row } = ctx
+
+            const params = {
+              val,
+              v: val,
+              node: row,
+              row: row.data,
+              index: row.index,
+              indexes: [...row.indexes]
+            }
+
+            // 禁用或者行状态为view（mode为非direct）时显示column.render或者slotView插槽的内容或者key的取值
+            if (disabled || (row.status === 'view' && mode !== 'direct')) {
+              if (column.render) {
+                const ret = column.render(params)
+                if (ret instanceof Object) {
+                  return isVNode(ret) ? ret : String(ret)
+                }
+                return ret
+              }
+              const viewSlot = slots[column.key + ':view']
+              return viewSlot?.(params) ?? String(val ?? '')
+            }
+
+            return slots[column.key]?.(params) ?? String(val ?? '')
+          },
           summary:
             summary === true
               ? summary
