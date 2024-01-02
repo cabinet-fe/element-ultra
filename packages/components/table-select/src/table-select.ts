@@ -15,6 +15,10 @@ export const tableSelectProps = {
     >
   },
 
+  rowDisabled: {
+    type: Function as PropType<(row: any, rowIndex: number) => boolean>
+  },
+
   /** 列, 属性可以查看pro-table的属性 */
   columns: {
     type: Array as PropType<TableSelectColumn[]>,

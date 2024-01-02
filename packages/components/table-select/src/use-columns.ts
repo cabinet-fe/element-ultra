@@ -28,7 +28,7 @@ export default function useColumns(options: Options) {
 
   // 列
   const columns = computed(() => {
-    const { valueKey, multiple, columnFilter } = props
+    const { valueKey, multiple, columnFilter, rowDisabled } = props
 
     const extra: TableColumn[] = []
     if (multiple) {
@@ -45,9 +45,10 @@ export default function useColumns(options: Options) {
         align: 'center',
         fixed: 'left',
         width: 60,
-        render: ({ row }) =>
+        render: ({ row, index }) =>
           h(ElCheckbox, {
             checked: !!checkedData.value[row[valueKey]],
+            disabled: rowDisabled?.(row, index),
             onClick: (e: MouseEvent) => {
               e.stopPropagation()
             },
@@ -63,10 +64,11 @@ export default function useColumns(options: Options) {
         align: 'center',
         fixed: 'left',
         width: 60,
-        render: ({ row }) => {
+        render: ({ row, index }) => {
           const { valueKey } = props
           return h(ElRadio, {
             value: row[valueKey],
+            disabled: rowDisabled?.(row, index),
             onClick(e: MouseEvent) {
               e.stopPropagation()
             },
