@@ -45,13 +45,49 @@
     <template #default="{ form }">
       <el-form-item label="名称">{{ form.name }}</el-form-item>
       <el-input label="名称" field="name"></el-input>
-      <el-input label="年龄" field="age"></el-input>
+      <el-input-number label="年龄" field="age"></el-input-number>
       <el-checkbox label="布尔" field="bol" />
       <el-input label="学校" field="school"></el-input>
       <el-input label="测试1" field="test.test1" />
       <el-input label="测试2" field="test.test2" />
     </template>
   </el-multiple-form>
+
+  <div>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -82,12 +118,13 @@ const columns: MultipleFormColumn[] = [
     },
     align: 'center'
   },
+
   {
     name: '年龄',
     key: 'age',
     defaultValue: () => 20,
     align: 'left',
-    // summary: true
+    summary: true
   },
   {
     name: '手机号',

@@ -66,7 +66,7 @@ import ElInput from '@element-ultra/components/input'
 import { ArrowUp, ArrowDown } from 'icon-ultra'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 import type { ComponentPublicInstance } from 'vue'
-import { plus, minus, mul, divide } from './calc'
+import { plus, minus, mul, divide } from '@element-ultra/utils'
 
 // 数值精度
 // 将计算的数值同时去掉所有小数点

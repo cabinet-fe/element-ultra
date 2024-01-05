@@ -103,7 +103,9 @@ export default function useRows(options: Options) {
       '.el-table__body > tr'
     )
     const last = nodes?.[(nodes?.length ?? 0) - 1]
-    last?.scrollIntoView()
+    last?.scrollIntoView({
+      block: 'nearest'
+    })
   }
 
   /**

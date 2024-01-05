@@ -1,4 +1,3 @@
-
 function int(numbers: number[]) {
   const numberStrings = numbers.map(n => String(n))
   const numStringsLen = numberStrings.map(ns => ns.split('.')[1]?.length ?? 0)

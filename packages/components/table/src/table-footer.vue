@@ -35,7 +35,7 @@
             key: column.key,
             data: rootProps.data,
             total: rootProps.data.reduce(
-              (acc, cur) => sum(acc, +(getChainValue(cur, column.key) ?? 0)),
+              (acc, cur) => plus(acc, +(getChainValue(cur, column.key) ?? 0)),
               0
             )
           })
@@ -52,18 +52,9 @@
 </template>
 
 <script lang="ts" setup>
-import { getChainValue } from '@element-ultra/utils'
+import { getChainValue, plus } from '@element-ultra/utils'
 import { inject, watch, shallowRef } from 'vue'
 import { tableToken } from './token'
-
-const DotRE = /\.(\d+)/
-const getDotLen = (n: number) => {
-  return String(n).match(DotRE)?.[1]?.length ?? 0
-}
-const sum = (num1: number, num2: number) => {
-  const mul = 10 ** Math.max(getDotLen(num1), getDotLen(num2))
-  return (Math.round(num1 * mul) + Math.round(num2 * mul)) / mul
-}
 
 const { columns, ns, rootProps, summaryMethods, getCellStyle } =
   inject(tableToken)!
