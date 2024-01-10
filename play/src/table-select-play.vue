@@ -16,6 +16,7 @@
     :column-filter="columnFilter"
     clearable
     hide
+    :row-disabled="(row, rowIndex) => rowIndex % 2 ===0"
   >
     <template #searcher>
       <el-input v-model="query.name" />
