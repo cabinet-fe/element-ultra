@@ -24,16 +24,15 @@ export default function useModel(options: Options) {
   /** 选中的数据, 使用对象来存储 */
   const checkedData = shallowRef(shallowReactive<Record<string, any>>({}))
 
-  const setCheckedData = (item: Record<string, any>, valueKey: string) => {
-
-    checkedData.value[getChainValue(item, valueKey)] = item
+  const setCheckedData = (item: Record<string, any>) => {
+    checkedData.value[getChainValue(item, props.valueKey)] = item
   }
 
-  const removeCheckedData = (item: Record<string, any>, valueKey: string) => {
-    delete checkedData.value[getChainValue(item, valueKey)]
+  const removeCheckedData = (item: Record<string, any>) => {
+    delete checkedData.value[getChainValue(item, props.valueKey)]
   }
-  const getCheckedData = (item: Record<string, any>, key: string) => {
-    return checkedData.value[getChainValue(item, key)]
+  const getCheckedData = (item: Record<string, any>) => {
+    return checkedData.value[getChainValue(item, props.valueKey)]
   }
 
   /** 选择的数据的数量 */
@@ -42,7 +41,7 @@ export default function useModel(options: Options) {
   })
 
   /** 单选框操作 */
-  const handleSelect = (row: any) => {
+  const setSelectedData = (row: any) => {
     selected.value = row
   }
 
@@ -51,20 +50,15 @@ export default function useModel(options: Options) {
   ) => {
     if (!value) return
 
-    const { valueKey } = props
-
     if (props.multiple) {
       if (Array.isArray(value)) {
-        value.forEach(item => {
-          setCheckedData(item, valueKey)
-        })
+        value.forEach(setCheckedData)
       } else {
         console.error('table-select在多选的情况下, modelValue应传入一个数组')
       }
       return
     }
-
-    handleSelect(value)
+    setSelectedData(value)
   }
 
   const handleClear = () => {
@@ -92,44 +86,35 @@ export default function useModel(options: Options) {
   })
 
   const indeterminate = computed(() => {
-    const { valueKey } = props
-
-    return (
-      data.value.some(item => !!getCheckedData(item, valueKey)) &&
-      !allChecked.value
-    )
+    return data.value.some(item => !!getCheckedData(item)) && !allChecked.value
   })
 
   // 因为要跨分页, 所以需要通过以下的逻辑去判断
   const allChecked = computed(() => {
-    const { valueKey, rowDisabled } = props
+    const { rowDisabled } = props
     return data.value.every((item, index) => {
-      return !!getCheckedData(item, valueKey) || rowDisabled?.(item, index)
+      return !!getCheckedData(item) || rowDisabled?.(item, index)
     })
   })
 
   /** 复选框操作 */
-  const handleToggleCheck = (check: boolean, row: any) => {
-    const { valueKey } = props
-    const primaryKey = getChainValue(row, valueKey)
-    if (!primaryKey) return
-    if (check) {
-      checkedData.value[primaryKey] = row
+  const handleToggleCheck = (row: any, rowIndex: number) => {
+    const isChecked = !!getCheckedData(row)
+    if (isChecked) {
+      removeCheckedData(row)
     } else {
-      delete checkedData.value[primaryKey]
+      !props.rowDisabled?.(row, rowIndex) && setCheckedData(row)
     }
   }
 
   const toggleAllChecked = (checked: boolean) => {
-    const { valueKey, rowDisabled } = props
     if (checked) {
+      const  { rowDisabled } = props
       data.value.forEach((item, index) => {
-        !rowDisabled?.(item, index) && setCheckedData(item, valueKey)
+        !rowDisabled?.(item, index) && setCheckedData(item)
       })
     } else {
-      data.value.forEach(item => {
-        removeCheckedData(item, valueKey)
-      })
+      data.value.forEach(removeCheckedData)
     }
   }
 
@@ -141,7 +126,7 @@ export default function useModel(options: Options) {
     indeterminate,
     handleToggleCheck,
     toggleAllChecked,
-    handleSelect,
+    setSelectedData,
     handleClear
   }
 }

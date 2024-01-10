@@ -3,6 +3,7 @@ import { ElRadio } from '@element-ultra/components/radio'
 import type { TableColumn } from '@element-ultra/components/table'
 import { h, ComputedRef, computed, ShallowRef } from 'vue'
 import type { TableSelectProps } from './table-select'
+import { getChainValue } from '@element-ultra/utils'
 interface Options {
   allChecked: ComputedRef<boolean>
   indeterminate: ComputedRef<boolean>
@@ -10,8 +11,8 @@ interface Options {
   selected: ShallowRef<Record<string, any> | null>
   checkedData: ShallowRef<Record<string, any>>
   toggleAllChecked: (check: boolean) => void
-  handleToggleCheck: (checked: boolean, row: any) => void
-  handleSelect: (row: any) => void
+  handleToggleCheck: (row: any, rowIndex: number) => void
+  setSelectedData: (row: any) => void
 }
 
 export default function useColumns(options: Options) {
@@ -23,7 +24,7 @@ export default function useColumns(options: Options) {
     selected,
     toggleAllChecked,
     handleToggleCheck,
-    handleSelect
+    setSelectedData
   } = options
 
   // 列
@@ -47,13 +48,13 @@ export default function useColumns(options: Options) {
         width: 60,
         render: ({ row, index }) =>
           h(ElCheckbox, {
-            checked: !!checkedData.value[row[valueKey]],
+            checked: !!checkedData.value[getChainValue(row, valueKey)],
             disabled: rowDisabled?.(row, index),
             onClick: (e: MouseEvent) => {
               e.stopPropagation()
             },
-            onChange: checked => {
-              handleToggleCheck(checked, row)
+            onChange: () => {
+              handleToggleCheck(row, index)
             }
           }),
         key: '$_check'
@@ -66,14 +67,15 @@ export default function useColumns(options: Options) {
         width: 60,
         render: ({ row, index }) => {
           const { valueKey } = props
+          const disabled = rowDisabled?.(row, index)
           return h(ElRadio, {
             value: row[valueKey],
-            disabled: rowDisabled?.(row, index),
+            disabled,
             onClick(e: MouseEvent) {
               e.stopPropagation()
             },
             onChange() {
-              handleSelect(row)
+              !disabled && setSelectedData(row)
             },
             modelValue: selected.value?.[valueKey]
           })

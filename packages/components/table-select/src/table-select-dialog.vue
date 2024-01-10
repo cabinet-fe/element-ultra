@@ -102,7 +102,7 @@ const {
   checkedSize,
   handleToggleCheck,
   toggleAllChecked,
-  handleSelect,
+  setSelectedData,
   handleClear
 } = useModel({
   props: rootProps,
@@ -111,12 +111,12 @@ const {
 })
 
 /** 点击行 */
-const handleRowClick = (ctx: { row: any }) => {
-  const { row } = ctx
+const handleRowClick = (ctx: { row: any, index: number }) => {
+  const { row, index } = ctx
   if (rootProps.multiple) {
-    handleToggleCheck(!checkedData.value[row[rootProps.valueKey]], row)
+    handleToggleCheck(row, index)
   } else {
-    handleSelect(row)
+    !rootProps.rowDisabled?.(row, index) && setSelectedData(row)
   }
 }
 
@@ -127,7 +127,7 @@ const { searcherRef, tableHeight } = useTableHeight({ props: rootProps })
 const columns = useColumns({
   allChecked,
   toggleAllChecked,
-  handleSelect,
+  setSelectedData,
   indeterminate,
   props: rootProps,
   selected,
