@@ -2,6 +2,7 @@
   <el-page>
     <div style="padding: 8px">
       <el-checkbox v-model="visible">显示</el-checkbox>
+      <el-checkbox v-model="visible2">显示数字</el-checkbox>
     </div>
 
     <el-card v-if="visible">
@@ -65,6 +66,8 @@
         />
 
         <el-input-number
+          v-if="visible2"
+          required
           money
           label="数字"
           tips="aaaa"
@@ -250,4 +253,5 @@ const formRef = shallowRef<any>()
 
 const disabled = shallowRef(false)
 const visible = shallowRef(true)
+const visible2 = shallowRef(false)
 </script>

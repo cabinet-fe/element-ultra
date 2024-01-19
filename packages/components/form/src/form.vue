@@ -269,9 +269,9 @@ const clearValidate = (fields?: string | string[]) => {
   if (!fields) {
     formItemRefs.value.forEach(item => item.clearValidate())
   } else if (typeof fields === 'string') {
-    formItemRefsMap[fields].clearValidate()
+    formItemRefsMap[fields]?.clearValidate()
   } else {
-    fields.forEach(field => formItemRefsMap[field].clearValidate())
+    fields.forEach(field => formItemRefsMap[field]?.clearValidate())
   }
 }
 
