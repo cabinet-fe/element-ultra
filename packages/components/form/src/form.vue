@@ -295,7 +295,7 @@ const validateField = async (field: string) => {
   let errMsg: null | undefined | string = null
 
   // 优先校验必填, 以组件中传入的required属性为准
-  errMsg = validators.required(value, formItemRefsMap[field].isRequired ?? required)
+  errMsg = validators.required(value, formItemRefsMap[field]?.isRequired ?? required)
   if (errMsg) return errMsg
 
   if (!value && value !== 0) return errMsg
