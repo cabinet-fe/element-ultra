@@ -137,17 +137,6 @@ export default function useColumns(
       })
     }
 
-    if (showIndex !== false) {
-      result.push({
-        name: () => '序号',
-        key: '$_index',
-        width: 60,
-        fixed: 'left',
-        align: 'center',
-        render: ({ index }) => index + 1
-      })
-    }
-
     // 多选和单选只能有一个, 且多选优先级更高
     if (checkable !== false) {
       // 高性能写法
@@ -209,6 +198,17 @@ export default function useColumns(
         align: 'center',
         fixed: 'left',
         render
+      })
+    }
+
+    if (showIndex !== false) {
+      result.push({
+        name: () => '序号',
+        key: '$_index',
+        width: 60,
+        fixed: 'left',
+        align: 'center',
+        render: ({ index }) => index + 1
       })
     }
 
