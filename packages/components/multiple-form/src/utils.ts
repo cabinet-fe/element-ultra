@@ -8,6 +8,7 @@ interface RootRowConf {
 interface RowConf {
   parent: MultipleFormRow
   data: Record<string, any>
+  prevData?: Record<string, any> | null
   index: number
   status: MultipleFormRow['status']
   children?: MultipleFormRow[]

@@ -6,6 +6,8 @@ export type MultipleFormRow = {
   root: boolean
   /** 数据本身 */
   data: any
+  /** 上次编辑数据 */
+  prevData?: any
   /** 树深 */
   depth: number
   /** 是否是已保存的数据 */

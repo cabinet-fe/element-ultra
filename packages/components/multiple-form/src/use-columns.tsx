@@ -309,6 +309,7 @@ export default function useColumns(options: Options) {
 
     row.status = 'view'
     row.saved = true
+    row.prevData = null
     // 保存和关闭要将当前编辑的row置空
     currentEditRow = null
   }
@@ -322,9 +323,13 @@ export default function useColumns(options: Options) {
       // 未保存的行删掉
       delRow(row.indexes)
     } else {
+      if (row.prevData) {
+        Object.assign(row.data, row.prevData)
+      }
+
       row.status = 'view'
     }
-
+    row.prevData = null
     currentEditRow = null
   }
 
@@ -334,6 +339,7 @@ export default function useColumns(options: Options) {
    */
   const handleEdit = (row: MultipleFormRow) => {
     emit('edit', row)
+
     if (props.mode === 'dialog') {
       open('update', {
         title: '编辑',
@@ -345,6 +351,7 @@ export default function useColumns(options: Options) {
         data: row.data
       })
     } else {
+      row.prevData = { ...row.data }
       resetCurrentRow()
       row.status = 'editing'
       currentEditRow = row
