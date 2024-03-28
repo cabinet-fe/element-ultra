@@ -100,6 +100,8 @@ export function useApi(options: Options) {
   /**
    * 请求数据
    * @param resetPage 重置分页到第一页
+   *  @default true
+   *
    */
   const fetchData = async (resetPage = true) => {
     const { api, data, cacheParams } = props
@@ -112,11 +114,12 @@ export function useApi(options: Options) {
       pageQuery.page = 1
     }
 
-    // 每次请求后尝试缓存query
+    // 每次请求后尝试缓存query, 这行代码必须放在前面，因为后缓存会导致请求两次
     cacheParams && storeQuery()
 
     // 获取请求参数信息, 包含接口, 查询条件, 额外信息, 排序信息
     const params = getParams()
+
     // 记录当前的query字符串
     currentQueryStr.value = JSON.stringify(props.query)
 
@@ -162,12 +165,6 @@ export function useApi(options: Options) {
     })
   }
 
-  // api变更时需要重新请求数据
-  watch(
-    () => props.api,
-    () => fetchData()
-  )
-
   let stopWatchQueryField: () => void
   const watchQueryField = (query: Record<string, any>) => {
     const watchList = Object.keys(query)
@@ -197,8 +194,22 @@ export function useApi(options: Options) {
   )
 
   // 第一次请求时可能读取url中的缓存, 因此不重置
+  // api变更时需要重新请求数据
+  let isFirst = true
+  watch(
+    () => props.api,
+    api => {
+      if (!api) return
 
-  fetchData(false)
+      if (isFirst) {
+        fetchData(false)
+        isFirst = false
+      } else {
+        fetchData(true)
+      }
+    },
+    { immediate: true }
+  )
 
   // 多选
   const handleCheck = (checked: any[]) => {

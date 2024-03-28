@@ -18,7 +18,7 @@
     tree
   >
   <template #extra-bar>
-      123122
+      {{ query }}
     </template>
 
     <template #column-conf="{ column }">
@@ -239,7 +239,11 @@ const handleFix = () => {
   }
 }
 
-const api = shallowRef('/some/test')
+const api = shallowRef('')
+
+setTimeout(() => {
+  api.value = '/some/test2'
+}, 1000)
 
 const list = shallowRef<any[]>([])
 const createSearcher = () => {
