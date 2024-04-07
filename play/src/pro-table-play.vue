@@ -17,8 +17,12 @@
     show-summary
     tree
   >
-  <template #extra-bar>
+    <template #extra-bar>
       {{ query }}
+    </template>
+
+    <template #searcher>
+      <el-range v-model="query.$range" />
     </template>
 
     <template #column-conf="{ column }">
@@ -34,8 +38,6 @@
         @update:model-value="handleChangePreset(column, $event)"
       />
     </template>
-
-
 
     <template #age="{ row }">
       {{ row }}
@@ -100,7 +102,8 @@ const query = shallowRef(
   shallowReactive({
     name: '',
     $date: ['2022-02-14', '2022-08-03'],
-    $s: undefined
+    $s: undefined,
+    $range: undefined
   })
 )
 
@@ -239,11 +242,11 @@ const handleFix = () => {
   }
 }
 
-const api = shallowRef('')
+const api = shallowRef('/some')
 
-setTimeout(() => {
-  api.value = '/some/test2'
-}, 1000)
+// setTimeout(() => {
+//   api.value = '/some/test2'
+// }, 1000)
 
 const list = shallowRef<any[]>([])
 const createSearcher = () => {

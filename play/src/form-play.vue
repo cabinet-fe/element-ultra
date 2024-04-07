@@ -204,7 +204,7 @@ const [data, rules] = useFormModel(
     address: { value: 'aas', required: true },
     date: {},
     rangedate: {},
-    range: {},
+    range: { value: [1, 200] },
     start: { value: '', required: true },
     end: { value: '' },
     aa: { value: '00' },
