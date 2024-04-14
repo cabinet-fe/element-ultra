@@ -183,15 +183,21 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
 
   /**
    * 切换单项的选中
-   * @param item 数据项
+   * @param row 行
    * @param check 指定是否选中
    */
-  const toggleItemCheck = (item: any, check?: boolean) => {
+  const toggleItemCheck = (row: any, check?: boolean) => {
     const { checked } = store
     if (check === undefined) {
-      checked.has(item) ? checked.delete(item) : checked.add(item)
+      checked.has(row.data) ? checked.delete(row.data) : checked.add(row.data)
     } else {
-      check ? checked.add(item) : checked.delete(item)
+      if (check) {
+        checked.add(row.data)
+        dfs(row.children, r => checked.add(r.data))
+      } else {
+        checked.delete(row.data)
+        dfs(row.children, r => checked.delete(r.data))
+      }
     }
 
     // Set -> Array

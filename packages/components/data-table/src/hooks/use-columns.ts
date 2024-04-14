@@ -142,19 +142,19 @@ export default function useColumns(
       // 高性能写法
       const render: InternalColumn['render'] =
         checkable === true
-          ? ({ row }) =>
+          ? ({ wrap, row }) =>
               h(ElCheckbox, {
                 modelValue: store.checked.has(row),
                 'onUpdate:modelValue': v => {
-                  toggleItemCheck(row, v as boolean)
+                  toggleItemCheck(wrap, v as boolean)
                 }
               })
-          : ({ row, index }) =>
+          : ({ row, index, wrap }) =>
               h(ElCheckbox, {
                 disabled: !checkable(row, index),
                 modelValue: store.checked.has(row),
                 'onUpdate:modelValue': v => {
-                  toggleItemCheck(row, v as boolean)
+                  toggleItemCheck(wrap, v as boolean)
                 }
               })
       result.push({
