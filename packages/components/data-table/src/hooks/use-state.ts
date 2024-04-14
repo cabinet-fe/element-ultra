@@ -193,10 +193,10 @@ export default function useState(props: DataTableProps, emit: DataTableEmits) {
     } else {
       if (check) {
         checked.add(row.data)
-        dfs(row.children, r => checked.add(r.data))
+        row.children && dfs(row.children, r => checked.add(r.data))
       } else {
         checked.delete(row.data)
-        dfs(row.children, r => checked.delete(r.data))
+        row.children && dfs(row.children, r => checked.delete(r.data))
       }
     }
 
