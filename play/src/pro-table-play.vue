@@ -22,7 +22,9 @@
     </template>
 
     <template #searcher>
-      <el-range v-model="query.$range" />
+      <el-input v-for="i of 10" :placeholder="placeholder()" v-model="query.$range" />
+      <el-date-picker  :placeholder="placeholder()" type="daterange" />
+      <el-input v-for="i of 10" :placeholder="placeholder()" v-model="query.$range" />
     </template>
 
     <template #column-conf="{ column }">
@@ -91,6 +93,10 @@ const lazyLoad = async () => {
     { name: '你好' + '-1-2', money: 666, id: '-1-2' },
     { name: '你好' + '-1-3', money: 666, id: '-1-3' }
   ]
+}
+
+function placeholder() {
+  return '测'.repeat(Math.ceil( Math.random() * 8))
 }
 
 setTimeout(() => {

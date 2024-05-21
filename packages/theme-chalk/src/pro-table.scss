@@ -28,6 +28,8 @@
     }
 
     &-label {
+      width: 120px;
+      text-align: right;
       flex-shrink: 0;
       padding-right: 6px;
       color: var(--el-text-color-regular);
@@ -35,8 +37,10 @@
     }
 
     &-popper {
+      display: flex;
+      flex-wrap: wrap;
       margin-top: 6px;
-      padding: 4px;
+      padding: 4px 0;
       padding-bottom: 0;
       border: 1px solid var(--el-border-color);
       border-radius: var(--el-border-radius-base);
