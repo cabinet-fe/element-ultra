@@ -15,8 +15,7 @@
     value-key="code"
     :column-filter="columnFilter"
     clearable
-    hide
-    :row-disabled="(row, rowIndex) => rowIndex % 2 ===0"
+    :row-disabled="(row, rowIndex) => rowIndex % 2 === 0"
   >
     <template #searcher>
       <el-input v-model="query.name" />
@@ -87,9 +86,7 @@ const v1 = [
   { code: 'BM10002', summary: '摘要2', project: '项目2' }
 ]
 
-const v2 = [
-
-]
+const v2 = []
 
 let path = $ref('')
 

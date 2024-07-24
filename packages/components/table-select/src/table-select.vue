@@ -42,14 +42,8 @@
     :columns="props.columns"
     :data="displayData"
     v-bind="$attrs"
+    :slots="$slots"
   >
-    <template
-      v-for="column of props.columns.filter(column => !!column.slot)"
-      :key="column.slot"
-      v-slot:[column.slot!]="scoped"
-    >
-      <slot :name="column.slot" v-bind="scoped" />
-    </template>
   </ElTable>
 
   <!-- 数据选择和筛选表格 -->
