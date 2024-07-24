@@ -66,7 +66,6 @@
         />
 
         <el-input-number
-          v-if="visible2"
           required
           money
           label="数字"
@@ -74,7 +73,7 @@
           :precision="2"
           clearable
           field="num"
-          :multiple="10000"
+          :multiple="100"
           :max="1000000"
         />
 

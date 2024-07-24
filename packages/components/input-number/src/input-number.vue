@@ -161,13 +161,12 @@ const setUserInput = () => {
   }
 
   // 输入值 = 输出值(modelValue) / 输出倍数(multiple)
-  const inputValue = divide(modelValue, multiple)
+  const inputValue = getValidValue(divide(modelValue, multiple))
 
   if (money) {
     const isNegative = (inputValue ?? 0) < 0
 
     let valStr = Math.abs(inputValue) + ''
-    // precision !== undefined ? modelValue.toFixed(precision) :
     let [valIntStr, valDotStr] = valStr.split('.')
 
     let group: string[] = []
