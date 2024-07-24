@@ -44,8 +44,11 @@ export default function useColumns(params: { props: TableProps }) {
 
         // 始终保持render存在
         if (!column.render) {
-          if (column.slot && slots[column.slot]) {
-            column.render = ctx => slots[column.slot!]!(ctx)
+          const slotRender = column.slot
+            ? props.slots?.[column.slot] || slots[column.slot]
+            : undefined
+          if (slotRender) {
+            column.render = ctx => slotRender(ctx)
           } else {
             column.render = ({ val }) => String(val ?? '')
           }

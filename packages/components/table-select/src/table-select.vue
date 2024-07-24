@@ -1,11 +1,15 @@
 <template>
-  <div v-if="!tableSelectDisabled" :class="ns.e('btn')" :style="{
-    marginBottom: hide ? '' : '4px'
-  }">
+  <div
+    v-if="!tableSelectDisabled"
+    :class="ns.e('btn')"
+    :style="{
+      marginBottom: hide ? '' : '4px'
+    }"
+  >
     <!-- 触发器 -->
     <span
       v-if="!noTrigger"
-      style="margin-right: 6px;"
+      style="margin-right: 6px"
       @click="!tableSelectDisabled && dialogRef?.open()"
     >
       <slot>
@@ -65,7 +69,7 @@ import { tableSelectEmits, tableSelectProps } from './table-select'
 import { ElTable } from '@element-ultra/components/table'
 import { ElPopconfirm } from '@element-ultra/components/popconfirm'
 import { ElButton } from '@element-ultra/components/button'
-import { provide, shallowRef } from 'vue'
+import { provide, shallowRef, useSlots } from 'vue'
 import { tableSelectToken } from './token'
 import { useDisabled, useNamespace } from '@element-ultra/hooks'
 import TableSelectDialog from './table-select-dialog.vue'
@@ -90,10 +94,13 @@ const { displayData } = useApi({
 
 const dialogRef = shallowRef<InstanceType<typeof TableSelectDialog>>()
 
+const slots = useSlots()
+
 provide(tableSelectToken, {
   rootProps: props,
   ns,
-  rootEmit: emit
+  rootEmit: emit,
+  rootSlots: slots
 })
 
 const handleClear = () => {

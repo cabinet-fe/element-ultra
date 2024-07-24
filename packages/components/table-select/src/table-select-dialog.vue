@@ -29,6 +29,7 @@
       @row-click="handleRowClick"
       v-loading="loading"
       :row-key="rootProps.valueKey"
+      :slots="rootSlots"
     ></el-table>
 
     <el-pagination
@@ -72,7 +73,7 @@ import useModel from './use-model'
 import useTableHeight from './use-table-height'
 import useColumns from './use-columns'
 
-const { rootProps, ns, rootEmit } = inject(tableSelectToken)!
+const { rootProps, ns, rootEmit, rootSlots } = inject(tableSelectToken)!
 
 const { fetchData, data, loading, total, pageQuery } = useApi({
   props: rootProps,
@@ -111,7 +112,7 @@ const {
 })
 
 /** 点击行 */
-const handleRowClick = (ctx: { row: any, index: number }) => {
+const handleRowClick = (ctx: { row: any; index: number }) => {
   const { row, index } = ctx
   if (rootProps.multiple) {
     handleToggleCheck(row, index)

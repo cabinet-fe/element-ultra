@@ -1,6 +1,6 @@
 import { SizeProp } from '@element-ultra/shared'
 import type { EmitFn } from '@element-ultra/utils'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType, Slots } from 'vue'
 
 export type SummaryMethod = (ctx: {
   key: string
@@ -73,6 +73,10 @@ export const tableProps = {
   columns: {
     type: Array as PropType<TableColumn[]>,
     required: true
+  },
+
+  slots: {
+    type: Object as PropType<Slots>
   },
 
   /** 表格数据， 支持传入树形数据 */
