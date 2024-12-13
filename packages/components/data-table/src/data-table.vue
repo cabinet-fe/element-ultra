@@ -18,7 +18,7 @@
     <DataTableBody />
 
     <!-- 合计行. 树形结构显示不能显示合计行 -->
-    <DataTableFooter v-if="showSummary && !tree" />
+    <DataTableFooter v-if="showSummary" />
 
     <!-- size线 -->
     <div :class="ns.e('resize-line')" ref="lineRef"></div>
@@ -47,7 +47,6 @@ const ns = useNamespace('data-table')
 const props = defineProps(dataTableProps)
 const emit = defineEmits(dataTableEmits)
 
-
 // 提供domRefs
 const refs = useDomRefProvide()
 
@@ -70,7 +69,6 @@ provide(dataTableToken, {
   rootProps: props,
   emit
 })
-
 
 const lineRef = shallowRef<HTMLElement>()
 
