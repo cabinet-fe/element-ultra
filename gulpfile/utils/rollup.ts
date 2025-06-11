@@ -15,7 +15,9 @@ export const generateExternal = async (options: { full: boolean }) => {
       packages.push('@vue', ...Object.keys(dependencies))
     }
 
-    let ret = [...new Set(packages)].some(pkg => id === pkg || id.startsWith(`${pkg}/`))
+    let ret = [...new Set(packages)].some(
+      pkg => id === pkg || id.startsWith(`${pkg}/`)
+    )
 
     return ret
   }
