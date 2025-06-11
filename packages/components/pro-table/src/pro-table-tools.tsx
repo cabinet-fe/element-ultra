@@ -68,6 +68,7 @@ export default defineComponent({
 
             let clonedNode = cloneVNode(node, {
               class: contentClass,
+              placeholder: '',
               style: {
                 width: node.props?.style?.width || wrapWidth
               }

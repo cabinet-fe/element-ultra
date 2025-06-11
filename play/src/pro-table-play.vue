@@ -23,9 +23,17 @@
     </template>
 
     <template #searcher>
-      <!-- <el-date-picker  :placeholder="placeholder()" type="daterange" />
-      <el-input v-for="i of 10" :placeholder="placeholder()" v-model="query.$range" />
-      <el-input v-for="i of 10" :placeholder="placeholder()" v-model="query.$range" /> -->
+      <el-date-picker :placeholder="placeholder()" type="daterange" />
+      <el-input
+        v-for="i of 10"
+        :placeholder="placeholder()"
+        v-model="query.$range"
+      />
+      <el-input
+        v-for="i of 10"
+        :placeholder="placeholder()"
+        v-model="query.$range"
+      />
     </template>
 
     <template #column-conf="{ column }">

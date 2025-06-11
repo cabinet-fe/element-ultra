@@ -14,6 +14,7 @@
           {{ column.name }}</span
         >
         <ElCheckbox
+          :disabled="column.key.includes('action')"
           :model-value="column.visible ?? true"
           @update:model-value="handleUpdateVisible(column, $event)"
           style="margin-right: 0"
