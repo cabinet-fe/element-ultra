@@ -65,7 +65,14 @@
 <script lang="ts" setup>
 import DataTableAlignAdjuster from './data-table-align-adjuster.vue'
 import { throttle } from 'lodash'
-import { computed, inject, onBeforeUnmount, provide, shallowRef, watch } from 'vue'
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  provide,
+  shallowRef,
+  watch
+} from 'vue'
 import { dataHeaderToken, dataTableToken } from './token'
 import type { TableHeader } from './utils'
 import { LeftCell, RightCell, CenterCell } from './data-table-header-cell'

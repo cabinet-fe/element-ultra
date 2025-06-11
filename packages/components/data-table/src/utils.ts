@@ -37,31 +37,37 @@ export interface TableHeader {
   index?: number
 }
 
+const dataToNodes = (
+  data: DataTableColumn[],
+  depth: number,
+  parent: TableHeader | null = null
+): TableHeader[] => {
+  return data.map(item => {
+    const isLeaf = !item.children?.length
+    return {
+      data: item,
+      parent: parent,
+      depth: depth,
+      isPre: item.key.startsWith('$_'),
+      isLeaf,
+      size: 0
+    }
+  })
+}
+
 /**
  * 广度优先遍历
  * @param treeData 构成树的数据
  * @returns 返回每层的节点
  */
 export function bfs(treeData: DataTableColumn[]) {
-  const dataToNodes = (
-    data: DataTableColumn[],
-    depth: number,
-    parent: TableHeader | null = null
-  ): TableHeader[] => {
-    return data.map(item => {
-      const isLeaf = !item.children?.length
-      return {
-        data: item,
-        parent: parent,
-        depth: depth,
-        isPre: item.key.startsWith('$_'),
-        isLeaf,
-        size: 0
-      }
-    })
-  }
   // 初始第一层
-  let result = [dataToNodes(treeData, 0)]
+  let result = [
+    dataToNodes(
+      treeData.filter(item => item.visible !== false),
+      0
+    )
+  ]
   let ending = false
   while (!ending) {
     // 尝试结束
@@ -70,6 +76,9 @@ export function bfs(treeData: DataTableColumn[]) {
     // 遍历最后一层
     last(result)?.forEach(node => {
       let { children } = node.data
+      if (children) {
+        children = children.filter(item => item.visible !== false)
+      }
       if (children?.length) {
         let childrenNodes = dataToNodes(children, node.depth + 1, node)
         node.children = childrenNodes

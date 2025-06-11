@@ -15,6 +15,7 @@
     :lazy-load="lazyLoad"
     :summary-method="summaryMethod"
     show-summary
+    columns-configurable
     tree
   >
     <template #extra-bar>
@@ -55,12 +56,12 @@
     <template #tools>
       <el-button type="primary" @click="createSearcher">新增</el-button>
       <el-button @click="c.log(columns)">打印列数据</el-button>
-      <el-button @click="handleClick">改变query</el-button>
+
       <el-button @click="handleFix">固定列</el-button>
       <el-button @click="replace">替换路由</el-button>
       <el-button @click="checked = []">清空选择</el-button>
       <el-dropdown trigger="click" split-button type="primary">
-        按钮123
+        下拉功能按钮
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>Action 13</el-dropdown-item>
@@ -96,7 +97,7 @@ const lazyLoad = async () => {
 }
 
 function placeholder() {
-  return '测'.repeat(Math.ceil( Math.random() * 8))
+  return '测'.repeat(Math.ceil(Math.random() * 8))
 }
 
 setTimeout(() => {
@@ -147,18 +148,6 @@ const handleChangePreset = (column: ProTableColumn, preset: string) => {
   }
 }
 
-const reactiveColumnItem = (columns: any[]) => {
-  let ret: any[] = []
-  columns.forEach(column => {
-    let item = isReactive(column) ? column : shallowReactive(column)
-    if (column.children) {
-      item.children = reactiveColumnItem(column.children)
-    }
-    ret.push(item)
-  })
-  return ret
-}
-
 let checked = shallowRef([])
 
 const dynColumns = shallowRef<ProTableColumn[]>([
@@ -174,15 +163,18 @@ const dynColumns = shallowRef<ProTableColumn[]>([
     name: '姓名',
     key: 'name1',
     slot: 'name',
+    width: 200,
     sortable: true
   },
   {
     name: '姓名2',
-    key: 'name2'
+    key: 'name2',
+    width: 200
   },
   {
     name: '姓名',
-    key: 'name3'
+    key: 'name3',
+    width: 200
   },
   {
     name: '姓名',
@@ -213,23 +205,21 @@ const dynColumns = shallowRef<ProTableColumn[]>([
 let columns = shallowRef<ProTableColumn[]>([])
 
 setTimeout(() => {
-  const _columns = reactiveColumnItem([
+  const _columns = [
     {
       name: '姓名',
-      key: 'name11'
-      // children: [
-      //   { name: 'child', key: 'money', preset: 'money' },
-      //   {
-      //     name: 'child2',
-      //     key: 'name',
-      //     render({ val }) {
-      //       return val
-      //     }
-      //   }
-      // ]
+      key: 'name11',
+      children: [
+        {
+          name: 'child2',
+          key: 'child2',
+          width: 300,
+          render: ({ val }) => val
+        }
+      ]
     },
     ...dynColumns.value
-  ] as ProTableColumn[])
+  ] as ProTableColumn[]
   _columns.forEach(column => {
     column.preset && handleChangePreset(column, column.preset)
   })
@@ -250,23 +240,8 @@ const handleFix = () => {
 
 const api = shallowRef('/some')
 
-// setTimeout(() => {
-//   api.value = '/some/test2'
-// }, 1000)
-
 const list = shallowRef<any[]>([])
 const createSearcher = () => {
   list.value = [...list.value, { label: '测试' }]
-}
-
-// setTimeout(() => {
-//   api.value = '/some/test'
-// }, 1500)
-
-const handleClick = () => {
-  query.value = shallowReactive({
-    name: '',
-    $date: []
-  })
 }
 </script>

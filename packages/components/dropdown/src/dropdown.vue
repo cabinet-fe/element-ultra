@@ -85,7 +85,7 @@ import {
   toRef,
   unref
 } from 'vue'
-import {ElButton, ElButtonGroup} from '@element-ultra/components/button'
+import { ElButton, ElButtonGroup } from '@element-ultra/components/button'
 import ElTooltip from '@element-ultra/components/tooltip'
 import ElScrollbar from '@element-ultra/components/scrollbar'
 import ElIcon from '@element-ultra/components/icon'
@@ -98,7 +98,6 @@ import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
 import type { CSSProperties } from 'vue'
-
 
 export default defineComponent({
   name: 'ElDropdown',

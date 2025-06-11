@@ -1,6 +1,6 @@
 import ElCheckbox from '@element-ultra/components/checkbox'
 import ElIcon from '@element-ultra/components/icon'
-import { computed, h, isReactive, shallowReactive, useSlots } from 'vue'
+import { computed, h, useSlots } from 'vue'
 import type {
   DataTableColumn,
   DataTableEmits,
@@ -59,24 +59,9 @@ export default function useColumns(
     dfsReactive
   } = state
 
-  const reactiveColumnItem = (columns: any[]) => {
-    let ret: any[] = []
-    columns.forEach(column => {
-      let item = isReactive(column) ? column : shallowReactive(column)
-      if (column.children) {
-        item.children = reactiveColumnItem(column.children)
-      }
-      ret.push(item)
-    })
-    return ret
-  }
-
-  // 深拷贝一份列
-  const columns = computed(() => reactiveColumnItem(props.columns))
-
   /** 获取列 */
   const getColumns = () => {
-    return columns.value
+    return props.columns
   }
 
   /** 额外列(序号, 单选/多选, 展开栏) */
@@ -225,7 +210,7 @@ export default function useColumns(
     /** 固定在右侧的ie */
     const rightColumns: DataTableColumn[] = []
 
-    preColumns.value.concat(columns.value).forEach(column => {
+    preColumns.value.concat(props.columns).forEach(column => {
       // 设置了宽度的列才会有效地固定
       if (column.width && !column.children) {
         if (column.fixed === 'left') {
@@ -235,13 +220,14 @@ export default function useColumns(
           return rightColumns.push(column)
         }
       }
-      // 递归响应
+
       centerColumns.push(column)
     })
     return leftColumns.concat(centerColumns).concat(rightColumns)
   })
 
   /** 多级表头的二维结构 */
+
   const headerRows = computed(() => bfs(sortedColumns.value))
 
   const slots = useSlots()
@@ -263,6 +249,10 @@ export default function useColumns(
         // 存在嵌套的列不作固定, 删除固定属性
         if (root || column.children?.length) {
           delete column.fixed
+        }
+
+        if (column.visible === false) {
+          return
         }
 
         if (column.children?.length) {

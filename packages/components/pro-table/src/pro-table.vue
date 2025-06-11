@@ -76,6 +76,7 @@ import { ElLoadingDirective as vLoading } from '@element-ultra/components/loadin
 import { proTableContextKey, proTableKey } from './token'
 import useTableHeight from './use-table-height'
 import { useApi } from './use-api'
+import { useColumnsConfig } from './use-columns-config'
 
 defineOptions({
   name: 'ElProTable',
@@ -117,6 +118,8 @@ const canAutoQuery = { value: true }
 const setAutoQuery = (autoQuery: boolean) => {
   canAutoQuery.value = autoQuery
 }
+
+const { columns } = useColumnsConfig(props)
 
 const {
   state,

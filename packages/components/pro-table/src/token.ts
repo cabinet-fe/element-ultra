@@ -21,13 +21,25 @@ export const proTableKey: InjectionKey<{
   defaultQuery: { value: Record<string, any> }
 }> = Symbol('proTableKey')
 
+export const proTableColumnsKey: InjectionKey<{
+  /** 表格列 */
+  columns: ShallowRef<ProTableColumn[]>
+
+  /** 扁平化列 */
+  flattedColumns: ShallowRef<ProTableColumn[]>
+  /** 保存配置 */
+  handleSave: () => void
+  /** 重置配置 */
+  handleReset: () => void
+}> = Symbol('proTableColumnsKey')
+
 export const proTableContextKey: InjectionKey<{
   state: ShallowReactive<{
     total: number
     data: any[]
     checked: any[]
-  }>;
-  props: ProTableProps;
+  }>
+  props: ProTableProps
   fetchData: (resetPage?: boolean) => Promise<void>
   getQueryParams: () => {
     api: string
@@ -35,8 +47,8 @@ export const proTableContextKey: InjectionKey<{
     extra?: Record<string, any>
     sortKeys?: Record<string, 'default' | 'asc' | 'dsc'>
   }
-  find: () => any[],
-  deleteRow: (index: number) => void,
+  find: () => any[]
+  deleteRow: (index: number) => void
   getColumns: () => ProTableColumn[]
 }> = Symbol('proTableContextKey')
 

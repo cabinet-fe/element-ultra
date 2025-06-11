@@ -32,6 +32,11 @@ export const proTableProps = {
     type: Array as PropType<ProTableColumn[]>,
     required: true
   },
+
+  columnsConfigurable: {
+    type: Boolean,
+    default: false
+  },
   /** 在左侧展现索引 */
   showIndex: {
     type: Boolean
@@ -80,7 +85,11 @@ export const proTableProps = {
   /** 汇总方法 */
   summaryMethod: {
     type: Function as PropType<
-      (data: { columns: ProTableColumn[]; data: any[]; checked: Set<any> }) => string[]
+      (data: {
+        columns: ProTableColumn[]
+        data: any[]
+        checked: Set<any>
+      }) => string[]
     >
   },
 

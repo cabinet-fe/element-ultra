@@ -54,7 +54,7 @@ export default defineComponent({
   name: 'ElTooltipContent',
   components: {
     ElPopperContent,
-    ElVisuallyHidden,
+    ElVisuallyHidden
   },
   inheritAttrs: false,
   props: useTooltipContentProps,
@@ -73,7 +73,7 @@ export default defineComponent({
       onShow,
       onHide,
       onBeforeShow,
-      onBeforeHide,
+      onBeforeHide
     } = inject(TOOLTIP_INJECTION_KEY, undefined)!
     const persistentRef = computed(() => {
       // For testing, we would always want the content to be rendered
@@ -135,7 +135,7 @@ export default defineComponent({
 
     watch(
       () => unref(open),
-      (val) => {
+      val => {
         if (val) {
           stopHandle = onClickOutside(
             computed(() => {
@@ -154,7 +154,7 @@ export default defineComponent({
         }
       },
       {
-        flush: 'post',
+        flush: 'post'
       }
     )
 
@@ -174,8 +174,8 @@ export default defineComponent({
       onBeforeLeave,
       onContentEnter,
       onContentLeave,
-      onTransitionLeave,
+      onTransitionLeave
     }
-  },
+  }
 })
 </script>

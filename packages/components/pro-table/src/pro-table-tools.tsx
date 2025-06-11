@@ -1,4 +1,4 @@
-import { Search, Plus, Minus, Refresh } from 'icon-ultra'
+import { Search, Plus, Minus, Refresh, Operation } from 'icon-ultra'
 import {
   cloneVNode,
   defineComponent,
@@ -17,6 +17,8 @@ import {
 import ElButton from '@element-ultra/components/button'
 import { proTableHeightKey, proTableKey } from './token'
 import { isComment, isFragment, isTemplate } from '@element-ultra/utils'
+import ElDropdown from '@element-ultra/components/dropdown'
+import ColumnsConfig from './columns-config.vue'
 
 export default defineComponent({
   emits: {
@@ -152,6 +154,8 @@ export default defineComponent({
       observer?.disconnect()
     })
 
+    const columnsConfigDropdownRef = ref<InstanceType<typeof ElDropdown>>()
+
     return () => {
       const { defaultVisibleNodes, nodesCount, restNodes } = getNodes()
 
@@ -176,6 +180,25 @@ export default defineComponent({
               title='重置'
               onClick={handleReset}
             />
+          ) : null}
+
+          {rootProps.columnsConfigurable ? (
+            <ElDropdown
+              trigger='click'
+              ref={columnsConfigDropdownRef}
+              style='margin-left: 12px'
+            >
+              {{
+                default: () => <ElButton icon={Operation} title='配置列' />,
+                dropdown: () => (
+                  <ColumnsConfig
+                    onClose={() =>
+                      columnsConfigDropdownRef.value?.handleClose()
+                    }
+                  />
+                )
+              }}
+            </ElDropdown>
           ) : null}
         </>
       ) : null

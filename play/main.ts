@@ -8,36 +8,22 @@ const [, setConfigStore] = useConfig()
 setConfigStore({
   proTableDefaultSize: 60,
   proTableRequestMethod(options) {
-    console.log(options)
     return new Promise(rs => {
       setTimeout(() => {
-        let data = Array.from({ length: 1000}).map((_, i) => ({
-          name: '张三说的有符合公司的的话是个' + i,
+        let data = Array.from({ length: 1000 }).map((_, i) => ({
+          child2: '张三说的有符合公司的的话是个' + i,
           money: ~~(Math.random() * 1000),
           name2: 1,
-          // children: [
-          //   {
-          //     name: '你好',
-          //     money: 10086,
-          //     id: `${i}-1`,
-          //     children: [
-          //       { name: '你好' + i + '-1-1', money: 666, id: i + '-1-1' },
-          //       { name: '你好' + i + '-1-2', money: 666, id: i + '-1-2' },
-          //       { name: '你好' + i + '-1-3', money: 666, id: i + '-1-3' }
-          //     ]
-          //   },
-          //   { name: '你好', money: 10001, id: `${i}-2` }
-          // ],
           id: i
         }))
         rs({
-          data: data.filter(item => item.name.includes(options.query.name)),
-          total: data.length,
+          data: data.filter(item => item.child2.includes(options.query.name)),
+          total: data.length
           // statistics: {
-            // money: 188888888
+          // money: 188888888
           // }
         })
-      }, 2000)
+      }, 300)
     })
   },
 
@@ -45,9 +31,10 @@ setConfigStore({
     return new Promise((rs, rj) => {
       setTimeout(() => {
         const data = Array.from({ length: 20 }).map((_, i) => {
-
           return {
-            code: 'BM' + (10000 + (option.query.page - 1) * option.query.size + i + 1),
+            code:
+              'BM' +
+              (10000 + (option.query.page - 1) * option.query.size + i + 1),
             summary: `摘要${i + 1}`,
             project: `项目${i + 1}`
           }

@@ -3,6 +3,7 @@
     <!-- 左 -->
     <LeftCell
       v-for="(column, colIndex) in leafColumns.left"
+      :key="column.key"
       :column="column"
       :column-index="colIndex"
       :row="row"
@@ -13,6 +14,7 @@
     <!-- 中 -->
     <CenterCell
       v-for="(column, colIndex) in leafColumns.center"
+      :key="column.key"
       :column="column"
       :column-index="colIndex"
       :row="row"
@@ -23,6 +25,7 @@
     <!-- 右 -->
     <RightCell
       v-for="(column, colIndex) in leafColumns.right"
+      :key="column.key"
       :column="column"
       :column-index="colIndex"
       :row="row"

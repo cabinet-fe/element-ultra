@@ -50,7 +50,6 @@
 @include b(tree-node) {
   white-space: nowrap;
   outline: none;
-  padding: 0 8px;
 
   @include when(drop-inner) {
     > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {
@@ -77,7 +76,7 @@
     cursor: pointer;
 
     & > .#{$namespace}-tree-node__expand-icon {
-      padding: 6px;
+      padding: 4px;
       box-sizing: content-box;
     }
     & > label.#{$namespace}-checkbox {

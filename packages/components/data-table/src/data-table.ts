@@ -5,8 +5,15 @@ import type { ExtractPropTypes, PropType } from 'vue'
 
 /** 数据表格列 */
 export interface DataTableColumn extends Omit<TableColumn, 'render'> {
+  /** 深度 */
+  depth?: number
   /** 预设 */
   preset?: string
+  /**
+   * 是否可见
+   * @default true
+   */
+  visible?: boolean
   /** 子列 */
   children?: DataTableColumn[]
   /** 渲染 */
@@ -96,7 +103,11 @@ export const dataTableProps = {
   /** 合计方式 */
   summaryMethod: {
     type: Function as PropType<
-      (ctx: { columns: DataTableColumn[]; data: any[]; checked: Set<any> }) => any[]
+      (ctx: {
+        columns: DataTableColumn[]
+        data: any[]
+        checked: Set<any>
+      }) => any[]
     >
   },
 
@@ -105,14 +116,22 @@ export const dataTableProps = {
 
   /** 合并单元格 */
   mergeCell: {
-    type: Function as PropType<(row: DataTableRow, column: DataTableColumn, columnIndex: number) => {
-      rowspan: number,
-      colspan: number
-    } | undefined>
+    type: Function as PropType<
+      (
+        row: DataTableRow,
+        column: DataTableColumn,
+        columnIndex: number
+      ) =>
+        | {
+            rowspan: number
+            colspan: number
+          }
+        | undefined
+    >
   },
 
-   /** 单元格类 */
-   cellClass: {
+  /** 单元格类 */
+  cellClass: {
     type: Function as PropType<
       (
         row: DataTableRow,

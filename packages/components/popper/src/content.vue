@@ -145,6 +145,8 @@ onMounted(() => {
 })
 
 defineExpose({
-  updatePopper
+  updatePopper,
+  popperContentRef: contentRef,
+  popperInstanceRef: popperInstanceRef
 })
 </script>
