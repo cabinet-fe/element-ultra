@@ -34,9 +34,10 @@ export const proTableProps = {
   },
 
   columnsConfigurable: {
-    type: Boolean,
+    type: [Boolean, String] as PropType<boolean | 'simple'>,
     default: false
   },
+
   /** 在左侧展现索引 */
   showIndex: {
     type: Boolean

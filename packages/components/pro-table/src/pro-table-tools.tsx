@@ -18,7 +18,8 @@ import ElButton from '@element-ultra/components/button'
 import { proTableHeightKey, proTableKey } from './token'
 import { isComment, isFragment, isTemplate } from '@element-ultra/utils'
 import ElDropdown from '@element-ultra/components/dropdown'
-import ColumnsConfig from './columns-config.vue'
+import ColumnConfig from './column-config.vue'
+import ColumnVisible from './column-visible.vue'
 
 export default defineComponent({
   emits: {
@@ -191,13 +192,20 @@ export default defineComponent({
             >
               {{
                 default: () => <ElButton icon={Operation} title='配置列' />,
-                dropdown: () => (
-                  <ColumnsConfig
-                    onClose={() =>
-                      columnsConfigDropdownRef.value?.handleClose()
-                    }
-                  />
-                )
+                dropdown: () =>
+                  rootProps.columnsConfigurable === 'simple' ? (
+                    <ColumnVisible
+                      onClose={() =>
+                        columnsConfigDropdownRef.value?.handleClose()
+                      }
+                    />
+                  ) : (
+                    <ColumnConfig
+                      onClose={() =>
+                        columnsConfigDropdownRef.value?.handleClose()
+                      }
+                    />
+                  )
               }}
             </ElDropdown>
           ) : null}

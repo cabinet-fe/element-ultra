@@ -1,6 +1,24 @@
 <template>
   <div :class="ns.e('columns-config')">
     <div :class="ns.e('columns-config-title')">表格列配置</div>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+      "
+    >
+      <div :class="ns.e('columns-config-name')"></div>
+      <ElCheckbox
+        :model-value="allChecked"
+        @update:model-value="handleCheckAll($event)"
+        style="margin-right: 0"
+      />
+      <div style="width: 80px"></div>
+      <div style="width: 102px"></div>
+      <div style="width: 100px"></div>
+    </div>
     <ElScrollbar :class="ns.e('columns-config-content')">
       <div
         v-for="column in flattedColumns"
@@ -73,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
+import { inject, ref, watch } from 'vue'
 import { proTableColumnsKey, proTableKey } from './token'
 import { ElButton, ElButtonGroup } from '@element-ultra/components/button'
 import type { ProTableColumn } from './pro-table'
@@ -87,6 +105,23 @@ const emit = defineEmits(['close'])
 
 const { ns } = inject(proTableKey)!
 const { flattedColumns, handleSave, handleReset } = inject(proTableColumnsKey)!
+
+const allChecked = ref(false)
+watch(
+  flattedColumns,
+  fc => {
+    allChecked.value = fc.every(c => c.visible !== false)
+  },
+  { immediate: true }
+)
+
+function handleCheckAll(checked: any) {
+  flattedColumns.value.forEach(column => {
+    if (column.key.includes('action')) return
+    column.visible = checked
+  })
+  allChecked.value = checked
+}
 
 function handleUpdateVisible(column: ProTableColumn, visible: any) {
   column.visible = visible

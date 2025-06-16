@@ -15,7 +15,7 @@
     :lazy-load="lazyLoad"
     :summary-method="summaryMethod"
     show-summary
-    columns-configurable
+    columns-configurable="simple"
     tree
   >
     <template #extra-bar>
