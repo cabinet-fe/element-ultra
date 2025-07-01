@@ -298,6 +298,9 @@ importers:
       vue:
         specifier: ^3.2.47
         version: 3.2.47
+      vue-router:
+        specifier: '>=4.1.6'
+        version: 4.1.6(vue@3.2.47)
     devDependencies:
       '@types/lodash':
         specifier: ^4.14.178
@@ -1448,9 +1451,6 @@ packages:
 
   '@vue/compiler-ssr@3.3.0-beta.4':
     resolution: {integrity: sha512-IWTlqvEkkniPV2OJKNQ3ASg/XAu4VkQoxy1cAOE4oTwh3YV6twUaLFK2MAQSlL6Z96PhhcgnrLO+l4v1F8LhZQ==}
-
-  '@vue/devtools-api@6.4.5':
-    resolution: {integrity: sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==}
 
   '@vue/devtools-api@6.5.0':
     resolution: {integrity: sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==}
@@ -6204,8 +6204,6 @@ snapshots:
       '@vue/compiler-dom': 3.3.0-beta.4
       '@vue/shared': 3.3.0-beta.4
 
-  '@vue/devtools-api@6.4.5': {}
-
   '@vue/devtools-api@6.5.0': {}
 
   '@vue/reactivity-transform@3.2.41':
@@ -9637,7 +9635,7 @@ snapshots:
 
   vue-router@4.1.6(vue@3.2.47):
     dependencies:
-      '@vue/devtools-api': 6.4.5
+      '@vue/devtools-api': 6.5.0
       vue: 3.2.47
 
   vue-template-compiler@2.7.14:

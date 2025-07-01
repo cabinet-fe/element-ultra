@@ -57,7 +57,7 @@
       @change="fetchData(false)"
       small
       layout="total, prev, pager, next,  sizes, jumper"
-      :total="state.total"
+      :total="total || state.total"
       :page-sizes="pageSizes"
     />
   </div>

@@ -12,6 +12,11 @@ export const proTableProps = {
     type: String
   },
 
+  /** 总条数 */
+  total: {
+    type: Number
+  },
+
   /** 缓存params */
   cacheParams: { type: Boolean },
   /** 展示树形数据 */
