@@ -17,6 +17,10 @@ export const actionProps = {
   isDrop: {
     type: Boolean,
     default: false
+  },
+  type: {
+    type: String as PropType<ButtonType>,
+    default: 'primary'
   }
 } as const
 

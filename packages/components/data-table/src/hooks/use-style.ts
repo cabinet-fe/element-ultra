@@ -42,9 +42,9 @@ export default function useStyle(props: DataTableProps, refs: DomRefs) {
   const [config] = useConfig()
 
   const sizeMapper = {
-    small: 24,
-    default: 32,
-    large: 40
+    small: 32,
+    default: 40,
+    large: 48
   }
   /** 表格项尺寸 */
   const itemSize = computed(() => {
@@ -103,7 +103,7 @@ export default function useStyle(props: DataTableProps, refs: DomRefs) {
   watch(
     [() => headerRef.value, () => footerRef.value],
     ([header, footer], [oHeader, oFooter]) => {
-      if ((header || footer) ) {
+      if (header || footer) {
         if (!o) {
           o = new ResizeObserver(e => {
             bodyHeight.value = `calc(100% - ${
@@ -112,7 +112,6 @@ export default function useStyle(props: DataTableProps, refs: DomRefs) {
             }px)`
           })
         }
-
       } else {
         o?.disconnect()
       }

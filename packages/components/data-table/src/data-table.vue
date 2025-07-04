@@ -3,7 +3,8 @@
     :class="{
       [ns.b()]: true,
       [ns.is('left-fixed-shadow')]: showLeftFixedShadow,
-      [ns.is('right-fixed-shadow')]: showRightFixedShadow
+      [ns.is('right-fixed-shadow')]: showRightFixedShadow,
+      [ns.is('stripe')]: stripe
     }"
     :style="{ height }"
   >

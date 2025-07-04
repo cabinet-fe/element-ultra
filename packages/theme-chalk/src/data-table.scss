@@ -32,7 +32,6 @@
     visibility: hidden;
   }
 
-
   table {
     table-layout: fixed;
     border-spacing: 0;
@@ -55,7 +54,7 @@
     padding: 0;
   }
   th {
-    padding: 4px 0;
+    padding: 6px 0;
     background-color: #f8f8f8;
   }
   [draggable='true'] {
@@ -210,6 +209,16 @@
     &:hover {
       td {
         background-color: var(--el-fill-color-light);
+      }
+    }
+  }
+
+  @include when(stripe) {
+    .el-data-table__row {
+      &.is-odd {
+        td {
+          background-color: var(--el-fill-color-lighter);
+        }
       }
     }
   }

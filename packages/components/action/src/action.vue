@@ -27,7 +27,7 @@
     <el-button
       :icon="icon"
       v-else
-      :type="groupProps.type"
+      :type="props.type || groupProps.type"
       :size="size"
       link
       @click="run"

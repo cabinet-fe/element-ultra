@@ -16,6 +16,7 @@
     <el-data-table
       v-if="columns && columns.length"
       ref="tableRef"
+      stripe
       v-loading="loading"
       :default-expand-all="defaultExpandAll"
       :height="tableHeight"

@@ -42,6 +42,7 @@
       <DataTableRow
         v-for="(item, index) of list"
         @click="emit('row-click', item, index)"
+        :class="ns.is('odd', index % 2 === 1)"
         :key="item.uid"
         :row="item"
         :style="style"
