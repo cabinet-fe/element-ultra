@@ -239,6 +239,18 @@ export const multipleFormProps = {
   /** 是否开启拖拽排序 */
   sortable: {
     type: Boolean
+  },
+
+  /** 是否显示多选框 */
+  checkable: {
+    type: Boolean,
+    default: false
+  },
+
+  /** 选中的行数据 */
+  checked: {
+    type: Array as PropType<any[]>,
+    default: () => []
   }
 }
 
@@ -252,7 +264,8 @@ export const multipleFormEmits = {
     node: MultipleFormRow,
     type: 'create' | 'update' | 'delete'
   ) => true,
-  'update:data': (rows: any[]) => true
+  'update:data': (rows: any[]) => true,
+  'update:checked': (checked: any[]) => true
 }
 
 export type MultipleFormProps = ExtractPropTypes<typeof multipleFormProps>

@@ -6,6 +6,7 @@
   </el-radio-group>
 
   <el-checkbox v-model="disabled">禁用</el-checkbox>
+  <el-checkbox v-model="checkable">多选</el-checkbox>
 
   <el-multiple-form
     :mode="mode"
@@ -20,6 +21,8 @@
     sortable
     :tree="tree"
     :disabled="disabled"
+    :checkable="checkable"
+    v-model:checked="checked"
   >
     <template #tools>
       <el-button type="primary" @click="addNextLine">添加一行</el-button>
@@ -52,8 +55,11 @@
       <el-input label="测试2" field="test.test2" />
     </template>
   </el-multiple-form>
-</template>
 
+  <div>
+    {{ checked }}
+  </div>
+</template>
 
 <script lang="ts" setup>
 import type {
@@ -69,6 +75,10 @@ const mode = shallowRef<'inline' | 'dialog' | 'direct'>('dialog')
 const tree = shallowRef(true)
 
 const disabled = shallowRef(false)
+
+const checkable = shallowRef(false)
+
+const checked = shallowRef<any[]>([])
 
 const columns: MultipleFormColumn[] = [
   {

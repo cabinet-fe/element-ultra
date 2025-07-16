@@ -2,6 +2,7 @@ import type { ElTable, TableColumn } from '@element-ultra/components/table'
 import { ElButton } from '@element-ultra/components/button'
 import { ElTooltip } from '@element-ultra/components/tooltip'
 import { ElIcon } from '@element-ultra/components/icon'
+import { ElCheckbox } from '@element-ultra/components/checkbox'
 import { dialogInjectionKey } from '@element-ultra/components/dialog/src/token'
 import {
   computed,
@@ -423,6 +424,43 @@ export default function useColumns(options: Options) {
     if (typeof type === 'function') return type(row)
     return type
   }
+
+  // 多选相关逻辑
+  const isRowChecked = (row: MultipleFormRow) => {
+    return props.checked.some(item => item === row.data)
+  }
+
+  const handleRowCheck = (row: MultipleFormRow, checked: boolean) => {
+    const newChecked = [...props.checked]
+    if (checked) {
+      if (!isRowChecked(row)) {
+        newChecked.push(row.data)
+      }
+    } else {
+      const index = newChecked.findIndex(item => item === row.data)
+      if (index > -1) {
+        newChecked.splice(index, 1)
+      }
+    }
+    emit('update:checked', newChecked)
+  }
+
+  const isAllChecked = computed(() => {
+    if (!root.children?.length) return false
+    return root.children.every(row => isRowChecked(row))
+  })
+
+  const isIndeterminate = computed(() => {
+    if (!root.children?.length) return false
+    const checkedCount = root.children.filter(row => isRowChecked(row)).length
+    return checkedCount > 0 && checkedCount < root.children.length
+  })
+
+  const handleCheckAll = (checked: boolean) => {
+    if (!root.children) return
+    const newChecked = checked ? root.children.map(row => row.data) : []
+    emit('update:checked', newChecked)
+  }
   const cols = computed(() => {
     const {
       columns,
@@ -693,8 +731,34 @@ export default function useColumns(options: Options) {
         ]
       : []
 
+    // 多选列
+    const checkboxColumn: TableColumn<MultipleFormRow>[] = props.checkable
+      ? [
+          {
+            name: () => (
+              <ElCheckbox
+                modelValue={isAllChecked.value}
+                indeterminate={isIndeterminate.value}
+                onChange={handleCheckAll}
+              />
+            ),
+            key: '$_checkbox',
+            align: 'center',
+            fixed: 'left',
+            width: 60,
+            render: ({ row }) => (
+              <ElCheckbox
+                modelValue={isRowChecked(row)}
+                onChange={(checked: boolean) => handleRowCheck(row, checked)}
+              />
+            )
+          }
+        ]
+      : []
+
     return [
       ...sortableColumn,
+      ...checkboxColumn,
       indexColumn,
       ...(disabled ? tableColumns : tableColumns.concat(actionColumn))
     ]
