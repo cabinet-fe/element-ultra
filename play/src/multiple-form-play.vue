@@ -76,7 +76,7 @@ const tree = shallowRef(true)
 
 const disabled = shallowRef(false)
 
-const checkable = shallowRef(false)
+const checkable = shallowRef(true)
 
 const checked = shallowRef<any[]>([])
 

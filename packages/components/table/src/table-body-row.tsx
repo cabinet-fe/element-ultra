@@ -57,7 +57,6 @@ export default defineComponent({
       return () => rowClass
     })
 
-
     return () => {
       const layouts = columnLayouts.value
 
@@ -77,7 +76,11 @@ export default defineComponent({
         })
       })
 
-      return <tr tabindex="0" class={[ns.e('row'), getRowClass.value()]}>{tds}</tr>
+      return (
+        <tr tabindex='0' class={[ns.e('row'), getRowClass.value()]}>
+          {tds}
+        </tr>
+      )
     }
   }
 })

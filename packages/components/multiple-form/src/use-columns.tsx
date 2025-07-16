@@ -430,36 +430,107 @@ export default function useColumns(options: Options) {
     return props.checked.some(item => item === row.data)
   }
 
+  // 递归获取所有子节点数据
+  const getAllChildrenData = (row: MultipleFormRow): any[] => {
+    const result = [row.data]
+    if (row.children?.length) {
+      row.children.forEach(child => {
+        result.push(...getAllChildrenData(child))
+      })
+    }
+    return result
+  }
+
+  // 递归获取所有节点（包括自身和所有子节点）
+  const getAllNodesFlat = (rows: MultipleFormRow[]): MultipleFormRow[] => {
+    const result: MultipleFormRow[] = []
+    rows.forEach(row => {
+      result.push(row)
+      if (row.children?.length) {
+        result.push(...getAllNodesFlat(row.children))
+      }
+    })
+    return result
+  }
+
   const handleRowCheck = (row: MultipleFormRow, checked: boolean) => {
-    const newChecked = [...props.checked]
-    if (checked) {
-      if (!isRowChecked(row)) {
-        newChecked.push(row.data)
+    let newChecked = [...props.checked]
+
+    if (props.tree) {
+      // 树形模式：选中/取消选中当前节点及其所有子节点
+      const allChildrenData = getAllChildrenData(row)
+
+      if (checked) {
+        // 添加当前节点及其所有子节点
+        allChildrenData.forEach(data => {
+          if (!newChecked.some(item => item === data)) {
+            newChecked.push(data)
+          }
+        })
+      } else {
+        // 移除当前节点及其所有子节点
+        newChecked = newChecked.filter(
+          item => !allChildrenData.some(data => data === item)
+        )
       }
     } else {
-      const index = newChecked.findIndex(item => item === row.data)
-      if (index > -1) {
-        newChecked.splice(index, 1)
+      // 非树形模式：只处理当前行
+      if (checked) {
+        if (!isRowChecked(row)) {
+          newChecked.push(row.data)
+        }
+      } else {
+        const index = newChecked.findIndex(item => item === row.data)
+        if (index > -1) {
+          newChecked.splice(index, 1)
+        }
       }
     }
+
     emit('update:checked', newChecked)
   }
 
   const isAllChecked = computed(() => {
     if (!root.children?.length) return false
-    return root.children.every(row => isRowChecked(row))
+
+    if (props.tree) {
+      // 树形模式：检查所有节点（包括子节点）是否都被选中
+      const allNodes = getAllNodesFlat(root.children)
+      return allNodes.every(row => isRowChecked(row))
+    } else {
+      // 非树形模式：只检查根级节点
+      return root.children.every(row => isRowChecked(row))
+    }
   })
 
   const isIndeterminate = computed(() => {
     if (!root.children?.length) return false
-    const checkedCount = root.children.filter(row => isRowChecked(row)).length
-    return checkedCount > 0 && checkedCount < root.children.length
+
+    if (props.tree) {
+      // 树形模式：检查是否有部分节点被选中
+      const allNodes = getAllNodesFlat(root.children)
+      const checkedCount = allNodes.filter(row => isRowChecked(row)).length
+      return checkedCount > 0 && checkedCount < allNodes.length
+    } else {
+      // 非树形模式：检查根级节点
+      const checkedCount = root.children.filter(row => isRowChecked(row)).length
+      return checkedCount > 0 && checkedCount < root.children.length
+    }
   })
 
   const handleCheckAll = (checked: boolean) => {
     if (!root.children) return
-    const newChecked = checked ? root.children.map(row => row.data) : []
-    emit('update:checked', newChecked)
+
+    if (props.tree) {
+      // 树形模式：选中/取消选中所有节点
+      const allNodes = getAllNodesFlat(root.children)
+      const newChecked = checked ? allNodes.map(row => row.data) : []
+      emit('update:checked', newChecked)
+    } else {
+      // 非树形模式：只处理根级节点
+      const newChecked = checked ? root.children.map(row => row.data) : []
+      emit('update:checked', newChecked)
+    }
   }
   const cols = computed(() => {
     const {
@@ -592,33 +663,55 @@ export default function useColumns(options: Options) {
       }
     }
 
-    // 索引列
-    const indexColumn: TableColumn<MultipleFormRow> = {
-      name: '#',
-      key: '$_index',
-      align: 'center',
-      fixed: 'left',
-      width: 60,
-      render: ({ row }) => row.index + 1
+    // 索引列（合并checkbox功能）
+    const renderIndexIndent = (ctx: any, checkbox?: JSX.Element) => {
+      const { row } = ctx
+      const indent = tree ? (
+        <i
+          class={ns.e('index-line')}
+          style={{
+            width: row.depth * 18 + 'px'
+          }}
+        ></i>
+      ) : null
+      return (
+        <>
+          {indent}
+          {checkbox}
+          <span> {row.index + 1}</span>
+        </>
+      )
     }
+    const indexColumnRender = props.checkable
+      ? (ctx: any) => {
+          const { row } = ctx
+          return renderIndexIndent(
+            ctx,
+            <ElCheckbox
+              style={{ verticalAlign: 'middle', margin: '0 4px' }}
+              modelValue={isRowChecked(row)}
+              onChange={(checked: boolean) => handleRowCheck(row, checked)}
+            />
+          )
+        }
+      : renderIndexIndent
 
-    if (tree) {
-      indexColumn.align = 'left'
-      indexColumn.width = 130
-      indexColumn.render = ({ row }) => {
-        return (
-          <>
-            <i
-              class={ns.e('index-line')}
-              style={{
-                width: row.depth * 18 + 'px'
-              }}
-            ></i>
-
-            <span> {row.index + 1}</span>
-          </>
-        )
-      }
+    const indexColumn: TableColumn<MultipleFormRow> = {
+      name: props.checkable
+        ? () => (
+            <ElCheckbox
+              style={{ margin: '0 4px' }}
+              modelValue={isAllChecked.value}
+              indeterminate={isIndeterminate.value}
+              onChange={handleCheckAll}
+            />
+          )
+        : '#',
+      key: '$_index',
+      align: 'left',
+      fixed: 'left',
+      width: props.checkable ? (tree ? 150 : 80) : tree ? 130 : 60,
+      render: indexColumnRender
     }
 
     const tableColumns: TableColumn<MultipleFormRow>[] = columns!
@@ -731,34 +824,8 @@ export default function useColumns(options: Options) {
         ]
       : []
 
-    // 多选列
-    const checkboxColumn: TableColumn<MultipleFormRow>[] = props.checkable
-      ? [
-          {
-            name: () => (
-              <ElCheckbox
-                modelValue={isAllChecked.value}
-                indeterminate={isIndeterminate.value}
-                onChange={handleCheckAll}
-              />
-            ),
-            key: '$_checkbox',
-            align: 'center',
-            fixed: 'left',
-            width: 60,
-            render: ({ row }) => (
-              <ElCheckbox
-                modelValue={isRowChecked(row)}
-                onChange={(checked: boolean) => handleRowCheck(row, checked)}
-              />
-            )
-          }
-        ]
-      : []
-
     return [
       ...sortableColumn,
-      ...checkboxColumn,
       indexColumn,
       ...(disabled ? tableColumns : tableColumns.concat(actionColumn))
     ]
