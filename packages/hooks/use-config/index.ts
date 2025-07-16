@@ -14,8 +14,8 @@ interface RequestOptions {
 
 export type RequestResponse = {
   data: any[]
-  total?: number;
-  raw?: any;
+  total?: number
+  raw?: any
   statistics?: Record<string, any>
 }
 
@@ -34,6 +34,8 @@ export interface ConfigStore {
   proTableRequestMethod?: ProTableRequestMethod
   /** 集成表格分页默认大小 */
   proTableDefaultSize?: number
+  /** 集成表格是否开启斑马线 */
+  proTableStripe?: boolean
   /** 断点 */
   breakpoint: { xs: number; s: number; m: number; l: number; xl: number }
   /** 表格选择器 */
@@ -55,7 +57,8 @@ const configStore = shallowReactive<ConfigStore>({
   proTableDefaultSize: 20,
   breakpoint: { xs: 540, s: 768, m: 1280, l: 1536, xl: 1920 },
   zIndex: 2000,
-  namespace: 'el'
+  namespace: 'el',
+  proTableStripe: false
 })
 
 const setConfigStore = (config: Partial<ConfigStore>) => {

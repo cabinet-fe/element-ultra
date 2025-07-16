@@ -33,7 +33,7 @@ export const dataTableProps = {
     required: true
   },
 
-  stripe: { type: Boolean },
+  stripe: { type: Boolean, default: undefined },
 
   /** 默认展开树形菜单 */
   defaultExpandAll: {

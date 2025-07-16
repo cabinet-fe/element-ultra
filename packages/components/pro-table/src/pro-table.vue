@@ -16,7 +16,7 @@
     <el-data-table
       v-if="columns && columns.length"
       ref="tableRef"
-      stripe
+      :stripe="configStore.proTableStripe"
       v-loading="loading"
       :default-expand-all="defaultExpandAll"
       :height="tableHeight"
@@ -72,7 +72,7 @@ import {
 import ProTableTools from './pro-table-tools'
 import { proTableProps, proTableEmits, ProTableColumn } from './pro-table'
 import ElPagination from '@element-ultra/components/pagination'
-import { useNamespace } from '@element-ultra/hooks'
+import { useNamespace, useConfig } from '@element-ultra/hooks'
 import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import { proTableContextKey, proTableKey } from './token'
 import useTableHeight from './use-table-height'
@@ -121,6 +121,8 @@ const setAutoQuery = (autoQuery: boolean) => {
 }
 
 const { columns } = useColumnsConfig(props)
+
+const [configStore] = useConfig()
 
 const {
   state,
