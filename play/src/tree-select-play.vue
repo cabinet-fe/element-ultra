@@ -35,6 +35,9 @@
         :data="treeData"
         filterable
         field="node2"
+        children-key="childnodes"
+        label-key="data.label"
+        value-key="data.value"
         check-strictly
         label="多选"
         multiple
@@ -53,13 +56,13 @@ import { useFormModel, type FormInstance } from 'element-ultra'
 import { shallowRef } from 'vue'
 let treeData = shallowRef<any[]>([])
 setTimeout(() => {
-  treeData.value = Array.from({ length: 20 }).map((_, index) => {
+  treeData.value = Array.from({ length: 3 }).map((_, index) => {
     return {
       data: {
         label: `文本${20 + index}`,
         value: `${index}`
       },
-      childnodes: Array.from({ length: 10 }).map((_, childIndex) => {
+      childnodes: Array.from({ length: 2 }).map((_, childIndex) => {
         return {
           data: {
             label: `文本${200 + index}${('00' + (childIndex + 1)).slice(-3)}`,

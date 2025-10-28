@@ -13,7 +13,7 @@
         ns.e('input'),
         ns.is('disabled', isDisabled),
         ns.is('checked', isChecked),
-        ns.is('indeterminate', indeterminate),
+        ns.is('indeterminate', !isChecked && indeterminate),
         ns.is('focus', focus)
       ]"
       :tabindex="indeterminate ? 0 : undefined"

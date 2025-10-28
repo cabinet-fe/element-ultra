@@ -26,7 +26,8 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
 
   /** 更新选中的节点 */
   const updateCheckedKeys = () => {
-    if (!tree.value || !props.showCheckbox || props.checkStrictly) {
+    // || props.checkStrictly
+    if (!tree.value || !props.showCheckbox) {
       return
     }
     const { levelTreeNodeMap, maxLevel } = tree.value
@@ -39,35 +40,34 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       if (!nodes) continue
       nodes.forEach(node => {
         const children = node.children
-        if (children) {
-          // Whether all child nodes are selected
-          let allChecked = true
-          // Whether a child node is selected
-          let hasChecked = false
-          for (let i = 0; i < children.length; ++i) {
-            const childNode = children[i]
-            const key = childNode.key
-            if (checkedKeySet.has(key)) {
-              hasChecked = true
-            } else if (indeterminateKeySet.has(key)) {
-              allChecked = false
-              hasChecked = true
-              break
-            } else {
-              allChecked = false
-            }
-          }
-          if (allChecked) {
-            // 全部选中
-            checkedKeySet.add(node.key)
-          } else if (hasChecked) {
-            // 仅有部分选中
-            indeterminateKeySet.add(node.key)
-            checkedKeySet.delete(node.key)
+        if (!children) return
+
+        // 子节点是否被全部选中
+        let allChecked = true
+        // 子节点是否被部分选中
+        let hasChecked = false
+
+        for (let i = 0; i < children.length; ++i) {
+          const childNode = children[i]
+          const key = childNode.key
+          // 子节点被选中或半选中
+          if (checkedKeySet.has(key) || indeterminateKeySet.has(key)) {
+            hasChecked = true
           } else {
-            // 全部没有选中
+            allChecked = false
+          }
+        }
+        const { checkStrictly } = props
+
+        if (hasChecked) {
+          indeterminateKeySet.add(node.key)
+        }
+
+        if (!checkStrictly) {
+          if (allChecked) {
+            checkedKeySet.add(node.key)
+          } else {
             checkedKeySet.delete(node.key)
-            indeterminateKeySet.delete(node.key)
           }
         }
       })
