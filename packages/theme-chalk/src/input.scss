@@ -269,6 +269,10 @@
     display: table-cell;
   }
 
+  .#{$namespace}-input__suffix {
+    z-index: 3;
+  }
+
   @include e((append, prepend)) {
     background-color: var(--el-bg-color);
     color: var(--el-color-info);
