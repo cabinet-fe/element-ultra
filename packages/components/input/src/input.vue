@@ -10,7 +10,8 @@
         [ns.bm('group', 'append')]: $slots.append,
         [ns.bm('group', 'prepend')]: $slots.prepend,
         [ns.m('prefix')]: $slots.prefix || prefixIcon,
-        [ns.m('suffix')]: $slots.suffix || suffixIcon || clearable || showPassword,
+        [ns.m('suffix')]:
+          $slots.suffix || suffixIcon || clearable || showPassword,
         [ns.bm('suffix', 'password-clear')]: showClear && showPwdVisible
       },
       $attrs.class
@@ -73,15 +74,19 @@
         >
           <circle-close />
         </el-icon>
+
         <el-icon
           v-if="showPwdVisible"
           :class="[ns.e('icon'), ns.e('clear')]"
           @click="handlePasswordVisible"
         >
-          <icon-view />
+          <icon-hide v-if="passwordVisible" />
+          <icon-view v-else />
         </el-icon>
         <span v-if="isWordLimitVisible" :class="ns.e('count')">
-          <span :class="ns.e('count-inner')"> {{ textLength }} / {{ attrs.maxlength }} </span>
+          <span :class="ns.e('count-inner')">
+            {{ textLength }} / {{ attrs.maxlength }}
+          </span>
         </span>
       </span>
     </span>
@@ -107,8 +112,14 @@ import {
   type StyleValue
 } from 'vue'
 import { ElIcon } from '@element-ultra/components/icon'
-import { CircleClose, View as IconView } from 'icon-ultra'
-import { useAttrs, useDisabled, useFormItem, useSize, useNamespace } from '@element-ultra/hooks'
+import { CircleClose, View as IconView, Hide as IconHide } from 'icon-ultra'
+import {
+  useAttrs,
+  useDisabled,
+  useFormItem,
+  useSize,
+  useNamespace
+} from '@element-ultra/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-ultra/shared'
 import { inputProps, inputEmits } from './input'
 
@@ -176,7 +187,8 @@ const textLength = computed(() => Array.from(nativeInputValue.value).length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value && textLength.value > Number(attrs.value.maxlength)
+    !!isWordLimitVisible.value &&
+    textLength.value > Number(attrs.value.maxlength)
 )
 
 const setNativeInputValue = () => {
@@ -188,8 +200,10 @@ const setNativeInputValue = () => {
 const calcIconOffset = (place: 'prefix' | 'suffix') => {
   const { el } = instance.vnode
   if (!el) return
-  const elList: HTMLSpanElement[] = Array.from(el.querySelectorAll(`.${ns.e(place)}`))
-  const target = elList.find((item) => item.parentNode === el)
+  const elList: HTMLSpanElement[] = Array.from(
+    el.querySelectorAll(`.${ns.e(place)}`)
+  )
+  const target = elList.find(item => item.parentNode === el)
 
   if (!target) return
 
@@ -292,7 +306,7 @@ const suffixVisible = computed(
 // native input value is set explicitly
 // do not use v-model / :value in template
 // see: https://github.com/ElemeFE/element/issues/14521
-watch(nativeInputValue, (v) => {
+watch(nativeInputValue, v => {
   setNativeInputValue()
 })
 

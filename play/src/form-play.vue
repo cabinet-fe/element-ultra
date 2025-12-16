@@ -77,6 +77,15 @@
           :max="1000000"
         />
 
+        <el-input
+          label="密码"
+          field="password"
+          show-password
+          placeholder="请输入密码"
+        >
+          <template #prepend>111</template>
+        </el-input>
+
         <el-tree-select
           :data="options"
           label="树形多选"
@@ -211,6 +220,7 @@ const [data, rules] = useFormModel(
     num: { value: null },
     cascade: { value: [] },
     cascades: { value: [] },
+    password: { value: '' },
     xing: { value: '1' },
     ming: { value: '2' },
     multi: { value: [] },
