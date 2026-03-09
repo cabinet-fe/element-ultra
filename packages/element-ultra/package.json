@@ -1,20 +1,27 @@
 {
   "name": "element-ultra",
-  "version": "0.3.23",
+  "version": "0.3.24",
   "description": "A Component Library for Vue 3",
-  "type": "module",
   "keywords": [
-    "element-ultra",
-    "element",
     "component library",
-    "ui framework",
+    "element",
+    "element-ultra",
     "ui",
+    "ui framework",
     "vue"
   ],
-  "scripts": {
-    "dts": "pnpm vue-tsc --declaration --emitDeclarationOnly"
+  "bugs": {
+    "url": "https://github.com/cabinet-fe/element-ultra/issues"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cabinet-fe/element-ultra.git"
+  },
+  "style": "dist/index.css",
+  "type": "module",
+  "main": "index.mjs",
+  "module": "index.mjs",
   "exports": {
     ".": {
       "types": "./index.d.ts",
@@ -27,33 +34,26 @@
     "./*.mjs": "./*.mjs",
     "./*": "./*"
   },
-  "main": "index.mjs",
-  "module": "index.mjs",
-  "style": "dist/index.css",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cabinet-fe/element-ultra.git"
-  },
-  "bugs": {
-    "url": "https://github.com/cabinet-fe/element-ultra/issues"
-  },
-  "peerDependencies": {
-    "vue": "^3.2.47",
-    "vue-router": ">=4.1.6"
+  "scripts": {
+    "dts": "pnpm vue-tsc --declaration --emitDeclarationOnly"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
     "@popperjs/core": "^2.11.2",
     "@vueuse/core": "^8.1.2",
+    "@wangeditor/editor": "^5.1.1",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "lodash-unified": "^1.0.1",
     "memoize-one": "^6.0.0",
-    "sortablejs": "^1.15.0",
     "normalize-wheel-es": "^1.1.2",
-    "@wangeditor/editor": "^5.1.1"
+    "sortablejs": "^1.15.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.47",
+    "vue-router": ">=4.1.6"
   }
 }

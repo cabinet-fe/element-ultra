@@ -1,70 +1,69 @@
 //  使用全局的配置
-import { shallowReactive, shallowReadonly, type Component } from 'vue'
+import { shallowReactive, shallowReadonly, type Component } from "vue";
 
 interface RequestOptions {
   /** 请求接口 */
-  api: string
+  api: string;
   /** 请求查询参数 */
-  query: Record<string, any>
+  query: Record<string, any>;
   /** 请求额外信息, 在pro-table中传入 */
-  extra?: Record<string, any>
+  extra?: Record<string, any>;
   /** 排序字段信息 */
-  sortKeys?: Record<string, 'default' | 'asc' | 'dsc'>
+  sortKeys?: Record<string, "default" | "asc" | "dsc">;
 }
 
 export type RequestResponse = {
-  data: any[]
-  total?: number
-  raw?: any
-  statistics?: Record<string, any>
-}
+  data: any[];
+  total?: number;
+  raw?: any;
+  statistics?: Record<string, any>;
+};
 
-export type ProTableRequestMethod = (
-  option: RequestOptions
-) => Promise<RequestResponse>
+export type ProTableRequestMethod = (option: RequestOptions) => Promise<RequestResponse>;
 
-export type TableSelectRequestMethod = (
-  option: RequestOptions
-) => Promise<RequestResponse>
+export type TableSelectRequestMethod = (option: RequestOptions) => Promise<RequestResponse>;
 
 export interface ConfigStore {
   /** 全局组件尺寸 */
-  size?: 'large' | 'default' | 'small'
+  size?: "large" | "default" | "small";
   /** 集成表格的api使用的请求方法 */
-  proTableRequestMethod?: ProTableRequestMethod
+  proTableRequestMethod?: ProTableRequestMethod;
   /** 集成表格分页默认大小 */
-  proTableDefaultSize?: number
+  proTableDefaultSize?: number;
+  /** 集成表格分页可选大小 */
+  proTablePageSizes?: number[];
   /** 集成表格是否开启斑马线 */
-  proTableStripe?: boolean
+  proTableStripe?: boolean;
   /** 断点 */
-  breakpoint: { xs: number; s: number; m: number; l: number; xl: number }
+  breakpoint: { xs: number; s: number; m: number; l: number; xl: number };
   /** 表格选择器 */
-  tableSelectRequestMethod?: TableSelectRequestMethod
+  tableSelectRequestMethod?: TableSelectRequestMethod;
   /** 消息弹框 */
   message?: {
-    max: number
-  }
+    max: number;
+  };
   /** zIndex */
-  zIndex: number
+  zIndex: number;
   /** 命名空间 */
-  namespace: string
+  namespace: string;
   /** table工具栏额外工具 */
-  proTableExtraTools?: Component[]
+  proTableExtraTools?: Component[];
 }
 
 const configStore = shallowReactive<ConfigStore>({
-  size: 'default',
+  size: "default",
   proTableDefaultSize: 20,
+  proTablePageSizes: [20, 60, 120, 200, 1000],
   breakpoint: { xs: 540, s: 768, m: 1280, l: 1536, xl: 1920 },
   zIndex: 2000,
-  namespace: 'el',
-  proTableStripe: false
-})
+  namespace: "el",
+  proTableStripe: false,
+});
 
 const setConfigStore = (config: Partial<ConfigStore>) => {
-  Object.assign(configStore, config)
-}
+  Object.assign(configStore, config);
+};
 
 export const useConfig = () => {
-  return [shallowReadonly(configStore), setConfigStore] as const
-}
+  return [shallowReadonly(configStore), setConfigStore] as const;
+};

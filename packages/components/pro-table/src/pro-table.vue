@@ -64,20 +64,18 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, shallowRef, useSlots, provide, shallowReadonly } from 'vue'
-import {
-  ElDataTable,
-  type DataTableInstance
-} from '@element-ultra/components/data-table'
-import ProTableTools from './pro-table-tools'
-import { proTableProps, proTableEmits, ProTableColumn } from './pro-table'
+import { ElDataTable, type DataTableInstance } from '@element-ultra/components/data-table'
+import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
 import ElPagination from '@element-ultra/components/pagination'
 import { useNamespace, useConfig } from '@element-ultra/hooks'
-import { ElLoadingDirective as vLoading } from '@element-ultra/components/loading'
+import { computed, shallowRef, useSlots, provide, shallowReadonly } from 'vue'
+
+import { proTableProps, proTableEmits, ProTableColumn } from './pro-table'
+import ProTableTools from './pro-table-tools'
 import { proTableContextKey, proTableKey } from './token'
-import useTableHeight from './use-table-height'
 import { useApi } from './use-api'
 import { useColumnsConfig } from './use-columns-config'
+import useTableHeight from './use-table-height'
 
 defineOptions({
   name: 'ElProTable',
@@ -95,7 +93,7 @@ const columnSlots = computed(() => {
   let slots: ProTableColumn[] = []
 
   const recursive = (columns?: ProTableColumn[]) => {
-    columns?.forEach(column => {
+    columns?.forEach((column) => {
       if (column.children?.length) return recursive(column.children)
       if (!column.slot) return
       slots.push(column)
@@ -112,8 +110,6 @@ const toolsVisible = computed(() => {
   return (slots.tools || slots.searcher) && props.showTools
 })
 
-const pageSizes = [20, 60, 120, 200, 1000]
-
 const canAutoQuery = { value: true }
 
 const setAutoQuery = (autoQuery: boolean) => {
@@ -123,6 +119,8 @@ const setAutoQuery = (autoQuery: boolean) => {
 const { columns } = useColumnsConfig(props)
 
 const [configStore] = useConfig()
+
+const pageSizes = configStore.proTablePageSizes || [20, 60, 120, 200, 1000]
 
 const {
   state,
