@@ -59,7 +59,7 @@
       small
       layout="total, prev, pager, next,  sizes, jumper"
       :total="total || state.total"
-      :page-sizes="pageSizeOptions || configStore.proTablePageSizes"
+      :page-sizes="pageSizeOptions || configStore.proTableDefaultSizeOptions"
     />
   </div>
 </template>
