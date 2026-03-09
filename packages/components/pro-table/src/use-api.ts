@@ -1,5 +1,6 @@
 import { useConfig } from '@element-ultra/hooks'
 import { getCurrentInstance, shallowReactive, shallowRef, watch } from 'vue'
+
 import type { ProTableEmits, ProTableProps } from './pro-table'
 
 interface Options {
@@ -15,7 +16,7 @@ export function useApi(options: Options) {
 
   const pageQuery = shallowReactive({
     page: 1,
-    size: configStore.proTableDefaultSize || 20
+    size: props.pageSize || configStore.proTableDefaultSize || 20
   })
 
   const inst = getCurrentInstance()!
@@ -44,8 +45,7 @@ export function useApi(options: Options) {
     $router.replace($route.path + queryStr)
   }
 
-  let sortKeys: Record<string, 'asc' | 'dsc' | 'default'> | undefined =
-    undefined
+  let sortKeys: Record<string, 'asc' | 'dsc' | 'default'> | undefined = undefined
 
   const handleSort = (_sortKeys: Record<string, 'asc' | 'dsc' | 'default'>) => {
     sortKeys = _sortKeys
@@ -58,7 +58,7 @@ export function useApi(options: Options) {
     const _query: Record<string, any> = {}
 
     query &&
-      Object.keys(query).forEach(key => {
+      Object.keys(query).forEach((key) => {
         // 尝试将自动请求的$前缀去掉
         _query[key.replace(/^\$/, '')] = query[key]
       })
@@ -88,14 +88,12 @@ export function useApi(options: Options) {
 
   watch(
     () => props.checked,
-    checked => {
+    (checked) => {
       state.checked = checked || []
     }
   )
 
-  const currentQueryStr = {
-    value: ''
-  }
+  const currentQueryStr = { value: '' }
 
   /**
    * 请求数据
@@ -150,7 +148,7 @@ export function useApi(options: Options) {
     const { query } = props
     if (!search || !query) return
 
-    search.split('&').forEach(item => {
+    search.split('&').forEach((item) => {
       let [key, val] = decodeURIComponent(item).split('=')
       try {
         val = JSON.parse(val)
@@ -168,8 +166,8 @@ export function useApi(options: Options) {
   let stopWatchQueryField: () => void
   const watchQueryField = (query: Record<string, any>) => {
     const watchList = Object.keys(query)
-      .filter(k => k.startsWith('$'))
-      .map(k => () => query[k])
+      .filter((k) => k.startsWith('$'))
+      .map((k) => () => query[k])
 
     stopWatchQueryField = watch(watchList, () => {
       canAutoQuery.value && fetchData()
@@ -179,7 +177,7 @@ export function useApi(options: Options) {
   // 监听query, 获取query的默认值, 并重新监听每个以$开头的query字段
   watch(
     () => props.query,
-    query => {
+    (query) => {
       // 停止监听之前的query字段
       stopWatchQueryField?.()
       // 设置默认query值
@@ -198,7 +196,7 @@ export function useApi(options: Options) {
   let isFirst = true
   watch(
     () => props.api,
-    api => {
+    (api) => {
       if (!api) return
 
       if (isFirst) {

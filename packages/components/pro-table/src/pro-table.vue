@@ -59,7 +59,7 @@
       small
       layout="total, prev, pager, next,  sizes, jumper"
       :total="total || state.total"
-      :page-sizes="pageSizes"
+      :page-sizes="pageSizeOptions || configStore.proTablePageSizes"
     />
   </div>
 </template>
@@ -119,8 +119,6 @@ const setAutoQuery = (autoQuery: boolean) => {
 const { columns } = useColumnsConfig(props)
 
 const [configStore] = useConfig()
-
-const pageSizes = configStore.proTablePageSizes || [20, 60, 120, 200, 1000]
 
 const {
   state,
